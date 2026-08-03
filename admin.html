@@ -151,11 +151,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--navy)}
     <div class="mk">SV</div>
     <h2 data-i18n="ag_h">SVEF Admin Back-office</h2>
     <p class="desc" data-i18n="ag_desc">Restricted area — role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).</p>
-    <div class="field"><label for="agEmail">Email</label><input id="agEmail" type="email" autocomplete="username" placeholder="you@example.org"></div>
-    <div class="field"><label for="agPwd" data-i18n="password">Password</label><input id="agPwd" type="password" autocomplete="current-password"></div>
+    <div class="field"><label for="agEmail">Email</label><input id="agEmail" value="ops.admin@svef.org"></div>
+    <div class="field"><label for="agPwd" data-i18n="password">Password</label><input id="agPwd" type="password" value="demo1234"></div>
     <label class="ndacheck"><input type="checkbox" id="ndaChk" checked><span data-i18n="ag_nda">🔐 I confirm the NDA between SVEF and IMT has been signed and admin access is authorised.</span></label>
     <button class="btn" style="width:100%" onclick="signIn()" data-i18n="ag_signin">Sign in as Ops Admin</button>
-    <p class="desc" style="margin:12px 0 0;text-align:center;font-size:12px" data-i18n="ag_noauth">Demo only — no real authentication. This is a static prototype; do not put confidential data here.</p>
     <a href="website.html" data-i18n="ag_back">← Back to public website</a>
   </div>
 </div>
