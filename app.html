@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>SVEF App · Prototype</title>
+<style>
+:root{
+  --red:#E1251B; --red-d:#b81a12; --navy:#0B1F3A; --navy-2:#13294b;
+  --ink:#1f2933; --muted:#6b7785; --line:#e6e9ef; --bg:#f4f6fa; --card:#ffffff;
+  --gold:#e3a008; --green:#15803d; --soft:#eef2f8;
+  --shadow:0 6px 24px rgba(11,31,58,.10); --shadow-sm:0 2px 8px rgba(11,31,58,.08);
+  --r:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;
+  background:linear-gradient(135deg,#0b1f3a,#13294b 60%,#1d3a6b);
+  color:var(--ink); min-height:100vh; display:flex; align-items:center; justify-content:center;
+  padding:24px 12px;
+}
+.phone{
+  width:100%; max-width:412px; height:min(880px,94vh); background:var(--bg);
+  border-radius:34px; overflow:hidden; position:relative; box-shadow:0 30px 80px rgba(0,0,0,.45);
+  display:flex; flex-direction:column; border:10px solid #0a0f1a;
+}
+.statusbar{height:34px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px;font-size:12px;font-weight:600;letter-spacing:.3px;flex:0 0 auto}
+.statusbar .dots{display:flex;gap:5px;align-items:center}
+.appbar{background:var(--navy);color:#fff;padding:10px 16px 14px;flex:0 0 auto;display:flex;align-items:center;gap:10px}
+.appbar.brand{background:linear-gradient(120deg,var(--navy),var(--navy-2))}
+.appbar h1{font-size:17px;margin:0;font-weight:700;flex:1;display:flex;flex-direction:column;line-height:1.15}
+.appbar h1 small{font-weight:500;font-size:11px;opacity:.7;letter-spacing:.5px}
+.appbar .ic-btn{background:rgba(255,255,255,.12);border:none;color:#fff;height:38px;min-width:38px;padding:0 9px;border-radius:11px;
+  display:grid;place-items:center;cursor:pointer;position:relative;font-size:15px}
+.appbar .ic-btn:active{transform:scale(.94)}
+.lang-btn{display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px}
+.badge-dot{position:absolute;top:7px;right:8px;width:9px;height:9px;border-radius:50%;background:var(--red);border:2px solid var(--navy)}
+.back{background:rgba(255,255,255,.12);border:none;color:#fff;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;cursor:pointer}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:84px}
+.content::-webkit-scrollbar{width:0}
+.screen{display:none;animation:fade .25s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h2.sec{font-size:15px;margin:18px 16px 8px;font-weight:700;color:var(--navy);display:flex;align-items:center;justify-content:space-between;gap:8px}
+h2.sec a{font-size:12px;color:var(--red);font-weight:600;text-decoration:none;cursor:pointer}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:14px;margin:0 16px 12px}
+.muted{color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--soft);color:var(--navy)}
+.chip.red{background:#fde8e7;color:var(--red)}
+.chip.green{background:#e6f4ea;color:var(--green)}
+.chip.gold{background:#fcf2da;color:#9a6b04}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;
+  padding:13px 16px;font-size:14px;font-weight:700;cursor:pointer;width:100%;background:var(--red);color:#fff}
+.btn:active{transform:scale(.985)}
+.btn.ghost{background:var(--soft);color:var(--navy)}
+.btn.dark{background:var(--navy)}
+.btn.sm{width:auto;padding:9px 14px;font-size:12.5px;border-radius:10px}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.hero{background:linear-gradient(125deg,var(--navy),var(--navy-2));color:#fff;padding:18px 16px 22px;margin-bottom:8px}
+.hero .hi{font-size:13px;opacity:.8}
+.hero .nm{font-size:20px;font-weight:800;margin:2px 0 14px}
+.hero .ev{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.10);padding:11px 13px;border-radius:13px}
+.hero .ev .d{width:44px;height:44px;border-radius:11px;background:var(--red);display:grid;place-items:center;font-weight:800;line-height:1;text-align:center}
+.hero .ev .d small{display:block;font-size:9px;font-weight:600;opacity:.9}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 16px}
+.qa button{background:var(--card);border:none;border-radius:14px;padding:12px 4px 9px;display:flex;flex-direction:column;
+  align-items:center;gap:7px;cursor:pointer;box-shadow:var(--shadow-sm);font-size:11px;font-weight:600;color:var(--navy);text-align:center}
+.qa button:active{transform:scale(.95)}
+.qa .ico{width:38px;height:38px;border-radius:11px;background:var(--soft);display:grid;place-items:center;color:var(--red)}
+.sess{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.sess .time{flex:0 0 52px;text-align:center}
+.sess .time b{display:block;font-size:14px;color:var(--navy)}
+.sess .time span{font-size:10px;color:var(--muted)}
+.sess .bar{width:3px;align-self:stretch;border-radius:3px;background:var(--red);flex:0 0 3px}
+.sess .body{flex:1}
+.sess .body h4{margin:0 0 4px;font-size:14px}
+.sess .body p{margin:0;font-size:12px;color:var(--muted)}
+.hscroll{display:flex;gap:12px;overflow-x:auto;padding:2px 16px 6px}
+.hscroll::-webkit-scrollbar{height:0}
+.spk{flex:0 0 96px;text-align:center}
+.spk .av{width:72px;height:72px;border-radius:50%;margin:0 auto 7px;display:grid;place-items:center;font-size:24px;font-weight:800;color:#fff;border:3px solid #fff;box-shadow:var(--shadow-sm)}
+.spk b{font-size:12px;display:block}
+.spk span{font-size:10.5px;color:var(--muted)}
+.av{display:grid;place-items:center;border-radius:50%;color:#fff;font-weight:800;border:2px solid #fff}
+.av.sm{width:46px;height:46px;font-size:16px}
+.av.xs{width:38px;height:38px;font-size:13px}
+.search{margin:14px 16px;display:flex;align-items:center;gap:10px;background:#fff;border-radius:13px;padding:12px 14px;box-shadow:var(--shadow-sm)}
+.search input{border:none;outline:none;flex:1;font-size:14px;background:transparent}
+.tabs{display:flex;gap:8px;padding:0 16px;overflow-x:auto}
+.tabs button{border:none;background:var(--soft);color:var(--navy);font-weight:600;font-size:12.5px;padding:8px 15px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--navy);color:#fff}
+.li{display:flex;gap:12px;align-items:center;background:#fff;border-radius:14px;padding:12px;margin:0 16px 10px;box-shadow:var(--shadow-sm);cursor:pointer}
+.li:active{transform:scale(.99)}
+.li .thumb{width:48px;height:48px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--navy);font-weight:800;font-size:18px;flex:0 0 48px}
+.li .meta{flex:1;min-width:0}
+.li .meta h4{margin:0 0 3px;font-size:14px}
+.li .meta p{margin:0;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav{position:absolute;left:0;right:0;bottom:0;height:72px;background:#fff;display:flex;border-top:1px solid var(--line);padding-bottom:8px;z-index:20}
+.nav button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10.5px;font-weight:600;color:var(--muted);cursor:pointer;padding-top:9px}
+.nav button.on{color:var(--red)}
+.nav button .ni{width:24px;height:24px;font-size:20px}
+.scrim{position:absolute;inset:0;background:rgba(8,15,30,.55);opacity:0;pointer-events:none;transition:.25s;z-index:40}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:8px 0 20px;transform:translateY(102%);transition:transform .28s cubic-bezier(.2,.8,.2,1);z-index:50;max-height:88%;overflow-y:auto}
+.sheet.show{transform:none}
+.sheet .grab{width:42px;height:5px;border-radius:3px;background:#d7dde6;margin:8px auto 6px}
+.sheet h3{margin:6px 16px 4px;font-size:17px}
+.sheet .sub{margin:0 16px 12px;color:var(--muted);font-size:12.5px}
+.ticket{margin:0 16px 12px;border:2px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ticket.sel{border-color:var(--red);background:#fff7f6}
+.ticket b{font-size:14px}
+.ticket .pr{font-size:15px;font-weight:800;color:var(--navy)}
+.radio{width:20px;height:20px;border-radius:50%;border:2px solid #c5ccd8;display:grid;place-items:center;flex:0 0 20px}
+.ticket.sel .radio,.pay.sel .radio{border-color:var(--red)}
+.ticket.sel .radio::after,.pay.sel .radio::after{content:"";width:10px;height:10px;border-radius:50%;background:var(--red)}
+.pay{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:13px;padding:12px;margin:0 16px 10px;cursor:pointer}
+.pay.sel{border-color:var(--red);background:#fff7f6}
+.pay .lg{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:12px;flex:0 0 42px}
+.qrbox{margin:10px auto;width:200px;height:200px;background:repeating-conic-gradient(#0b1f3a 0% 25%, #fff 0% 50%) 0/22px 22px;border-radius:14px;border:8px solid #fff;box-shadow:var(--shadow)}
+.mapwrap{margin:14px 16px;background:#fff;border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden}
+.legend{display:flex;gap:14px;flex-wrap:wrap;padding:12px 16px;font-size:11.5px;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:middle}
+.nf{display:flex;gap:12px;background:#fff;padding:13px 14px;margin:0 16px 10px;border-radius:14px;box-shadow:var(--shadow-sm)}
+.nf .nfi{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:0 0 38px;color:#fff}
+.nf b{font-size:13px}.nf p{margin:3px 0 0;font-size:12px;color:var(--muted)}
+.nf time{font-size:10.5px;color:var(--muted)}
+.phead{background:linear-gradient(125deg,var(--navy),var(--navy-2));color:#fff;padding:24px 16px 22px;text-align:center}
+.stats{display:flex;margin:0 16px 6px;background:#fff;border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden}
+.stats div{flex:1;text-align:center;padding:14px 6px;border-right:1px solid var(--line)}
+.stats div:last-child{border:none}
+.stats b{display:block;font-size:18px;color:var(--navy)}
+.stats span{font-size:11px;color:var(--muted)}
+.menu{margin:12px 16px;background:#fff;border-radius:16px;box-shadow:var(--shadow-sm);overflow:hidden}
+.menu button{display:flex;align-items:center;gap:13px;width:100%;border:none;background:none;padding:14px 15px;font-size:14px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--ink);text-align:left}
+.menu button:last-child{border:none}
+.menu .mi{width:34px;height:34px;border-radius:10px;background:var(--soft);display:grid;place-items:center;color:var(--red);flex:0 0 34px}
+.menu .ch{margin-left:auto;color:#c5ccd8}
+.conn{display:flex;gap:12px;align-items:center;background:#fff;border-radius:14px;padding:12px;margin:0 16px 10px;box-shadow:var(--shadow-sm)}
+.conn .meta{flex:1;min-width:0}
+.conn .meta h4{margin:0;font-size:14px;display:flex;align-items:center;gap:6px}
+.conn .meta p{margin:2px 0 0;font-size:11.5px;color:var(--muted)}
+.iconbtn{border:none;border-radius:10px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;font-size:16px;flex:0 0 38px}
+.toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:11px 18px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:.3s;z-index:60;box-shadow:var(--shadow);white-space:nowrap;max-width:90%}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.detailhero{height:150px;background:linear-gradient(135deg,#13294b,#1d3a6b);display:flex;align-items:flex-end;padding:16px;color:#fff}
+.banner{margin:14px 16px;border-radius:16px;overflow:hidden;background:linear-gradient(120deg,var(--red),#ff6a4d);color:#fff;padding:18px;position:relative}
+.banner b{font-size:16px}.banner p{margin:5px 0 12px;font-size:12.5px;opacity:.95}
+.feed .post{background:#fff;border-radius:16px;padding:14px;margin:0 16px 12px;box-shadow:var(--shadow-sm)}
+.feed .ph{display:flex;gap:10px;align-items:center;margin-bottom:9px}
+.feed .ph b{font-size:13px}.feed .ph span{font-size:11px;color:var(--muted)}
+.feed .post p{font-size:13px;margin:0 0 10px;line-height:1.45}
+.feed .acts{display:flex;gap:18px;color:var(--muted);font-size:12px;font-weight:600}
+.empty{text-align:center;padding:40px 24px;color:var(--muted)}
+.empty .e-ic{width:70px;height:70px;border-radius:20px;background:var(--soft);display:grid;place-items:center;margin:0 auto 14px;color:#aab4c3;font-size:30px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="statusbar">
+    <span id="clock">9:41</span>
+    <div class="dots"><span>5G</span><span>📶</span><span>🔋</span></div>
+  </div>
+
+  <div class="appbar brand" id="appbar">
+    <button class="back" id="backBtn" style="display:none" onclick="goBack()">‹</button>
+    <h1 id="abTitle">SVEF <small>Swiss–Vietnam Economic Forum</small></h1>
+    <button class="ic-btn lang-btn" onclick="toggleLang()" title="Language / Ngôn ngữ">🌐<span id="globeLbl">VI</span></button>
+    <button class="ic-btn" onclick="go('notifications')" title="Notifications">🔔<span class="badge-dot"></span></button>
+  </div>
+
+  <div class="content" id="content">
+
+    <!-- HOME -->
+    <section class="screen active" data-screen="home">
+      <div class="hero">
+        <div class="hi" data-i18n="greet">Chào buổi sáng 👋</div>
+        <div class="nm">Anh Trần</div>
+        <div class="ev">
+          <div class="d">18<small data-i18n="mon">THG 6</small></div>
+          <div style="flex:1">
+            <b style="font-size:13px" data-i18n="evDay">SVEF 2026 · Ngày 1</b>
+            <div style="font-size:11px;opacity:.85" data-i18n="evLoc">GEM Center · TP. Hồ Chí Minh</div>
+          </div>
+          <span class="chip green" data-i18n="checkedin">Đã check-in</span>
+        </div>
+      </div>
+
+      <div class="qa">
+        <button onclick="openRegister()"><span class="ico">🎫</span><span data-i18n="qa_register">Đăng ký</span></button>
+        <button onclick="openQR()"><span class="ico">📱</span><span data-i18n="qa_ticket">Vé / QR</span></button>
+        <button onclick="go('map')"><span class="ico">🗺️</span><span data-i18n="qa_map">Bản đồ</span></button>
+        <button onclick="go('network')"><span class="ico">🤝</span><span data-i18n="qa_connect">Kết nối</span></button>
+      </div>
+
+      <h2 class="sec"><span data-i18n="today">Lịch hôm nay</span> <a onclick="go('schedule')" data-i18n="seeall">Xem tất cả</a></h2>
+      <div class="card" id="homeAgenda"></div>
+
+      <h2 class="sec"><span data-i18n="featured">Diễn giả nổi bật</span> <a onclick="go('explore');switchTab('speakers')" data-i18n="all">Tất cả</a></h2>
+      <div class="hscroll" id="spkScroll"></div>
+
+      <div class="banner">
+        <b data-i18n="banner_t">Nâng cấp Networking Pro</b>
+        <p data-i18n="banner_p">Mở khóa gợi ý kết nối thông minh & đặt lịch gặp ưu tiên.</p>
+        <button class="btn sm" style="background:#fff;color:var(--red)" onclick="toast(tr('t_pro'))" data-i18n="banner_btn">Tìm hiểu thêm</button>
+      </div>
+
+      <h2 class="sec"><span data-i18n="community">Cộng đồng</span> <a onclick="toast(tr('t_community'))" data-i18n="new">Mới</a></h2>
+      <div class="feed">
+        <div class="post">
+          <div class="ph"><div class="av xs" style="background:linear-gradient(135deg,#e3a008,#b8860b)">LW</div>
+            <div><b>Lara Weber</b><br><span data-i18n="feed_role">Diễn giả · 2 giờ trước</span></div></div>
+          <p data-i18n="feed_text">Rất mong được gặp các bạn tại phiên Fintech chiều nay! Ai quan tâm tới thanh toán xuyên biên giới VN–CH ghé nhé 🇻🇳🇨🇭</p>
+          <div class="acts"><span>❤️ 42</span><span>💬 8</span><span data-i18n="share">↗ Chia sẻ</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPLORE -->
+    <section class="screen" data-screen="explore">
+      <div class="search">🔎<input id="exSearch" data-i18n-ph="search_ph" placeholder="Tìm session, diễn giả, gian hàng…" oninput="filterExplore(this.value)"><span class="muted">⚙️</span></div>
+      <div class="tabs" id="exTabs">
+        <button class="on" data-tab="sessions" onclick="switchTab('sessions')" data-i18n="tab_sessions">Phiên</button>
+        <button data-tab="speakers" onclick="switchTab('speakers')" data-i18n="tab_speakers">Diễn giả</button>
+        <button data-tab="exhibitors" onclick="switchTab('exhibitors')" data-i18n="tab_booths">Gian hàng</button>
+      </div>
+      <div style="height:6px"></div>
+      <div id="exList"></div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section class="screen" data-screen="schedule">
+      <div class="tabs" style="margin-top:14px">
+        <button class="on" data-i18n="day1">Ngày 1 · 18/6</button><button data-i18n="day2">Ngày 2 · 19/6</button>
+      </div>
+      <h2 class="sec"><span data-i18n="myschedule">Lịch của tôi</span> <span class="chip red" data-i18n="n_sessions">3 phiên</span></h2>
+      <div id="myAgenda"></div>
+      <div class="empty" style="padding:24px"><p style="margin:0;font-size:12.5px" data-i18n="sched_empty">Thêm phiên từ mục Khám phá để xây lịch trình cá nhân.</p></div>
+    </section>
+
+    <!-- NETWORK -->
+    <section class="screen" data-screen="network">
+      <div class="row" style="margin:16px">
+        <button class="btn dark" onclick="openQR()"><span>📱</span><span data-i18n="qr_card_btn">Danh thiếp QR</span></button>
+        <button class="btn ghost" onclick="toast(tr('t_meet'))"><span>📅</span><span data-i18n="meetings">Lịch gặp</span></button>
+      </div>
+      <h2 class="sec"><span data-i18n="suggested">Gợi ý cho bạn</span> <span class="chip gold">AI Match</span></h2>
+      <div id="suggest"></div>
+      <h2 class="sec"><span data-i18n="my_conns">Kết nối của tôi</span></h2>
+      <div id="myConns"></div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="screen" data-screen="profile">
+      <div class="phead">
+        <div class="av sm" style="width:84px;height:84px;font-size:30px;margin:0 auto 10px;background:linear-gradient(135deg,#E1251B,#ff6a4d)">AT</div>
+        <h3 style="margin:0;font-size:19px">Anh Trần</h3>
+        <p style="margin:3px 0 0;opacity:.85;font-size:12.5px" data-i18n="p_role">Giám đốc Đầu tư · Zegoe Capital</p>
+        <span class="chip" style="margin-top:10px;background:rgba(255,255,255,.18);color:#fff"><span data-i18n="vip_ticket">🎫 Vé VIP</span> · #SVEF-2041</span>
+      </div>
+      <div class="stats">
+        <div><b>12</b><span data-i18n="st_conn">Kết nối</span></div>
+        <div><b>5</b><span data-i18n="st_sess">Phiên</span></div>
+        <div><b>3</b><span data-i18n="st_meet">Lịch gặp</span></div>
+      </div>
+      <div class="menu">
+        <button onclick="openQR()"><span class="mi">📱</span><span data-i18n="m_eticket">Vé điện tử & QR</span><span class="ch">›</span></button>
+        <button onclick="toast(tr('t_edit'))"><span class="mi">✏️</span><span data-i18n="m_edit">Chỉnh sửa hồ sơ</span><span class="ch">›</span></button>
+        <button onclick="toast(tr('t_hist'))"><span class="mi">🕑</span><span data-i18n="m_history">Lịch sử kết nối</span><span class="ch">›</span></button>
+        <button onclick="toast(tr('t_privacy'))"><span class="mi">🔒</span><span data-i18n="m_privacy">Quyền riêng tư & hiển thị</span><span class="ch">›</span></button>
+      </div>
+      <div class="menu">
+        <button onclick="toggleLang()"><span class="mi">🌐</span><span data-i18n="m_lang">Ngôn ngữ · Tiếng Việt</span><span class="ch">›</span></button>
+        <button onclick="toast(tr('t_notif'))"><span class="mi">🔔</span><span data-i18n="m_notif">Cài đặt thông báo</span><span class="ch">›</span></button>
+        <button onclick="toast(tr('t_help'))"><span class="mi">❓</span><span data-i18n="m_help">Trợ giúp & Hỗ trợ</span><span class="ch">›</span></button>
+      </div>
+      <p class="muted" style="text-align:center;font-size:11px;margin:0 0 16px">SVEF App · Prototype v0.1</p>
+    </section>
+
+    <!-- MAP -->
+    <section class="screen" data-screen="map">
+      <div class="mapwrap">
+        <svg viewBox="0 0 360 260" width="100%" style="display:block">
+          <rect x="0" y="0" width="360" height="260" fill="#eef2f8"/>
+          <rect x="14" y="14" width="150" height="70" rx="8" fill="#dfe6f0"/>
+          <text id="svgHall" x="89" y="54" font-size="11" text-anchor="middle" fill="#5b6b82">Hội trường A</text>
+          <rect x="178" y="14" width="80" height="70" rx="8" fill="#dfe6f0"/>
+          <text id="svgB1" x="218" y="54" font-size="10" text-anchor="middle" fill="#5b6b82">Phòng B1</text>
+          <rect x="270" y="14" width="76" height="70" rx="8" fill="#dfe6f0"/>
+          <text id="svgB2" x="308" y="54" font-size="10" text-anchor="middle" fill="#5b6b82">Phòng B2</text>
+          <rect x="14" y="120" width="60" height="50" rx="7" fill="#E1251B"/><text x="44" y="149" font-size="11" text-anchor="middle" fill="#fff">S1</text>
+          <rect x="86" y="120" width="60" height="50" rx="7" fill="#e3a008"/><text x="116" y="149" font-size="11" text-anchor="middle" fill="#fff">S2</text>
+          <rect x="158" y="120" width="60" height="50" rx="7" fill="#13294b"/><text x="188" y="149" font-size="11" text-anchor="middle" fill="#fff">S3</text>
+          <rect x="230" y="120" width="116" height="50" rx="7" fill="#15803d"/><text id="svgLounge" x="288" y="149" font-size="10" text-anchor="middle" fill="#fff">Networking</text>
+          <rect x="14" y="186" width="332" height="40" rx="7" fill="#cfd9e6"/>
+          <text id="svgLobby" x="180" y="211" font-size="11" text-anchor="middle" fill="#5b6b82">Sảnh chính · Check-in · Cà phê</text>
+          <circle cx="44" cy="205" r="7" fill="#E1251B" stroke="#fff" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="legend">
+        <span><i style="background:#E1251B"></i><span data-i18n="leg_booth">Gian hàng nổi bật</span></span>
+        <span><i style="background:#13294b"></i><span data-i18n="leg_session">Phiên / phòng</span></span>
+        <span><i style="background:#15803d"></i><span data-i18n="leg_net">Networking</span></span>
+        <span><i style="background:#E1251B;border-radius:50%"></i><span data-i18n="leg_you">Vị trí của bạn</span></span>
+      </div>
+      <h2 class="sec"><span data-i18n="booths_near">Gian hàng gần bạn</span></h2>
+      <div id="mapBooths"></div>
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    <section class="screen" data-screen="notifications">
+      <div style="height:10px"></div>
+      <div id="notifList"></div>
+    </section>
+
+    <!-- SESSION DETAIL -->
+    <section class="screen" data-screen="session">
+      <div class="detailhero"><div><span class="chip red" id="sDtag">Keynote</span><h2 style="margin:8px 0 0;font-size:19px" id="sDtitle">—</h2></div></div>
+      <div class="card" style="margin-top:14px">
+        <div class="row" style="margin-bottom:12px">
+          <div><div class="muted" style="font-size:11px" data-i18n="time_l">Thời gian</div><b id="sDtime">—</b></div>
+          <div><div class="muted" style="font-size:11px" data-i18n="loc_l">Địa điểm</div><b id="sDroom">—</b></div>
+        </div>
+        <p class="muted" style="font-size:13px;line-height:1.5" id="sDdesc">—</p>
+      </div>
+      <h2 class="sec"><span data-i18n="speaker_l">Diễn giả</span></h2>
+      <div class="conn"><div class="av sm" id="sDav">N</div><div class="meta"><h4 id="sDspk">—</h4><p id="sDspkrole">—</p></div></div>
+      <div style="padding:0 16px 8px"><button class="btn" onclick="toast(tr('t_added_sched'))" data-i18n="add_sched">➕ Thêm vào lịch của tôi</button></div>
+    </section>
+
+  </div><!-- /content -->
+
+  <div class="nav" id="nav">
+    <button class="on" data-nav="home" onclick="go('home')"><span class="ni">🏠</span><span data-i18n="nav_home">Trang chủ</span></button>
+    <button data-nav="explore" onclick="go('explore')"><span class="ni">🧭</span><span data-i18n="nav_explore">Khám phá</span></button>
+    <button data-nav="schedule" onclick="go('schedule')"><span class="ni">📅</span><span data-i18n="nav_schedule">Lịch</span></button>
+    <button data-nav="network" onclick="go('network')"><span class="ni">🤝</span><span data-i18n="nav_network">Kết nối</span></button>
+    <button data-nav="profile" onclick="go('profile')"><span class="ni">👤</span><span data-i18n="nav_profile">Hồ sơ</span></button>
+  </div>
+
+  <div class="scrim" id="scrim" onclick="closeSheet()"></div>
+
+  <!-- REGISTRATION SHEET -->
+  <div class="sheet" id="sheetReg">
+    <div class="grab"></div>
+    <h3 data-i18n="reg_title">Đăng ký tham dự</h3>
+    <p class="sub" data-i18n="reg_sub">SVEF 2026 · 18–19/6 · GEM Center, TP.HCM</p>
+    <div id="regStep1">
+      <div class="ticket sel" onclick="selTicket(this,'std','2.500.000đ')"><div><b data-i18n="tn_std">Vé Standard</b><div class="muted" style="font-size:11.5px" data-i18n="td_std">Truy cập 2 ngày · Tài liệu</div></div><div style="text-align:right"><div class="pr">2.500.000đ</div><div class="radio"></div></div></div>
+      <div class="ticket" onclick="selTicket(this,'vip','5.500.000đ')"><div><b data-i18n="tn_vip">Vé VIP</b><div class="muted" style="font-size:11.5px" data-i18n="td_vip">Gala dinner · Networking Lounge · Ưu tiên gặp</div></div><div style="text-align:right"><div class="pr">5.500.000đ</div><div class="radio"></div></div></div>
+      <div class="ticket" onclick="selTicket(this,'grp','6.000.000đ')"><div><b data-i18n="tn_grp">Vé Nhóm (3 người)</b><div class="muted" style="font-size:11.5px" data-i18n="td_grp">Tiết kiệm 20% · Quản lý thành viên</div></div><div style="text-align:right"><div class="pr">6.000.000đ</div><div class="radio"></div></div></div>
+      <div style="padding:6px 16px 0"><button class="btn" onclick="regToPay()" data-i18n="continue">Tiếp tục</button></div>
+    </div>
+    <div id="regStep2" style="display:none">
+      <p class="sub" data-i18n="pay_choose">Chọn phương thức thanh toán (cổng VN)</p>
+      <div style="margin:0 16px 12px;background:#fcf2da;color:#9a6b04;border-radius:12px;padding:10px 12px;font-size:11px;font-weight:600;line-height:1.4" data-i18n="pay_phase">ℹ️ Cổng thanh toán nội địa VN dự kiến ở giai đoạn sau (ngoài phạm vi đợt 1 — BRD §3.2). Demo minh hoạ luồng.</div>
+      <div class="pay sel" onclick="selPay(this)"><div class="lg" style="background:#0a68b1">VN</div><div style="flex:1"><b>VNPay</b><div class="muted" style="font-size:11px" data-i18n="pay_vnpay_d">Thẻ ATM/QR ngân hàng nội địa</div></div><div class="radio"></div></div>
+      <div class="pay" onclick="selPay(this)"><div class="lg" style="background:#a50064">MoMo</div><div style="flex:1"><b>MoMo</b><div class="muted" style="font-size:11px" data-i18n="pay_momo_d">Thanh toán qua ứng dụng</div></div><div class="radio"></div></div>
+      <div class="pay" onclick="selPay(this)"><div class="lg" style="background:#0068ff">Zalo</div><div style="flex:1"><b>ZaloPay</b><div class="muted" style="font-size:11px" data-i18n="pay_zalo_d">Ví điện tử</div></div><div class="radio"></div></div>
+      <div style="padding:6px 16px 0"><button class="btn" id="payBtn" onclick="payNow()"><span data-i18n="pay_btn">Thanh toán</span>&nbsp;<span id="payAmt"></span></button></div>
+      <div style="padding:8px 16px 0"><button class="btn ghost" onclick="backToTickets()" data-i18n="back">‹ Quay lại</button></div>
+    </div>
+    <div id="regStep3" style="display:none;text-align:center;padding:10px 16px 0">
+      <div style="font-size:54px">✅</div>
+      <h3 style="text-align:center" data-i18n="ok_title">Đăng ký thành công!</h3>
+      <p class="sub" style="text-align:center" data-i18n="ok_sub">Vé điện tử đã được gửi tới email & ví vé của bạn.</p>
+      <div class="qrbox"></div>
+      <p class="muted" style="font-size:12px">#SVEF-2041 · <span id="okTicket">VIP</span></p>
+      <button class="btn" onclick="closeSheet();go('home')" data-i18n="done">Hoàn tất</button>
+    </div>
+  </div>
+
+  <!-- QR SHEET -->
+  <div class="sheet" id="sheetQR">
+    <div class="grab"></div>
+    <h3 data-i18n="qr_title">Danh thiếp điện tử</h3>
+    <p class="sub" data-i18n="qr_sub">Quét để kết nối & trao đổi thông tin</p>
+    <div class="qrbox"></div>
+    <div style="text-align:center;margin-bottom:8px"><b style="font-size:16px">Anh Trần</b><br><span class="muted" style="font-size:12.5px" data-i18n="p_role">Giám đốc Đầu tư · Zegoe Capital</span></div>
+    <div class="row" style="margin:0 16px"><button class="btn ghost" onclick="toast(tr('t_scan'))" data-i18n="scan">📷 Quét QR</button><button class="btn dark" onclick="toast(tr('t_saved_card'))" data-i18n="save">💾 Lưu</button></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+/* ===================== I18N DICTIONARY ===================== */
+const T={
+ vi:{
+  greet:"Chào buổi sáng 👋", mon:"THG 6", evDay:"SVEF 2026 · Ngày 1", evLoc:"GEM Center · TP. Hồ Chí Minh", checkedin:"Đã check-in",
+  qa_register:"Đăng ký", qa_ticket:"Vé / QR", qa_map:"Bản đồ", qa_connect:"Kết nối",
+  today:"Lịch hôm nay", seeall:"Xem tất cả", featured:"Diễn giả nổi bật", all:"Tất cả",
+  banner_t:"Nâng cấp Networking Pro", banner_p:"Mở khóa gợi ý kết nối thông minh & đặt lịch gặp ưu tiên.", banner_btn:"Tìm hiểu thêm",
+  community:"Cộng đồng", new:"Mới", feed_role:"Diễn giả · 2 giờ trước",
+  feed_text:"Rất mong được gặp các bạn tại phiên Fintech chiều nay! Ai quan tâm tới thanh toán xuyên biên giới VN–CH ghé nhé 🇻🇳🇨🇭", share:"↗ Chia sẻ",
+  search_ph:"Tìm session, diễn giả, gian hàng…", tab_sessions:"Phiên", tab_speakers:"Diễn giả", tab_booths:"Gian hàng",
+  day1:"Ngày 1 · 18/6", day2:"Ngày 2 · 19/6", myschedule:"Lịch của tôi", n_sessions:"3 phiên",
+  sched_empty:"Thêm phiên từ mục Khám phá để xây lịch trình cá nhân.",
+  qr_card_btn:"Danh thiếp QR", meetings:"Lịch gặp", suggested:"Gợi ý cho bạn", my_conns:"Kết nối của tôi", pending:"Đang chờ",
+  p_role:"Giám đốc Đầu tư · Zegoe Capital", vip_ticket:"🎫 Vé VIP", st_conn:"Kết nối", st_sess:"Phiên", st_meet:"Lịch gặp",
+  m_eticket:"Vé điện tử & QR", m_edit:"Chỉnh sửa hồ sơ", m_history:"Lịch sử kết nối", m_privacy:"Quyền riêng tư & hiển thị",
+  m_lang:"Ngôn ngữ · Tiếng Việt", m_notif:"Cài đặt thông báo", m_help:"Trợ giúp & Hỗ trợ",
+  leg_booth:"Gian hàng nổi bật", leg_session:"Phiên / phòng", leg_net:"Networking", leg_you:"Vị trí của bạn", booths_near:"Gian hàng gần bạn",
+  svgHall:"Hội trường A", svgB1:"Phòng B1", svgB2:"Phòng B2", svgLounge:"Networking", svgLobby:"Sảnh chính · Check-in · Cà phê", directions:"Chỉ đường",
+  time_l:"Thời gian", loc_l:"Địa điểm", speaker_l:"Diễn giả", add_sched:"➕ Thêm vào lịch của tôi",
+  nav_home:"Trang chủ", nav_explore:"Khám phá", nav_schedule:"Lịch", nav_network:"Kết nối", nav_profile:"Hồ sơ",
+  reg_title:"Đăng ký tham dự", reg_sub:"SVEF 2026 · 18–19/6 · GEM Center, TP.HCM",
+  tn_std:"Vé Standard", td_std:"Truy cập 2 ngày · Tài liệu", tn_vip:"Vé VIP", td_vip:"Gala dinner · Networking Lounge · Ưu tiên gặp",
+  tn_grp:"Vé Nhóm (3 người)", td_grp:"Tiết kiệm 20% · Quản lý thành viên", continue:"Tiếp tục",
+  pay_choose:"Chọn phương thức thanh toán (cổng VN)", pay_phase:"ℹ️ Cổng thanh toán nội địa VN dự kiến ở giai đoạn sau (ngoài phạm vi đợt 1 — BRD §3.2). Demo minh hoạ luồng.", pay_vnpay_d:"Thẻ ATM/QR ngân hàng nội địa", pay_momo_d:"Thanh toán qua ứng dụng", pay_zalo_d:"Ví điện tử",
+  pay_btn:"Thanh toán", back:"‹ Quay lại", processing:"Đang xử lý…", ok_title:"Đăng ký thành công!", ok_sub:"Vé điện tử đã được gửi tới email & ví vé của bạn.", done:"Hoàn tất",
+  qr_title:"Danh thiếp điện tử", qr_sub:"Quét để kết nối & trao đổi thông tin", scan:"📷 Quét QR", save:"💾 Lưu",
+  follow:"+ Theo dõi", directions_btn:"Chỉ đường",
+  ab_explore:"Khám phá", ab_schedule:"Lịch trình", ab_network:"Kết nối & Networking", ab_profile:"Hồ sơ", ab_map:"Bản đồ sự kiện", ab_notifications:"Thông báo", ab_session:"Chi tiết phiên",
+  t_pro:"Demo: tính năng Pro", t_community:"Demo: bảng tin Cộng đồng", t_meet:"Demo: Lời mời gặp", t_edit:"Demo: Chỉnh sửa hồ sơ", t_hist:"Demo: Lịch sử kết nối",
+  t_privacy:"Demo: Quyền riêng tư", t_notif:"Demo: Cài đặt thông báo", t_help:"Demo: Hỗ trợ", t_added_sched:"Đã thêm vào Lịch của tôi", t_scan:"Đang mở máy quét…", t_saved_card:"Đã lưu danh thiếp",
+  t_followed:"Đã theo dõi ", t_profile:"Hồ sơ: ", t_booth:"Gian hàng: ", t_invite:"Đã gửi lời mời tới ", t_chat:"Mở chat với ", t_dir:"Chỉ đường tới ",
+  lang_switched:"Đã chuyển sang Tiếng Việt", empty_search:"Không tìm thấy kết quả phù hợp.",
+  notif:[["📅","var(--red)","Phiên sắp bắt đầu","“Đầu tư Thụy Sĩ – Việt Nam” bắt đầu sau 15 phút tại Phòng B2.","2 phút"],
+         ["🤝","var(--gold)","Yêu cầu gặp mới","Lara Weber muốn gặp bạn lúc 15:30. Chấp nhận?","12 phút"],
+         ["🔔","var(--navy)","Thay đổi lịch trình","Phiên “Fintech” chuyển sang Phòng B1.","1 giờ"],
+         ["✅","var(--green)","Thanh toán thành công","Vé VIP #SVEF-2041 đã được xác nhận.","1 ngày"]]
+ },
+ en:{
+  greet:"Good morning 👋", mon:"JUN", evDay:"SVEF 2026 · Day 1", evLoc:"GEM Center · Ho Chi Minh City", checkedin:"Checked in",
+  qa_register:"Register", qa_ticket:"Ticket / QR", qa_map:"Map", qa_connect:"Connect",
+  today:"Today's schedule", seeall:"See all", featured:"Featured speakers", all:"All",
+  banner_t:"Upgrade to Networking Pro", banner_p:"Unlock smart connection suggestions & priority meeting booking.", banner_btn:"Learn more",
+  community:"Community", new:"New", feed_role:"Speaker · 2 hours ago",
+  feed_text:"Looking forward to meeting you at the Fintech session this afternoon! If you're into VN–CH cross-border payments, drop by 🇻🇳🇨🇭", share:"↗ Share",
+  search_ph:"Search sessions, speakers, booths…", tab_sessions:"Sessions", tab_speakers:"Speakers", tab_booths:"Booths",
+  day1:"Day 1 · Jun 18", day2:"Day 2 · Jun 19", myschedule:"My schedule", n_sessions:"3 sessions",
+  sched_empty:"Add sessions from Explore to build your personal agenda.",
+  qr_card_btn:"QR card", meetings:"Meetings", suggested:"Suggested for you", my_conns:"My connections", pending:"Pending",
+  p_role:"Investment Director · Zegoe Capital", vip_ticket:"🎫 VIP Ticket", st_conn:"Connections", st_sess:"Sessions", st_meet:"Meetings",
+  m_eticket:"E-ticket & QR", m_edit:"Edit profile", m_history:"Connection history", m_privacy:"Privacy & visibility",
+  m_lang:"Language · English", m_notif:"Notification settings", m_help:"Help & Support",
+  leg_booth:"Featured booths", leg_session:"Sessions / rooms", leg_net:"Networking", leg_you:"Your location", booths_near:"Booths near you",
+  svgHall:"Hall A", svgB1:"Room B1", svgB2:"Room B2", svgLounge:"Networking", svgLobby:"Main lobby · Check-in · Coffee", directions:"Directions",
+  time_l:"Time", loc_l:"Location", speaker_l:"Speaker", add_sched:"➕ Add to my schedule",
+  nav_home:"Home", nav_explore:"Explore", nav_schedule:"Schedule", nav_network:"Connect", nav_profile:"Profile",
+  reg_title:"Register to attend", reg_sub:"SVEF 2026 · Jun 18–19 · GEM Center, HCMC",
+  tn_std:"Standard Ticket", td_std:"2-day access · Materials", tn_vip:"VIP Ticket", td_vip:"Gala dinner · Networking Lounge · Priority meetings",
+  tn_grp:"Group Ticket (3)", td_grp:"Save 20% · Manage members", continue:"Continue",
+  pay_choose:"Choose a payment method (VN gateway)", pay_phase:"ℹ️ The domestic VN payment gateway is planned for a later phase (out of scope for rollout 1 — BRD §3.2). Demo shows the flow only.", pay_vnpay_d:"Domestic ATM card / bank QR", pay_momo_d:"Pay via the app", pay_zalo_d:"E-wallet",
+  pay_btn:"Pay", back:"‹ Back", processing:"Processing…", ok_title:"Registration successful!", ok_sub:"Your e-ticket has been sent to your email & ticket wallet.", done:"Done",
+  qr_title:"Digital business card", qr_sub:"Scan to connect & exchange info", scan:"📷 Scan QR", save:"💾 Save",
+  follow:"+ Follow", directions_btn:"Directions",
+  ab_explore:"Explore", ab_schedule:"Schedule", ab_network:"Connect & Networking", ab_profile:"Profile", ab_map:"Event map", ab_notifications:"Notifications", ab_session:"Session details",
+  t_pro:"Demo: Pro feature", t_community:"Demo: Community feed", t_meet:"Demo: Meeting requests", t_edit:"Demo: Edit profile", t_hist:"Demo: Connection history",
+  t_privacy:"Demo: Privacy", t_notif:"Demo: Notification settings", t_help:"Demo: Support", t_added_sched:"Added to My Schedule", t_scan:"Opening scanner…", t_saved_card:"Card saved",
+  t_followed:"Following ", t_profile:"Profile: ", t_booth:"Booth: ", t_invite:"Invite sent to ", t_chat:"Open chat with ", t_dir:"Directions to ",
+  lang_switched:"Switched to English", empty_search:"No matching results found.",
+  notif:[["📅","var(--red)","Session starting soon","“Swiss–Vietnam Investment” starts in 15 min at Room B2.","2 min"],
+         ["🤝","var(--gold)","New meeting request","Lara Weber wants to meet you at 15:30. Accept?","12 min"],
+         ["🔔","var(--navy)","Schedule change","The “Fintech” session moved to Room B1.","1 hr"],
+         ["✅","var(--green)","Payment successful","VIP Ticket #SVEF-2041 has been confirmed.","1 day"]]
+ }
+};
+
+/* ===================== DATA (language-keyed) ===================== */
+const speakers=[
+  {n:"Nguyễn Minh",i:"NM",c:"#13294b",r:{vi:"Chủ tịch SVEF",en:"SVEF Chairman"}},
+  {n:"Lara Weber",i:"LW",c:"#e3a008",r:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"}},
+  {n:"Trần Bảo",i:"TB",c:"#E1251B",r:{vi:"Thứ trưởng Kinh tế",en:"Deputy Minister of Economy"}},
+  {n:"Marco Rossi",i:"MR",c:"#15803d",r:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"}},
+  {n:"Phạm Hà",i:"PH",c:"#0a68b1",r:{vi:"Founder, GreenTech VN",en:"Founder, GreenTech VN"}},
+];
+const sessions=[
+  {av:"NM",c:"#13294b",spk:"Nguyễn Minh",time:"09:00 – 09:30",
+   t:{vi:"Khai mạc & Phát biểu chính",en:"Opening & Keynote"}, tag:{vi:"Keynote",en:"Keynote"},
+   room:{vi:"Hội trường A",en:"Hall A"}, role:{vi:"Chủ tịch SVEF",en:"SVEF Chairman"},
+   desc:{vi:"Lễ khai mạc Diễn đàn Kinh tế Thụy Sĩ – Việt Nam 2026 và định hướng hợp tác song phương giai đoạn tới.",
+         en:"Opening ceremony of the Swiss–Vietnam Economic Forum 2026 and the bilateral cooperation outlook for the coming period."}},
+  {av:"MR",c:"#e3a008",spk:"Marco Rossi",time:"10:30 – 11:30",
+   t:{vi:"Đầu tư Thụy Sĩ – Việt Nam",en:"Swiss–Vietnam Investment"}, tag:{vi:"Panel",en:"Panel"},
+   room:{vi:"Phòng B2",en:"Room B2"}, role:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"},
+   desc:{vi:"Cơ hội và rào cản cho dòng vốn Thụy Sĩ vào Việt Nam: tài chính xanh, sản xuất công nghệ cao và khởi nghiệp.",
+         en:"Opportunities and barriers for Swiss capital into Vietnam: green finance, high-tech manufacturing and startups."}},
+  {av:"LW",c:"#E1251B",spk:"Lara Weber",time:"14:00 – 14:45",
+   t:{vi:"Chuyển đổi số & Fintech",en:"Digital Transformation & Fintech"}, tag:{vi:"Talk",en:"Talk"},
+   room:{vi:"Phòng B1",en:"Room B1"}, role:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"},
+   desc:{vi:"Thanh toán xuyên biên giới, ngân hàng số và xu hướng Fintech kết nối hai thị trường.",
+         en:"Cross-border payments, digital banking and Fintech trends connecting the two markets."}},
+];
+const exhibitors=[
+  {n:"Helvetia Fintech",i:"HF",d:{vi:"Gian S1 · Fintech & Thanh toán",en:"Booth S1 · Fintech & Payments"}},
+  {n:"GreenTech VN",i:"GT",d:{vi:"Gian S2 · Năng lượng tái tạo",en:"Booth S2 · Renewable energy"}},
+  {n:"Zurich Ventures",i:"ZV",d:{vi:"Gian S3 · Quỹ đầu tư",en:"Booth S3 · Investment fund"}},
+  {n:"Swiss Precision",i:"SP",d:{vi:"Gian S4 · Sản xuất công nghệ cao",en:"Booth S4 · High-tech manufacturing"}},
+];
+const connections=[
+  {n:"Lara Weber",i:"LW",c:"#e3a008",st:"connected",r:{vi:"CEO · Helvetia Fintech",en:"CEO · Helvetia Fintech"}},
+  {n:"Marco Rossi",i:"MR",c:"#15803d",st:"connected",r:{vi:"Partner · Zurich VC",en:"Partner · Zurich VC"}},
+  {n:"Phạm Hà",i:"PH",c:"#0a68b1",st:"pending",r:{vi:"Founder · GreenTech VN",en:"Founder · GreenTech VN"}},
+];
+const suggestions=[
+  {n:"Daniel Frei",i:"DF",c:"#13294b",match:"92%",r:{vi:"Head of M&A · Credit Helvetia",en:"Head of M&A · Credit Helvetia"}},
+  {n:"Lê Thu",i:"LT",c:"#E1251B",match:"88%",r:{vi:"Phó TGĐ · VN Growth Fund",en:"VP · VN Growth Fund"}},
+  {n:"Sofia Meier",i:"SM",c:"#9a6b04",match:"81%",r:{vi:"Giám đốc · Swiss Trade",en:"Director · Swiss Trade"}},
+];
+
+/* ===================== STATE & HELPERS ===================== */
+let lang = (localStorage.getItem('svef_lang')==='en')?'en':'vi';
+function tr(k){return (T[lang][k]!==undefined)?T[lang][k]:k;}
+function tx(o){return o[lang];}
+
+/* ===================== NAV ===================== */
+const tabsScreens=["home","explore","schedule","network","profile"];
+let current="home", history=["home"], curSession=0;
+function setAppbarTitle(s){
+  const ab=document.getElementById('appbar'), back=document.getElementById('backBtn'), t=document.getElementById('abTitle');
+  if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>Swiss–Vietnam Economic Forum</small>';back.style.display='none';}
+  else{ab.classList.remove('brand');t.innerHTML=tr('ab_'+s)||'SVEF';back.style.display=(tabsScreens.includes(s)?'none':'grid');}
+}
+function go(s){
+  document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('active',e.dataset.screen===s));
+  document.getElementById('content').scrollTop=0;
+  if(current!==s){history.push(s);} current=s;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===s));
+  setAppbarTitle(s);
+}
+function goBack(){history.pop();const prev=history[history.length-1]||'home';go(prev);}
+
+/* ===================== RENDER ===================== */
+function avHTML(o,cls){return `<div class="av ${cls||'sm'}" style="background:linear-gradient(135deg,${o.c},#ffffff66)">${o.i}</div>`}
+function renderSpeakers(){
+  document.getElementById('spkScroll').innerHTML=speakers.map(s=>
+    `<div class="spk"><div class="av" style="background:linear-gradient(135deg,${s.c},#ffffff66)">${s.i}</div><b>${s.n}</b><span>${tx(s.r)}</span></div>`).join('');
+}
+function renderHomeAgenda(){
+  document.getElementById('homeAgenda').innerHTML=sessions.map((s,i)=>
+    `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${s.spk}</p></div></div>`).join('');
+}
+let exTab='sessions';
+function switchTab(tab){exTab=tab;document.querySelectorAll('#exTabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));renderExplore();}
+function renderExplore(q){
+  q=(q||document.getElementById('exSearch').value||'').toLowerCase();const el=document.getElementById('exList');
+  if(exTab==='sessions'){
+    el.innerHTML=sessions.map((s,i)=>(tx(s.t).toLowerCase().includes(q)||s.spk.toLowerCase().includes(q))?
+      `<div class="li" onclick="openSession(${i})"><div class="thumb" style="color:#fff;background:${s.c}">${s.time.slice(0,2)}</div><div class="meta"><h4>${tx(s.t)}</h4><p>${s.time} · ${tx(s.room)} · ${s.spk}</p></div><span class="muted">›</span></div>`:'').join('')||emptyHTML();
+  }else if(exTab==='speakers'){
+    el.innerHTML=speakers.map(s=>s.n.toLowerCase().includes(q)?
+      `<div class="li" onclick="toast(tr('t_profile')+'${s.n}')">${avHTML(s,'sm')}<div class="meta"><h4>${s.n}</h4><p>${tx(s.r)}</p></div><button class="btn sm ghost" onclick="event.stopPropagation();toast(tr('t_followed')+'${s.n}')">${tr('follow')}</button></div>`:'').join('')||emptyHTML();
+  }else{
+    el.innerHTML=exhibitors.map(x=>x.n.toLowerCase().includes(q)?
+      `<div class="li" onclick="toast(tr('t_booth')+'${x.n}')"><div class="thumb">${x.i}</div><div class="meta"><h4>${x.n}</h4><p>${tx(x.d)}</p></div><span class="muted">›</span></div>`:'').join('')||emptyHTML();
+  }
+}
+function emptyHTML(){return `<div class="empty"><div class="e-ic">🔍</div><p>${tr('empty_search')}</p></div>`}
+function filterExplore(v){renderExplore(v)}
+function renderAgenda(){
+  document.getElementById('myAgenda').innerHTML='<div class="card">'+sessions.map((s,i)=>
+    `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${s.spk}</p></div></div>`).join('')+'</div>';
+}
+function renderNetwork(){
+  document.getElementById('suggest').innerHTML=suggestions.map(s=>
+    `<div class="conn">${avHTML(s,'sm')}<div class="meta"><h4>${s.n} <span class="chip gold">${s.match}</span></h4><p>${tx(s.r)}</p></div><button class="iconbtn" style="background:var(--red);color:#fff" onclick="toast(tr('t_invite')+'${s.n}')">+</button></div>`).join('');
+  document.getElementById('myConns').innerHTML=connections.map(c=>
+    `<div class="conn">${avHTML(c,'sm')}<div class="meta"><h4>${c.n}</h4><p>${tx(c.r)}</p></div>`+
+    (c.st==='connected'
+      ?`<button class="iconbtn" style="background:var(--soft);color:var(--navy)" onclick="toast(tr('t_chat')+'${c.n}')">💬</button>`
+      :`<span class="chip gold">${tr('pending')}</span>`)+`</div>`).join('');
+}
+function renderBooths(){
+  document.getElementById('mapBooths').innerHTML=exhibitors.slice(0,3).map(x=>
+    `<div class="li" onclick="toast(tr('t_dir')+'${x.n}')"><div class="thumb">${x.i}</div><div class="meta"><h4>${x.n}</h4><p>${tx(x.d)}</p></div><button class="btn sm ghost" onclick="event.stopPropagation();toast(tr('t_dir')+'${x.n}')">${tr('directions_btn')}</button></div>`).join('');
+}
+function renderNotif(){
+  document.getElementById('notifList').innerHTML=tr('notif').map(n=>
+    `<div class="nf"><div class="nfi" style="background:${n[1]}">${n[0]}</div><div style="flex:1"><b>${n[2]}</b><p>${n[3]}</p></div><time>${n[4]}</time></div>`).join('');
+}
+function openSession(i){
+  curSession=i;const s=sessions[i];
+  document.getElementById('sDtag').textContent=tx(s.tag);
+  document.getElementById('sDtitle').textContent=tx(s.t);
+  document.getElementById('sDtime').textContent=s.time;
+  document.getElementById('sDroom').textContent=tx(s.room);
+  document.getElementById('sDdesc').textContent=tx(s.desc);
+  document.getElementById('sDspk').textContent=s.spk;
+  document.getElementById('sDspkrole').textContent=tx(s.role);
+  const av=document.getElementById('sDav');av.textContent=s.av;av.style.background=`linear-gradient(135deg,${s.c},#ffffff66)`;
+  go('session');
+}
+
+/* ===================== SHEETS ===================== */
+function openSheet(id){document.getElementById('scrim').classList.add('show');document.getElementById(id).classList.add('show');}
+function closeSheet(){document.getElementById('scrim').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));}
+let selTicketKey='vip',selAmt='5.500.000đ';
+const ticketNameKey={std:'tn_std',vip:'tn_vip',grp:'tn_grp'};
+function openRegister(){document.getElementById('regStep1').style.display='block';document.getElementById('regStep2').style.display='none';document.getElementById('regStep3').style.display='none';openSheet('sheetReg');}
+function selTicket(el,key,amt){document.querySelectorAll('#regStep1 .ticket').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');selTicketKey=key;selAmt=amt;}
+function regToPay(){document.getElementById('regStep1').style.display='none';document.getElementById('regStep2').style.display='block';document.getElementById('payAmt').textContent=selAmt;}
+function backToTickets(){document.getElementById('regStep2').style.display='none';document.getElementById('regStep1').style.display='block';}
+function selPay(el){document.querySelectorAll('#regStep2 .pay').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');}
+function payNow(){
+  const b=document.getElementById('payBtn');b.textContent=tr('processing');
+  setTimeout(()=>{document.getElementById('regStep2').style.display='none';document.getElementById('regStep3').style.display='block';
+    document.getElementById('okTicket').textContent=tr(ticketNameKey[selTicketKey]);
+    b.innerHTML=`<span>${tr('pay_btn')}</span>&nbsp;<span id="payAmt">${selAmt}</span>`;},1100);
+}
+function openQR(){openSheet('sheetQR');}
+
+/* ===================== TOAST ===================== */
+let toTimer;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toTimer);toTimer=setTimeout(()=>t.classList.remove('show'),1900);}
+
+/* ===================== I18N APPLY & SWITCH ===================== */
+function applyI18n(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]!==undefined)el.textContent=T[lang][k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(T[lang][k]!==undefined)el.setAttribute('placeholder',T[lang][k]);});
+  // SVG map labels
+  [['svgHall','svgHall'],['svgB1','svgB1'],['svgB2','svgB2'],['svgLounge','svgLounge'],['svgLobby','svgLobby']].forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k);});
+  // dynamic blocks
+  renderSpeakers();renderHomeAgenda();renderExplore();renderAgenda();renderNetwork();renderBooths();renderNotif();
+  if(current==='session')openSessionRefresh();
+  // app bar title for current screen
+  setAppbarTitle(current);
+  // globe label = current language code
+  document.getElementById('globeLbl').textContent=(lang==='vi'?'VI':'EN');
+}
+function openSessionRefresh(){const i=curSession,s=sessions[i];
+  document.getElementById('sDtag').textContent=tx(s.tag);document.getElementById('sDtitle').textContent=tx(s.t);
+  document.getElementById('sDroom').textContent=tx(s.room);document.getElementById('sDdesc').textContent=tx(s.desc);
+  document.getElementById('sDspkrole').textContent=tx(s.role);}
+function setLang(l){lang=l;localStorage.setItem('svef_lang',l);applyI18n();}
+function toggleLang(){setLang(lang==='vi'?'en':'vi');toast(tr('lang_switched'));}
+
+/* ===================== CLOCK ===================== */
+function tick(){const d=new Date();document.getElementById('clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+setInterval(tick,10000);tick();
+
+/* ===================== INIT ===================== */
+applyI18n();
+</script>
+</body>
+</html>

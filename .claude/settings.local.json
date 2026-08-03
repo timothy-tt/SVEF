@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($g = Get-Command gh -ErrorAction SilentlyContinue; if \\($g\\) { \"on PATH: $\\($g.Source\\)\" } else { \"not on PATH in this shell yet\" })"
+    ]
+  }
+}

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SVEF · Admin Back-office</title>
+<style>
+:root{
+  --red:#E1251B; --red-d:#b81a12; --navy:#0B1F3A; --navy-2:#13294b; --navy-3:#1d3a6b;
+  --ink:#1f2933; --muted:#6b7785; --line:#e6e9ef; --bg:#f4f6fa; --card:#fff;
+  --gold:#e3a008; --green:#15803d; --soft:#eef2f8;
+  --shadow:0 10px 34px rgba(11,31,58,.12); --shadow-sm:0 2px 10px rgba(11,31,58,.08);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);display:flex;min-height:100vh}
+a{text-decoration:none;color:inherit}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:999px;background:var(--soft);color:var(--navy)}
+.chip.green{background:#e6f4ea;color:var(--green)}.chip.pend{background:#fff3d6;color:#9a6b04}.chip.red{background:#fde8e7;color:var(--red)}.chip.navy{background:#e5ebf5;color:var(--navy)}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:none;border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:700;cursor:pointer;background:var(--red);color:#fff;transition:.15s}
+.btn:hover{background:var(--red-d)}
+.btn.ghost{background:var(--soft);color:var(--navy)}.btn.ghost:hover{background:#e2e8f2}
+.btn.dark{background:var(--navy)}.btn.green{background:var(--green)}.btn.sm{padding:7px 12px;font-size:12.5px}
+.btn.line{background:#fff;border:1.5px solid var(--line);color:var(--navy)}
+:focus-visible{outline:2.5px solid var(--red);outline-offset:2px;border-radius:6px}
+
+/* SIDEBAR */
+.side{width:250px;background:var(--navy);color:#fff;flex:0 0 250px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.side .brand{display:flex;align-items:center;gap:11px;padding:20px 18px;border-bottom:1px solid rgba(255,255,255,.1)}
+.side .brand .mk{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--red),#ff6a4d);display:grid;place-items:center;font-weight:900}
+.side .brand b{font-size:15px;display:block}.side .brand small{font-size:10.5px;opacity:.6}
+.snav{flex:1;padding:14px 12px;overflow-y:auto}
+.snav .grp{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;opacity:.5;margin:16px 10px 6px;font-weight:700}
+.snav button{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;color:rgba(255,255,255,.82);padding:11px 12px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;text-align:left}
+.snav button:hover{background:rgba(255,255,255,.08);color:#fff}
+.snav button.on{background:var(--red);color:#fff}
+.snav .badge{margin-left:auto;background:var(--gold);color:#3a2a00;font-size:10px;font-weight:800;border-radius:999px;padding:2px 7px}
+.side .foot{padding:14px 16px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;opacity:.7}
+.side .foot a{color:#fff;opacity:.85;display:block;margin-top:4px}
+
+/* MAIN */
+main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{background:#fff;border-bottom:1px solid var(--line);padding:16px 26px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:20}
+.top h1{font-size:20px;margin:0;color:var(--navy)}
+.top .sp{flex:1}
+.lang{display:flex;align-items:center;gap:6px;background:var(--soft);border:none;border-radius:9px;padding:8px 12px;font-weight:800;font-size:13px;color:var(--navy);cursor:pointer}
+.search{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:10px;padding:9px 13px;min-width:200px}
+.search input{border:none;background:none;outline:none;font-size:14px;flex:1}
+.who{display:flex;align-items:center;gap:9px}
+.who .av{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--navy-2),var(--navy-3));color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px}
+.demo-tag{background:var(--gold);color:#3a2a00;font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px}
+.content{padding:26px;max-width:1200px}
+.view{display:none;animation:fade .25s ease}.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.st{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px;box-shadow:var(--shadow-sm)}
+.st .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;font-size:20px;margin-bottom:12px}
+.st b{font-size:28px;color:var(--navy);display:block;font-weight:900;line-height:1}
+.st span{font-size:13px;color:var(--muted)}
+.st .up{font-size:12px;color:var(--green);font-weight:700;margin-top:4px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-sm);margin-bottom:22px;overflow:hidden}
+.phead{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.phead h2{font-size:16px;margin:0;color:var(--navy)}.phead .sp{flex:1}
+.pbody{padding:20px}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700;padding:12px 16px;border-bottom:1px solid var(--line)}
+td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfd}
+.tav{width:34px;height:34px;border-radius:9px;color:#fff;font-weight:800;display:inline-grid;place-items:center;font-size:12px;vertical-align:middle;margin-right:9px}
+.namecell{display:flex;align-items:center}
+.namecell b{color:var(--navy)}
+.act-btns{display:flex;gap:6px}
+
+/* approval cards */
+.appr{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;display:flex;gap:16px;align-items:flex-start}
+.appr .d{flex:0 0 60px;text-align:center;background:var(--gold);color:#3a2a00;border-radius:11px;padding:9px 0}
+.appr .d.blue{background:#e5ebf5;color:var(--navy)}
+.appr .d b{display:block;font-size:20px;line-height:1}.appr .d span{font-size:10px}
+.appr .body{flex:1;min-width:0}
+.appr .body h4{margin:0 0 4px;color:var(--navy)}
+.appr .body p{margin:0;font-size:13px;color:var(--muted)}
+.appr .acts{display:flex;gap:8px;flex-direction:column}
+
+/* CMS editor */
+.cms-grid{display:grid;grid-template-columns:220px 1fr;gap:18px}
+.cms-list button{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;font-weight:600;font-size:13.5px;color:var(--ink)}
+.cms-list button.on{border-color:var(--red);background:#fff7f6;color:var(--red)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:6px}
+input,select,textarea{font-family:inherit;font-size:14px;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--navy)}
+.langtab{display:flex;gap:6px;margin-bottom:12px}
+.langtab button{border:none;background:var(--soft);padding:7px 14px;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;color:var(--navy)}
+.langtab button.on{background:var(--navy);color:#fff}
+
+/* NDA banner */
+.nda{background:linear-gradient(120deg,#fff7f6,#fff);border:1px solid #f3c9c6;border-radius:14px;padding:16px 18px;display:flex;gap:14px;align-items:center;margin-bottom:22px}
+.nda .i{font-size:26px}
+.nda b{color:var(--navy)}
+.nda p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:13px 22px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:.3s;z-index:200;box-shadow:var(--shadow);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.export-note{font-size:12.5px;color:var(--muted);background:var(--soft);border-radius:10px;padding:12px 14px;margin-top:14px}
+/* MODAL */
+.scrim{position:fixed;inset:0;background:rgba(8,15,30,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.scrim.show{display:flex}
+.modal{background:#fff;border-radius:18px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.modal .mhead{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff}
+.modal .mhead h3{margin:0;font-size:18px;color:var(--navy)}
+.mx{border:none;background:var(--soft);width:34px;height:34px;border-radius:9px;font-size:16px;cursor:pointer;color:var(--muted)}
+.mbody{padding:20px}
+.mrow{margin-bottom:14px}
+.mrow label{display:block;font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.btn.block{width:100%}
+.hamb{display:none}
+/* AUTH GATE */
+.authgate{position:fixed;inset:0;z-index:500;background:radial-gradient(900px 500px at 80% -10%,rgba(225,37,27,.28),transparent 60%),linear-gradient(150deg,var(--navy),var(--navy-3));display:flex;align-items:center;justify-content:center;padding:20px}
+.authgate.hide{display:none}
+.authcard{background:#fff;border-radius:20px;padding:32px;max-width:410px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.45);animation:fade .3s ease}
+.authcard .mk{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--red),#ff6a4d);display:grid;place-items:center;color:#fff;font-weight:900;font-size:20px;margin-bottom:16px}
+.authcard h2{margin:0 0 6px;color:var(--navy);font-size:22px}
+.authcard .desc{margin:0 0 20px;font-size:13px;color:var(--muted)}
+.authcard a{display:block;text-align:center;margin-top:14px;font-size:13px;color:var(--muted)}
+.ndacheck{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--ink);background:#fff7f6;border:1px solid #f3c9c6;border-radius:11px;padding:11px 13px;margin:6px 0 18px;cursor:pointer}
+.ndacheck input{width:auto;margin-top:2px}
+@media(max-width:880px){
+  .side{position:fixed;left:-260px;transition:.25s;z-index:100}.side.open{left:0}
+  .hamb{display:grid;place-items:center;background:var(--soft);border:none;width:40px;height:40px;border-radius:9px;font-size:20px;cursor:pointer}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}.cms-grid{grid-template-columns:1fr}
+  .panel{overflow-x:auto}.panel table{min-width:640px}
+  .search{min-width:120px}
+}
+</style>
+</head>
+<body>
+<!-- ===== AUTH GATE (role-gated + NDA) ===== -->
+<div class="authgate" id="authGate">
+  <div class="authcard">
+    <div class="mk">SV</div>
+    <h2 data-i18n="ag_h">SVEF Admin Back-office</h2>
+    <p class="desc" data-i18n="ag_desc">Restricted area — role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).</p>
+    <div class="field"><label>Email</label><input id="agEmail" value="ops.admin@svef.org"></div>
+    <div class="field"><label data-i18n="password">Password</label><input type="password" value="demo1234"></div>
+    <label class="ndacheck"><input type="checkbox" id="ndaChk" checked><span data-i18n="ag_nda">🔐 I confirm the NDA between SVEF and IMT has been signed and admin access is authorised.</span></label>
+    <button class="btn" style="width:100%" onclick="signIn()" data-i18n="ag_signin">Sign in as Ops Admin</button>
+    <a href="website.html" data-i18n="ag_back">← Back to public website</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="side" id="side">
+  <div class="brand"><div class="mk">SV</div><div><b>SVEF Admin</b><small>Back-office · v0.1</small></div></div>
+  <nav class="snav">
+    <button class="on" onclick="nav('dashboard',this)">📊 <span data-i18n="n_dash">Dashboard</span></button>
+    <div class="grp" data-i18n="g_content">Content</div>
+    <button onclick="nav('cms',this)">📝 <span data-i18n="n_cms">CMS &amp; Pages</span></button>
+    <button onclick="nav('news',this)">📰 <span data-i18n="n_news">News / Media</span></button>
+    <div class="grp" data-i18n="g_community">Community</div>
+    <button onclick="nav('partners',this)">🏢 <span data-i18n="n_partners">Partners</span></button>
+    <button onclick="nav('members',this)">👥 <span data-i18n="n_members">Memberships</span> <span class="badge" id="memBadge">2</span></button>
+    <div class="grp" data-i18n="g_events">Events</div>
+    <button onclick="nav('events',this)">📅 <span data-i18n="n_events">Event approvals</span> <span class="badge" id="apprBadge">2</span></button>
+    <div class="grp" data-i18n="g_data">Data</div>
+    <button onclick="nav('reports',this)">📈 <span data-i18n="n_reports">Reports &amp; Export</span></button>
+  </nav>
+  <div class="foot"><span data-i18n="f_loggedas">Logged in as</span> <b>Ops Admin</b><a href="website.html" data-i18n="ag_back">← Back to website</a><a href="index.html" data-i18n="f_hub">Demo hub</a></div>
+</aside>
+
+<!-- MAIN -->
+<main>
+  <div class="top">
+    <button class="hamb" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
+    <h1 id="viewTitle">Dashboard</h1>
+    <span class="demo-tag">DEMO</span>
+    <div class="sp"></div>
+    <button class="lang" onclick="toggleLang()">🌐 <span id="langLbl">EN</span></button>
+    <div class="search">🔎<input id="adSearch" placeholder="Search…"></div>
+    <div class="who"><div class="av">OA</div></div>
+  </div>
+
+  <div class="content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="view on" id="v-dashboard">
+      <div class="nda">
+        <div class="i">🔐</div>
+        <div style="flex:1"><b data-i18n="nda_t">NDA signed · Admin access granted to IMT</b><p data-i18n="nda_p">Confidential-data access is enabled only after the NDA between SVEF and IMT is signed (BRD §7.5 / §11.2). Exports below never expose passwords or sensitive fields.</p></div>
+        <span class="chip green" data-i18n="d_active">Active</span>
+      </div>
+      <div class="stat-grid">
+        <div class="st"><div class="ic" style="background:#e5ebf5">🏢</div><b>124</b><span data-i18n="s_partners">Partners &amp; members</span><div class="up" data-i18n="s_partners_up">▲ 12 this quarter</div></div>
+        <div class="st"><div class="ic" style="background:#fde8e7">📅</div><b>7</b><span data-i18n="s_events">Upcoming events</span><div class="up" data-i18n="s_events_up">2 pending approval</div></div>
+        <div class="st"><div class="ic" style="background:#e6f4ea">👥</div><b>1,842</b><span data-i18n="s_subs">Subscribers</span><div class="up" data-i18n="s_subs_up">▲ 214 this month</div></div>
+        <div class="st"><div class="ic" style="background:#fcf2da">📈</div><b>68%</b><span data-i18n="s_growth">Member growth YoY</span><div class="up" data-i18n="s_growth_up">▲ steady</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_memapps">Membership applications</h2><div class="sp"></div><button class="btn ghost sm" onclick="nav('members',document.querySelectorAll('.snav button')[4])" data-i18n="b_viewall">View all →</button></div>
+        <div class="pbody" id="dashMemApps"></div>
+      </div>
+
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_evqueue">Event approval queue</h2><div class="sp"></div><button class="btn ghost sm" onclick="nav('events',document.querySelectorAll('.snav button')[6])" data-i18n="b_viewall">View all →</button></div>
+        <div class="pbody" id="dashAppr"></div>
+      </div>
+
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_recent">Recently joined partners</h2></div>
+        <table><thead><tr><th data-i18n="c_org">Organisation</th><th data-i18n="c_type">Type</th><th data-i18n="c_market">Market</th><th data-i18n="c_joined">Joined</th><th data-i18n="c_status">Status</th></tr></thead><tbody id="dashPartners"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ===== CMS ===== -->
+    <div class="view" id="v-cms">
+      <div class="panel"><div class="pbody">
+        <p class="muted" style="margin-top:0" data-i18n="cms_intro">Manage static &amp; dynamic content without code changes. Bilingual EN/VN (BRD BR-W-01/02/03).</p>
+        <div class="cms-grid">
+          <div class="cms-list" id="cmsList"></div>
+          <div>
+            <div class="langtab"><button class="on" onclick="cmsLang('en',this)">🇬🇧 English</button><button onclick="cmsLang('vi',this)">🇻🇳 Tiếng Việt</button></div>
+            <div class="field"><label data-i18n="cms_title">Page title</label><input id="cmsTitle" value="About us"></div>
+            <div class="field"><label data-i18n="cms_slug">Slug</label><input value="/about-us"></div>
+            <div class="field"><label data-i18n="cms_body">Body content</label><textarea id="cmsBody" rows="9">The Swiss-Viet Economic Forum (SVEF) is the leading platform fostering economic cooperation between Switzerland and Vietnam...</textarea></div>
+            <div class="field"><label data-i18n="c_status">Status</label><select><option>Published</option><option>Draft</option></select></div>
+            <button class="btn" onclick="toast(tr('t_saved'))" data-i18n="b_save">💾 Save &amp; publish</button>
+            <button class="btn ghost" onclick="toast(tr('t_preview'))" data-i18n="b_preview">👁 Preview</button>
+          </div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- ===== NEWS ===== -->
+    <div class="view" id="v-news">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_news">News &amp; Media</h2><div class="sp"></div><button class="btn sm" onclick="toast(tr('t_editor'))" data-i18n="b_newart">＋ New article</button></div>
+        <table><thead><tr><th data-i18n="c_title">Title</th><th data-i18n="c_cat">Category</th><th data-i18n="c_status">Status</th><th data-i18n="c_date">Date</th><th></th></tr></thead><tbody id="newsTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ===== PARTNERS ===== -->
+    <div class="view" id="v-partners">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_partner">Partner management</h2><div class="sp"></div>
+          <button class="btn ghost sm" onclick="exportData('partners')" data-i18n="b_export">⬇ Export CSV</button>
+          <button class="btn sm" onclick="openPartnerA(-1)" data-i18n="b_addpartner">＋ Add partner</button></div>
+        <table><thead><tr><th data-i18n="c_org">Organisation</th><th data-i18n="c_ptype">Partnership type</th><th data-i18n="c_ind">Industry</th><th data-i18n="c_market">Market</th><th data-i18n="c_docs">Docs</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="partnerTable"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ===== MEMBERS ===== -->
+    <div class="view" id="v-members">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_memapps">Membership applications</h2><div class="sp"></div><span class="chip pend" id="memPendCount">2 pending</span></div>
+        <div class="pbody" id="memAppList"></div>
+      </div>
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_members">Memberships &amp; roles</h2><div class="sp"></div><button class="btn ghost sm" onclick="exportData('members')" data-i18n="b_export">⬇ Export CSV</button></div>
+        <table><thead><tr><th data-i18n="c_account">Account (email)</th><th data-i18n="c_profiles">Profiles</th><th data-i18n="c_role">Role</th><th data-i18n="c_access">Access</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="memberTable"></tbody></table>
+        <div class="pbody"><div class="export-note" data-i18n="mem_note">🔑 One account can hold multiple profiles (personal + company) — the “Profiles” column shows how many are linked to a single email (BRD BR-W-04).</div></div>
+      </div>
+    </div>
+
+    <!-- ===== EVENTS ===== -->
+    <div class="view" id="v-events">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_evq2">Partner-proposed events — approval queue</h2><div class="sp"></div><span class="chip pend" id="pendCount">2 pending</span></div>
+        <div class="pbody" id="apprList"></div>
+      </div>
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_pubev">Published events</h2></div>
+        <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="c_type">Type</th><th data-i18n="c_date">Date</th><th data-i18n="c_regs">Registrations</th><th data-i18n="c_status">Status</th></tr></thead><tbody id="pubEvents"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ===== REPORTS ===== -->
+    <div class="view" id="v-reports">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_reports">Reports &amp; data export</h2></div>
+        <div class="pbody">
+          <p class="muted" style="margin-top:0" data-i18n="rep_intro">Export to Excel/CSV for reporting. Confidential fields (passwords, payment tokens) are always excluded (BRD BR-W-18 / §11.2).</p>
+          <div class="stat-grid" style="grid-template-columns:repeat(3,1fr)">
+            <div class="st" style="cursor:pointer" onclick="exportData('partners')"><div class="ic" style="background:#e5ebf5">🏢</div><b style="font-size:17px" data-i18n="n_partners">Partners</b><span>124 · CSV / XLSX</span></div>
+            <div class="st" style="cursor:pointer" onclick="exportData('members')"><div class="ic" style="background:#e6f4ea">👥</div><b style="font-size:17px" data-i18n="n_members">Memberships</b><span>1,842 · CSV / XLSX</span></div>
+            <div class="st" style="cursor:pointer" onclick="exportData('events')"><div class="ic" style="background:#fde8e7">📅</div><b style="font-size:17px" data-i18n="rep_regs">Event registrations</b><span>3,410 · CSV / XLSX</span></div>
+          </div>
+          <div class="export-note" data-i18n="rep_note">🔒 Data-protection note: Exports comply with GDPR handling between Switzerland/Europe and Vietnam. No passwords or sensitive personal identifiers are included in any export file.</div>
+          <div style="margin-top:16px"><button class="btn" onclick="toast(tr('t_import'))" data-i18n="b_import">⬆ Import from legacy system</button> <span class="muted" style="font-size:13px;margin-left:8px" data-i18n="rep_import">Migrate data exported from the old platform (BRD BR-W-19).</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ===== PARTNER ADD/EDIT/VIEW ===== -->
+<div class="scrim" id="scrimPartner" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mhead"><h3 id="apTitle">Partner</h3><button class="mx" onclick="closeModal()" aria-label="Close">✕</button></div>
+    <div class="mbody" id="apBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== I18N ===== */
+const T={
+ en:{
+  password:"Password",
+  ag_h:"SVEF Admin Back-office",ag_desc:"Restricted area — role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).",
+  ag_nda:"🔐 I confirm the NDA between SVEF and IMT has been signed and admin access is authorised.",ag_signin:"Sign in as Ops Admin",ag_back:"← Back to public website",
+  n_dash:"Dashboard",n_cms:"CMS & Pages",n_news:"News / Media",n_partners:"Partners",n_members:"Memberships",n_events:"Event approvals",n_reports:"Reports & Export",
+  g_content:"Content",g_community:"Community",g_events:"Events",g_data:"Data",
+  f_loggedas:"Logged in as",f_hub:"Demo hub",search_ph:"Search…",
+  nda_t:"NDA signed · Admin access granted to IMT",nda_p:"Confidential-data access is enabled only after the NDA between SVEF and IMT is signed (BRD §7.5 / §11.2). Exports below never expose passwords or sensitive fields.",
+  s_partners:"Partners & members",s_partners_up:"▲ 12 this quarter",s_events:"Upcoming events",s_events_up:"2 pending approval",s_subs:"Subscribers",s_subs_up:"▲ 214 this month",s_growth:"Member growth YoY",s_growth_up:"▲ steady",
+  h_memapps:"Membership applications",h_evqueue:"Event approval queue",h_recent:"Recently joined partners",h_news:"News & Media",h_partner:"Partner management",h_members:"Memberships & roles",h_evq2:"Partner-proposed events — approval queue",h_pubev:"Published events",h_reports:"Reports & data export",
+  cms_intro:"Manage static & dynamic content without code changes. Bilingual EN/VN (BRD BR-W-01/02/03).",cms_title:"Page title",cms_slug:"Slug",cms_body:"Body content",
+  mem_note:"🔑 One account can hold multiple profiles (personal + company) — the “Profiles” column shows how many are linked to a single email (BRD BR-W-04).",
+  rep_intro:"Export to Excel/CSV for reporting. Confidential fields (passwords, payment tokens) are always excluded (BRD BR-W-18 / §11.2).",rep_regs:"Event registrations",
+  rep_note:"🔒 Data-protection note: Exports comply with GDPR handling between Switzerland/Europe and Vietnam. No passwords or sensitive personal identifiers are included in any export file.",rep_import:"Migrate data exported from the old platform (BRD BR-W-19).",
+  b_viewall:"View all →",b_save:"💾 Save & publish",b_preview:"👁 Preview",b_newart:"＋ New article",b_export:"⬇ Export CSV",b_addpartner:"＋ Add partner",b_import:"⬆ Import from legacy system",
+  p_details:"Partner details",p_add_t:"Add partner",p_edit_t:"Edit partner",p_save:"Save partner",p_name:"Organisation name",
+  c_org:"Organisation",c_type:"Type",c_market:"Market",c_joined:"Joined",c_status:"Status",c_title:"Title",c_cat:"Category",c_date:"Date",c_ptype:"Partnership type",c_ind:"Industry",c_docs:"Docs",c_actions:"Actions",c_account:"Account (email)",c_profiles:"Profiles",c_role:"Role",c_access:"Access",c_event:"Event",c_regs:"Registrations",
+  d_active:"Active",d_pending:"Pending",d_published:"Published",d_draft:"Draft",d_approve:"✓ Approve",d_reject:"✕ Reject",d_edit:"Edit",d_view:"View",d_manage:"Manage",d_pendsfx:"pending",
+  ma_note:"Membership application",
+  t_saved:"Content saved (demo)",t_preview:"Preview (demo)",t_editor:"Article editor (demo)",t_form:"New partner form (demo)",t_import:"Legacy import wizard (demo)",t_signed:"Signed in as Ops Admin",t_nda:"⚠️ Please confirm the NDA to continue",
+ },
+ vi:{
+  password:"Mật khẩu",
+  ag_h:"Hệ quản trị SVEF",ag_desc:"Khu vực hạn chế — truy cập theo vai trò. Quyền quản trị chỉ cấp cho IMT sau khi NDA giữa SVEF và IMT được ký (BRD §7.5 / §11.2).",
+  ag_nda:"🔐 Tôi xác nhận NDA giữa SVEF và IMT đã được ký và quyền quản trị đã được cấp phép.",ag_signin:"Đăng nhập với vai trò Ops Admin",ag_back:"← Về website công khai",
+  n_dash:"Tổng quan",n_cms:"CMS & Trang",n_news:"Tin tức / Media",n_partners:"Đối tác",n_members:"Thành viên",n_events:"Duyệt sự kiện",n_reports:"Báo cáo & Xuất",
+  g_content:"Nội dung",g_community:"Cộng đồng",g_events:"Sự kiện",g_data:"Dữ liệu",
+  f_loggedas:"Đăng nhập bởi",f_hub:"Trang demo",search_ph:"Tìm kiếm…",
+  nda_t:"Đã ký NDA · Đã cấp quyền quản trị cho IMT",nda_p:"Quyền truy cập dữ liệu mật chỉ mở sau khi NDA giữa SVEF và IMT được ký (BRD §7.5 / §11.2). Các bản xuất không bao giờ lộ mật khẩu hay trường nhạy cảm.",
+  s_partners:"Đối tác & thành viên",s_partners_up:"▲ 12 quý này",s_events:"Sự kiện sắp tới",s_events_up:"2 chờ duyệt",s_subs:"Người đăng ký",s_subs_up:"▲ 214 tháng này",s_growth:"Tăng trưởng TV theo năm",s_growth_up:"▲ ổn định",
+  h_memapps:"Đơn đăng ký thành viên",h_evqueue:"Hàng đợi duyệt sự kiện",h_recent:"Đối tác mới tham gia",h_news:"Tin tức & Media",h_partner:"Quản lý đối tác",h_members:"Thành viên & vai trò",h_evq2:"Sự kiện đối tác đề xuất — hàng đợi duyệt",h_pubev:"Sự kiện đã đăng",h_reports:"Báo cáo & xuất dữ liệu",
+  cms_intro:"Quản lý nội dung tĩnh & động không cần sửa code. Song ngữ EN/VN (BRD BR-W-01/02/03).",cms_title:"Tiêu đề trang",cms_slug:"Đường dẫn",cms_body:"Nội dung",
+  mem_note:"🔑 Một tài khoản có thể có nhiều hồ sơ (cá nhân + công ty) — cột “Hồ sơ” cho biết số hồ sơ liên kết với một email (BRD BR-W-04).",
+  rep_intro:"Xuất Excel/CSV để báo cáo. Các trường mật (mật khẩu, token thanh toán) luôn được loại trừ (BRD BR-W-18 / §11.2).",rep_regs:"Đăng ký sự kiện",
+  rep_note:"🔒 Lưu ý bảo vệ dữ liệu: Bản xuất tuân thủ GDPR khi xử lý giữa Thụy Sĩ/Châu Âu và Việt Nam. Không bao gồm mật khẩu hay định danh cá nhân nhạy cảm.",rep_import:"Di trú dữ liệu xuất từ nền tảng cũ (BRD BR-W-19).",
+  b_viewall:"Xem tất cả →",b_save:"💾 Lưu & đăng",b_preview:"👁 Xem trước",b_newart:"＋ Bài viết mới",b_export:"⬇ Xuất CSV",b_addpartner:"＋ Thêm đối tác",b_import:"⬆ Nhập từ hệ thống cũ",
+  p_details:"Chi tiết đối tác",p_add_t:"Thêm đối tác",p_edit_t:"Sửa đối tác",p_save:"Lưu đối tác",p_name:"Tên tổ chức",
+  c_org:"Tổ chức",c_type:"Loại",c_market:"Thị trường",c_joined:"Tham gia",c_status:"Trạng thái",c_title:"Tiêu đề",c_cat:"Danh mục",c_date:"Ngày",c_ptype:"Loại đối tác",c_ind:"Ngành",c_docs:"Tài liệu",c_actions:"Thao tác",c_account:"Tài khoản (email)",c_profiles:"Hồ sơ",c_role:"Vai trò",c_access:"Quyền",c_event:"Sự kiện",c_regs:"Lượt đăng ký",
+  d_active:"Hoạt động",d_pending:"Chờ duyệt",d_published:"Đã đăng",d_draft:"Nháp",d_approve:"✓ Duyệt",d_reject:"✕ Từ chối",d_edit:"Sửa",d_view:"Xem",d_manage:"Quản lý",d_pendsfx:"chờ duyệt",
+  ma_note:"Đơn đăng ký thành viên",
+  t_saved:"Đã lưu nội dung (demo)",t_preview:"Xem trước (demo)",t_editor:"Trình soạn bài viết (demo)",t_form:"Biểu mẫu đối tác mới (demo)",t_import:"Trình nhập dữ liệu cũ (demo)",t_signed:"Đã đăng nhập với vai trò Ops Admin",t_nda:"⚠️ Vui lòng xác nhận NDA để tiếp tục",
+ }
+};
+let lang=localStorage.getItem('svef_admin_lang')==='vi'?'vi':'en';
+function tr(k){return T[lang][k]!==undefined?T[lang][k]:k}
+
+/* ===== DATA ===== */
+const partners=[
+ {n:"Helvetia Fintech AG",i:"HF",c:"#0a68b1",type:"Institutional Member",ind:"Finance & Banking",market:"Switzerland",docs:2,joined:"12 Jul 2026",status:"Active"},
+ {n:"GreenTech Vietnam",i:"GT",c:"#15803d",type:"Institutional Member",ind:"Energy",market:"Vietnam",docs:3,joined:"09 Jul 2026",status:"Active"},
+ {n:"Zurich Ventures",i:"ZV",c:"#13294b",type:"Strategic Partner",ind:"Finance & Banking",market:"Switzerland",docs:4,joined:"01 Jul 2026",status:"Active"},
+ {n:"Swiss Precision Mfg",i:"SP",c:"#E1251B",type:"Institutional Subscriber",ind:"Manufacturing",market:"Europe",docs:1,joined:"28 Jun 2026",status:"Active"},
+ {n:"Mekong Digital",i:"MD",c:"#7c3aed",type:"Institutional Member",ind:"Technology",market:"SE Asia",docs:2,joined:"22 Jun 2026",status:"Pending"},
+ {n:"Alpine Advisory",i:"AA",c:"#9a6b04",type:"Strategic Partner",ind:"Consulting",market:"Global",docs:5,joined:"15 Jun 2026",status:"Active"},
+];
+let members=[
+ {e:"anh.tran@zegoe.vc",prof:2,role:"Individual + Member",access:"Partner DB, Messaging"},
+ {e:"l.weber@helvetia.ch",prof:1,role:"Institutional Member",access:"Partner DB, Messaging"},
+ {e:"info@greentech.vn",prof:2,role:"Institutional Member",access:"Partner DB, Messaging"},
+ {e:"newsletter@sub.io",prof:1,role:"Subscriber",access:"Information only"},
+ {e:"m.rossi@zurichvc.ch",prof:1,role:"Strategic Partner",access:"Full partner access"},
+];
+let memberApps=[
+ {n:"Nordic Green Capital",email:"apply@nordicgreen.no",type:"Institutional Member",date:"26 JUL",note:{en:"Clean-energy investor applying for institutional membership.",vi:"Nhà đầu tư năng lượng sạch xin thành viên tổ chức."}},
+ {n:"Trần Quốc Anh",email:"qanh.tran@gmail.com",type:"Individual Member",date:"25 JUL",note:{en:"Fintech startup founder applying for individual membership.",vi:"Nhà sáng lập startup fintech xin thành viên cá nhân."}},
+];
+let approvals=[
+ {t:"CleanTech × Vietnam Roundtable",by:"GreenTech Vietnam",date:"05 DEC",loc:"Ho Chi Minh City",d:{en:"Partner-hosted roundtable on renewable-energy investment. Expected 80 attendees.",vi:"Bàn tròn do đối tác tổ chức về đầu tư năng lượng tái tạo. Dự kiến 80 người."}},
+ {t:"Swiss FinReg Workshop",by:"Helvetia Fintech AG",date:"20 JAN",loc:"Online / Hybrid",d:{en:"Workshop on cross-border financial regulation for members.",vi:"Hội thảo về quy định tài chính xuyên biên giới cho thành viên."}},
+];
+let pubEvents=[
+ {t:"SVEF Hanoi Economic Forum 2026",type:"Forum",date:"14 Oct 2026",reg:"640",status:"Published"},
+ {t:"Swiss–Vietnam Trade Mission",type:"Forum",date:"22 Nov 2026",reg:"48",status:"Published"},
+ {t:"Fintech Bridge Meetup",type:"Partner",date:"18 Dec 2026",reg:"112",status:"Published"},
+];
+const newsRows=[
+ {t:"SVEF welcomes 12 new institutional members",cat:"Partnership",st:"Published",d:"18 Jul 2026"},
+ {t:"Registration opens for the Hanoi Forum",cat:"Event",st:"Published",d:"10 Jul 2026"},
+ {t:"New Swiss–Vietnam trade agreement briefing",cat:"Policy",st:"Draft",d:"—"},
+];
+const cmsPages=["Home","About us","Activities","FAQ","Contact","Privacy / GDPR"];
+
+/* ===== NAV ===== */
+let currentView='dashboard';
+function nav(v,btn){
+  currentView=v;
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));
+  document.getElementById('v-'+v).classList.add('on');
+  document.querySelectorAll('.snav button').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  document.getElementById('viewTitle').textContent=tr('n_'+(v==='dashboard'?'dash':v));
+  document.getElementById('side').classList.remove('open');
+  window.scrollTo(0,0);
+}
+
+/* ===== RENDER ===== */
+function av(x){return `<span class="tav" style="background:linear-gradient(135deg,${x.c},#ffffff55)">${x.i}</span>`}
+function ini(n){const p=n.replace(/[^A-Za-zÀ-ỹ ]/g,'').trim().split(/\s+/);return (p.map(x=>x[0]).slice(0,2).join('')||'?').toUpperCase();}
+function stChip(s){
+  const map={Active:'green',Published:'green',Pending:'pend',Draft:'pend'};
+  const lbl={Active:tr('d_active'),Published:tr('d_published'),Pending:tr('d_pending'),Draft:tr('d_draft')}[s]||s;
+  return `<span class="chip ${map[s]||''}">${lbl}</span>`;
+}
+function partnerRow(p,i){return `<tr><td><div class="namecell">${av(p)}<b>${p.n}</b></div></td><td><span class="chip navy">${p.type}</span></td><td>${p.ind}</td><td>${p.market}</td><td>${p.docs}</td>
+  <td><div class="act-btns"><button class="btn ghost sm" onclick="openPartnerA(${i},true)">${tr('d_view')}</button><button class="btn line sm" onclick="openPartnerA(${i})">${tr('d_edit')}</button><button class="btn line sm" onclick="delPartnerA(${i})" aria-label="Remove">🗑</button></div></td></tr>`}
+
+function renderAll(){
+  document.getElementById('partnerTable').innerHTML=partners.map(partnerRow).join('');
+  document.getElementById('dashPartners').innerHTML=partners.slice(0,4).map(p=>
+    `<tr><td><div class="namecell">${av(p)}<b>${p.n}</b></div></td><td>${p.type}</td><td>${p.market}</td><td>${p.joined}</td><td>${stChip(p.status)}</td></tr>`).join('');
+  document.getElementById('memberTable').innerHTML=members.map(m=>
+    `<tr><td><b style="color:var(--navy)">${m.e}</b></td><td><span class="chip ${m.prof>1?'navy':''}">${m.prof} ${lang==='vi'?'hồ sơ':'profile'+(m.prof>1?'s':'')}</span></td><td>${m.role}</td><td class="muted">${m.access}</td>
+     <td><button class="btn ghost sm" onclick="toast(tr('d_manage')+': ${m.e}')">${tr('d_manage')}</button></td></tr>`).join('');
+  document.getElementById('pubEvents').innerHTML=pubEvents.map(e=>
+    `<tr><td><b style="color:var(--navy)">${e.t}</b></td><td><span class="chip ${e.type==='Forum'?'navy':'pend'}">${e.type}</span></td><td>${e.date}</td><td>${e.reg}</td><td>${stChip(e.status)}</td></tr>`).join('');
+  document.getElementById('newsTable').innerHTML=newsRows.map(n=>
+    `<tr><td><b style="color:var(--navy)">${n.t}</b></td><td>${n.cat}</td><td>${stChip(n.st)}</td><td>${n.d}</td><td><button class="btn ghost sm" onclick="toast(tr('t_editor'))">${tr('d_edit')}</button></td></tr>`).join('');
+  document.getElementById('cmsList').innerHTML=cmsPages.map((p,i)=>`<button class="${i===1?'on':''}" onclick="pickCms(this,'${p}')">${p}</button>`).join('');
+  renderApprovals();renderMemApps();
+}
+function pickCms(btn,name){document.querySelectorAll('#cmsList button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('cmsTitle').value=name;}
+function cmsLang(l,btn){document.querySelectorAll('.langtab button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  document.getElementById('cmsBody').value=l==='vi'?"Diễn đàn Kinh tế Thụy Sĩ – Việt Nam (SVEF) là nền tảng hàng đầu thúc đẩy hợp tác kinh tế giữa Thụy Sĩ và Việt Nam...":"The Swiss-Viet Economic Forum (SVEF) is the leading platform fostering economic cooperation between Switzerland and Vietnam...";}
+
+/* ---- Event approvals ---- */
+function apprCard(a,i){return `<div class="appr"><div class="d"><b>${a.date.split(' ')[0]}</b><span>${a.date.split(' ')[1]}</span></div>
+    <div class="body"><h4>${a.t}</h4><p style="margin-bottom:6px">📍 ${a.loc} · <b>${a.by}</b></p><p>${a.d[lang]}</p></div>
+    <div class="acts"><button class="btn green sm" onclick="decide(${i},true)">${tr('d_approve')}</button><button class="btn line sm" onclick="decide(${i},false)">${tr('d_reject')}</button></div></div>`;}
+function renderApprovals(){
+  const html=approvals.map(apprCard).join('')||`<p class="muted">🎉 ${lang==='vi'?'Không còn sự kiện chờ duyệt.':'No pending events — the queue is clear.'}</p>`;
+  document.getElementById('apprList').innerHTML=html;
+  document.getElementById('dashAppr').innerHTML=html;
+  const n=approvals.length;
+  document.getElementById('apprBadge').textContent=n;document.getElementById('apprBadge').style.display=n?'':'none';
+  document.getElementById('pendCount').textContent=n+' '+tr('d_pendsfx');
+}
+function decide(i,ok){
+  const a=approvals[i];
+  if(ok)pubEvents.push({t:a.t,type:"Partner",date:a.date+" 2026",reg:"0",status:"Published"});
+  approvals.splice(i,1);renderApprovals();
+  document.getElementById('pubEvents').innerHTML=pubEvents.map(e=>
+    `<tr><td><b style="color:var(--navy)">${e.t}</b></td><td><span class="chip ${e.type==='Forum'?'navy':'pend'}">${e.type}</span></td><td>${e.date}</td><td>${e.reg}</td><td>${stChip(e.status)}</td></tr>`).join('');
+  toast(ok?((lang==='vi'?'✓ Đã duyệt — "':'✓ Approved — "')+a.t+(lang==='vi'?'" đã công khai':'" is now public')):((lang==='vi'?'Đã từ chối — "':'Rejected — "')+a.t+(lang==='vi'?'" trả lại đối tác':'" sent back to partner')));
+}
+
+/* ---- Membership applications (P3) ---- */
+function memAppCard(a,i){return `<div class="appr"><div class="d blue"><b>${a.date.split(' ')[0]}</b><span>${a.date.split(' ')[1]}</span></div>
+    <div class="body"><h4>${a.n}</h4><p style="margin-bottom:6px"><span class="chip navy">${a.type}</span> · ${a.email}</p><p>${a.note[lang]}</p></div>
+    <div class="acts"><button class="btn green sm" onclick="decideMem(${i},true)">${tr('d_approve')}</button><button class="btn line sm" onclick="decideMem(${i},false)">${tr('d_reject')}</button></div></div>`;}
+function renderMemApps(){
+  const html=memberApps.map(memAppCard).join('')||`<p class="muted">🎉 ${lang==='vi'?'Không còn đơn chờ duyệt.':'No pending applications.'}</p>`;
+  document.getElementById('memAppList').innerHTML=html;
+  document.getElementById('dashMemApps').innerHTML=html;
+  const n=memberApps.length;
+  document.getElementById('memBadge').textContent=n;document.getElementById('memBadge').style.display=n?'':'none';
+  document.getElementById('memPendCount').textContent=n+' '+tr('d_pendsfx');
+}
+function decideMem(i,ok){
+  const a=memberApps[i];
+  if(ok)members.unshift({e:a.email,prof:1,role:a.type,access:a.type.indexOf('Subscriber')>=0?'Information only':'Partner DB, Messaging'});
+  memberApps.splice(i,1);renderMemApps();
+  if(ok)document.getElementById('memberTable').innerHTML=members.map(m=>
+    `<tr><td><b style="color:var(--navy)">${m.e}</b></td><td><span class="chip ${m.prof>1?'navy':''}">${m.prof} ${lang==='vi'?'hồ sơ':'profile'+(m.prof>1?'s':'')}</span></td><td>${m.role}</td><td class="muted">${m.access}</td><td><button class="btn ghost sm" onclick="toast(tr('d_manage')+': ${m.e}')">${tr('d_manage')}</button></td></tr>`).join('');
+  toast(ok?((lang==='vi'?'✓ Đã duyệt thành viên: ':'✓ Member approved: ')+a.n):((lang==='vi'?'Đã từ chối đơn: ':'Application rejected: ')+a.n));
+}
+
+function exportData(kind){toast((lang==='vi'?'⬇ Đang xuất ':'⬇ Exporting ')+kind+(lang==='vi'?'.csv — đã loại trường mật':'.csv — confidential fields excluded'));}
+
+/* ===== PARTNER CRUD (admin) ===== */
+const PCOL=["#0a68b1","#15803d","#13294b","#E1251B","#7c3aed","#9a6b04","#0d9488"];
+let apEdit=-1;
+function v(id){return document.getElementById(id).value;}
+function aopts(arr,sel){return arr.map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('');}
+function openModal(id){document.getElementById(id).classList.add('show');document.body.style.overflow='hidden';}
+function closeModal(){document.querySelectorAll('.scrim').forEach(s=>s.classList.remove('show'));document.body.style.overflow='';}
+function openPartnerA(i,ro){
+  apEdit=i;const p=i>=0?partners[i]:{n:'',type:'Institutional Member',ind:'Finance & Banking',market:'Switzerland',docs:0,status:'Pending'};
+  document.getElementById('apTitle').textContent=ro?tr('p_details'):(i>=0?tr('p_edit_t'):tr('p_add_t'));
+  const dis=ro?'disabled':'';
+  document.getElementById('apBody').innerHTML=
+    `<div class="mrow"><label>${tr('p_name')}</label><input id="apN" value="${(p.n||'').replace(/"/g,'&quot;')}" ${dis}></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('c_ptype')}</label><select id="apType" ${dis}>${aopts(['Institutional Subscriber','Institutional Member','Strategic Partner','Individual Member'],p.type)}</select></div>`+
+    `<div class="mrow"><label>${tr('c_market')}</label><select id="apMarket" ${dis}>${aopts(['Switzerland','Vietnam','Europe','SE Asia','Global'],p.market)}</select></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('c_ind')}</label><select id="apInd" ${dis}>${aopts(['Finance & Banking','Technology','Manufacturing','Energy','Consulting'],p.ind)}</select></div>`+
+    `<div class="mrow"><label>${tr('c_status')}</label><select id="apStatus" ${dis}>${aopts(['Active','Pending'],p.status)}</select></div></div>`+
+    `<div class="mrow"><label>${tr('c_docs')}</label><input id="apDocs" type="number" min="0" value="${p.docs}" ${dis}></div>`+
+    (ro?'':`<button class="btn block" onclick="savePartnerA()">${i>=0?tr('p_save'):tr('p_add_t')}</button>`);
+  openModal('scrimPartner');
+}
+function savePartnerA(){
+  const name=v('apN').trim()||'—';
+  const parts=name.replace(/[^A-Za-zÀ-ỹ ]/g,'').trim().split(/\s+/);
+  const ii=(parts.map(x=>x[0]).slice(0,2).join('')||'?').toUpperCase();
+  const obj={n:name,i:ii,c:PCOL[(apEdit>=0?apEdit:partners.length)%PCOL.length],type:v('apType'),ind:v('apInd'),market:v('apMarket'),docs:+v('apDocs')||0,joined:apEdit>=0?partners[apEdit].joined:(lang==='vi'?'Mới':'New'),status:v('apStatus')};
+  if(apEdit>=0)partners[apEdit]=obj;else partners.push(obj);
+  closeModal();renderAll();
+  toast(apEdit>=0?(lang==='vi'?'Đã cập nhật đối tác':'Partner updated'):(lang==='vi'?'Đã thêm đối tác':'Partner added'));
+}
+function delPartnerA(i){partners.splice(i,1);renderAll();toast(lang==='vi'?'Đã xoá đối tác':'Partner removed');}
+
+/* ===== I18N APPLY ===== */
+function applyI18n(){
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]!==undefined)el.textContent=T[lang][k];});
+  document.getElementById('adSearch').placeholder=tr('search_ph');
+  document.getElementById('langLbl').textContent=lang==='en'?'EN':'VI';
+  document.getElementById('viewTitle').textContent=tr('n_'+(currentView==='dashboard'?'dash':currentView));
+  renderAll();
+}
+function toggleLang(){lang=lang==='en'?'vi':'en';localStorage.setItem('svef_admin_lang',lang);applyI18n();}
+
+/* ===== TOAST ===== */
+let toTimer;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toTimer);toTimer=setTimeout(()=>t.classList.remove('show'),2100);}
+
+/* ===== A11Y / AUTH ===== */
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.getElementById('side').classList.remove('open');closeModal();}});
+function signIn(){
+  if(!document.getElementById('ndaChk').checked){toast(tr('t_nda'));return;}
+  document.getElementById('authGate').classList.add('hide');
+  toast(tr('t_signed'));
+}
+
+applyI18n();
+</script>
+</body>
+</html>
