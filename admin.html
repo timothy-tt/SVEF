@@ -229,6 +229,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
   border:1px solid var(--red);border-radius:0;padding:13px 15px;margin:8px 0 20px;cursor:pointer;line-height:1.5}
 .ndacheck input{width:auto;margin-top:2px}
 
+/* ==================== PHOTOGRAPHY ==================== */
+.pic{position:relative;overflow:hidden;background:var(--ink)}
+.pic::before{content:"";position:absolute;inset:0;background-image:var(--img);
+  background-size:cover;background-position:center;filter:grayscale(1) contrast(1.06);
+  transition:filter .3s ease}
+tr:hover .pic::before{filter:none}
+.newsshot{width:62px;height:44px;flex:0 0 62px;margin-right:14px}
+.newscell{display:flex;align-items:center;min-width:0}
+
 /* ==================== RESPONSIVE ==================== */
 @media(max-width:880px){
   .side{position:fixed;left:-272px;transition:.22s;z-index:100}
@@ -502,9 +511,9 @@ let pubEvents=[
  {t:"Fintech Bridge Meetup",type:"Partner",date:"18 Dec 2026",reg:"112",status:"Published"},
 ];
 const newsRows=[
- {t:"SVEF welcomes 12 new institutional members",cat:"Partnership",st:"Published",d:"18 Jul 2026"},
- {t:"Registration opens for the Hanoi Forum",cat:"Event",st:"Published",d:"10 Jul 2026"},
- {t:"New Swiss–Vietnam trade agreement briefing",cat:"Policy",st:"Draft",d:"—"},
+ {t:"SVEF welcomes 12 new institutional members",cat:"Partnership",st:"Published",d:"18 Jul 2026",img:"handshake"},
+ {t:"Registration opens for the Hanoi Forum",cat:"Event",st:"Published",d:"10 Jul 2026",img:"forum-audience"},
+ {t:"New Swiss–Vietnam trade agreement briefing",cat:"Policy",st:"Draft",d:"—",img:"signing"},
 ];
 const cmsPages=["Home","About us","Activities","FAQ","Contact","Privacy / GDPR"];
 
@@ -543,7 +552,7 @@ function renderAll(){
   document.getElementById('pubEvents').innerHTML=pubEvents.map(e=>
     `<tr><td><b style="color:var(--navy)">${e.t}</b></td><td><span class="chip ${e.type==='Forum'?'navy':'pend'}">${e.type}</span></td><td>${e.date}</td><td>${e.reg}</td><td>${stChip(e.status)}</td></tr>`).join('');
   document.getElementById('newsTable').innerHTML=newsRows.map(n=>
-    `<tr><td><b style="color:var(--navy)">${n.t}</b></td><td>${n.cat}</td><td>${stChip(n.st)}</td><td>${n.d}</td><td><button class="btn ghost sm" onclick="toast(tr('t_editor'))">${tr('d_edit')}</button></td></tr>`).join('');
+    `<tr><td><div class="newscell"><span class="newsshot pic" style="--img:url('assets/img/${n.img}.jpg')"></span><b style="color:var(--navy)">${n.t}</b></div></td><td>${n.cat}</td><td>${stChip(n.st)}</td><td>${n.d}</td><td><button class="btn ghost sm" onclick="toast(tr('t_editor'))">${tr('d_edit')}</button></td></tr>`).join('');
   document.getElementById('cmsList').innerHTML=cmsPages.map((p,i)=>`<button class="${i===1?'on':''}" onclick="pickCms(this,'${p}')">${p}</button>`).join('');
   renderApprovals();renderMemApps();
 }

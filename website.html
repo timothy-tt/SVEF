@@ -140,10 +140,9 @@ section.blk.tight{padding:48px 0}
 .ic.n,.ic.g,.ic.y{border-color:var(--ink);background:#fff}
 
 /* news thumbnail = flat colour field with a mono kicker */
-.thumb{height:132px;background:var(--ink);margin:-26px -26px 20px;border-radius:0;display:flex;
-  align-items:flex-end;padding:14px 16px;color:#fff;font-family:var(--mono);font-size:10px;
+.thumb{height:172px;background:var(--ink);margin:-26px -26px 20px;border-radius:0;display:flex;
+  align-items:flex-end;padding:14px;color:#fff;font-family:var(--mono);font-size:10px;
   text-transform:uppercase;letter-spacing:.13em;font-weight:500}
-.card.hov:hover .thumb{background:var(--red)}
 
 /* event rows */
 .ev-row{display:flex;gap:20px;align-items:center;padding:18px 20px;border:1px solid var(--line);border-radius:0;
@@ -322,11 +321,8 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 .rescard h4{margin:0;font-size:15px;color:var(--ink);font-weight:600;letter-spacing:-.025em}
 
 /* media */
-.mediathumb{height:150px;border-radius:0;margin:-26px -26px 20px;display:grid;place-items:center;font-size:36px;
-  color:#fff;background:var(--ink);position:relative;overflow:hidden;filter:grayscale(1)}
-.mediathumb::after{content:"";position:absolute;inset:0;
-  background-image:radial-gradient(rgba(255,255,255,.22) 1px,transparent 1px);background-size:14px 14px}
-.card.hov:hover .mediathumb{background:var(--red)}
+.mediathumb{height:190px;border-radius:0;margin:-26px -26px 20px;display:flex;align-items:flex-end;
+  padding:14px;color:#fff;background:var(--ink);position:relative;overflow:hidden}
 
 /* wizard */
 .wizsteps{display:flex;align-items:center;gap:8px;margin-bottom:26px;flex-wrap:wrap}
@@ -382,6 +378,34 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 .tmav{width:32px;height:32px;border-radius:0;color:#fff;font-weight:700;display:inline-grid;place-items:center;
   font-size:11px;margin-right:10px;vertical-align:middle;letter-spacing:-.03em}
 
+/* ==================== PHOTOGRAPHY ====================
+   Swiss editorial treatment: square, full-bleed, desaturated by default and
+   full colour on interaction. The image sits on a ::before layer so the
+   filter never touches the type laid over it. */
+.pic{position:relative;overflow:hidden;background:var(--ink)}
+.pic::before{content:"";position:absolute;inset:0;background-image:var(--img);
+  background-size:cover;background-position:center;filter:grayscale(1) contrast(1.06);
+  transition:filter .3s ease,transform .6s ease}
+.pic>*{position:relative;z-index:1}
+.card.hov:hover .pic::before,.pcard:hover .pic::before,.ev-row:hover .pic::before,
+.figure:hover .pic::before{filter:none;transform:scale(1.05)}
+/* caption chip sitting on an image */
+.pic .kick{background:var(--red);color:#fff;padding:5px 9px;font-family:var(--mono);font-size:9.5px;
+  text-transform:uppercase;letter-spacing:.12em;display:inline-block}
+/* editorial figure: image + mono caption */
+.figure{display:block;cursor:default;margin:0}
+.figure .pic{height:260px}
+.figure figcaption{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.11em;
+  color:var(--muted);padding:12px 0 0;display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  border-top:1px solid var(--line);margin-top:0}
+.figure figcaption b{color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:600;
+  letter-spacing:-.025em;text-transform:none}
+.figstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.figstrip.two{grid-template-columns:1fr 1fr}
+/* event-row thumbnail */
+.ev-row .shot{flex:0 0 76px;height:76px;align-self:stretch}
+@media(max-width:640px){.ev-row .shot{display:none}}
+
 /* ==================== RESPONSIVE ==================== */
 @media(max-width:1350px){.menu{display:none}.hamb{display:grid;place-items:center}}
 @media(max-width:1000px){
@@ -402,7 +426,9 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 }
 @media(max-width:620px){.hide-sm{display:none}}
 @media(max-width:430px){.logo small{display:none}}
+@media(max-width:900px){.figstrip{grid-template-columns:1fr 1fr;gap:18px}}
 @media(max-width:560px){
+  .figstrip,.figstrip.two{grid-template-columns:1fr}
   .g3,.g4,.g2{grid-template-columns:1fr}
   .stat-row{grid-template-columns:1fr}
   footer .cols{grid-template-columns:1fr}
@@ -486,6 +512,28 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
     </div>
   </section>
 
+  <!-- Two markets: editorial image strip -->
+  <section class="blk alt">
+    <div class="wrap">
+      <h2 class="sec-t" data-i18n="imp_t">Two markets, one platform</h2>
+      <p class="sec-s" data-i18n="imp_s">Where our members meet — from the Limmat to the Mekong.</p>
+      <div class="figstrip">
+        <figure class="figure">
+          <div class="pic" style="--img:url('assets/img/swiss-zurich.jpg')"></div>
+          <figcaption><b data-i18n="imp1">Zurich · Switzerland</b><span data-i18n="imp1k">Financial centre</span></figcaption>
+        </figure>
+        <figure class="figure">
+          <div class="pic" style="--img:url('assets/img/vn-halong.jpg')"></div>
+          <figcaption><b data-i18n="imp2">Ha Long · Vietnam</b><span data-i18n="imp2k">Trade &amp; logistics</span></figcaption>
+        </figure>
+        <figure class="figure">
+          <div class="pic" style="--img:url('assets/img/vn-hcmc.jpg')"></div>
+          <figcaption><b data-i18n="imp3">Ho Chi Minh City</b><span data-i18n="imp3k">Innovation hub</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <!-- Upcoming events -->
   <section class="blk alt">
     <div class="wrap">
@@ -530,7 +578,19 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
   <div class="hero"><div class="wrap" style="padding:56px 20px"><div class="flag" data-i18n="nav_about">About us</div><h1 class="sm" data-i18n="about_h">A forum built for two economies</h1><p data-i18n="about_p">The Swiss-Viet Economic Forum is the leading platform fostering economic cooperation between Switzerland and Vietnam.</p></div></div>
   <section class="blk"><div class="wrap grid g2" style="align-items:center">
     <div><h2 class="sec-t" data-i18n="about2_t">Our mission</h2><p class="muted" style="font-size:15.5px" data-i18n="about2_p">SVEF connects businesses, institutions and policymakers to unlock trade, investment and innovation between Switzerland and Vietnam. We host forums, lead trade missions, provide market-entry support and advocate for member interests. This platform brings our membership, events and resources together in one professional, bilingual experience.</p><div style="margin-top:18px"><button class="btn" onclick="openSignup('join')" data-i18n="join_now">Join as a partner</button></div></div>
-    <div class="card" style="padding:0;overflow:hidden"><div style="height:300px;background:var(--red);display:grid;place-items:center;color:#fff;font-size:64px">🤝</div></div>
+    <div class="pic" style="height:340px;--img:url('assets/img/handshake.jpg')"></div>
+  </div></section>
+  <section class="blk alt"><div class="wrap">
+    <div class="figstrip two">
+      <figure class="figure">
+        <div class="pic" style="height:300px;--img:url('assets/img/swiss-alps.jpg')"></div>
+        <figcaption><b data-i18n="ab_ch">Switzerland</b><span data-i18n="ab_chk">Precision · finance · research</span></figcaption>
+      </figure>
+      <figure class="figure">
+        <div class="pic" style="height:300px;--img:url('assets/img/vn-hanoi-street.jpg')"></div>
+        <figcaption><b data-i18n="ab_vn">Vietnam</b><span data-i18n="ab_vnk">Manufacturing · energy · digital</span></figcaption>
+      </figure>
+    </div>
   </div></section>
 </div>
 
@@ -934,6 +994,10 @@ const T={
   news_t:"Latest news",news_s:"Updates from the forum and its partners.",news_full_s:"News, resources and media — managed through the CMS.",
   res_t:"Resources & Documents",res_s:"Reports, market briefs, templates and partnership resources — filter by category.",res_cat_all:"All",res_cat_report:"Reports",res_cat_brief:"Market briefs",res_cat_tmpl:"Templates",res_dl:"Download",media_t:"Media & Press",media_s:"News coverage, photo galleries and press mentions about SVEF and its partners.",media_press:"In the press",social_follow:"Follow us",
   doc_t:"Important documents",doc_s:"Reports, market briefs and partnership resources.",
+  imp_t:"Two markets, one platform",imp_s:"Where our members meet — from the Limmat to the Mekong.",
+  imp1:"Zurich · Switzerland",imp1k:"Financial centre",imp2:"Ha Long · Vietnam",imp2k:"Trade & logistics",
+  imp3:"Ho Chi Minh City",imp3k:"Innovation hub",
+  ab_ch:"Switzerland",ab_chk:"Precision · finance · research",ab_vn:"Vietnam",ab_vnk:"Manufacturing · energy · digital",
   pp_t:"Our partners",pp_s:"Institutional members, subscribers and strategic partners across markets.",viewall_p:"View full directory →",
   about_h:"A forum built for two economies",about_p:"The Swiss-Viet Economic Forum is the leading platform fostering economic cooperation between Switzerland and Vietnam.",
   about2_t:"Our mission",about2_p:"SVEF connects businesses, institutions and policymakers to unlock trade, investment and innovation between Switzerland and Vietnam. We host forums, lead trade missions, provide market-entry support and advocate for member interests. This platform brings our membership, events and resources together in one professional, bilingual experience.",join_now:"Join as a partner",
@@ -1003,6 +1067,10 @@ const T={
   news_t:"Tin tức mới nhất",news_s:"Cập nhật từ diễn đàn và các đối tác.",news_full_s:"Tin tức, tài liệu và truyền thông — quản lý qua CMS.",
   res_t:"Tài nguyên & Tài liệu",res_s:"Báo cáo, tóm tắt thị trường, biểu mẫu và tài nguyên đối tác — lọc theo danh mục.",res_cat_all:"Tất cả",res_cat_report:"Báo cáo",res_cat_brief:"Tóm tắt TT",res_cat_tmpl:"Biểu mẫu",res_dl:"Tải về",media_t:"Truyền thông & Báo chí",media_s:"Tin bài, thư viện ảnh và các đề cập báo chí về SVEF và đối tác.",media_press:"Trên báo chí",social_follow:"Theo dõi chúng tôi",
   doc_t:"Tài liệu quan trọng",doc_s:"Báo cáo, tóm tắt thị trường và tài nguyên đối tác.",
+  imp_t:"Hai thị trường, một nền tảng",imp_s:"Nơi các thành viên gặp nhau — từ sông Limmat tới sông Mekong.",
+  imp1:"Zurich · Thụy Sĩ",imp1k:"Trung tâm tài chính",imp2:"Hạ Long · Việt Nam",imp2k:"Thương mại & logistics",
+  imp3:"TP. Hồ Chí Minh",imp3k:"Trung tâm đổi mới",
+  ab_ch:"Thụy Sĩ",ab_chk:"Chính xác · tài chính · nghiên cứu",ab_vn:"Việt Nam",ab_vnk:"Sản xuất · năng lượng · số hoá",
   pp_t:"Đối tác của chúng tôi",pp_s:"Thành viên tổ chức, người đăng ký và đối tác chiến lược trên các thị trường.",viewall_p:"Xem toàn bộ danh bạ →",
   about_h:"Diễn đàn cho hai nền kinh tế",about_p:"Diễn đàn Kinh tế Thụy Sĩ – Việt Nam là nền tảng hàng đầu thúc đẩy hợp tác kinh tế giữa Thụy Sĩ và Việt Nam.",
   about2_t:"Sứ mệnh của chúng tôi",about2_p:"SVEF kết nối doanh nghiệp, tổ chức và nhà hoạch định chính sách để khai mở thương mại, đầu tư và đổi mới giữa Thụy Sĩ và Việt Nam. Chúng tôi tổ chức diễn đàn, dẫn dắt các phái đoàn thương mại, hỗ trợ thâm nhập thị trường và vận động vì lợi ích thành viên.",join_now:"Tham gia làm đối tác",
@@ -1071,15 +1139,15 @@ const partners=[
  {n:"Saigon Trade House",i:"ST",c:"#DA291C",market:"South East Asia",type:"Individual Member",ind:"Consulting",d:{en:"Import/export facilitation specialist.",vi:"Chuyên gia hỗ trợ xuất nhập khẩu."},docs:0},
 ];
 const events=[
- {kind:"forum",day:"14",mon:{en:"OCT",vi:"TH10"},t:{en:"SVEF Hanoi Economic Forum 2026",vi:"Diễn đàn Kinh tế SVEF Hà Nội 2026"},loc:{en:"Hanoi · National Convention Center",vi:"Hà Nội · Trung tâm Hội nghị Quốc gia"},d:{en:"The flagship annual forum bringing together Swiss and Vietnamese leaders across finance, technology and manufacturing.",vi:"Diễn đàn thường niên hàng đầu quy tụ lãnh đạo Thụy Sĩ và Việt Nam trong tài chính, công nghệ và sản xuất."}},
- {kind:"forum",day:"22",mon:{en:"NOV",vi:"TH11"},t:{en:"Swiss–Vietnam Trade Mission",vi:"Phái đoàn Thương mại Thụy Sĩ – Việt Nam"},loc:{en:"Zurich · Switzerland",vi:"Zurich · Thụy Sĩ"},d:{en:"A curated delegation of Vietnamese companies visiting Swiss industry hubs.",vi:"Phái đoàn doanh nghiệp Việt Nam thăm các trung tâm công nghiệp Thụy Sĩ."}},
- {kind:"partner",day:"05",mon:{en:"DEC",vi:"TH12"},t:{en:"CleanTech × Vietnam Roundtable",vi:"Bàn tròn CleanTech × Việt Nam"},loc:{en:"Ho Chi Minh City",vi:"TP. Hồ Chí Minh"},by:"GreenTech Vietnam",d:{en:"Partner-hosted roundtable on renewable-energy investment.",vi:"Bàn tròn do đối tác tổ chức về đầu tư năng lượng tái tạo."}},
- {kind:"partner",day:"18",mon:{en:"DEC",vi:"TH12"},t:{en:"Fintech Bridge Meetup",vi:"Gặp gỡ Fintech Bridge"},loc:{en:"Online / Hybrid",vi:"Trực tuyến / Kết hợp"},by:"Helvetia Fintech AG",d:{en:"Networking meetup for cross-border payment innovators.",vi:"Sự kiện kết nối cho các nhà đổi mới thanh toán xuyên biên giới."}},
+ {img:"forum-talk",kind:"forum",day:"14",mon:{en:"OCT",vi:"TH10"},t:{en:"SVEF Hanoi Economic Forum 2026",vi:"Diễn đàn Kinh tế SVEF Hà Nội 2026"},loc:{en:"Hanoi · National Convention Center",vi:"Hà Nội · Trung tâm Hội nghị Quốc gia"},d:{en:"The flagship annual forum bringing together Swiss and Vietnamese leaders across finance, technology and manufacturing.",vi:"Diễn đàn thường niên hàng đầu quy tụ lãnh đạo Thụy Sĩ và Việt Nam trong tài chính, công nghệ và sản xuất."}},
+ {img:"swiss-zurich",kind:"forum",day:"22",mon:{en:"NOV",vi:"TH11"},t:{en:"Swiss–Vietnam Trade Mission",vi:"Phái đoàn Thương mại Thụy Sĩ – Việt Nam"},loc:{en:"Zurich · Switzerland",vi:"Zurich · Thụy Sĩ"},d:{en:"A curated delegation of Vietnamese companies visiting Swiss industry hubs.",vi:"Phái đoàn doanh nghiệp Việt Nam thăm các trung tâm công nghiệp Thụy Sĩ."}},
+ {img:"energy-solar",kind:"partner",day:"05",mon:{en:"DEC",vi:"TH12"},t:{en:"CleanTech × Vietnam Roundtable",vi:"Bàn tròn CleanTech × Việt Nam"},loc:{en:"Ho Chi Minh City",vi:"TP. Hồ Chí Minh"},by:"GreenTech Vietnam",d:{en:"Partner-hosted roundtable on renewable-energy investment.",vi:"Bàn tròn do đối tác tổ chức về đầu tư năng lượng tái tạo."}},
+ {img:"data",kind:"partner",day:"18",mon:{en:"DEC",vi:"TH12"},t:{en:"Fintech Bridge Meetup",vi:"Gặp gỡ Fintech Bridge"},loc:{en:"Online / Hybrid",vi:"Trực tuyến / Kết hợp"},by:"Helvetia Fintech AG",d:{en:"Networking meetup for cross-border payment innovators.",vi:"Sự kiện kết nối cho các nhà đổi mới thanh toán xuyên biên giới."}},
 ];
 const news=[
- {tag:{en:"Partnership",vi:"Hợp tác"},t:{en:"SVEF welcomes 12 new institutional members",vi:"SVEF chào đón 12 thành viên tổ chức mới"},d:{en:"Q3 sees strong growth across finance and cleantech.",vi:"Quý 3 tăng trưởng mạnh trong tài chính và cleantech."}},
- {tag:{en:"Event",vi:"Sự kiện"},t:{en:"Registration opens for the Hanoi Forum",vi:"Mở đăng ký Diễn đàn Hà Nội"},d:{en:"Early-bird passes available until September.",vi:"Vé ưu đãi sớm mở đến tháng 9."}},
- {tag:{en:"Policy",vi:"Chính sách"},t:{en:"New Swiss–Vietnam trade agreement briefing",vi:"Tóm tắt hiệp định thương mại mới"},d:{en:"What the updated framework means for members.",vi:"Khung mới có ý nghĩa gì với thành viên."}},
+ {img:"handshake",tag:{en:"Partnership",vi:"Hợp tác"},t:{en:"SVEF welcomes 12 new institutional members",vi:"SVEF chào đón 12 thành viên tổ chức mới"},d:{en:"Q3 sees strong growth across finance and cleantech.",vi:"Quý 3 tăng trưởng mạnh trong tài chính và cleantech."}},
+ {img:"forum-audience",tag:{en:"Event",vi:"Sự kiện"},t:{en:"Registration opens for the Hanoi Forum",vi:"Mở đăng ký Diễn đàn Hà Nội"},d:{en:"Early-bird passes available until September.",vi:"Vé ưu đãi sớm mở đến tháng 9."}},
+ {img:"signing",tag:{en:"Policy",vi:"Chính sách"},t:{en:"New Swiss–Vietnam trade agreement briefing",vi:"Tóm tắt hiệp định thương mại mới"},d:{en:"What the updated framework means for members.",vi:"Khung mới có ý nghĩa gì với thành viên."}},
 ];
 const docs=[
  {t:{en:"Swiss–Vietnam Market Report 2026",vi:"Báo cáo Thị trường Thụy Sĩ – Việt Nam 2026"},f:"PDF · 4.2 MB"},
@@ -1120,9 +1188,9 @@ const resources=[
  {t:{en:"Event Proposal Form",vi:"Biểu mẫu đề xuất sự kiện"},f:"DOCX · 180 KB",cat:"tmpl"},
 ];
 const media=[
- {t:{en:"SVEF 2025 Forum — Highlights",vi:"Diễn đàn SVEF 2025 — Điểm nhấn"},k:{en:"Gallery · 48 photos",vi:"Thư viện · 48 ảnh"},ic:"🖼️",hue:"#0A0A0A"},
- {t:{en:"Signing ceremony · Zurich",vi:"Lễ ký kết · Zurich"},k:{en:"Gallery · 22 photos",vi:"Thư viện · 22 ảnh"},ic:"📸",hue:"#1F3A5F"},
- {t:{en:"Trade Mission to Hanoi",vi:"Phái đoàn tới Hà Nội"},k:{en:"Video · 3:12",vi:"Video · 3:12"},ic:"▶️",hue:"#0F5A4A"},
+ {t:{en:"SVEF 2025 Forum — Highlights",vi:"Diễn đàn SVEF 2025 — Điểm nhấn"},k:{en:"Gallery · 48 photos",vi:"Thư viện · 48 ảnh"},img:"forum-audience"},
+ {t:{en:"Signing ceremony · Zurich",vi:"Lễ ký kết · Zurich"},k:{en:"Gallery · 22 photos",vi:"Thư viện · 22 ảnh"},img:"signing"},
+ {t:{en:"Trade Mission to Hanoi",vi:"Phái đoàn tới Hà Nội"},k:{en:"Video · 3:12",vi:"Video · 3:12"},img:"seminar"},
 ];
 const press=[
  {src:"Neue Zürcher Zeitung",t:{en:"Swiss firms deepen Vietnam ties at SVEF forum",vi:"Doanh nghiệp Thụy Sĩ tăng cường quan hệ Việt Nam tại SVEF"},d:"12 Jun 2026"},
@@ -1150,12 +1218,13 @@ function plogo(p,size){return `<div class="plogo" style="background:${p.c}${size
 function evCard(e,i){
   const badge=e.kind==='forum'?`<span class="chip navy">${tr('by_forum')}</span>`:`<span class="chip gold">${tr('by_partner')}: ${e.by}</span>`;
   return `<div class="ev-row" onclick="openEvent(${i})"><div class="date"><b>${e.day}</b><span>${e.mon[lang]}</span></div>
+   <div class="shot pic" style="--img:url('assets/img/${e.img}.jpg')" aria-hidden="true"></div>
    <div class="info"><h4>${e.t[lang]}</h4><p>${e.loc[lang]}</p><div style="margin-top:6px">${badge}</div></div><span class="muted">›</span></div>`;
 }
 function renderHome(){
   document.getElementById('homeEvents').innerHTML=events.map((e,i)=>evCard(e,i)).join('');
   document.getElementById('homeNews').innerHTML=news.map(n=>
-    `<div class="card hov" onclick="show('news')"><div class="thumb">${n.tag[lang]}</div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');
+    `<div class="card hov" onclick="show('news')"><div class="thumb pic" style="--img:url('assets/img/${n.img}.jpg')"><span class="kick">${n.tag[lang]}</span></div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');
   document.getElementById('homeDocs').innerHTML=docs.map(d=>
     `<div class="card hov" onclick="show('resources')"><div style="display:flex;gap:12px;align-items:center"><div class="ic r" style="margin:0">📄</div><div><h3 style="font-size:15px;margin:0 0 2px">${d.t[lang]}</h3><p>${d.f}</p></div></div></div>`).join('');
   document.getElementById('homePartners').innerHTML=partners.slice(0,6).map((p,i)=>
@@ -1163,7 +1232,7 @@ function renderHome(){
 }
 function renderNewsFull(){
   document.getElementById('newsFull').innerHTML=news.concat(news).map(n=>
-    `<div class="card hov" onclick="toast(tr('t_soon'))"><div class="thumb">${n.tag[lang]}</div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');
+    `<div class="card hov" onclick="toast(tr('t_soon'))"><div class="thumb pic" style="--img:url('assets/img/${n.img}.jpg')"><span class="kick">${n.tag[lang]}</span></div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');
 }
 let resCat='all';
 function renderResources(){
@@ -1173,7 +1242,7 @@ function renderResources(){
 }
 function resFilter(c,btn){resCat=c;document.querySelectorAll('#resTabs button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderResources();}
 function renderMedia(){
-  const g=document.getElementById('mediaGrid');if(g)g.innerHTML=media.map(m=>`<div class="card hov" onclick="toast(tr('t_soon'))"><div class="mediathumb" style="--h:${m.hue}">${m.ic}</div><h3 style="font-size:16px">${m.t[lang]}</h3><p>${m.k[lang]}</p></div>`).join('');
+  const g=document.getElementById('mediaGrid');if(g)g.innerHTML=media.map(m=>`<div class="card hov" onclick="toast(tr('t_soon'))"><div class="mediathumb pic" style="--img:url('assets/img/${m.img}.jpg')"><span class="kick">${m.k[lang]}</span></div><h3 style="font-size:16px;margin:0">${m.t[lang]}</h3></div>`).join('');
   const p=document.getElementById('pressList');if(p)p.innerHTML=press.map(x=>`<div class="ev-row" onclick="toast('${x.src}')"><div style="flex:0 0 auto"><span class="chip navy">${x.src}</span></div><div class="info"><h4>${x.t[lang]}</h4><p>${x.d}</p></div><span class="muted">↗</span></div>`).join('');
 }
 function renderActivities(){
@@ -1219,12 +1288,15 @@ function openPartner(i){
   renderPartnerModal(p);
   openModal('scrimPartner');
 }
+const INDUSTRY_IMG={"Finance & Banking":"fintech","Technology & Innovation":"devices",
+  "Manufacturing":"manufacturing","Energy":"energy-wind","Consulting":"boardroom"};
 function renderPartnerModal(p){
   const docTab=`<div class="tabbar"><button class="${pdTab==='overview'?'on':''}" onclick="pdTab='overview';renderPartnerModal(window._p)">${tr('overview_tab')}</button><button class="${pdTab==='docs'?'on':''}" onclick="pdTab='docs';renderPartnerModal(window._p)">${tr('documents_tab')} (${p.docs})</button></div>`;
   window._p=p;
   let body;
   if(pdTab==='overview'){
-    body=`<div style="display:flex;gap:16px;align-items:center;margin-bottom:18px">${plogo(p,64)}<div><h3 style="margin:0;color:var(--navy)">${p.n}</h3><div class="tags" style="margin-top:6px"><span class="chip navy">${p.type}</span><span class="chip">${p.market}</span><span class="chip gold">${p.ind}</span></div></div></div>
+    body=`<div class="pic" style="height:220px;margin:0 0 20px;--img:url('assets/img/${INDUSTRY_IMG[p.ind]||'office'}.jpg')"></div>
+     <div style="display:flex;gap:16px;align-items:center;margin-bottom:18px">${plogo(p,64)}<div><h3 style="margin:0;color:var(--navy)">${p.n}</h3><div class="tags" style="margin-top:6px"><span class="chip navy">${p.type}</span><span class="chip">${p.market}</span><span class="chip gold">${p.ind}</span></div></div></div>
      <p style="font-size:15px;color:var(--ink)">${p.d[lang]}</p>
      <div class="grid g2" style="gap:12px;margin-top:16px"><div class="card" style="padding:14px"><span class="muted" style="font-size:12px">${tr('f_market')}</span><br><b>${p.market}</b></div><div class="card" style="padding:14px"><span class="muted" style="font-size:12px">${tr('f_ind')}</span><br><b>${p.ind}</b></div></div>
      <div style="margin-top:18px"><button class="btn" onclick="sendMsg('${p.n}')">💬 ${tr('send_msg')}</button></div>`;
@@ -1241,7 +1313,7 @@ function openEvent(i){
   document.getElementById('evTitle').textContent=e.t[lang];
   const badge=e.kind==='forum'?`<span class="chip navy">${tr('by_forum')}</span>`:`<span class="chip gold">${tr('by_partner')}: ${e.by}</span>`;
   document.getElementById('evBody').innerHTML=`
-    <div class="thumb" style="height:120px;margin:0 0 18px">${e.mon[lang]} ${e.day}</div>
+    <div class="thumb pic" style="height:230px;margin:0 0 18px;--img:url('assets/img/${e.img}.jpg')"><span class="kick">${e.mon[lang]} ${e.day}</span></div>
     <div style="margin-bottom:10px">${badge}</div>
     <h3 style="margin:0 0 8px;color:var(--navy)">${e.t[lang]}</h3>
     <p class="muted" style="margin:0 0 4px">📅 ${e.day} ${e.mon[lang]} 2026 &nbsp;·&nbsp; 📍 ${e.loc[lang]}</p>
