@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SVEF App · Prototype</title>
 <style>
 :root{
@@ -21,22 +21,22 @@ body{
   padding:24px 12px;
 }
 .phone{
-  width:100%; max-width:412px; height:min(880px,94vh); background:var(--bg);
+  width:100%; max-width:412px; height:min(880px,calc(100dvh - 48px)); background:var(--bg);
   border-radius:34px; overflow:hidden; position:relative; box-shadow:0 30px 80px rgba(0,0,0,.45);
   display:flex; flex-direction:column; border:10px solid #0a0f1a;
 }
-.statusbar{height:34px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;
-  padding:0 18px;font-size:12px;font-weight:600;letter-spacing:.3px;flex:0 0 auto}
+.statusbar{min-height:34px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;
+  padding:calc(5px + env(safe-area-inset-top,0px)) 18px 5px;font-size:12px;font-weight:600;letter-spacing:.3px;flex:0 0 auto}
 .statusbar .dots{display:flex;gap:5px;align-items:center}
-.appbar{background:var(--navy);color:#fff;padding:10px 16px 14px;flex:0 0 auto;display:flex;align-items:center;gap:10px}
+.appbar{background:var(--navy);color:#fff;padding:16px 16px 14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.09);flex:0 0 auto;display:flex;align-items:center;gap:10px}
 .appbar.brand{background:linear-gradient(120deg,var(--navy),var(--navy-2))}
 .appbar h1{font-size:17px;margin:0;font-weight:700;flex:1;display:flex;flex-direction:column;line-height:1.15}
 .appbar h1 small{font-weight:500;font-size:11px;opacity:.7;letter-spacing:.5px}
 .appbar .ic-btn{background:rgba(255,255,255,.12);border:none;color:#fff;height:38px;min-width:38px;padding:0 9px;border-radius:11px;
   display:grid;place-items:center;cursor:pointer;position:relative;font-size:15px}
 .appbar .ic-btn:active{transform:scale(.94)}
-.lang-btn{display:flex;align-items:center;gap:5px;font-weight:800;font-size:12px}
-.badge-dot{position:absolute;top:7px;right:8px;width:9px;height:9px;border-radius:50%;background:var(--red);border:2px solid var(--navy)}
+.appbar .lang-btn{display:flex;flex-direction:row;align-items:center;gap:5px;font-weight:800;font-size:12px;white-space:nowrap;padding:0 11px}
+.badge-dot{position:absolute;top:7px;right:8px;width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px var(--navy-2)}
 .back{background:rgba(255,255,255,.12);border:none;color:#fff;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;cursor:pointer}
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:84px}
 .content::-webkit-scrollbar{width:0}
@@ -51,7 +51,7 @@ h2.sec a{font-size:12px;color:var(--red);font-weight:600;text-decoration:none;cu
 .chip.red{background:#fde8e7;color:var(--red)}
 .chip.green{background:#e6f4ea;color:var(--green)}
 .chip.gold{background:#fcf2da;color:#9a6b04}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;
+.btn{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;gap:8px;border:none;border-radius:12px;
   padding:13px 16px;font-size:14px;font-weight:700;cursor:pointer;width:100%;background:var(--red);color:#fff}
 .btn:active{transform:scale(.985)}
 .btn.ghost{background:var(--soft);color:var(--navy)}
@@ -69,7 +69,7 @@ h2.sec a{font-size:12px;color:var(--red);font-weight:600;text-decoration:none;cu
 .qa button{background:var(--card);border:none;border-radius:14px;padding:12px 4px 9px;display:flex;flex-direction:column;
   align-items:center;gap:7px;cursor:pointer;box-shadow:var(--shadow-sm);font-size:11px;font-weight:600;color:var(--navy);text-align:center}
 .qa button:active{transform:scale(.95)}
-.qa .ico{width:38px;height:38px;border-radius:11px;background:var(--soft);display:grid;place-items:center;color:var(--red)}
+.qa .ico{width:38px;height:38px;border-radius:11px;background:var(--soft);display:grid;place-items:center;color:var(--red);font-size:19px;line-height:1}
 .sess{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
 .sess .time{flex:0 0 52px;text-align:center}
 .sess .time b{display:block;font-size:14px;color:var(--navy)}
@@ -101,7 +101,7 @@ h2.sec a{font-size:12px;color:var(--red);font-weight:600;text-decoration:none;cu
 .nav{position:absolute;left:0;right:0;bottom:0;height:72px;background:#fff;display:flex;border-top:1px solid var(--line);padding-bottom:8px;z-index:20}
 .nav button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10.5px;font-weight:600;color:var(--muted);cursor:pointer;padding-top:9px}
 .nav button.on{color:var(--red)}
-.nav button .ni{width:24px;height:24px;font-size:20px}
+.nav button .ni{width:24px;height:26px;font-size:20px;line-height:26px}
 .scrim{position:absolute;inset:0;background:rgba(8,15,30,.55);opacity:0;pointer-events:none;transition:.25s;z-index:40}
 .scrim.show{opacity:1;pointer-events:auto}
 .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:8px 0 20px;transform:translateY(102%);transition:transform .28s cubic-bezier(.2,.8,.2,1);z-index:50;max-height:88%;overflow-y:auto}
@@ -145,7 +145,7 @@ h2.sec a{font-size:12px;color:var(--red);font-weight:600;text-decoration:none;cu
 .iconbtn{border:none;border-radius:10px;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;font-size:16px;flex:0 0 38px}
 .toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:11px 18px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:.3s;z-index:60;box-shadow:var(--shadow);white-space:nowrap;max-width:90%}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.detailhero{height:150px;background:linear-gradient(135deg,#13294b,#1d3a6b);display:flex;align-items:flex-end;padding:16px;color:#fff}
+.detailhero{min-height:150px;background:linear-gradient(135deg,#13294b,#1d3a6b);display:flex;align-items:flex-end;padding:16px;color:#fff}
 .banner{margin:14px 16px;border-radius:16px;overflow:hidden;background:linear-gradient(120deg,var(--red),#ff6a4d);color:#fff;padding:18px;position:relative}
 .banner b{font-size:16px}.banner p{margin:5px 0 12px;font-size:12.5px;opacity:.95}
 .feed .post{background:#fff;border-radius:16px;padding:14px;margin:0 16px 12px;box-shadow:var(--shadow-sm)}
@@ -509,20 +509,20 @@ function tx(o){return o[lang];}
 
 /* ===================== NAV ===================== */
 const tabsScreens=["home","explore","schedule","network","profile"];
-let current="home", history=["home"], curSession=0;
+let current="home", navStack=["home"], curSession=0;
 function setAppbarTitle(s){
   const ab=document.getElementById('appbar'), back=document.getElementById('backBtn'), t=document.getElementById('abTitle');
   if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>Swiss–Vietnam Economic Forum</small>';back.style.display='none';}
   else{ab.classList.remove('brand');t.innerHTML=tr('ab_'+s)||'SVEF';back.style.display=(tabsScreens.includes(s)?'none':'grid');}
 }
-function go(s){
+function go(s,isBack){
   document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('active',e.dataset.screen===s));
   document.getElementById('content').scrollTop=0;
-  if(current!==s){history.push(s);} current=s;
+  if(current!==s&&!isBack){navStack.push(s);} current=s;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===s));
   setAppbarTitle(s);
 }
-function goBack(){history.pop();const prev=history[history.length-1]||'home';go(prev);}
+function goBack(){navStack.pop();const prev=navStack[navStack.length-1]||'home';go(prev,true);}
 
 /* ===================== RENDER ===================== */
 function avHTML(o,cls){return `<div class="av ${cls||'sm'}" style="background:linear-gradient(135deg,${o.c},#ffffff66)">${o.i}</div>`}
@@ -588,7 +588,7 @@ function openSession(i){
 /* ===================== SHEETS ===================== */
 function openSheet(id){document.getElementById('scrim').classList.add('show');document.getElementById(id).classList.add('show');}
 function closeSheet(){document.getElementById('scrim').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));}
-let selTicketKey='vip',selAmt='5.500.000đ';
+let selTicketKey='std',selAmt='2.500.000đ';
 const ticketNameKey={std:'tn_std',vip:'tn_vip',grp:'tn_grp'};
 function openRegister(){document.getElementById('regStep1').style.display='block';document.getElementById('regStep2').style.display='none';document.getElementById('regStep3').style.display='none';openSheet('sheetReg');}
 function selTicket(el,key,amt){document.querySelectorAll('#regStep1 .ticket').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');selTicketKey=key;selAmt=amt;}

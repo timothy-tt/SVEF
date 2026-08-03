@@ -18,7 +18,7 @@ body{margin:0;font-family:"Segoe UI",-apple-system,Roboto,Arial,sans-serif;color
 img{max-width:100%}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:11px;padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;background:var(--red);color:#fff;transition:.15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;gap:8px;border:none;border-radius:11px;padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;background:var(--red);color:#fff;transition:.15s}
 .btn:hover{background:var(--red-d)}
 .btn.ghost{background:var(--soft);color:var(--navy)}
 .btn.ghost:hover{background:#e2e8f2}
@@ -37,16 +37,17 @@ a{color:inherit;text-decoration:none}
 
 /* ===== HEADER ===== */
 header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;gap:24px;height:66px}
-.logo{display:flex;align-items:center;gap:11px;cursor:pointer;flex:0 0 auto}
+.nav{display:flex;align-items:center;gap:16px;height:66px}
+header .wrap{max-width:1400px}
+.logo{display:flex;align-items:center;gap:11px;cursor:pointer;flex:0 1 auto;min-width:0}
 .logo .mk{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--red),#ff6a4d);display:grid;place-items:center;color:#fff;font-weight:900;font-size:17px;box-shadow:var(--shadow-sm)}
 .logo b{font-size:16px;color:var(--navy);line-height:1.05;display:block}
-.logo small{font-size:10.5px;color:var(--muted);letter-spacing:.3px}
-.menu{display:flex;gap:4px;margin-left:6px;flex:1}
-.menu a{padding:9px 13px;border-radius:9px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer}
+.logo small{font-size:10.5px;color:var(--muted);letter-spacing:.3px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.menu{display:flex;gap:2px;margin-left:6px;flex:0 1 auto;min-width:0}
+.menu a{padding:9px 7px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;white-space:nowrap}
 .menu a:hover{background:var(--soft);color:var(--navy)}
 .menu a.on{color:var(--red)}
-.hactions{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.hactions{display:flex;align-items:center;gap:9px;flex:0 0 auto;margin-left:auto}
 .lang{display:flex;align-items:center;gap:6px;background:var(--soft);border:none;border-radius:9px;padding:8px 12px;font-weight:800;font-size:13px;color:var(--navy);cursor:pointer}
 .hamb{display:none;background:var(--soft);border:none;border-radius:9px;width:42px;height:42px;font-size:20px;cursor:pointer}
 
@@ -86,7 +87,7 @@ section.blk.tight{padding:40px 0}
 .ic.r{background:#fde8e7}.ic.n{background:#e5ebf5}.ic.g{background:#e6f4ea}.ic.y{background:#fcf2da}
 
 /* news / events */
-.thumb{height:150px;border-radius:12px;background:linear-gradient(135deg,var(--navy-2),var(--navy-3));margin:-22px -22px 16px;border-radius:15px 15px 0 0;display:flex;align-items:flex-end;padding:14px;color:#fff;font-weight:700}
+.thumb{height:150px;background:linear-gradient(135deg,var(--navy-2),var(--navy-3));margin:-22px -22px 16px;border-radius:15px 15px 0 0;display:flex;align-items:flex-end;padding:14px;color:#fff;font-weight:700}
 .ev-row{display:flex;gap:16px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;transition:.15s}
 .ev-row:hover{border-color:#d8dfec;box-shadow:var(--shadow-sm)}
 .ev-row .date{flex:0 0 62px;text-align:center;background:var(--navy);color:#fff;border-radius:11px;padding:9px 0}
@@ -99,7 +100,7 @@ section.blk.tight{padding:40px 0}
 .filters{display:flex;gap:12px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:24px;align-items:flex-end}
 .field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:150px}
 .field label{font-size:12px;font-weight:700;color:var(--navy)}
-select,input,textarea{font-family:inherit;font-size:14px;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff;color:var(--ink);outline:none;width:100%}
+select,input,textarea,button{font-family:inherit;font-size:14px;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff;color:var(--ink);outline:none;width:100%}
 select:focus,input:focus,textarea:focus{border-color:var(--navy)}
 .pcard{background:#fff;border:1px solid var(--line);border-radius:15px;padding:20px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;gap:12px}
 .pcard:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#d8dfec}
@@ -161,12 +162,18 @@ select:focus,input:focus,textarea:focus{border-color:var(--navy)}
 .msg:hover{background:var(--soft)}
 .msg .av{width:44px;height:44px;border-radius:11px;color:#fff;font-weight:800;display:grid;place-items:center;flex:0 0 44px}
 .msg .mc{flex:1;min-width:0}.msg .mc h4{margin:0 0 2px;font-size:14px;color:var(--navy)}.msg .mc p{margin:0;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tabbar{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:20px}
-.tabbar button{border:none;background:none;padding:11px 4px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-right:16px}
+.tabbar{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:nowrap;overflow-x:auto}
+.tabbar button{border:none;background:none;padding:11px 4px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-right:16px;white-space:nowrap;flex:0 0 auto}
 .tabbar button.on{color:var(--red);border-color:var(--red)}
 .step{display:flex;gap:12px;margin-bottom:24px}
 .step .n{width:30px;height:30px;border-radius:50%;background:var(--soft);color:var(--muted);font-weight:800;display:grid;place-items:center;flex:0 0 30px;font-size:13px}
 .step.done .n{background:var(--green);color:#fff}.step.act .n{background:var(--red);color:#fff}
+.ticket{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.15s}
+.ticket:hover{border-color:#cbd5e6}
+.ticket.sel{border-color:var(--red);background:#fff7f6}
+.ticket .pr{margin-left:auto;font-weight:800;color:var(--navy);white-space:nowrap}
+.ticket .radio{width:18px;height:18px;border-radius:50%;border:2px solid #cbd5e6;flex:0 0 18px}
+.ticket.sel .radio{background:var(--red);border-color:var(--red);box-shadow:inset 0 0 0 3px #fff}
 
 /* footer */
 footer{background:var(--navy);color:#fff;padding:48px 0 26px;margin-top:20px}
@@ -180,7 +187,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:13px 22px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:.3s;z-index:200;box-shadow:var(--shadow);pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .banner-demo{background:var(--gold);color:#3a2a00;text-align:center;font-size:12.5px;font-weight:700;padding:6px}
-.cookie{position:fixed;left:16px;right:16px;bottom:16px;max-width:600px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px 18px;display:none;gap:14px;align-items:center;z-index:150}
+.cookie{position:fixed;left:16px;right:16px;bottom:16px;max-width:600px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:16px 18px;display:none;gap:14px;align-items:center;z-index:90}
 .cookie.show{display:flex}
 .cookie b{color:var(--navy);font-size:14px}
 .cookie p{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
@@ -197,7 +204,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 .mediathumb{height:150px;border-radius:15px 15px 0 0;margin:-22px -22px 16px;display:grid;place-items:center;font-size:42px;color:#fff;background:linear-gradient(135deg,var(--h,#13294b),#1d3a6b);position:relative;overflow:hidden}
 .mediathumb::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.18) 1.5px,transparent 1.5px);background-size:16px 16px}
 .hero-ill{position:absolute;right:12px;bottom:0;width:360px;max-width:40%;pointer-events:none}
-@media(max-width:760px){.hero-ill{display:none}}
+@media(max-width:1000px){.hero-ill{display:none}}
 .wizsteps{display:flex;align-items:center;gap:6px;margin-bottom:22px;flex-wrap:wrap}
 .wstep{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);font-weight:700}
 .wstep .n{width:24px;height:24px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:11px;flex:0 0 24px}
@@ -231,13 +238,15 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 .tmtable tr:last-child td{border-bottom:none}
 .tmav{width:34px;height:34px;border-radius:9px;color:#fff;font-weight:800;display:inline-grid;place-items:center;font-size:12px;margin-right:9px;vertical-align:middle}
 
+@media(max-width:1350px){.menu{display:none} .hamb{display:grid;place-items:center}}
 @media(max-width:900px){
-  .menu{display:none} .hamb{display:grid;place-items:center}
   .g3,.g4{grid-template-columns:repeat(2,1fr)}
-  .hero h1{font-size:34px} .portal{grid-template-columns:1fr}
+  .hero h1{font-size:34px}.hero h1.sm{font-size:30px} .portal{grid-template-columns:1fr}
   .pside{position:static} .stat-row{grid-template-columns:repeat(2,1fr)}
   footer .cols{grid-template-columns:1fr 1fr}
 }
+@media(max-width:620px){.hide-sm{display:none}}
+@media(max-width:430px){.logo small{display:none}}
 @media(max-width:560px){
   .g3,.g4,.g2{grid-template-columns:1fr} .hero h1{font-size:28px}
   .stat-row{grid-template-columns:repeat(2,1fr)} footer .cols{grid-template-columns:1fr}
@@ -245,7 +254,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 </style>
 </head>
 <body>
-<div class="banner-demo">🔎 DEMO / PROTOTYPE — SVEF Website &amp; Member Portal · IMT Software · not production data</div>
+<div class="banner-demo" data-i18n="demo_banner">🔎 DEMO / PROTOTYPE — SVEF Website &amp; Member Portal · IMT Software · not production data</div>
 
 <!-- ===== HEADER ===== -->
 <header>
@@ -266,10 +275,10 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
       <a onclick="show('contact')" data-i18n="nav_contact">Contact</a>
     </nav>
     <div class="hactions">
-      <button class="lang" onclick="toggleLang()">🌐 <span id="langLbl">EN</span></button>
+      <button class="lang" aria-label="Switch language" onclick="toggleLang()">🌐 <span id="langLbl">EN</span></button>
       <button class="btn ghost sm" id="loginBtn" onclick="openLogin()" data-i18n="login">Log in</button>
-      <a class="btn sm" href="admin.html" data-i18n="admin">Admin</a>
-      <button class="hamb" onclick="mobileMenu()">☰</button>
+      <a class="btn sm hide-sm" href="admin.html" data-i18n="admin">Admin</a>
+      <button class="hamb" aria-label="Menu" aria-expanded="false" aria-controls="menu" onclick="mobileMenu()">☰</button>
     </div>
   </div>
 </header>
@@ -358,7 +367,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 
 <!-- ===================== ABOUT ===================== -->
 <div class="page" id="page-about">
-  <div class="hero"><div class="wrap" style="padding:56px 20px"><div class="flag" data-i18n="nav_about">About us</div><h1 style="font-size:38px" data-i18n="about_h">A forum built for two economies</h1><p data-i18n="about_p">The Swiss-Viet Economic Forum is the leading platform fostering economic cooperation between Switzerland and Vietnam.</p></div></div>
+  <div class="hero"><div class="wrap" style="padding:56px 20px"><div class="flag" data-i18n="nav_about">About us</div><h1 class="sm" data-i18n="about_h">A forum built for two economies</h1><p data-i18n="about_p">The Swiss-Viet Economic Forum is the leading platform fostering economic cooperation between Switzerland and Vietnam.</p></div></div>
   <section class="blk"><div class="wrap grid g2" style="align-items:center">
     <div><h2 class="sec-t" data-i18n="about2_t">Our mission</h2><p class="muted" style="font-size:15.5px" data-i18n="about2_p">SVEF connects businesses, institutions and policymakers to unlock trade, investment and innovation between Switzerland and Vietnam. We host forums, lead trade missions, provide market-entry support and advocate for member interests. This platform brings our membership, events and resources together in one professional, bilingual experience.</p><div style="margin-top:18px"><button class="btn" onclick="openSignup('join')" data-i18n="join_now">Join as a partner</button></div></div>
     <div class="card" style="padding:0;overflow:hidden"><div style="height:280px;background:linear-gradient(135deg,var(--navy),var(--navy-3));display:grid;place-items:center;color:#fff;font-size:64px">🤝</div></div>
@@ -452,9 +461,9 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
       <div class="card" style="margin-bottom:14px"><b data-i18n="ct_office">Secretariat</b><p class="muted" style="margin:6px 0 0">Zurich · Ho Chi Minh City · Hanoi<br>contact@swissvieteconomicforum.org<br>+41 44 000 00 00</p></div>
     </div>
     <div class="card">
-      <div class="mrow"><label data-i18n="ct_name">Name</label><input placeholder="Your name"></div>
+      <div class="mrow"><label data-i18n="ct_name">Name</label><input placeholder="Your name" data-i18n-ph="ph_name"></div>
       <div class="mrow"><label>Email</label><input placeholder="you@company.com"></div>
-      <div class="mrow"><label data-i18n="ct_msg">Message</label><textarea rows="4" placeholder="How can we help?"></textarea></div>
+      <div class="mrow"><label data-i18n="ct_msg">Message</label><textarea rows="4" placeholder="How can we help?" data-i18n-ph="ph_help"></textarea></div>
       <button class="btn block" onclick="toast(tr('t_sent'))" data-i18n="ct_send">Send message</button>
     </div>
   </div></section>
@@ -649,7 +658,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 <!-- ===== LOGIN MODAL ===== -->
 <div class="scrim" id="scrimLogin" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="mhead"><h3 id="loginTitle" data-i18n="login_t">Log in to SVEF</h3><button class="mx" onclick="closeModal()">✕</button></div>
+    <div class="mhead"><h3 id="loginTitle" data-i18n="login_t">Log in to SVEF</h3><button class="mx" aria-label="Close" onclick="closeModal()">✕</button></div>
     <div class="mbody">
       <div class="sso">
         <button onclick="doLogin()"><span class="g" style="background:#4285F4">G</span> <span data-i18n="sso_g">Continue with Google</span></button>
@@ -668,7 +677,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 <!-- ===== PARTNER DETAIL MODAL ===== -->
 <div class="scrim" id="scrimPartner" onclick="if(event.target===this)closeModal()">
   <div class="modal wide">
-    <div class="mhead"><h3 id="pdTitle">Partner</h3><button class="mx" onclick="closeModal()">✕</button></div>
+    <div class="mhead"><h3 id="pdTitle">Partner</h3><button class="mx" aria-label="Close" onclick="closeModal()">✕</button></div>
     <div class="mbody" id="pdBody"></div>
   </div>
 </div>
@@ -676,7 +685,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 <!-- ===== EVENT DETAIL MODAL ===== -->
 <div class="scrim" id="scrimEvent" onclick="if(event.target===this)closeModal()">
   <div class="modal wide">
-    <div class="mhead"><h3 id="evTitle">Event</h3><button class="mx" onclick="closeModal()">✕</button></div>
+    <div class="mhead"><h3 id="evTitle">Event</h3><button class="mx" aria-label="Close" onclick="closeModal()">✕</button></div>
     <div class="mbody" id="evBody"></div>
   </div>
 </div>
@@ -684,16 +693,16 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 <!-- ===== PROPOSE EVENT MODAL ===== -->
 <div class="scrim" id="scrimPropose" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="mhead"><h3 data-i18n="pe_t">Propose your event</h3><button class="mx" onclick="closeModal()">✕</button></div>
+    <div class="mhead"><h3 data-i18n="pe_t">Propose your event</h3><button class="mx" aria-label="Close" onclick="closeModal()">✕</button></div>
     <div class="mbody" id="proposeBody">
       <div class="step act"><div class="n">1</div><div><b data-i18n="pe_step1">Event details</b><p class="muted" style="margin:2px 0 0;font-size:13px" data-i18n="pe_step1s">Tell us about your event.</p></div></div>
-      <div class="mrow"><label data-i18n="pe_name">Event name</label><input id="peName" placeholder="e.g. Swiss CleanTech × Vietnam Roundtable"></div>
+      <div class="mrow"><label data-i18n="pe_name">Event name</label><input id="peName" placeholder="e.g. Swiss CleanTech × Vietnam Roundtable" data-i18n-ph="ph_evtitle"></div>
       <div class="grid g2" style="gap:14px">
         <div class="mrow"><label data-i18n="pe_date">Date</label><input id="peDate" type="date"></div>
-        <div class="mrow"><label data-i18n="pe_loc">Location</label><input id="peLoc" placeholder="City / venue"></div>
+        <div class="mrow"><label data-i18n="pe_loc">Location</label><input id="peLoc" placeholder="City / venue" data-i18n-ph="ph_venue"></div>
       </div>
       <div class="mrow"><label data-i18n="pe_type">Type</label><select><option>In-person</option><option>Online</option><option>Hybrid</option></select></div>
-      <div class="mrow"><label data-i18n="pe_desc">Description</label><textarea rows="3" placeholder="What is the event about?"></textarea></div>
+      <div class="mrow"><label data-i18n="pe_desc">Description</label><textarea rows="3" placeholder="What is the event about?" data-i18n-ph="ph_evdesc"></textarea></div>
       <div class="card" style="background:var(--soft);border:none;font-size:13px;color:var(--muted);margin-bottom:16px" data-i18n="pe_note">ℹ️ Partner-proposed events are reviewed by the SVEF admin team before appearing publicly under “Upcoming Events”.</div>
       <button class="btn block" onclick="submitPropose()" data-i18n="pe_submit">Submit for approval</button>
     </div>
@@ -747,6 +756,8 @@ footer .bot{border-top:1px solid rgba(255,255,255,.14);padding-top:20px;font-siz
 /* ================= I18N ================= */
 const T={
  en:{
+  demo_banner:"🔎 DEMO / PROTOTYPE — SVEF Website &amp; Member Portal · IMT Software · not production data",
+  ph_name:"Your name",ph_help:"How can we help?",ph_evtitle:"e.g. Swiss CleanTech × Vietnam Roundtable",ph_venue:"City / venue",ph_evdesc:"What is the event about?",
   brand_sub:"Swiss–Vietnam Economic Forum",
   nav_home:"Home",nav_about:"About us",nav_act:"Activities",nav_partners:"Partners & Members",nav_events:"Events",nav_news:"News",nav_res:"Resources",nav_media:"Media",nav_contact:"Contact",
   login:"Log in",admin:"Admin",logout:"Log out",
@@ -814,6 +825,8 @@ const T={
   t_export:"Preparing your data export…",t_delete:"Demo: account deletion requires confirmation",t_pwd:"Demo: change password",
  },
  vi:{
+  demo_banner:"🔎 BẢN DEMO / NGUYÊN MẪU — Website &amp; Cổng thành viên SVEF · IMT Software · không phải dữ liệu thật",
+  ph_name:"Họ và tên",ph_help:"Chúng tôi có thể giúp gì?",ph_evtitle:"VD: Bàn tròn Swiss CleanTech × Việt Nam",ph_venue:"Thành phố / địa điểm",ph_evdesc:"Sự kiện này về chủ đề gì?",
   brand_sub:"Diễn đàn Kinh tế Thụy Sĩ – Việt Nam",
   nav_home:"Trang chủ",nav_about:"Giới thiệu",nav_act:"Hoạt động",nav_partners:"Đối tác & Thành viên",nav_events:"Sự kiện",nav_news:"Tin tức",nav_res:"Tài nguyên",nav_media:"Truyền thông",nav_contact:"Liên hệ",
   login:"Đăng nhập",admin:"Quản trị",logout:"Đăng xuất",
@@ -960,13 +973,16 @@ let loggedIn=false;
 
 /* ================= NAV ================= */
 function show(p){
+  document.querySelectorAll('.menu a').forEach(a=>a.classList.toggle('on',a.getAttribute('onclick')==="show('"+p+"')"));
   document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
   const el=document.getElementById('page-'+p); if(el)el.classList.add('active');
   document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('on'));
   window.scrollTo({top:0,behavior:'instant'});
   const mm=document.getElementById('menu');mm.classList.remove('mopen');mm.style.cssText='';
 }
+window.addEventListener('resize',function(){if(innerWidth>1350){const m=document.getElementById('menu');if(m){m.classList.remove('mopen');m.style.cssText='';}const h=document.querySelector('.hamb');if(h)h.setAttribute('aria-expanded','false');}});
 function mobileMenu(){const m=document.getElementById('menu');m.classList.toggle('mopen');
+  const h=document.querySelector('.hamb');if(h)h.setAttribute('aria-expanded',m.classList.contains('mopen')?'true':'false');
   m.style.cssText=m.classList.contains('mopen')?"display:flex;position:absolute;top:66px;left:0;right:0;flex-direction:column;background:#fff;padding:12px;border-bottom:1px solid var(--line);box-shadow:var(--shadow)":"";}
 
 /* ================= RENDER PUBLIC ================= */
@@ -1010,6 +1026,7 @@ let evCurrentFilter='all';
 function renderEvents(){
   const list=events.filter(e=>evCurrentFilter==='all'||e.kind===evCurrentFilter);
   document.getElementById('eventList').innerHTML=list.map(e=>evCard(e,events.indexOf(e))).join('');
+  enhanceA11y();
 }
 function evFilter(f,btn){evCurrentFilter=f;document.querySelectorAll('#page-events .tabbar button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderEvents();}
 
@@ -1023,6 +1040,7 @@ function renderDirectory(){
      <div class="tags"><span class="chip navy">${p.type}</span><span class="chip gold">${p.ind}</span></div>
      <p class="muted" style="margin:0;font-size:13.5px">${p.d[lang]}</p></div>`;
   }).join('')||`<p class="muted">${lang==='vi'?'Không có kết quả.':'No results.'}</p>`;
+  enhanceA11y();
 }
 function resetFilters(){document.getElementById('fMarket').value='';document.getElementById('fType').value='';document.getElementById('fInd').value='';renderDirectory();}
 
@@ -1133,6 +1151,7 @@ function delMember(i){teamMembers.splice(i,1);renderTeam();toast(lang==='vi'?'Đ
 function renderProfiles(){
   document.getElementById('profList').innerHTML=profiles.map((p,i)=>
     `<div class="prof ${i===activeProfile?'on':''}" onclick="switchProfile(${i})"><div class="av" style="background:linear-gradient(135deg,${p.c},#ffffff55)">${p.av}</div><div style="min-width:0"><div class="nm">${p.nm}</div><div class="rl">${p.rl[lang]}</div></div></div>`).join('');
+  enhanceA11y();
 }
 function switchProfile(i){activeProfile=i;renderProfiles();updateDash();renderPortalDir();toast((lang==='vi'?'Đang xem hồ sơ: ':'Now viewing: ')+profiles[i].nm);}
 function updateDash(){
@@ -1314,9 +1333,11 @@ function suSubmit(){
 function applyI18n(){
   document.documentElement.lang=lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]!==undefined)el.innerHTML=T[lang][k];});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(T[lang][k]!==undefined)el.placeholder=T[lang][k];});
   document.getElementById('langLbl').textContent=lang==='en'?'EN':'VI';
   document.getElementById('loginBtn').textContent=loggedIn?tr('pt_dash'):tr('login');
   renderHome();renderNewsFull();renderActivities();renderEvents();renderDirectory();renderResources();renderMedia();
+  enhanceA11y();
   if(loggedIn)renderPortal();
   enhanceA11y();
 }
@@ -1330,7 +1351,7 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 function cookieChoice(ok){localStorage.setItem('svef_cookie',ok?'accept':'decline');document.getElementById('cookie').classList.remove('show');toast(tr('t_ck'));}
 
 /* ================= A11Y (keyboard & modals) ================= */
-function enhanceA11y(){document.querySelectorAll('[onclick]:not([href]):not([data-a11y])').forEach(function(el){el.setAttribute('data-a11y','1');if(el.tagName==='BUTTON')return;el.setAttribute('tabindex','0');if(!el.getAttribute('role'))el.setAttribute('role','button');});}
+function enhanceA11y(){document.querySelectorAll('[onclick]:not([href]):not([data-a11y]):not(.scrim)').forEach(function(el){el.setAttribute('data-a11y','1');if(el.tagName==='BUTTON')return;el.setAttribute('tabindex','0');if(!el.getAttribute('role'))el.setAttribute('role','button');});}
 document.addEventListener('keydown',function(e){
   var open=document.querySelector('.scrim.show');
   if(e.key==='Escape'){if(open)closeModal();var mm=document.getElementById('menu');if(mm){mm.classList.remove('mopen');mm.style.cssText='';}}
