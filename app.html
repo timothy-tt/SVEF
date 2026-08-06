@@ -351,14 +351,111 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .empty .e-ic{width:64px;height:64px;border-radius:0;background:transparent;border:1px solid var(--line);
   display:grid;place-items:center;margin:0 auto 18px;color:var(--muted);font-size:26px;filter:grayscale(1)}
 
+/* ==================== MESSAGES / CHAT ==================== */
+.convo{display:flex;gap:13px;align-items:center;background:#fff;border:1px solid var(--line);
+  margin:0 16px -1px;padding:13px;cursor:pointer;text-align:left;width:calc(100% - 32px);
+  font-family:var(--sans);border-radius:0}
+.convo:active{background:var(--soft)}
+.convo .meta{flex:1;min-width:0}
+.convo .meta h4{margin:0;font-size:14px;font-weight:600;letter-spacing:-.02em;display:flex;gap:6px;align-items:center}
+.convo .meta p{margin:3px 0 0;font-size:11.5px;color:var(--muted);line-height:1.4;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.convo time{font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.08em;flex:0 0 auto;align-self:flex-start}
+.convo .unread{width:7px;height:7px;background:var(--red);flex:0 0 7px}
+/* the thread fills the viewport: header on top, scrolling log, composer pinned below */
+.content.chatmode{padding-bottom:0}
+.screen[data-screen="chat"].active{display:flex;flex-direction:column;height:100%}
+.chatwrap{flex:1;display:flex;flex-direction:column;min-height:0}
+.chatlog{flex:1;overflow-y:auto;padding:16px 16px 8px;display:flex;flex-direction:column;gap:9px}
+.chatlog::-webkit-scrollbar{width:0}
+.bubble{max-width:78%;padding:11px 13px;font-size:13px;line-height:1.5;border:1px solid var(--line);background:#fff}
+.bubble.me{align-self:flex-end;background:var(--ink);color:#fff;border-color:var(--ink)}
+.bubble time{display:block;font-family:var(--mono);font-size:8px;letter-spacing:.1em;opacity:.55;margin-top:6px}
+.chatbar{flex:0 0 auto;display:flex;gap:0;padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px));
+  background:var(--bg);border-top:1px solid var(--line)}
+.chatbar input{flex:1;border:1px solid var(--ink);border-radius:0;padding:12px;font-family:var(--sans);
+  font-size:13.5px;outline:none;background:#fff;min-width:0}
+.chatbar input:focus{border-color:var(--red)}
+.chatbar button{flex:0 0 auto;border:1px solid var(--red);background:var(--red);color:#fff;padding:0 18px;
+  font-family:var(--sans);font-size:13.5px;font-weight:600;cursor:pointer;margin-left:-1px}
+.chathead{background:#fff;border-bottom:1px solid var(--line);padding:13px 16px;display:flex;gap:12px;align-items:center}
+.chathead .meta h4{margin:0;font-size:14.5px;font-weight:600;letter-spacing:-.025em}
+.chathead .meta p{margin:3px 0 0;font-size:11.5px;color:var(--muted)}
+
+/* ==================== SESSION REGISTRATION ==================== */
+.seats{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);
+  margin:10px 16px 0;display:block}
+.seats b{color:var(--ink);font-weight:600}
+.regchip{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.09em;border:1px solid var(--gold);color:var(--gold);padding:3px 6px;
+  margin-top:5px;white-space:nowrap}
+.regchip.on{border-color:var(--green);color:var(--green)}
+
+/* ==================== SIGN-IN ==================== */
+/* Everything behind the gate is hidden until the attendee signs in (BRD P1: SSO
+   with Google / LinkedIn / Microsoft, or an existing SVEF platform account). */
+.phone.locked .appbar,.phone.locked .content,.phone.locked .nav{display:none}
+.login{display:none;flex:1;flex-direction:column;overflow-y:auto;background:var(--ink);color:#fff;
+  padding:34px 22px calc(26px + env(safe-area-inset-bottom,0px))}
+.phone.locked .login{display:flex}
+.login .mk{width:46px;height:46px;background:var(--red);display:grid;place-items:center;color:#fff;
+  font-weight:700;font-size:17px;letter-spacing:-.04em;margin-bottom:26px;flex:0 0 auto}
+.login h2{margin:0 0 9px;font-size:29px;font-weight:700;letter-spacing:-.045em;line-height:1.02}
+.login h2 span{color:var(--red)}
+.login .lead{margin:0 0 28px;font-size:13px;line-height:1.55;color:rgba(255,255,255,.66)}
+.ssolist{display:flex;flex-direction:column;gap:0}
+.sso{display:flex;align-items:center;gap:12px;width:100%;padding:14px 15px;background:#fff;color:var(--ink);
+  border:1px solid #fff;border-radius:0;cursor:pointer;font-family:var(--sans);font-size:13.5px;
+  font-weight:600;letter-spacing:-.015em;text-align:left;margin-top:-1px}
+.sso:first-child{margin-top:0}
+.sso:active{background:var(--soft)}
+.sso svg{width:17px;height:17px;flex:0 0 17px}
+.sso .lbl{flex:1}
+.sso .ar{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.logindiv{display:flex;align-items:center;gap:11px;margin:22px 0 16px;font-family:var(--mono);font-size:8.5px;
+  text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.5)}
+.logindiv::before,.logindiv::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.24)}
+.login .field{margin:0 0 11px}
+.login .field label{color:rgba(255,255,255,.55)}
+.login .field input{background:transparent;border-color:rgba(255,255,255,.34);color:#fff}
+.login .field input:focus{border-color:var(--red)}
+.login .foot{margin-top:22px;font-size:11px;line-height:1.6;color:rgba(255,255,255,.45)}
+.login .foot b{color:rgba(255,255,255,.8);font-weight:600}
+
 @media(max-height:700px){.phone{border-width:6px}}
 </style>
 </head>
 <body>
-<div class="phone">
+<div class="phone locked" id="phone">
   <div class="statusbar">
     <span id="clock">9:41</span>
     <div class="dots"><span>5G</span><span>📶</span><span>🔋</span></div>
+  </div>
+
+  <!-- SIGN IN -->
+  <div class="login" id="loginScreen">
+    <div class="mk">SV</div>
+    <h2 data-i18n="li_h">Chào mừng đến với SVEF Events</h2>
+    <p class="lead" data-i18n="li_p">Một ứng dụng cho tất cả sự kiện của SVEF. Đăng nhập để xem sự kiện, đăng ký tham dự và kết nối với người tham dự khác.</p>
+    <div class="ssolist">
+      <button class="sso" onclick="signInApp('google')">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M45 24.5c0-1.6-.1-2.7-.4-4H24v7.3h12c-.2 2-1.5 5-4.4 7l6.7 5.2c4-3.7 6.7-9.1 6.7-15.5z"/><path fill="#34A853" d="M24 46c5.8 0 10.7-1.9 14.3-5.2l-6.8-5.3c-1.8 1.3-4.3 2.2-7.5 2.2-5.7 0-10.6-3.8-12.3-9l-7 5.4C8.3 41.1 15.6 46 24 46z"/><path fill="#FBBC05" d="M11.7 28.7c-.5-1.3-.7-2.7-.7-4.2s.3-2.9.7-4.2l-7-5.4C3.7 17.8 3 20.8 3 24s.7 6.2 1.7 9.1l7-4.4z"/><path fill="#EA4335" d="M24 10.6c4 0 6.8 1.7 8.4 3.2l6-5.9C34.7 4.6 29.8 2 24 2 15.6 2 8.3 6.9 4.7 14.9l7 5.4c1.7-5.2 6.6-9.7 12.3-9.7z"/></svg>
+        <span class="lbl" data-i18n="li_google">Tiếp tục với Google</span><span class="ar">→</span>
+      </button>
+      <button class="sso" onclick="signInApp('linkedin')">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" fill="#0A66C2"/><path fill="#fff" d="M7.1 9.4H4.6V19h2.5V9.4zM5.85 5a1.45 1.45 0 100 2.9 1.45 1.45 0 000-2.9zM19.4 19v-5.4c0-2.7-1.45-3.95-3.4-3.95-1.55 0-2.25.85-2.6 1.45V9.4H10.9c.03.7 0 9.6 0 9.6h2.5v-5.35c0-.3.02-.6.11-.8.24-.6.79-1.2 1.7-1.2 1.2 0 1.69.9 1.69 2.25V19h2.5z"/></svg>
+        <span class="lbl" data-i18n="li_linkedin">Tiếp tục với LinkedIn</span><span class="ar">→</span>
+      </button>
+      <button class="sso" onclick="signInApp('microsoft')">
+        <svg viewBox="0 0 23 23" aria-hidden="true"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
+        <span class="lbl" data-i18n="li_microsoft">Tiếp tục với Microsoft</span><span class="ar">→</span>
+      </button>
+    </div>
+    <div class="logindiv" data-i18n="li_or">hoặc bằng tài khoản SVEF</div>
+    <div class="field"><label data-i18n="f_email">Email</label><input id="liEmail" type="email" value="anh.tran@zegoe.vn"></div>
+    <div class="field"><label data-i18n="li_pwd">Mật khẩu</label><input id="liPwd" type="password" value="demo1234"></div>
+    <button class="btn" onclick="signInApp('svef')" data-i18n="li_signin">Đăng nhập</button>
+    <p class="foot"><b data-i18n="li_sync_t">Không phải nhập lại thông tin.</b> <span data-i18n="li_sync_p">Nếu bạn đã là thành viên trên website SVEF, hồ sơ của bạn được đồng bộ sang app — tên, chức danh, công ty và ngành nghề đã có sẵn.</span></p>
   </div>
 
   <div class="appbar brand" id="appbar">
@@ -366,6 +463,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <h1 id="abTitle">SVEF <small>Swiss–Vietnam Economic Forum</small></h1>
     <button class="ic-btn" id="evSwitchBtn" onclick="exitEvent()" data-i18n-title="ab_toevents" title="Danh sách sự kiện">▤</button>
     <button class="ic-btn lang-btn" onclick="toggleLang()" title="Language / Ngôn ngữ">🌐<span id="globeLbl">VI</span></button>
+    <button class="ic-btn" id="msgBtn" onclick="openMessages()" data-i18n-title="qa_messages" title="Tin nhắn">💬<span class="badge-dot"></span></button>
     <button class="ic-btn" onclick="go('notifications')" title="Notifications">🔔<span class="badge-dot"></span></button>
   </div>
 
@@ -451,12 +549,13 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 
     <!-- NETWORK -->
     <section class="screen" data-screen="network">
-      <div class="row" style="margin:16px">
-        <button class="btn dark" onclick="openQR()"><span>📱</span><span data-i18n="qr_card_btn">QR kết nối</span></button>
+      <div class="row" style="margin:16px" id="netActions">
+        <button class="btn dark" id="netQrBtn" onclick="openQR()"><span>📱</span><span data-i18n="qr_card_btn">QR kết nối</span></button>
         <button class="btn ghost" onclick="openMeetings()"><span>📅</span><span data-i18n="meetings">Lịch gặp</span></button>
       </div>
-      <h2 class="sec"><span data-i18n="suggested">Gợi ý cho bạn</span> <span class="chip gold">AI Match</span></h2>
-      <div class="note" data-i18n="ai_note">AI gợi ý dựa trên ngành nghề, thị trường mục tiêu và các mối quan tâm bạn khai báo trong hồ sơ.</div>
+      <!-- AI matching is forward-looking, so it is hidden once the event is over -->
+      <h2 class="sec" id="suggestHead"><span data-i18n="suggested">Gợi ý cho bạn</span> <span class="chip gold">AI Match</span></h2>
+      <div class="note" id="suggestNote" data-i18n="ai_note">AI gợi ý dựa trên ngành nghề, thị trường mục tiêu và các mối quan tâm bạn khai báo trong hồ sơ.</div>
       <div id="suggest"></div>
       <h2 class="sec"><span data-i18n="my_conns">Kết nối của tôi</span></h2>
       <div class="note mono" data-i18n="my_conns_sub">Những người bạn đã nhắn tin hoặc đã gửi yêu cầu gặp.</div>
@@ -512,6 +611,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
         <button onclick="toggleLang()"><span class="mi">🌐</span><span data-i18n="m_lang">Ngôn ngữ · Tiếng Việt</span><span class="ch">›</span></button>
         <button onclick="toast(tr('t_notif'))"><span class="mi">🔔</span><span data-i18n="m_notif">Cài đặt thông báo</span><span class="ch">›</span></button>
         <button onclick="toast(tr('t_help'))"><span class="mi">❓</span><span data-i18n="m_help">Trợ giúp & Hỗ trợ</span><span class="ch">›</span></button>
+        <button onclick="signOutApp()"><span class="mi">🚪</span><span data-i18n="m_signout">Đăng xuất</span><span class="ch">›</span></button>
       </div>
       <p class="muted" style="text-align:center;font-size:11px;margin:0 0 16px">SVEF App · Prototype v0.1</p>
     </section>
@@ -546,6 +646,25 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       <div id="mapBooths"></div>
     </section>
 
+    <!-- MESSAGES (conversation list) -->
+    <section class="screen" data-screen="messages">
+      <div class="note mono" style="margin-top:16px" data-i18n="msg_note">Tin nhắn trong phạm vi sự kiện này. Vẫn xem lại được sau khi sự kiện kết thúc.</div>
+      <div id="convoList"></div>
+      <div style="height:18px"></div>
+    </section>
+
+    <!-- CHAT (thread) -->
+    <section class="screen" data-screen="chat">
+      <div class="chatwrap">
+        <div class="chathead" id="chatHead"></div>
+        <div class="chatlog" id="chatLog"></div>
+        <div class="chatbar">
+          <input id="chatInput" data-i18n-ph="chat_ph" placeholder="Nhập tin nhắn…" onkeydown="if(event.key==='Enter')sendChat()">
+          <button onclick="sendChat()" data-i18n="chat_send">Gửi</button>
+        </div>
+      </div>
+    </section>
+
     <!-- NOTIFICATIONS -->
     <section class="screen" data-screen="notifications">
       <div style="height:10px"></div>
@@ -564,7 +683,10 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       </div>
       <h2 class="sec"><span data-i18n="speaker_l">Diễn giả</span></h2>
       <div class="conn"><div class="av sm" id="sDav">N</div><div class="meta"><h4 id="sDspk">—</h4><p id="sDspkrole">—</p></div></div>
-      <div style="padding:0 16px 18px"><button class="btn" id="sDsave" onclick="toggleSave(curSession)">➕</button></div>
+      <span class="seats" id="sDseats"></span>
+      <div style="padding:8px 16px 0" id="sDregWrap"><button class="btn" id="sDreg" onclick="toggleSessionReg(curSession)">—</button></div>
+      <div style="padding:8px 16px 0" id="sDjoinWrap"><a class="btn dark" id="sDjoin" href="#" target="_blank" rel="noopener" data-i18n="ev_join">🔗 Tham dự trực tuyến</a></div>
+      <div style="padding:8px 16px 18px"><button class="btn ghost" id="sDsave" onclick="toggleSave(curSession)">➕</button></div>
     </section>
 
   </div><!-- /content -->
@@ -665,7 +787,14 @@ const T={
   mtg_confirmed:"Đã xác nhận gặp", mtg_pending:"Chờ xác nhận gặp", mtg_canceled:"Lịch gặp đã huỷ", mtg_declined:"Lịch gặp bị từ chối",
   p_role:"Giám đốc Đầu tư · Zegoe Capital", vip_ticket:"🎫 Vé tham dự", st_conn:"Kết nối", st_sess:"Phiên", st_meet:"Lịch gặp",
   m_qrconnect:"QR kết nối", m_eticket:"Vé điện tử", m_edit:"Chỉnh sửa hồ sơ", m_history:"Lịch sử kết nối", m_privacy:"Quyền riêng tư & hiển thị",
-  m_lang:"Ngôn ngữ · Tiếng Việt", m_notif:"Cài đặt thông báo", m_help:"Trợ giúp & Hỗ trợ",
+  m_lang:"Ngôn ngữ · Tiếng Việt", m_notif:"Cài đặt thông báo", m_help:"Trợ giúp & Hỗ trợ", m_signout:"Đăng xuất",
+  li_h:"Chào mừng đến với SVEF Events",
+  li_p:"Một ứng dụng cho tất cả sự kiện của SVEF. Đăng nhập để xem sự kiện, đăng ký tham dự và kết nối với người tham dự khác.",
+  li_google:"Tiếp tục với Google", li_linkedin:"Tiếp tục với LinkedIn", li_microsoft:"Tiếp tục với Microsoft",
+  li_or:"hoặc bằng tài khoản SVEF", li_pwd:"Mật khẩu", li_signin:"Đăng nhập", li_need:"Vui lòng nhập email.",
+  li_sync_t:"Không phải nhập lại thông tin.",
+  li_sync_p:"Nếu bạn đã là thành viên trên website SVEF, hồ sơ của bạn được đồng bộ sang app — tên, chức danh, công ty và ngành nghề đã có sẵn.",
+  t_signed_sso:"Đã đăng nhập bằng ", t_signed_svef:"Đã đăng nhập bằng tài khoản SVEF", t_signedout:"Đã đăng xuất",
   leg_booth:"Gian hàng nổi bật", leg_session:"Phiên / phòng", leg_net:"Networking", leg_you:"Vị trí của bạn", booths_near:"Gian hàng gần bạn",
   svgHall:"Hội trường A", svgB1:"Phòng B1", svgB2:"Phòng B2", svgLounge:"Networking", svgLobby:"Sảnh chính · Check-in · Cà phê", directions:"Chỉ đường",
   time_l:"Thời gian", loc_l:"Địa điểm", speaker_l:"Diễn giả",
@@ -681,6 +810,13 @@ const T={
   ev_none:"Chưa có sự kiện nào trong mục này.",
   ei_facts:"Thông tin sự kiện", ei_about:"Giới thiệu", ei_web:"Xem trên website SVEF ↗",
   ei_dates:"Thời gian", ei_venue:"Địa điểm", ei_org:"Đơn vị tổ chức", ei_tz:"Múi giờ", ei_fee:"Phí tham dự", ei_status:"Trạng thái",
+  ei_fmt:"Hình thức", fmt_online:"Trực tuyến", fmt_hybrid:"Kết hợp", fmt_inperson:"Trực tiếp",
+  ev_join:"Tham dự trực tuyến ↗",
+  ev_join_locked:"🔒 Link tham dự trực tuyến (Zoom) sẽ hiện tại đây sau khi bạn đăng ký sự kiện.",
+  sr_required:"Cần đăng ký", sr_registered:"Đã đăng ký phiên", sr_seats:"Chỗ còn lại",
+  sr_register:"Đăng ký phiên này", sr_cancel:"Huỷ đăng ký phiên", sr_full:"Đã hết chỗ",
+  t_sr_ok:"Đã đăng ký phiên. Phiên đã được thêm vào chương trình của bạn.",
+  t_sr_cancel:"Đã huỷ đăng ký phiên", t_sr_full:"Phiên này đã hết chỗ.",
   ei_st_up:"Sắp diễn ra", ei_st_reg:"Bạn đã đăng ký", ei_st_past:"Đã kết thúc",
   reg_title:"Đăng ký tham dự", reg_free:"Đăng ký sự kiện SVEF là miễn phí. Vui lòng điền thông tin bên dưới.",
   f_name:"Họ và tên", f_email:"Email", f_company:"Công ty", f_title:"Chức danh", reg_submit:"Gửi đăng ký",
@@ -702,6 +838,11 @@ const T={
   ab_explore:"Khám phá", ab_schedule:"Lịch của tôi", ab_network:"Kết nối", ab_participants:"Người tham dự",
   ab_profile:"Hồ sơ", ab_map:"Bản đồ", ab_notifications:"Thông báo", ab_session:"Chi tiết phiên",
   ab_person:"Hồ sơ", ab_events:"Sự kiện SVEF", ab_eventinfo:"Thông tin sự kiện", ab_toevents:"Danh sách sự kiện",
+  ab_messages:"Tin nhắn", ab_chat:"Nhắn tin",
+  msg_note:"Tin nhắn trong phạm vi sự kiện này. Vẫn xem lại được sau khi sự kiện kết thúc.",
+  msg_none:"Chưa có cuộc trò chuyện nào. Nhấn “Nhắn tin” trên hồ sơ một người tham dự để bắt đầu.",
+  chat_ph:"Nhập tin nhắn…", chat_send:"Gửi", chat_you:"Bạn", chat_profile:"Hồ sơ",
+  chat_start:"Chưa có tin nhắn nào. Gửi lời chào để bắt đầu.",
   t_pro:"Demo: tính năng Pro", t_edit:"Demo: Chỉnh sửa hồ sơ", t_hist:"Demo: Lịch sử kết nối",
   t_privacy:"Demo: Quyền riêng tư", t_notif:"Demo: Cài đặt thông báo", t_help:"Demo: Hỗ trợ",
   t_scan:"Đang mở máy quét…", t_saved_card:"Đã lưu danh thiếp", t_wallet:"Demo: Đã thêm vé vào ví",
@@ -735,7 +876,14 @@ const T={
   mtg_confirmed:"Meeting confirmed", mtg_pending:"Meeting pending", mtg_canceled:"Meeting canceled", mtg_declined:"Meeting declined",
   p_role:"Investment Director · Zegoe Capital", vip_ticket:"🎫 Attendee pass", st_conn:"Connections", st_sess:"Sessions", st_meet:"Meetings",
   m_qrconnect:"QR Connect", m_eticket:"E-Ticket", m_edit:"Edit profile", m_history:"Connection history", m_privacy:"Privacy & visibility",
-  m_lang:"Language · English", m_notif:"Notification settings", m_help:"Help & Support",
+  m_lang:"Language · English", m_notif:"Notification settings", m_help:"Help & Support", m_signout:"Sign out",
+  li_h:"Welcome to SVEF Events",
+  li_p:"One app for every SVEF event. Sign in to browse events, register to attend and connect with the other participants.",
+  li_google:"Continue with Google", li_linkedin:"Continue with LinkedIn", li_microsoft:"Continue with Microsoft",
+  li_or:"or with an SVEF account", li_pwd:"Password", li_signin:"Sign in", li_need:"Please enter your email.",
+  li_sync_t:"No need to type it all again.",
+  li_sync_p:"If you are already a member on the SVEF website, your profile syncs into the app — name, job title, company and industry are filled in for you.",
+  t_signed_sso:"Signed in with ", t_signed_svef:"Signed in with your SVEF account", t_signedout:"Signed out",
   leg_booth:"Featured booths", leg_session:"Sessions / rooms", leg_net:"Networking", leg_you:"Your location", booths_near:"Booths near you",
   svgHall:"Hall A", svgB1:"Room B1", svgB2:"Room B2", svgLounge:"Networking", svgLobby:"Main lobby · Check-in · Coffee", directions:"Directions",
   time_l:"Time", loc_l:"Location", speaker_l:"Speaker",
@@ -751,6 +899,13 @@ const T={
   ev_none:"No events in this tab yet.",
   ei_facts:"Event details", ei_about:"About", ei_web:"View on the SVEF website ↗",
   ei_dates:"Dates", ei_venue:"Venue", ei_org:"Organiser", ei_tz:"Time zone", ei_fee:"Attendance", ei_status:"Status",
+  ei_fmt:"Format", fmt_online:"Online", fmt_hybrid:"Hybrid", fmt_inperson:"In person",
+  ev_join:"Join online ↗",
+  ev_join_locked:"🔒 The online joining link (Zoom) appears here once you have registered for the event.",
+  sr_required:"Registration required", sr_registered:"Session booked", sr_seats:"Seats left",
+  sr_register:"Register for this session", sr_cancel:"Cancel session booking", sr_full:"Session full",
+  t_sr_ok:"Session booked. It has been added to your agenda.",
+  t_sr_cancel:"Session booking cancelled", t_sr_full:"This session is full.",
   ei_st_up:"Upcoming", ei_st_reg:"You are registered", ei_st_past:"Ended",
   reg_title:"Register to attend", reg_free:"Registering for SVEF events is free. Please fill in your details below.",
   f_name:"Full name", f_email:"Email", f_company:"Company", f_title:"Job title", reg_submit:"Submit registration",
@@ -772,6 +927,11 @@ const T={
   ab_explore:"Explore", ab_schedule:"My agenda", ab_network:"Connect", ab_participants:"Participants",
   ab_profile:"Profile", ab_map:"Event map", ab_notifications:"Notifications", ab_session:"Session",
   ab_person:"Attendee", ab_events:"SVEF Events", ab_eventinfo:"Event information", ab_toevents:"Event list",
+  ab_messages:"Messages", ab_chat:"Chat",
+  msg_note:"Messages stay within this event. They remain readable after the event has ended.",
+  msg_none:"No conversations yet. Tap “Chat” on an attendee profile to start one.",
+  chat_ph:"Write a message…", chat_send:"Send", chat_you:"You", chat_profile:"Profile",
+  chat_start:"No messages yet. Say hello to get started.",
   t_pro:"Demo: Pro feature", t_edit:"Demo: Edit profile", t_hist:"Demo: Connection history",
   t_privacy:"Demo: Privacy", t_notif:"Demo: Notification settings", t_help:"Demo: Support",
   t_scan:"Opening scanner…", t_saved_card:"Card saved", t_wallet:"Demo: ticket added to wallet",
@@ -798,6 +958,7 @@ const speakers=[
 /* --- Events: one app, many SVEF events ------------------------------------ */
 const events=[
   {id:"svef26", img:"forum-stage", status:"registered", paid:false, tz:"GMT+7",
+   fmt:"hybrid", zoom:"https://zoom.us/j/8412200261",
    url:"https://svef.example.org/events/svef-2026",
    n:{vi:"SVEF 2026 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2026 - Swiss-Vietnam Economic Forum"},
    short:{vi:"SVEF 2026 · TP. Hồ Chí Minh",en:"SVEF 2026 · Ho Chi Minh City"},
@@ -821,6 +982,7 @@ const events=[
          en:"A half-day roundtable for funds and manufacturers on Swiss capital flows into northern Vietnam."},
    days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"12/8",en:"12 Aug"}}]},
   {id:"greenforum", img:"energy-wind", status:"upcoming", paid:false, tz:"GMT+7",
+   fmt:"hybrid", zoom:"https://zoom.us/j/7755390014",
    url:"https://svef.example.org/events/green-transition-forum",
    n:{vi:"Diễn đàn Chuyển dịch Xanh SVEF",en:"SVEF Green Transition Forum"},
    short:{vi:"Chuyển dịch Xanh · Đà Nẵng",en:"Green Transition · Da Nang"},
@@ -968,6 +1130,17 @@ const meetings=[
 ];
 const slots=["09:00 – 09:30","10:00 – 10:30","11:15 – 11:45","14:00 – 14:30","15:30 – 16:00","16:30 – 17:00"];
 
+/* --- Chat threads, keyed by participant id --------------------------------- */
+const chats={
+  1:[{me:false,t:"09:12",m:{vi:"Chào anh Trần! Em thấy anh có mặt ở phiên Fintech sáng nay.",en:"Hi Anh! I saw you were in the Fintech session this morning."}},
+     {me:true, t:"09:20",m:{vi:"Chào chị Lara, đúng rồi ạ. Phần thanh toán xuyên biên giới rất hữu ích.",en:"Hi Lara, I was. The cross-border payments part was very useful."}},
+     {me:false,t:"09:24",m:{vi:"Mình gặp nhau 15:30 ở khu Networking nhé, em đã gửi lịch rồi ạ.",en:"Shall we meet at 15:30 in the networking lounge? I have sent the request."}}],
+  2:[{me:true, t:"14:02",m:{vi:"Chào anh Marco, em muốn trao đổi về vòng gọi vốn Series A tại Việt Nam.",en:"Hi Marco, I would like to talk about Series A rounds in Vietnam."}},
+     {me:false,t:"14:31",m:{vi:"Chào anh, rất sẵn lòng. Ngày mai anh rảnh khung nào?",en:"Happy to. Which slot works for you tomorrow?"}}],
+  3:[{me:false,t:"11:05",m:{vi:"Cảm ơn anh đã ghé gian hàng GreenTech ạ!",en:"Thanks for stopping by the GreenTech booth!"}}],
+};
+let chatWith=null;
+
 const sessions=[
   {day:1,img:"forum-stage",av:"NM",c:"#0A0A0A",spk:"Nguyễn Minh",time:"09:00 – 09:30",
    t:{vi:"Khai mạc & Phát biểu chính",en:"Opening & Keynote"}, tag:{vi:"Keynote",en:"Keynote"},
@@ -980,6 +1153,7 @@ const sessions=[
    desc:{vi:"Cơ hội và rào cản cho dòng vốn Thụy Sĩ vào Việt Nam: tài chính xanh, sản xuất công nghệ cao và khởi nghiệp.",
          en:"Opportunities and barriers for Swiss capital into Vietnam: green finance, high-tech manufacturing and startups."}},
   {day:1,img:"data",av:"LW",c:"#DA291C",spk:"Lara Weber",time:"14:00 – 14:45",
+   reg:true, cap:60, taken:44,
    t:{vi:"Chuyển đổi số & Fintech",en:"Digital Transformation & Fintech"}, tag:{vi:"Talk",en:"Talk"},
    room:{vi:"Phòng B1",en:"Room B1"}, role:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"},
    desc:{vi:"Thanh toán xuyên biên giới, ngân hàng số và xu hướng Fintech kết nối hai thị trường.",
@@ -990,6 +1164,7 @@ const sessions=[
    desc:{vi:"Điện mặt trời áp mái, lưu trữ năng lượng và cơ chế mua bán điện trực tiếp cho khu công nghiệp Việt Nam.",
          en:"Rooftop solar, energy storage and direct power purchase mechanisms for Vietnamese industrial parks."}},
   {day:2,img:"manufacturing",av:"AK",c:"#0F5A4A",spk:"Andreas Küng",time:"13:30 – 14:15",
+   reg:true, cap:30, taken:29,
    t:{vi:"Sản xuất chính xác & chuỗi cung ứng",en:"Precision Manufacturing & Supply Chains"}, tag:{vi:"Workshop",en:"Workshop"},
    room:{vi:"Phòng B1",en:"Room B1"}, role:{vi:"Giám đốc vận hành, Alpine Precision AG",en:"COO, Alpine Precision AG"},
    desc:{vi:"Chuyển giao công nghệ gia công chính xác của Thụy Sĩ và cơ hội nội địa hoá chuỗi cung ứng tại Việt Nam.",
@@ -1022,13 +1197,36 @@ function fact(k,v){return `<div class="f"><div class="k">${tr(k)}</div><div clas
 function avHTML(o,cls){return `<div class="av ${cls||'sm'}" style="background:${o.c}">${o.i}</div>`}
 function emptyHTML(){return `<div class="empty"><div class="e-ic">🔍</div><p>${tr('empty_search')}</p></div>`}
 
+/* ===================== SIGN IN / OUT ===================== */
+/* SSO is faked in the prototype, but the flow is the real one: the attendee never
+   lands on an event list before identifying themselves. */
+function signInApp(method){
+  if(method==='svef'&&!(byId('liEmail').value||'').trim()){toast(tr('li_need'));return;}
+  byId('phone').classList.remove('locked');
+  go('events');
+  toast(method==='svef'?tr('t_signed_svef'):tr('t_signed_sso')+({google:'Google',linkedin:'LinkedIn',microsoft:'Microsoft'}[method]||''));
+}
+function signOutApp(){
+  closeSheet();
+  navStack=['events'];
+  // go() first: it clears the inline display that would otherwise keep the tab bar
+  // on top of the sign-in screen, since inline styles outrank the .locked rules
+  go('events',true);
+  byId('phone').classList.add('locked');
+  toast(tr('t_signedout'));
+}
+
 /* ===================== NAV ===================== */
 const tabsScreens=["home","explore","schedule","network","participants","profile"];
 const outScreens=["events","eventinfo"];
+/* screens that take over the whole viewport, so the tab bar steps out of the way */
+const noNavScreens=outScreens.concat(["chat"]);
 let current="events", navStack=["events"], curSession=0;
 function setAppbarTitle(s){
   const ab=byId('appbar'), back=byId('backBtn'), t=byId('abTitle'), ev=byId('evSwitchBtn');
   ev.style.display=outScreens.includes(s)?'none':'grid';
+  // messages belong to an event, so the shortcut disappears on the event list
+  const mb=byId('msgBtn');if(mb)mb.style.display=outScreens.includes(s)?'none':'grid';
   if(s==='events'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tr('ab_events')+'</small>';back.style.display='none';}
   else if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tx(curEv.short)+'</small>';back.style.display='none';}
   else{ab.classList.remove('brand');t.innerHTML=tr('ab_'+s)||'SVEF';back.style.display=(tabsScreens.includes(s)?'none':'grid');}
@@ -1036,9 +1234,10 @@ function setAppbarTitle(s){
 function go(s,isBack){
   document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('active',e.dataset.screen===s));
   const c=byId('content');c.scrollTop=0;
-  const hideNav=outScreens.includes(s);
+  const hideNav=noNavScreens.includes(s);
   byId('nav').style.display=hideNav?'none':'flex';
   c.classList.toggle('nonav',hideNav);
+  c.classList.toggle('chatmode',s==='chat');
   if(current!==s&&!isBack){navStack.push(s);} current=s;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===s));
   setAppbarTitle(s);
@@ -1092,13 +1291,20 @@ function renderEventInfo(){
   byId('eiName').textContent=tx(e.n);
   const st=e.status==='past'?tr('ei_st_past'):(e.status==='registered'?tr('ei_st_reg'):tr('ei_st_up'));
   byId('eiFacts').innerHTML=fact('ei_dates',tx(e.dates))+fact('ei_venue',tx(e.venue))+fact('ei_org',tx(e.org))
+    +(e.fmt?fact('ei_fmt',tr('fmt_'+e.fmt)):'')
     +fact('ei_tz',e.tz)+fact('ei_fee',e.paid?tr('ev_paid'):tr('ev_free'))+fact('ei_status',st);
   byId('eiDesc').textContent=tx(e.desc);
   const lk=byId('eiLink');lk.href=e.url;lk.textContent=tr('ei_web');
-  byId('eiAct').innerHTML=(e.status==='upcoming')
+  // the joining link is a benefit of having registered, so it is gated on that
+  const join=e.zoom&&e.status!=='past'
+    ? (e.status==='registered'
+        ? `<a class="btn dark" href="${e.zoom}" target="_blank" rel="noopener" style="margin-bottom:8px">🔗 ${tr('ev_join')}</a>`
+        : `<div class="note" style="margin:0 0 10px">${tr('ev_join_locked')}</div>`)
+    : '';
+  byId('eiAct').innerHTML=join+((e.status==='upcoming')
     ? (e.paid?`<a class="btn" href="${e.url}" target="_blank" rel="noopener">${tr('ev_buy')}</a>`
              :`<button class="btn" onclick="openRegister('${e.id}')">${tr('ev_register')}</button>`)
-    : `<button class="btn" onclick="openEvent('${e.id}')">${tr('ev_open')}</button>`;
+    : `<button class="btn" onclick="openEvent('${e.id}')">${tr('ev_open')}</button>`);
 }
 
 /* ===================== HOME ===================== */
@@ -1114,7 +1320,7 @@ function renderHome(){
        <span class="chip ${past?'':'green'}" ${past?'style="border-color:rgba(255,255,255,.45);color:#fff"':''}>${past?tr('ev_ended'):tr('checkedin')}</span>
      </div>`;
   byId('homeQA').innerHTML = past
-    ? qaBtn('📋','qa_agenda',"go('schedule')")+qaBtn('💬','qa_messages',"toast(tr('t_msgs'))")
+    ? qaBtn('📋','qa_agenda',"go('schedule')")+qaBtn('💬','qa_messages',"openMessages()")
       +qaBtn('📅','qa_meetings','openMeetings()')+qaBtn('👥','qa_people',"go('participants')")
     : qaBtn('📱','qa_qrconnect','openQR()')+qaBtn('🎫','qa_eticket','openTicket()')
       +qaBtn('🗺️','qa_map',"go('map')")+qaBtn('🤝','qa_connect',"go('network')");
@@ -1158,8 +1364,10 @@ function dayPills(fn){
 }
 function agendaRow(i){
   const s=sessions[i],sv=saved.has(i);
+  // sessions with limited capacity are registered for separately from bookmarking
+  const badge=s.reg?`<span class="regchip${sessionReg.has(i)?' on':''}">${sessionReg.has(i)?'✓ '+tr('sr_registered'):tr('sr_required')}</span>`:'';
   return `<div class="li" onclick="openSession(${i})"><div class="thumb pic" style="--img:url('assets/img/${s.img}.jpg')"></div>`
-    +`<div class="meta"><h4>${tx(s.t)}</h4><p>${s.time} · ${tx(s.room)} · ${s.spk}</p></div>`
+    +`<div class="meta"><h4>${tx(s.t)}</h4><p>${s.time} · ${tx(s.room)} · ${s.spk}</p>${badge}</div>`
     +(isPast()?`<span class="muted">›</span>`
       :`<button class="savebtn ${sv?'on':''}" onclick="event.stopPropagation();toggleSave(${i})">${sv?'★':'☆'}</button>`)
     +`</div>`;
@@ -1190,7 +1398,44 @@ function toggleSave(i){
 }
 function updateSaveBtn(){
   const b=byId('sDsave');if(!b)return;const sv=saved.has(curSession);
-  b.textContent=tr(sv?'added_sched':'add_sched');b.className=sv?'btn ghost':'btn';
+  b.textContent=tr(sv?'added_sched':'add_sched');b.className=sv?'btn dark':'btn ghost';
+}
+
+/* --- Per-session registration (limited-capacity sessions) ------------------ */
+let sessionReg=new Set();
+function seatsLeft(i){const s=sessions[i];return Math.max(0,(s.cap||0)-(s.taken||0));}
+function toggleSessionReg(i){
+  const s=sessions[i];if(!s||!s.reg)return;
+  if(isPast()){toast(tr('t_ended'));return;}
+  if(sessionReg.has(i)){
+    sessionReg.delete(i);s.taken=Math.max(0,(s.taken||1)-1);
+    toast(tr('t_sr_cancel'));
+  }else{
+    if(seatsLeft(i)<=0){toast(tr('t_sr_full'));return;}
+    sessionReg.add(i);s.taken=(s.taken||0)+1;
+    saved.add(i);                       // a registered session belongs in My agenda
+    toast(tr('t_sr_ok'));
+  }
+  renderExplore();renderSchedule();updateSessionActions();updateSaveBtn();
+}
+/* Registration button, seat counter and the online joining link for one session. */
+function updateSessionActions(){
+  const s=sessions[curSession];if(!s||!byId('sDreg'))return;
+  const past=isPast(),on=sessionReg.has(curSession),left=seatsLeft(curSession);
+  const wrap=byId('sDregWrap'),seats=byId('sDseats'),btn=byId('sDreg');
+  if(!s.reg||past){wrap.style.display='none';seats.style.display='none';}
+  else{
+    wrap.style.display='';seats.style.display='';
+    seats.innerHTML=tr('sr_seats')+' <b>'+left+'/'+s.cap+'</b>';
+    btn.textContent=on?tr('sr_cancel'):(left<=0?tr('sr_full'):tr('sr_register'));
+    btn.className=on?'btn dark':(left<=0?'btn ghost':'btn');
+    btn.disabled=(!on&&left<=0);
+  }
+  // online / hybrid events carry a joining link, shown to registered attendees only
+  const jw=byId('sDjoinWrap'),ja=byId('sDjoin');
+  const canJoin=!past&&curEv.zoom&&curEv.status==='registered';
+  jw.style.display=canJoin?'':'none';
+  if(canJoin)ja.href=curEv.zoom;
 }
 
 /* ===================== SCHEDULE (Agenda + Meetings) ===================== */
@@ -1228,18 +1473,26 @@ function renderSchedule(){
 /* ===================== PEOPLE (Connect + Participants) ===================== */
 function personRow(p,showMatch){
   const m=meetingFor(p.id);
+  // past events keep the record of what happened, but no new meeting requests
   const left=m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
-    :`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`;
+    :(isPast()?'':`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`);
   return `<div class="prow">
     <div class="ptop" onclick="openPerson(${p.id})">${avHTML(p,'sm')}
       <div class="meta"><h4>${p.n}${(showMatch&&p.match)?` <span class="chip gold">${p.match}</span>`:''}</h4>
         <p>${tx(p.t)} · ${p.co}</p></div><span class="muted">›</span></div>
-    <div class="row">${left}<button class="btn dark" onclick="toast(tr('t_chat')+'${p.n}')">${tr('btn_chat')}</button></div>
+    <div class="row">${left}<button class="btn dark" onclick="openChat(${p.id})">${tr('btn_chat')}</button></div>
   </div>`;
 }
 function renderNetwork(){
   if(!byId('suggest'))return;
-  byId('suggest').innerHTML=people.filter(p=>p.match).map(p=>personRow(p,true)).join('');
+  const past=isPast();
+  // Connect on a finished event = the people you actually met, nothing prospective
+  ['suggestHead','suggestNote','suggest'].forEach(function(id){
+    const el=byId(id);if(el)el.style.display=past?'none':'';
+  });
+  // the connect QR only makes sense on site; meetings stay reachable as a record
+  const qr=byId('netQrBtn');if(qr)qr.style.display=past?'none':'';
+  byId('suggest').innerHTML=past?'':people.filter(p=>p.match).map(p=>personRow(p,true)).join('');
   byId('myConns').innerHTML=people.filter(p=>p.acted).map(p=>personRow(p,false)).join('');
 }
 function renderFilters(){
@@ -1268,8 +1521,54 @@ function renderPerson(){
   const li=byId('ppLi');li.href=p.li;li.textContent=tr('pp_linkedin');
   const m=meetingFor(p.id);
   byId('ppActs').innerHTML=(m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
-    :`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`)
-    +`<button class="btn dark" onclick="toast(tr('t_chat')+'${p.n}')">${tr('btn_chat')}</button>`;
+    :(isPast()?'':`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`))
+    +`<button class="btn dark" onclick="openChat(${p.id})">${tr('btn_chat')}</button>`;
+}
+
+/* ===================== MESSAGES / CHAT ===================== */
+function chatPreview(pid){
+  const th=chats[pid];if(!th||!th.length)return '';
+  const last=th[th.length-1];
+  return (last.me?tr('chat_you')+': ':'')+tx(last.m);
+}
+function renderConvos(){
+  const el=byId('convoList');if(!el)return;
+  const ids=Object.keys(chats).map(Number).filter(id=>personById(id));
+  el.innerHTML=ids.length?ids.map(function(id){
+    const p=personById(id),th=chats[id],last=th[th.length-1];
+    return `<button class="convo" onclick="openChat(${id})">${avHTML(p,'sm')}`+
+      `<div class="meta"><h4>${p.n}</h4><p>${chatPreview(id)}</p></div>`+
+      `<time>${last?last.t:''}</time>`+
+      (last&&!last.me?`<span class="unread"></span>`:'')+
+    `</button>`;
+  }).join(''):`<div class="empty"><div class="e-ic">💬</div><p>${tr('msg_none')}</p></div>`;
+}
+function openMessages(){renderConvos();go('messages');}
+function openChat(pid){
+  const p=personById(pid);if(!p)return;
+  chatWith=pid;
+  if(!chats[pid])chats[pid]=[];
+  renderChat();go('chat');
+}
+function renderChat(){
+  const p=personById(chatWith);if(!p||!byId('chatLog'))return;
+  byId('chatHead').innerHTML=avHTML(p,'sm')+
+    `<div class="meta"><h4>${p.n}</h4><p>${tx(p.t)} · ${p.co}</p></div>`+
+    `<button class="btn ghost sm" onclick="openPerson(${p.id})">${tr('chat_profile')}</button>`;
+  const th=chats[chatWith]||[];
+  byId('chatLog').innerHTML=th.length
+    ? th.map(m=>`<div class="bubble ${m.me?'me':''}">${typeof m.m==='string'?m.m:tx(m.m)}<time>${m.t}</time></div>`).join('')
+    : `<div class="empty" style="padding:34px 8px"><div class="e-ic">💬</div><p style="font-size:12.5px">${tr('chat_start')}</p></div>`;
+  const log=byId('chatLog');log.scrollTop=log.scrollHeight;
+}
+function nowHM(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
+function sendChat(){
+  const inp=byId('chatInput'),v=(inp.value||'').trim();
+  if(!v||chatWith==null)return;
+  chats[chatWith].push({me:true,t:nowHM(),m:v});
+  inp.value='';
+  const p=personById(chatWith);if(p)p.acted=true;   // a chat counts as a connection
+  renderChat();renderConvos();renderNetwork();
 }
 
 /* ===================== MAP / NOTIFICATIONS / SESSION ===================== */
@@ -1295,7 +1594,7 @@ function openSession(i){
   const av=byId('sDav');av.textContent=s.av;av.style.background=`${s.c}`;
   byId('sDhero').style.setProperty('--img',`url('assets/img/${s.img}.jpg')`);
   byId('sDsave').style.display=isPast()?'none':'inline-flex';
-  updateSaveBtn();
+  updateSaveBtn();updateSessionActions();
   go('session');
 }
 
@@ -1349,9 +1648,10 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 function renderAll(){
   renderEvents();renderEventInfo();renderHome();renderHomeAgenda();renderSpeakers();renderSponsorStrip();
   renderExplore();renderSchedule();renderNetwork();renderFilters();renderParticipants();
-  renderBooths();renderNotif();renderMR();
+  renderBooths();renderNotif();renderMR();renderConvos();
+  if(chatWith!=null)renderChat();
   if(curPerson)renderPerson();
-  updateSaveBtn();
+  updateSaveBtn();updateSessionActions();
 }
 function applyI18n(){
   document.documentElement.lang=lang;

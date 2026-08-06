@@ -899,7 +899,9 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
       </div>
       <div><h5 data-i18n="foot_plat">Platform</h5><a onclick="show('partners')" data-i18n="nav_partners">Partners &amp; Members</a><a onclick="show('events')" data-i18n="nav_events">Events</a><a onclick="openLogin()" data-i18n="login">Log in</a><a href="app.html" data-i18n="foot_app">Event App</a></div>
       <div><h5 data-i18n="foot_org">Organisation</h5><a onclick="show('about')" data-i18n="nav_about">About us</a><a onclick="show('activities')" data-i18n="nav_act">Activities</a><a onclick="show('news')" data-i18n="nav_news">News</a><a onclick="show('resources')" data-i18n="nav_res">Resources</a><a onclick="show('media')" data-i18n="nav_media">Media</a><a onclick="show('contact')" data-i18n="nav_contact">Contact</a></div>
-      <div><h5 data-i18n="foot_legal">Legal</h5><a onclick="toast(tr('t_soon'))">GDPR / Privacy</a><a onclick="toast(tr('t_soon'))">Terms</a><a href="admin.html" data-i18n="admin">Admin back-office</a></div>
+      <!-- No admin entry point on the public site: back-office staff use their own
+           private sign-in address, which is never advertised here (client feedback, Aug 2026). -->
+      <div><h5 data-i18n="foot_legal">Legal</h5><a onclick="toast(tr('t_soon'))">GDPR / Privacy</a><a onclick="toast(tr('t_soon'))">Terms</a><a onclick="toast(tr('t_soon'))" data-i18n="foot_cookies">Cookie policy</a></div>
     </div>
     <div class="bot"><span>© 2026 Swiss-Viet Economic Forum · Demo by IMT Software</span><span data-i18n="foot_before">Target: live before the Hanoi Forum · October 2026</span></div>
   </div>
@@ -1065,7 +1067,7 @@ const T={
   pd_t:"Partner database",pd_s:"Members & Strategic Partners can browse the database and send contact messages. Subscribers receive information only.",
   ms_t:"Messages",ms_s:"Direct messages with other members and partners.",
   foot_p:"Connecting the Swiss and Vietnamese economies through forums, trade missions and partnership.",
-  foot_plat:"Platform",foot_org:"Organisation",foot_legal:"Legal",foot_app:"Event App",foot_before:"Target: live before the Hanoi Forum · October 2026",
+  foot_plat:"Platform",foot_org:"Organisation",foot_legal:"Legal",foot_app:"Event App",foot_cookies:"Cookie policy",foot_before:"Target: live before the Hanoi Forum · October 2026",
   pe_t:"Propose your event",pe_step1:"Event details",pe_step1s:"Tell us about your event.",pe_name:"Event name",pe_date:"Date",pe_loc:"Location",pe_type:"Type",pe_desc:"Description",
   pe_note:"ℹ️ Partner-proposed events are reviewed by the SVEF admin team before appearing publicly under “Upcoming Events”.",pe_submit:"Submit for approval",
   documents_tab:"Documents",overview_tab:"Overview",send_msg:"Send message",register_ev:"Register to attend",by_partner:"Organized by",by_forum:"SVEF event",
@@ -1169,7 +1171,7 @@ const T={
   pd_t:"Cơ sở dữ liệu đối tác",pd_s:"Thành viên & Đối tác chiến lược có thể duyệt CSDL và gửi tin nhắn. Người đăng ký chỉ nhận thông tin.",
   ms_t:"Tin nhắn",ms_s:"Tin nhắn trực tiếp với thành viên và đối tác khác.",
   foot_p:"Kết nối nền kinh tế Thụy Sĩ và Việt Nam qua diễn đàn, phái đoàn thương mại và quan hệ đối tác.",
-  foot_plat:"Nền tảng",foot_org:"Tổ chức",foot_legal:"Pháp lý",foot_app:"Ứng dụng Sự kiện",foot_before:"Mục tiêu: vận hành trước Diễn đàn Hà Nội · 10/2026",
+  foot_plat:"Nền tảng",foot_org:"Tổ chức",foot_legal:"Pháp lý",foot_app:"Ứng dụng Sự kiện",foot_cookies:"Chính sách cookie",foot_before:"Mục tiêu: vận hành trước Diễn đàn Hà Nội · 10/2026",
   pe_t:"Đề xuất sự kiện",pe_step1:"Chi tiết sự kiện",pe_step1s:"Cho chúng tôi biết về sự kiện.",pe_name:"Tên sự kiện",pe_date:"Ngày",pe_loc:"Địa điểm",pe_type:"Hình thức",pe_desc:"Mô tả",
   pe_note:"ℹ️ Sự kiện do đối tác đề xuất sẽ được đội quản trị SVEF duyệt trước khi hiển thị công khai ở mục “Sự kiện sắp tới”.",pe_submit:"Gửi để duyệt",
   documents_tab:"Tài liệu",overview_tab:"Tổng quan",send_msg:"Gửi tin nhắn",register_ev:"Đăng ký tham dự",by_partner:"Tổ chức bởi",by_forum:"Sự kiện SVEF",
