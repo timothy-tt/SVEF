@@ -1,0 +1,11 @@
+# Client review material — kept out of the repo on purpose.
+# This repo is published through GitHub Pages, so anything committed here becomes
+# publicly downloadable and stays in the git history even if deleted later.
+# The SVEF feedback PDFs and meeting minutes live only on the working machine.
+EB/
+
+# OS / editor noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
