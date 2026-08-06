@@ -54,7 +54,7 @@ body::after{content:"";position:fixed;left:-140px;top:-140px;width:460px;height:
 .appbar h1{font-size:18px;margin:0;font-weight:700;flex:1;display:flex;flex-direction:column;
   line-height:1.05;letter-spacing:-.04em;min-width:0}
 .appbar h1 small{font-family:var(--mono);font-weight:500;font-size:8.5px;opacity:.6;letter-spacing:.12em;
-  text-transform:uppercase;margin-top:5px}
+  text-transform:uppercase;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .appbar .ic-btn{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;height:36px;
   min-width:36px;padding:0 9px;border-radius:0;display:grid;place-items:center;cursor:pointer;
   position:relative;font-size:14px}
@@ -86,7 +86,8 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .chip.gold{border-color:var(--gold);color:var(--gold);background:transparent}
 .btn{display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;gap:8px;
   border:1px solid var(--red);border-radius:0;padding:14px 16px;font-family:var(--sans);font-size:14px;
-  font-weight:600;letter-spacing:-.015em;cursor:pointer;width:100%;background:var(--red);color:#fff}
+  font-weight:600;letter-spacing:-.015em;cursor:pointer;width:100%;background:var(--red);color:#fff;
+  text-decoration:none}
 .btn:active{background:var(--red-d);border-color:var(--red-d)}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
 .btn.ghost:active{background:var(--ink);color:#fff}
@@ -139,6 +140,8 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   font-size:21px;font-weight:700;color:#fff;border:none;box-shadow:none;letter-spacing:-.04em}
 .spk b{font-size:12px;display:block;font-weight:600;letter-spacing:-.02em;line-height:1.25}
 .spk span{font-size:10px;color:var(--muted);line-height:1.3;display:block;margin-top:2px}
+.spk span.tier{font-family:var(--mono);font-size:8px;font-weight:500;text-transform:uppercase;letter-spacing:.11em;
+  color:var(--red);margin-top:4px}
 .av{display:grid;place-items:center;border-radius:0;color:#fff;font-weight:700;border:none;letter-spacing:-.04em}
 .av.sm{width:44px;height:44px;font-size:15px}
 .av.xs{width:36px;height:36px;font-size:12px}
@@ -165,14 +168,15 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .li .meta p{margin:0;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ==================== BOTTOM NAV ==================== */
-.nav{position:absolute;left:0;right:0;bottom:0;height:74px;background:#fff;display:flex;
-  border-top:1px solid var(--ink);padding-bottom:8px;z-index:20}
-.nav button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:5px;font-family:var(--mono);font-size:8px;font-weight:500;color:var(--muted);
-  cursor:pointer;padding-top:9px;text-transform:uppercase;letter-spacing:.08em;
+.nav{position:absolute;left:0;right:0;bottom:0;height:66px;background:#fff;display:flex;
+  border-top:1px solid var(--ink);padding-bottom:6px;z-index:20}
+.nav button{flex:1;min-width:0;border:none;background:none;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:4px;font-family:var(--mono);font-size:7px;font-weight:500;color:var(--muted);
+  cursor:pointer;padding:8px 1px 0;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;
   border-top:3px solid transparent;margin-top:-1px}
 .nav button.on{color:var(--red);border-top-color:var(--red)}
-.nav button .ni{width:24px;height:24px;font-size:19px;line-height:24px;filter:grayscale(1)}
+.nav button .ni{width:20px;height:20px;font-size:15px;line-height:20px;filter:grayscale(1)}
+.content.nonav{padding-bottom:24px}
 
 /* ==================== SHEETS / OVERLAYS ==================== */
 .scrim{position:absolute;inset:0;background:rgba(10,10,10,.62);opacity:0;pointer-events:none;
@@ -186,20 +190,91 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .sheet h3{margin:8px 16px 4px;font-size:19px;font-weight:700;letter-spacing:-.035em}
 .sheet .sub{margin:0 16px 16px;color:var(--muted);font-size:12.5px}
 
-/* ==================== TICKETS / PAYMENT ==================== */
-.ticket{margin:0 16px -1px;border:1px solid var(--line);border-radius:0;padding:15px;cursor:pointer;
-  display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff}
-.ticket.sel{border-color:var(--red);background:var(--red-t);position:relative;z-index:1}
-.ticket b{font-size:14px;font-weight:600;letter-spacing:-.02em}
-.ticket .pr{font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.04em}
-.radio{width:18px;height:18px;border-radius:0;border:1px solid var(--ink-2);display:grid;place-items:center;flex:0 0 18px}
-.ticket.sel .radio,.pay.sel .radio{border-color:var(--red)}
-.ticket.sel .radio::after,.pay.sel .radio::after{content:"";width:10px;height:10px;border-radius:0;background:var(--red)}
-.pay{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:0;padding:13px;
-  margin:0 16px -1px;cursor:pointer;background:#fff}
-.pay.sel{border-color:var(--red);background:var(--red-t);position:relative;z-index:1}
-.pay .lg{width:40px;height:40px;border-radius:0;display:grid;place-items:center;font-weight:700;color:#fff;
-  font-size:11px;flex:0 0 40px;letter-spacing:-.02em}
+/* ==================== FORM FIELDS ==================== */
+.field{margin:0 16px 11px}
+.field label{display:block;font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--muted);margin-bottom:5px}
+.field input,.field textarea{width:100%;border:1px solid var(--ink);border-radius:0;background:#fff;
+  padding:11px 12px;font-family:var(--sans);font-size:14px;color:var(--ink);outline:none;letter-spacing:-.01em}
+.field textarea{resize:none;height:64px}
+.field input:focus,.field textarea:focus{border-color:var(--red)}
+
+/* ==================== NOTE STRIPS ==================== */
+.note{margin:0 16px 10px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--red);
+  padding:11px 13px;font-size:11.5px;line-height:1.5;color:var(--ink-2)}
+.note.mono{font-family:var(--mono);font-size:9px;line-height:1.6;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);border-left-color:var(--ink)}
+
+/* ==================== PILL ROWS (days / time slots) ==================== */
+.pillrow{display:flex;gap:8px;padding:12px 16px 6px;overflow-x:auto}
+.pillrow::-webkit-scrollbar{height:0}
+.pillrow button{font-family:var(--mono);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;
+  padding:7px 11px;border:1px solid var(--line);border-radius:0;background:#fff;color:var(--ink-2);cursor:pointer;
+  white-space:nowrap;line-height:1.4}
+.pillrow button.on{background:var(--red-t);border-color:var(--red);color:var(--red)}
+.pillrow button b{display:block;font-weight:700;letter-spacing:.06em}
+
+/* ==================== EVENTS LIST ==================== */
+.evcard{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px -1px}
+.evcard .evthumb{height:118px}
+.evcard .evb{padding:14px}
+.evcard .evb .note{margin:0 0 10px}
+.evcard h4{margin:7px 0 4px;font-size:15.5px;font-weight:700;letter-spacing:-.032em;line-height:1.2}
+.evcard p{margin:0 0 10px;font-size:12px;color:var(--muted);line-height:1.4}
+.evcard .row .btn{font-size:12px;padding:11px 8px;white-space:normal;line-height:1.25;text-align:center}
+.mlabel{font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--muted)}
+
+/* ==================== FACT LISTS ==================== */
+.facts{margin:0 16px 10px;background:#fff;border:1px solid var(--line);border-radius:0}
+.facts .f{display:flex;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.facts .f:last-child{border-bottom:none}
+.facts .f .k{flex:0 0 92px;font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted);padding-top:3px;line-height:1.4}
+.facts .f .v{flex:1;min-width:0;font-size:13px;line-height:1.5;letter-spacing:-.012em}
+
+/* ==================== PEOPLE ROWS ==================== */
+.prow{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px -1px;padding:13px}
+.prow .ptop{display:flex;gap:13px;align-items:center;cursor:pointer}
+.prow .ptop .meta{flex:1;min-width:0}
+.prow .ptop h4{margin:0;font-size:14px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:6px}
+.prow .ptop p{margin:3px 0 0;font-size:11.5px;color:var(--muted);line-height:1.4}
+.prow .row{margin-top:11px}
+.prow .row .btn{font-size:11.5px;padding:10px 8px;white-space:normal;line-height:1.25}
+.mstatus{display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--line);
+  font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;
+  padding:10px 6px;line-height:1.3;background:#fff;color:var(--muted)}
+.mstatus.ok{border-color:var(--green);color:var(--green)}
+.mstatus.wait{border-color:var(--gold);color:var(--gold)}
+.mstatus.off{border-color:var(--line);color:var(--muted)}
+.mstatus.bad{border-color:var(--red);color:var(--red)}
+
+/* ==================== MEETINGS ==================== */
+.mtg{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px -1px;padding:14px}
+.mtg .mh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.mtg .mt{font-size:15px;font-weight:700;letter-spacing:-.035em;line-height:1.1}
+.mtg .mt small{display:block;font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--muted);
+  letter-spacing:.1em;margin-top:5px}
+.mtg .mp{margin:11px 0 0;font-size:12.5px;line-height:1.45;letter-spacing:-.012em}
+.mtg .mp span{color:var(--muted);font-size:11.5px;display:block;margin-top:2px}
+.mtg .mf{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);display:flex;gap:6px;flex-wrap:wrap;
+  align-items:center}
+.mtg .mf .kv{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+
+/* ==================== FILTER BAR ==================== */
+.filterbar{display:flex;margin:14px 16px 10px}
+.filterbar label{flex:1;min-width:0;display:block;background:#fff;border:1px solid var(--ink);padding:8px 10px;
+  margin-left:-1px;cursor:pointer}
+.filterbar label:first-child{margin-left:0}
+.filterbar span{display:block;font-family:var(--mono);font-size:8px;font-weight:500;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--muted);margin-bottom:3px}
+.filterbar select{width:100%;border:none;background:transparent;outline:none;font-family:var(--sans);
+  font-size:12.5px;font-weight:600;color:var(--ink);letter-spacing:-.015em;padding:0;cursor:pointer}
+
+/* ==================== SAVE / BOOKMARK ==================== */
+.savebtn{border:1px solid var(--line);border-radius:0;background:#fff;width:34px;height:34px;flex:0 0 34px;
+  display:grid;place-items:center;cursor:pointer;font-size:13px;color:var(--muted);filter:grayscale(1)}
+.savebtn.on{border-color:var(--red);background:var(--red-t);color:var(--red);filter:none}
 
 /* ==================== QR / MAP ==================== */
 .qrbox{margin:14px auto;width:200px;height:200px;
@@ -244,8 +319,6 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .conn .meta{flex:1;min-width:0}
 .conn .meta h4{margin:0;font-size:14px;display:flex;align-items:center;gap:6px;font-weight:600;letter-spacing:-.02em}
 .conn .meta p{margin:3px 0 0;font-size:11.5px;color:var(--muted)}
-.iconbtn{border:1px solid var(--line);border-radius:0;width:36px;height:36px;display:grid;place-items:center;
-  cursor:pointer;font-size:15px;flex:0 0 36px}
 
 /* ==================== TOAST / DETAIL / BANNER ==================== */
 .toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%) translateY(16px);background:var(--ink);
@@ -263,15 +336,6 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .banner b{font-size:17px;font-weight:700;letter-spacing:-.035em;display:block}
 .banner p{margin:7px 0 14px;font-size:12.5px;opacity:.92}
 
-/* ==================== FEED ==================== */
-.feed .post{background:#fff;border:1px solid var(--line);border-radius:0;padding:16px;margin:0 16px -1px;box-shadow:none}
-.feed .ph{display:flex;gap:10px;align-items:center;margin-bottom:11px}
-.feed .ph b{font-size:13px;font-weight:600;letter-spacing:-.02em}
-.feed .ph span{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.06em}
-.feed .post p{font-size:13.5px;margin:0 0 12px;line-height:1.5}
-.feed .acts{display:flex;gap:20px;color:var(--muted);font-family:var(--mono);font-size:9.5px;font-weight:500;
-  letter-spacing:.08em;padding-top:11px;border-top:1px solid var(--line)}
-
 /* ==================== PHOTOGRAPHY ====================
    Same Swiss treatment as the website: square, full-bleed, desaturated,
    with the image on a ::before layer so overlaid type stays unfiltered. */
@@ -279,8 +343,8 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .pic::before{content:"";position:absolute;inset:0;background-image:var(--img);
   background-size:cover;background-position:center;filter:grayscale(1) contrast(1.06)}
 .pic>*{position:relative;z-index:1}
-.postshot{height:170px;margin:0 0 12px}
 .li .thumb.pic{width:66px;height:50px;flex:0 0 66px;background:var(--ink)}
+.recapshot{height:140px}
 
 /* ==================== EMPTY STATE ==================== */
 .empty{text-align:center;padding:48px 24px;color:var(--muted)}
@@ -300,33 +364,51 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   <div class="appbar brand" id="appbar">
     <button class="back" id="backBtn" style="display:none" onclick="goBack()">‹</button>
     <h1 id="abTitle">SVEF <small>Swiss–Vietnam Economic Forum</small></h1>
+    <button class="ic-btn" id="evSwitchBtn" onclick="exitEvent()" data-i18n-title="ab_toevents" title="Danh sách sự kiện">▤</button>
     <button class="ic-btn lang-btn" onclick="toggleLang()" title="Language / Ngôn ngữ">🌐<span id="globeLbl">VI</span></button>
     <button class="ic-btn" onclick="go('notifications')" title="Notifications">🔔<span class="badge-dot"></span></button>
   </div>
 
   <div class="content" id="content">
 
-    <!-- HOME -->
-    <section class="screen active" data-screen="home">
-      <div class="hero">
-        <div class="hi" data-i18n="greet">Chào buổi sáng 👋</div>
-        <div class="nm">Anh Trần</div>
-        <div class="ev">
-          <div class="d">18<small data-i18n="mon">THG 6</small></div>
-          <div style="flex:1">
-            <b style="font-size:13px" data-i18n="evDay">SVEF 2026 · Ngày 1</b>
-            <div style="font-size:11px;opacity:.85" data-i18n="evLoc">GEM Center · TP. Hồ Chí Minh</div>
-          </div>
-          <span class="chip green" data-i18n="checkedin">Đã check-in</span>
+    <!-- EVENTS (initial screen) -->
+    <section class="screen active" data-screen="events">
+      <div class="detailhero pic" style="--img:url('assets/img/forum-audience.jpg')">
+        <div>
+          <span class="chip red" style="background:var(--red);color:#fff;border-color:var(--red)" data-i18n="ev_kicker">Diễn đàn Kinh tế Thụy Sĩ - Việt Nam</span>
+          <h2 style="margin:11px 0 5px;font-size:32px;font-weight:800;letter-spacing:-.05em;line-height:.98" data-i18n="ev_title">SVEF Events</h2>
+          <p style="margin:0;font-size:12.5px;opacity:.9;line-height:1.4" data-i18n="ev_sub">Tất cả sự kiện SVEF trong một ứng dụng.</p>
         </div>
       </div>
-
-      <div class="qa">
-        <button onclick="openRegister()"><span class="ico">🎫</span><span data-i18n="qa_register">Đăng ký</span></button>
-        <button onclick="openQR()"><span class="ico">📱</span><span data-i18n="qa_ticket">Vé / QR</span></button>
-        <button onclick="go('map')"><span class="ico">🗺️</span><span data-i18n="qa_map">Bản đồ</span></button>
-        <button onclick="go('network')"><span class="ico">🤝</span><span data-i18n="qa_connect">Kết nối</span></button>
+      <div class="tabs" id="evTabs" style="margin-top:16px">
+        <button class="on" data-evtab="upcoming" onclick="switchEvTab('upcoming')" data-i18n="ev_tab_up">Sắp diễn ra</button>
+        <button data-evtab="past" onclick="switchEvTab('past')" data-i18n="ev_tab_past">Đã qua</button>
+        <button data-evtab="registered" onclick="switchEvTab('registered')" data-i18n="ev_tab_reg">Đã đăng ký</button>
       </div>
+      <div style="height:10px"></div>
+      <div id="evList"></div>
+      <div style="height:18px"></div>
+    </section>
+
+    <!-- EVENT INFO -->
+    <section class="screen" data-screen="eventinfo">
+      <div class="detailhero pic" id="eiHero">
+        <div><span class="chip red" id="eiTag" style="background:var(--red);color:#fff;border-color:var(--red)">—</span>
+          <h2 style="margin:9px 0 0;font-size:21px;font-weight:700;letter-spacing:-.04em;line-height:1.1" id="eiName">—</h2></div>
+      </div>
+      <h2 class="sec"><span data-i18n="ei_facts">Thông tin sự kiện</span></h2>
+      <div class="facts" id="eiFacts"></div>
+      <h2 class="sec"><span data-i18n="ei_about">Giới thiệu</span></h2>
+      <p class="muted" style="margin:0 16px 14px;font-size:13px;line-height:1.55" id="eiDesc">—</p>
+      <div style="padding:0 16px 8px"><a class="btn dark" id="eiLink" href="#" target="_blank" rel="noopener" data-i18n="ei_web">Xem trên website SVEF ↗</a></div>
+      <div style="padding:0 16px 18px" id="eiAct"></div>
+    </section>
+
+    <!-- HOME -->
+    <section class="screen" data-screen="home">
+      <div class="hero" id="homeHero"></div>
+      <div class="qa" id="homeQA"></div>
+      <div id="homeRecap"></div>
 
       <h2 class="sec"><span data-i18n="today">Lịch hôm nay</span> <a onclick="go('schedule')" data-i18n="seeall">Xem tất cả</a></h2>
       <div class="card" id="homeAgenda"></div>
@@ -334,21 +416,13 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       <h2 class="sec"><span data-i18n="featured">Diễn giả nổi bật</span> <a onclick="go('explore');switchTab('speakers')" data-i18n="all">Tất cả</a></h2>
       <div class="hscroll" id="spkScroll"></div>
 
-      <div class="banner pic" style="--img:url('assets/img/workshop.jpg')">
+      <h2 class="sec"><span data-i18n="headline_spon">Nhà tài trợ chính</span> <a onclick="go('explore');switchTab('sponsors')" data-i18n="all">Tất cả</a></h2>
+      <div class="hscroll" id="sponStrip"></div>
+
+      <div class="banner pic" id="homeBanner" style="--img:url('assets/img/workshop.jpg')">
         <b data-i18n="banner_t">Nâng cấp Networking Pro</b>
         <p data-i18n="banner_p">Mở khóa gợi ý kết nối thông minh & đặt lịch gặp ưu tiên.</p>
         <button class="btn sm" style="background:#fff;color:var(--red)" onclick="toast(tr('t_pro'))" data-i18n="banner_btn">Tìm hiểu thêm</button>
-      </div>
-
-      <h2 class="sec"><span data-i18n="community">Cộng đồng</span> <a onclick="toast(tr('t_community'))" data-i18n="new">Mới</a></h2>
-      <div class="feed">
-        <div class="post">
-          <div class="ph"><div class="av xs" style="background:#7A5C00">LW</div>
-            <div><b>Lara Weber</b><br><span data-i18n="feed_role">Diễn giả · 2 giờ trước</span></div></div>
-          <p data-i18n="feed_text">Rất mong được gặp các bạn tại phiên Fintech chiều nay! Ai quan tâm tới thanh toán xuyên biên giới VN–CH ghé nhé 🇻🇳🇨🇭</p>
-          <div class="postshot pic" style="--img:url('assets/img/forum-talk.jpg')"></div>
-          <div class="acts"><span>❤️ 42</span><span>💬 8</span><span data-i18n="share">↗ Chia sẻ</span></div>
-        </div>
       </div>
     </section>
 
@@ -356,34 +430,62 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <section class="screen" data-screen="explore">
       <div class="search">🔎<input id="exSearch" data-i18n-ph="search_ph" placeholder="Tìm session, diễn giả, gian hàng…" oninput="filterExplore(this.value)"><span class="muted">⚙️</span></div>
       <div class="tabs" id="exTabs">
-        <button class="on" data-tab="sessions" onclick="switchTab('sessions')" data-i18n="tab_sessions">Phiên</button>
+        <button class="on" data-tab="agenda" onclick="switchTab('agenda')" data-i18n="tab_agenda">Chương trình</button>
         <button data-tab="speakers" onclick="switchTab('speakers')" data-i18n="tab_speakers">Diễn giả</button>
+        <button data-tab="sponsors" onclick="switchTab('sponsors')" data-i18n="tab_sponsors">Tài trợ</button>
         <button data-tab="exhibitors" onclick="switchTab('exhibitors')" data-i18n="tab_booths">Gian hàng</button>
       </div>
       <div style="height:6px"></div>
       <div id="exList"></div>
     </section>
 
-    <!-- SCHEDULE -->
+    <!-- SCHEDULE (Agenda + Meetings) -->
     <section class="screen" data-screen="schedule">
-      <div class="tabs" style="margin-top:14px">
-        <button class="on" data-i18n="day1">Ngày 1 · 18/6</button><button data-i18n="day2">Ngày 2 · 19/6</button>
+      <div class="tabs" id="scTabs" style="margin-top:16px">
+        <button class="on" data-sctab="agenda" onclick="switchScTab('agenda')" data-i18n="sc_tab_agenda">Chương trình</button>
+        <button data-sctab="meetings" onclick="switchScTab('meetings')" data-i18n="sc_tab_meet">Lịch gặp</button>
       </div>
-      <h2 class="sec"><span data-i18n="myschedule">Lịch của tôi</span> <span class="chip red" data-i18n="n_sessions">3 phiên</span></h2>
-      <div id="myAgenda"></div>
-      <div class="empty" style="padding:24px"><p style="margin:0;font-size:12.5px" data-i18n="sched_empty">Thêm phiên từ mục Khám phá để xây lịch trình cá nhân.</p></div>
+      <div id="scBody"></div>
+      <div style="height:18px"></div>
     </section>
 
     <!-- NETWORK -->
     <section class="screen" data-screen="network">
       <div class="row" style="margin:16px">
-        <button class="btn dark" onclick="openQR()"><span>📱</span><span data-i18n="qr_card_btn">Danh thiếp QR</span></button>
-        <button class="btn ghost" onclick="toast(tr('t_meet'))"><span>📅</span><span data-i18n="meetings">Lịch gặp</span></button>
+        <button class="btn dark" onclick="openQR()"><span>📱</span><span data-i18n="qr_card_btn">QR kết nối</span></button>
+        <button class="btn ghost" onclick="openMeetings()"><span>📅</span><span data-i18n="meetings">Lịch gặp</span></button>
       </div>
       <h2 class="sec"><span data-i18n="suggested">Gợi ý cho bạn</span> <span class="chip gold">AI Match</span></h2>
+      <div class="note" data-i18n="ai_note">AI gợi ý dựa trên ngành nghề, thị trường mục tiêu và các mối quan tâm bạn khai báo trong hồ sơ.</div>
       <div id="suggest"></div>
       <h2 class="sec"><span data-i18n="my_conns">Kết nối của tôi</span></h2>
+      <div class="note mono" data-i18n="my_conns_sub">Những người bạn đã nhắn tin hoặc đã gửi yêu cầu gặp.</div>
       <div id="myConns"></div>
+      <div style="height:18px"></div>
+    </section>
+
+    <!-- PARTICIPANTS -->
+    <section class="screen" data-screen="participants">
+      <div class="note mono" style="margin-top:16px" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
+      <div class="filterbar">
+        <label><span data-i18n="flt_industry">Ngành</span><select id="fltInd" onchange="renderParticipants()"></select></label>
+        <label><span data-i18n="flt_market">Thị trường</span><select id="fltMkt" onchange="renderParticipants()"></select></label>
+      </div>
+      <div id="pList"></div>
+      <div style="height:18px"></div>
+    </section>
+
+    <!-- PERSON PROFILE -->
+    <section class="screen" data-screen="person">
+      <div class="phead">
+        <div class="av sm" id="ppAv" style="width:78px;height:78px;font-size:27px;margin:0 auto 10px">—</div>
+        <h3 style="margin:0;font-size:19px;letter-spacing:-.035em" id="ppName">—</h3>
+        <p style="margin:4px 0 0;opacity:.85;font-size:12.5px" id="ppRole">—</p>
+      </div>
+      <div class="note mono" style="margin-top:14px" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
+      <div class="facts" id="ppFacts"></div>
+      <div style="padding:4px 16px 0"><a class="btn ghost" id="ppLi" href="#" target="_blank" rel="noopener" data-i18n="pp_linkedin">Xem hồ sơ LinkedIn ↗</a></div>
+      <div class="row" style="margin:10px 16px 18px" id="ppActs"></div>
     </section>
 
     <!-- PROFILE -->
@@ -392,7 +494,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
         <div class="av sm" style="width:84px;height:84px;font-size:30px;margin:0 auto 10px;background:#DA291C">AT</div>
         <h3 style="margin:0;font-size:19px">Anh Trần</h3>
         <p style="margin:3px 0 0;opacity:.85;font-size:12.5px" data-i18n="p_role">Giám đốc Đầu tư · Zegoe Capital</p>
-        <span class="chip" style="margin-top:10px;background:rgba(255,255,255,.18);color:#fff"><span data-i18n="vip_ticket">🎫 Vé VIP</span> · #SVEF-2041</span>
+        <span class="chip" style="margin-top:10px;background:rgba(255,255,255,.18);color:#fff"><span data-i18n="vip_ticket">🎫 Vé tham dự</span> · #SVEF-2041</span>
       </div>
       <div class="stats">
         <div><b>12</b><span data-i18n="st_conn">Kết nối</span></div>
@@ -400,7 +502,8 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
         <div><b>3</b><span data-i18n="st_meet">Lịch gặp</span></div>
       </div>
       <div class="menu">
-        <button onclick="openQR()"><span class="mi">📱</span><span data-i18n="m_eticket">Vé điện tử & QR</span><span class="ch">›</span></button>
+        <button onclick="openQR()"><span class="mi">📱</span><span data-i18n="m_qrconnect">QR kết nối</span><span class="ch">›</span></button>
+        <button onclick="openTicket()"><span class="mi">🎫</span><span data-i18n="m_eticket">Vé điện tử</span><span class="ch">›</span></button>
         <button onclick="toast(tr('t_edit'))"><span class="mi">✏️</span><span data-i18n="m_edit">Chỉnh sửa hồ sơ</span><span class="ch">›</span></button>
         <button onclick="toast(tr('t_hist'))"><span class="mi">🕑</span><span data-i18n="m_history">Lịch sử kết nối</span><span class="ch">›</span></button>
         <button onclick="toast(tr('t_privacy'))"><span class="mi">🔒</span><span data-i18n="m_privacy">Quyền riêng tư & hiển thị</span><span class="ch">›</span></button>
@@ -461,7 +564,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       </div>
       <h2 class="sec"><span data-i18n="speaker_l">Diễn giả</span></h2>
       <div class="conn"><div class="av sm" id="sDav">N</div><div class="meta"><h4 id="sDspk">—</h4><p id="sDspkrole">—</p></div></div>
-      <div style="padding:0 16px 8px"><button class="btn" onclick="toast(tr('t_added_sched'))" data-i18n="add_sched">➕ Thêm vào lịch của tôi</button></div>
+      <div style="padding:0 16px 18px"><button class="btn" id="sDsave" onclick="toggleSave(curSession)">➕</button></div>
     </section>
 
   </div><!-- /content -->
@@ -471,49 +574,69 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <button data-nav="explore" onclick="go('explore')"><span class="ni">🧭</span><span data-i18n="nav_explore">Khám phá</span></button>
     <button data-nav="schedule" onclick="go('schedule')"><span class="ni">📅</span><span data-i18n="nav_schedule">Lịch</span></button>
     <button data-nav="network" onclick="go('network')"><span class="ni">🤝</span><span data-i18n="nav_network">Kết nối</span></button>
+    <button data-nav="participants" onclick="go('participants')"><span class="ni">👥</span><span data-i18n="nav_people">Tham dự</span></button>
     <button data-nav="profile" onclick="go('profile')"><span class="ni">👤</span><span data-i18n="nav_profile">Hồ sơ</span></button>
   </div>
 
   <div class="scrim" id="scrim" onclick="closeSheet()"></div>
 
-  <!-- REGISTRATION SHEET -->
+  <!-- REGISTRATION SHEET (free registration form) -->
   <div class="sheet" id="sheetReg">
     <div class="grab"></div>
     <h3 data-i18n="reg_title">Đăng ký tham dự</h3>
-    <p class="sub" data-i18n="reg_sub">SVEF 2026 · 18–19/6 · GEM Center, TP.HCM</p>
-    <div id="regStep1">
-      <div class="ticket sel" onclick="selTicket(this,'std','2.500.000đ')"><div><b data-i18n="tn_std">Vé Standard</b><div class="muted" style="font-size:11.5px" data-i18n="td_std">Truy cập 2 ngày · Tài liệu</div></div><div style="text-align:right"><div class="pr">2.500.000đ</div><div class="radio"></div></div></div>
-      <div class="ticket" onclick="selTicket(this,'vip','5.500.000đ')"><div><b data-i18n="tn_vip">Vé VIP</b><div class="muted" style="font-size:11.5px" data-i18n="td_vip">Gala dinner · Networking Lounge · Ưu tiên gặp</div></div><div style="text-align:right"><div class="pr">5.500.000đ</div><div class="radio"></div></div></div>
-      <div class="ticket" onclick="selTicket(this,'grp','6.000.000đ')"><div><b data-i18n="tn_grp">Vé Nhóm (3 người)</b><div class="muted" style="font-size:11.5px" data-i18n="td_grp">Tiết kiệm 20% · Quản lý thành viên</div></div><div style="text-align:right"><div class="pr">6.000.000đ</div><div class="radio"></div></div></div>
-      <div style="padding:6px 16px 0"><button class="btn" onclick="regToPay()" data-i18n="continue">Tiếp tục</button></div>
+    <p class="sub" id="regSub">—</p>
+    <div id="regForm">
+      <div class="note" data-i18n="reg_free">Đăng ký sự kiện SVEF là miễn phí. Vui lòng điền thông tin bên dưới.</div>
+      <div class="field"><label data-i18n="f_name">Họ và tên</label><input id="rgName" value="Anh Trần"></div>
+      <div class="field"><label data-i18n="f_email">Email</label><input id="rgMail" type="email" value="anh.tran@zegoe.vn"></div>
+      <div class="field"><label data-i18n="f_company">Công ty</label><input id="rgCo" value="Zegoe Capital"></div>
+      <div class="field"><label data-i18n="f_title">Chức danh</label><input id="rgTitle" value="Giám đốc Đầu tư"></div>
+      <div style="padding:4px 16px 0"><button class="btn" onclick="submitReg()" data-i18n="reg_submit">Gửi đăng ký</button></div>
     </div>
-    <div id="regStep2" style="display:none">
-      <p class="sub" data-i18n="pay_choose">Chọn phương thức thanh toán (cổng VN)</p>
-      <div style="margin:0 16px 12px;background:#fff;color:#6F6F6B;border:1px solid #DDDDD8;border-left:3px solid #8A6D00;padding:11px 13px;font-size:11px;font-weight:500;line-height:1.5" data-i18n="pay_phase">ℹ️ Cổng thanh toán nội địa VN dự kiến ở giai đoạn sau (ngoài phạm vi đợt 1 — BRD §3.2). Demo minh hoạ luồng.</div>
-      <div class="pay sel" onclick="selPay(this)"><div class="lg" style="background:#1F3A5F">VN</div><div style="flex:1"><b>VNPay</b><div class="muted" style="font-size:11px" data-i18n="pay_vnpay_d">Thẻ ATM/QR ngân hàng nội địa</div></div><div class="radio"></div></div>
-      <div class="pay" onclick="selPay(this)"><div class="lg" style="background:#a50064">MoMo</div><div style="flex:1"><b>MoMo</b><div class="muted" style="font-size:11px" data-i18n="pay_momo_d">Thanh toán qua ứng dụng</div></div><div class="radio"></div></div>
-      <div class="pay" onclick="selPay(this)"><div class="lg" style="background:#0068ff">Zalo</div><div style="flex:1"><b>ZaloPay</b><div class="muted" style="font-size:11px" data-i18n="pay_zalo_d">Ví điện tử</div></div><div class="radio"></div></div>
-      <div style="padding:6px 16px 0"><button class="btn" id="payBtn" onclick="payNow()"><span data-i18n="pay_btn">Thanh toán</span>&nbsp;<span id="payAmt"></span></button></div>
-      <div style="padding:8px 16px 0"><button class="btn ghost" onclick="backToTickets()" data-i18n="back">‹ Quay lại</button></div>
-    </div>
-    <div id="regStep3" style="display:none;text-align:center;padding:10px 16px 0">
-      <div style="font-size:54px">✅</div>
-      <h3 style="text-align:center" data-i18n="ok_title">Đăng ký thành công!</h3>
-      <p class="sub" style="text-align:center" data-i18n="ok_sub">Vé điện tử đã được gửi tới email & ví vé của bạn.</p>
-      <div class="qrbox"></div>
-      <p class="muted" style="font-size:12px">#SVEF-2041 · <span id="okTicket">VIP</span></p>
-      <button class="btn" onclick="closeSheet();go('home')" data-i18n="done">Hoàn tất</button>
+    <div id="regDone" style="display:none;text-align:center;padding:6px 16px 0">
+      <div style="font-size:48px">✅</div>
+      <h3 style="text-align:center" data-i18n="reg_ok_t">Đã đăng ký!</h3>
+      <p class="sub" style="text-align:center" data-i18n="reg_ok_p">Xác nhận đã được gửi tới email của bạn. Sự kiện đã chuyển sang mục Đã đăng ký.</p>
+      <button class="btn" onclick="closeSheet();switchEvTab('registered');go('events')" data-i18n="reg_ok_btn">Xem sự kiện đã đăng ký</button>
     </div>
   </div>
 
-  <!-- QR SHEET -->
+  <!-- MEETING REQUEST SHEET -->
+  <div class="sheet" id="sheetMeet">
+    <div class="grab"></div>
+    <h3 data-i18n="mr_title">Yêu cầu gặp</h3>
+    <p class="sub" id="mrSub">—</p>
+    <div class="note mono" data-i18n="tz_note">Tất cả thời gian theo giờ GMT+7 (Hà Nội).</div>
+    <div class="mlabel" style="margin:2px 16px 0" data-i18n="mr_day">Chọn ngày</div>
+    <div class="pillrow" id="mrDays"></div>
+    <div class="mlabel" style="margin:8px 16px 0" data-i18n="mr_time">Chọn khung giờ</div>
+    <div class="pillrow" id="mrSlots"></div>
+    <div class="field" style="margin-top:10px"><label data-i18n="mr_note">Lời nhắn (không bắt buộc)</label><textarea id="mrMsg"></textarea></div>
+    <div style="padding:0 16px"><button class="btn" onclick="sendMeetingReq()" data-i18n="mr_send">Gửi yêu cầu</button></div>
+  </div>
+
+  <!-- QR CONNECT SHEET -->
   <div class="sheet" id="sheetQR">
     <div class="grab"></div>
-    <h3 data-i18n="qr_title">Danh thiếp điện tử</h3>
-    <p class="sub" data-i18n="qr_sub">Quét để kết nối & trao đổi thông tin</p>
+    <h3 data-i18n="qr_title">QR kết nối</h3>
+    <p class="sub" data-i18n="qr_sub">Đưa mã này cho người tham dự khác quét để kết nối. Đây không phải mã vào cửa.</p>
     <div class="qrbox"></div>
     <div style="text-align:center;margin-bottom:8px"><b style="font-size:16px">Anh Trần</b><br><span class="muted" style="font-size:12.5px" data-i18n="p_role">Giám đốc Đầu tư · Zegoe Capital</span></div>
     <div class="row" style="margin:0 16px"><button class="btn ghost" onclick="toast(tr('t_scan'))" data-i18n="scan">📷 Quét QR</button><button class="btn dark" onclick="toast(tr('t_saved_card'))" data-i18n="save">💾 Lưu</button></div>
+  </div>
+
+  <!-- E-TICKET SHEET -->
+  <div class="sheet" id="sheetTicket">
+    <div class="grab"></div>
+    <h3 data-i18n="et_title">Vé điện tử</h3>
+    <p class="sub" data-i18n="et_sub">Xuất trình mã này tại quầy check-in.</p>
+    <div class="qrbox"></div>
+    <div class="facts" style="margin-top:4px">
+      <div class="f"><div class="k" data-i18n="et_holder">Người sở hữu</div><div class="v">Anh Trần · Zegoe Capital</div></div>
+      <div class="f"><div class="k" data-i18n="et_event">Sự kiện</div><div class="v" id="etEvent">—</div></div>
+      <div class="f"><div class="k" data-i18n="et_code">Mã vé</div><div class="v" style="font-family:var(--mono);letter-spacing:.06em">#SVEF-2041</div></div>
+    </div>
+    <div style="padding:4px 16px 0"><button class="btn dark" onclick="toast(tr('t_wallet'))" data-i18n="et_add">Thêm vào ví</button></div>
   </div>
 
   <div class="toast" id="toast"></div>
@@ -523,74 +646,144 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 /* ===================== I18N DICTIONARY ===================== */
 const T={
  vi:{
-  greet:"Chào buổi sáng 👋", mon:"THG 6", evDay:"SVEF 2026 · Ngày 1", evLoc:"GEM Center · TP. Hồ Chí Minh", checkedin:"Đã check-in",
-  qa_register:"Đăng ký", qa_ticket:"Vé / QR", qa_map:"Bản đồ", qa_connect:"Kết nối",
-  today:"Lịch hôm nay", seeall:"Xem tất cả", featured:"Diễn giả nổi bật", all:"Tất cả",
+  greet:"Chào buổi sáng 👋", checkedin:"Đã check-in", ev_ended:"Đã kết thúc",
+  qa_qrconnect:"QR kết nối", qa_eticket:"Vé điện tử", qa_map:"Bản đồ", qa_connect:"Kết nối",
+  qa_agenda:"Chương trình", qa_meetings:"Lịch gặp", qa_people:"Tham dự", qa_messages:"Tin nhắn",
+  today:"Lịch hôm nay", seeall:"Xem tất cả", featured:"Diễn giả nổi bật", all:"Tất cả", headline_spon:"Nhà tài trợ chính",
   banner_t:"Nâng cấp Networking Pro", banner_p:"Mở khóa gợi ý kết nối thông minh & đặt lịch gặp ưu tiên.", banner_btn:"Tìm hiểu thêm",
-  community:"Cộng đồng", new:"Mới", feed_role:"Diễn giả · 2 giờ trước",
-  feed_text:"Rất mong được gặp các bạn tại phiên Fintech chiều nay! Ai quan tâm tới thanh toán xuyên biên giới VN–CH ghé nhé 🇻🇳🇨🇭", share:"↗ Chia sẻ",
-  search_ph:"Tìm session, diễn giả, gian hàng…", tab_sessions:"Phiên", tab_speakers:"Diễn giả", tab_booths:"Gian hàng",
-  day1:"Ngày 1 · 18/6", day2:"Ngày 2 · 19/6", myschedule:"Lịch của tôi", n_sessions:"3 phiên",
-  sched_empty:"Thêm phiên từ mục Khám phá để xây lịch trình cá nhân.",
-  qr_card_btn:"Danh thiếp QR", meetings:"Lịch gặp", suggested:"Gợi ý cho bạn", my_conns:"Kết nối của tôi", pending:"Đang chờ",
-  p_role:"Giám đốc Đầu tư · Zegoe Capital", vip_ticket:"🎫 Vé VIP", st_conn:"Kết nối", st_sess:"Phiên", st_meet:"Lịch gặp",
-  m_eticket:"Vé điện tử & QR", m_edit:"Chỉnh sửa hồ sơ", m_history:"Lịch sử kết nối", m_privacy:"Quyền riêng tư & hiển thị",
+  search_ph:"Tìm phiên, diễn giả, nhà tài trợ…", tab_agenda:"Chương trình", tab_speakers:"Diễn giả",
+  tab_sponsors:"Tài trợ", tab_booths:"Gian hàng",
+  sess_unit:"phiên đã lưu", saved_h:"Phiên đã lưu", sched_empty:"Chưa lưu phiên nào. Nhấn biểu tượng lưu trên một dòng chương trình ở mục Khám phá.",
+  sc_tab_agenda:"Chương trình", sc_tab_meet:"Lịch gặp", tz_note:"Tất cả thời gian theo giờ GMT+7 (Hà Nội).",
+  mt_created:"Yêu cầu tạo ngày", mt_with:"Gặp với", dir_received:"Nhận được", dir_sent:"Đã gửi",
+  ms_confirmed:"Đã xác nhận", ms_pending:"Chờ xác nhận", ms_canceled:"Đã huỷ", ms_declined:"Đã từ chối",
+  meet_none:"Chưa có lịch gặp nào cho sự kiện này.",
+  qr_card_btn:"QR kết nối", meetings:"Lịch gặp", suggested:"Gợi ý cho bạn", my_conns:"Kết nối của tôi",
+  my_conns_sub:"Những người bạn đã nhắn tin hoặc đã gửi yêu cầu gặp.",
+  ai_note:"AI gợi ý dựa trên ngành nghề, thị trường mục tiêu và các mối quan tâm bạn khai báo trong hồ sơ.",
+  btn_meet:"Yêu cầu gặp", btn_chat:"Nhắn tin",
+  mtg_confirmed:"Đã xác nhận gặp", mtg_pending:"Chờ xác nhận gặp", mtg_canceled:"Lịch gặp đã huỷ", mtg_declined:"Lịch gặp bị từ chối",
+  p_role:"Giám đốc Đầu tư · Zegoe Capital", vip_ticket:"🎫 Vé tham dự", st_conn:"Kết nối", st_sess:"Phiên", st_meet:"Lịch gặp",
+  m_qrconnect:"QR kết nối", m_eticket:"Vé điện tử", m_edit:"Chỉnh sửa hồ sơ", m_history:"Lịch sử kết nối", m_privacy:"Quyền riêng tư & hiển thị",
   m_lang:"Ngôn ngữ · Tiếng Việt", m_notif:"Cài đặt thông báo", m_help:"Trợ giúp & Hỗ trợ",
   leg_booth:"Gian hàng nổi bật", leg_session:"Phiên / phòng", leg_net:"Networking", leg_you:"Vị trí của bạn", booths_near:"Gian hàng gần bạn",
   svgHall:"Hội trường A", svgB1:"Phòng B1", svgB2:"Phòng B2", svgLounge:"Networking", svgLobby:"Sảnh chính · Check-in · Cà phê", directions:"Chỉ đường",
-  time_l:"Thời gian", loc_l:"Địa điểm", speaker_l:"Diễn giả", add_sched:"➕ Thêm vào lịch của tôi",
-  nav_home:"Trang chủ", nav_explore:"Khám phá", nav_schedule:"Lịch", nav_network:"Kết nối", nav_profile:"Hồ sơ",
-  reg_title:"Đăng ký tham dự", reg_sub:"SVEF 2026 · 18–19/6 · GEM Center, TP.HCM",
-  tn_std:"Vé Standard", td_std:"Truy cập 2 ngày · Tài liệu", tn_vip:"Vé VIP", td_vip:"Gala dinner · Networking Lounge · Ưu tiên gặp",
-  tn_grp:"Vé Nhóm (3 người)", td_grp:"Tiết kiệm 20% · Quản lý thành viên", continue:"Tiếp tục",
-  pay_choose:"Chọn phương thức thanh toán (cổng VN)", pay_phase:"ℹ️ Cổng thanh toán nội địa VN dự kiến ở giai đoạn sau (ngoài phạm vi đợt 1 — BRD §3.2). Demo minh hoạ luồng.", pay_vnpay_d:"Thẻ ATM/QR ngân hàng nội địa", pay_momo_d:"Thanh toán qua ứng dụng", pay_zalo_d:"Ví điện tử",
-  pay_btn:"Thanh toán", back:"‹ Quay lại", processing:"Đang xử lý…", ok_title:"Đăng ký thành công!", ok_sub:"Vé điện tử đã được gửi tới email & ví vé của bạn.", done:"Hoàn tất",
-  qr_title:"Danh thiếp điện tử", qr_sub:"Quét để kết nối & trao đổi thông tin", scan:"📷 Quét QR", save:"💾 Lưu",
+  time_l:"Thời gian", loc_l:"Địa điểm", speaker_l:"Diễn giả",
+  add_sched:"➕ Lưu vào chương trình của tôi", added_sched:"✓ Đã lưu vào chương trình của tôi",
+  nav_home:"Trang chủ", nav_explore:"Khám phá", nav_schedule:"Lịch", nav_network:"Kết nối", nav_people:"Tham dự", nav_profile:"Hồ sơ",
+  ev_kicker:"Diễn đàn Kinh tế Thụy Sĩ - Việt Nam", ev_title:"SVEF Events", ev_sub:"Tất cả sự kiện SVEF trong một ứng dụng.",
+  ev_tab_up:"Sắp diễn ra", ev_tab_past:"Đã qua", ev_tab_reg:"Đã đăng ký",
+  ev_register:"Đăng ký", ev_info:"Thông tin", ev_open:"Mở sự kiện", ev_buy:"Mua vé trên website ↗",
+  ev_paid_note:"Sự kiện có thu phí. Việc mua vé được thực hiện trên website sự kiện của ban tổ chức.",
+  ev_free:"Miễn phí", ev_paid:"Có phí", ev_readonly:"Chỉ đọc",
+  ev_moves:"Khi một sự kiện kết thúc, sự kiện đó sẽ tự động chuyển từ mục Đã đăng ký sang mục Đã qua.",
+  ev_readonly_note:"Sự kiện đã qua ở chế độ chỉ đọc: chương trình, tin nhắn, lịch gặp, người tham dự và ghi chú tổng kết của ban tổ chức.",
+  ev_none:"Chưa có sự kiện nào trong mục này.",
+  ei_facts:"Thông tin sự kiện", ei_about:"Giới thiệu", ei_web:"Xem trên website SVEF ↗",
+  ei_dates:"Thời gian", ei_venue:"Địa điểm", ei_org:"Đơn vị tổ chức", ei_tz:"Múi giờ", ei_fee:"Phí tham dự", ei_status:"Trạng thái",
+  ei_st_up:"Sắp diễn ra", ei_st_reg:"Bạn đã đăng ký", ei_st_past:"Đã kết thúc",
+  reg_title:"Đăng ký tham dự", reg_free:"Đăng ký sự kiện SVEF là miễn phí. Vui lòng điền thông tin bên dưới.",
+  f_name:"Họ và tên", f_email:"Email", f_company:"Công ty", f_title:"Chức danh", reg_submit:"Gửi đăng ký",
+  reg_ok_t:"Đã đăng ký!", reg_ok_p:"Xác nhận đã được gửi tới email của bạn. Sự kiện đã chuyển sang mục Đã đăng ký.",
+  reg_ok_btn:"Xem sự kiện đã đăng ký", reg_need:"Vui lòng nhập họ tên và email.",
+  mr_title:"Yêu cầu gặp", mr_day:"Chọn ngày", mr_time:"Chọn khung giờ", mr_note:"Lời nhắn (không bắt buộc)", mr_send:"Gửi yêu cầu",
+  qr_title:"QR kết nối", qr_sub:"Đưa mã này cho người tham dự khác quét để kết nối. Đây không phải mã vào cửa.",
+  scan:"📷 Quét QR", save:"💾 Lưu",
+  et_title:"Vé điện tử", et_sub:"Xuất trình mã này tại quầy check-in.", et_holder:"Người sở hữu", et_event:"Sự kiện",
+  et_code:"Mã vé", et_add:"Thêm vào ví",
+  flt_industry:"Ngành", flt_market:"Thị trường", flt_all:"Tất cả",
+  synced:"Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF",
+  p_none:"Không có người tham dự nào phù hợp bộ lọc.",
+  pp_title:"Chức danh", pp_company:"Công ty", pp_industry:"Ngành", pp_about_co:"Về công ty", pp_markets:"Thị trường",
+  pp_linkedin:"Xem hồ sơ LinkedIn ↗",
+  past_recap_l:"Ghi chú từ ban tổ chức", past_recap_t:"Cảm ơn bạn đã tham dự",
+  past_recap_p:"Ban tổ chức SVEF xin cảm ơn hơn 600 đại biểu đã đồng hành. Tài liệu và bản ghi các phiên sẽ được gửi qua email trong tuần này.",
   follow:"+ Theo dõi", directions_btn:"Chỉ đường",
-  ab_explore:"Khám phá", ab_schedule:"Lịch trình", ab_network:"Kết nối & Networking", ab_profile:"Hồ sơ", ab_map:"Bản đồ sự kiện", ab_notifications:"Thông báo", ab_session:"Chi tiết phiên",
-  t_pro:"Demo: tính năng Pro", t_community:"Demo: bảng tin Cộng đồng", t_meet:"Demo: Lời mời gặp", t_edit:"Demo: Chỉnh sửa hồ sơ", t_hist:"Demo: Lịch sử kết nối",
-  t_privacy:"Demo: Quyền riêng tư", t_notif:"Demo: Cài đặt thông báo", t_help:"Demo: Hỗ trợ", t_added_sched:"Đã thêm vào Lịch của tôi", t_scan:"Đang mở máy quét…", t_saved_card:"Đã lưu danh thiếp",
-  t_followed:"Đã theo dõi ", t_profile:"Hồ sơ: ", t_booth:"Gian hàng: ", t_invite:"Đã gửi lời mời tới ", t_chat:"Mở chat với ", t_dir:"Chỉ đường tới ",
+  ab_explore:"Khám phá", ab_schedule:"Lịch của tôi", ab_network:"Kết nối", ab_participants:"Người tham dự",
+  ab_profile:"Hồ sơ", ab_map:"Bản đồ", ab_notifications:"Thông báo", ab_session:"Chi tiết phiên",
+  ab_person:"Hồ sơ", ab_events:"Sự kiện SVEF", ab_eventinfo:"Thông tin sự kiện", ab_toevents:"Danh sách sự kiện",
+  t_pro:"Demo: tính năng Pro", t_edit:"Demo: Chỉnh sửa hồ sơ", t_hist:"Demo: Lịch sử kết nối",
+  t_privacy:"Demo: Quyền riêng tư", t_notif:"Demo: Cài đặt thông báo", t_help:"Demo: Hỗ trợ",
+  t_scan:"Đang mở máy quét…", t_saved_card:"Đã lưu danh thiếp", t_wallet:"Demo: Đã thêm vé vào ví",
+  t_msgs:"Demo: Tin nhắn sự kiện",
+  t_followed:"Đã theo dõi ", t_profile:"Hồ sơ: ", t_booth:"Gian hàng: ", t_chat:"Mở chat với ", t_dir:"Chỉ đường tới ",
+  t_meet_sent:"Đã gửi yêu cầu gặp tới ", t_saved:"Đã lưu phiên vào chương trình của tôi", t_unsaved:"Đã bỏ lưu phiên",
+  t_readonly:"Sự kiện đã kết thúc - chế độ chỉ đọc", t_ended:"Sự kiện đã kết thúc, không thể thao tác.",
   lang_switched:"Đã chuyển sang Tiếng Việt", empty_search:"Không tìm thấy kết quả phù hợp.",
   notif:[["📅","var(--red)","Phiên sắp bắt đầu","“Đầu tư Thụy Sĩ – Việt Nam” bắt đầu sau 15 phút tại Phòng B2.","2 phút"],
-         ["🤝","var(--gold)","Yêu cầu gặp mới","Lara Weber muốn gặp bạn lúc 15:30. Chấp nhận?","12 phút"],
+         ["🤝","var(--gold)","Yêu cầu gặp mới","Lara Weber muốn gặp bạn lúc 15:30 (GMT+7). Chấp nhận?","12 phút"],
          ["🔔","var(--navy)","Thay đổi lịch trình","Phiên “Fintech” chuyển sang Phòng B1.","1 giờ"],
-         ["✅","var(--green)","Thanh toán thành công","Vé VIP #SVEF-2041 đã được xác nhận.","1 ngày"]]
+         ["✅","var(--green)","Đăng ký thành công","Đăng ký tham dự SVEF 2026 đã được xác nhận. Mã vé #SVEF-2041.","1 ngày"]]
  },
  en:{
-  greet:"Good morning 👋", mon:"JUN", evDay:"SVEF 2026 · Day 1", evLoc:"GEM Center · Ho Chi Minh City", checkedin:"Checked in",
-  qa_register:"Register", qa_ticket:"Ticket / QR", qa_map:"Map", qa_connect:"Connect",
-  today:"Today's schedule", seeall:"See all", featured:"Featured speakers", all:"All",
+  greet:"Good morning 👋", checkedin:"Checked in", ev_ended:"Ended",
+  qa_qrconnect:"QR Connect", qa_eticket:"E-Ticket", qa_map:"Map", qa_connect:"Connect",
+  qa_agenda:"Agenda", qa_meetings:"Meetings", qa_people:"People", qa_messages:"Messages",
+  today:"Today's schedule", seeall:"See all", featured:"Featured speakers", all:"All", headline_spon:"Headline sponsors",
   banner_t:"Upgrade to Networking Pro", banner_p:"Unlock smart connection suggestions & priority meeting booking.", banner_btn:"Learn more",
-  community:"Community", new:"New", feed_role:"Speaker · 2 hours ago",
-  feed_text:"Looking forward to meeting you at the Fintech session this afternoon! If you're into VN–CH cross-border payments, drop by 🇻🇳🇨🇭", share:"↗ Share",
-  search_ph:"Search sessions, speakers, booths…", tab_sessions:"Sessions", tab_speakers:"Speakers", tab_booths:"Booths",
-  day1:"Day 1 · Jun 18", day2:"Day 2 · Jun 19", myschedule:"My schedule", n_sessions:"3 sessions",
-  sched_empty:"Add sessions from Explore to build your personal agenda.",
-  qr_card_btn:"QR card", meetings:"Meetings", suggested:"Suggested for you", my_conns:"My connections", pending:"Pending",
-  p_role:"Investment Director · Zegoe Capital", vip_ticket:"🎫 VIP Ticket", st_conn:"Connections", st_sess:"Sessions", st_meet:"Meetings",
-  m_eticket:"E-ticket & QR", m_edit:"Edit profile", m_history:"Connection history", m_privacy:"Privacy & visibility",
+  search_ph:"Search sessions, speakers, sponsors…", tab_agenda:"Agenda", tab_speakers:"Speakers",
+  tab_sponsors:"Sponsors", tab_booths:"Booths",
+  sess_unit:"saved", saved_h:"Saved sessions", sched_empty:"No sessions saved yet. Tap the save icon on an agenda row in Explore.",
+  sc_tab_agenda:"Agenda", sc_tab_meet:"Meetings", tz_note:"All times shown in GMT+7 (Hanoi).",
+  mt_created:"Requested on", mt_with:"Meeting with", dir_received:"Received", dir_sent:"Sent",
+  ms_confirmed:"Confirmed", ms_pending:"Pending", ms_canceled:"Canceled", ms_declined:"Declined",
+  meet_none:"No meetings for this event yet.",
+  qr_card_btn:"QR Connect", meetings:"Meetings", suggested:"Suggested for you", my_conns:"My connections",
+  my_conns_sub:"People you have messaged or sent a meeting request to.",
+  ai_note:"AI suggestions are matched on your industry, your target markets and the interests stated in your profile.",
+  btn_meet:"Request meeting", btn_chat:"Chat",
+  mtg_confirmed:"Meeting confirmed", mtg_pending:"Meeting pending", mtg_canceled:"Meeting canceled", mtg_declined:"Meeting declined",
+  p_role:"Investment Director · Zegoe Capital", vip_ticket:"🎫 Attendee pass", st_conn:"Connections", st_sess:"Sessions", st_meet:"Meetings",
+  m_qrconnect:"QR Connect", m_eticket:"E-Ticket", m_edit:"Edit profile", m_history:"Connection history", m_privacy:"Privacy & visibility",
   m_lang:"Language · English", m_notif:"Notification settings", m_help:"Help & Support",
   leg_booth:"Featured booths", leg_session:"Sessions / rooms", leg_net:"Networking", leg_you:"Your location", booths_near:"Booths near you",
   svgHall:"Hall A", svgB1:"Room B1", svgB2:"Room B2", svgLounge:"Networking", svgLobby:"Main lobby · Check-in · Coffee", directions:"Directions",
-  time_l:"Time", loc_l:"Location", speaker_l:"Speaker", add_sched:"➕ Add to my schedule",
-  nav_home:"Home", nav_explore:"Explore", nav_schedule:"Schedule", nav_network:"Connect", nav_profile:"Profile",
-  reg_title:"Register to attend", reg_sub:"SVEF 2026 · Jun 18–19 · GEM Center, HCMC",
-  tn_std:"Standard Ticket", td_std:"2-day access · Materials", tn_vip:"VIP Ticket", td_vip:"Gala dinner · Networking Lounge · Priority meetings",
-  tn_grp:"Group Ticket (3)", td_grp:"Save 20% · Manage members", continue:"Continue",
-  pay_choose:"Choose a payment method (VN gateway)", pay_phase:"ℹ️ The domestic VN payment gateway is planned for a later phase (out of scope for rollout 1 — BRD §3.2). Demo shows the flow only.", pay_vnpay_d:"Domestic ATM card / bank QR", pay_momo_d:"Pay via the app", pay_zalo_d:"E-wallet",
-  pay_btn:"Pay", back:"‹ Back", processing:"Processing…", ok_title:"Registration successful!", ok_sub:"Your e-ticket has been sent to your email & ticket wallet.", done:"Done",
-  qr_title:"Digital business card", qr_sub:"Scan to connect & exchange info", scan:"📷 Scan QR", save:"💾 Save",
+  time_l:"Time", loc_l:"Location", speaker_l:"Speaker",
+  add_sched:"➕ Save to my agenda", added_sched:"✓ Saved to my agenda",
+  nav_home:"Home", nav_explore:"Explore", nav_schedule:"Agenda", nav_network:"Connect", nav_people:"Participants", nav_profile:"Profile",
+  ev_kicker:"Swiss - Vietnam Economic Forum", ev_title:"SVEF Events", ev_sub:"Every SVEF event in one app.",
+  ev_tab_up:"Upcoming", ev_tab_past:"Past", ev_tab_reg:"Registered",
+  ev_register:"Register", ev_info:"Event Info", ev_open:"Open event", ev_buy:"Buy tickets on website ↗",
+  ev_paid_note:"This is a paid event. Ticket purchase happens on the organiser's event website.",
+  ev_free:"Free", ev_paid:"Paid", ev_readonly:"Read-only",
+  ev_moves:"When an event ends it moves automatically from Registered to Past.",
+  ev_readonly_note:"Past events are read-only: agenda, messages, meetings, participants and the organisers' recap note.",
+  ev_none:"No events in this tab yet.",
+  ei_facts:"Event details", ei_about:"About", ei_web:"View on the SVEF website ↗",
+  ei_dates:"Dates", ei_venue:"Venue", ei_org:"Organiser", ei_tz:"Time zone", ei_fee:"Attendance", ei_status:"Status",
+  ei_st_up:"Upcoming", ei_st_reg:"You are registered", ei_st_past:"Ended",
+  reg_title:"Register to attend", reg_free:"Registering for SVEF events is free. Please fill in your details below.",
+  f_name:"Full name", f_email:"Email", f_company:"Company", f_title:"Job title", reg_submit:"Submit registration",
+  reg_ok_t:"You are registered!", reg_ok_p:"A confirmation has been sent to your email. The event now appears under Registered.",
+  reg_ok_btn:"View registered events", reg_need:"Please enter your name and email.",
+  mr_title:"Request meeting", mr_day:"Choose a day", mr_time:"Choose a time", mr_note:"Message (optional)", mr_send:"Send request",
+  qr_title:"QR Connect", qr_sub:"Show this code to another attendee to connect. This is not the entry code.",
+  scan:"📷 Scan QR", save:"💾 Save",
+  et_title:"E-Ticket", et_sub:"Show this code at the check-in desk.", et_holder:"Ticket holder", et_event:"Event",
+  et_code:"Ticket code", et_add:"Add to wallet",
+  flt_industry:"Industry", flt_market:"Market", flt_all:"All",
+  synced:"Data synced from the SVEF admin dashboard",
+  p_none:"No participants match the current filter.",
+  pp_title:"Job title", pp_company:"Company", pp_industry:"Industry", pp_about_co:"About the company", pp_markets:"Markets",
+  pp_linkedin:"View LinkedIn profile ↗",
+  past_recap_l:"Note from the organisers", past_recap_t:"Thank you for joining us",
+  past_recap_p:"The SVEF organising team thanks the 600+ delegates who joined us. Session materials and recordings will be emailed to you this week.",
   follow:"+ Follow", directions_btn:"Directions",
-  ab_explore:"Explore", ab_schedule:"Schedule", ab_network:"Connect & Networking", ab_profile:"Profile", ab_map:"Event map", ab_notifications:"Notifications", ab_session:"Session details",
-  t_pro:"Demo: Pro feature", t_community:"Demo: Community feed", t_meet:"Demo: Meeting requests", t_edit:"Demo: Edit profile", t_hist:"Demo: Connection history",
-  t_privacy:"Demo: Privacy", t_notif:"Demo: Notification settings", t_help:"Demo: Support", t_added_sched:"Added to My Schedule", t_scan:"Opening scanner…", t_saved_card:"Card saved",
-  t_followed:"Following ", t_profile:"Profile: ", t_booth:"Booth: ", t_invite:"Invite sent to ", t_chat:"Open chat with ", t_dir:"Directions to ",
+  ab_explore:"Explore", ab_schedule:"My agenda", ab_network:"Connect", ab_participants:"Participants",
+  ab_profile:"Profile", ab_map:"Event map", ab_notifications:"Notifications", ab_session:"Session",
+  ab_person:"Attendee", ab_events:"SVEF Events", ab_eventinfo:"Event information", ab_toevents:"Event list",
+  t_pro:"Demo: Pro feature", t_edit:"Demo: Edit profile", t_hist:"Demo: Connection history",
+  t_privacy:"Demo: Privacy", t_notif:"Demo: Notification settings", t_help:"Demo: Support",
+  t_scan:"Opening scanner…", t_saved_card:"Card saved", t_wallet:"Demo: ticket added to wallet",
+  t_msgs:"Demo: Event messages",
+  t_followed:"Following ", t_profile:"Profile: ", t_booth:"Booth: ", t_chat:"Open chat with ", t_dir:"Directions to ",
+  t_meet_sent:"Meeting request sent to ", t_saved:"Session saved to my agenda", t_unsaved:"Session removed from my agenda",
+  t_readonly:"This event has ended - read-only mode", t_ended:"This event has ended, actions are disabled.",
   lang_switched:"Switched to English", empty_search:"No matching results found.",
   notif:[["📅","var(--red)","Session starting soon","“Swiss–Vietnam Investment” starts in 15 min at Room B2.","2 min"],
-         ["🤝","var(--gold)","New meeting request","Lara Weber wants to meet you at 15:30. Accept?","12 min"],
+         ["🤝","var(--gold)","New meeting request","Lara Weber wants to meet you at 15:30 (GMT+7). Accept?","12 min"],
          ["🔔","var(--navy)","Schedule change","The “Fintech” session moved to Room B1.","1 hr"],
-         ["✅","var(--green)","Payment successful","VIP Ticket #SVEF-2041 has been confirmed.","1 day"]]
+         ["✅","var(--green)","Registration confirmed","Your registration for SVEF 2026 is confirmed. Ticket #SVEF-2041.","1 day"]]
  }
 };
 
@@ -602,22 +795,205 @@ const speakers=[
   {n:"Marco Rossi",i:"MR",c:"#0F5A4A",r:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"}},
   {n:"Phạm Hà",i:"PH",c:"#1F3A5F",r:{vi:"Founder, GreenTech VN",en:"Founder, GreenTech VN"}},
 ];
+/* --- Events: one app, many SVEF events ------------------------------------ */
+const events=[
+  {id:"svef26", img:"forum-stage", status:"registered", paid:false, tz:"GMT+7",
+   url:"https://svef.example.org/events/svef-2026",
+   n:{vi:"SVEF 2026 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2026 - Swiss-Vietnam Economic Forum"},
+   short:{vi:"SVEF 2026 · TP. Hồ Chí Minh",en:"SVEF 2026 · Ho Chi Minh City"},
+   dnum:"18", dmon:{vi:"THG 6",en:"JUN"},
+   dates:{vi:"18 - 19 tháng 6, 2026",en:"18 - 19 June 2026"},
+   venue:{vi:"GEM Center · TP. Hồ Chí Minh",en:"GEM Center · Ho Chi Minh City"},
+   org:{vi:"Quỹ Kinh tế Thụy Sĩ - Việt Nam (SVEF)",en:"Swiss-Vietnam Economic Foundation (SVEF)"},
+   desc:{vi:"Diễn đàn thường niên kết nối doanh nghiệp Thụy Sĩ và Việt Nam trong hai ngày với các phiên toàn thể, hội thảo chuyên đề, khu triển lãm và chương trình gặp gỡ doanh nghiệp một đối một.",
+         en:"The annual two-day forum connecting Swiss and Vietnamese business, with plenary sessions, thematic workshops, an exhibition area and a one-to-one business matchmaking programme."},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"18/6",en:"18 Jun"}},
+         {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"19/6",en:"19 Jun"}}]},
+  {id:"roundtable", img:"boardroom", status:"upcoming", paid:false, tz:"GMT+7",
+   url:"https://svef.example.org/events/investment-roundtable-hanoi",
+   n:{vi:"Bàn tròn Đầu tư SVEF - Hà Nội",en:"SVEF Investment Roundtable - Hanoi"},
+   short:{vi:"Bàn tròn Đầu tư · Hà Nội",en:"Investment Roundtable · Hanoi"},
+   dnum:"12", dmon:{vi:"THG 8",en:"AUG"},
+   dates:{vi:"12 tháng 8, 2026",en:"12 August 2026"},
+   venue:{vi:"Pan Pacific · Hà Nội",en:"Pan Pacific · Hanoi"},
+   org:{vi:"SVEF phối hợp cùng Đại sứ quán Thụy Sĩ tại Hà Nội",en:"SVEF with the Swiss Embassy in Hanoi"},
+   desc:{vi:"Phiên bàn tròn nửa ngày dành cho quỹ đầu tư và doanh nghiệp sản xuất về dòng vốn Thụy Sĩ vào miền Bắc Việt Nam.",
+         en:"A half-day roundtable for funds and manufacturers on Swiss capital flows into northern Vietnam."},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"12/8",en:"12 Aug"}}]},
+  {id:"greenforum", img:"energy-wind", status:"upcoming", paid:false, tz:"GMT+7",
+   url:"https://svef.example.org/events/green-transition-forum",
+   n:{vi:"Diễn đàn Chuyển dịch Xanh SVEF",en:"SVEF Green Transition Forum"},
+   short:{vi:"Chuyển dịch Xanh · Đà Nẵng",en:"Green Transition · Da Nang"},
+   dnum:"03", dmon:{vi:"THG 10",en:"OCT"},
+   dates:{vi:"3 - 4 tháng 10, 2026",en:"3 - 4 October 2026"},
+   venue:{vi:"Ariyana Center · Đà Nẵng",en:"Ariyana Center · Da Nang"},
+   org:{vi:"SVEF phối hợp cùng Sở Công Thương Đà Nẵng",en:"SVEF with the Da Nang Department of Industry and Trade"},
+   desc:{vi:"Hai ngày về năng lượng tái tạo, tài chính xanh và công nghệ môi trường Thụy Sĩ cho thị trường miền Trung Việt Nam.",
+         en:"Two days on renewable energy, green finance and Swiss environmental technology for central Vietnam."},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"3/10",en:"3 Oct"}},
+         {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"4/10",en:"4 Oct"}}]},
+  {id:"gala", img:"signing", status:"upcoming", paid:true, tz:"GMT+1",
+   url:"https://svef.example.org/events/gala-dinner-zurich",
+   n:{vi:"Gala Dinner SVEF 2026 - Zürich",en:"SVEF Gala Dinner 2026 - Zurich"},
+   short:{vi:"Gala Dinner · Zürich",en:"Gala Dinner · Zurich"},
+   dnum:"20", dmon:{vi:"THG 11",en:"NOV"},
+   dates:{vi:"20 tháng 11, 2026",en:"20 November 2026"},
+   venue:{vi:"Dolder Grand · Zürich",en:"Dolder Grand · Zurich"},
+   org:{vi:"SVEF Thụy Sĩ",en:"SVEF Switzerland"},
+   desc:{vi:"Tiệc tối gây quỹ thường niên của SVEF tại Thụy Sĩ. Số lượng chỗ hạn chế, vé được bán trên website sự kiện.",
+         en:"SVEF's annual fundraising dinner in Switzerland. Seats are limited and tickets are sold on the event website."},
+   days:[{n:1,lbl:{vi:"Buổi tối",en:"Evening"},d:{vi:"20/11",en:"20 Nov"}}]},
+  {id:"svef25", img:"forum-audience", status:"past", paid:false, tz:"GMT+1",
+   url:"https://svef.example.org/events/svef-2025",
+   n:{vi:"SVEF 2025 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2025 - Swiss-Vietnam Economic Forum"},
+   short:{vi:"SVEF 2025 · Zürich",en:"SVEF 2025 · Zurich"},
+   dnum:"24", dmon:{vi:"THG 9",en:"SEP"},
+   dates:{vi:"24 - 25 tháng 9, 2025",en:"24 - 25 September 2025"},
+   venue:{vi:"Kongresshaus · Zürich",en:"Kongresshaus · Zurich"},
+   org:{vi:"SVEF Thụy Sĩ",en:"SVEF Switzerland"},
+   desc:{vi:"Kỳ diễn đàn 2025 tại Zürich với hơn 600 đại biểu, tập trung vào thương mại song phương sau hiệp định EFTA.",
+         en:"The 2025 edition in Zurich, with over 600 delegates, focused on bilateral trade after the EFTA agreement."},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"24/9",en:"24 Sep"}},
+         {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"25/9",en:"25 Sep"}}]},
+  {id:"techday", img:"devices", status:"past", paid:false, tz:"GMT+7",
+   url:"https://svef.example.org/events/swiss-tech-day-hcmc",
+   n:{vi:"Swiss Tech Day - TP. Hồ Chí Minh",en:"Swiss Tech Day - Ho Chi Minh City"},
+   short:{vi:"Swiss Tech Day · TP.HCM",en:"Swiss Tech Day · HCMC"},
+   dnum:"05", dmon:{vi:"THG 3",en:"MAR"},
+   dates:{vi:"5 tháng 3, 2026",en:"5 March 2026"},
+   venue:{vi:"Thiskyhall Sala · TP. Hồ Chí Minh",en:"Thiskyhall Sala · Ho Chi Minh City"},
+   org:{vi:"SVEF phối hợp cùng Swissnex",en:"SVEF with Swissnex"},
+   desc:{vi:"Ngày hội công nghệ một ngày giới thiệu giải pháp công nghiệp và deep tech của Thụy Sĩ tới đối tác Việt Nam.",
+         en:"A one-day showcase of Swiss industrial and deep-tech solutions for Vietnamese partners."},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"5/3",en:"5 Mar"}}]},
+];
+
+/* --- Sponsors -------------------------------------------------------------- */
+const tiers={headline:{vi:"Đồng hành chính",en:"Headline"},gold:{vi:"Vàng",en:"Gold"},silver:{vi:"Bạc",en:"Silver"}};
+const sponsors=[
+  {n:"Helvetia Fintech",i:"HF",c:"#7A5C00",tier:"headline",d:{vi:"Ngân hàng số & thanh toán",en:"Digital banking & payments"}},
+  {n:"Zurich Ventures",i:"ZV",c:"#0A0A0A",tier:"headline",d:{vi:"Quỹ đầu tư mạo hiểm",en:"Venture capital"}},
+  {n:"Alpine Precision AG",i:"AP",c:"#0F5A4A",tier:"gold",d:{vi:"Sản xuất chính xác",en:"Precision manufacturing"}},
+  {n:"GreenTech VN",i:"GT",c:"#136B3B",tier:"gold",d:{vi:"Năng lượng tái tạo",en:"Renewable energy"}},
+  {n:"Saigon Logistics",i:"SL",c:"#1F3A5F",tier:"silver",d:{vi:"Vận tải & chuỗi cung ứng",en:"Freight & supply chain"}},
+  {n:"Swiss Trade Association",i:"ST",c:"#DA291C",tier:"silver",d:{vi:"Xúc tiến thương mại",en:"Trade promotion"}},
+];
+
+/* --- Participants (as synced from the admin dashboard) --------------------- */
+const industries={
+  fin:{vi:"Tài chính & Fintech",en:"Finance & Fintech"},
+  inv:{vi:"Đầu tư & Quỹ",en:"Investment & Funds"},
+  eng:{vi:"Năng lượng & Môi trường",en:"Energy & Environment"},
+  mfg:{vi:"Sản xuất công nghiệp",en:"Manufacturing"},
+  log:{vi:"Logistics & Chuỗi cung ứng",en:"Logistics & Supply chain"},
+  pub:{vi:"Khu vực công & Xúc tiến",en:"Public sector & Trade promotion"},
+};
+const markets={
+  vn:{vi:"Việt Nam",en:"Vietnam"}, ch:{vi:"Thụy Sĩ",en:"Switzerland"},
+  eu:{vi:"Châu Âu",en:"Europe"}, asean:{vi:"ASEAN",en:"ASEAN"},
+};
+const people=[
+  {id:1,n:"Lara Weber",i:"LW",c:"#7A5C00",co:"Helvetia Fintech",ind:"fin",mkts:["ch","eu","vn"],acted:true,
+   t:{vi:"Tổng giám đốc",en:"Chief Executive Officer"},
+   cod:{vi:"Nền tảng thanh toán xuyên biên giới cho doanh nghiệp vừa và nhỏ giữa châu Âu và Đông Nam Á.",
+        en:"A cross-border payments platform for SMEs trading between Europe and South East Asia."},
+   li:"https://www.linkedin.com/in/svef-demo-lara-weber"},
+  {id:2,n:"Marco Rossi",i:"MR",c:"#0F5A4A",co:"Zurich Ventures",ind:"inv",mkts:["ch","eu","asean"],acted:true,
+   t:{vi:"Thành viên điều hành",en:"Partner"},
+   cod:{vi:"Quỹ đầu tư mạo hiểm giai đoạn sớm, tập trung vào công nghệ tài chính và công nghiệp.",
+        en:"An early-stage venture fund focused on financial and industrial technology."},
+   li:"https://www.linkedin.com/in/svef-demo-marco-rossi"},
+  {id:3,n:"Phạm Hà",i:"PH",c:"#1F3A5F",co:"GreenTech VN",ind:"eng",mkts:["vn","asean"],acted:true,
+   t:{vi:"Nhà sáng lập",en:"Founder"},
+   cod:{vi:"Doanh nghiệp phát triển điện mặt trời áp mái và giải pháp lưu trữ năng lượng cho khu công nghiệp.",
+        en:"A developer of rooftop solar and energy-storage solutions for industrial parks."},
+   li:"https://www.linkedin.com/in/svef-demo-pham-ha"},
+  {id:4,n:"Daniel Frei",i:"DF",c:"#0A0A0A",co:"Credit Helvetia",ind:"fin",mkts:["ch","eu"],match:"92%",
+   t:{vi:"Giám đốc M&A",en:"Head of M&A"},
+   cod:{vi:"Ngân hàng doanh nghiệp Thụy Sĩ với mảng tư vấn mua bán và sáp nhập tại châu Á.",
+        en:"A Swiss corporate bank with an advisory practice covering mergers and acquisitions in Asia."},
+   li:"https://www.linkedin.com/in/svef-demo-daniel-frei"},
+  {id:5,n:"Lê Thu",i:"LT",c:"#DA291C",co:"VN Growth Fund",ind:"inv",mkts:["vn","asean"],match:"88%",
+   t:{vi:"Phó Tổng giám đốc",en:"Vice President"},
+   cod:{vi:"Quỹ tăng trưởng đầu tư vào doanh nghiệp tiêu dùng và sản xuất quy mô vừa tại Việt Nam.",
+        en:"A growth fund investing in mid-sized Vietnamese consumer and manufacturing businesses."},
+   li:"https://www.linkedin.com/in/svef-demo-le-thu"},
+  {id:6,n:"Sofia Meier",i:"SM",c:"#7A5C00",co:"Swiss Trade Association",ind:"pub",mkts:["ch","vn"],match:"81%",
+   t:{vi:"Giám đốc khu vực",en:"Regional Director"},
+   cod:{vi:"Hiệp hội xúc tiến thương mại hỗ trợ doanh nghiệp Thụy Sĩ mở rộng sang thị trường ASEAN.",
+        en:"A trade promotion body helping Swiss companies expand into ASEAN markets."},
+   li:"https://www.linkedin.com/in/svef-demo-sofia-meier"},
+  {id:7,n:"Nguyễn Minh",i:"NM",c:"#0A0A0A",co:"SVEF",ind:"pub",mkts:["vn","ch"],
+   t:{vi:"Chủ tịch",en:"Chairman"},
+   cod:{vi:"Tổ chức phi lợi nhuận thúc đẩy quan hệ kinh tế giữa Thụy Sĩ và Việt Nam.",
+        en:"A non-profit foundation promoting economic ties between Switzerland and Vietnam."},
+   li:"https://www.linkedin.com/in/svef-demo-nguyen-minh"},
+  {id:8,n:"Trần Bảo",i:"TB",c:"#DA291C",co:"Bộ Công Thương",ind:"pub",mkts:["vn"],
+   t:{vi:"Thứ trưởng",en:"Deputy Minister"},
+   cod:{vi:"Cơ quan quản lý nhà nước về thương mại, công nghiệp và hội nhập kinh tế quốc tế.",
+        en:"The government body responsible for trade, industry and international economic integration."},
+   li:"https://www.linkedin.com/in/svef-demo-tran-bao"},
+  {id:9,n:"Andreas Küng",i:"AK",c:"#0F5A4A",co:"Alpine Precision AG",ind:"mfg",mkts:["ch","eu","vn"],acted:true,
+   t:{vi:"Giám đốc vận hành",en:"Chief Operating Officer"},
+   cod:{vi:"Nhà sản xuất linh kiện cơ khí chính xác cho ngành y tế và thiết bị công nghiệp.",
+        en:"A manufacturer of precision mechanical components for medical and industrial equipment."},
+   li:"https://www.linkedin.com/in/svef-demo-andreas-kueng"},
+  {id:10,n:"Đỗ Quang",i:"DQ",c:"#1F3A5F",co:"Saigon Logistics",ind:"log",mkts:["vn","asean"],acted:true,
+   t:{vi:"Giám đốc Chuỗi cung ứng",en:"Supply Chain Director"},
+   cod:{vi:"Đơn vị giao nhận và kho vận phục vụ tuyến thương mại Việt Nam - châu Âu.",
+        en:"A freight forwarding and warehousing operator serving the Vietnam to Europe trade lane."},
+   li:"https://www.linkedin.com/in/svef-demo-do-quang"},
+  {id:11,n:"Claudia Berger",i:"CB",c:"#8A6D00",co:"Helvetia Fintech",ind:"fin",mkts:["ch","asean"],
+   t:{vi:"Giám đốc Phát triển kinh doanh",en:"Business Development Director"},
+   cod:{vi:"Nền tảng thanh toán xuyên biên giới cho doanh nghiệp vừa và nhỏ giữa châu Âu và Đông Nam Á.",
+        en:"A cross-border payments platform for SMEs trading between Europe and South East Asia."},
+   li:"https://www.linkedin.com/in/svef-demo-claudia-berger"},
+  {id:12,n:"Vũ Hải",i:"VH",c:"#136B3B",co:"Delta Manufacturing",ind:"mfg",mkts:["vn","asean","eu"],
+   t:{vi:"Tổng giám đốc",en:"Managing Director"},
+   cod:{vi:"Nhà máy gia công cơ khí và lắp ráp thiết bị điện tử tại Bình Dương.",
+        en:"A metalworking and electronics assembly plant based in Binh Duong."},
+   li:"https://www.linkedin.com/in/svef-demo-vu-hai"},
+];
+
+/* --- Meetings (GMT+7 / Hanoi) ---------------------------------------------- */
+const meetings=[
+  {pid:1,status:"confirmed",dir:"received",day:1,time:"15:30 – 16:00",
+   created:{vi:"4 tháng 6, 2026",en:"4th June 2026"},place:{vi:"Khu Networking",en:"Networking Lounge"}},
+  {pid:3,status:"pending",dir:"sent",day:2,time:"10:00 – 10:30",
+   created:{vi:"6 tháng 6, 2026",en:"6th June 2026"},place:{vi:"Bàn gặp 3",en:"Meeting table 3"}},
+  {pid:9,status:"canceled",dir:"sent",day:1,time:"11:15 – 11:45",
+   created:{vi:"2 tháng 6, 2026",en:"2nd June 2026"},place:{vi:"Bàn gặp 1",en:"Meeting table 1"}},
+  {pid:10,status:"declined",dir:"received",day:2,time:"14:00 – 14:30",
+   created:{vi:"5 tháng 6, 2026",en:"5th June 2026"},place:{vi:"Sảnh chính",en:"Main lobby"}},
+];
+const slots=["09:00 – 09:30","10:00 – 10:30","11:15 – 11:45","14:00 – 14:30","15:30 – 16:00","16:30 – 17:00"];
+
 const sessions=[
-  {img:"forum-stage",av:"NM",c:"#0A0A0A",spk:"Nguyễn Minh",time:"09:00 – 09:30",
+  {day:1,img:"forum-stage",av:"NM",c:"#0A0A0A",spk:"Nguyễn Minh",time:"09:00 – 09:30",
    t:{vi:"Khai mạc & Phát biểu chính",en:"Opening & Keynote"}, tag:{vi:"Keynote",en:"Keynote"},
    room:{vi:"Hội trường A",en:"Hall A"}, role:{vi:"Chủ tịch SVEF",en:"SVEF Chairman"},
    desc:{vi:"Lễ khai mạc Diễn đàn Kinh tế Thụy Sĩ – Việt Nam 2026 và định hướng hợp tác song phương giai đoạn tới.",
          en:"Opening ceremony of the Swiss–Vietnam Economic Forum 2026 and the bilateral cooperation outlook for the coming period."}},
-  {img:"boardroom",av:"MR",c:"#7A5C00",spk:"Marco Rossi",time:"10:30 – 11:30",
+  {day:1,img:"boardroom",av:"MR",c:"#7A5C00",spk:"Marco Rossi",time:"10:30 – 11:30",
    t:{vi:"Đầu tư Thụy Sĩ – Việt Nam",en:"Swiss–Vietnam Investment"}, tag:{vi:"Panel",en:"Panel"},
    room:{vi:"Phòng B2",en:"Room B2"}, role:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"},
    desc:{vi:"Cơ hội và rào cản cho dòng vốn Thụy Sĩ vào Việt Nam: tài chính xanh, sản xuất công nghệ cao và khởi nghiệp.",
          en:"Opportunities and barriers for Swiss capital into Vietnam: green finance, high-tech manufacturing and startups."}},
-  {img:"data",av:"LW",c:"#DA291C",spk:"Lara Weber",time:"14:00 – 14:45",
+  {day:1,img:"data",av:"LW",c:"#DA291C",spk:"Lara Weber",time:"14:00 – 14:45",
    t:{vi:"Chuyển đổi số & Fintech",en:"Digital Transformation & Fintech"}, tag:{vi:"Talk",en:"Talk"},
    room:{vi:"Phòng B1",en:"Room B1"}, role:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"},
    desc:{vi:"Thanh toán xuyên biên giới, ngân hàng số và xu hướng Fintech kết nối hai thị trường.",
          en:"Cross-border payments, digital banking and Fintech trends connecting the two markets."}},
+  {day:2,img:"energy-solar",av:"PH",c:"#136B3B",spk:"Phạm Hà",time:"09:30 – 10:15",
+   t:{vi:"Chuyển dịch năng lượng xanh",en:"Green Energy Transition"}, tag:{vi:"Panel",en:"Panel"},
+   room:{vi:"Hội trường A",en:"Hall A"}, role:{vi:"Nhà sáng lập, GreenTech VN",en:"Founder, GreenTech VN"},
+   desc:{vi:"Điện mặt trời áp mái, lưu trữ năng lượng và cơ chế mua bán điện trực tiếp cho khu công nghiệp Việt Nam.",
+         en:"Rooftop solar, energy storage and direct power purchase mechanisms for Vietnamese industrial parks."}},
+  {day:2,img:"manufacturing",av:"AK",c:"#0F5A4A",spk:"Andreas Küng",time:"13:30 – 14:15",
+   t:{vi:"Sản xuất chính xác & chuỗi cung ứng",en:"Precision Manufacturing & Supply Chains"}, tag:{vi:"Workshop",en:"Workshop"},
+   room:{vi:"Phòng B1",en:"Room B1"}, role:{vi:"Giám đốc vận hành, Alpine Precision AG",en:"COO, Alpine Precision AG"},
+   desc:{vi:"Chuyển giao công nghệ gia công chính xác của Thụy Sĩ và cơ hội nội địa hoá chuỗi cung ứng tại Việt Nam.",
+         en:"Transfer of Swiss precision machining know-how and the case for localising supply chains in Vietnam."}},
 ];
 const exhibitors=[
   {n:"Helvetia Fintech",i:"HF",d:{vi:"Gian S1 · Fintech & Thanh toán",en:"Booth S1 · Fintech & Payments"}},
@@ -625,142 +1001,377 @@ const exhibitors=[
   {n:"Zurich Ventures",i:"ZV",d:{vi:"Gian S3 · Quỹ đầu tư",en:"Booth S3 · Investment fund"}},
   {n:"Swiss Precision",i:"SP",d:{vi:"Gian S4 · Sản xuất công nghệ cao",en:"Booth S4 · High-tech manufacturing"}},
 ];
-const connections=[
-  {n:"Lara Weber",i:"LW",c:"#7A5C00",st:"connected",r:{vi:"CEO · Helvetia Fintech",en:"CEO · Helvetia Fintech"}},
-  {n:"Marco Rossi",i:"MR",c:"#0F5A4A",st:"connected",r:{vi:"Partner · Zurich VC",en:"Partner · Zurich VC"}},
-  {n:"Phạm Hà",i:"PH",c:"#1F3A5F",st:"pending",r:{vi:"Founder · GreenTech VN",en:"Founder · GreenTech VN"}},
-];
-const suggestions=[
-  {n:"Daniel Frei",i:"DF",c:"#0A0A0A",match:"92%",r:{vi:"Head of M&A · Credit Helvetia",en:"Head of M&A · Credit Helvetia"}},
-  {n:"Lê Thu",i:"LT",c:"#DA291C",match:"88%",r:{vi:"Phó TGĐ · VN Growth Fund",en:"VP · VN Growth Fund"}},
-  {n:"Sofia Meier",i:"SM",c:"#7A5C00",match:"81%",r:{vi:"Giám đốc · Swiss Trade",en:"Director · Swiss Trade"}},
-];
 
 /* ===================== STATE & HELPERS ===================== */
 let lang = (localStorage.getItem('svef_lang')==='en')?'en':'vi';
 function tr(k){return (T[lang][k]!==undefined)?T[lang][k]:k;}
-function tx(o){return o[lang];}
+function tx(o){return (o&&o[lang]!==undefined)?o[lang]:'';}
+function byId(id){return document.getElementById(id);}
+function personById(id){return people.find(p=>p.id===id);}
+function meetingFor(id){return meetings.find(m=>m.pid===id);}
+const msKey={confirmed:'ms_confirmed',pending:'ms_pending',canceled:'ms_canceled',declined:'ms_declined'};
+const mtgKey={confirmed:'mtg_confirmed',pending:'mtg_pending',canceled:'mtg_canceled',declined:'mtg_declined'};
+const msCls={confirmed:'ok',pending:'wait',canceled:'bad',declined:'off'};
+const msChip={confirmed:'green',pending:'gold',canceled:'red',declined:''};
+
+let curEv=events.find(e=>e.id==='svef26');
+let infoEv=curEv, regEvId=null, curDay=1, curPerson=null;
+let saved=new Set([0,2]);
+function isPast(){return !!curEv&&curEv.status==='past';}
+function fact(k,v){return `<div class="f"><div class="k">${tr(k)}</div><div class="v">${v}</div></div>`}
+function avHTML(o,cls){return `<div class="av ${cls||'sm'}" style="background:${o.c}">${o.i}</div>`}
+function emptyHTML(){return `<div class="empty"><div class="e-ic">🔍</div><p>${tr('empty_search')}</p></div>`}
 
 /* ===================== NAV ===================== */
-const tabsScreens=["home","explore","schedule","network","profile"];
-let current="home", navStack=["home"], curSession=0;
+const tabsScreens=["home","explore","schedule","network","participants","profile"];
+const outScreens=["events","eventinfo"];
+let current="events", navStack=["events"], curSession=0;
 function setAppbarTitle(s){
-  const ab=document.getElementById('appbar'), back=document.getElementById('backBtn'), t=document.getElementById('abTitle');
-  if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>Swiss–Vietnam Economic Forum</small>';back.style.display='none';}
+  const ab=byId('appbar'), back=byId('backBtn'), t=byId('abTitle'), ev=byId('evSwitchBtn');
+  ev.style.display=outScreens.includes(s)?'none':'grid';
+  if(s==='events'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tr('ab_events')+'</small>';back.style.display='none';}
+  else if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tx(curEv.short)+'</small>';back.style.display='none';}
   else{ab.classList.remove('brand');t.innerHTML=tr('ab_'+s)||'SVEF';back.style.display=(tabsScreens.includes(s)?'none':'grid');}
 }
 function go(s,isBack){
   document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('active',e.dataset.screen===s));
-  document.getElementById('content').scrollTop=0;
+  const c=byId('content');c.scrollTop=0;
+  const hideNav=outScreens.includes(s);
+  byId('nav').style.display=hideNav?'none':'flex';
+  c.classList.toggle('nonav',hideNav);
   if(current!==s&&!isBack){navStack.push(s);} current=s;
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===s));
   setAppbarTitle(s);
 }
-function goBack(){navStack.pop();const prev=navStack[navStack.length-1]||'home';go(prev,true);}
+function goBack(){navStack.pop();const prev=navStack[navStack.length-1]||'events';go(prev,true);}
+function exitEvent(){go('events');}
 
-/* ===================== RENDER ===================== */
-function avHTML(o,cls){return `<div class="av ${cls||'sm'}" style="background:${o.c}">${o.i}</div>`}
+/* ===================== EVENTS LIST ===================== */
+let evTab='upcoming';
+function switchEvTab(t){evTab=t;document.querySelectorAll('#evTabs button').forEach(b=>b.classList.toggle('on',b.dataset.evtab===t));renderEvents();}
+function eventCard(e){
+  const primary = (e.status==='upcoming')
+    ? (e.paid?`<a class="btn" href="${e.url}" target="_blank" rel="noopener">${tr('ev_buy')}</a>`
+             :`<button class="btn" onclick="openRegister('${e.id}')">${tr('ev_register')}</button>`)
+    : `<button class="btn" onclick="openEvent('${e.id}')">${tr('ev_open')}</button>`;
+  return `<div class="evcard">
+    <div class="pic evthumb" style="--img:url('assets/img/${e.img}.jpg')"></div>
+    <div class="evb">
+      <div class="mlabel">${tx(e.dates)} · ${e.tz}</div>
+      <h4>${tx(e.n)}</h4>
+      <p>${tx(e.venue)}</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px">
+        <span class="chip ${e.paid?'gold':'green'}">${e.paid?tr('ev_paid'):tr('ev_free')}</span>
+        ${e.status==='registered'?`<span class="chip red">${tr('ev_tab_reg')}</span>`:''}
+        ${e.status==='past'?`<span class="chip">${tr('ev_readonly')}</span>`:''}
+      </div>
+      ${(e.paid&&e.status==='upcoming')?`<div class="note">${tr('ev_paid_note')}</div>`:''}
+      <div class="row">${primary}<button class="btn ghost" onclick="openEventInfo('${e.id}')">${tr('ev_info')}</button></div>
+    </div></div>`;
+}
+function renderEvents(){
+  const el=byId('evList');if(!el)return;
+  const list=events.filter(e=>e.status===evTab);
+  let h='';
+  if(evTab==='registered')h+=`<div class="note">${tr('ev_moves')}</div>`;
+  if(evTab==='past')h+=`<div class="note mono">${tr('ev_readonly_note')}</div>`;
+  h+=list.length?list.map(eventCard).join(''):`<div class="empty"><div class="e-ic">▤</div><p>${tr('ev_none')}</p></div>`;
+  el.innerHTML=h;
+}
+function openEvent(id){
+  const e=events.find(x=>x.id===id);if(e)curEv=e;
+  curDay=curEv.days[0].n;curPerson=null;
+  renderAll();go('home');
+  if(isPast())toast(tr('t_readonly'));
+}
+function openEventInfo(id){const e=events.find(x=>x.id===id);infoEv=e||curEv;renderEventInfo();go('eventinfo');}
+function renderEventInfo(){
+  const e=infoEv;if(!e||!byId('eiFacts'))return;
+  byId('eiHero').style.setProperty('--img',`url('assets/img/${e.img}.jpg')`);
+  byId('eiTag').textContent=tx(e.dates);
+  byId('eiName').textContent=tx(e.n);
+  const st=e.status==='past'?tr('ei_st_past'):(e.status==='registered'?tr('ei_st_reg'):tr('ei_st_up'));
+  byId('eiFacts').innerHTML=fact('ei_dates',tx(e.dates))+fact('ei_venue',tx(e.venue))+fact('ei_org',tx(e.org))
+    +fact('ei_tz',e.tz)+fact('ei_fee',e.paid?tr('ev_paid'):tr('ev_free'))+fact('ei_status',st);
+  byId('eiDesc').textContent=tx(e.desc);
+  const lk=byId('eiLink');lk.href=e.url;lk.textContent=tr('ei_web');
+  byId('eiAct').innerHTML=(e.status==='upcoming')
+    ? (e.paid?`<a class="btn" href="${e.url}" target="_blank" rel="noopener">${tr('ev_buy')}</a>`
+             :`<button class="btn" onclick="openRegister('${e.id}')">${tr('ev_register')}</button>`)
+    : `<button class="btn" onclick="openEvent('${e.id}')">${tr('ev_open')}</button>`;
+}
+
+/* ===================== HOME ===================== */
+function qaBtn(ic,k,fn){return `<button onclick="${fn}"><span class="ico">${ic}</span><span>${tr(k)}</span></button>`}
+function renderHome(){
+  if(!byId('homeHero'))return;
+  const e=curEv,past=isPast();
+  byId('homeHero').innerHTML=
+    `<div class="hi">${tr('greet')}</div><div class="nm">Anh Trần</div>
+     <div class="ev"><div class="d">${e.dnum}<small>${tx(e.dmon)}</small></div>
+       <div style="flex:1"><b style="font-size:13px">${tx(e.short)}</b>
+         <div style="font-size:11px;opacity:.85">${tx(e.venue)}</div></div>
+       <span class="chip ${past?'':'green'}" ${past?'style="border-color:rgba(255,255,255,.45);color:#fff"':''}>${past?tr('ev_ended'):tr('checkedin')}</span>
+     </div>`;
+  byId('homeQA').innerHTML = past
+    ? qaBtn('📋','qa_agenda',"go('schedule')")+qaBtn('💬','qa_messages',"toast(tr('t_msgs'))")
+      +qaBtn('📅','qa_meetings','openMeetings()')+qaBtn('👥','qa_people',"go('participants')")
+    : qaBtn('📱','qa_qrconnect','openQR()')+qaBtn('🎫','qa_eticket','openTicket()')
+      +qaBtn('🗺️','qa_map',"go('map')")+qaBtn('🤝','qa_connect',"go('network')");
+  byId('homeRecap').innerHTML = past
+    ? `<h2 class="sec"><span>${tr('past_recap_l')}</span></h2>
+       <div class="card" style="padding:0">
+         <div class="pic recapshot" style="--img:url('assets/img/${e.img}.jpg')"></div>
+         <div style="padding:15px"><b style="font-size:15px;letter-spacing:-.03em">${tr('past_recap_t')}</b>
+           <p class="muted" style="margin:8px 0 0;font-size:12.5px;line-height:1.55">${tr('past_recap_p')}</p></div>
+       </div>` : '';
+  byId('homeBanner').style.display=past?'none':'block';
+}
+function sessRow(i){const s=sessions[i];
+  return `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${s.spk}</p></div></div>`;
+}
 function renderSpeakers(){
-  document.getElementById('spkScroll').innerHTML=speakers.map(s=>
+  const el=byId('spkScroll');if(!el)return;
+  el.innerHTML=speakers.map(s=>
     `<div class="spk"><div class="av" style="background:${s.c}">${s.i}</div><b>${s.n}</b><span>${tx(s.r)}</span></div>`).join('');
 }
-function renderHomeAgenda(){
-  document.getElementById('homeAgenda').innerHTML=sessions.map((s,i)=>
-    `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${s.spk}</p></div></div>`).join('');
+function renderSponsorStrip(){
+  const el=byId('sponStrip');if(!el)return;
+  el.innerHTML=sponsors.filter(s=>s.tier==='headline').map(s=>
+    `<div class="spk"><div class="av" style="background:${s.c}">${s.i}</div><b>${s.n}</b><span class="tier">${tx(tiers[s.tier])}</span></div>`).join('');
 }
-let exTab='sessions';
+function renderHomeAgenda(){
+  const el=byId('homeAgenda');if(!el)return;
+  const d=curEv.days[0].n;
+  const idx=sessions.map((s,i)=>i).filter(i=>sessions[i].day===d);
+  el.innerHTML=idx.map(i=>sessRow(i)).join('');
+}
+
+/* ===================== EXPLORE ===================== */
+let exTab='agenda';
 function switchTab(tab){exTab=tab;document.querySelectorAll('#exTabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));renderExplore();}
+function setDay(n){curDay=n;renderExplore();renderSchedule();}
+function dayPills(fn){
+  if(!curEv.days||curEv.days.length<2)return '';
+  return `<div class="pillrow">`+curEv.days.map(d=>
+    `<button class="${curDay===d.n?'on':''}" onclick="${fn}(${d.n})">${tx(d.lbl)} · ${tx(d.d)}</button>`).join('')+`</div>`;
+}
+function agendaRow(i){
+  const s=sessions[i],sv=saved.has(i);
+  return `<div class="li" onclick="openSession(${i})"><div class="thumb pic" style="--img:url('assets/img/${s.img}.jpg')"></div>`
+    +`<div class="meta"><h4>${tx(s.t)}</h4><p>${s.time} · ${tx(s.room)} · ${s.spk}</p></div>`
+    +(isPast()?`<span class="muted">›</span>`
+      :`<button class="savebtn ${sv?'on':''}" onclick="event.stopPropagation();toggleSave(${i})">${sv?'★':'☆'}</button>`)
+    +`</div>`;
+}
 function renderExplore(q){
-  q=(q||document.getElementById('exSearch').value||'').toLowerCase();const el=document.getElementById('exList');
-  if(exTab==='sessions'){
-    el.innerHTML=sessions.map((s,i)=>(tx(s.t).toLowerCase().includes(q)||s.spk.toLowerCase().includes(q))?
-      `<div class="li" onclick="openSession(${i})"><div class="thumb pic" style="--img:url('assets/img/${s.img}.jpg')"></div><div class="meta"><h4>${tx(s.t)}</h4><p>${s.time} · ${tx(s.room)} · ${s.spk}</p></div><span class="muted">›</span></div>`:'').join('')||emptyHTML();
+  const inp=byId('exSearch'),el=byId('exList');if(!el)return;
+  q=((q!==undefined&&q!==null)?q:(inp?inp.value:'')||'').toString().toLowerCase();
+  if(exTab==='agenda'){
+    const idx=sessions.map((s,i)=>i).filter(i=>sessions[i].day===curDay
+      &&(tx(sessions[i].t).toLowerCase().includes(q)||sessions[i].spk.toLowerCase().includes(q)));
+    el.innerHTML=dayPills('setDay')+(idx.length?idx.map(i=>agendaRow(i)).join(''):emptyHTML());
   }else if(exTab==='speakers'){
     el.innerHTML=speakers.map(s=>s.n.toLowerCase().includes(q)?
       `<div class="li" onclick="toast(tr('t_profile')+'${s.n}')">${avHTML(s,'sm')}<div class="meta"><h4>${s.n}</h4><p>${tx(s.r)}</p></div><button class="btn sm ghost" onclick="event.stopPropagation();toast(tr('t_followed')+'${s.n}')">${tr('follow')}</button></div>`:'').join('')||emptyHTML();
+  }else if(exTab==='sponsors'){
+    el.innerHTML=sponsors.map(s=>s.n.toLowerCase().includes(q)?
+      `<div class="li" onclick="toast(tr('t_profile')+'${s.n}')"><div class="thumb" style="background:${s.c}">${s.i}</div><div class="meta"><h4>${s.n}</h4><p>${tx(s.d)}</p></div><span class="chip ${s.tier==='headline'?'red':(s.tier==='gold'?'gold':'')}">${tx(tiers[s.tier])}</span></div>`:'').join('')||emptyHTML();
   }else{
     el.innerHTML=exhibitors.map(x=>x.n.toLowerCase().includes(q)?
       `<div class="li" onclick="toast(tr('t_booth')+'${x.n}')"><div class="thumb">${x.i}</div><div class="meta"><h4>${x.n}</h4><p>${tx(x.d)}</p></div><span class="muted">›</span></div>`:'').join('')||emptyHTML();
   }
 }
-function emptyHTML(){return `<div class="empty"><div class="e-ic">🔍</div><p>${tr('empty_search')}</p></div>`}
 function filterExplore(v){renderExplore(v)}
-function renderAgenda(){
-  document.getElementById('myAgenda').innerHTML='<div class="card">'+sessions.map((s,i)=>
-    `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${s.spk}</p></div></div>`).join('')+'</div>';
+function toggleSave(i){
+  if(isPast()){toast(tr('t_ended'));return;}
+  if(saved.has(i)){saved.delete(i);toast(tr('t_unsaved'));}else{saved.add(i);toast(tr('t_saved'));}
+  renderExplore();renderSchedule();updateSaveBtn();
+}
+function updateSaveBtn(){
+  const b=byId('sDsave');if(!b)return;const sv=saved.has(curSession);
+  b.textContent=tr(sv?'added_sched':'add_sched');b.className=sv?'btn ghost':'btn';
+}
+
+/* ===================== SCHEDULE (Agenda + Meetings) ===================== */
+let scTab='agenda';
+function switchScTab(t){scTab=t;document.querySelectorAll('#scTabs button').forEach(b=>b.classList.toggle('on',b.dataset.sctab===t));renderSchedule();}
+function openMeetings(){go('schedule');switchScTab('meetings');}
+function mtgCard(m){
+  const p=personById(m.pid),d=curEv.days.find(x=>x.n===m.day)||curEv.days[0];
+  return `<div class="mtg">
+    <div class="mh"><div class="mt">${m.time}<small>GMT+7 · ${tx(d.lbl)} · ${tx(d.d)}</small></div>
+      <span class="chip ${msChip[m.status]}">${tr(msKey[m.status])}</span></div>
+    <div class="mp"><b>${p.n}</b><span>${tx(p.t)} · ${p.co}</span></div>
+    <div class="mf"><span class="chip">${tr('dir_'+m.dir)}</span>
+      <span class="kv">${tr('mt_created')}: ${tx(m.created)}</span><span class="kv">· ${tx(m.place)}</span></div>
+  </div>`;
+}
+function renderSchedule(){
+  const el=byId('scBody');if(!el)return;
+  if(scTab==='agenda'){
+    const idx=Array.from(saved).sort((a,b)=>a-b).filter(i=>sessions[i]&&sessions[i].day===curDay);
+    let h=`<h2 class="sec"><span>${tr('saved_h')}</span> <span class="chip red">${saved.size} ${tr('sess_unit')}</span></h2>`;
+    h+=dayPills('setDay');
+    h+=idx.length?('<div class="card" style="margin-top:8px">'+idx.map(i=>sessRow(i)).join('')+'</div>')
+      :`<div class="empty" style="padding:34px 24px"><div class="e-ic">☆</div><p style="font-size:12.5px">${tr('sched_empty')}</p></div>`;
+    el.innerHTML=h;
+  }else{
+    let h=`<h2 class="sec"><span>${tr('sc_tab_meet')}</span> <span class="chip">GMT+7</span></h2>`;
+    h+=`<div class="note mono">${tr('tz_note')}</div>`;
+    h+=meetings.length?meetings.map(mtgCard).join('')
+      :`<div class="empty"><div class="e-ic">📅</div><p>${tr('meet_none')}</p></div>`;
+    el.innerHTML=h;
+  }
+}
+
+/* ===================== PEOPLE (Connect + Participants) ===================== */
+function personRow(p,showMatch){
+  const m=meetingFor(p.id);
+  const left=m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
+    :`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`;
+  return `<div class="prow">
+    <div class="ptop" onclick="openPerson(${p.id})">${avHTML(p,'sm')}
+      <div class="meta"><h4>${p.n}${(showMatch&&p.match)?` <span class="chip gold">${p.match}</span>`:''}</h4>
+        <p>${tx(p.t)} · ${p.co}</p></div><span class="muted">›</span></div>
+    <div class="row">${left}<button class="btn dark" onclick="toast(tr('t_chat')+'${p.n}')">${tr('btn_chat')}</button></div>
+  </div>`;
 }
 function renderNetwork(){
-  document.getElementById('suggest').innerHTML=suggestions.map(s=>
-    `<div class="conn">${avHTML(s,'sm')}<div class="meta"><h4>${s.n} <span class="chip gold">${s.match}</span></h4><p>${tx(s.r)}</p></div><button class="iconbtn" style="background:var(--red);color:#fff" onclick="toast(tr('t_invite')+'${s.n}')">+</button></div>`).join('');
-  document.getElementById('myConns').innerHTML=connections.map(c=>
-    `<div class="conn">${avHTML(c,'sm')}<div class="meta"><h4>${c.n}</h4><p>${tx(c.r)}</p></div>`+
-    (c.st==='connected'
-      ?`<button class="iconbtn" style="background:var(--soft);color:var(--navy)" onclick="toast(tr('t_chat')+'${c.n}')">💬</button>`
-      :`<span class="chip gold">${tr('pending')}</span>`)+`</div>`).join('');
+  if(!byId('suggest'))return;
+  byId('suggest').innerHTML=people.filter(p=>p.match).map(p=>personRow(p,true)).join('');
+  byId('myConns').innerHTML=people.filter(p=>p.acted).map(p=>personRow(p,false)).join('');
 }
+function renderFilters(){
+  const fi=byId('fltInd'),fm=byId('fltMkt');if(!fi||!fm)return;
+  const vi=fi.value||'all',vm=fm.value||'all';
+  fi.innerHTML=`<option value="all">${tr('flt_all')}</option>`+Object.keys(industries).map(k=>`<option value="${k}">${tx(industries[k])}</option>`).join('');
+  fm.innerHTML=`<option value="all">${tr('flt_all')}</option>`+Object.keys(markets).map(k=>`<option value="${k}">${tx(markets[k])}</option>`).join('');
+  fi.value=vi;fm.value=vm;
+}
+function renderParticipants(){
+  const el=byId('pList'),fi=byId('fltInd'),fm=byId('fltMkt');if(!el)return;
+  const vi=(fi&&fi.value)||'all',vm=(fm&&fm.value)||'all';
+  const list=people.filter(p=>(vi==='all'||p.ind===vi)&&(vm==='all'||p.mkts.indexOf(vm)>-1));
+  el.innerHTML=list.length?list.map(p=>personRow(p,false)).join('')
+    :`<div class="empty"><div class="e-ic">👥</div><p>${tr('p_none')}</p></div>`;
+}
+function openPerson(id){curPerson=id;renderPerson();go('person');}
+function renderPerson(){
+  const p=personById(curPerson);if(!p||!byId('ppFacts'))return;
+  const av=byId('ppAv');av.textContent=p.i;av.style.background=p.c;
+  byId('ppName').textContent=p.n;
+  byId('ppRole').textContent=tx(p.t)+' · '+p.co;
+  byId('ppFacts').innerHTML=fact('pp_title',tx(p.t))+fact('pp_company',p.co)
+    +fact('pp_industry',tx(industries[p.ind]))+fact('pp_about_co',tx(p.cod))
+    +fact('pp_markets',p.mkts.map(k=>tx(markets[k])).join(' · '));
+  const li=byId('ppLi');li.href=p.li;li.textContent=tr('pp_linkedin');
+  const m=meetingFor(p.id);
+  byId('ppActs').innerHTML=(m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
+    :`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`)
+    +`<button class="btn dark" onclick="toast(tr('t_chat')+'${p.n}')">${tr('btn_chat')}</button>`;
+}
+
+/* ===================== MAP / NOTIFICATIONS / SESSION ===================== */
 function renderBooths(){
-  document.getElementById('mapBooths').innerHTML=exhibitors.slice(0,3).map(x=>
+  const el=byId('mapBooths');if(!el)return;
+  el.innerHTML=exhibitors.slice(0,3).map(x=>
     `<div class="li" onclick="toast(tr('t_dir')+'${x.n}')"><div class="thumb">${x.i}</div><div class="meta"><h4>${x.n}</h4><p>${tx(x.d)}</p></div><button class="btn sm ghost" onclick="event.stopPropagation();toast(tr('t_dir')+'${x.n}')">${tr('directions_btn')}</button></div>`).join('');
 }
 function renderNotif(){
-  document.getElementById('notifList').innerHTML=tr('notif').map(n=>
+  const el=byId('notifList');if(!el)return;
+  el.innerHTML=tr('notif').map(n=>
     `<div class="nf"><div class="nfi" style="background:${n[1]}">${n[0]}</div><div style="flex:1"><b>${n[2]}</b><p>${n[3]}</p></div><time>${n[4]}</time></div>`).join('');
 }
 function openSession(i){
   curSession=i;const s=sessions[i];
-  document.getElementById('sDtag').textContent=tx(s.tag);
-  document.getElementById('sDtitle').textContent=tx(s.t);
-  document.getElementById('sDtime').textContent=s.time;
-  document.getElementById('sDroom').textContent=tx(s.room);
-  document.getElementById('sDdesc').textContent=tx(s.desc);
-  document.getElementById('sDspk').textContent=s.spk;
-  document.getElementById('sDspkrole').textContent=tx(s.role);
-  const av=document.getElementById('sDav');av.textContent=s.av;av.style.background=`${s.c}`;
-  document.getElementById('sDhero').style.setProperty('--img',`url('assets/img/${s.img}.jpg')`);
+  byId('sDtag').textContent=tx(s.tag);
+  byId('sDtitle').textContent=tx(s.t);
+  byId('sDtime').textContent=s.time+' · GMT+7';
+  byId('sDroom').textContent=tx(s.room);
+  byId('sDdesc').textContent=tx(s.desc);
+  byId('sDspk').textContent=s.spk;
+  byId('sDspkrole').textContent=tx(s.role);
+  const av=byId('sDav');av.textContent=s.av;av.style.background=`${s.c}`;
+  byId('sDhero').style.setProperty('--img',`url('assets/img/${s.img}.jpg')`);
+  byId('sDsave').style.display=isPast()?'none':'inline-flex';
+  updateSaveBtn();
   go('session');
 }
 
 /* ===================== SHEETS ===================== */
 function openSheet(id){document.getElementById('scrim').classList.add('show');document.getElementById(id).classList.add('show');}
 function closeSheet(){document.getElementById('scrim').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));}
-let selTicketKey='std',selAmt='2.500.000đ';
-const ticketNameKey={std:'tn_std',vip:'tn_vip',grp:'tn_grp'};
-function openRegister(){document.getElementById('regStep1').style.display='block';document.getElementById('regStep2').style.display='none';document.getElementById('regStep3').style.display='none';openSheet('sheetReg');}
-function selTicket(el,key,amt){document.querySelectorAll('#regStep1 .ticket').forEach(t=>t.classList.remove('sel'));el.classList.add('sel');selTicketKey=key;selAmt=amt;}
-function regToPay(){document.getElementById('regStep1').style.display='none';document.getElementById('regStep2').style.display='block';document.getElementById('payAmt').textContent=selAmt;}
-function backToTickets(){document.getElementById('regStep2').style.display='none';document.getElementById('regStep1').style.display='block';}
-function selPay(el){document.querySelectorAll('#regStep2 .pay').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');}
-function payNow(){
-  const b=document.getElementById('payBtn');b.textContent=tr('processing');
-  setTimeout(()=>{document.getElementById('regStep2').style.display='none';document.getElementById('regStep3').style.display='block';
-    document.getElementById('okTicket').textContent=tr(ticketNameKey[selTicketKey]);
-    b.innerHTML=`<span>${tr('pay_btn')}</span>&nbsp;<span id="payAmt">${selAmt}</span>`;},1100);
+/* --- free registration form --- */
+function openRegister(id){
+  regEvId=id||curEv.id;
+  const e=events.find(x=>x.id===regEvId)||curEv;
+  byId('regSub').textContent=tx(e.n)+' · '+tx(e.dates);
+  byId('regForm').style.display='block';byId('regDone').style.display='none';
+  openSheet('sheetReg');
 }
+function submitReg(){
+  if(!byId('rgName').value.trim()||!byId('rgMail').value.trim()){toast(tr('reg_need'));return;}
+  const e=events.find(x=>x.id===regEvId);
+  if(e)e.status='registered';
+  byId('regForm').style.display='none';byId('regDone').style.display='block';
+  renderEvents();renderEventInfo();
+}
+/* --- meeting request --- */
+let mrPid=null,mrDay=1,mrSlot=0;
+function openMeetReq(id){
+  if(isPast()){toast(tr('t_ended'));return;}
+  const p=personById(id);if(!p)return;
+  mrPid=id;mrDay=curEv.days[0].n;mrSlot=0;
+  byId('mrSub').textContent=p.n+' · '+tx(p.t)+' · '+p.co;
+  byId('mrMsg').value='';
+  renderMR();openSheet('sheetMeet');
+}
+function renderMR(){
+  if(!byId('mrDays'))return;
+  byId('mrDays').innerHTML=curEv.days.map(d=>
+    `<button class="${mrDay===d.n?'on':''}" onclick="mrSetDay(${d.n})">${tx(d.lbl)}<b>${tx(d.d)}</b></button>`).join('');
+  byId('mrSlots').innerHTML=slots.map((s,i)=>
+    `<button class="${mrSlot===i?'on':''}" onclick="mrSetSlot(${i})">${s}</button>`).join('');
+}
+function mrSetDay(n){mrDay=n;renderMR();}
+function mrSetSlot(i){mrSlot=i;renderMR();}
+function sendMeetingReq(){const p=personById(mrPid);closeSheet();if(p)toast(tr('t_meet_sent')+p.n);}
+/* --- QR connect / e-ticket --- */
 function openQR(){openSheet('sheetQR');}
+function openTicket(){byId('etEvent').textContent=tx(curEv.n);openSheet('sheetTicket');}
 
 /* ===================== TOAST ===================== */
 let toTimer;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toTimer);toTimer=setTimeout(()=>t.classList.remove('show'),1900);}
 
 /* ===================== I18N APPLY & SWITCH ===================== */
+function renderAll(){
+  renderEvents();renderEventInfo();renderHome();renderHomeAgenda();renderSpeakers();renderSponsorStrip();
+  renderExplore();renderSchedule();renderNetwork();renderFilters();renderParticipants();
+  renderBooths();renderNotif();renderMR();
+  if(curPerson)renderPerson();
+  updateSaveBtn();
+}
 function applyI18n(){
   document.documentElement.lang=lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]!==undefined)el.textContent=T[lang][k];});
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(T[lang][k]!==undefined)el.setAttribute('placeholder',T[lang][k]);});
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{const k=el.getAttribute('data-i18n-title');if(T[lang][k]!==undefined)el.setAttribute('title',T[lang][k]);});
   // SVG map labels
   [['svgHall','svgHall'],['svgB1','svgB1'],['svgB2','svgB2'],['svgLounge','svgLounge'],['svgLobby','svgLobby']].forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k);});
   // dynamic blocks
-  renderSpeakers();renderHomeAgenda();renderExplore();renderAgenda();renderNetwork();renderBooths();renderNotif();
+  renderAll();
   if(current==='session')openSessionRefresh();
   // app bar title for current screen
   setAppbarTitle(current);
   // globe label = current language code
   document.getElementById('globeLbl').textContent=(lang==='vi'?'VI':'EN');
 }
-function openSessionRefresh(){const i=curSession,s=sessions[i];
-  document.getElementById('sDtag').textContent=tx(s.tag);document.getElementById('sDtitle').textContent=tx(s.t);
-  document.getElementById('sDroom').textContent=tx(s.room);document.getElementById('sDdesc').textContent=tx(s.desc);
-  document.getElementById('sDspkrole').textContent=tx(s.role);}
+function openSessionRefresh(){const s=sessions[curSession];if(!s)return;
+  byId('sDtag').textContent=tx(s.tag);byId('sDtitle').textContent=tx(s.t);
+  byId('sDroom').textContent=tx(s.room);byId('sDdesc').textContent=tx(s.desc);
+  byId('sDspkrole').textContent=tx(s.role);}
 function setLang(l){lang=l;localStorage.setItem('svef_lang',l);applyI18n();}
 function toggleLang(){setLang(lang==='vi'?'en':'vi');toast(tr('lang_switched'));}
 
@@ -769,7 +1380,9 @@ function tick(){const d=new Date();document.getElementById('clock').textContent=
 setInterval(tick,10000);tick();
 
 /* ===================== INIT ===================== */
+curDay=curEv.days[0].n;
 applyI18n();
+go('events');
 </script>
 </body>
 </html>

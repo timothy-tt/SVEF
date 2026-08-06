@@ -78,7 +78,7 @@ header .wrap{max-width:1500px}
 .logo small{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.09em;display:block;
   text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
 .menu{display:flex;gap:0;margin-left:14px;flex:0 1 auto;min-width:0}
-.menu a{padding:8px 12px;border-radius:0;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;
+.menu a{padding:8px 10px;border-radius:0;font-size:13px;font-weight:500;color:var(--ink-2);cursor:pointer;
   white-space:nowrap;border-bottom:2px solid transparent;letter-spacing:-.01em}
 .menu a:hover{color:var(--ink);border-bottom-color:var(--ink)}
 .menu a.on{color:var(--red);border-bottom-color:var(--red)}
@@ -257,7 +257,7 @@ select:focus,input:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
 .msg .mc{flex:1;min-width:0}
 .msg .mc h4{margin:0 0 3px;font-size:14.5px;color:var(--ink);font-weight:600;letter-spacing:-.02em}
 .msg .mc p{margin:0;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tabbar{display:flex;gap:0;border-bottom:1px solid var(--rule);margin-bottom:24px;flex-wrap:nowrap;overflow-x:auto}
+.tabbar{display:flex;gap:0;border-bottom:1px solid var(--rule);margin-bottom:24px;flex-wrap:wrap}
 .tabbar button{border:none;background:none;padding:11px 0;font-family:var(--mono);font-size:10.5px;
   font-weight:500;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-right:26px;
   white-space:nowrap;flex:0 0 auto;text-transform:uppercase;letter-spacing:.1em;margin-bottom:-1px}
@@ -311,6 +311,21 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 .ck-btns .btn+.btn{margin-left:-1px}
 @media(max-width:560px){.cookie{flex-direction:column;align-items:stretch}.ck-btns{width:100%}.ck-btns .btn{flex:1}}
 :focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:0}
+/* interactive mission / activity fields */
+.mcard{position:relative;overflow:hidden;transition:border-color .15s linear,background .15s linear}
+.mcard::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--red);
+  transform:scaleX(0);transform-origin:left;transition:transform .2s ease}
+.mcard:hover,.mcard:focus-within{border-color:var(--ink);z-index:1}
+.mcard:hover::after,.mcard:focus-within::after{transform:scaleX(1)}
+.mcard .flip{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mcard:hover .flip,.mcard:focus-within .flip{-webkit-line-clamp:9}
+/* membership packages */
+.pkg{display:flex;flex-direction:column}
+.pkg .who{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.11em;
+  color:var(--muted);margin:0 0 18px;display:block}
+.pkgb{list-style:none;margin:0 0 24px;padding:0;font-size:14px;flex:1;border-top:1px solid var(--line)}
+.pkgb li{padding:11px 0 11px 22px;position:relative;color:var(--ink);border-bottom:1px solid var(--line)}
+.pkgb li::before{content:"";position:absolute;left:0;top:19px;width:8px;height:2px;background:var(--red)}
 
 /* resources */
 .rescard{display:flex;align-items:center;gap:18px;background:#fff;border:1px solid var(--line);border-radius:0;
@@ -407,7 +422,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 @media(max-width:640px){.ev-row .shot{display:none}}
 
 /* ==================== RESPONSIVE ==================== */
-@media(max-width:1350px){.menu{display:none}.hamb{display:grid;place-items:center}}
+@media(max-width:1500px){.menu{display:none}.hamb{display:grid;place-items:center}}
 @media(max-width:1000px){
   .wrap{padding:0 24px}
   .hero .wrap{padding:64px 24px 56px}
@@ -459,12 +474,12 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
       <a onclick="show('news')" data-i18n="nav_news">News</a>
       <a onclick="show('resources')" data-i18n="nav_res">Resources</a>
       <a onclick="show('media')" data-i18n="nav_media">Media</a>
+      <a onclick="show('become')" data-i18n="nav_become">Become a Partner</a>
       <a onclick="show('contact')" data-i18n="nav_contact">Contact</a>
     </nav>
     <div class="hactions">
       <button class="lang" aria-label="Switch language" onclick="toggleLang()">🌐 <span id="langLbl">EN</span></button>
       <button class="btn ghost sm" id="loginBtn" onclick="openLogin()" data-i18n="login">Log in</button>
-      <a class="btn sm hide-sm" href="admin.html" data-i18n="admin">Admin</a>
       <button class="hamb" aria-label="Menu" aria-expanded="false" aria-controls="menu" onclick="mobileMenu()">☰</button>
     </div>
   </div>
@@ -487,7 +502,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
       <p data-i18n="hero_p">Connecting institutions, partners and innovators across two markets — forums, trade missions, market-entry support and policy advocacy.</p>
       <div class="cta">
         <button class="btn" onclick="show('events')" data-i18n="hero_cta1">Explore upcoming events</button>
-        <button class="btn line" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)" onclick="openSignup('join')" data-i18n="hero_cta2">Become a partner</button>
+        <button class="btn line" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4)" onclick="show('become')" data-i18n="hero_cta2">Become a partner</button>
       </div>
       <div class="stat">
         <div><b>120+</b><span data-i18n="s_partners">Partners &amp; members</span></div>
@@ -498,17 +513,22 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
     </div>
   </div>
 
-  <!-- Missions -->
+  <!-- Main missions (short, interactive) -->
   <section class="blk">
     <div class="wrap">
-      <h2 class="sec-t" data-i18n="mis_t">Our main missions</h2>
-      <p class="sec-s" data-i18n="mis_s">Four pillars driving Swiss–Vietnam economic cooperation.</p>
-      <div class="grid g4">
-        <div class="card"><div class="ic r">🏛️</div><h3 data-i18n="mis1_t">Business Forums</h3><p data-i18n="mis1_p">Flagship forums &amp; seminars connecting decision-makers.</p></div>
-        <div class="card"><div class="ic n">✈️</div><h3 data-i18n="mis2_t">Trade Missions</h3><p data-i18n="mis2_p">Organised delegations between Switzerland and Vietnam.</p></div>
-        <div class="card"><div class="ic g">🚀</div><h3 data-i18n="mis3_t">Market Entry</h3><p data-i18n="mis3_p">Practical support for companies entering new markets.</p></div>
-        <div class="card"><div class="ic y">⚖️</div><h3 data-i18n="mis4_t">Advocacy &amp; Policy</h3><p data-i18n="mis4_p">Representing member interests to shape policy.</p></div>
-      </div>
+      <h2 class="sec-t" data-i18n="mm_t">Main missions</h2>
+      <p class="sec-s" data-i18n="mm_s">What the forum exists to do, in four sentences.</p>
+      <div class="grid g4" id="mainMissions"></div>
+    </div>
+  </section>
+
+  <!-- Our activities (interactive) -->
+  <section class="blk alt">
+    <div class="wrap">
+      <h2 class="sec-t" data-i18n="oa_t">Our activities</h2>
+      <p class="sec-s" data-i18n="oa_s">Four programme groups delivering on those missions. Hover or tap a card to read more.</p>
+      <div class="grid g4" id="homeActivities"></div>
+      <div style="margin-top:20px"><button class="btn ghost" onclick="show('activities')" data-i18n="see_more">See more →</button></div>
     </div>
   </section>
 
@@ -535,35 +555,37 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
   </section>
 
   <!-- Upcoming events -->
-  <section class="blk alt">
+  <section class="blk">
     <div class="wrap">
       <h2 class="sec-t" data-i18n="up_t">Upcoming events</h2>
-      <p class="sec-s" data-i18n="up_s">Forum-organised events and partner-proposed events, all in one place.</p>
+      <p class="sec-s" data-i18n="up_s">Forum-organised events and partner-organised events, all in one place.</p>
       <div class="grid g2" id="homeEvents"></div>
       <div style="margin-top:20px"><button class="btn ghost" onclick="show('events')" data-i18n="viewall_ev">View all events →</button></div>
     </div>
   </section>
 
   <!-- Latest news -->
-  <section class="blk">
+  <section class="blk alt">
     <div class="wrap">
       <h2 class="sec-t" data-i18n="news_t">Latest news</h2>
       <p class="sec-s" data-i18n="news_s">Updates from the forum and its partners.</p>
       <div class="grid g3" id="homeNews"></div>
+      <div style="margin-top:20px"><button class="btn ghost" onclick="show('news')" data-i18n="read_more">Read more →</button></div>
     </div>
   </section>
 
   <!-- Documents -->
-  <section class="blk alt">
+  <section class="blk">
     <div class="wrap">
       <h2 class="sec-t" data-i18n="doc_t">Important documents</h2>
       <p class="sec-s" data-i18n="doc_s">Reports, market briefs and partnership resources.</p>
       <div class="grid g3" id="homeDocs"></div>
+      <div style="margin-top:20px"><button class="btn ghost" onclick="show('resources')" data-i18n="read_more">Read more →</button></div>
     </div>
   </section>
 
   <!-- Partners preview -->
-  <section class="blk">
+  <section class="blk alt">
     <div class="wrap">
       <h2 class="sec-t" data-i18n="pp_t">Our partners</h2>
       <p class="sec-s" data-i18n="pp_s">Institutional members, subscribers and strategic partners across markets.</p>
@@ -601,13 +623,41 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
     <p class="sec-s" data-i18n="act_s">Four programme groups, structured for clarity.</p>
     <div id="actAccordion"></div>
   </div></section>
+  <section class="blk alt"><div class="wrap">
+    <h2 class="sec-t" data-i18n="ra_t">Related articles</h2>
+    <p class="sec-s" data-i18n="ra_s">Coverage and write-ups from recent SVEF activities.</p>
+    <div class="grid g3" id="relArticles"></div>
+    <div style="margin-top:20px"><button class="btn ghost" onclick="show('news')" data-i18n="read_more">Read more →</button></div>
+  </div></section>
+</div>
+
+<!-- ===================== BECOME A PARTNER ===================== -->
+<div class="page" id="page-become">
+  <div class="hero"><div class="wrap" style="padding:56px 20px">
+    <div class="flag" data-i18n="nav_become">Become a Partner</div>
+    <h1 class="sm" data-i18n="bp_h">Join the Swiss–Vietnam business community</h1>
+    <p data-i18n="bp_p">Five ways to take part, from receiving our information to shaping the forum as a strategic partner.</p>
+  </div></div>
+  <section class="blk"><div class="wrap">
+    <h2 class="sec-t" data-i18n="bp_t">Membership packages</h2>
+    <p class="sec-s" data-i18n="bp_s">Benefits vary by package. Fees are quoted individually, so talk to the secretariat for current rates and any preferential terms.</p>
+    <div class="grid g2" id="pkgGrid"></div>
+    <div class="card" style="margin-top:22px;background:var(--soft);border:none;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:220px"><b style="color:var(--navy)" data-i18n="bp_cta_t">Ready to join?</b><p class="muted" style="margin:4px 0 0;font-size:14px" data-i18n="bp_cta_s">Fill in the registration form. The SVEF secretariat reviews every application.</p></div>
+      <button class="btn" style="width:auto" onclick="openSignup('join')" data-i18n="bp_cta_b">Register now</button>
+    </div>
+  </div></section>
 </div>
 
 <!-- ===================== PARTNERS & MEMBERS ===================== -->
 <div class="page" id="page-partners">
   <section class="blk"><div class="wrap">
-    <h2 class="sec-t" data-i18n="dir_t">Partners &amp; Members</h2>
-    <p class="sec-s" data-i18n="dir_s">Filter the directory by market, partnership type and industry.</p>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:6px">
+      <div><h2 class="sec-t" data-i18n="dir_t">Partners &amp; Members</h2>
+      <p class="sec-s" style="margin-bottom:0" data-i18n="dir_s">Filter the directory by market, partnership type and industry.</p></div>
+      <button class="btn" onclick="show('become')" data-i18n="nav_become">Become a Partner</button>
+    </div>
+    <div style="height:20px"></div>
     <div class="filters">
       <div class="field"><label data-i18n="f_market">Market</label>
         <select id="fMarket" onchange="renderDirectory()"><option value="">— All —</option><option>Switzerland</option><option>Vietnam</option><option>Europe</option><option>South East Asia</option><option>Global</option></select></div>
@@ -626,16 +676,19 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 <div class="page" id="page-events">
   <section class="blk"><div class="wrap">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px">
-      <div><h2 class="sec-t" data-i18n="ev_t">Events</h2><p class="sec-s" style="margin-bottom:0" data-i18n="ev_s">Forum events and partner-proposed events.</p></div>
-      <button class="btn" onclick="proposeEvent()" data-i18n="ev_propose">＋ Propose your event</button>
+      <div><h2 class="sec-t" data-i18n="ev_t">Events</h2><p class="sec-s" style="margin-bottom:0" data-i18n="ev_s">Forum events and partner-organised events.</p></div>
+      <button class="btn" id="evProposeBtn" onclick="proposeEvent()" style="display:none" data-i18n="ev_propose">＋ Propose your event</button>
     </div>
     <div style="height:24px"></div>
     <div class="tabbar" style="max-width:400px">
       <button class="on" onclick="evFilter('all',this)" data-i18n="ev_all">All</button>
-      <button onclick="evFilter('forum',this)" data-i18n="ev_forum">Forum events</button>
-      <button onclick="evFilter('partner',this)" data-i18n="ev_partnerev">Partner events</button>
+      <button onclick="evFilter('forum',this)" data-i18n="ev_forum">SVEF</button>
+      <button onclick="evFilter('partner',this)" data-i18n="ev_partnerev">Partners</button>
     </div>
-    <div class="grid" style="gap:12px" id="eventList"></div>
+    <h3 class="sec-t" style="font-size:19px;margin:24px 0 4px" data-i18n="ev_upcoming">Upcoming events</h3>
+    <div class="grid" style="gap:12px" id="eventListUp"></div>
+    <h3 class="sec-t" style="font-size:19px;margin:34px 0 4px" data-i18n="ev_past">Past events</h3>
+    <div class="grid" style="gap:12px" id="eventListPast"></div>
   </div></section>
 </div>
 
@@ -643,7 +696,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 <div class="page" id="page-news">
   <section class="blk"><div class="wrap">
     <h2 class="sec-t" data-i18n="news_t">Latest news</h2>
-    <p class="sec-s" data-i18n="news_full_s">News, resources and media — managed through the CMS.</p>
+    <p class="sec-s" data-i18n="news_full_s">News and updates from the forum and its partners.</p>
     <div class="grid g3" id="newsFull"></div>
   </div></section>
 </div>
@@ -700,14 +753,14 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
         <button class="btn ghost sm block" style="margin-top:10px" onclick="openSignup('addprofile')" data-i18n="add_prof">＋ Add profile</button>
       </div>
       <div class="pmenu" id="pmenu">
-        <button class="on" onclick="portalTab('dash',this)"><i class="ni">📊</i><span data-i18n="pt_dash">Dashboard</span></button>
-        <button onclick="portalTab('company',this)"><i class="ni">🏢</i><span data-i18n="pt_company">Company profile</span></button>
-        <button onclick="portalTab('docs',this)"><i class="ni">📎</i><span data-i18n="pt_docs">Documents</span></button>
-        <button onclick="portalTab('events',this)"><i class="ni">📅</i><span data-i18n="pt_events">My events</span></button>
-        <button onclick="portalTab('directory',this)"><i class="ni">🗂️</i><span data-i18n="pt_dir">Partner database</span></button>
-        <button onclick="portalTab('messages',this)"><i class="ni">💬</i><span data-i18n="pt_msg">Messages</span><span class="badge">2</span></button>
-        <button onclick="portalTab('team',this)"><i class="ni">👥</i><span data-i18n="pt_team">Team members</span></button>
-        <button onclick="portalTab('account',this)"><i class="ni">⚙️</i><span data-i18n="pt_account">Account &amp; settings</span></button>
+        <button class="on" data-tab="dash" onclick="portalTab('dash',this)"><i class="ni">📊</i><span data-i18n="pt_dash">Dashboard</span></button>
+        <button data-tab="company" onclick="portalTab('company',this)"><i class="ni" id="pmCompanyIc">🏢</i><span id="pmCompanyLbl" data-i18n="pt_company">Company profile</span></button>
+        <button data-tab="docs" onclick="portalTab('docs',this)"><i class="ni">📎</i><span data-i18n="pt_docs">Documents</span></button>
+        <button data-tab="events" onclick="portalTab('events',this)"><i class="ni">📅</i><span data-i18n="pt_events">My events</span></button>
+        <button data-tab="directory" onclick="portalTab('directory',this)"><i class="ni">🗂️</i><span data-i18n="pt_dir">Partner database</span></button>
+        <button data-tab="messages" onclick="portalTab('messages',this)"><i class="ni">💬</i><span data-i18n="pt_msg">Messages</span><span class="badge">2</span></button>
+        <button data-tab="team" onclick="portalTab('team',this)"><i class="ni">👥</i><span data-i18n="pt_team">Team members</span></button>
+        <button data-tab="account" onclick="portalTab('account',this)"><i class="ni">⚙️</i><span data-i18n="pt_account">Account &amp; settings</span></button>
       </div>
       <button class="btn line sm block" style="margin-top:14px" onclick="logout()" data-i18n="logout">Log out</button>
     </aside>
@@ -719,20 +772,11 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
         <h2 class="sec-t" style="font-size:22px">👋 <span data-i18n="welcome">Welcome back</span>, <span id="dashName">Anh Trần</span></h2>
         <p class="sec-s" id="dashCtx"></p>
         <div id="pendingBanner"></div>
-        <div class="stat-row">
-          <div class="st"><b>3</b><span data-i18n="k_docs">Documents</span></div>
-          <div class="st"><b>2</b><span data-i18n="k_evsub">Event requests</span></div>
-          <div class="st"><b>18</b><span data-i18n="k_conn">Connections</span></div>
-          <div class="st"><b id="kTier">Member</b><span data-i18n="k_tier">Membership tier</span></div>
-        </div>
+        <div class="stat-row" id="statRow"></div>
         <div class="pcardbox">
           <h3 data-i18n="quick_t">Quick actions</h3>
           <p class="muted" style="margin:0 0 16px" data-i18n="quick_s">Everything a partner needs, in one place.</p>
-          <div class="grid g3" style="gap:12px">
-            <button class="card hov" style="text-align:left" onclick="portalTab('company',qbtn('company'))"><div class="ic n">🏢</div><h3 style="font-size:15px" data-i18n="qa_edit">Edit company profile</h3><p data-i18n="qa_edit_s">Logo, industry, markets.</p></button>
-            <button class="card hov" style="text-align:left" onclick="portalTab('docs',qbtn('docs'))"><div class="ic r">📎</div><h3 style="font-size:15px" data-i18n="qa_upload">Upload documents</h3><p data-i18n="qa_upload_s">Presentations, posters.</p></button>
-            <button class="card hov" style="text-align:left" onclick="proposeEvent()"><div class="ic g">📅</div><h3 style="font-size:15px" data-i18n="qa_prop">Propose an event</h3><p data-i18n="qa_prop_s">Publish on the forum.</p></button>
-          </div>
+          <div class="grid g3" style="gap:12px" id="quickActions"></div>
         </div>
         <div class="pcardbox">
           <h3 data-i18n="onboard_t">Getting started</h3>
@@ -741,22 +785,8 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
         </div>
       </div>
 
-      <!-- COMPANY PROFILE -->
-      <div class="ptab" id="pt-company">
-        <div class="pcardbox">
-          <h3 data-i18n="cp_t">Company profile</h3>
-          <p class="muted" style="margin:0 0 18px" data-i18n="cp_s">Self-update your organisation's information. Changes appear in the public directory.</p>
-          <div class="grid g2" style="gap:16px">
-            <div class="mrow"><label data-i18n="cp_name">Company name</label><input id="cpName" value="Helvetia Fintech AG"></div>
-            <div class="mrow"><label data-i18n="cp_ind">Industry</label><select id="cpInd"><option>Finance &amp; Banking</option><option>Technology &amp; Innovation</option><option>Manufacturing</option><option>Energy</option><option>Consulting</option></select></div>
-            <div class="mrow"><label data-i18n="cp_market">Markets of operation</label><select id="cpMarket"><option>Switzerland</option><option>Vietnam</option><option>Europe</option><option>Global</option></select></div>
-            <div class="mrow"><label data-i18n="cp_type">Partnership type</label><input value="Institutional Member" disabled style="background:var(--soft)"></div>
-          </div>
-          <div class="mrow"><label data-i18n="cp_about">About</label><textarea rows="3" id="cpAbout">Swiss digital-banking and cross-border payments group building bridges between European and Vietnamese fintech.</textarea></div>
-          <div class="mrow"><label data-i18n="cp_logo">Logo</label><div class="uploadzone" onclick="toast(tr('t_upload'))">🖼️ <span data-i18n="cp_logo_z">Click to upload a new logo (PNG/SVG)</span></div></div>
-          <button class="btn" onclick="toast(tr('t_saved'))" data-i18n="save_changes">Save changes</button>
-        </div>
-      </div>
+      <!-- COMPANY / PERSONAL PROFILE -->
+      <div class="ptab" id="pt-company"><div class="pcardbox" id="cpBox"></div></div>
 
       <!-- DOCUMENTS -->
       <div class="ptab" id="pt-docs">
@@ -823,8 +853,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
         </div>
         <div class="pcardbox">
           <h3 data-i18n="ac_prefs">Preferences</h3>
-          <div class="mrow" style="margin-top:14px"><label data-i18n="ac_visibility">Profile visibility</label>
-            <select id="acVis" onchange="toast(tr('vis_saved'))"><option value="pub" data-i18n="ac_vis_pub">Public — shown in the partner directory</option><option value="priv" data-i18n="ac_vis_priv">Private — hidden from the directory</option></select></div>
+          <div style="height:14px"></div>
           <label style="font-size:13px;font-weight:700;color:var(--navy)" data-i18n="ac_notif">Email notifications</label>
           <div style="margin:8px 0 16px;display:flex;flex-direction:column;gap:9px">
             <label style="display:flex;gap:9px;align-items:center;font-size:14px"><input type="checkbox" checked style="width:auto"> <span data-i18n="ac_notif1">Event announcements</span></label>
@@ -841,10 +870,11 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
         </div>
         <div class="pcardbox" style="border-color:#f3c9c6">
           <h3 data-i18n="ac_privacy">Privacy &amp; data (GDPR)</h3>
-          <p class="muted" style="margin:0 0 14px" data-i18n="ac_privacy_s">You control your data. Export or delete it at any time (BRD §11.2).</p>
+          <p class="muted" style="margin:0 0 6px" data-i18n="ac_privacy_s">You control your data. Export or delete it at any time (BRD §11.2).</p>
+          <p class="muted" style="margin:0 0 14px;font-size:13px" data-i18n="ac_export_what">Your export is a ZIP containing: profile fields, membership history, event registrations and proposals, uploaded documents and message history. Passwords and payment tokens are never included.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <button class="btn ghost" style="width:auto" onclick="toast(tr('t_export'))" data-i18n="ac_export">⬇ Export my data</button>
-            <button class="btn line" style="width:auto;color:var(--red);border-color:#f3c9c6" onclick="toast(tr('t_delete'))" data-i18n="ac_delete">🗑 Delete my account</button>
+            <button class="btn line" style="width:auto;color:var(--red);border-color:#f3c9c6" onclick="openDeleteAccount()" data-i18n="ac_delete">🗑 Delete my account</button>
           </div>
         </div>
       </div>
@@ -922,6 +952,8 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
         <div class="mrow"><label data-i18n="pe_loc">Location</label><input id="peLoc" placeholder="City / venue" data-i18n-ph="ph_venue"></div>
       </div>
       <div class="mrow"><label data-i18n="pe_type">Type</label><select><option>In-person</option><option>Online</option><option>Hybrid</option></select></div>
+      <div class="mrow"><label data-i18n="pe_link">Link to the event information</label><input id="peLink" type="url" placeholder="https://example.org/my-event" data-i18n-ph="pe_link_ph">
+        <span class="muted" style="font-size:12.5px" data-i18n="pe_linknote">The Register button on the published event sends visitors to this link.</span></div>
       <div class="mrow"><label data-i18n="pe_desc">Description</label><textarea rows="3" placeholder="What is the event about?" data-i18n-ph="ph_evdesc"></textarea></div>
       <div class="card" style="background:var(--soft);border:none;font-size:13px;color:var(--muted);margin-bottom:16px" data-i18n="pe_note">ℹ️ Partner-proposed events are reviewed by the SVEF admin team before appearing publicly under “Upcoming Events”.</div>
       <button class="btn block" onclick="submitPropose()" data-i18n="pe_submit">Submit for approval</button>
@@ -950,6 +982,18 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
   <div class="modal">
     <div class="mhead"><h3 data-i18n="su_t">Join SVEF</h3><button class="mx" onclick="closeModal()" aria-label="Close">✕</button></div>
     <div class="mbody"><div class="wizsteps" id="suSteps"></div><div id="suBody"></div></div>
+  </div>
+</div>
+
+<!-- ===== DELETE ACCOUNT CONFIRMATION ===== -->
+<div class="scrim" id="scrimDelete" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mhead"><h3 data-i18n="da_t">Delete my account</h3><button class="mx" onclick="closeModal()" aria-label="Close">✕</button></div>
+    <div class="mbody">
+      <p style="margin-top:0;font-size:14.5px" data-i18n="da_p">Account deletion is carried out by the SVEF secretariat. Confirming here creates a deletion request for the admin team, who will remove your account and confirm by email.</p>
+      <div class="card" style="background:var(--soft);border:none;font-size:13px;color:var(--muted);margin-bottom:16px" data-i18n="da_note">ℹ️ Your profile stays visible until the request is processed. You can cancel by contacting the secretariat.</div>
+      <div style="display:flex;gap:10px"><button class="btn ghost" style="flex:1" onclick="closeModal()" data-i18n="da_cancel">Cancel</button><button class="btn" style="flex:1" onclick="confirmDeleteAccount()" data-i18n="da_confirm">Send deletion request</button></div>
+    </div>
   </div>
 </div>
 
@@ -990,8 +1034,8 @@ const T={
   mis2_t:"Trade Missions",mis2_p:"Organised delegations between Switzerland and Vietnam.",
   mis3_t:"Market Entry",mis3_p:"Practical support for companies entering new markets.",
   mis4_t:"Advocacy & Policy",mis4_p:"Representing member interests to shape policy.",
-  up_t:"Upcoming events",up_s:"Forum-organised events and partner-proposed events, all in one place.",viewall_ev:"View all events →",
-  news_t:"Latest news",news_s:"Updates from the forum and its partners.",news_full_s:"News, resources and media — managed through the CMS.",
+  up_t:"Upcoming events",up_s:"Forum-organised events and partner-organised events, all in one place.",viewall_ev:"View all events →",
+  news_t:"Latest news",news_s:"Updates from the forum and its partners.",news_full_s:"News and updates from the forum and its partners.",
   res_t:"Resources & Documents",res_s:"Reports, market briefs, templates and partnership resources — filter by category.",res_cat_all:"All",res_cat_report:"Reports",res_cat_brief:"Market briefs",res_cat_tmpl:"Templates",res_dl:"Download",media_t:"Media & Press",media_s:"News coverage, photo galleries and press mentions about SVEF and its partners.",media_press:"In the press",social_follow:"Follow us",
   doc_t:"Important documents",doc_s:"Reports, market briefs and partnership resources.",
   imp_t:"Two markets, one platform",imp_s:"Where our members meet — from the Limmat to the Mekong.",
@@ -1004,8 +1048,8 @@ const T={
   act_t:"Our activities",act_s:"Four programme groups, structured for clarity.",
   dir_t:"Partners & Members",dir_s:"Filter the directory by market, partnership type and industry.",
   f_market:"Market",f_type:"Partnership type",f_ind:"Industry",f_reset:"Reset",
-  ev_t:"Events",ev_s:"Forum events and partner-proposed events.",ev_propose:"＋ Propose your event",
-  ev_all:"All",ev_forum:"Forum events",ev_partnerev:"Partner events",
+  ev_t:"Events",ev_s:"SVEF events and partner-organised events.",ev_propose:"＋ Propose your event",
+  ev_all:"All",ev_forum:"SVEF",ev_partnerev:"Partners",
   ct_t:"Contact us",ct_s:"Reach the SVEF team — we usually respond within 2 business days.",ct_office:"Secretariat",ct_name:"Name",ct_msg:"Message",ct_send:"Send message",
   login_t:"Log in to SVEF",sso_g:"Continue with Google",sso_m:"Continue with Microsoft",or:"or with email",password:"Password",
   login_note:"Demo — any credentials work. One account manages multiple profiles (personal + company).",
@@ -1024,7 +1068,7 @@ const T={
   foot_plat:"Platform",foot_org:"Organisation",foot_legal:"Legal",foot_app:"Event App",foot_before:"Target: live before the Hanoi Forum · October 2026",
   pe_t:"Propose your event",pe_step1:"Event details",pe_step1s:"Tell us about your event.",pe_name:"Event name",pe_date:"Date",pe_loc:"Location",pe_type:"Type",pe_desc:"Description",
   pe_note:"ℹ️ Partner-proposed events are reviewed by the SVEF admin team before appearing publicly under “Upcoming Events”.",pe_submit:"Submit for approval",
-  documents_tab:"Documents",overview_tab:"Overview",send_msg:"Send message",register_ev:"Register to attend",by_partner:"Proposed by partner",by_forum:"Forum event",
+  documents_tab:"Documents",overview_tab:"Overview",send_msg:"Send message",register_ev:"Register to attend",by_partner:"Organized by",by_forum:"SVEF event",
   t_sent:"Message sent — thank you!",t_saved:"Company profile saved",t_upload:"Demo: file picker",t_soon:"Demo: coming soon",t_addprof:"Demo: add another profile",
   t_login_need:"Please log in to access the partner database.",t_msgsent:"Message sent",t_chat:"💬 Chat with ",t_proposed:"Event submitted for admin approval ✓",t_docadd:"Document uploaded",t_reg:"Registration confirmed ✓",
   ck_t:"We value your privacy",ck_p:"We use cookies to improve your experience. Data on EU/Swiss users is handled in line with GDPR (BRD §11.2).",ck_accept:"Accept all",ck_decline:"Decline",t_ck:"Cookie preferences saved",
@@ -1047,6 +1091,37 @@ const T={
   pending_t:"Profile pending approval",pending_p:"Your application is under review by the SVEF admin team. Some features are limited until approved.",
   th_reply:"Type a message…",vis_saved:"Visibility updated",
   t_export:"Preparing your data export…",t_delete:"Demo: account deletion requires confirmation",t_pwd:"Demo: change password",
+  nav_become:"Become a Partner",see_more:"See more →",read_more:"Read more →",
+  mm_t:"Main missions",mm_s:"What the forum exists to do, in four sentences.",
+  oa_t:"Our activities",oa_s:"Four programme groups delivering on those missions. Hover or tap a card to read more.",
+  mm1_t:"Connect",mm1_p:"Bring Swiss and Vietnamese decision-makers into the same room.",
+  mm2_t:"Facilitate",mm2_p:"Open doors for trade, investment and market entry in both directions.",
+  mm3_t:"Represent",mm3_p:"Carry member interests into policy dialogue between the two countries.",
+  mm4_t:"Inform",mm4_p:"Publish the research, briefings and contacts our members act on.",
+  ra_t:"Related articles",ra_s:"Coverage and write-ups from recent SVEF activities.",
+  bp_h:"Join the Swiss–Vietnam business community",bp_p:"Five ways to take part, from receiving our information to shaping the forum as a strategic partner.",
+  bp_t:"Membership packages",bp_s:"Benefits vary by package. Fees are quoted individually, so talk to the secretariat for current rates and any preferential terms.",
+  bp_cta_t:"Ready to join?",bp_cta_s:"Fill in the registration form. The SVEF secretariat reviews every application.",bp_cta_b:"Register now",
+  bp_apply:"Register for this package",bp_forwho:"For",
+  ev_upcoming:"Upcoming events",ev_past:"Past events",ev_none:"Nothing here yet.",
+  information_tab:"Information",
+  gate_login:"You need to login to view this features",
+  gate_tier:"You need to be an Individual Subscriber / Individual Member / Strategic Partner to view this feature",
+  ac_export_what:"Your export is a ZIP containing your profile fields, membership history, event registrations and proposals, uploaded documents and message history. Passwords and payment tokens are never included.",
+  da_t:"Delete my account",da_p:"Account deletion is carried out by the SVEF secretariat. Confirming here creates a deletion request for the admin team, who will remove your account and confirm by email.",
+  da_note:"ℹ️ Your profile stays visible until the request is processed. You can cancel by contacting the secretariat.",
+  da_cancel:"Cancel",da_confirm:"Send deletion request",t_delreq:"Deletion request sent to the SVEF admin team ✓",
+  pt_personal:"Personal profile",perp_t:"Personal profile",perp_s:"Self-update your own details. Company information is managed from your organisation profile.",
+  qa_editp:"Edit personal profile",qa_editp_s:"Name, title, industry.",
+  cp_info_t:"Information shown on your public profile",
+  cp_web:"Website",cp_founded:"Founded",cp_hq:"Headquarters",cp_size:"Company size",cp_contact:"Contact email",cp_li:"LinkedIn",
+  cp_fullname:"Full name",cp_title:"Job title",cp_org:"Organisation",cp_photo:"Photo",cp_photo_z:"Click to upload a photo (PNG/JPG)",
+  pe_link:"Link to the event information",pe_link_ph:"https://example.org/my-event",pe_linknote:"The Register button on the published event sends visitors to this link.",
+  reg_ext:"Register on the organiser's site ↗",no_link:"Registration link coming soon",
+  tm_email_first:"Start with the work email. If the person is already linked to your organisation, their name and title fill in automatically.",
+  tm_lookup:"Look up",tm_found:"Match found in the SVEF directory",tm_notify:"The person is added straight away and notified by email.",
+  tm_added_notified:"Member added and notified by email",
+  pkg_note:"Listed in the SVEF partner database",
  },
  vi:{
   demo_banner:"🔎 BẢN DEMO / NGUYÊN MẪU — Website &amp; Cổng thành viên SVEF · IMT Software · không phải dữ liệu thật",
@@ -1063,8 +1138,8 @@ const T={
   mis2_t:"Phái đoàn Thương mại",mis2_p:"Tổ chức các đoàn giữa Thụy Sĩ và Việt Nam.",
   mis3_t:"Thâm nhập Thị trường",mis3_p:"Hỗ trợ thiết thực cho doanh nghiệp vào thị trường mới.",
   mis4_t:"Vận động & Chính sách",mis4_p:"Đại diện lợi ích thành viên để định hình chính sách.",
-  up_t:"Sự kiện sắp tới",up_s:"Sự kiện do diễn đàn tổ chức và sự kiện do đối tác đề xuất, tất cả tại một nơi.",viewall_ev:"Xem tất cả sự kiện →",
-  news_t:"Tin tức mới nhất",news_s:"Cập nhật từ diễn đàn và các đối tác.",news_full_s:"Tin tức, tài liệu và truyền thông — quản lý qua CMS.",
+  up_t:"Sự kiện sắp tới",up_s:"Sự kiện do diễn đàn tổ chức và sự kiện do đối tác tổ chức, tất cả tại một nơi.",viewall_ev:"Xem tất cả sự kiện →",
+  news_t:"Tin tức mới nhất",news_s:"Cập nhật từ diễn đàn và các đối tác.",news_full_s:"Tin tức và cập nhật từ diễn đàn cùng các đối tác.",
   res_t:"Tài nguyên & Tài liệu",res_s:"Báo cáo, tóm tắt thị trường, biểu mẫu và tài nguyên đối tác — lọc theo danh mục.",res_cat_all:"Tất cả",res_cat_report:"Báo cáo",res_cat_brief:"Tóm tắt TT",res_cat_tmpl:"Biểu mẫu",res_dl:"Tải về",media_t:"Truyền thông & Báo chí",media_s:"Tin bài, thư viện ảnh và các đề cập báo chí về SVEF và đối tác.",media_press:"Trên báo chí",social_follow:"Theo dõi chúng tôi",
   doc_t:"Tài liệu quan trọng",doc_s:"Báo cáo, tóm tắt thị trường và tài nguyên đối tác.",
   imp_t:"Hai thị trường, một nền tảng",imp_s:"Nơi các thành viên gặp nhau — từ sông Limmat tới sông Mekong.",
@@ -1077,8 +1152,8 @@ const T={
   act_t:"Hoạt động của chúng tôi",act_s:"Bốn nhóm chương trình, cấu trúc rõ ràng.",
   dir_t:"Đối tác & Thành viên",dir_s:"Lọc danh bạ theo thị trường, loại đối tác và ngành.",
   f_market:"Thị trường",f_type:"Loại đối tác",f_ind:"Ngành",f_reset:"Đặt lại",
-  ev_t:"Sự kiện",ev_s:"Sự kiện của diễn đàn và sự kiện do đối tác đề xuất.",ev_propose:"＋ Đề xuất sự kiện",
-  ev_all:"Tất cả",ev_forum:"Sự kiện diễn đàn",ev_partnerev:"Sự kiện đối tác",
+  ev_t:"Sự kiện",ev_s:"Sự kiện của SVEF và sự kiện do đối tác tổ chức.",ev_propose:"＋ Đề xuất sự kiện",
+  ev_all:"Tất cả",ev_forum:"SVEF",ev_partnerev:"Đối tác",
   ct_t:"Liên hệ",ct_s:"Liên hệ đội ngũ SVEF — thường phản hồi trong 2 ngày làm việc.",ct_office:"Văn phòng",ct_name:"Họ tên",ct_msg:"Nội dung",ct_send:"Gửi",
   login_t:"Đăng nhập SVEF",sso_g:"Tiếp tục với Google",sso_m:"Tiếp tục với Microsoft",or:"hoặc bằng email",password:"Mật khẩu",
   login_note:"Demo — mọi thông tin đều đăng nhập được. Một tài khoản quản lý nhiều hồ sơ (cá nhân + công ty).",
@@ -1097,7 +1172,7 @@ const T={
   foot_plat:"Nền tảng",foot_org:"Tổ chức",foot_legal:"Pháp lý",foot_app:"Ứng dụng Sự kiện",foot_before:"Mục tiêu: vận hành trước Diễn đàn Hà Nội · 10/2026",
   pe_t:"Đề xuất sự kiện",pe_step1:"Chi tiết sự kiện",pe_step1s:"Cho chúng tôi biết về sự kiện.",pe_name:"Tên sự kiện",pe_date:"Ngày",pe_loc:"Địa điểm",pe_type:"Hình thức",pe_desc:"Mô tả",
   pe_note:"ℹ️ Sự kiện do đối tác đề xuất sẽ được đội quản trị SVEF duyệt trước khi hiển thị công khai ở mục “Sự kiện sắp tới”.",pe_submit:"Gửi để duyệt",
-  documents_tab:"Tài liệu",overview_tab:"Tổng quan",send_msg:"Gửi tin nhắn",register_ev:"Đăng ký tham dự",by_partner:"Do đối tác đề xuất",by_forum:"Sự kiện diễn đàn",
+  documents_tab:"Tài liệu",overview_tab:"Tổng quan",send_msg:"Gửi tin nhắn",register_ev:"Đăng ký tham dự",by_partner:"Tổ chức bởi",by_forum:"Sự kiện SVEF",
   t_sent:"Đã gửi — cảm ơn bạn!",t_saved:"Đã lưu hồ sơ công ty",t_upload:"Demo: chọn tệp",t_soon:"Demo: sắp có",t_addprof:"Demo: thêm hồ sơ khác",
   t_login_need:"Vui lòng đăng nhập để truy cập CSDL đối tác.",t_msgsent:"Đã gửi tin nhắn",t_chat:"💬 Nhắn tin với ",t_proposed:"Đã gửi sự kiện để quản trị duyệt ✓",t_docadd:"Đã tải tài liệu",t_reg:"Đã xác nhận đăng ký ✓",
   ck_t:"Chúng tôi tôn trọng quyền riêng tư",ck_p:"Chúng tôi dùng cookie để cải thiện trải nghiệm. Dữ liệu người dùng EU/Thụy Sĩ được xử lý theo GDPR (BRD §11.2).",ck_accept:"Chấp nhận tất cả",ck_decline:"Từ chối",t_ck:"Đã lưu tùy chọn cookie",
@@ -1120,6 +1195,37 @@ const T={
   pending_t:"Hồ sơ đang chờ duyệt",pending_p:"Đăng ký của bạn đang được đội quản trị SVEF xem xét. Một số tính năng bị giới hạn cho tới khi duyệt.",
   th_reply:"Nhập tin nhắn…",vis_saved:"Đã cập nhật hiển thị",
   t_export:"Đang chuẩn bị xuất dữ liệu…",t_delete:"Demo: xoá tài khoản cần xác nhận",t_pwd:"Demo: đổi mật khẩu",
+  nav_become:"Trở thành đối tác",see_more:"Xem thêm →",read_more:"Xem thêm →",
+  mm_t:"Sứ mệnh chính",mm_s:"Diễn đàn tồn tại để làm gì, gói gọn trong bốn câu.",
+  oa_t:"Hoạt động của chúng tôi",oa_s:"Bốn nhóm chương trình hiện thực hoá các sứ mệnh đó. Di chuột hoặc chạm vào thẻ để xem thêm.",
+  mm1_t:"Kết nối",mm1_p:"Đưa các nhà ra quyết định Thụy Sĩ và Việt Nam về cùng một bàn.",
+  mm2_t:"Xúc tiến",mm2_p:"Mở đường cho thương mại, đầu tư và thâm nhập thị trường theo cả hai chiều.",
+  mm3_t:"Đại diện",mm3_p:"Mang tiếng nói của thành viên vào đối thoại chính sách giữa hai nước.",
+  mm4_t:"Cung cấp thông tin",mm4_p:"Xuất bản nghiên cứu, bản tin và đầu mối liên hệ để thành viên hành động.",
+  ra_t:"Bài viết liên quan",ra_s:"Bài viết và tin bài về các hoạt động gần đây của SVEF.",
+  bp_h:"Tham gia cộng đồng doanh nghiệp Thụy Sĩ – Việt Nam",bp_p:"Năm hình thức tham gia, từ nhận thông tin cho tới đồng hành với diễn đàn ở vai trò đối tác chiến lược.",
+  bp_t:"Các gói thành viên",bp_s:"Quyền lợi khác nhau theo từng gói. Mức phí được báo riêng, vui lòng liên hệ ban thư ký để biết mức phí hiện hành và các ưu đãi.",
+  bp_cta_t:"Sẵn sàng tham gia?",bp_cta_s:"Điền biểu mẫu đăng ký. Ban thư ký SVEF sẽ xem xét từng hồ sơ.",bp_cta_b:"Đăng ký ngay",
+  bp_apply:"Đăng ký gói này",bp_forwho:"Dành cho",
+  ev_upcoming:"Sự kiện sắp tới",ev_past:"Sự kiện đã diễn ra",ev_none:"Chưa có nội dung.",
+  information_tab:"Thông tin",
+  gate_login:"Bạn cần đăng nhập để xem nội dung này",
+  gate_tier:"Bạn cần là Individual Subscriber / Individual Member / Strategic Partner để xem nội dung này",
+  ac_export_what:"Bản xuất là tệp ZIP gồm thông tin hồ sơ, lịch sử thành viên, các đăng ký và đề xuất sự kiện, tài liệu đã tải lên và lịch sử tin nhắn. Không bao gồm mật khẩu hay token thanh toán.",
+  da_t:"Xoá tài khoản",da_p:"Việc xoá tài khoản do ban thư ký SVEF thực hiện. Khi bạn xác nhận, hệ thống tạo một yêu cầu xoá gửi tới đội quản trị; họ sẽ xoá tài khoản và xác nhận qua email.",
+  da_note:"ℹ️ Hồ sơ của bạn vẫn hiển thị cho tới khi yêu cầu được xử lý. Bạn có thể huỷ bằng cách liên hệ ban thư ký.",
+  da_cancel:"Huỷ",da_confirm:"Gửi yêu cầu xoá",t_delreq:"Đã gửi yêu cầu xoá tới đội quản trị SVEF ✓",
+  pt_personal:"Hồ sơ cá nhân",perp_t:"Hồ sơ cá nhân",perp_s:"Tự cập nhật thông tin cá nhân của bạn. Thông tin doanh nghiệp được quản lý ở hồ sơ tổ chức.",
+  qa_editp:"Sửa hồ sơ cá nhân",qa_editp_s:"Họ tên, chức danh, ngành.",
+  cp_info_t:"Thông tin hiển thị trên hồ sơ công khai",
+  cp_web:"Website",cp_founded:"Năm thành lập",cp_hq:"Trụ sở chính",cp_size:"Quy mô nhân sự",cp_contact:"Email liên hệ",cp_li:"LinkedIn",
+  cp_fullname:"Họ và tên",cp_title:"Chức danh",cp_org:"Tổ chức",cp_photo:"Ảnh đại diện",cp_photo_z:"Nhấn để tải ảnh (PNG/JPG)",
+  pe_link:"Link thông tin sự kiện",pe_link_ph:"https://example.org/su-kien",pe_linknote:"Nút Đăng ký trên sự kiện đã đăng sẽ dẫn người xem tới link này.",
+  reg_ext:"Đăng ký trên trang của ban tổ chức ↗",no_link:"Sắp có link đăng ký",
+  tm_email_first:"Bắt đầu bằng email công việc. Nếu người này đã liên kết với tổ chức của bạn, họ tên và chức danh sẽ tự điền.",
+  tm_lookup:"Tra cứu",tm_found:"Đã tìm thấy trong danh bạ SVEF",tm_notify:"Người này được thêm ngay và nhận email thông báo.",
+  tm_added_notified:"Đã thêm thành viên và gửi email thông báo",
+  pkg_note:"Được liệt kê trong cơ sở dữ liệu đối tác SVEF",
  }
 };
 let lang=localStorage.getItem('svef_web_lang')==='vi'?'vi':'en';
@@ -1139,10 +1245,20 @@ const partners=[
  {n:"Saigon Trade House",i:"ST",c:"#DA291C",market:"South East Asia",type:"Individual Member",ind:"Consulting",d:{en:"Import/export facilitation specialist.",vi:"Chuyên gia hỗ trợ xuất nhập khẩu."},docs:0},
 ];
 const events=[
- {img:"forum-talk",kind:"forum",day:"14",mon:{en:"OCT",vi:"TH10"},t:{en:"SVEF Hanoi Economic Forum 2026",vi:"Diễn đàn Kinh tế SVEF Hà Nội 2026"},loc:{en:"Hanoi · National Convention Center",vi:"Hà Nội · Trung tâm Hội nghị Quốc gia"},d:{en:"The flagship annual forum bringing together Swiss and Vietnamese leaders across finance, technology and manufacturing.",vi:"Diễn đàn thường niên hàng đầu quy tụ lãnh đạo Thụy Sĩ và Việt Nam trong tài chính, công nghệ và sản xuất."}},
- {img:"swiss-zurich",kind:"forum",day:"22",mon:{en:"NOV",vi:"TH11"},t:{en:"Swiss–Vietnam Trade Mission",vi:"Phái đoàn Thương mại Thụy Sĩ – Việt Nam"},loc:{en:"Zurich · Switzerland",vi:"Zurich · Thụy Sĩ"},d:{en:"A curated delegation of Vietnamese companies visiting Swiss industry hubs.",vi:"Phái đoàn doanh nghiệp Việt Nam thăm các trung tâm công nghiệp Thụy Sĩ."}},
- {img:"energy-solar",kind:"partner",day:"05",mon:{en:"DEC",vi:"TH12"},t:{en:"CleanTech × Vietnam Roundtable",vi:"Bàn tròn CleanTech × Việt Nam"},loc:{en:"Ho Chi Minh City",vi:"TP. Hồ Chí Minh"},by:"GreenTech Vietnam",d:{en:"Partner-hosted roundtable on renewable-energy investment.",vi:"Bàn tròn do đối tác tổ chức về đầu tư năng lượng tái tạo."}},
- {img:"data",kind:"partner",day:"18",mon:{en:"DEC",vi:"TH12"},t:{en:"Fintech Bridge Meetup",vi:"Gặp gỡ Fintech Bridge"},loc:{en:"Online / Hybrid",vi:"Trực tuyến / Kết hợp"},by:"Helvetia Fintech AG",d:{en:"Networking meetup for cross-border payment innovators.",vi:"Sự kiện kết nối cho các nhà đổi mới thanh toán xuyên biên giới."}},
+ {img:"forum-talk",kind:"forum",day:"14",mon:{en:"OCT",vi:"TH10"},yr:"2026",t:{en:"SVEF Hanoi Economic Forum 2026",vi:"Diễn đàn Kinh tế SVEF Hà Nội 2026"},loc:{en:"Hanoi · National Convention Center",vi:"Hà Nội · Trung tâm Hội nghị Quốc gia"},link:"https://swissvieteconomicforum.org/events.htm",d:{en:"The flagship annual forum bringing together Swiss and Vietnamese leaders across finance, technology and manufacturing.",vi:"Diễn đàn thường niên hàng đầu quy tụ lãnh đạo Thụy Sĩ và Việt Nam trong tài chính, công nghệ và sản xuất."}},
+ {img:"swiss-zurich",kind:"forum",day:"22",mon:{en:"NOV",vi:"TH11"},yr:"2026",t:{en:"Swiss–Vietnam Trade Mission",vi:"Phái đoàn Thương mại Thụy Sĩ – Việt Nam"},loc:{en:"Zurich · Switzerland",vi:"Zurich · Thụy Sĩ"},link:"https://swissvieteconomicforum.org/events.htm",d:{en:"A curated delegation of Vietnamese companies visiting Swiss industry hubs.",vi:"Phái đoàn doanh nghiệp Việt Nam thăm các trung tâm công nghiệp Thụy Sĩ."}},
+ {img:"energy-solar",kind:"partner",day:"05",mon:{en:"DEC",vi:"TH12"},yr:"2026",t:{en:"CleanTech × Vietnam Roundtable",vi:"Bàn tròn CleanTech × Việt Nam"},loc:{en:"Ho Chi Minh City",vi:"TP. Hồ Chí Minh"},by:"GreenTech Vietnam",link:"https://greentech.vn/roundtable-2026",d:{en:"Partner-organised roundtable on renewable-energy investment.",vi:"Bàn tròn do đối tác tổ chức về đầu tư năng lượng tái tạo."}},
+ {img:"fintech",kind:"partner",day:"18",mon:{en:"DEC",vi:"TH12"},yr:"2026",t:{en:"Fintech Bridge Meetup",vi:"Gặp gỡ Fintech Bridge"},loc:{en:"Online / Hybrid",vi:"Trực tuyến / Kết hợp"},by:"Helvetia Fintech AG",link:"https://helvetia-fintech.ch/bridge-meetup",d:{en:"Networking meetup for cross-border payment innovators.",vi:"Sự kiện kết nối cho các nhà đổi mới thanh toán xuyên biên giới."}},
+ {img:"forum-audience",kind:"forum",past:true,day:"12",mon:{en:"JUN",vi:"TH6"},yr:"2026",t:{en:"SVEF Business Forum · Ho Chi Minh City",vi:"Diễn đàn Doanh nghiệp SVEF · TP. Hồ Chí Minh"},loc:{en:"Ho Chi Minh City · GEM Center",vi:"TP. Hồ Chí Minh · GEM Center"},link:"https://swissvieteconomicforum.org/events.htm",d:{en:"Two days of panels and matchmaking on trade, green finance and high-tech manufacturing. Recap and photo gallery available.",vi:"Hai ngày toạ đàm và kết nối giao thương về thương mại, tài chính xanh và sản xuất công nghệ cao. Đã có bài tổng kết và thư viện ảnh."}},
+ {img:"seminar",kind:"forum",past:true,day:"03",mon:{en:"MAR",vi:"TH3"},yr:"2026",t:{en:"Swiss Market Entry Seminar",vi:"Hội thảo Thâm nhập Thị trường Thụy Sĩ"},loc:{en:"Hanoi · Melia",vi:"Hà Nội · Melia"},link:"https://swissvieteconomicforum.org/events.htm",d:{en:"Practical seminar for Vietnamese exporters entering the Swiss and wider EU market.",vi:"Hội thảo thực hành cho doanh nghiệp xuất khẩu Việt Nam vào thị trường Thụy Sĩ và EU."}},
+ {img:"boardroom",kind:"partner",past:true,day:"21",mon:{en:"APR",vi:"TH4"},yr:"2026",t:{en:"Zurich–Saigon Investor Breakfast",vi:"Bữa sáng Nhà đầu tư Zurich – Sài Gòn"},loc:{en:"Zurich · Switzerland",vi:"Zurich · Thụy Sĩ"},by:"Zurich Ventures",link:"https://zurichventures.ch/breakfast",d:{en:"Closed-door breakfast between Swiss funds and Vietnamese growth companies.",vi:"Bữa sáng kín giữa các quỹ Thụy Sĩ và doanh nghiệp tăng trưởng Việt Nam."}},
+];
+const packages=[
+ {id:'ind_sub',nm:{en:"Individual Subscriber",vi:"Individual Subscriber"},who:{en:"Professionals who want to stay informed",vi:"Cá nhân muốn cập nhật thông tin"},b:{en:["Newsletter and event announcements","Public event access at guest rates","Access to public reports"],vi:["Bản tin và thông báo sự kiện","Tham dự sự kiện công khai theo giá khách mời","Xem các báo cáo công khai"]}},
+ {id:'ind_mem',nm:{en:"Individual Member",vi:"Individual Member"},who:{en:"Professionals active in both markets",vi:"Cá nhân hoạt động ở cả hai thị trường"},b:{en:["Everything in Individual Subscriber","Member rates for all SVEF events","Listed in the SVEF member database","Access to member-only documents"],vi:["Toàn bộ quyền lợi Individual Subscriber","Giá thành viên cho mọi sự kiện SVEF","Được liệt kê trong cơ sở dữ liệu thành viên","Xem tài liệu dành riêng cho thành viên"]}},
+ {id:'inst_sub',nm:{en:"Institutional Subscriber",vi:"Institutional Subscriber"},who:{en:"Organisations testing the market",vi:"Tổ chức đang tìm hiểu thị trường"},b:{en:["Company listing in the partner database","Newsletter and event announcements","Member rates for two delegates"],vi:["Hiển thị doanh nghiệp trong cơ sở dữ liệu đối tác","Bản tin và thông báo sự kiện","Giá thành viên cho hai đại biểu"]}},
+ {id:'inst_mem',nm:{en:"Institutional Member",vi:"Institutional Member"},who:{en:"Companies building a presence in both markets",vi:"Doanh nghiệp xây dựng hiện diện ở cả hai thị trường"},b:{en:["Full company profile with documents and presentations","Access to the partner database and messaging","Propose your own events to the forum","Multiple team members on one organisation account"],vi:["Hồ sơ doanh nghiệp đầy đủ kèm tài liệu và bài trình bày","Truy cập cơ sở dữ liệu đối tác và nhắn tin","Đề xuất sự kiện của riêng bạn lên diễn đàn","Nhiều thành viên trên một tài khoản tổ chức"]}},
+ {id:'strategic',nm:{en:"Strategic Partner",vi:"Strategic Partner"},who:{en:"Organisations shaping the forum's agenda",vi:"Tổ chức đồng hành định hình chương trình nghị sự"},b:{en:["Everything in Institutional Member","Priority placement across the site and at events","Speaking and sponsorship opportunities","Direct access to the secretariat and policy work"],vi:["Toàn bộ quyền lợi Institutional Member","Ưu tiên hiển thị trên website và tại sự kiện","Cơ hội phát biểu và tài trợ","Kết nối trực tiếp với ban thư ký và công tác chính sách"]}},
 ];
 const news=[
  {img:"handshake",tag:{en:"Partnership",vi:"Hợp tác"},t:{en:"SVEF welcomes 12 new institutional members",vi:"SVEF chào đón 12 thành viên tổ chức mới"},d:{en:"Q3 sees strong growth across finance and cleantech.",vi:"Quý 3 tăng trưởng mạnh trong tài chính và cleantech."}},
@@ -1208,7 +1324,7 @@ function show(p){
   window.scrollTo({top:0,behavior:'instant'});
   const mm=document.getElementById('menu');mm.classList.remove('mopen');mm.style.cssText='';
 }
-window.addEventListener('resize',function(){if(innerWidth>1350){const m=document.getElementById('menu');if(m){m.classList.remove('mopen');m.style.cssText='';}const h=document.querySelector('.hamb');if(h)h.setAttribute('aria-expanded','false');}});
+window.addEventListener('resize',function(){if(innerWidth>1500){const m=document.getElementById('menu');if(m){m.classList.remove('mopen');m.style.cssText='';}const h=document.querySelector('.hamb');if(h)h.setAttribute('aria-expanded','false');}});
 function mobileMenu(){const m=document.getElementById('menu');m.classList.toggle('mopen');
   const h=document.querySelector('.hamb');if(h)h.setAttribute('aria-expanded',m.classList.contains('mopen')?'true':'false');
   m.style.cssText=m.classList.contains('mopen')?"display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;background:#fff;padding:14px;border-bottom:1px solid var(--rule);box-shadow:var(--shadow)":"";}
@@ -1221,8 +1337,20 @@ function evCard(e,i){
    <div class="shot pic" style="--img:url('assets/img/${e.img}.jpg')" aria-hidden="true"></div>
    <div class="info"><h4>${e.t[lang]}</h4><p>${e.loc[lang]}</p><div style="margin-top:6px">${badge}</div></div><span class="muted">›</span></div>`;
 }
+const missionIcons=[['🤝','r'],['✈️','n'],['🏛️','g'],['📊','y']];
 function renderHome(){
-  document.getElementById('homeEvents').innerHTML=events.map((e,i)=>evCard(e,i)).join('');
+  document.getElementById('mainMissions').innerHTML=missionIcons.map(function(m,i){
+    return `<div class="card mcard"><div class="ic ${m[1]}">${m[0]}</div><h3>${tr('mm'+(i+1)+'_t')}</h3><p>${tr('mm'+(i+1)+'_p')}</p></div>`}).join('');
+  document.getElementById('homeActivities').innerHTML=activities.map(function(a,i){
+    return `<div class="card mcard hov" onclick="show('activities')"><div class="ic ${missionIcons[i][1]}">${['🏛️','✈️','🚀','⚖️'][i]}</div><h3>${a.t[lang]}</h3><p class="flip">${a.d[lang]}</p></div>`}).join('');
+  document.getElementById('relArticles').innerHTML=news.map(n=>
+    `<div class="card hov" onclick="show('news')"><div class="thumb">${n.tag[lang]}</div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');
+  document.getElementById('pkgGrid').innerHTML=packages.map(function(p){
+    return `<div class="card pkg"><h3 style="font-size:18px;margin-bottom:2px">${p.nm[lang]}</h3>`+
+      `<span class="who">${tr('bp_forwho')}: ${p.who[lang]}</span>`+
+      `<ul class="pkgb">${p.b[lang].map(x=>`<li>${x}</li>`).join('')}</ul>`+
+      `<button class="btn ghost sm" style="align-self:flex-start" onclick="openSignup('join','${p.id}')">${tr('bp_apply')}</button></div>`}).join('');
+  document.getElementById('homeEvents').innerHTML=events.filter(e=>!e.past).slice(0,4).map(e=>evCard(e,events.indexOf(e))).join('');
   document.getElementById('homeNews').innerHTML=news.map(n=>
     `<div class="card hov" onclick="show('news')"><div class="thumb pic" style="--img:url('assets/img/${n.img}.jpg')"><span class="kick">${n.tag[lang]}</span></div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');
   document.getElementById('homeDocs').innerHTML=docs.map(d=>
@@ -1253,8 +1381,12 @@ function renderActivities(){
 }
 let evCurrentFilter='all';
 function renderEvents(){
-  const list=events.filter(e=>evCurrentFilter==='all'||e.kind===evCurrentFilter);
-  document.getElementById('eventList').innerHTML=list.map(e=>evCard(e,events.indexOf(e))).join('');
+  const match=e=>evCurrentFilter==='all'||e.kind===evCurrentFilter;
+  const up=events.filter(e=>!e.past&&match(e)),pastL=events.filter(e=>e.past&&match(e));
+  const none=`<p class="muted">${tr('ev_none')}</p>`;
+  document.getElementById('eventListUp').innerHTML=up.map(e=>evCard(e,events.indexOf(e))).join('')||none;
+  document.getElementById('eventListPast').innerHTML=pastL.map(e=>evCard(e,events.indexOf(e))).join('')||none;
+  const pb=document.getElementById('evProposeBtn');if(pb)pb.style.display=loggedIn?'':'none';
   enhanceA11y();
 }
 function evFilter(f,btn){evCurrentFilter=f;document.querySelectorAll('#page-events .tabbar button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderEvents();}
@@ -1278,8 +1410,8 @@ let _lastFocus=null;
 function openModal(id){_lastFocus=document.activeElement;const m=document.getElementById(id);m.classList.add('show');document.body.style.overflow='hidden';const dlg=m.querySelector('.modal');if(dlg){dlg.setAttribute('role','dialog');dlg.setAttribute('aria-modal','true');}enhanceA11y();const f=m.querySelector('input:not([disabled]),button,select,textarea,a');if(f)setTimeout(function(){f.focus();},30);}
 function closeModal(){document.querySelectorAll('.scrim').forEach(s=>s.classList.remove('show'));document.body.style.overflow='';if(_lastFocus&&_lastFocus.focus)_lastFocus.focus();}
 function openLogin(){if(loggedIn){show('portal');renderPortal();return;}openModal('scrimLogin');}
-function doLogin(){loggedIn=true;closeModal();document.getElementById('loginBtn').textContent=tr('pt_dash');document.getElementById('loginBtn').onclick=()=>{show('portal');renderPortal();};show('portal');renderPortal();toast(lang==='vi'?'Đăng nhập thành công':'Logged in');}
-function logout(){loggedIn=false;document.getElementById('loginBtn').textContent=tr('login');document.getElementById('loginBtn').onclick=openLogin;show('home');}
+function doLogin(){loggedIn=true;closeModal();document.getElementById('loginBtn').textContent=tr('pt_dash');document.getElementById('loginBtn').onclick=()=>{show('portal');renderPortal();};show('portal');renderPortal();renderEvents();toast(lang==='vi'?'Đăng nhập thành công':'Logged in');}
+function logout(){loggedIn=false;document.getElementById('loginBtn').textContent=tr('login');document.getElementById('loginBtn').onclick=openLogin;renderEvents();show('home');}
 
 let pdTab='overview';
 function openPartner(i){
@@ -1290,21 +1422,48 @@ function openPartner(i){
 }
 const INDUSTRY_IMG={"Finance & Banking":"fintech","Technology & Innovation":"devices",
   "Manufacturing":"manufacturing","Energy":"energy-wind","Consulting":"boardroom"};
+/* Who may read the Information / Documents tabs of a partner profile */
+function partnerAccess(){
+  if(!loggedIn)return{ok:false,msg:tr('gate_login')};
+  const rl=profiles[activeProfile].rl.en;
+  const full=rl.indexOf('Institutional')>=0||rl.indexOf('Strategic')>=0;
+  return full?{ok:true}:{ok:false,msg:tr('gate_tier')};
+}
+function slug(n){return n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function partnerInfo(p){
+  return [[tr('cp_name'),p.n],[tr('f_ind'),p.ind],[tr('cp_market'),p.market],[tr('f_type'),p.type],
+   [tr('cp_web'),'www.'+slug(p.n)+'.com'],[tr('cp_founded'),String(1985+(p.n.length*7)%38)],
+   [tr('cp_hq'),p.market],[tr('cp_size'),(p.docs+1)*45+' '+(lang==='vi'?'nhân sự':'employees')],
+   [tr('cp_contact'),'contact@'+slug(p.n)+'.com'],[tr('cp_li'),'linkedin.com/company/'+slug(p.n)]];
+}
+function gateBox(msg){return `<div class="card" style="background:var(--soft);border:none;text-align:center;padding:28px 20px">🔒<p style="margin:10px 0 0;font-size:14.5px;color:var(--navy);font-weight:600">${msg}</p>`+
+  (loggedIn?'':`<button class="btn sm" style="margin-top:14px;width:auto" onclick="closeModal();openLogin()">${tr('login')}</button>`)+`</div>`;}
 function renderPartnerModal(p){
-  const docTab=`<div class="tabbar"><button class="${pdTab==='overview'?'on':''}" onclick="pdTab='overview';renderPartnerModal(window._p)">${tr('overview_tab')}</button><button class="${pdTab==='docs'?'on':''}" onclick="pdTab='docs';renderPartnerModal(window._p)">${tr('documents_tab')} (${p.docs})</button></div>`;
   window._p=p;
+  const tabs=`<div class="tabbar">`+
+    `<button class="${pdTab==='overview'?'on':''}" onclick="pdTab='overview';renderPartnerModal(window._p)">${tr('overview_tab')}</button>`+
+    `<button class="${pdTab==='info'?'on':''}" onclick="pdTab='info';renderPartnerModal(window._p)">${tr('information_tab')}</button>`+
+    `<button class="${pdTab==='docs'?'on':''}" onclick="pdTab='docs';renderPartnerModal(window._p)">${tr('documents_tab')} (${p.docs})</button></div>`;
   let body;
   if(pdTab==='overview'){
     body=`<div class="pic" style="height:220px;margin:0 0 20px;--img:url('assets/img/${INDUSTRY_IMG[p.ind]||'office'}.jpg')"></div>
      <div style="display:flex;gap:16px;align-items:center;margin-bottom:18px">${plogo(p,64)}<div><h3 style="margin:0;color:var(--navy)">${p.n}</h3><div class="tags" style="margin-top:6px"><span class="chip navy">${p.type}</span><span class="chip">${p.market}</span><span class="chip gold">${p.ind}</span></div></div></div>
      <p style="font-size:15px;color:var(--ink)">${p.d[lang]}</p>
-     <div class="grid g2" style="gap:12px;margin-top:16px"><div class="card" style="padding:14px"><span class="muted" style="font-size:12px">${tr('f_market')}</span><br><b>${p.market}</b></div><div class="card" style="padding:14px"><span class="muted" style="font-size:12px">${tr('f_ind')}</span><br><b>${p.ind}</b></div></div>
-     <div style="margin-top:18px"><button class="btn" onclick="sendMsg('${p.n}')">💬 ${tr('send_msg')}</button></div>`;
+     <div class="grid g2" style="gap:12px;margin-top:16px"><div class="card" style="padding:14px"><span class="muted" style="font-size:12px">${tr('f_market')}</span><br><b>${p.market}</b></div><div class="card" style="padding:14px"><span class="muted" style="font-size:12px">${tr('f_ind')}</span><br><b>${p.ind}</b></div></div>`;
+    // messaging is not an Individual benefit, so the button only appears for organisation profiles
+    if(loggedIn&&!isIndividual())body+=`<div style="margin-top:18px"><button class="btn" onclick="sendMsg('${p.n.replace(/'/g,'')}')">💬 ${tr('send_msg')}</button></div>`;
   }else{
-    const files=p.docs>0?Array.from({length:p.docs},(_,k)=>`<div class="doc"><div class="fi">${k%2?'PPT':'PDF'}</div><div class="fn"><b>${p.n.split(' ')[0]} — ${['Company Profile','Presentation','Poster','Market Brief','Case Study'][k]||'Document'}</b><span>${(1+k*1.7).toFixed(1)} MB</span></div><button class="btn ghost sm" onclick="toast('${lang==='vi'?'Đang tải…':'Downloading…'}')">↓</button></div>`).join(''):`<p class="muted">${lang==='vi'?'Chưa có tài liệu.':'No documents yet.'}</p>`;
-    body=`<p class="muted" style="margin-top:0">${lang==='vi'?'Tài liệu, bài trình bày & poster do đối tác tải lên.':'Documents, presentations & posters uploaded by this partner.'}</p>${files}`;
+    const a=partnerAccess();
+    if(!a.ok){body=gateBox(a.msg);}
+    else if(pdTab==='info'){
+      body=`<div class="reviewbox">${partnerInfo(p).map(r=>`<div><span class="muted">${r[0]}</span><b>${r[1]}</b></div>`).join('')}</div>`;
+    }else{
+      body=p.docs>0?Array.from({length:p.docs},(_,k)=>`<div class="doc"><div class="fi">${k%2?'PPT':'PDF'}</div><div class="fn"><b>${p.n.split(' ')[0]} · ${['Company Profile','Presentation','Poster','Market Brief','Case Study'][k]||'Document'}</b><span>${(1+k*1.7).toFixed(1)} MB</span></div><button class="btn ghost sm" onclick="toast('${lang==='vi'?'Đang tải…':'Downloading…'}')">↓</button></div>`).join(''):`<p class="muted">${lang==='vi'?'Chưa có tài liệu.':'No documents yet.'}</p>`;
+      body=`<p class="muted" style="margin-top:0">${lang==='vi'?'Tài liệu, bài trình bày và poster do đối tác tải lên.':'Documents, presentations and posters uploaded by this partner.'}</p>`+body;
+    }
   }
-  document.getElementById('pdBody').innerHTML=docTab+body;
+  document.getElementById('pdBody').innerHTML=tabs+body;
+  enhanceA11y();
 }
 function sendMsg(n){if(!loggedIn){toast(tr('t_login_need'));return;}toast(tr('t_msgsent')+' → '+n);}
 
@@ -1317,27 +1476,87 @@ function openEvent(i){
     <div style="margin-bottom:10px">${badge}</div>
     <h3 style="margin:0 0 8px;color:var(--navy)">${e.t[lang]}</h3>
     <p class="muted" style="margin:0 0 4px">📅 ${e.day} ${e.mon[lang]} 2026 &nbsp;·&nbsp; 📍 ${e.loc[lang]}</p>
-    <p style="font-size:15px;margin:16px 0">${e.d[lang]}</p>
-    <button class="btn block" onclick="toast(tr('t_reg'))">🎫 ${tr('register_ev')}</button>`;
+    <p style="font-size:15px;margin:16px 0">${e.d[lang]}</p>`+
+    (e.past?'':(e.link
+      ?`<a class="btn block" href="${e.link}" target="_blank" rel="noopener">🎫 ${tr('reg_ext')}</a>`
+      :`<button class="btn block" onclick="toast(tr('no_link'))">🎫 ${tr('register_ev')}</button>`));
   openModal('scrimEvent');
 }
 function proposeEvent(){openModal('scrimPropose');}
 function submitPropose(){
   const nm=document.getElementById('peName').value||'Untitled event';
   const dt=document.getElementById('peDate').value||'TBD';
-  myEvents.unshift({t:nm,date:dt,status:'pending'});
+  const lk=document.getElementById('peLink').value||'';
+  myEvents.unshift({t:nm,date:dt,status:'pending',link:lk});
   closeModal();toast(tr('t_proposed'));
   if(loggedIn){renderMyEvents();}
 }
 
 /* ================= PORTAL ================= */
-function renderPortal(){renderProfiles();renderMyEvents();renderDocs();renderPortalDir();renderMessages();renderAccount();renderTeam();updateDash();}
+/* Individual profiles get a reduced portal: no company documents, no messaging,
+   no team management and no company-wide actions (client feedback, Aug 2026). */
+function isIndividual(){const rl=profiles[activeProfile].rl.en;return rl.indexOf('Institutional')<0&&rl.indexOf('Strategic')<0;}
+function renderPortal(){renderProfiles();renderPortalMenu();renderMyEvents();renderDocs();renderPortalDir();renderMessages();renderAccount();renderTeam();updateDash();}
+function renderPortalMenu(){
+  const ind=isIndividual();
+  const hidden=ind?['docs','messages','team']:[];
+  document.querySelectorAll('#pmenu button').forEach(function(b){
+    const t=b.getAttribute('data-tab');
+    b.style.display=hidden.indexOf(t)>=0?'none':'';
+  });
+  const lbl=document.getElementById('pmCompanyLbl');if(lbl)lbl.textContent=ind?tr('pt_personal'):tr('pt_company');
+  const ic=document.getElementById('pmCompanyIc');if(ic)ic.textContent=ind?'👤':'🏢';
+  // if the active tab just got hidden, fall back to the dashboard
+  const cur=document.querySelector('.ptab.on');
+  if(cur&&hidden.indexOf(cur.id.replace('pt-',''))>=0)portalTab('dash',document.querySelector('#pmenu button[data-tab="dash"]'));
+  renderCompanyBox();
+}
+function fld(label,value,id){return `<div class="mrow"><label>${label}</label><input id="${id||''}" value="${String(value).replace(/"/g,'&quot;')}"></div>`;}
+function selFld(label,opts,sel,id){return `<div class="mrow"><label>${label}</label><select id="${id||''}">${opts.map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('')}</select></div>`;}
+function renderCompanyBox(){
+  const box=document.getElementById('cpBox');if(!box)return;
+  const p=profiles[activeProfile];
+  if(isIndividual()){
+    box.innerHTML=`<h3>${tr('perp_t')}</h3><p class="muted" style="margin:0 0 18px">${tr('perp_s')}</p>`+
+      `<div class="grid g2" style="gap:16px">`+
+        fld(tr('cp_fullname'),p.nm,'cpName')+
+        fld(tr('cp_title'),'Investment Director','cpTitle')+
+        fld(tr('cp_org'),'Zegoe Capital','cpOrg')+
+        selFld(tr('cp_ind'),['Finance & Banking','Technology & Innovation','Manufacturing','Energy','Consulting'],'Finance & Banking','cpInd')+
+      `</div>`+
+      `<div class="mrow"><label>${tr('cp_about')}</label><textarea rows="3" id="cpAbout">${lang==='vi'?'Chuyên gia đầu tư tập trung vào dòng vốn giữa châu Âu và Việt Nam.':'Investment professional focused on capital flows between Europe and Vietnam.'}</textarea></div>`+
+      `<div class="mrow"><label>${tr('cp_photo')}</label><div class="uploadzone" onclick="toast(tr('t_upload'))">🖼️ ${tr('cp_photo_z')}</div></div>`+
+      `<button class="btn" onclick="toast(tr('t_saved'))">${tr('save_changes')}</button>`;
+  }else{
+    box.innerHTML=`<h3>${tr('cp_t')}</h3><p class="muted" style="margin:0 0 18px">${tr('cp_s')}</p>`+
+      `<div class="grid g2" style="gap:16px">`+
+        fld(tr('cp_name'),'Helvetia Fintech AG','cpName')+
+        selFld(tr('cp_ind'),['Finance & Banking','Technology & Innovation','Manufacturing','Energy','Consulting'],'Finance & Banking','cpInd')+
+        selFld(tr('cp_market'),['Switzerland','Vietnam','Europe','Global'],'Switzerland','cpMarket')+
+        `<div class="mrow"><label>${tr('cp_type')}</label><input value="Institutional Member" disabled style="background:var(--soft)"></div>`+
+      `</div>`+
+      `<div class="mrow"><label>${tr('cp_about')}</label><textarea rows="3" id="cpAbout">${lang==='vi'?'Tập đoàn ngân hàng số và thanh toán xuyên biên giới Thụy Sĩ, kết nối fintech châu Âu và Việt Nam.':'Swiss digital-banking and cross-border payments group building bridges between European and Vietnamese fintech.'}</textarea></div>`+
+      `<h3 style="font-size:16px;margin:22px 0 4px">${tr('cp_info_t')}</h3>`+
+      `<p class="muted" style="margin:0 0 14px;font-size:13.5px">${tr('information_tab')} · ${tr('pkg_note')}</p>`+
+      `<div class="grid g2" style="gap:16px">`+
+        fld(tr('cp_web'),'www.helvetia-fintech.ch','cpWeb')+
+        fld(tr('cp_founded'),'2014','cpFounded')+
+        fld(tr('cp_hq'),'Zurich, Switzerland','cpHq')+
+        fld(tr('cp_size'),'180','cpSize')+
+        fld(tr('cp_contact'),'contact@helvetia-fintech.ch','cpMail')+
+        fld(tr('cp_li'),'linkedin.com/company/helvetia-fintech','cpLi')+
+      `</div>`+
+      `<div class="mrow"><label>${tr('cp_logo')}</label><div class="uploadzone" onclick="toast(tr('t_upload'))">🖼️ ${tr('cp_logo_z')}</div></div>`+
+      `<button class="btn" onclick="toast(tr('t_saved'))">${tr('save_changes')}</button>`;
+  }
+  enhanceA11y();
+}
 /* ===== TEAM MEMBERS CRUD ===== */
 let teamMembers=[
  {n:"Anh Trần",email:"anh.tran@zegoe.vc",title:"Investment Director",role:"Admin",status:"Active"},
  {n:"Lena Fischer",email:"lena@helvetia.ch",title:"Partnerships Lead",role:"Editor",status:"Active"},
  {n:"Đỗ Minh",email:"minh.do@helvetia.vn",title:"Country Manager VN",role:"Editor",status:"Active"},
- {n:"Sara Keller",email:"sara@helvetia.ch",title:"Marketing",role:"Viewer",status:"Invited"},
+ {n:"Sara Keller",email:"sara@helvetia.ch",title:"Marketing",role:"Viewer",status:"Active"},
 ];
 let memEdit=-1;
 function trRole(r){const m={Admin:{en:'Admin',vi:'Quản trị'},Editor:{en:'Editor',vi:'Biên tập'},Viewer:{en:'Viewer',vi:'Chỉ xem'}};return m[r]?m[r][lang]:r;}
@@ -1345,11 +1564,11 @@ function trStatus(s){const m={Active:{en:'Active',vi:'Hoạt động'},Invited:{
 function initials(n){const p=n.replace(/[^A-Za-zÀ-ỹ ]/g,'').trim().split(/\s+/);return (p.map(x=>x[0]).slice(-2).join('')||'?').toUpperCase();}
 function renderTeam(){
   const t=document.getElementById('teamTable');if(!t)return;
-  const head=`<thead><tr><th>${lang==='vi'?'Thành viên':'Member'}</th><th>${lang==='vi'?'Vai trò':'Role'}</th><th>Email</th><th>${lang==='vi'?'Trạng thái':'Status'}</th><th></th></tr></thead>`;
+  const head=`<thead><tr><th>${lang==='vi'?'Thành viên':'Member'}</th><th>${lang==='vi'?'Vai trò':'Role'}</th><th>Email</th><th></th></tr></thead>`;
   const rows=teamMembers.map(function(m,i){
-    const col=COLORS[i%COLORS.length];const st=m.status==='Active'?'green':'pend';
+    const col=COLORS[i%COLORS.length];
     return `<tr><td><span class="tmav" style="background:${col}">${initials(m.n)}</span><b style="color:var(--navy)">${m.n}</b><div class="muted" style="font-size:12px;margin-left:43px">${m.title||''}</div></td>`+
-      `<td><span class="chip navy">${trRole(m.role)}</span></td><td class="muted">${m.email}</td><td><span class="chip ${st}">${trStatus(m.status)}</span></td>`+
+      `<td><span class="chip navy">${trRole(m.role)}</span></td><td class="muted">${m.email}</td>`+
       `<td><div style="display:flex;gap:6px;justify-content:flex-end">`+
       `<button class="btn ghost sm" onclick="openMember(${i},true)">${lang==='vi'?'Xem':'View'}</button>`+
       `<button class="btn line sm" onclick="openMember(${i})">${lang==='vi'?'Sửa':'Edit'}</button>`+
@@ -1359,25 +1578,43 @@ function renderTeam(){
   enhanceA11y();
 }
 function val(id){return document.getElementById(id).value;}
+/* Pretend SVEF directory used by the email-first lookup when adding a team member */
+const svefDirectory={
+ "nina.brun@helvetia.ch":{n:"Nina Brun",title:"Compliance Officer"},
+ "tuan.le@helvetia.vn":{n:"Lê Tuấn",title:"Business Development Manager"},
+ "j.meier@helvetia.ch":{n:"Jonas Meier",title:"Head of Product"},
+};
 function openMember(i,ro){
-  memEdit=i;const m=i>=0?teamMembers[i]:{n:'',email:'',title:'',role:'Editor',status:'Invited'};
+  memEdit=i;const m=i>=0?teamMembers[i]:{n:'',email:'',title:'',role:'Editor',status:'Active'};
   document.getElementById('memTitle').textContent=ro?(lang==='vi'?'Chi tiết thành viên':'Member details'):(i>=0?(lang==='vi'?'Sửa thành viên':'Edit member'):(lang==='vi'?'Thêm thành viên':'Add member'));
-  const dis=ro?'disabled':'';
+  const add=i<0&&!ro;
+  // Add: email first so name + title fill in automatically. Edit: identity is fixed, only the role changes.
+  const lock=(!add&&!ro)?'disabled style="background:var(--soft)"':(ro?'disabled':'');
   document.getElementById('memBody').innerHTML=
-    `<div class="mrow"><label>${lang==='vi'?'Họ và tên':'Full name'}</label><input id="memN" value="${m.n}" ${dis}></div>`+
-    `<div class="mrow"><label>Email</label><input id="memE" value="${m.email}" ${dis}></div>`+
-    `<div class="mrow"><label>${lang==='vi'?'Chức danh':'Job title'}</label><input id="memT" value="${m.title}" ${dis}></div>`+
-    `<div class="grid g2" style="gap:14px">`+
-      `<div class="mrow"><label>${lang==='vi'?'Vai trò':'Role'}</label><select id="memR" ${dis}>${['Admin','Editor','Viewer'].map(r=>`<option value="${r}" ${r===m.role?'selected':''}>${trRole(r)}</option>`).join('')}</select></div>`+
-      `<div class="mrow"><label>${lang==='vi'?'Trạng thái':'Status'}</label><select id="memS" ${dis}>${['Active','Invited'].map(s=>`<option value="${s}" ${s===m.status?'selected':''}>${trStatus(s)}</option>`).join('')}</select></div>`+
-    `</div>`+
+    (add?`<p class="muted" style="margin:0 0 14px;font-size:13.5px">${tr('tm_email_first')}</p>`:'')+
+    `<div class="mrow"><label>Email</label><div style="display:flex;gap:8px">`+
+      `<input id="memE" value="${m.email}" ${add?'oninput="memLookup()" placeholder="name@company.com"':lock}>`+
+      (add?`<button class="btn ghost sm" style="width:auto;flex:0 0 auto" onclick="memLookup(true)">${tr('tm_lookup')}</button>`:'')+
+    `</div><span class="muted" id="memHint" style="font-size:12.5px"></span></div>`+
+    `<div class="mrow"><label>${lang==='vi'?'Họ và tên':'Full name'}</label><input id="memN" value="${m.n}" ${add?'':lock}></div>`+
+    `<div class="mrow"><label>${lang==='vi'?'Chức danh':'Job title'}</label><input id="memT" value="${m.title}" ${add?'':lock}></div>`+
+    `<div class="mrow"><label>${lang==='vi'?'Vai trò':'Role'}</label><select id="memR" ${ro?'disabled':''}>${['Admin','Editor','Viewer'].map(r=>`<option value="${r}" ${r===m.role?'selected':''}>${trRole(r)}</option>`).join('')}</select></div>`+
+    (add?`<div class="card" style="background:var(--soft);border:none;font-size:13px;color:var(--muted);margin-bottom:16px">✉️ ${tr('tm_notify')}</div>`:'')+
     (ro?'':`<button class="btn block" onclick="saveMember()">${i>=0?tr('save_changes'):(lang==='vi'?'Thêm thành viên':'Add member')}</button>`);
   openModal('scrimMember');
 }
+function memLookup(manual){
+  const e=(val('memE')||'').trim().toLowerCase(),hit=svefDirectory[e];
+  const hint=document.getElementById('memHint');
+  if(hit){document.getElementById('memN').value=hit.n;document.getElementById('memT').value=hit.title;
+    hint.textContent='✓ '+tr('tm_found');hint.style.color='var(--green)';}
+  else if(manual){hint.textContent=lang==='vi'?'Chưa có trong danh bạ, vui lòng điền thủ công.':'Not in the directory yet, please fill in manually.';hint.style.color='';}
+}
 function saveMember(){
-  const obj={n:val('memN')||'—',email:val('memE'),title:val('memT'),role:val('memR'),status:val('memS')};
-  if(memEdit>=0)teamMembers[memEdit]=obj;else teamMembers.push(obj);
-  closeModal();renderTeam();toast(memEdit>=0?(lang==='vi'?'Đã cập nhật thành viên':'Member updated'):(lang==='vi'?'Đã thêm thành viên':'Member added'));
+  const obj={n:val('memN')||'—',email:val('memE'),title:val('memT'),role:val('memR'),status:'Active'};
+  if(memEdit>=0){obj.n=teamMembers[memEdit].n;obj.email=teamMembers[memEdit].email;obj.title=teamMembers[memEdit].title;teamMembers[memEdit]=obj;}
+  else teamMembers.push(obj);
+  closeModal();renderTeam();toast(memEdit>=0?(lang==='vi'?'Đã cập nhật thành viên':'Member updated'):tr('tm_added_notified'));
 }
 function delMember(i){teamMembers.splice(i,1);renderTeam();toast(lang==='vi'?'Đã xoá thành viên':'Member removed');}
 function renderProfiles(){
@@ -1385,19 +1622,41 @@ function renderProfiles(){
     `<div class="prof ${i===activeProfile?'on':''}" onclick="switchProfile(${i})"><div class="av" style="background:${p.c}">${p.av}</div><div style="min-width:0"><div class="nm">${p.nm}</div><div class="rl">${p.rl[lang]}</div></div></div>`).join('');
   enhanceA11y();
 }
-function switchProfile(i){activeProfile=i;renderProfiles();updateDash();renderPortalDir();toast((lang==='vi'?'Đang xem hồ sơ: ':'Now viewing: ')+profiles[i].nm);}
+function switchProfile(i){activeProfile=i;renderProfiles();renderPortalMenu();updateDash();renderPortalDir();toast((lang==='vi'?'Đang xem hồ sơ: ':'Now viewing: ')+profiles[i].nm);}
+function tierLabel(p){
+  // the client asked for the tier to read as the actual package name, not a generic word
+  if(p.pending)return lang==='vi'?'Chờ duyệt':'Pending';
+  return p.rl[lang];
+}
 function updateDash(){
   const p=profiles[activeProfile];
+  const ind=isIndividual();
   document.getElementById('dashName').textContent=p.nm;
-  document.getElementById('kTier').textContent=p.tier[lang];
   document.getElementById('dashCtx').textContent=(lang==='vi'?'Hồ sơ đang dùng: ':'Active profile: ')+p.nm+' · '+p.rl[lang];
+  const st=document.getElementById('statRow');
+  const tile=(v,k)=>`<div class="st"><b style="${String(v).length>6?'font-size:18px;line-height:1.2':''}">${v}</b><span>${tr(k)}</span></div>`;
+  if(ind){
+    st.style.gridTemplateColumns='repeat(2,1fr)';
+    st.innerHTML=tile(myEvents.length,'k_evsub')+tile(tierLabel(p),'k_tier');
+  }else{
+    st.style.gridTemplateColumns='';
+    st.innerHTML=tile(myDocs.length,'k_docs')+tile(myEvents.length,'k_evsub')+tile(18,'k_conn')+tile(tierLabel(p),'k_tier');
+  }
+  const qa=document.getElementById('quickActions');
+  const editCard=ind
+    ?`<button class="card hov" style="text-align:left" onclick="portalTab('company',qbtn('company'))"><div class="ic n">👤</div><h3 style="font-size:15px">${tr('qa_editp')}</h3><p>${tr('qa_editp_s')}</p></button>`
+    :`<button class="card hov" style="text-align:left" onclick="portalTab('company',qbtn('company'))"><div class="ic n">🏢</div><h3 style="font-size:15px">${tr('qa_edit')}</h3><p>${tr('qa_edit_s')}</p></button>`;
+  const upCard=ind?'':`<button class="card hov" style="text-align:left" onclick="portalTab('docs',qbtn('docs'))"><div class="ic r">📎</div><h3 style="font-size:15px">${tr('qa_upload')}</h3><p>${tr('qa_upload_s')}</p></button>`;
+  qa.innerHTML=editCard+upCard+`<button class="card hov" style="text-align:left" onclick="proposeEvent()"><div class="ic g">📅</div><h3 style="font-size:15px">${tr('qa_prop')}</h3><p>${tr('qa_prop_s')}</p></button>`;
   const pb=document.getElementById('pendingBanner');
   if(pb)pb.innerHTML=p.pending?`<div class="pending-banner">⏳<div><b>${tr('pending_t')}</b><div class="muted" style="font-size:12.5px">${tr('pending_p')}</div></div></div>`:'';
   renderOnboard(p);
 }
 function renderOnboard(p){
   const box=document.getElementById('onboardList');if(!box)return;
-  const items=[['ob1',true],['ob2',!p.pending],['ob3',myDocs.length>0],['ob4',myEvents.length>0]];
+  const items=isIndividual()
+    ?[['ob1',true],['ob2',!p.pending],['ob4',myEvents.length>0]]
+    :[['ob1',true],['ob2',!p.pending],['ob3',myDocs.length>0],['ob4',myEvents.length>0]];
   box.innerHTML=items.map(function(it){return `<div class="chk ${it[1]?'done':''}"><span class="b">${it[1]?'✓':''}</span><span>${tr(it[0])}</span></div>`}).join('');
 }
 function renderAccount(){
@@ -1411,7 +1670,7 @@ function portalTab(t,btn){
   document.querySelectorAll('#pmenu button').forEach(b=>b.classList.remove('on'));
   if(btn)btn.classList.add('on');
 }
-function qbtn(t){const btns=document.querySelectorAll('#pmenu button');const map={company:1,docs:2};return btns[map[t]];}
+function qbtn(t){return document.querySelector('#pmenu button[data-tab="'+t+'"]');}
 function renderMyEvents(){
   document.getElementById('myEventList').innerHTML=myEvents.map(e=>{
     const c=e.status==='approved'?'green':e.status==='pending'?'pend':'red';
@@ -1426,21 +1685,26 @@ function addDoc(){myDocs.push({n:'New Upload '+(myDocs.length+1)+'.pdf',s:'PDF �
 function delDoc(i){myDocs.splice(i,1);renderDocs();}
 function renderPortalDir(){
   const p=profiles[activeProfile];
-  const canAccess=p.rl.en.includes('Member')||p.rl.en.includes('Partner');
+  // every package except Individual Subscriber is listed in, and can browse, the database
+  const canAccess=p.rl.en!=='Individual Subscriber';
+  const ind=isIndividual();
   const box=document.getElementById('pdList');
-  const addBtn=document.getElementById('pdAddBtn');if(addBtn)addBtn.style.display=canAccess?'':'none';
+  // members never administer the directory: no add / edit / delete (client feedback, Aug 2026)
+  const addBtn=document.getElementById('pdAddBtn');if(addBtn)addBtn.style.display='none';
   if(!canAccess){box.innerHTML=`<div class="card" style="background:var(--soft);border:none">🔒 ${tr('guest_dir')}</div>`;return;}
   box.innerHTML=partners.map(function(pt,idx){
     return `<div class="msg"><div class="av" style="background:${pt.c}">${pt.i}</div>`+
       `<div class="mc"><h4>${pt.n}</h4><p>${pt.type} · ${pt.ind} · ${pt.market}</p></div>`+
       `<div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end">`+
       `<button class="btn ghost sm" onclick="openPartner(${idx})">${lang==='vi'?'Xem':'View'}</button>`+
-      `<button class="btn line sm" onclick="openPartnerEdit(${idx})">${lang==='vi'?'Sửa':'Edit'}</button>`+
-      `<button class="btn line sm" onclick="delPartner(${idx})" aria-label="Remove">🗑</button>`+
-      `<button class="btn ghost sm" onclick="sendMsg('${pt.n.replace(/'/g,'')}')">💬</button></div></div>`;
+      (ind?'':`<button class="btn ghost sm" onclick="sendMsg('${pt.n.replace(/'/g,'')}')">💬</button>`)+
+      `</div></div>`;
   }).join('');
   enhanceA11y();
 }
+/* ===== ACCOUNT DELETION (handled by the SVEF secretariat) ===== */
+function openDeleteAccount(){openModal('scrimDelete');}
+function confirmDeleteAccount(){closeModal();toast(tr('t_delreq'));}
 /* ===== PARTNER CRUD ===== */
 let pfEdit=-1;
 function pOpts(arr,sel){return arr.map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('');}
@@ -1490,15 +1754,15 @@ function thSend(){
 }
 
 /* ================= SIGN-UP / ONBOARDING WIZARD ================= */
-const tiers=[
- {id:'subscriber',nm:'tier_sub',price:{en:'Free',vi:'Miễn phí'},b:{en:'Newsletters & event info',vi:'Bản tin & thông tin sự kiện'}},
- {id:'individual',nm:'tier_ind',price:{en:'CHF 90 / yr',vi:'CHF 90 / năm'},b:{en:'Event registration, community',vi:'Đăng ký sự kiện, cộng đồng'}},
- {id:'member',nm:'tier_mem',price:{en:'CHF 900 / yr',vi:'CHF 900 / năm'},b:{en:'Company profile, documents, partner DB',vi:'Hồ sơ công ty, tài liệu, CSDL đối tác'}},
- {id:'partner',nm:'tier_partner',price:{en:'Custom',vi:'Tuỳ chỉnh'},b:{en:'Priority display, propose events, messaging',vi:'Ưu tiên hiển thị, đề xuất sự kiện, nhắn tin'}},
-];
-let su={step:0,mode:'join',type:'institutional',tier:'member',name:'',company:'',industry:'Finance & Banking',market:'Switzerland',email:'you@company.com'};
+/* Packages, not prices: fees vary and are negotiated, so the form never quotes a figure. */
+function tiersFor(type){return packages.filter(p=>type==='individual'?p.id.indexOf('ind_')===0:p.id.indexOf('ind_')!==0);}
+let su={step:0,mode:'join',type:'institutional',tier:'inst_mem',name:'',company:'',industry:'Finance & Banking',market:'Switzerland',email:'you@company.com'};
 const suWizSteps=['st_account','st_type','st_details','st_tier','st_review'];
-function openSignup(mode){su={step:mode==='addprofile'?1:0,mode:mode||'join',type:'institutional',tier:'member',name:'',company:'',industry:'Finance & Banking',market:'Switzerland',email:'you@company.com'};renderSignup();openModal('scrimSignup');}
+function openSignup(mode,pkgId){
+  const indiv=pkgId&&pkgId.indexOf('ind_')===0;
+  su={step:mode==='addprofile'?1:0,mode:mode||'join',type:indiv?'individual':'institutional',tier:pkgId||'inst_mem',name:'',company:'',industry:'Finance & Banking',market:'Switzerland',email:'you@company.com'};
+  renderSignup();openModal('scrimSignup');
+}
 function suSet(k,v){su[k]=v;renderSignup();}
 function suNav(d){const min=su.mode==='addprofile'?1:0;let s=su.step+d;if(s<min)s=min;if(s>4)s=4;su.step=s;renderSignup();}
 function indOptions(sel){return ['Finance & Banking','Technology & Innovation','Manufacturing','Energy','Consulting'].map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('');}
@@ -1533,14 +1797,17 @@ function renderSignup(){
         <div class="mrow"><label>${tr('cp_logo')}</label><div class="uploadzone" onclick="toast(tr('t_upload'))">🖼️ ${tr('cp_logo_z')}</div></div>`;
     }
   }else if(su.step===3){
-    b=tiers.map(t=>`<div class="ticket ${su.tier===t.id?'sel':''}" onclick="suSet('tier','${t.id}')"><div><b>${tr(t.nm)}</b><div class="muted" style="font-size:11.5px">${t.b[lang]}</div></div><div style="text-align:right"><div class="pr">${t.price[lang]}</div><div class="radio"></div></div></div>`).join('');
+    const list=tiersFor(su.type);
+    if(!list.some(t=>t.id===su.tier))su.tier=list[list.length-1].id;
+    b=list.map(t=>`<div class="ticket ${su.tier===t.id?'sel':''}" style="align-items:flex-start" onclick="suSet('tier','${t.id}')"><div><b>${t.nm[lang]}</b><div class="muted" style="font-size:11.5px">${t.who[lang]}</div></div><div class="radio" style="margin-top:3px"></div></div>`).join('');
   }else{
-    const tn=tiers.find(t=>t.id===su.tier);
+    const list=tiersFor(su.type);
+    const tn=list.find(t=>t.id===su.tier)||list[list.length-1];
     b=`<div class="reviewbox">
         <div><span class="muted">${tr('st_type')}</span><b>${su.type==='individual'?tr('type_ind'):tr('type_inst')}</b></div>
         <div><span class="muted">${su.type==='individual'?(lang==='vi'?'Họ tên':'Name'):tr('cp_name')}</span><b>${(su.type==='individual'?su.name:su.company)||'—'}</b></div>
         <div><span class="muted">${tr('cp_ind')}</span><b>${su.industry}</b></div>
-        <div><span class="muted">${tr('st_tier')}</span><b>${tr(tn.nm)} · ${tn.price[lang]}</b></div>
+        <div><span class="muted">${tr('st_tier')}</span><b>${tn.nm[lang]}</b></div>
       </div>
       <div class="card" style="background:var(--soft);border:none;font-size:13px;color:var(--muted);margin-top:14px">ℹ️ ${tr('su_review_note')}</div>`;
   }
@@ -1554,7 +1821,8 @@ function suSubmit(){
   const label=su.type==='individual'?(su.name||(lang==='vi'?'Hồ sơ mới':'New profile')):(su.company||(lang==='vi'?'Công ty mới':'New company'));
   const parts=label.replace(/[^A-Za-zÀ-ỹ ]/g,'').trim().split(/\s+/);
   const avv=(parts.map(x=>x[0]).join('').slice(0,2)||'NP').toUpperCase();
-  const rl=su.type==='individual'?{en:'Individual Member',vi:'Thành viên cá nhân'}:{en:'Institutional Member',vi:'Thành viên tổ chức'};
+  const pk=packages.find(t=>t.id===su.tier)||packages[3];
+  const rl={en:pk.nm.en,vi:pk.nm.vi};
   profiles.push({id:'p'+profiles.length,nm:label,rl:rl,av:avv,c:'#4A3B6B',tier:{en:'Pending',vi:'Chờ duyệt'},pending:true});
   activeProfile=profiles.length-1;
   if(su.mode!=='addprofile'&&!loggedIn){loggedIn=true;document.getElementById('loginBtn').textContent=tr('pt_dash');document.getElementById('loginBtn').onclick=function(){show('portal');renderPortal();};}
