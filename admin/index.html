@@ -246,9 +246,32 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
 .authcard a{display:block;text-align:center;margin-top:16px;font-family:var(--mono);font-size:9.5px;
   color:var(--muted);text-transform:uppercase;letter-spacing:.11em}
 .authcard a:hover{color:var(--red)}
+.outlink{cursor:pointer}
 .ndacheck{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--ink);background:var(--red-t);
   border:1px solid var(--red);border-radius:0;padding:13px 15px;margin:8px 0 20px;cursor:pointer;line-height:1.5}
 .ndacheck input{width:auto;margin-top:2px}
+/* Microsoft 365 / SSO sign-in (BRD P1 — the SVEF team already runs on M365) */
+.ssobtn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;padding:13px 16px;
+  background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:0;cursor:pointer;
+  font-family:var(--sans);font-size:14px;font-weight:600;letter-spacing:-.015em;
+  transition:border-color .12s linear,background .12s linear}
+.ssobtn:hover{border-color:var(--ink);background:var(--soft)}
+.ssobtn svg{width:18px;height:18px;flex:0 0 18px}
+.ssohint{margin:9px 0 0;font-size:12px;color:var(--muted);line-height:1.5}
+.authdiv{display:flex;align-items:center;gap:12px;margin:22px 0 18px;font-family:var(--mono);
+  font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted)}
+.authdiv::before,.authdiv::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ==================== EVENT TEMPLATES ==================== */
+.tplgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0;margin-bottom:20px}
+.tplcard{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;
+  background:#fff;border:1px solid var(--line);border-radius:0;padding:14px;cursor:pointer;
+  font-family:var(--sans);margin:-1px 0 0 -1px;transition:border-color .12s linear,background .12s linear}
+.tplcard:hover{background:var(--soft);border-color:var(--ink);z-index:1}
+.tplcard.on{border-color:var(--red);background:var(--red-t);box-shadow:inset 3px 0 0 var(--red);z-index:2}
+.tplcard .ic{font-size:20px;filter:grayscale(1);margin-bottom:4px}
+.tplcard b{font-size:13.5px;color:var(--ink);letter-spacing:-.02em;line-height:1.25}
+.tplcard .d{font-family:var(--mono);font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;line-height:1.5}
 
 /* ==================== PHOTOGRAPHY ==================== */
 .pic{position:relative;overflow:hidden;background:var(--ink)}
@@ -290,11 +313,17 @@ tr:hover .pic::before{filter:none}
     <div class="mk">SV</div>
     <h2 data-i18n="ag_h">SVEF Admin Back-office</h2>
     <p class="desc" data-i18n="ag_desc">Restricted area — role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).</p>
+    <button class="ssobtn" onclick="signIn('m365')">
+      <svg viewBox="0 0 23 23" aria-hidden="true"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
+      <span data-i18n="ag_m365">Sign in with Microsoft 365</span>
+    </button>
+    <p class="ssohint" data-i18n="ag_m365_h">The SVEF team signs in with its existing @svef.org Microsoft 365 work account. Roles and access come from the M365 group the person belongs to — no separate admin password to manage.</p>
+    <div class="authdiv" data-i18n="ag_or">or with an SVEF password</div>
     <div class="field"><label for="agEmail">Email</label><input id="agEmail" value="ops.admin@svef.org"></div>
     <div class="field"><label for="agPwd" data-i18n="password">Password</label><input id="agPwd" type="password" value="demo1234"></div>
     <label class="ndacheck"><input type="checkbox" id="ndaChk" checked><span data-i18n="ag_nda">🔐 I confirm the NDA between SVEF and IMT has been signed and admin access is authorised.</span></label>
     <button class="btn" style="width:100%" onclick="signIn()" data-i18n="ag_signin">Sign in as Ops Admin</button>
-    <a href="website.html" data-i18n="ag_back">← Back to public website</a>
+    <a class="outlink" data-out="site" data-i18n="ag_back">← Back to public website</a>
   </div>
 </div>
 
@@ -314,7 +343,7 @@ tr:hover .pic::before{filter:none}
     <div class="grp" data-i18n="g_data">Data</div>
     <button onclick="nav('reports',this)"><i class="ni">📈</i><span data-i18n="n_reports">Reports &amp; Export</span></button>
   </nav>
-  <div class="foot"><span data-i18n="f_loggedas">Logged in as</span> <b>Ops Admin</b><a href="website.html" data-i18n="ag_back">← Back to website</a><a href="index.html" data-i18n="f_hub">Demo hub</a></div>
+  <div class="foot"><span data-i18n="f_loggedas">Logged in as</span> <b>Ops Admin</b><a class="outlink" data-out="site" data-i18n="ag_back">← Back to website</a><a class="outlink" data-out="hub" data-i18n="f_hub">Demo hub</a></div>
 </aside>
 
 <!-- MAIN -->
@@ -499,12 +528,32 @@ tr:hover .pic::before{filter:none}
 <div class="toast" id="toast"></div>
 
 <script>
+/* ==========================================================================
+   DEPLOYMENT CONFIG
+   The back-office is built and deployed on its own, away from the public site,
+   so nothing here may assume the two live next to each other. These are the only
+   two outbound links; repoint them when the admin moves to its own host
+   (e.g. https://admin.svef.org) and nothing else needs touching.
+   ========================================================================== */
+const LINKS={
+  site:"../website.html",   // → public SVEF website
+  hub :"../index.html",     // → IMT demo hub (drop this one in production)
+};
+function applyOutLinks(){
+  document.querySelectorAll('.outlink').forEach(function(a){
+    const t=LINKS[a.getAttribute('data-out')];
+    if(t)a.setAttribute('href',t);else a.remove();
+  });
+}
+
 /* ===== I18N ===== */
 const T={
  en:{
   password:"Password",
   ag_h:"SVEF Admin Back-office",ag_desc:"Restricted area — role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).",
   ag_nda:"🔐 I confirm the NDA between SVEF and IMT has been signed and admin access is authorised.",ag_signin:"Sign in as Ops Admin",ag_back:"← Back to public website",
+  ag_m365:"Sign in with Microsoft 365",ag_or:"or with an SVEF password",
+  ag_m365_h:"The SVEF team signs in with its existing @svef.org Microsoft 365 work account. Roles and access come from the M365 group the person belongs to — no separate admin password to manage.",
   n_dash:"Dashboard",n_cms:"CMS & Pages",n_news:"News / Media",n_partners:"Partners",n_members:"Memberships",n_events:"Event Management",n_reports:"Reports & Export",
   g_content:"Content",g_community:"Community",g_events:"Events",g_data:"Data",
   f_loggedas:"Logged in as",f_hub:"Demo hub",search_ph:"Search…",
@@ -533,6 +582,10 @@ const T={
   ev_add_t:"Create event",ev_edit_t:"Edit event",ev_name:"Event name",ev_org_h:"Create the event on behalf of SVEF or of a partner organisation.",
   ev_start:"Start date",ev_end:"End date",ev_fmt:"Format",fmt_in:"In-person",fmt_on:"Online",fmt_hy:"Hybrid",
   ev_link:"Event website / registration link",ev_link_h:"Attendees register on the organiser's own event website. Paste that link here.",
+  ev_zoom:"Online joining link (Zoom / Teams)",
+  ev_zoom_h:"Shown as a “Join online” button in the event app and on each session, to registered attendees only.",
+  ev_tpl_h:"Start from a template",
+  ev_tpl_s:"Pick the shape of the event — format, length and a starting agenda are filled in for you. Everything stays editable below.",
   ev_desc:"Description",ev_sess:"Sessions / agenda",ev_sess_none:"No sessions added yet. Use the form below to build the agenda.",
   ev_s_day:"Day",ev_s_start:"Start time",ev_s_end:"End time",ev_s_title:"Session title",ev_s_speaker:"Speaker",ev_s_room:"Room",
   ev_s_add:"＋ Add session",ev_s_upd:"💾 Save session",ev_s_new:"Add a session",ev_s_editing:"Editing session",ev_save:"💾 Save event",
@@ -551,15 +604,18 @@ const T={
   d_active:"Active",d_pending:"Pending",d_published:"Published",d_draft:"Draft",d_approve:"✓ Approve",d_reject:"✕ Reject",d_edit:"Edit",d_view:"View",d_pendsfx:"pending",
   d_delete:"Delete",d_viewprof:"View profiles",d_chrole:"Change role",d_suspend:"Suspend",d_reactivate:"Reactivate",d_suspended:"Suspended",
   ma_note:"Membership application",
-  t_saved:"Content saved (demo)",t_preview:"Preview (demo)",t_editor:"Article editor (demo)",t_form:"New partner form (demo)",t_import:"Import finished (demo)",t_signed:"Signed in as Ops Admin",t_nda:"⚠️ Please confirm the NDA to continue",
+  t_saved:"Content saved (demo)",t_preview:"Preview (demo)",t_editor:"Article editor (demo)",t_form:"New partner form (demo)",t_import:"Import finished (demo)",t_signed:"Signed in as Ops Admin",t_signed_m365:"Signed in with Microsoft 365 · Ops Admin",t_nda:"⚠️ Please confirm the NDA to continue",
   t_artadded:"Article published (demo)",t_docadded:"Document uploaded (demo)",t_docdel:"Document deleted",t_docdl:"Downloading",
   t_rolechg:"Role updated",t_susp:"Account suspended",t_react:"Account reactivated",
   t_evadd:"Event created",t_evupd:"Event updated",t_evdel:"Event deleted",t_sessadd:"Session added",t_sessupd:"Session updated",t_sessdel:"Session deleted",
+  t_tpl:"Template applied: ",t_tpl_blank:"Cleared — starting from a blank event",
  },
  vi:{
   password:"Mật khẩu",
   ag_h:"Hệ quản trị SVEF",ag_desc:"Khu vực hạn chế — truy cập theo vai trò. Quyền quản trị chỉ cấp cho IMT sau khi NDA giữa SVEF và IMT được ký (BRD §7.5 / §11.2).",
   ag_nda:"🔐 Tôi xác nhận NDA giữa SVEF và IMT đã được ký và quyền quản trị đã được cấp phép.",ag_signin:"Đăng nhập với vai trò Ops Admin",ag_back:"← Về website công khai",
+  ag_m365:"Đăng nhập bằng Microsoft 365",ag_or:"hoặc bằng mật khẩu SVEF",
+  ag_m365_h:"Nhân sự SVEF đăng nhập bằng chính tài khoản công việc Microsoft 365 @svef.org sẵn có. Vai trò và quyền truy cập lấy theo nhóm M365 của người đó — không phải quản lý thêm mật khẩu quản trị riêng.",
   n_dash:"Tổng quan",n_cms:"CMS & Trang",n_news:"Tin tức / Media",n_partners:"Đối tác",n_members:"Thành viên",n_events:"Quản lý sự kiện",n_reports:"Báo cáo & Xuất",
   g_content:"Nội dung",g_community:"Cộng đồng",g_events:"Sự kiện",g_data:"Dữ liệu",
   f_loggedas:"Đăng nhập bởi",f_hub:"Trang demo",search_ph:"Tìm kiếm…",
@@ -588,6 +644,10 @@ const T={
   ev_add_t:"Tạo sự kiện",ev_edit_t:"Sửa sự kiện",ev_name:"Tên sự kiện",ev_org_h:"Tạo sự kiện nhân danh SVEF hoặc nhân danh một tổ chức đối tác.",
   ev_start:"Ngày bắt đầu",ev_end:"Ngày kết thúc",ev_fmt:"Hình thức",fmt_in:"Trực tiếp",fmt_on:"Trực tuyến",fmt_hy:"Kết hợp",
   ev_link:"Website sự kiện / liên kết đăng ký",ev_link_h:"Người tham dự đăng ký trên website sự kiện của đơn vị tổ chức. Dán liên kết đó vào đây.",
+  ev_zoom:"Liên kết tham dự trực tuyến (Zoom / Teams)",
+  ev_zoom_h:"Hiển thị dưới dạng nút “Tham dự trực tuyến” trong app và trong từng phiên, chỉ dành cho người đã đăng ký.",
+  ev_tpl_h:"Bắt đầu từ mẫu có sẵn",
+  ev_tpl_s:"Chọn dạng sự kiện — hình thức, số ngày và chương trình khởi điểm sẽ được điền sẵn. Mọi thứ vẫn sửa được ở bên dưới.",
   ev_desc:"Mô tả",ev_sess:"Phiên / chương trình",ev_sess_none:"Chưa có phiên nào. Dùng biểu mẫu bên dưới để xây dựng chương trình.",
   ev_s_day:"Ngày",ev_s_start:"Giờ bắt đầu",ev_s_end:"Giờ kết thúc",ev_s_title:"Tên phiên",ev_s_speaker:"Diễn giả",ev_s_room:"Phòng",
   ev_s_add:"＋ Thêm phiên",ev_s_upd:"💾 Lưu phiên",ev_s_new:"Thêm một phiên",ev_s_editing:"Đang sửa phiên",ev_save:"💾 Lưu sự kiện",
@@ -606,14 +666,17 @@ const T={
   d_active:"Hoạt động",d_pending:"Chờ duyệt",d_published:"Đã đăng",d_draft:"Nháp",d_approve:"✓ Duyệt",d_reject:"✕ Từ chối",d_edit:"Sửa",d_view:"Xem",d_pendsfx:"chờ duyệt",
   d_delete:"Xoá",d_viewprof:"Xem hồ sơ",d_chrole:"Đổi vai trò",d_suspend:"Tạm ngưng",d_reactivate:"Mở lại",d_suspended:"Đã tạm ngưng",
   ma_note:"Đơn đăng ký thành viên",
-  t_saved:"Đã lưu nội dung (demo)",t_preview:"Xem trước (demo)",t_editor:"Trình soạn bài viết (demo)",t_form:"Biểu mẫu đối tác mới (demo)",t_import:"Đã nhập xong (demo)",t_signed:"Đã đăng nhập với vai trò Ops Admin",t_nda:"⚠️ Vui lòng xác nhận NDA để tiếp tục",
+  t_saved:"Đã lưu nội dung (demo)",t_preview:"Xem trước (demo)",t_editor:"Trình soạn bài viết (demo)",t_form:"Biểu mẫu đối tác mới (demo)",t_import:"Đã nhập xong (demo)",t_signed:"Đã đăng nhập với vai trò Ops Admin",t_signed_m365:"Đã đăng nhập bằng Microsoft 365 · Ops Admin",t_nda:"⚠️ Vui lòng xác nhận NDA để tiếp tục",
   t_artadded:"Đã đăng bài viết (demo)",t_docadded:"Đã tải tài liệu lên (demo)",t_docdel:"Đã xoá tài liệu",t_docdl:"Đang tải xuống",
   t_rolechg:"Đã cập nhật vai trò",t_susp:"Đã tạm ngưng tài khoản",t_react:"Đã mở lại tài khoản",
   t_evadd:"Đã tạo sự kiện",t_evupd:"Đã cập nhật sự kiện",t_evdel:"Đã xoá sự kiện",t_sessadd:"Đã thêm phiên",t_sessupd:"Đã cập nhật phiên",t_sessdel:"Đã xoá phiên",
+  t_tpl:"Đã áp dụng mẫu: ",t_tpl_blank:"Đã xoá trắng — bắt đầu từ sự kiện trống",
  }
 };
 let lang=localStorage.getItem('svef_admin_lang')==='vi'?'vi':'en';
 function tr(k){return T[lang][k]!==undefined?T[lang][k]:k}
+/* for inline {en,vi} literals kept next to the data instead of in the T dictionaries */
+function tx(o){return (o&&typeof o==='object')?(o[lang]!==undefined?o[lang]:o.en):(o||'');}
 
 /* ===== DATA ===== */
 const D=(n,t,s)=>({n:n,t:t,s:s});
@@ -653,9 +716,45 @@ let approvals=[
  {t:"Swiss FinReg Workshop",by:"Helvetia Fintech AG",date:"20 JAN",ds:"2027-01-20",loc:"Online / Hybrid",d:{en:"Workshop on cross-border financial regulation for members.",vi:"Hội thảo về quy định tài chính xuyên biên giới cho thành viên."}},
 ];
 const FORMATS=["In-person","Online","Hybrid"];
+/* Event templates — SVEF runs the same handful of event shapes over and over, so the
+   back office ships them as ready-made skeletons: pick one and the format, duration
+   and a starting agenda are filled in, then edited as usual (BRD §8 / meeting P1). */
+const EV_TEMPLATES=[
+ {id:"blank",ic:"📄",days:1,fmt:"In-person",
+  nm:{en:"Blank event",vi:"Sự kiện trống"},d:{en:"Start from nothing",vi:"Bắt đầu từ đầu"},sessions:[]},
+ {id:"forum",ic:"🏛️",days:2,fmt:"Hybrid",
+  nm:{en:"Flagship forum",vi:"Diễn đàn thường niên"},d:{en:"2 days · hybrid · 5 sessions",vi:"2 ngày · kết hợp · 5 phiên"},
+  sessions:[
+   {d:0,s:"09:00",e:"09:30",t:{en:"Opening ceremony and welcome address",vi:"Khai mạc và phát biểu chào mừng"},room:{en:"Grand Hall",vi:"Hội trường lớn"}},
+   {d:0,s:"09:45",e:"11:00",t:{en:"Keynote: bilateral economic outlook",vi:"Phát biểu chính: triển vọng kinh tế song phương"},room:{en:"Grand Hall",vi:"Hội trường lớn"}},
+   {d:0,s:"14:00",e:"15:30",t:{en:"Panel discussion",vi:"Phiên thảo luận"},room:{en:"Grand Hall",vi:"Hội trường lớn"}},
+   {d:1,s:"09:30",e:"11:00",t:{en:"Breakout workshop",vi:"Hội thảo chuyên đề"},room:{en:"Room A",vi:"Phòng A"}},
+   {d:1,s:"16:00",e:"16:30",t:{en:"Closing remarks and networking",vi:"Bế mạc và giao lưu"},room:{en:"Grand Hall",vi:"Hội trường lớn"}}]},
+ {id:"seminar",ic:"🎓",days:1,fmt:"In-person",
+  nm:{en:"Seminar / workshop",vi:"Hội thảo chuyên đề"},d:{en:"Half a day · on site · 4 sessions",vi:"Nửa ngày · trực tiếp · 4 phiên"},
+  sessions:[
+   {d:0,s:"13:30",e:"13:45",t:{en:"Welcome and introduction",vi:"Chào mừng và giới thiệu"},room:{en:"Seminar room",vi:"Phòng hội thảo"}},
+   {d:0,s:"13:45",e:"15:00",t:{en:"Main presentation",vi:"Trình bày chính"},room:{en:"Seminar room",vi:"Phòng hội thảo"}},
+   {d:0,s:"15:15",e:"16:00",t:{en:"Q&A and case discussion",vi:"Hỏi đáp và thảo luận tình huống"},room:{en:"Seminar room",vi:"Phòng hội thảo"}},
+   {d:0,s:"16:00",e:"17:00",t:{en:"Networking",vi:"Giao lưu kết nối"},room:{en:"Foyer",vi:"Sảnh"}}]},
+ {id:"mission",ic:"✈️",days:3,fmt:"In-person",
+  nm:{en:"Trade mission",vi:"Đoàn xúc tiến thương mại"},d:{en:"3 days · on site · 4 sessions",vi:"3 ngày · trực tiếp · 4 phiên"},
+  sessions:[
+   {d:0,s:"10:00",e:"12:00",t:{en:"Delegation briefing",vi:"Họp đoàn"},room:{en:"Meeting Room 1",vi:"Phòng họp 1"}},
+   {d:1,s:"09:00",e:"17:00",t:{en:"Company visits",vi:"Thăm doanh nghiệp"},room:{en:"Off-site",vi:"Bên ngoài"}},
+   {d:2,s:"09:00",e:"12:00",t:{en:"B2B matchmaking",vi:"Kết nối giao thương B2B"},room:{en:"Business centre",vi:"Trung tâm doanh nghiệp"}},
+   {d:2,s:"14:00",e:"15:00",t:{en:"Debrief and next steps",vi:"Tổng kết và bước tiếp theo"},room:{en:"Meeting Room 1",vi:"Phòng họp 1"}}]},
+ {id:"online",ic:"💻",days:1,fmt:"Online",
+  nm:{en:"Online meetup",vi:"Gặp mặt trực tuyến"},d:{en:"1 evening · online · 3 sessions",vi:"1 buổi tối · trực tuyến · 3 phiên"},
+  sessions:[
+   {d:0,s:"18:00",e:"18:20",t:{en:"Welcome and introductions",vi:"Chào mừng và giới thiệu"},room:{en:"Main stream",vi:"Luồng chính"}},
+   {d:0,s:"18:20",e:"19:15",t:{en:"Talks",vi:"Phần trình bày"},room:{en:"Main stream",vi:"Luồng chính"}},
+   {d:0,s:"19:15",e:"20:00",t:{en:"Open networking",vi:"Giao lưu tự do"},room:{en:"Breakout rooms",vi:"Phòng nhỏ"}}]},
+];
 let pubEvents=[
  {t:"SVEF Hanoi Economic Forum 2026",org:"SVEF",ds:"2026-10-14",de:"2026-10-15",loc:"Hanoi, Vietnam",fmt:"Hybrid",
-  link:"https://events.svef.org/hanoi-forum-2026",desc:"Two-day flagship forum bringing Swiss and Vietnamese business leaders together.",status:"Published",
+  link:"https://events.svef.org/hanoi-forum-2026",zoom:"https://zoom.us/j/8412200261",
+  desc:"Two-day flagship forum bringing Swiss and Vietnamese business leaders together.",status:"Published",
   sessions:[
    {day:"2026-10-14",s:"09:00",e:"09:30",t:"Opening ceremony and welcome address",sp:"SVEF President",room:"Grand Hall"},
    {day:"2026-10-14",s:"09:45",e:"11:00",t:"Keynote: Swiss-Vietnam trade outlook 2027",sp:"Dr. Anna Keller",room:"Grand Hall"},
@@ -668,7 +767,8 @@ let pubEvents=[
    {day:"2026-11-22",s:"10:00",e:"12:00",t:"Delegation briefing",sp:"Trade Office Zurich",room:"Meeting Room 1"},
    {day:"2026-11-23",s:"09:00",e:"17:00",t:"Company visits and B2B matchmaking",sp:"",room:"Off-site"}]},
  {t:"Fintech Bridge Meetup",org:"Helvetia Fintech AG",ds:"2026-12-18",de:"2026-12-18",loc:"Online",fmt:"Online",
-  link:"https://helvetia-fintech.example.ch/bridge-meetup",desc:"Partner-hosted evening meetup for fintech founders and investors.",status:"Published",
+  link:"https://helvetia-fintech.example.ch/bridge-meetup",zoom:"https://zoom.us/j/9930041827",
+  desc:"Partner-hosted evening meetup for fintech founders and investors.",status:"Published",
   sessions:[
    {day:"2026-12-18",s:"18:00",e:"18:20",t:"Welcome and introductions",sp:"Lea Weber",room:"Main stream"},
    {day:"2026-12-18",s:"18:20",e:"19:15",t:"Founder pitches",sp:"5 startups",room:"Main stream"}]},
@@ -951,20 +1051,29 @@ let evEdit=-1,evSessions=[],evSessEdit=-1;
 function orgOptions(sel){return aopts(['SVEF'].concat(partners.map(p=>p.n)),sel);}
 function openEvent(i){
   evEdit=i;evSessEdit=-1;
-  const e=i>=0?pubEvents[i]:{t:'',org:'SVEF',ds:todayISO(),de:todayISO(),loc:'',fmt:'In-person',link:'',desc:'',status:'Published',sessions:[]};
+  const e=i>=0?pubEvents[i]:{t:'',org:'SVEF',ds:todayISO(),de:todayISO(),loc:'',fmt:'In-person',link:'',zoom:'',desc:'',status:'Published',sessions:[]};
   evSessions=(e.sessions||[]).map(s=>({day:s.day,s:s.s,e:s.e,t:s.t,sp:s.sp,room:s.room}));
   document.getElementById('evTitle').textContent=i>=0?tr('ev_edit_t'):tr('ev_add_t');
   document.getElementById('evBody').innerHTML=
+    // templates only make sense when starting a new event, never when editing an existing one
+    (i<0?`<h4 class="seoh" style="margin-top:0">${tr('ev_tpl_h')}</h4>`+
+      `<p class="hint" style="margin:-8px 0 12px">${tr('ev_tpl_s')}</p>`+
+      `<div class="tplgrid" id="evTplGrid">`+EV_TEMPLATES.map(t=>
+        `<button type="button" class="tplcard${t.id==='blank'?' on':''}" data-tpl="${t.id}" onclick="applyTemplate('${t.id}')">`+
+        `<span class="ic">${t.ic}</span><b>${tx(t.nm)}</b><span class="d">${tx(t.d)}</span></button>`).join('')+`</div>`:'')+
     `<div class="mrow"><label>${tr('ev_name')}</label><input id="evN" value="${esc(e.t)}"></div>`+
     `<div class="g2"><div class="mrow"><label>${tr('c_organiser')}</label><select id="evOrg">${orgOptions(e.org)}</select>`+
       `<div class="hint">${tr('ev_org_h')}</div></div>`+
-     `<div class="mrow"><label>${tr('ev_fmt')}</label><select id="evFmt">${FORMATS.map(f=>`<option value="${f}" ${f===e.fmt?'selected':''}>${fmtLabel(f)}</option>`).join('')}</select></div></div>`+
+     `<div class="mrow"><label>${tr('ev_fmt')}</label><select id="evFmt" onchange="toggleZoomField()">${FORMATS.map(f=>`<option value="${f}" ${f===e.fmt?'selected':''}>${fmtLabel(f)}</option>`).join('')}</select></div></div>`+
     `<div class="g2"><div class="mrow"><label>${tr('ev_start')}</label><input id="evDs" type="date" value="${esc(e.ds||'')}"></div>`+
      `<div class="mrow"><label>${tr('ev_end')}</label><input id="evDe" type="date" value="${esc(e.de||e.ds||'')}"></div></div>`+
     `<div class="g2"><div class="mrow"><label>${tr('c_loc')}</label><input id="evLoc" value="${esc(e.loc||'')}"></div>`+
      `<div class="mrow"><label>${tr('c_status')}</label><select id="evSt">${aopts(['Published','Draft'],e.status)}</select></div></div>`+
     `<div class="mrow"><label>${tr('ev_link')}</label><input id="evLink" type="url" placeholder="https://" value="${esc(e.link||'')}">`+
       `<div class="hint">${tr('ev_link_h')}</div></div>`+
+    // online / hybrid events carry the joining link; the app surfaces it as "Join online"
+    `<div class="mrow" id="evZoomRow"><label>${tr('ev_zoom')}</label><input id="evZoom" type="url" placeholder="https://zoom.us/j/..." value="${esc(e.zoom||'')}">`+
+      `<div class="hint">${tr('ev_zoom_h')}</div></div>`+
     `<div class="mrow"><label>${tr('ev_desc')}</label><textarea id="evDesc" rows="3">${esc(e.desc||'')}</textarea></div>`+
 
     `<h4 class="seoh">${tr('ev_sess')}</h4>`+
@@ -981,8 +1090,32 @@ function openEvent(i){
       `<button class="btn line sm" id="evsCancel" style="display:none" onclick="resetSessionForm()">${tr('b_cancel')}</button></div>`+
     `</div>`+
     `<button class="btn block" style="margin-top:16px" onclick="saveEvent()">${tr('ev_save')}</button>`;
-  renderSessions();
+  renderSessions();toggleZoomField();
   openModal('scrimEvent');
+}
+/* The joining link is only meaningful when part of the event happens online. */
+function toggleZoomField(){
+  const row=document.getElementById('evZoomRow'),f=document.getElementById('evFmt');
+  if(!row||!f)return;
+  row.style.display=(f.value==='Online'||f.value==='Hybrid')?'':'none';
+}
+function addDaysISO(iso,n){
+  const p=String(iso||todayISO()).split('-');
+  const d=new Date(Date.UTC(+p[0],+p[1]-1,+p[2]));
+  d.setUTCDate(d.getUTCDate()+n);
+  return d.toISOString().slice(0,10);
+}
+/* Fill the form from a template: format, end date and a starting agenda.
+   The name, venue and speakers stay empty — those are always event-specific. */
+function applyTemplate(id){
+  const t=EV_TEMPLATES.find(x=>x.id===id);if(!t)return;
+  document.querySelectorAll('#evTplGrid .tplcard').forEach(b=>b.classList.toggle('on',b.dataset.tpl===id));
+  const ds=v('evDs')||todayISO();
+  document.getElementById('evFmt').value=t.fmt;
+  document.getElementById('evDe').value=addDaysISO(ds,t.days-1);
+  evSessions=t.sessions.map(s=>({day:addDaysISO(ds,s.d),s:s.s,e:s.e,t:tx(s.t),sp:'',room:tx(s.room)}));
+  evSessEdit=-1;resetSessionForm();renderSessions();toggleZoomField();
+  toast(t.id==='blank'?tr('t_tpl_blank'):tr('t_tpl')+tx(t.nm));
 }
 function renderSessions(){
   const el=document.getElementById('evSessList');if(!el)return;
@@ -1035,8 +1168,11 @@ function resetSessionForm(){
 function delSession(i){evSessions.splice(i,1);if(evSessEdit===i)resetSessionForm();renderSessions();toast(tr('t_sessdel'));}
 function saveEvent(){
   const ds=v('evDs'),de=v('evDe')||ds;
+  const fmt=v('evFmt');
   const obj={t:v('evN').trim()||(lang==='vi'?'Sự kiện chưa đặt tên':'Untitled event'),org:v('evOrg'),ds:ds,de:(de<ds?ds:de),
-    loc:v('evLoc').trim(),fmt:v('evFmt'),link:v('evLink').trim(),desc:v('evDesc').trim(),status:v('evSt'),sessions:evSessions.slice()};
+    loc:v('evLoc').trim(),fmt:fmt,link:v('evLink').trim(),
+    zoom:(fmt==='Online'||fmt==='Hybrid')?v('evZoom').trim():'',
+    desc:v('evDesc').trim(),status:v('evSt'),sessions:evSessions.slice()};
   if(evEdit>=0)pubEvents[evEdit]=obj;else pubEvents.push(obj);
   closeModal();renderPubEvents();
   toast(evEdit>=0?tr('t_evupd'):tr('t_evadd'));
@@ -1063,12 +1199,13 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 
 /* ===== A11Y / AUTH ===== */
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.getElementById('side').classList.remove('open');closeModal();}});
-function signIn(){
+function signIn(method){
   if(!document.getElementById('ndaChk').checked){toast(tr('t_nda'));return;}
   document.getElementById('authGate').classList.add('hide');
-  toast(tr('t_signed'));
+  toast(method==='m365'?tr('t_signed_m365'):tr('t_signed'));
 }
 
+applyOutLinks();
 applyI18n();
 </script>
 </body>
