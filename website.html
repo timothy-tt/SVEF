@@ -323,7 +323,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 .pkg{display:flex;flex-direction:column}
 .pkg .who{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.11em;
   color:var(--muted);margin:0 0 18px;display:block}
-.pkgb{list-style:none;margin:0 0 24px;padding:0;font-size:14px;flex:1;border-top:1px solid var(--line)}
+.pkgb{list-style:none;margin:0;padding:0;font-size:14px;flex:1;border-top:1px solid var(--line)}
 .pkgb li{padding:11px 0 11px 22px;position:relative;color:var(--ink);border-bottom:1px solid var(--line)}
 .pkgb li::before{content:"";position:absolute;left:0;top:19px;width:8px;height:2px;background:var(--red)}
 
@@ -599,7 +599,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 <div class="page" id="page-about">
   <div class="hero"><div class="wrap" style="padding:56px 20px"><div class="flag" data-i18n="nav_about">About us</div><h1 class="sm" data-i18n="about_h">A forum built for two economies</h1><p data-i18n="about_p">The Swiss-Viet Economic Forum is the leading platform fostering economic cooperation between Switzerland and Vietnam.</p></div></div>
   <section class="blk"><div class="wrap grid g2" style="align-items:center">
-    <div><h2 class="sec-t" data-i18n="about2_t">Our mission</h2><p class="muted" style="font-size:15.5px" data-i18n="about2_p">SVEF connects businesses, institutions and policymakers to unlock trade, investment and innovation between Switzerland and Vietnam. We host forums, lead trade missions, provide market-entry support and advocate for member interests. This platform brings our membership, events and resources together in one professional, bilingual experience.</p><div style="margin-top:18px"><button class="btn" onclick="openSignup('join')" data-i18n="join_now">Join as a partner</button></div></div>
+    <div><h2 class="sec-t" data-i18n="about2_t">Our mission</h2><p class="muted" style="font-size:15.5px" data-i18n="about2_p">SVEF connects businesses, institutions and policymakers to unlock trade, investment and innovation between Switzerland and Vietnam. We host forums, lead trade missions, provide market-entry support and advocate for member interests. This platform brings our membership, events and resources together in one professional, bilingual experience.</p><div style="margin-top:18px"><button class="btn" onclick="show('become')" data-i18n="join_now">Join as a partner</button></div></div>
     <div class="pic" style="height:340px;--img:url('assets/img/handshake.jpg')"></div>
   </div></section>
   <section class="blk alt"><div class="wrap">
@@ -639,13 +639,14 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
     <p data-i18n="bp_p">Five ways to take part, from receiving our information to shaping the forum as a strategic partner.</p>
   </div></div>
   <section class="blk"><div class="wrap">
-    <h2 class="sec-t" data-i18n="bp_t">Membership packages</h2>
-    <p class="sec-s" data-i18n="bp_s">Benefits vary by package. Fees are quoted individually, so talk to the secretariat for current rates and any preferential terms.</p>
-    <div class="grid g2" id="pkgGrid"></div>
-    <div class="card" style="margin-top:22px;background:var(--soft);border:none;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+    <!-- one register button, sitting above the packages so it is never far from the reader -->
+    <div class="card" style="margin-bottom:26px;background:var(--soft);border:none;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
       <div style="flex:1;min-width:220px"><b style="color:var(--navy)" data-i18n="bp_cta_t">Ready to join?</b><p class="muted" style="margin:4px 0 0;font-size:14px" data-i18n="bp_cta_s">Fill in the registration form. The SVEF secretariat reviews every application.</p></div>
       <button class="btn" style="width:auto" onclick="openSignup('join')" data-i18n="bp_cta_b">Register now</button>
     </div>
+    <h2 class="sec-t" data-i18n="bp_t">Membership packages</h2>
+    <p class="sec-s" data-i18n="bp_s">Benefits vary by package. Fees are quoted individually, so talk to the secretariat for current rates and any preferential terms.</p>
+    <div class="grid g2" id="pkgGrid"></div>
   </div></section>
 </div>
 
@@ -1104,11 +1105,11 @@ const T={
   bp_h:"Join the Swiss–Vietnam business community",bp_p:"Five ways to take part, from receiving our information to shaping the forum as a strategic partner.",
   bp_t:"Membership packages",bp_s:"Benefits vary by package. Fees are quoted individually, so talk to the secretariat for current rates and any preferential terms.",
   bp_cta_t:"Ready to join?",bp_cta_s:"Fill in the registration form. The SVEF secretariat reviews every application.",bp_cta_b:"Register now",
-  bp_apply:"Register for this package",bp_forwho:"For",
+  bp_forwho:"For",
   ev_upcoming:"Upcoming events",ev_past:"Past events",ev_none:"Nothing here yet.",
   information_tab:"Information",
   gate_login:"You need to login to view this features",
-  gate_tier:"You need to be an Individual Subscriber / Individual Member / Strategic Partner to view this feature",
+  gate_tier:"You need to be an Institutional Subscriber / Institutional Member / Strategic Partner to view this feature",
   ac_export_what:"Your export is a ZIP containing your profile fields, membership history, event registrations and proposals, uploaded documents and message history. Passwords and payment tokens are never included.",
   da_t:"Delete my account",da_p:"Account deletion is carried out by the SVEF secretariat. Confirming here creates a deletion request for the admin team, who will remove your account and confirm by email.",
   da_note:"ℹ️ Your profile stays visible until the request is processed. You can cancel by contacting the secretariat.",
@@ -1208,11 +1209,11 @@ const T={
   bp_h:"Tham gia cộng đồng doanh nghiệp Thụy Sĩ – Việt Nam",bp_p:"Năm hình thức tham gia, từ nhận thông tin cho tới đồng hành với diễn đàn ở vai trò đối tác chiến lược.",
   bp_t:"Các gói thành viên",bp_s:"Quyền lợi khác nhau theo từng gói. Mức phí được báo riêng, vui lòng liên hệ ban thư ký để biết mức phí hiện hành và các ưu đãi.",
   bp_cta_t:"Sẵn sàng tham gia?",bp_cta_s:"Điền biểu mẫu đăng ký. Ban thư ký SVEF sẽ xem xét từng hồ sơ.",bp_cta_b:"Đăng ký ngay",
-  bp_apply:"Đăng ký gói này",bp_forwho:"Dành cho",
+  bp_forwho:"Dành cho",
   ev_upcoming:"Sự kiện sắp tới",ev_past:"Sự kiện đã diễn ra",ev_none:"Chưa có nội dung.",
   information_tab:"Thông tin",
   gate_login:"Bạn cần đăng nhập để xem nội dung này",
-  gate_tier:"Bạn cần là Individual Subscriber / Individual Member / Strategic Partner để xem nội dung này",
+  gate_tier:"Bạn cần là Institutional Subscriber / Institutional Member / Strategic Partner để xem nội dung này",
   ac_export_what:"Bản xuất là tệp ZIP gồm thông tin hồ sơ, lịch sử thành viên, các đăng ký và đề xuất sự kiện, tài liệu đã tải lên và lịch sử tin nhắn. Không bao gồm mật khẩu hay token thanh toán.",
   da_t:"Xoá tài khoản",da_p:"Việc xoá tài khoản do ban thư ký SVEF thực hiện. Khi bạn xác nhận, hệ thống tạo một yêu cầu xoá gửi tới đội quản trị; họ sẽ xoá tài khoản và xác nhận qua email.",
   da_note:"ℹ️ Hồ sơ của bạn vẫn hiển thị cho tới khi yêu cầu được xử lý. Bạn có thể huỷ bằng cách liên hệ ban thư ký.",
@@ -1348,10 +1349,10 @@ function renderHome(){
   document.getElementById('relArticles').innerHTML=news.map(n=>
     `<div class="card hov" onclick="show('news')"><div class="thumb">${n.tag[lang]}</div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');
   document.getElementById('pkgGrid').innerHTML=packages.map(function(p){
+    // no per-package register button: a single Register now sits above the grid
     return `<div class="card pkg"><h3 style="font-size:18px;margin-bottom:2px">${p.nm[lang]}</h3>`+
       `<span class="who">${tr('bp_forwho')}: ${p.who[lang]}</span>`+
-      `<ul class="pkgb">${p.b[lang].map(x=>`<li>${x}</li>`).join('')}</ul>`+
-      `<button class="btn ghost sm" style="align-self:flex-start" onclick="openSignup('join','${p.id}')">${tr('bp_apply')}</button></div>`}).join('');
+      `<ul class="pkgb">${p.b[lang].map(x=>`<li>${x}</li>`).join('')}</ul></div>`}).join('');
   document.getElementById('homeEvents').innerHTML=events.filter(e=>!e.past).slice(0,4).map(e=>evCard(e,events.indexOf(e))).join('');
   document.getElementById('homeNews').innerHTML=news.map(n=>
     `<div class="card hov" onclick="show('news')"><div class="thumb pic" style="--img:url('assets/img/${n.img}.jpg')"><span class="kick">${n.tag[lang]}</span></div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');

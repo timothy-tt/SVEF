@@ -52,8 +52,16 @@ Sửa `site` thành URL thật của website, xoá `hub` (link nào không có t
 
 ## Phạm vi chức năng
 
-Dashboard · CMS & Pages (kèm SEO) · News/Media theo loại nội dung · Partners (có quản lý
-tài liệu) · Memberships & roles · Event Management (template tạo event, quản lý session,
-duyệt sự kiện đối tác) · Reports & Export.
+Dashboard · CMS & Pages (soạn nội dung bằng HTML, kèm preview và SEO) · News/Media
+(hai loại nội dung News và Media) · Partners (có quản lý tài liệu) · Memberships & roles ·
+Event Management (hồ sơ sự kiện hiển thị trên website, duyệt sự kiện đối tác) ·
+SVEF App Event Management · Reports & Export.
+
+Hai mục sự kiện tách riêng theo feedback ngày 7/8/2026:
+
+| Mục | Quản lý gì |
+|---|---|
+| **Event Management** | Bản ghi sự kiện cho website công khai: thông tin cơ bản và link sang trang sự kiện. Gồm cả hàng đợi duyệt sự kiện do đối tác đề xuất. Không có agenda hay session. |
+| **SVEF App Event Management** | Dữ liệu cho app SVEF, chỉ sự kiện của SVEF, không gồm sự kiện đối tác: thông tin sự kiện, agenda và session, diễn giả, nhà tài trợ, danh sách đăng ký, lịch hẹn 1-1 và push notification. |
 
 Song ngữ EN/VI, chuyển bằng nút 🌐 trên thanh trên cùng.
