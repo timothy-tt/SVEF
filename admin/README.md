@@ -54,14 +54,19 @@ Sửa `site` thành URL thật của website, xoá `hub` (link nào không có t
 
 Dashboard · CMS & Pages (soạn nội dung bằng HTML, kèm preview và SEO) · News/Media
 (hai loại nội dung News và Media) · Partners (có quản lý tài liệu) · Memberships & roles ·
-Event Management (hồ sơ sự kiện hiển thị trên website, duyệt sự kiện đối tác) ·
-SVEF App Event Management · Reports & Export.
+Event Management · Reports & Export.
 
-Hai mục sự kiện tách riêng theo feedback ngày 7/8/2026:
+Sự kiện gộp về một mục duy nhất (chốt ngày 14/8/2026). Trước đó tách làm hai theo
+feedback ngày 7/8/2026, nay bỏ mục **SVEF App Event Management** riêng:
 
-| Mục | Quản lý gì |
+| Trong Event Management | Quản lý gì |
 |---|---|
-| **Event Management** | Bản ghi sự kiện cho website công khai: thông tin cơ bản và link sang trang sự kiện. Gồm cả hàng đợi duyệt sự kiện do đối tác đề xuất. Không có agenda hay session. |
-| **SVEF App Event Management** | Dữ liệu cho app SVEF, chỉ sự kiện của SVEF, không gồm sự kiện đối tác: thông tin sự kiện, agenda và session, diễn giả, nhà tài trợ, danh sách đăng ký, lịch hẹn 1-1 và push notification. |
+| Hàng đợi duyệt | Sự kiện do đối tác đề xuất, duyệt xong thì publish lên website. |
+| Published events | Bản ghi sự kiện cho website công khai: thông tin cơ bản và link sang trang sự kiện. Tạo sự kiện tại đây, một lần duy nhất. |
+| **App content** | Chỉ hiện với sự kiện do SVEF tổ chức (nút 📱 App content trên dòng sự kiện): thông tin sự kiện, agenda và session, diễn giả, nhà tài trợ, danh sách đăng ký, lịch hẹn 1-1 và push notification. Sự kiện của đối tác không lên app. |
 
-Song ngữ EN/VI, chuyển bằng nút 🌐 trên thanh trên cùng.
+Tạo một sự kiện với organiser là SVEF thì hệ thống tự tạo sẵn phần app content cho
+sự kiện đó, đổi tên hoặc xoá thì phần app content đi theo.
+
+Giao diện back-office chỉ có tiếng Anh. Nội dung website vẫn song ngữ EN/VI, chỉnh
+bằng tab ngôn ngữ trong CMS & Pages và News/Media.

@@ -364,7 +364,6 @@ tr:hover .pic::before{filter:none}
     <button onclick="nav('members',this)"><i class="ni">👥</i><span data-i18n="n_members">Memberships</span> <span class="badge" id="memBadge">2</span></button>
     <div class="grp" data-i18n="g_events">Events</div>
     <button onclick="nav('events',this)"><i class="ni">📅</i><span data-i18n="n_events">Event Management</span> <span class="badge" id="apprBadge">2</span></button>
-    <button onclick="nav('appevents',this)"><i class="ni">📱</i><span data-i18n="n_appevents">SVEF App Event Management</span></button>
     <div class="grp" data-i18n="g_data">Data</div>
     <button onclick="nav('reports',this)"><i class="ni">📈</i><span data-i18n="n_reports">Reports &amp; Export</span></button>
   </nav>
@@ -378,7 +377,6 @@ tr:hover .pic::before{filter:none}
     <h1 id="viewTitle">Dashboard</h1>
     <span class="demo-tag">DEMO</span>
     <div class="sp"></div>
-    <button class="lang" aria-label="Switch language" onclick="toggleLang()">🌐 <span id="langLbl">EN</span></button>
     <div class="search"><span aria-hidden="true">🔎</span><input id="adSearch" aria-label="Search" placeholder="Search…"></div>
     <div class="who"><div class="av">OA</div></div>
   </div>
@@ -506,6 +504,15 @@ tr:hover .pic::before{filter:none}
 
     <!-- ===== EVENTS ===== -->
     <div class="view" id="v-events">
+      <div class="intro">
+        <b data-i18n="ev_x_t">What Event Management does</b>
+        <p data-i18n="ev_x_p">Every event lives here, whether SVEF runs it or a partner proposes it. One record, created once.</p>
+        <ul>
+          <li data-i18n="ev_x_1">Partner-proposed events arrive in the approval queue. Once approved they are published to the website like any other event.</li>
+          <li data-i18n="ev_x_2">Events organised by SVEF also carry app content: the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.</li>
+          <li data-i18n="ev_x_3">The website shows the basic record plus the link through. Partner events do not appear in the app.</li>
+        </ul>
+      </div>
       <div class="panel">
         <div class="phead"><h2 data-i18n="h_evq2">Partner-proposed events — approval queue</h2><div class="sp"></div><span class="chip pend" id="pendCount">2 pending</span></div>
         <div class="pbody" id="apprList"></div>
@@ -514,26 +521,18 @@ tr:hover .pic::before{filter:none}
         <div class="phead"><h2 data-i18n="h_pubev">Published events</h2><div class="sp"></div>
           <button class="btn sm" onclick="openEvent(-1)" data-i18n="b_newev">＋ Create Event</button></div>
         <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="c_organiser">Organiser</th><th data-i18n="c_date">Date</th><th data-i18n="c_status">Status</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="pubEvents"></tbody></table>
-        <div class="pbody"><div class="export-note" data-i18n="ev_note">📌 The website record holds the basic information plus the link through to the event's own website, where attendees register. Session agendas, speakers and registrations for SVEF's own events are managed in SVEF App Event Management.</div></div>
+        <div class="pbody"><div class="export-note" data-i18n="ev_note">📌 The website record holds the basic information plus the link through to the event's own page, where attendees register. For SVEF's own events, everything the mobile app shows is managed below under App content.</div></div>
       </div>
-    </div>
 
-    <!-- ===== SVEF APP EVENT MANAGEMENT ===== -->
-    <div class="view" id="v-appevents">
-      <div class="intro">
-        <b data-i18n="ap_x_t">What SVEF App Event Management does</b>
-        <p data-i18n="ap_x_p">This section drives the SVEF mobile app. It covers SVEF's own events only, not partner events, which stay in Event Management.</p>
-        <ul>
-          <li data-i18n="ap_x_1">Per event: event info, the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications.</li>
-          <li data-i18n="ap_x_2">Everything saved here is what the app shows to attendees. The public website keeps only the basic event record and the link through to it.</li>
-        </ul>
+      <!-- ---- app content for the selected SVEF event ---- -->
+      <div id="appSection">
+        <div class="panel">
+          <div class="phead"><h2 data-i18n="ap_h_sel">App content — SVEF events</h2><div class="sp"></div><span class="chip navy" data-i18n="ap_only">SVEF events only</span></div>
+          <div class="pbody" id="appPicker"></div>
+          <div class="pbody" style="padding-top:0"><div class="langtab" id="appTabs"></div></div>
+        </div>
+        <div id="appPane"></div>
       </div>
-      <div class="panel">
-        <div class="phead"><h2 data-i18n="ap_h_sel">SVEF app event</h2><div class="sp"></div><span class="chip navy" data-i18n="ap_only">SVEF events only</span></div>
-        <div class="pbody" id="appPicker"></div>
-        <div class="pbody" style="padding-top:0"><div class="langtab" id="appTabs"></div></div>
-      </div>
-      <div id="appPane"></div>
     </div>
 
     <!-- ===== REPORTS ===== -->
@@ -608,7 +607,7 @@ const T={
   ag_nda:"🔐 I confirm the NDA between SVEF and IMT has been signed and admin access is authorised.",ag_signin:"Sign in as Ops Admin",ag_back:"← Back to public website",
   ag_m365:"Sign in with Microsoft 365",ag_or:"or with an SVEF password",
   ag_m365_h:"The SVEF team signs in with its existing @svef.org Microsoft 365 work account. Roles and access come from the M365 group the person belongs to — no separate admin password to manage.",
-  n_dash:"Dashboard",n_cms:"CMS & Pages",n_news:"News / Media",n_partners:"Partners",n_members:"Memberships",n_events:"Event Management",n_appevents:"SVEF App Event Management",n_reports:"Reports & Export",
+  n_dash:"Dashboard",n_cms:"CMS & Pages",n_news:"News / Media",n_partners:"Partners",n_members:"Memberships",n_events:"Event Management",n_reports:"Reports & Export",
   g_content:"Content",g_community:"Community",g_events:"Events",g_data:"Data",
   f_loggedas:"Logged in as",f_hub:"Demo hub",search_ph:"Search…",
   nda_t:"NDA signed · Admin access granted to IMT",nda_p:"Confidential-data access is enabled only after the NDA between SVEF and IMT is signed (BRD §7.5 / §11.2). Exports below never expose passwords or sensitive fields.",
@@ -633,7 +632,12 @@ const T={
   c_pname:"Profile name",cr_t:"Change role",cr_save:"Update role",cr_sub:"The role controls what the member can see and do in the member area.",
   q_suspend:"Suspend access for this account? The member will not be able to sign in until the account is reactivated.",
   q_reactivate:"Restore access for this account?",
-  ev_note:"📌 The website record holds the basic information plus the link through to the event's own website, where attendees register. Session agendas, speakers and registrations for SVEF's own events are managed in SVEF App Event Management.",
+  ev_note:"📌 The website record holds the basic information plus the link through to the event's own page, where attendees register. For SVEF's own events, everything the mobile app shows is managed below under App content.",
+  ev_x_t:"What Event Management does",
+  ev_x_p:"Every event lives here, whether SVEF runs it or a partner proposes it. One record, created once.",
+  ev_x_1:"Partner-proposed events arrive in the approval queue. Once approved they are published to the website like any other event.",
+  ev_x_2:"Events organised by SVEF also carry app content: the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.",
+  ev_x_3:"The website shows the basic record plus the link through. Partner events do not appear in the app.",
   ev_add_t:"Create event",ev_edit_t:"Edit event",ev_name:"Event name",ev_org_h:"Create the event on behalf of SVEF or of a partner organisation.",
   ev_start:"Start date",ev_end:"End date",ev_fmt:"Format",fmt_in:"In-person",fmt_on:"Online",fmt_hy:"Hybrid",
   ev_link:"Event website / registration link",ev_link_h:"Attendees register on the organiser's own event website. Paste that link here.",
@@ -662,12 +666,10 @@ const T={
   t_artadded:"Article published (demo)",t_docadded:"Document uploaded (demo)",t_docdel:"Document deleted",t_docdl:"Downloading",
   t_rolechg:"Role updated",t_susp:"Account suspended",t_react:"Account reactivated",
   t_evadd:"Event created",t_evupd:"Event updated",t_evdel:"Event deleted",t_sessadd:"Session added",t_sessupd:"Session updated",t_sessdel:"Session deleted",
-  /* ---- SVEF App Event Management ---- */
-  ap_x_t:"What SVEF App Event Management does",
-  ap_x_p:"This section drives the SVEF mobile app. It covers SVEF's own events only, not partner events, which stay in Event Management.",
-  ap_x_1:"Per event: event info, the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications.",
-  ap_x_2:"Everything saved here is what the app shows to attendees. The public website keeps only the basic event record and the link through to it.",
-  ap_h_sel:"SVEF app event",ap_only:"SVEF events only",ap_pick:"Selected event",ap_sum:"At a glance",
+  /* ---- app content, inside Event Management ---- */
+  ap_h_sel:"App content — SVEF events",ap_only:"SVEF events only",ap_pick:"Selected event",ap_sum:"At a glance",
+  ap_open:"App content",ap_none:"Partner events do not appear in the app.",
+  ap_empty:"No SVEF event yet. Create one above with Create Event and set the organiser to SVEF.",
   ap_tab_info:"Event info",ap_tab_agenda:"Agenda / sessions",ap_tab_speakers:"Speakers",ap_tab_sponsors:"Sponsors",
   ap_tab_reg:"Registrants",ap_tab_meet:"Meeting bookings",ap_tab_push:"Push notifications",
   ap_venue:"Venue",ap_tz:"Time zone",ap_tz_h:"Every session time in the app is shown in this time zone.",
@@ -691,99 +693,11 @@ const T={
   t_appinfo:"Event info saved",t_spkadd:"Speaker added",t_spkupd:"Speaker updated",t_spkdel:"Speaker deleted",
   t_spoadd:"Sponsor added",t_spoupd:"Sponsor updated",t_spodel:"Sponsor deleted",
   t_pushsent:"Push notification sent (demo)",t_pushsched:"Push notification scheduled (demo)",
- },
- vi:{
-  password:"Mật khẩu",
-  ag_h:"Hệ quản trị SVEF",ag_desc:"Khu vực hạn chế — truy cập theo vai trò. Quyền quản trị chỉ cấp cho IMT sau khi NDA giữa SVEF và IMT được ký (BRD §7.5 / §11.2).",
-  ag_nda:"🔐 Tôi xác nhận NDA giữa SVEF và IMT đã được ký và quyền quản trị đã được cấp phép.",ag_signin:"Đăng nhập với vai trò Ops Admin",ag_back:"← Về website công khai",
-  ag_m365:"Đăng nhập bằng Microsoft 365",ag_or:"hoặc bằng mật khẩu SVEF",
-  ag_m365_h:"Nhân sự SVEF đăng nhập bằng chính tài khoản công việc Microsoft 365 @svef.org sẵn có. Vai trò và quyền truy cập lấy theo nhóm M365 của người đó — không phải quản lý thêm mật khẩu quản trị riêng.",
-  n_dash:"Tổng quan",n_cms:"CMS & Trang",n_news:"Tin tức / Media",n_partners:"Đối tác",n_members:"Thành viên",n_events:"Quản lý sự kiện",n_appevents:"Quản lý sự kiện App SVEF",n_reports:"Báo cáo & Xuất",
-  g_content:"Nội dung",g_community:"Cộng đồng",g_events:"Sự kiện",g_data:"Dữ liệu",
-  f_loggedas:"Đăng nhập bởi",f_hub:"Trang demo",search_ph:"Tìm kiếm…",
-  nda_t:"Đã ký NDA · Đã cấp quyền quản trị cho IMT",nda_p:"Quyền truy cập dữ liệu mật chỉ mở sau khi NDA giữa SVEF và IMT được ký (BRD §7.5 / §11.2). Các bản xuất không bao giờ lộ mật khẩu hay trường nhạy cảm.",
-  s_partners:"Đối tác & thành viên",s_partners_up:"▲ 12 quý này",s_events:"Sự kiện sắp tới",s_events_up:"2 chờ duyệt",s_subs:"Người đăng ký",s_subs_up:"▲ 214 tháng này",s_growth:"Tăng trưởng TV theo năm",s_growth_up:"▲ ổn định",
-  h_memapps:"Đơn đăng ký thành viên",h_evqueue:"Hàng đợi duyệt sự kiện",h_recent:"Đối tác mới tham gia",h_news:"Tin tức & Media",h_partner:"Quản lý đối tác",h_members:"Thành viên & vai trò",h_evq2:"Sự kiện đối tác đề xuất — hàng đợi duyệt",h_pubev:"Sự kiện đã đăng",h_reports:"Báo cáo & xuất dữ liệu",
-  cms_title:"Tiêu đề trang",cms_slug:"Đường dẫn SEO",cms_body:"Nội dung",
-  cms_body_src:"HTML",cms_body_prev:"Xem trước trực tiếp",
-  cms_body_h:"Trường này chỉ nhận mã HTML. Nội dung bạn viết ở khung HTML sẽ hiển thị ngay ở khung xem trước, đúng như khi lên website.",
-  cms_x_t:"CMS & Trang dùng để làm gì",
-  cms_x_p:"Đội ngũ SVEF có thể trực tiếp quản lý và cập nhật nội dung website thông qua CMS này, không cần hỗ trợ kỹ thuật hay quy trình phát hành mới.",
-  cms_x_1:"Trang tĩnh: Trang chủ, Giới thiệu, Hoạt động, FAQ, Liên hệ và Quyền riêng tư / GDPR. Tiêu đề, nội dung và trạng thái, bằng tiếng Anh và tiếng Việt.",
-  cms_x_2:"Sửa được sau khi đăng: mọi trang hay bài viết đã đăng đều có thể mở lại và cập nhật bất cứ lúc nào: nội dung, các trường SEO, tác giả và ngày đăng. Mọi thay đổi có hiệu lực ngay lập tức.",
-  cms_author:"Tác giả",cms_pubdate:"Ngày đăng",cms_seo_h:"Tối ưu công cụ tìm kiếm (SEO)",
-  cms_seotitle:"Tiêu đề SEO",cms_seotitle_h:"Dòng tiêu đề hiển thị trên kết quả Google. Nên giữ dưới khoảng 60 ký tự.",
-  cms_slug_h:"Địa chỉ của trang trên website, ví dụ /about-us.",
-  cms_metadesc:"Mô tả meta",cms_metadesc_h:"Đoạn tóm tắt hiển thị dưới liên kết trong kết quả tìm kiếm. Nên giữ dưới khoảng 155 ký tự.",
-  news_note:"🏷 Mỗi bài viết đều có một loại nội dung. Loại nội dung quyết định bài hiển thị ở đâu trên website công khai: Tin tức hay Media. Không phải sao chép thủ công giữa các mục.",
-  f_all:"Tất cả",nt_news:"Tin tức",nt_media:"Media",
-  na_t:"Bài viết mới",na_save:"Đăng bài viết",na_ph:"Tiêu đề bài viết",
-  doc_h:"Tài liệu",doc_none:"Chưa có tài liệu nào được tải lên.",doc_drop:"⬆ Bấm để tải lên tài liệu (PDF, DOCX, XLSX, JPG)",doc_dl:"⬇ Tải xuống",
-  mp_t:"Hồ sơ liên kết",mp_sub:"Các hồ sơ liên kết với tài khoản này. Một tài khoản có thể có nhiều hồ sơ (cá nhân và công ty).",
-  c_pname:"Tên hồ sơ",cr_t:"Đổi vai trò",cr_save:"Cập nhật vai trò",cr_sub:"Vai trò quyết định thành viên được xem và làm gì trong khu vực thành viên.",
-  q_suspend:"Tạm ngưng quyền truy cập của tài khoản này? Thành viên sẽ không đăng nhập được cho tới khi tài khoản được mở lại.",
-  q_reactivate:"Khôi phục quyền truy cập cho tài khoản này?",
-  ev_note:"📌 Bản ghi trên website chỉ lưu thông tin cơ bản cùng liên kết dẫn tới website riêng của sự kiện, nơi người tham dự đăng ký. Chương trình phiên, diễn giả và danh sách đăng ký của các sự kiện do SVEF tổ chức được quản lý trong mục Quản lý sự kiện App SVEF.",
-  ev_add_t:"Tạo sự kiện",ev_edit_t:"Sửa sự kiện",ev_name:"Tên sự kiện",ev_org_h:"Tạo sự kiện nhân danh SVEF hoặc nhân danh một tổ chức đối tác.",
-  ev_start:"Ngày bắt đầu",ev_end:"Ngày kết thúc",ev_fmt:"Hình thức",fmt_in:"Trực tiếp",fmt_on:"Trực tuyến",fmt_hy:"Kết hợp",
-  ev_link:"Website sự kiện / liên kết đăng ký",ev_link_h:"Người tham dự đăng ký trên website sự kiện của đơn vị tổ chức. Dán liên kết đó vào đây.",
-  ev_zoom:"Liên kết tham dự trực tuyến (Zoom / Teams)",
-  ev_zoom_h:"Hiển thị dưới dạng nút “Tham dự trực tuyến” trong app và trong từng phiên, chỉ dành cho người đã đăng ký.",
-  ev_desc:"Mô tả",ev_sess:"Chương trình / phiên",ev_sess_none:"Chưa có phiên nào. Dùng nút “Thêm phiên” để xây dựng chương trình.",
-  ev_s_day:"Ngày",ev_s_start:"Giờ bắt đầu",ev_s_end:"Giờ kết thúc",ev_s_title:"Tên phiên",ev_s_speaker:"Diễn giả",ev_s_room:"Phòng",
-  ev_save:"💾 Lưu sự kiện",
-  ev_s_needtitle:"Vui lòng nhập tên phiên.",q_delev:"Xoá sự kiện này? Sự kiện sẽ bị gỡ khỏi website công khai.",
-  imp_t:"Nhập danh sách",imp_p_partners:"Tải lên danh sách đối tác xuất từ nền tảng cũ hoặc từ Excel (CSV hoặc XLSX).",
-  imp_p_members:"Tải lên danh sách thành viên xuất từ nền tảng cũ hoặc từ Excel (CSV hoặc XLSX).",
-  imp_drop:"⬆ Bấm để chọn tệp CSV hoặc XLSX",imp_go:"Bắt đầu nhập",
-  imp_note:"Bản ghi đã có được đối chiếu theo email hoặc tên tổ chức và được cập nhật thay vì tạo trùng (BRD BR-W-19).",
-  rep_lists:"⬆ Việc tải danh sách lên được thực hiện ngay nơi chứa dữ liệu: dùng nút “Nhập danh sách” trong mục Đối tác hoặc mục Thành viên. Mục Báo cáo chỉ dùng để xuất dữ liệu.",
-  mem_note:"🔑 Một tài khoản có thể có nhiều hồ sơ (cá nhân + công ty) — cột “Hồ sơ” cho biết số hồ sơ liên kết với một email (BRD BR-W-04).",
-  rep_intro:"Xuất Excel/CSV để báo cáo. Các trường mật (mật khẩu, token thanh toán) luôn được loại trừ (BRD BR-W-18 / §11.2).",
-  rep_note:"🔒 Lưu ý bảo vệ dữ liệu: Bản xuất tuân thủ GDPR khi xử lý giữa Thụy Sĩ/Châu Âu và Việt Nam. Không bao gồm mật khẩu hay định danh cá nhân nhạy cảm.",
-  b_viewall:"Xem tất cả →",b_save:"💾 Lưu & đăng",b_preview:"👁 Xem trước",b_newart:"＋ Bài viết mới",b_export:"⬇ Xuất CSV",b_addpartner:"＋ Thêm đối tác",b_import:"⬆ Nhập danh sách",b_newev:"＋ Tạo sự kiện",b_cancel:"Huỷ",
-  p_details:"Chi tiết đối tác",p_add_t:"Thêm đối tác",p_edit_t:"Sửa đối tác",p_save:"Lưu đối tác",p_name:"Tên tổ chức",
-  c_org:"Tổ chức",c_type:"Loại",c_market:"Thị trường",c_joined:"Tham gia",c_status:"Trạng thái",c_title:"Tiêu đề",c_cat:"Danh mục",c_date:"Ngày",c_ptype:"Loại đối tác",c_ind:"Ngành",c_docs:"Tài liệu",c_actions:"Thao tác",c_account:"Tài khoản (email)",c_profiles:"Hồ sơ",c_role:"Vai trò",c_access:"Quyền",c_event:"Sự kiện",c_organiser:"Đơn vị tổ chức",c_loc:"Địa điểm",
-  c_name:"Họ và tên",c_email:"Email",c_company:"Công ty",c_job:"Chức danh",c_regdate:"Ngày đăng ký",c_slot:"Khung giờ",c_sent:"Đã gửi",c_audience:"Đối tượng",c_message:"Nội dung",c_tier:"Hạng",
-  d_active:"Hoạt động",d_pending:"Chờ duyệt",d_published:"Đã đăng",d_draft:"Nháp",d_approve:"✓ Duyệt",d_reject:"✕ Từ chối",d_edit:"Sửa",d_view:"Xem",d_pendsfx:"chờ duyệt",
-  d_delete:"Xoá",d_viewprof:"Xem hồ sơ",d_chrole:"Đổi vai trò",d_suspend:"Tạm ngưng",d_reactivate:"Mở lại",d_suspended:"Đã tạm ngưng",
-  ma_note:"Đơn đăng ký thành viên",
-  t_saved:"Đã lưu nội dung (demo)",t_preview:"Xem trước (demo)",t_editor:"Trình soạn bài viết (demo)",t_form:"Biểu mẫu đối tác mới (demo)",t_import:"Đã nhập xong (demo)",t_signed:"Đã đăng nhập với vai trò Ops Admin",t_signed_m365:"Đã đăng nhập bằng Microsoft 365 · Ops Admin",t_nda:"⚠️ Vui lòng xác nhận NDA để tiếp tục",
-  t_artadded:"Đã đăng bài viết (demo)",t_docadded:"Đã tải tài liệu lên (demo)",t_docdel:"Đã xoá tài liệu",t_docdl:"Đang tải xuống",
-  t_rolechg:"Đã cập nhật vai trò",t_susp:"Đã tạm ngưng tài khoản",t_react:"Đã mở lại tài khoản",
-  t_evadd:"Đã tạo sự kiện",t_evupd:"Đã cập nhật sự kiện",t_evdel:"Đã xoá sự kiện",t_sessadd:"Đã thêm phiên",t_sessupd:"Đã cập nhật phiên",t_sessdel:"Đã xoá phiên",
-  /* ---- Quản lý sự kiện App SVEF ---- */
-  ap_x_t:"Quản lý sự kiện App SVEF dùng để làm gì",
-  ap_x_p:"Mục này vận hành ứng dụng di động SVEF. Mục này chỉ quản lý các sự kiện do chính SVEF tổ chức, không bao gồm sự kiện của đối tác, phần đó nằm ở mục Quản lý sự kiện.",
-  ap_x_1:"Với mỗi sự kiện: thông tin sự kiện, chương trình và các phiên, diễn giả, nhà tài trợ, danh sách đăng ký, lịch hẹn gặp 1-1 và thông báo đẩy.",
-  ap_x_2:"Mọi nội dung lưu ở đây chính là nội dung app hiển thị cho người tham dự. Website công khai chỉ giữ thông tin cơ bản và liên kết dẫn tới sự kiện.",
-  ap_h_sel:"Sự kiện trên App SVEF",ap_only:"Chỉ sự kiện của SVEF",ap_pick:"Sự kiện đang chọn",ap_sum:"Thông tin nhanh",
-  ap_tab_info:"Thông tin sự kiện",ap_tab_agenda:"Chương trình / phiên",ap_tab_speakers:"Diễn giả",ap_tab_sponsors:"Nhà tài trợ",
-  ap_tab_reg:"Người đăng ký",ap_tab_meet:"Lịch hẹn gặp",ap_tab_push:"Thông báo đẩy",
-  ap_venue:"Địa điểm tổ chức",ap_tz:"Múi giờ",ap_tz_h:"Mọi giờ phiên hiển thị trong app đều theo múi giờ này.",
-  ap_save_info:"💾 Lưu thông tin sự kiện",
-  ap_sess_new:"Thêm phiên",ap_sess_edit:"Sửa phiên",ap_sess_add:"＋ Thêm phiên",ap_sess_save:"💾 Lưu phiên",
-  ap_spk_none:"Chưa có diễn giả nào.",ap_spk_add:"＋ Thêm diễn giả",ap_spk_new:"Thêm diễn giả",ap_spk_edit:"Sửa diễn giả",
-  ap_spk_save:"💾 Lưu diễn giả",ap_photo:"Ảnh",ap_photo_h:"Chỉ là ảnh giữ chỗ trong bản demo. App thật cho phép tải lên tệp JPG hoặc PNG.",
-  ap_spo_none:"Chưa có nhà tài trợ nào.",ap_spo_add:"＋ Thêm nhà tài trợ",ap_spo_new:"Thêm nhà tài trợ",ap_spo_edit:"Sửa nhà tài trợ",
-  ap_spo_save:"💾 Lưu nhà tài trợ",tier_head:"Tài trợ chính",tier_gold:"Vàng",tier_silver:"Bạc",
-  ap_reg_none:"Chưa có ai đăng ký sự kiện này.",
-  ap_reg_note:"📋 Danh sách đăng ký được gửi về từ app và chỉ để xem ở đây. Bản xuất dùng đúng định dạng CSV như các mục khác, không kèm mật khẩu hay trường nhạy cảm.",
-  ap_meet_req:"Người đề nghị",ap_meet_rec:"Người được mời",ap_meet_none:"Chưa có yêu cầu hẹn gặp nào cho sự kiện này.",
-  ap_meet_note:"🤝 Người tham dự tự đặt lịch hẹn 1-1 với nhau trong app. SVEF chỉ theo dõi lịch hẹn ở đây, không cần duyệt.",
-  ap_push_t:"Tiêu đề thông báo",ap_push_b:"Nội dung",ap_push_aud:"Đối tượng nhận",ap_push_when:"Thời điểm gửi",
-  ap_push_at:"Hẹn gửi lúc",ap_push_send:"🔔 Gửi thông báo",ap_push_sent_h:"Thông báo đã gửi",
-  ap_push_none:"Chưa gửi thông báo nào cho sự kiện này.",ap_push_needtitle:"Vui lòng nhập tiêu đề thông báo.",
-  aud_all:"Toàn bộ người tham dự",aud_reg:"Chỉ người đã đăng ký",aud_spk:"Diễn giả",
-  when_now:"Gửi ngay",when_sched:"Hẹn giờ",ap_st_sent:"Đã gửi",ap_st_sched:"Đã hẹn giờ",
-  mt_conf:"Đã xác nhận",mt_pend:"Chờ phản hồi",mt_canc:"Đã huỷ",mt_decl:"Đã từ chối",
-  ap_needname:"Vui lòng nhập tên.",
-  t_appinfo:"Đã lưu thông tin sự kiện",t_spkadd:"Đã thêm diễn giả",t_spkupd:"Đã cập nhật diễn giả",t_spkdel:"Đã xoá diễn giả",
-  t_spoadd:"Đã thêm nhà tài trợ",t_spoupd:"Đã cập nhật nhà tài trợ",t_spodel:"Đã xoá nhà tài trợ",
-  t_pushsent:"Đã gửi thông báo đẩy (demo)",t_pushsched:"Đã hẹn giờ gửi thông báo đẩy (demo)",
  }
 };
-let lang=localStorage.getItem('svef_admin_lang')==='vi'?'vi':'en';
+/* The back-office interface is English only. Website content stays bilingual:
+   the EN / VI tabs in CMS & Pages and in News / Media edit what visitors read. */
+const lang='en';
 function tr(k){return T[lang][k]!==undefined?T[lang][k]:k}
 
 /* ===== DATA ===== */
@@ -825,14 +739,17 @@ let approvals=[
 ];
 const FORMATS=["In-person","Online","Hybrid"];
 /* Website event records: basic information plus the link through to the event's own
-   site. Agendas, speakers and registrations live in SVEF App Event Management. */
+   site. For SVEF's own events the agenda, speakers and registrations hang off the
+   matching entry in appEvents, reached through App content on the event's row. */
 let pubEvents=[
- {t:"SVEF Hanoi Economic Forum 2026",org:"SVEF",ds:"2026-10-14",de:"2026-10-15",loc:"Hanoi, Vietnam",fmt:"Hybrid",
+ {id:"ev-hanoi",t:"SVEF Hanoi Economic Forum 2026",org:"SVEF",ds:"2026-10-14",de:"2026-10-15",loc:"Hanoi, Vietnam",fmt:"Hybrid",
   link:"https://events.svef.org/hanoi-forum-2026",zoom:"https://zoom.us/j/8412200261",
   desc:"Two-day flagship forum bringing Swiss and Vietnamese business leaders together.",status:"Published"},
- {t:"Swiss-Vietnam Trade Mission",org:"SVEF",ds:"2026-11-22",de:"2026-11-24",loc:"Zurich, Switzerland",fmt:"In-person",
+ {id:"ev-mission",t:"Swiss-Vietnam Trade Mission 2026",org:"SVEF",ds:"2026-11-22",de:"2026-11-24",loc:"Zurich, Switzerland",fmt:"In-person",
   link:"https://events.svef.org/trade-mission-2026",desc:"Delegation programme with company visits and matchmaking sessions.",status:"Published"},
- {t:"Fintech Bridge Meetup",org:"Helvetia Fintech AG",ds:"2026-12-18",de:"2026-12-18",loc:"Online",fmt:"Online",
+ {id:"ev-startup",t:"SVEF Startup Bridge Day 2027",org:"SVEF",ds:"2027-03-05",de:"2027-03-05",loc:"Ho Chi Minh City, Vietnam",fmt:"In-person",
+  link:"https://events.svef.org/startup-bridge-2027",desc:"One-day matchmaking day between Swiss scale-ups and Vietnamese founders.",status:"Draft"},
+ {id:"ev-fintech",t:"Fintech Bridge Meetup",org:"Helvetia Fintech AG",ds:"2026-12-18",de:"2026-12-18",loc:"Online",fmt:"Online",
   link:"https://helvetia-fintech.example.ch/bridge-meetup",zoom:"https://zoom.us/j/9930041827",
   desc:"Partner-hosted evening meetup for fintech founders and investors.",status:"Published"},
 ];
@@ -857,7 +774,7 @@ const APP_TZ=["(GMT+7) Hanoi","(GMT+1) Zurich","(GMT+0) UTC"];
 const TIERS=["Headline","Gold","Silver"];
 const AUDIENCES=["all","reg","spk"];
 let appEvents=[
- {t:"SVEF Hanoi Economic Forum 2026",ds:"2026-10-14",de:"2026-10-15",venue:"National Convention Center, Hanoi",
+ {id:"ev-hanoi",t:"SVEF Hanoi Economic Forum 2026",ds:"2026-10-14",de:"2026-10-15",venue:"National Convention Center, Hanoi",
   tz:"(GMT+7) Hanoi",status:"Published",
   desc:"Two-day flagship forum bringing Swiss and Vietnamese business leaders together.",
   sessions:[
@@ -888,7 +805,7 @@ let appEvents=[
   pushes:[
    {t:"Agenda published",b:"The full two-day agenda is now live in the app.",aud:"all",d:"2026-08-03",tm:"09:15",st:"Send now"},
    {t:"Book your 1-to-1 meetings",b:"Meeting slots for day one are open until 10 October.",aud:"reg",d:"2026-08-06",tm:"14:30",st:"Send now"}]},
- {t:"Swiss-Vietnam Trade Mission 2026",ds:"2026-11-22",de:"2026-11-24",venue:"Zurich Business Centre, Zurich",
+ {id:"ev-mission",t:"Swiss-Vietnam Trade Mission 2026",ds:"2026-11-22",de:"2026-11-24",venue:"Zurich Business Centre, Zurich",
   tz:"(GMT+1) Zurich",status:"Published",
   desc:"Three-day delegation programme with company visits and B2B matchmaking.",
   sessions:[
@@ -910,7 +827,7 @@ let appEvents=[
    {rq:"Marco Rossi",rc:"Sandra Meier",day:"2026-11-24",slot:"10:45 - 11:15",st:"Pending"}],
   pushes:[
    {t:"Delegation logistics",b:"Coach pick-up on 23 November is at 08:15 in front of the hotel.",aud:"reg",d:"2026-09-20",tm:"08:00",st:"Send now"}]},
- {t:"SVEF Startup Bridge Day 2027",ds:"2027-03-05",de:"2027-03-05",venue:"Saigon Innovation Hub, Ho Chi Minh City",
+ {id:"ev-startup",t:"SVEF Startup Bridge Day 2027",ds:"2027-03-05",de:"2027-03-05",venue:"Saigon Innovation Hub, Ho Chi Minh City",
   tz:"(GMT+7) Hanoi",status:"Draft",
   desc:"One-day pitch and mentoring day for Swiss and Vietnamese startups.",
   sessions:[
@@ -954,7 +871,7 @@ function fmtD(iso){
   if(!iso)return '—';
   const p=String(iso).split('-');
   if(p.length!==3)return iso;
-  return lang==='vi'?(p[2]+'/'+p[1]+'/'+p[0]):(p[2]+' '+(MON[+p[1]-1]||p[1])+' '+p[0]);
+  return p[2]+' '+(MON[+p[1]-1]||p[1])+' '+p[0];
 }
 function evDates(e){return (e.de&&e.de!==e.ds)?(fmtD(e.ds)+' - '+fmtD(e.de)):fmtD(e.ds);}
 function ntLabel(t){return {'News':tr('nt_news'),'Media':tr('nt_media')}[t]||t;}
@@ -967,7 +884,7 @@ function mtChip(s){
   const lbl={Confirmed:tr('mt_conf'),Pending:tr('mt_pend'),Canceled:tr('mt_canc'),Declined:tr('mt_decl')}[s]||s;
   return `<span class="chip ${map[s]||''}">${lbl}</span>`;
 }
-function profWord(n){return lang==='vi'?'hồ sơ':('profile'+(n>1?'s':''));}
+function profWord(n){return 'profile'+(n>1?'s':'');}
 function fmtLabel(f){return {'In-person':tr('fmt_in'),'Online':tr('fmt_on'),'Hybrid':tr('fmt_hy')}[f]||f||'';}
 
 function partnerRow(p,i){return `<tr><td><div class="namecell">${av(p)}<b>${esc(p.n)}</b></div></td><td><span class="chip navy">${esc(p.type)}</span></td><td>${esc(p.ind)}</td><td>${esc(p.market)}</td><td>${(p.docs||[]).length}</td>
@@ -990,8 +907,28 @@ function pubEventRow(e,i){
    `<td><span class="chip ${e.org==='SVEF'?'navy':'pend'}">${esc(e.org)}</span></td>`+
    `<td>${evDates(e)}</td>`+
    `<td>${stChip(e.status)}</td>`+
-   `<td><div class="act-btns"><button class="btn line sm" onclick="openEvent(${i})">${tr('d_edit')}</button>`+
+   `<td><div class="act-btns">`+
+   (e.org==='SVEF'?`<button class="btn line sm" onclick="openAppContent(${i})">📱 ${tr('ap_open')}</button>`:'')+
+   `<button class="btn line sm" onclick="openEvent(${i})">${tr('d_edit')}</button>`+
    `<button class="btn line sm" onclick="delEvent(${i})">${tr('d_delete')}</button></div></td></tr>`;
+}
+/* An event organised by SVEF is the one the mobile app shows, so its app content
+   is reachable straight from its row. Partner events have none. The two records are
+   linked by id, not by title, so renaming an event never breaks the link. */
+function appIndexFor(id){return id==null?-1:appEvents.findIndex(x=>x.id===id);}
+function openAppContent(i){
+  const e=pubEvents[i];
+  let k=appIndexFor(e.id);
+  if(k<0)k=addAppEvent(e);
+  appSel=k;appTab='info';renderApp();
+  document.getElementById('appSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+/* A newly created SVEF event starts with an empty app shell, so the organisers
+   never have to create the same event twice. */
+function addAppEvent(e){
+  appEvents.push({id:e.id,t:e.t,ds:e.ds,de:e.de||e.ds,venue:e.loc||'',tz:APP_TZ[0],status:e.status||'Draft',
+    desc:e.desc||'',sessions:[],speakers:[],sponsors:[],registrants:[],meetings:[],pushes:[]});
+  return appEvents.length-1;
 }
 function renderPubEvents(){document.getElementById('pubEvents').innerHTML=pubEvents.map(pubEventRow).join('');}
 
@@ -1004,7 +941,7 @@ function renderNews(){
     `<td><span class="chip ${ntClass(x.n.type)}">${ntLabel(x.n.type)}</span></td>`+
     `<td>${esc(x.n.cat)}</td><td>${stChip(x.n.st)}</td><td>${esc(x.n.d)}</td>`+
     `<td><button class="btn ghost sm" onclick="toast(tr('t_editor'))">${tr('d_edit')}</button></td></tr>`).join('')
-    ||`<tr><td colspan="6" class="muted">${lang==='vi'?'Không có bài viết nào thuộc loại này.':'No articles of this type.'}</td></tr>`;
+    ||`<tr><td colspan="6" class="muted">${'No articles of this type.'}</td></tr>`;
 }
 function setNewsFilter(t){newsFilter=t;renderNews();}
 
@@ -1051,7 +988,7 @@ function apprCard(a,i){return `<div class="appr"><div class="d"><b>${a.date.spli
     <div class="body"><h4>${a.t}</h4><p style="margin-bottom:6px">📍 ${a.loc} · <b>${a.by}</b></p><p>${a.d[lang]}</p></div>
     <div class="acts"><button class="btn green sm" onclick="decide(${i},true)">${tr('d_approve')}</button><button class="btn line sm" onclick="decide(${i},false)">${tr('d_reject')}</button></div></div>`;}
 function renderApprovals(){
-  const html=approvals.map(apprCard).join('')||`<p class="muted">🎉 ${lang==='vi'?'Không còn sự kiện chờ duyệt.':'No pending events — the queue is clear.'}</p>`;
+  const html=approvals.map(apprCard).join('')||`<p class="muted">🎉 ${'No pending events — the queue is clear.'}</p>`;
   document.getElementById('apprList').innerHTML=html;
   document.getElementById('dashAppr').innerHTML=html;
   const n=approvals.length;
@@ -1060,11 +997,11 @@ function renderApprovals(){
 }
 function decide(i,ok){
   const a=approvals[i];
-  if(ok)pubEvents.push({t:a.t,org:a.by,ds:a.ds,de:a.ds,loc:a.loc,fmt:(a.loc||'').indexOf('Online')>=0?'Hybrid':'In-person',
+  if(ok)pubEvents.push({id:newEventId(),t:a.t,org:a.by,ds:a.ds,de:a.ds,loc:a.loc,fmt:(a.loc||'').indexOf('Online')>=0?'Hybrid':'In-person',
     link:'',desc:a.d.en,status:"Published"});
   approvals.splice(i,1);renderApprovals();
   renderPubEvents();
-  toast(ok?((lang==='vi'?'✓ Đã duyệt — "':'✓ Approved — "')+a.t+(lang==='vi'?'" đã công khai':'" is now public')):((lang==='vi'?'Đã từ chối — "':'Rejected — "')+a.t+(lang==='vi'?'" trả lại đối tác':'" sent back to partner')));
+  toast(ok?(('✓ Approved — "')+a.t+('" is now public')):(('Rejected — "')+a.t+('" sent back to partner')));
 }
 
 /* ---- Membership applications (P3) ---- */
@@ -1072,7 +1009,7 @@ function memAppCard(a,i){return `<div class="appr"><div class="d blue"><b>${a.da
     <div class="body"><h4>${a.n}</h4><p style="margin-bottom:6px"><span class="chip navy">${a.type}</span> · ${a.email}</p><p>${a.note[lang]}</p></div>
     <div class="acts"><button class="btn green sm" onclick="decideMem(${i},true)">${tr('d_approve')}</button><button class="btn line sm" onclick="decideMem(${i},false)">${tr('d_reject')}</button></div></div>`;}
 function renderMemApps(){
-  const html=memberApps.map(memAppCard).join('')||`<p class="muted">🎉 ${lang==='vi'?'Không còn đơn chờ duyệt.':'No pending applications.'}</p>`;
+  const html=memberApps.map(memAppCard).join('')||`<p class="muted">🎉 ${'No pending applications.'}</p>`;
   document.getElementById('memAppList').innerHTML=html;
   document.getElementById('dashMemApps').innerHTML=html;
   const n=memberApps.length;
@@ -1085,10 +1022,10 @@ function decideMem(i,ok){
     profiles:[{n:a.n,t:a.type.indexOf('Individual')>=0?'Individual':'Company',st:'Active'}]});
   memberApps.splice(i,1);renderMemApps();
   if(ok)renderMembers();
-  toast(ok?((lang==='vi'?'✓ Đã duyệt thành viên: ':'✓ Member approved: ')+a.n):((lang==='vi'?'Đã từ chối đơn: ':'Application rejected: ')+a.n));
+  toast(ok?(('✓ Member approved: ')+a.n):(('Application rejected: ')+a.n));
 }
 
-function exportData(kind){toast((lang==='vi'?'⬇ Đang xuất ':'⬇ Exporting ')+kind+(lang==='vi'?'.csv — đã loại trường mật':'.csv — confidential fields excluded'));}
+function exportData(kind){toast(('⬇ Exporting ')+kind+('.csv — confidential fields excluded'));}
 
 /* ===== PARTNER CRUD (admin) ===== */
 const PCOL=["#1F3A5F","#0F5A4A","#0A0A0A","#DA291C","#4A3B6B","#7A5C00","#2E2E2E"];
@@ -1145,12 +1082,12 @@ function savePartnerA(){
   const name=v('apN').trim()||'—';
   const parts=name.replace(/[^A-Za-zÀ-ỹ ]/g,'').trim().split(/\s+/);
   const ii=(parts.map(x=>x[0]).slice(0,2).join('')||'?').toUpperCase();
-  const obj={n:name,i:ii,c:PCOL[(apEdit>=0?apEdit:partners.length)%PCOL.length],type:v('apType'),ind:v('apInd'),market:v('apMarket'),docs:apDocs.slice(),joined:apEdit>=0?partners[apEdit].joined:(lang==='vi'?'Mới':'New'),status:v('apStatus')};
+  const obj={n:name,i:ii,c:PCOL[(apEdit>=0?apEdit:partners.length)%PCOL.length],type:v('apType'),ind:v('apInd'),market:v('apMarket'),docs:apDocs.slice(),joined:apEdit>=0?partners[apEdit].joined:('New'),status:v('apStatus')};
   if(apEdit>=0)partners[apEdit]=obj;else partners.push(obj);
   closeModal();renderAll();
-  toast(apEdit>=0?(lang==='vi'?'Đã cập nhật đối tác':'Partner updated'):(lang==='vi'?'Đã thêm đối tác':'Partner added'));
+  toast(apEdit>=0?('Partner updated'):('Partner added'));
 }
-function delPartnerA(i){partners.splice(i,1);renderAll();toast(lang==='vi'?'Đã xoá đối tác':'Partner removed');}
+function delPartnerA(i){partners.splice(i,1);renderAll();toast('Partner removed');}
 
 /* ===== GENERIC MODAL HELPERS ===== */
 function openGen(title,html){
@@ -1171,7 +1108,7 @@ function openArticle(){
     `<button class="btn block" onclick="saveArticle()">${tr('na_save')}</button>`);
 }
 function saveArticle(){
-  const t=v('naT').trim()||(lang==='vi'?'Bài viết chưa đặt tiêu đề':'Untitled article');
+  const t=v('naT').trim()||('Untitled article');
   const st=v('naSt');
   newsRows.unshift({t:t,type:v('naType'),cat:v('naCat'),st:st,d:st==='Draft'?'—':fmtD(v('naD'))});
   if(newsFilter!=='All'&&newsFilter!==newsRows[0].type)newsFilter='All';
@@ -1220,7 +1157,7 @@ function openImport(kind){
 /* ===== EVENT MANAGEMENT (website event record) =====
    The public website shows basic information plus a button through to the event's
    own page, and it never carries partner events in the app, so agendas and sessions
-   are not part of this record. They live in SVEF App Event Management below. */
+   are not part of this record. They live in the App content section below. */
 let evEdit=-1;
 function orgOptions(sel){return aopts(['SVEF'].concat(partners.map(p=>p.n)),sel);}
 function openEvent(i){
@@ -1255,17 +1192,32 @@ function toggleZoomField(){
 function saveEvent(){
   const ds=v('evDs'),de=v('evDe')||ds;
   const fmt=v('evFmt');
-  const obj={t:v('evN').trim()||(lang==='vi'?'Sự kiện chưa đặt tên':'Untitled event'),org:v('evOrg'),ds:ds,de:(de<ds?ds:de),
+  const obj={t:v('evN').trim()||('Untitled event'),org:v('evOrg'),ds:ds,de:(de<ds?ds:de),
     loc:v('evLoc').trim(),fmt:fmt,link:v('evLink').trim(),
     zoom:(fmt==='Online'||fmt==='Hybrid')?v('evZoom').trim():'',
     desc:v('evDesc').trim(),status:v('evSt')};
+  obj.id=evEdit>=0?pubEvents[evEdit].id:newEventId();
   if(evEdit>=0)pubEvents[evEdit]=obj;else pubEvents.push(obj);
-  closeModal();renderPubEvents();
+  syncAppEvent(obj);
+  closeModal();renderPubEvents();renderApp();
   toast(evEdit>=0?tr('t_evupd'):tr('t_evadd'));
+}
+let evSeq=0;
+function newEventId(){return 'ev-n'+(++evSeq);}
+/* The event record is the single source of truth. An SVEF event always has an app
+   entry; a partner event never does, so demoting one removes it again. */
+function syncAppEvent(e){
+  const k=appIndexFor(e.id);
+  if(e.org!=='SVEF'){if(k>=0){appEvents.splice(k,1);appSel=0;}return;}
+  if(k<0){addAppEvent(e);return;}
+  const a=appEvents[k];
+  a.t=e.t;a.ds=e.ds;a.de=e.de||e.ds;a.venue=e.loc||a.venue;a.status=e.status;a.desc=e.desc||a.desc;
 }
 function delEvent(i){
   if(!confirm(tr('q_delev')))return;
-  pubEvents.splice(i,1);renderPubEvents();toast(tr('t_evdel'));
+  const k=appIndexFor(pubEvents[i].id);
+  if(k>=0){appEvents.splice(k,1);appSel=0;}
+  pubEvents.splice(i,1);renderPubEvents();renderApp();toast(tr('t_evdel'));
 }
 
 /* ==========================================================================
@@ -1286,7 +1238,14 @@ function appHead(titleKey,btn){
 }
 function renderApp(){
   const pick=document.getElementById('appPicker');if(!pick)return;
+  if(appSel>=appEvents.length)appSel=0;
   const e=appEv();
+  if(!e){
+    pick.innerHTML=`<p class="muted" style="margin:0">${tr('ap_empty')}</p>`;
+    document.getElementById('appTabs').innerHTML='';
+    document.getElementById('appPane').innerHTML='';
+    return;
+  }
   pick.innerHTML=
     `<div class="g2"><div class="field" style="margin-bottom:0"><label>${tr('ap_pick')}</label>`+
       `<select aria-label="${tr('ap_pick')}" onchange="appPick(this.selectedIndex)">`+
@@ -1499,11 +1458,9 @@ function applyI18n(){
   document.documentElement.lang=lang;
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]!==undefined)el.textContent=T[lang][k];});
   document.getElementById('adSearch').placeholder=tr('search_ph');
-  document.getElementById('langLbl').textContent=lang==='en'?'EN':'VI';
   document.getElementById('viewTitle').textContent=tr('n_'+(currentView==='dashboard'?'dash':currentView));
   renderAll();
 }
-function toggleLang(){lang=lang==='en'?'vi':'en';localStorage.setItem('svef_admin_lang',lang);applyI18n();}
 
 /* ===== TOAST ===== */
 let toTimer;
