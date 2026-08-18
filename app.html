@@ -2,26 +2,52 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SVEF App · Prototype</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 /* ==========================================================================
    SVEF Event App — Swiss International Typographic Style
-   Flat colour fields, hairline rules, neo-grotesque type, Swiss red #DA291C.
+   Flat colour fields, hairline rules, neo-grotesque type, SVEF red #E42026.
    Legacy tokens are aliased so inline styles and JS-built markup still resolve.
    ========================================================================== */
+/* --------------------------------------------------------------------------
+   SVEF brand palette — from the SVEF Brand Guideline (DES ELEMENTS):
+     palitra svef.pdf   spot colours + gradient
+     Color_guide.pdf    tint/shade ramps
+   Primary red   PANTONE 2347  #E42026      Forest green PANTONE 349  #3E7742
+   Maroon        PANTONE 1815  #800000      Gold         PANTONE 7551 #C3933A
+   Cream         PANTONE 7499  #FFF9B8      Sky          PANTONE 7457 #E2F4FD
+   Steel         PANTONE 2204  #A8CED7      Gradient     #FFF9B8 -> #C3933A
+   Neutrals (ink / rule / tint) come from the guide's blue ramps so the whole
+   UI stays inside the brand's own colour space. The *-ink variants are darker
+   ramp steps, used where a spot colour has to carry small text.
+   -------------------------------------------------------------------------- */
 :root{
-  --red:#DA291C; --red-d:#A81F14; --red-t:#FBEAE8;
-  --ink:#0A0A0A; --ink-2:#3A3A3A;
-  --navy:#0A0A0A; --navy-2:#1F1F1F;
-  --muted:#6F6F6B; --line:#DDDDD8; --rule:#0A0A0A;
-  --bg:#F2F2EF; --card:#FFFFFF; --soft:#EBEBE6;
-  --gold:#8A6D00; --green:#136B3B;
-  --shadow:0 18px 44px rgba(10,10,10,.16); --shadow-sm:none;
+  --red:#E42026; --red-d:#B31018; --red-t:#FDECEC; --red-ink:#B31018;
+  --green:#3E7742; --green-d:#2C5730; --green-t:#EDF3EE;
+  --maroon:#800000; --gold:#C3933A; --gold-ink:#754715;
+  --cream:#FFF9B8; --sky:#E2F4FD; --steel:#A8CED7;
+  --grad-gold:linear-gradient(180deg,#FFF9B8 0%,#C3933A 100%);
+  --ink:#0E273D; --ink-2:#224861;
+  --navy:#0E273D; --navy-2:#224861;
+  --muted:#3C6980; --line:#DAEDF0; --rule:#0E273D;
+  --bg:#F5F9FA; --card:#FFFFFF; --soft:#E9F4F5;
+  --shadow:0 18px 44px rgba(14,39,61,.16); --shadow-sm:none;
   --r:0;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,"Segoe UI",system-ui,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  /* TT Days Sans Black is SVEF's display face (Typetype, commercial licence).
+     It is NOT shipped as a webfont: the desktop licence in the brand kit does
+     not cover web embedding, and this repo is published through GitHub Pages,
+     so a woff2 here would be public redistribution. Every brand string on the
+     site is therefore delivered as outlined SVG (assets/brand/*.svg), which
+     carries no font data and needs no webfont licence.
+     The face is also Latin-only — no Vietnamese diacritics — so it must never
+     be set on translated copy. This token only resolves for developers who
+     have the font installed locally; everything falls back to Inter Tight.
+     To use it live, buy the Typetype webfont licence first. See BRAND.md. */
+  --brand:"TT Days Sans Black","Days Sans Black","Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
@@ -398,8 +424,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .login{display:none;flex:1;flex-direction:column;overflow-y:auto;background:var(--ink);color:#fff;
   padding:34px 22px calc(26px + env(safe-area-inset-bottom,0px))}
 .phone.locked .login{display:flex}
-.login .mk{width:46px;height:46px;background:var(--red);display:grid;place-items:center;color:#fff;
-  font-weight:700;font-size:17px;letter-spacing:-.04em;margin-bottom:26px;flex:0 0 auto}
+.login .mk{width:auto;height:74px;margin-bottom:26px;flex:0 0 auto;display:block}
 .login h2{margin:0 0 9px;font-size:29px;font-weight:700;letter-spacing:-.045em;line-height:1.02}
 .login h2 span{color:var(--red)}
 .login .lead{margin:0 0 28px;font-size:13px;line-height:1.55;color:rgba(255,255,255,.66)}
@@ -434,7 +459,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 
   <!-- SIGN IN -->
   <div class="login" id="loginScreen">
-    <div class="mk">SV</div>
+    <img class="mk" src="assets/brand/svef-lockup-dark.svg" alt="Swiss-Viet Economic Forum">
     <h2 data-i18n="li_h">Chào mừng đến với SVEF Events</h2>
     <p class="lead" data-i18n="li_p">Một ứng dụng cho tất cả sự kiện của SVEF. Đăng nhập để xem sự kiện, đăng ký tham dự và kết nối với người tham dự khác.</p>
     <div class="ssolist">
@@ -590,7 +615,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <!-- PROFILE -->
     <section class="screen" data-screen="profile">
       <div class="phead">
-        <div class="av sm" style="width:84px;height:84px;font-size:30px;margin:0 auto 10px;background:#DA291C">AT</div>
+        <div class="av sm" style="width:84px;height:84px;font-size:30px;margin:0 auto 10px;background:#E42026">AT</div>
         <h3 style="margin:0;font-size:19px">Anh Trần</h3>
         <p style="margin:3px 0 0;opacity:.85;font-size:12.5px" data-i18n="p_role">Giám đốc Đầu tư · Zegoe Capital</p>
         <span class="chip" style="margin-top:10px;background:rgba(255,255,255,.18);color:#fff"><span data-i18n="vip_ticket">🎫 Vé tham dự</span> · #SVEF-2041</span>
@@ -627,20 +652,20 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
           <text id="svgB1" x="218" y="54" font-size="10" text-anchor="middle" fill="#5b6b82">Phòng B1</text>
           <rect x="270" y="14" width="76" height="70" rx="8" fill="#dfe6f0"/>
           <text id="svgB2" x="308" y="54" font-size="10" text-anchor="middle" fill="#5b6b82">Phòng B2</text>
-          <rect x="14" y="120" width="60" height="50" fill="#DA291C"/><text x="44" y="149" font-size="11" text-anchor="middle" fill="#fff">S1</text>
+          <rect x="14" y="120" width="60" height="50" fill="#E42026"/><text x="44" y="149" font-size="11" text-anchor="middle" fill="#fff">S1</text>
           <rect x="86" y="120" width="60" height="50" fill="#7A5C00"/><text x="116" y="149" font-size="11" text-anchor="middle" fill="#fff">S2</text>
           <rect x="158" y="120" width="60" height="50" fill="#0A0A0A"/><text x="188" y="149" font-size="11" text-anchor="middle" fill="#fff">S3</text>
           <rect x="230" y="120" width="116" height="50" fill="#0F5A4A"/><text id="svgLounge" x="288" y="149" font-size="10" text-anchor="middle" fill="#fff">Networking</text>
           <rect x="14" y="186" width="332" height="40" fill="#cfd9e6"/>
           <text id="svgLobby" x="180" y="211" font-size="11" text-anchor="middle" fill="#5b6b82">Sảnh chính · Check-in · Cà phê</text>
-          <circle cx="44" cy="205" r="7" fill="#DA291C" stroke="#fff" stroke-width="3"/>
+          <circle cx="44" cy="205" r="7" fill="#E42026" stroke="#fff" stroke-width="3"/>
         </svg>
       </div>
       <div class="legend">
-        <span><i style="background:#DA291C"></i><span data-i18n="leg_booth">Gian hàng nổi bật</span></span>
+        <span><i style="background:#E42026"></i><span data-i18n="leg_booth">Gian hàng nổi bật</span></span>
         <span><i style="background:#0A0A0A"></i><span data-i18n="leg_session">Phiên / phòng</span></span>
         <span><i style="background:#0F5A4A"></i><span data-i18n="leg_net">Networking</span></span>
-        <span><i style="background:#DA291C;border-radius:50%"></i><span data-i18n="leg_you">Vị trí của bạn</span></span>
+        <span><i style="background:#E42026;border-radius:50%"></i><span data-i18n="leg_you">Vị trí của bạn</span></span>
       </div>
       <h2 class="sec"><span data-i18n="booths_near">Gian hàng gần bạn</span></h2>
       <div id="mapBooths"></div>
@@ -950,7 +975,7 @@ const T={
 const speakers=[
   {n:"Nguyễn Minh",i:"NM",c:"#0A0A0A",r:{vi:"Chủ tịch SVEF",en:"SVEF Chairman"}},
   {n:"Lara Weber",i:"LW",c:"#7A5C00",r:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"}},
-  {n:"Trần Bảo",i:"TB",c:"#DA291C",r:{vi:"Thứ trưởng Kinh tế",en:"Deputy Minister of Economy"}},
+  {n:"Trần Bảo",i:"TB",c:"#E42026",r:{vi:"Thứ trưởng Kinh tế",en:"Deputy Minister of Economy"}},
   {n:"Marco Rossi",i:"MR",c:"#0F5A4A",r:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"}},
   {n:"Phạm Hà",i:"PH",c:"#1F3A5F",r:{vi:"Founder, GreenTech VN",en:"Founder, GreenTech VN"}},
 ];
@@ -1035,9 +1060,9 @@ const sponsors=[
   {n:"Helvetia Fintech",i:"HF",c:"#7A5C00",tier:"headline",d:{vi:"Ngân hàng số & thanh toán",en:"Digital banking & payments"}},
   {n:"Zurich Ventures",i:"ZV",c:"#0A0A0A",tier:"headline",d:{vi:"Quỹ đầu tư mạo hiểm",en:"Venture capital"}},
   {n:"Alpine Precision AG",i:"AP",c:"#0F5A4A",tier:"gold",d:{vi:"Sản xuất chính xác",en:"Precision manufacturing"}},
-  {n:"GreenTech VN",i:"GT",c:"#136B3B",tier:"gold",d:{vi:"Năng lượng tái tạo",en:"Renewable energy"}},
+  {n:"GreenTech VN",i:"GT",c:"#3E7742",tier:"gold",d:{vi:"Năng lượng tái tạo",en:"Renewable energy"}},
   {n:"Saigon Logistics",i:"SL",c:"#1F3A5F",tier:"silver",d:{vi:"Vận tải & chuỗi cung ứng",en:"Freight & supply chain"}},
-  {n:"Swiss Trade Association",i:"ST",c:"#DA291C",tier:"silver",d:{vi:"Xúc tiến thương mại",en:"Trade promotion"}},
+  {n:"Swiss Trade Association",i:"ST",c:"#E42026",tier:"silver",d:{vi:"Xúc tiến thương mại",en:"Trade promotion"}},
 ];
 
 /* --- Participants (as synced from the admin dashboard) --------------------- */
@@ -1074,7 +1099,7 @@ const people=[
    cod:{vi:"Ngân hàng doanh nghiệp Thụy Sĩ với mảng tư vấn mua bán và sáp nhập tại châu Á.",
         en:"A Swiss corporate bank with an advisory practice covering mergers and acquisitions in Asia."},
    li:"https://www.linkedin.com/in/svef-demo-daniel-frei"},
-  {id:5,n:"Lê Thu",i:"LT",c:"#DA291C",co:"VN Growth Fund",ind:"inv",mkts:["vn","asean"],match:"88%",
+  {id:5,n:"Lê Thu",i:"LT",c:"#E42026",co:"VN Growth Fund",ind:"inv",mkts:["vn","asean"],match:"88%",
    t:{vi:"Phó Tổng giám đốc",en:"Vice President"},
    cod:{vi:"Quỹ tăng trưởng đầu tư vào doanh nghiệp tiêu dùng và sản xuất quy mô vừa tại Việt Nam.",
         en:"A growth fund investing in mid-sized Vietnamese consumer and manufacturing businesses."},
@@ -1089,7 +1114,7 @@ const people=[
    cod:{vi:"Tổ chức phi lợi nhuận thúc đẩy quan hệ kinh tế giữa Thụy Sĩ và Việt Nam.",
         en:"A non-profit foundation promoting economic ties between Switzerland and Vietnam."},
    li:"https://www.linkedin.com/in/svef-demo-nguyen-minh"},
-  {id:8,n:"Trần Bảo",i:"TB",c:"#DA291C",co:"Bộ Công Thương",ind:"pub",mkts:["vn"],
+  {id:8,n:"Trần Bảo",i:"TB",c:"#E42026",co:"Bộ Công Thương",ind:"pub",mkts:["vn"],
    t:{vi:"Thứ trưởng",en:"Deputy Minister"},
    cod:{vi:"Cơ quan quản lý nhà nước về thương mại, công nghiệp và hội nhập kinh tế quốc tế.",
         en:"The government body responsible for trade, industry and international economic integration."},
@@ -1104,12 +1129,12 @@ const people=[
    cod:{vi:"Đơn vị giao nhận và kho vận phục vụ tuyến thương mại Việt Nam - châu Âu.",
         en:"A freight forwarding and warehousing operator serving the Vietnam to Europe trade lane."},
    li:"https://www.linkedin.com/in/svef-demo-do-quang"},
-  {id:11,n:"Claudia Berger",i:"CB",c:"#8A6D00",co:"Helvetia Fintech",ind:"fin",mkts:["ch","asean"],
+  {id:11,n:"Claudia Berger",i:"CB",c:"#754715",co:"Helvetia Fintech",ind:"fin",mkts:["ch","asean"],
    t:{vi:"Giám đốc Phát triển kinh doanh",en:"Business Development Director"},
    cod:{vi:"Nền tảng thanh toán xuyên biên giới cho doanh nghiệp vừa và nhỏ giữa châu Âu và Đông Nam Á.",
         en:"A cross-border payments platform for SMEs trading between Europe and South East Asia."},
    li:"https://www.linkedin.com/in/svef-demo-claudia-berger"},
-  {id:12,n:"Vũ Hải",i:"VH",c:"#136B3B",co:"Delta Manufacturing",ind:"mfg",mkts:["vn","asean","eu"],
+  {id:12,n:"Vũ Hải",i:"VH",c:"#3E7742",co:"Delta Manufacturing",ind:"mfg",mkts:["vn","asean","eu"],
    t:{vi:"Tổng giám đốc",en:"Managing Director"},
    cod:{vi:"Nhà máy gia công cơ khí và lắp ráp thiết bị điện tử tại Bình Dương.",
         en:"A metalworking and electronics assembly plant based in Binh Duong."},
@@ -1151,13 +1176,13 @@ const sessions=[
    room:{vi:"Phòng B2",en:"Room B2"}, role:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"},
    desc:{vi:"Cơ hội và rào cản cho dòng vốn Thụy Sĩ vào Việt Nam: tài chính xanh, sản xuất công nghệ cao và khởi nghiệp.",
          en:"Opportunities and barriers for Swiss capital into Vietnam: green finance, high-tech manufacturing and startups."}},
-  {day:1,img:"data",av:"LW",c:"#DA291C",spk:"Lara Weber",time:"14:00 – 14:45",
+  {day:1,img:"data",av:"LW",c:"#E42026",spk:"Lara Weber",time:"14:00 – 14:45",
    reg:true, cap:60, taken:44,
    t:{vi:"Chuyển đổi số & Fintech",en:"Digital Transformation & Fintech"}, tag:{vi:"Talk",en:"Talk"},
    room:{vi:"Phòng B1",en:"Room B1"}, role:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"},
    desc:{vi:"Thanh toán xuyên biên giới, ngân hàng số và xu hướng Fintech kết nối hai thị trường.",
          en:"Cross-border payments, digital banking and Fintech trends connecting the two markets."}},
-  {day:2,img:"energy-solar",av:"PH",c:"#136B3B",spk:"Phạm Hà",time:"09:30 – 10:15",
+  {day:2,img:"energy-solar",av:"PH",c:"#3E7742",spk:"Phạm Hà",time:"09:30 – 10:15",
    t:{vi:"Chuyển dịch năng lượng xanh",en:"Green Energy Transition"}, tag:{vi:"Panel",en:"Panel"},
    room:{vi:"Hội trường A",en:"Hall A"}, role:{vi:"Nhà sáng lập, GreenTech VN",en:"Founder, GreenTech VN"},
    desc:{vi:"Điện mặt trời áp mái, lưu trữ năng lượng và cơ chế mua bán điện trực tiếp cho khu công nghiệp Việt Nam.",

@@ -2,21 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SVEF Platform · Demo Hub · IMT Software</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 /* ==========================================================================
    SVEF Demo Hub — Swiss International Typographic Style
-   Flat fields, hairline rules, neo-grotesque type, Swiss red #DA291C.
+   Flat fields, hairline rules, neo-grotesque type, SVEF red #E42026.
    ========================================================================== */
+/* --------------------------------------------------------------------------
+   SVEF brand palette — from the SVEF Brand Guideline (DES ELEMENTS):
+     palitra svef.pdf   spot colours + gradient
+     Color_guide.pdf    tint/shade ramps
+   Primary red   PANTONE 2347  #E42026      Forest green PANTONE 349  #3E7742
+   Maroon        PANTONE 1815  #800000      Gold         PANTONE 7551 #C3933A
+   Cream         PANTONE 7499  #FFF9B8      Sky          PANTONE 7457 #E2F4FD
+   Steel         PANTONE 2204  #A8CED7      Gradient     #FFF9B8 -> #C3933A
+   Neutrals (ink / rule / tint) come from the guide's blue ramps so the whole
+   UI stays inside the brand's own colour space. The *-ink variants are darker
+   ramp steps, used where a spot colour has to carry small text.
+   -------------------------------------------------------------------------- */
 :root{
-  --red:#DA291C; --red-d:#A81F14;
-  --ink:#0A0A0A; --paper:#FFFFFF; --muted:rgba(255,255,255,.62);
-  --line:rgba(255,255,255,.22);
-  --gold:#C9A227; --green:#3FBF7F;
+  --red:#E42026; --red-d:#B31018; --red-ink:#B31018;
+  --ink:#0E273D; --paper:#FFFFFF; --muted:rgba(255,255,255,.66);
+  --line:rgba(168,206,215,.30);
+  --maroon:#800000; --cream:#FFF9B8; --sky:#E2F4FD; --steel:#A8CED7;
+  --gold:#C3933A; --green:#3E7742;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,"Segoe UI",system-ui,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  /* TT Days Sans Black is SVEF's display face (Typetype, commercial licence).
+     It is NOT shipped as a webfont: the desktop licence in the brand kit does
+     not cover web embedding, and this repo is published through GitHub Pages,
+     so a woff2 here would be public redistribution. Every brand string on the
+     site is therefore delivered as outlined SVG (assets/brand/*.svg), which
+     carries no font data and needs no webfont licence.
+     The face is also Latin-only — no Vietnamese diacritics — so it must never
+     be set on translated copy. This token only resolves for developers who
+     have the font installed locally; everything falls back to Inter Tight.
+     To use it live, buy the Typetype webfont licence first. See BRAND.md. */
+  --brand:"TT Days Sans Black","Days Sans Black","Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:var(--sans);color:#fff;background:var(--ink);min-height:100vh;line-height:1.5;
@@ -34,8 +58,7 @@ a{text-decoration:none;color:inherit}
 /* ---------- header ---------- */
 header{display:flex;align-items:center;gap:14px;padding:28px 0;border-bottom:1px solid var(--line)}
 .logo{display:flex;align-items:center;gap:13px}
-.logo .mk{width:40px;height:40px;border-radius:0;background:var(--red);display:grid;place-items:center;
-  font-weight:700;font-size:16px;letter-spacing:-.04em;flex:0 0 40px}
+.logo .wm{height:30px;width:auto;display:block;flex:0 0 auto}
 .logo b{font-size:18px;display:block;line-height:1;font-weight:700;letter-spacing:-.04em}
 .logo small{font-family:var(--mono);font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.11em;
   display:block;margin-top:5px}
@@ -115,7 +138,7 @@ footer{opacity:.45;font-family:var(--mono);font-size:9px;text-transform:uppercas
 <body>
 <div class="wrap">
   <header>
-    <div class="logo"><div class="mk">SV</div><div><b>SVEF Platform</b><small>Swiss–Vietnam Economic Forum</small></div></div>
+    <div class="logo"><img class="wm" src="assets/brand/svef-wordmark-dark.svg" alt="Swiss-Viet Economic Forum"><div><b>Platform</b><small>Demo hub</small></div></div>
     <span class="tag">Demo · IMT Software</span>
   </header>
 
