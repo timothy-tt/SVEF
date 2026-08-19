@@ -39,8 +39,8 @@ decision. This table now records where things actually stand.
 ## 8.2 Back office, organiser facing
 
 All of the following live in the Registrants area of an SVEF event, under
-Event Management, App content. Partner-proposed events never reach the app and
-therefore carry no registration panel.
+Event Management, App content. Every event is organised by SVEF, so every event
+carries app content and a registration panel.
 
 | BRD requirement | Status | Where |
 |---|---|---|
@@ -89,6 +89,59 @@ therefore carry no registration panel.
 No full card number exists anywhere in the three files. Only the brand and the last
 four digits are ever stored or displayed, the capture field is wiped on submit, and
 the exports carry no card, password or token fields.
+
+## Scope removed on 19/08/2026: third-party events
+
+Partners and other third parties can no longer propose or host events. Every event
+in the product is organised by SVEF. Removed from all three prototypes: the partner
+"Propose your event" form and the member portal's event-requests view, the admin
+approval queue for partner-proposed events, the SVEF against partner distinction on
+the events list and event pages, and the external registration and ticketing route
+that sent visitors to an organiser's own website.
+
+This deliberately drops two BRD requirements, both marked High priority:
+
+| BRD | Requirement | Status |
+|---|---|---|
+| BR-W-13 | A request form allowing partners to self-register or propose their events to be published on the forum | Removed from scope |
+| BR-W-14 | Admin approves or rejects partner-proposed events before they are publicly displayed | Removed from scope |
+
+BR-W-15 (display both forum and partner events on the homepage) is also narrowed,
+since there are no partner events left to display.
+
+The consequence worth flagging to SVEF: the site no longer has any route for a member
+or partner organisation to get an event onto the SVEF calendar. If SVEF still wants
+partner events listed, that becomes a manual back-office task for the secretariat,
+who would create the event themselves. Nothing in the product collects the request.
+
+## Scope removed on 19/08/2026: membership applications
+
+Applying for SVEF membership is no longer done in the product. It is arranged
+directly with the secretariat, off the platform.
+
+What stays: **accounts**, which remain self-serve through Continue with Google,
+Continue with Microsoft, or email and password; and **members**, meaning existing
+members, partners, tiers, the directory, gated profiles and the member portal, all
+provisioned by SVEF in the back office. What goes is only the self-serve route from
+"interested" to "member", and the back-office queue that reviewed it.
+
+Removed: the join and add-profile wizard on the website, the "+ Add profile" control
+in the member portal (the profile switcher stays, listing profiles the secretariat has
+set up), and the Membership applications queue in the back office. The Become a
+Partner page keeps its packages and now points at the secretariat instead of a form.
+
+This deliberately drops or narrows two more BRD requirements, both marked High:
+
+| BRD | Requirement | Status |
+|---|---|---|
+| BR-W-07 | Define the onboarding and approval workflow when a user registers a new account or profile | Narrowed to account creation only, no membership approval in software |
+| BR-W-08 | Improve the partner-registration form: attractive, easy to use, clearly structured step by step | Removed from scope, there is no partner-registration form |
+
+The consequence worth flagging to SVEF: nothing in the product now captures an
+enquiry from someone who wants to join. The Become a Partner page ends at the
+secretariat's contact details, and whatever arrives by email or phone is keyed into
+the back office by hand. There is also no record in the system of applications that
+were declined, since they never enter it.
 
 ## Still outstanding elsewhere in the BRD
 

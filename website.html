@@ -297,11 +297,6 @@ select:focus,input:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
   white-space:nowrap;flex:0 0 auto;text-transform:uppercase;letter-spacing:.1em;margin-bottom:-1px}
 .tabbar button:hover{color:var(--ink)}
 .tabbar button.on{color:var(--red);border-color:var(--red)}
-.step{display:flex;gap:14px;margin-bottom:26px}
-.step .n{width:28px;height:28px;border-radius:0;background:var(--soft);color:var(--muted);font-weight:600;
-  display:grid;place-items:center;flex:0 0 28px;font-size:12px}
-.step.done .n{background:var(--ink);color:#fff}
-.step.act .n{background:var(--red);color:#fff}
 .ticket{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:0;padding:16px 18px;
   margin-top:-1px;cursor:pointer;transition:border-color .12s linear}
 .ticket:hover{border-color:var(--ink);z-index:1;position:relative}
@@ -414,9 +409,6 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 .chk.done .b::after{content:"";width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;
   transform:rotate(42deg) translate(-1px,-1px)}
 .chk.done span{color:var(--muted);text-decoration:line-through}
-.pending-banner{background:#fff;border:1px solid var(--gold);border-left:5px solid var(--gold);border-radius:0;
-  padding:16px 18px;margin-bottom:20px;display:flex;gap:14px;align-items:center;font-size:20px}
-.pending-banner b{font-size:14.5px;color:var(--ink);font-weight:600;letter-spacing:-.02em}
 
 /* tables */
 .tmtable{width:100%;border-collapse:collapse;font-size:14px}
@@ -869,7 +861,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
   <section class="blk">
     <div class="wrap">
       <h2 class="sec-t" data-i18n="up_t">Upcoming events</h2>
-      <p class="sec-s" data-i18n="up_s">Forum-organised events and partner-organised events, all in one place.</p>
+      <p class="sec-s" data-i18n="up_s">Forums, seminars, trade missions and networking evenings, all in one calendar.</p>
       <div class="grid g2" id="homeEvents"></div>
       <div style="margin-top:20px"><button class="btn ghost" onclick="show('events')" data-i18n="viewall_ev">View all events →</button></div>
     </div>
@@ -1024,10 +1016,11 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
     <p data-i18n="bp_p">Five ways to take part, from receiving our information to shaping the forum as a strategic partner.</p>
   </div></div>
   <section class="blk"><div class="wrap">
-    <!-- one register button, sitting above the packages so it is never far from the reader -->
+    <!-- membership is arranged with the secretariat, so the call to action routes there -->
     <div class="card" style="margin-bottom:26px;background:var(--soft);border:none;display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-      <div style="flex:1;min-width:220px"><b style="color:var(--navy)" data-i18n="bp_cta_t">Ready to join?</b><p class="muted" style="margin:4px 0 0;font-size:14px" data-i18n="bp_cta_s">Fill in the registration form. The SVEF secretariat reviews every application.</p></div>
-      <button class="btn" style="width:auto" onclick="openSignup('join')" data-i18n="bp_cta_b">Register now</button>
+      <div style="flex:1;min-width:220px"><b style="color:var(--navy)" data-i18n="bp_cta_t">Ready to join?</b><p class="muted" style="margin:4px 0 0;font-size:14px" data-i18n="bp_cta_s">Membership is arranged directly with the SVEF secretariat. Tell us which package fits and we will take it from there.</p>
+      <p class="muted" style="margin:8px 0 0;font-size:13px" data-i18n="bp_cta_mail">membership@swissvieteconomicforum.org &nbsp;·&nbsp; +41 44 000 00 00</p></div>
+      <button class="btn" style="width:auto" onclick="show('contact')" data-i18n="bp_cta_b">Talk to the secretariat</button>
     </div>
     <h2 class="sec-t" data-i18n="bp_t">Membership packages</h2>
     <p class="sec-s" data-i18n="bp_s">Benefits vary by package. Fees are quoted individually, so talk to the secretariat for current rates and any preferential terms.</p>
@@ -1061,17 +1054,9 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 <!-- ===================== EVENTS ===================== -->
 <div class="page" id="page-events">
   <section class="blk"><div class="wrap">
-    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px">
-      <div><h2 class="sec-t" data-i18n="ev_t">Events</h2><p class="sec-s" style="margin-bottom:0" data-i18n="ev_s">Forum events and partner-organised events.</p></div>
-      <button class="btn" id="evProposeBtn" onclick="proposeEvent()" style="display:none" data-i18n="ev_propose">＋ Propose your event</button>
-    </div>
-    <div style="height:24px"></div>
-    <div class="tabbar" style="max-width:400px">
-      <button class="on" onclick="evFilter('all',this)" data-i18n="ev_all">All</button>
-      <button onclick="evFilter('forum',this)" data-i18n="ev_forum">SVEF</button>
-      <button onclick="evFilter('partner',this)" data-i18n="ev_partnerev">Partners</button>
-    </div>
-    <h3 class="sec-t" style="font-size:19px;margin:24px 0 4px" data-i18n="ev_upcoming">Upcoming events</h3>
+    <h2 class="sec-t" data-i18n="ev_t">Events</h2>
+    <p class="sec-s" data-i18n="ev_s">Every forum, seminar, trade mission and networking evening SVEF runs, in one calendar.</p>
+    <h3 class="sec-t" style="font-size:19px;margin:10px 0 4px" data-i18n="ev_upcoming">Upcoming events</h3>
     <div class="grid" style="gap:12px" id="eventListUp"></div>
     <h3 class="sec-t" style="font-size:19px;margin:34px 0 4px" data-i18n="ev_past">Past events</h3>
     <div class="grid" style="gap:12px" id="eventListPast"></div>
@@ -1255,7 +1240,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
       <div class="pswitch">
         <div class="lbl" data-i18n="active_prof">Active profile</div>
         <div id="profList"></div>
-        <button class="btn ghost sm block" style="margin-top:10px" onclick="openSignup('addprofile')" data-i18n="add_prof">＋ Add profile</button>
+        <p class="muted" style="margin:12px 0 0;font-size:11.5px;line-height:1.45" data-i18n="prof_managed">Profiles are set up by the SVEF secretariat.</p>
       </div>
       <div class="pmenu" id="pmenu">
         <button class="on" data-tab="dash" onclick="portalTab('dash',this)"><i class="ni">📊</i><span data-i18n="pt_dash">Dashboard</span></button>
@@ -1276,7 +1261,6 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
       <div class="ptab on" id="pt-dash">
         <h2 class="sec-t" style="font-size:22px">👋 <span data-i18n="welcome">Welcome back</span>, <span id="dashName">Anh Trần</span></h2>
         <p class="sec-s" id="dashCtx"></p>
-        <div id="pendingBanner"></div>
         <div class="stat-row" id="statRow"></div>
         <div class="pcardbox">
           <h3 data-i18n="quick_t">Quick actions</h3>
@@ -1305,29 +1289,13 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 
       <!-- MY EVENTS -->
       <div class="ptab" id="pt-events">
-        <div class="tabbar" style="max-width:420px" id="meTabs">
-          <button class="on" onclick="meTab('regs',this)" data-i18n="mr_tab_reg">Registrations</button>
-          <button onclick="meTab('props',this)" data-i18n="mr_tab_prop">Event requests</button>
-        </div>
-        <div id="me-regs">
-          <div class="pcardbox">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-              <div><h3 data-i18n="mr_t">My registrations</h3><p class="muted" style="margin:4px 0 0" data-i18n="mr_s">Every SVEF event you have registered for, with your tickets and booking references.</p></div>
-              <button class="btn sm ghost" onclick="show('events')" data-i18n="mr_browse">Browse events</button>
-            </div>
-            <div style="height:18px"></div>
-            <div id="myRegList"></div>
+        <div class="pcardbox">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+            <div><h3 data-i18n="mr_t">My registrations</h3><p class="muted" style="margin:4px 0 0" data-i18n="mr_s">Every SVEF event you have registered for, with your tickets and booking references.</p></div>
+            <button class="btn sm ghost" onclick="show('events')" data-i18n="mr_browse">Browse events</button>
           </div>
-        </div>
-        <div id="me-props" style="display:none">
-          <div class="pcardbox">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-              <div><h3 data-i18n="me_t">My event requests</h3><p class="muted" style="margin:4px 0 0" data-i18n="me_s">Track approval status of events you submitted to the forum.</p></div>
-              <button class="btn sm" onclick="proposeEvent()" data-i18n="ev_propose">＋ Propose your event</button>
-            </div>
-            <div style="height:18px"></div>
-            <div id="myEventList"></div>
-          </div>
+          <div style="height:18px"></div>
+          <div id="myRegList"></div>
         </div>
       </div>
 
@@ -1370,7 +1338,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
           <h3 data-i18n="ac_profiles">Linked profiles</h3>
           <p class="muted" style="margin:0 0 14px" data-i18n="ac_profiles_s">One account (one email) can manage several profiles: personal and company.</p>
           <div id="acProfiles"></div>
-          <button class="btn ghost sm" style="margin-top:4px" onclick="openSignup('addprofile')" data-i18n="ac_add">＋ Add another profile</button>
+          <p class="muted" style="margin:12px 0 0;font-size:12.5px" data-i18n="prof_managed">Profiles are set up by the SVEF secretariat.</p>
         </div>
         <div class="pcardbox">
           <h3 data-i18n="ac_prefs">Preferences</h3>
@@ -1392,7 +1360,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
         <div class="pcardbox" style="border-color:#f3c9c6">
           <h3 data-i18n="ac_privacy">Privacy &amp; data (GDPR)</h3>
           <p class="muted" style="margin:0 0 6px" data-i18n="ac_privacy_s">You control your data. Export or delete it at any time (BRD §11.2).</p>
-          <p class="muted" style="margin:0 0 14px;font-size:13px" data-i18n="ac_export_what">Your export is a ZIP containing: profile fields, membership history, event registrations and proposals, uploaded documents and message history. Passwords and payment tokens are never included.</p>
+          <p class="muted" style="margin:0 0 14px;font-size:13px" data-i18n="ac_export_what">Your export is a ZIP containing: profile fields, membership history, event registrations and tickets, uploaded documents and message history. Passwords and payment tokens are never included.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <button class="btn ghost" style="width:auto" onclick="toast(tr('t_export'))" data-i18n="ac_export">⬇ Export my data</button>
             <button class="btn line" style="width:auto;color:var(--red);border-color:#f3c9c6" onclick="openDeleteAccount()" data-i18n="ac_delete">🗑 Delete my account</button>
@@ -1431,18 +1399,18 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 <!-- ===== LOGIN MODAL ===== -->
 <div class="scrim" id="scrimLogin" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="mhead"><h3 id="loginTitle" data-i18n="login_t">Log in to SVEF</h3><button class="mx" aria-label="Close" onclick="closeModal()">✕</button></div>
+    <div class="mhead"><h3 id="loginTitle" data-i18n="login_t">Sign in or create an account</h3><button class="mx" aria-label="Close" onclick="closeModal()">✕</button></div>
     <div class="mbody">
+      <div class="tabbar" id="liTabs">
+        <button class="on" onclick="loginTab('in',this)" data-i18n="li_tab_in">Sign in</button>
+        <button onclick="loginTab('new',this)" data-i18n="li_tab_new">Create account</button>
+      </div>
       <div class="sso">
         <button onclick="doLogin()"><span class="g" style="background:#4285F4">G</span> <span data-i18n="sso_g">Continue with Google</span></button>
         <button onclick="doLogin()"><span class="g" style="background:#00A4EF">M</span> <span data-i18n="sso_m">Continue with Microsoft</span></button>
       </div>
       <div class="divider" data-i18n="or">or with email</div>
-      <div class="mrow"><label>Email</label><input id="liEmail" value="anh.tran@zegoe.vc" placeholder="you@company.com"></div>
-      <div class="mrow"><label data-i18n="password">Password</label><input type="password" value="demo1234"></div>
-      <button class="btn block" onclick="doLogin()" data-i18n="login">Log in</button>
-      <p style="text-align:center;font-size:13px;margin:12px 0 0">New to SVEF? <a onclick="closeModal();openSignup('join')" style="color:var(--red);font-weight:700;cursor:pointer" data-i18n="su_t">Join SVEF</a></p>
-      <p class="muted" style="font-size:12.5px;text-align:center;margin:8px 0 0" data-i18n="login_note">Demo. Any credentials work. One account manages multiple profiles (personal + company).</p>
+      <div id="liBody"></div>
     </div>
   </div>
 </div>
@@ -1452,27 +1420,6 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
   <div class="modal wide">
     <div class="mhead"><h3 id="pdTitle">Partner</h3><button class="mx" aria-label="Close" onclick="closeModal()">✕</button></div>
     <div class="mbody" id="pdBody"></div>
-  </div>
-</div>
-
-<!-- ===== PROPOSE EVENT MODAL ===== -->
-<div class="scrim" id="scrimPropose" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="mhead"><h3 data-i18n="pe_t">Propose your event</h3><button class="mx" aria-label="Close" onclick="closeModal()">✕</button></div>
-    <div class="mbody" id="proposeBody">
-      <div class="step act"><div class="n">1</div><div><b data-i18n="pe_step1">Event details</b><p class="muted" style="margin:2px 0 0;font-size:13px" data-i18n="pe_step1s">Tell us about your event.</p></div></div>
-      <div class="mrow"><label data-i18n="pe_name">Event name</label><input id="peName" placeholder="e.g. Swiss CleanTech × Vietnam Roundtable" data-i18n-ph="ph_evtitle"></div>
-      <div class="grid g2" style="gap:14px">
-        <div class="mrow"><label data-i18n="pe_date">Date</label><input id="peDate" type="date"></div>
-        <div class="mrow"><label data-i18n="pe_loc">Location</label><input id="peLoc" placeholder="City / venue" data-i18n-ph="ph_venue"></div>
-      </div>
-      <div class="mrow"><label data-i18n="pe_type">Type</label><select><option>In-person</option><option>Online</option><option>Hybrid</option></select></div>
-      <div class="mrow"><label data-i18n="pe_link">Link to the event information</label><input id="peLink" type="url" placeholder="https://example.org/my-event" data-i18n-ph="pe_link_ph">
-        <span class="muted" style="font-size:12.5px" data-i18n="pe_linknote">The Register button on the published event sends visitors to this link.</span></div>
-      <div class="mrow"><label data-i18n="pe_desc">Description</label><textarea rows="3" placeholder="What is the event about?" data-i18n-ph="ph_evdesc"></textarea></div>
-      <div class="card" style="background:var(--soft);border:none;font-size:13px;color:var(--muted);margin-bottom:16px" data-i18n="pe_note">ℹ️ Partner-proposed events are reviewed by the SVEF admin team before appearing publicly under “Upcoming Events”.</div>
-      <button class="btn block" onclick="submitPropose()" data-i18n="pe_submit">Submit for approval</button>
-    </div>
   </div>
 </div>
 
@@ -1489,14 +1436,6 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
   <div class="modal">
     <div class="mhead"><h3 id="memTitle">Member</h3><button class="mx" onclick="closeModal()" aria-label="Close">✕</button></div>
     <div class="mbody" id="memBody"></div>
-  </div>
-</div>
-
-<!-- ===== SIGN-UP / ONBOARDING WIZARD ===== -->
-<div class="scrim" id="scrimSignup" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="mhead"><h3 data-i18n="su_t">Join SVEF</h3><button class="mx" onclick="closeModal()" aria-label="Close">✕</button></div>
-    <div class="mbody"><div class="wizsteps" id="suSteps"></div><div id="suBody"></div></div>
   </div>
 </div>
 
@@ -1576,21 +1515,15 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 const T={
  en:{
   demo_banner:"🔎 DEMO / PROTOTYPE · SVEF Website &amp; Member Portal · IMT Software · not production data",
-  ph_name:"Your name",ph_help:"How can we help?",ph_evtitle:"e.g. Swiss CleanTech × Vietnam Roundtable",ph_venue:"City / venue",ph_evdesc:"What is the event about?",
-  brand_sub:"Swiss–Vietnam Economic Forum",
+  ph_name:"Your name",ph_help:"How can we help?",
   nav_home:"Home",nav_about:"About us",nav_act:"Activities",nav_partners:"Partners & Members",nav_events:"Events",nav_news:"News",nav_res:"Resources",nav_media:"Media",nav_contact:"Contact",
-  login:"Log in",admin:"Admin",logout:"Log out",
+  login:"Log in",logout:"Log out",
   hero_h:"Building the bridge between Swiss and Vietnamese economies",
   hero_p:"Connecting institutions, partners and innovators across two markets: forums, trade missions, market-entry support and policy advocacy.",
   hero_cta1:"Explore upcoming events",hero_cta2:"Become a partner",
   s_partners:"Partners & members",s_markets:"Markets connected",s_events:"Events / year",s_hanoi:"Hanoi Forum",
-  mis_t:"Our main missions",mis_s:"Four pillars driving Swiss–Vietnam economic cooperation.",
-  mis1_t:"Business Forums",mis1_p:"Flagship forums & seminars connecting decision-makers.",
-  mis2_t:"Trade Missions",mis2_p:"Organised delegations between Switzerland and Vietnam.",
-  mis3_t:"Market Entry",mis3_p:"Practical support for companies entering new markets.",
-  mis4_t:"Advocacy & Policy",mis4_p:"Representing member interests to shape policy.",
-  up_t:"Upcoming events",up_s:"Forum-organised events and partner-organised events, all in one place.",viewall_ev:"View all events →",
-  news_t:"Latest news",news_s:"Updates from the forum and its partners.",news_full_s:"News and updates from the forum and its partners.",
+  up_t:"Upcoming events",up_s:"Forums, seminars, trade missions and networking evenings, all in one calendar.",viewall_ev:"View all events →",
+  news_t:"Latest news",news_s:"Updates from the forum and its partners.",
   res_t:"Resources & Documents",res_s:"Reports, market briefs, templates and partnership resources. Filter by category.",res_cat_all:"All",res_cat_report:"Reports",res_cat_brief:"Market briefs",res_cat_tmpl:"Templates",res_dl:"Download",media_t:"Media & Press",media_s:"News coverage, photo galleries and press mentions about SVEF and its partners.",media_press:"In the press",social_follow:"Follow us",
   doc_t:"Important documents",doc_s:"Reports, market briefs and partnership resources.",
   imp_t:"Two markets, one platform",imp_s:"Where our members meet, from the Limmat to the Mekong.",
@@ -1603,49 +1536,42 @@ const T={
   act_t:"Our activities",act_s:"Four programme groups, structured for clarity.",
   dir_t:"Partners & Members",dir_s:"Filter the directory by market, partnership type and industry.",
   f_market:"Market",f_type:"Partnership type",f_ind:"Industry",f_reset:"Reset",
-  ev_t:"Events",ev_s:"SVEF events and partner-organised events.",ev_propose:"＋ Propose your event",
-  ev_all:"All",ev_forum:"SVEF",ev_partnerev:"Partners",
-  ct_t:"Contact us",ct_s:"Reach the SVEF team, we usually respond within 2 business days.",ct_office:"Secretariat",ct_name:"Name",ct_msg:"Message",ct_send:"Send message",
-  login_t:"Log in to SVEF",sso_g:"Continue with Google",sso_m:"Continue with Microsoft",or:"or with email",password:"Password",
+  ev_t:"Events",ev_s:"Every forum, seminar, trade mission and networking evening SVEF runs, in one calendar.",
+  ct_t:"Contact us",ct_name:"Name",ct_msg:"Message",ct_send:"Send message",
+  login_t:"Sign in or create an account",sso_g:"Continue with Google",sso_m:"Continue with Microsoft",or:"or with email",password:"Password",
+  li_tab_in:"Sign in",li_tab_new:"Create account",li_create:"Create account",li_name_ph:"Your name",
+  li_create_note:"Creating an account is free and takes a moment. Membership packages are arranged separately with the SVEF secretariat.",
+  t_account_created:"Account created, you are signed in",
+  prof_managed:"Profiles are set up by the SVEF secretariat.",
   login_note:"Demo. Any credentials work. One account manages multiple profiles (personal + company).",
-  active_prof:"Active profile",add_prof:"＋ Add profile",
+  active_prof:"Active profile",
   pt_dash:"Dashboard",pt_company:"Company profile",pt_docs:"Documents",pt_events:"My events",pt_dir:"Partner database",pt_msg:"Messages",
-  welcome:"Welcome back",k_docs:"Documents",k_evsub:"Event requests",k_conn:"Connections",k_tier:"Membership tier",
+  welcome:"Welcome back",k_docs:"Documents",k_regs:"Event registrations",k_conn:"Connections",k_tier:"Membership tier",
   quick_t:"Quick actions",quick_s:"Everything a partner needs, in one place.",
-  qa_edit:"Edit company profile",qa_edit_s:"Logo, industry, markets.",qa_upload:"Upload documents",qa_upload_s:"Presentations, posters.",qa_prop:"Propose an event",qa_prop_s:"Publish on the forum.",
+  qa_edit:"Edit company profile",qa_edit_s:"Logo, industry, markets.",qa_upload:"Upload documents",qa_upload_s:"Presentations, posters.",qa_ev:"Browse events",qa_ev_s:"Book a place at an upcoming event.",
   cp_t:"Company profile",cp_s:"Self-update your organisation's information. Changes appear in the public directory.",
   cp_name:"Company name",cp_ind:"Industry",cp_market:"Markets of operation",cp_type:"Partnership type",cp_about:"About",cp_logo:"Logo",cp_logo_z:"Click to upload a new logo (PNG/SVG)",save_changes:"Save changes",
   dc_t:"Documents, presentations & posters",dc_s:"Files here appear as a dedicated tab on your public partner profile.",dc_zone:"Click to upload. PDF, PPTX, PNG (max 25 MB)",
-  me_t:"My event requests",me_s:"Track approval status of events you submitted to the forum.",
   pd_t:"Partner database",pd_s:"Members & Strategic Partners can browse the database and send contact messages. Subscribers receive information only.",
   ms_t:"Messages",ms_s:"Direct messages with other members and partners.",
   foot_p:"Connecting the Swiss and Vietnamese economies through forums, trade missions and partnership.",
   foot_plat:"Platform",foot_org:"Organisation",foot_legal:"Legal",foot_app:"Event App",foot_cookies:"Cookie policy",foot_before:"Target: live before the Hanoi Forum · October 2026",
-  pe_t:"Propose your event",pe_step1:"Event details",pe_step1s:"Tell us about your event.",pe_name:"Event name",pe_date:"Date",pe_loc:"Location",pe_type:"Type",pe_desc:"Description",
-  pe_note:"ℹ️ Partner-proposed events are reviewed by the SVEF admin team before appearing publicly under “Upcoming Events”.",pe_submit:"Submit for approval",
-  documents_tab:"Documents",overview_tab:"Overview",send_msg:"Send message",register_ev:"Register to attend",by_partner:"Organized by",by_forum:"SVEF event",
-  t_sent:"Message sent, thank you!",t_saved:"Company profile saved",t_upload:"Demo: file picker",t_soon:"Demo: coming soon",t_addprof:"Demo: add another profile",
-  t_login_need:"Please log in to access the partner database.",t_msgsent:"Message sent",t_chat:"💬 Chat with ",t_proposed:"Event submitted for admin approval ✓",t_docadd:"Document uploaded",t_reg:"Registration confirmed ✓",
+  documents_tab:"Documents",overview_tab:"Overview",send_msg:"Send message",
+  t_sent:"Message sent, thank you!",t_saved:"Company profile saved",t_upload:"Demo: file picker",t_soon:"Demo: coming soon",
+  t_login_need:"Please log in to access the partner database.",t_msgsent:"Message sent",t_docadd:"Document uploaded",
   ck_t:"We value your privacy",ck_p:"We use cookies to improve your experience. Data on EU/Swiss users is handled in line with GDPR (BRD §11.2).",ck_accept:"Accept all",ck_decline:"Decline",t_ck:"Cookie preferences saved",
-  status_approved:"Approved",status_pending:"Pending review",status_rejected:"Needs changes",
   guest_dir:"Log in as a Member or Partner to view contact details and send messages.",
-  su_t:"Join SVEF",su_type_q:"What kind of profile would you like to create?",
-  st_account:"Account",st_type:"Profile type",st_details:"Details",st_tier:"Membership",st_review:"Review",
-  type_ind:"Individual",type_ind_d:"A personal profile",type_inst:"Company",type_inst_d:"An organisation profile",
-  tier_sub:"Subscriber",tier_ind:"Individual Member",tier_mem:"Institutional Member",tier_partner:"Strategic Partner",
-  wiz_back:"‹ Back",wiz_next:"Continue",wiz_submit:"Submit application",wiz_pending:"Application submitted, pending admin approval ✓",
-  su_review_note:"Your application will be reviewed by the SVEF admin team. You'll get access to member features once approved.",
+  wiz_back:"‹ Back",wiz_next:"Continue",
   pt_account:"Account & settings",pt_team:"Team members",tm_t:"Team members",tm_s:"Manage the people linked to your organisation's profile (multi-tenant).",tm_add:"＋ Add member",pd_add:"＋ Add partner",
-  ac_profiles:"Linked profiles",ac_profiles_s:"One account (one email) can manage several profiles: personal and company.",ac_add:"＋ Add another profile",
-  ac_prefs:"Preferences",ac_visibility:"Profile visibility",ac_vis_pub:"Public, shown in the partner directory",ac_vis_priv:"Private, hidden from the directory",
+  ac_profiles:"Linked profiles",ac_profiles_s:"One account (one email) can manage several profiles: personal and company.",
+  ac_prefs:"Preferences",
   ac_notif:"Email notifications",ac_notif1:"Event announcements",ac_notif2:"New messages",ac_notif3:"Newsletter",
   ac_lang:"Interface language",ac_security:"Security & sign-in",ac_pwd:"Change password",ac_sso:"Google connected",
   ac_privacy:"Privacy & data (GDPR)",ac_privacy_s:"You control your data. Export or delete it at any time (BRD §11.2).",ac_export:"⬇ Export my data",ac_delete:"🗑 Delete my account",
   onboard_t:"Getting started",onboard_s:"Complete your profile to unlock all features.",
-  ob1:"Verify your email",ob2:"Complete your profile",ob3:"Upload a document",ob4:"Submit your first event",
-  pending_t:"Profile pending approval",pending_p:"Your application is under review by the SVEF admin team. Some features are limited until approved.",
-  th_reply:"Type a message…",vis_saved:"Visibility updated",
-  t_export:"Preparing your data export…",t_delete:"Demo: account deletion requires confirmation",t_pwd:"Demo: change password",
+  ob1:"Verify your email",ob2:"Complete your profile",ob3:"Upload a document",ob4:"Register for your first event",
+  th_reply:"Type a message…",
+  t_export:"Preparing your data export…",t_pwd:"Demo: change password",
   nav_become:"Become a Partner",see_more:"See more →",read_more:"Read more →",
   mm_t:"Main missions",mm_s:"What the forum exists to do, in four sentences.",
   oa_t:"Our activities",oa_s:"Four programme groups delivering on those missions. Hover or tap a card to read more.",
@@ -1656,13 +1582,14 @@ const T={
   ra_t:"Related articles",ra_s:"Coverage and write-ups from recent SVEF activities.",
   bp_h:"Join the Swiss–Vietnam business community",bp_p:"Five ways to take part, from receiving our information to shaping the forum as a strategic partner.",
   bp_t:"Membership packages",bp_s:"Benefits vary by package. Fees are quoted individually, so talk to the secretariat for current rates and any preferential terms.",
-  bp_cta_t:"Ready to join?",bp_cta_s:"Fill in the registration form. The SVEF secretariat reviews every application.",bp_cta_b:"Register now",
+  bp_cta_t:"Ready to join?",bp_cta_s:"Membership is arranged directly with the SVEF secretariat. Tell us which package fits and we will take it from there.",
+  bp_cta_mail:"membership@swissvieteconomicforum.org &nbsp;·&nbsp; +41 44 000 00 00",bp_cta_b:"Talk to the secretariat",
   bp_forwho:"For",
   ev_upcoming:"Upcoming events",ev_past:"Past events",ev_none:"Nothing here yet.",
   information_tab:"Information",
   gate_login:"You need to login to view this features",
   gate_tier:"You need to be an Institutional Subscriber / Institutional Member / Strategic Partner to view this feature",
-  ac_export_what:"Your export is a ZIP containing your profile fields, membership history, event registrations and proposals, uploaded documents and message history. Passwords and payment tokens are never included.",
+  ac_export_what:"Your export is a ZIP containing your profile fields, membership history, event registrations and tickets, uploaded documents and message history. Passwords and payment tokens are never included.",
   da_t:"Delete my account",da_p:"Account deletion is carried out by the SVEF secretariat. Confirming here creates a deletion request for the admin team, who will remove your account and confirm by email.",
   da_note:"ℹ️ Your profile stays visible until the request is processed. You can cancel by contacting the secretariat.",
   da_cancel:"Cancel",da_confirm:"Send deletion request",t_delreq:"Deletion request sent to the SVEF admin team ✓",
@@ -1671,8 +1598,6 @@ const T={
   cp_info_t:"Information shown on your public profile",
   cp_web:"Website",cp_founded:"Founded",cp_hq:"Headquarters",cp_size:"Company size",cp_contact:"Contact email",cp_li:"LinkedIn",
   cp_fullname:"Full name",cp_title:"Job title",cp_org:"Organisation",cp_photo:"Photo",cp_photo_z:"Click to upload a photo (PNG/JPG)",
-  pe_link:"Link to the event information",pe_link_ph:"https://example.org/my-event",pe_linknote:"The Register button on the published event sends visitors to this link.",
-  reg_ext:"Register on the organiser's site ↗",no_link:"Registration link coming soon",
   tm_email_first:"Start with the work email. If the person is already linked to your organisation, their name and title fill in automatically.",
   tm_lookup:"Look up",tm_found:"Match found in the SVEF directory",tm_notify:"The person is added straight away and notified by email.",
   tm_added_notified:"Member added and notified by email",
@@ -1687,21 +1612,19 @@ const T={
   f_theme:"Theme",f_start:"Starts",f_end:"Ends",f_evtype:"Event type",f_topics:"Event topics",
   f_loc:"Location",f_addr:"Detailed address",f_aud:"Audience",f_coorg:"Co-organisers",
   f_expect:"Expected participants",f_dur:"Duration",f_organiser:"Organiser",f_lang:"Working languages",
-  etype_conf:"Conferences & Forums",etype_mission:"Trade Missions & Delegations",etype_round:"Roundtables",
+  etype_conf:"Conferences & Forums",etype_mission:"Trade Missions & Delegations",
   etype_meetup:"Networking & Meetups",etype_sem:"Seminars & Workshops",
   top_trade:"Economic Relations & Trade",top_innov:"Innovation & Digital Transformation",
   top_sust:"Sustainability & Green Economy",top_fin:"Finance & Investment",
   top_mfg:"Manufacturing & Industrial Growth",top_logi:"Logistics & Supply Chain",top_edu:"Education & Skills",
   aud_ind:"Industry Professionals",aud_ent:"Entrepreneurs & Startups",aud_inv:"Investors & Financial Experts",
-  aud_acad:"Academics & Researchers",aud_gov:"Government Officials",aud_corp:"Corporate Leaders",aud_media:"Media & Press",
+  aud_acad:"Academics & Researchers",aud_gov:"Government Officials",aud_corp:"Corporate Leaders",
   /* ---- registration state ---- */
   rs_open:"Registration open",rs_soon:"Registration not yet open",rs_opens:"Registration opens on",
   rs_closes:"Registration closes on",rs_closed:"Registration closed",rs_soldout:"Sold out - join the waitlist",
   rs_left:"seats remaining",rs_of:"of",rs_taken:"places taken",
   rs_ended:"This event has ended",rs_ended_s:"The recap and the photo gallery are in the Media section.",
   rs_from:"From",rs_free:"Free of charge",rs_approval:"Places are confirmed after review by the organiser.",
-  rs_ext:"This event is run by a partner. Registration is handled on the organiser's own site.",
-  rs_extshort:"Organiser's site",
   reg_btn:"Register for this event",reg_apply:"Apply to join",reg_wait:"Join the waitlist",
   reg_notify:"Notify me when registration opens",t_notify:"We will email you when registration opens ✓",
   rs_yourreg:"You are registered for this event",rs_yourwait:"You are on the waitlist for this event",
@@ -1712,8 +1635,8 @@ const T={
   rw_personal:"Personal",rw_personal_d:"Just me",rw_group:"Group",rw_group_d:"Several colleagues",
   rw_att:"Attendees",rw_att_add:"＋ Add attendee",rw_att_rm:"Remove",rw_att_n:"Attendee",
   rw_name:"Full name",rw_email:"Email",rw_company:"Company",rw_title:"Job title",
-  rw_tiers:"Choose your ticket",rw_tiers_s:"Prices are per person and cover every session, the documentation pack and catering.",
-  rw_pass:"Your pass",rw_free_note:"This event is free of charge. Confirm your pass type to continue.",
+  rw_tiers_s:"Prices are per person and cover every session, the documentation pack and catering.",
+  rw_free_note:"This event is free of charge. Confirm your pass type to continue.",
   rw_earlybird:"Early bird",rw_until:"until",rw_soldout:"Sold out",rw_left:"left",
   rw_promo_t:"Discount code",rw_promo_s:"Have a partner code or an early-bird code? Enter it here. Codes are checked against the current campaign list.",
   rw_promo_ph:"e.g. SVEF15",rw_apply:"Apply",rw_promo_skip:"No code? Continue without one.",
@@ -1731,15 +1654,14 @@ const T={
   rw_pending_note:"The organiser reviews every application. You will hear back by email within five business days.",
   rw_seat_warn:"Only a few seats are left at this price.",rw_need_qty:"Choose at least one ticket to continue.",
   rw_need_name:"Fill in a name and an email for every attendee.",rw_view_portal:"See it in My registrations",
-  rw_event:"Event",rw_reg_type:"Registration type",rw_qty:"Tickets",rw_free_pass:"Standard pass",
-  rw_free_pass_d:"Full access to all sessions and the networking reception.",
+  rw_event:"Event",rw_reg_type:"Registration type",rw_qty:"Tickets",
   rw_apply_note:"Applications are free. If your place is approved, the secretariat sends the joining details and any cost sharing for travel.",
   /* ---- my registrations ---- */
   mr_t:"My registrations",mr_s:"Every SVEF event you have registered for, with your tickets and booking references.",
   mr_none:"No registrations yet. Browse the events page to book a place.",
-  mr_tab_reg:"Registrations",mr_tab_prop:"Event requests",mr_browse:"Browse events",
+  mr_browse:"Browse events",
   mr_view:"View ticket",mr_mod:"Modify",mr_cancel:"Cancel registration",mr_att:"Attendees",
-  mr_ticket_type:"Ticket",mr_booked:"Booked",mr_paid:"Paid",mr_ref:"Reference",
+  mr_ticket_type:"Ticket",mr_booked:"Booked",mr_ref:"Reference",
   mr_status_confirmed:"Confirmed",mr_status_pending:"Pending approval",mr_status_waitlisted:"Waitlisted",mr_status_cancelled:"Cancelled",
   mr_cancel_t:"Cancel this registration?",
   mr_cancel_p:"Your place is released immediately and any payment is refunded to the original card within ten business days.",
@@ -1808,7 +1730,6 @@ const T={
   pm_inv:"Invoice and bank transfer",pm_inv_d:"For institutional buyers. The seat is held while the transfer clears.",
   pm_change:"Change payment method",pm_selected:"Payment method",
   /* ---- payment: billing details ---- */
-  bi_t:"Billing details",
   bi_s:"These details appear on the invoice. An invoice cannot be issued without them.",
   bi_prefill:"Use my member profile",
   bi_prefill_note:"Institutional members can reuse the billing details already held on their profile.",
@@ -1849,7 +1770,7 @@ const T={
   aw_payref:"Payment reference",aw_due:"Due by",
   /* ---- payment status ---- */
   ps_paid:"Paid",ps_awaiting:"Awaiting transfer",ps_failed:"Payment failed",ps_refunded:"Refunded",
-  ps_none:"No payment required",ps_method:"Method",ps_gwref:"Transaction reference",ps_paidon:"Paid on",
+  ps_none:"No payment required",ps_gwref:"Transaction reference",ps_paidon:"Paid on",
   /* ---- invoice ---- */
   iv_t:"Invoice",iv_no:"Invoice number",iv_issued:"Issued",iv_billto:"Billed to",iv_from:"Issued by",
   iv_item:"Item",iv_qty:"Qty",iv_amount:"Amount",iv_view:"View invoice",iv_dl:"Download invoice",
@@ -1862,21 +1783,15 @@ const T={
  },
  vi:{
   demo_banner:"🔎 BẢN DEMO / NGUYÊN MẪU · Website &amp; Cổng thành viên SVEF · IMT Software · không phải dữ liệu thật",
-  ph_name:"Họ và tên",ph_help:"Chúng tôi có thể giúp gì?",ph_evtitle:"VD: Bàn tròn Swiss CleanTech × Việt Nam",ph_venue:"Thành phố / địa điểm",ph_evdesc:"Sự kiện này về chủ đề gì?",
-  brand_sub:"Diễn đàn Kinh tế Thụy Sĩ – Việt Nam",
+  ph_name:"Họ và tên",ph_help:"Chúng tôi có thể giúp gì?",
   nav_home:"Trang chủ",nav_about:"Giới thiệu",nav_act:"Hoạt động",nav_partners:"Đối tác & Thành viên",nav_events:"Sự kiện",nav_news:"Tin tức",nav_res:"Tài nguyên",nav_media:"Truyền thông",nav_contact:"Liên hệ",
-  login:"Đăng nhập",admin:"Quản trị",logout:"Đăng xuất",
+  login:"Đăng nhập",logout:"Đăng xuất",
   hero_h:"Xây cầu nối giữa nền kinh tế Thụy Sĩ và Việt Nam",
   hero_p:"Kết nối các tổ chức, đối tác và nhà đổi mới trên hai thị trường: diễn đàn, phái đoàn thương mại, hỗ trợ thâm nhập thị trường và vận động chính sách.",
   hero_cta1:"Khám phá sự kiện sắp tới",hero_cta2:"Trở thành đối tác",
   s_partners:"Đối tác & thành viên",s_markets:"Thị trường kết nối",s_events:"Sự kiện / năm",s_hanoi:"Diễn đàn Hà Nội",
-  mis_t:"Sứ mệnh chính",mis_s:"Bốn trụ cột thúc đẩy hợp tác kinh tế Thụy Sĩ – Việt Nam.",
-  mis1_t:"Diễn đàn Doanh nghiệp",mis1_p:"Diễn đàn & hội thảo kết nối các nhà ra quyết định.",
-  mis2_t:"Phái đoàn Thương mại",mis2_p:"Tổ chức các đoàn giữa Thụy Sĩ và Việt Nam.",
-  mis3_t:"Thâm nhập Thị trường",mis3_p:"Hỗ trợ thiết thực cho doanh nghiệp vào thị trường mới.",
-  mis4_t:"Vận động & Chính sách",mis4_p:"Đại diện lợi ích thành viên để định hình chính sách.",
-  up_t:"Sự kiện sắp tới",up_s:"Sự kiện do diễn đàn tổ chức và sự kiện do đối tác tổ chức, tất cả tại một nơi.",viewall_ev:"Xem tất cả sự kiện →",
-  news_t:"Tin tức mới nhất",news_s:"Cập nhật từ diễn đàn và các đối tác.",news_full_s:"Tin tức và cập nhật từ diễn đàn cùng các đối tác.",
+  up_t:"Sự kiện sắp tới",up_s:"Diễn đàn, hội thảo, phái đoàn thương mại và các buổi kết nối, tất cả trong một lịch chung.",viewall_ev:"Xem tất cả sự kiện →",
+  news_t:"Tin tức mới nhất",news_s:"Cập nhật từ diễn đàn và các đối tác.",
   res_t:"Tài nguyên & Tài liệu",res_s:"Báo cáo, tóm tắt thị trường, biểu mẫu và tài nguyên đối tác. Lọc theo danh mục.",res_cat_all:"Tất cả",res_cat_report:"Báo cáo",res_cat_brief:"Tóm tắt TT",res_cat_tmpl:"Biểu mẫu",res_dl:"Tải về",media_t:"Truyền thông & Báo chí",media_s:"Tin bài, thư viện ảnh và các đề cập báo chí về SVEF và đối tác.",media_press:"Trên báo chí",social_follow:"Theo dõi chúng tôi",
   doc_t:"Tài liệu quan trọng",doc_s:"Báo cáo, tóm tắt thị trường và tài nguyên đối tác.",
   imp_t:"Hai thị trường, một nền tảng",imp_s:"Nơi các thành viên gặp nhau, từ sông Limmat tới sông Mekong.",
@@ -1889,49 +1804,42 @@ const T={
   act_t:"Hoạt động của chúng tôi",act_s:"Bốn nhóm chương trình, cấu trúc rõ ràng.",
   dir_t:"Đối tác & Thành viên",dir_s:"Lọc danh bạ theo thị trường, loại đối tác và ngành.",
   f_market:"Thị trường",f_type:"Loại đối tác",f_ind:"Ngành",f_reset:"Đặt lại",
-  ev_t:"Sự kiện",ev_s:"Sự kiện của SVEF và sự kiện do đối tác tổ chức.",ev_propose:"＋ Đề xuất sự kiện",
-  ev_all:"Tất cả",ev_forum:"SVEF",ev_partnerev:"Đối tác",
-  ct_t:"Liên hệ",ct_s:"Liên hệ đội ngũ SVEF, thường phản hồi trong 2 ngày làm việc.",ct_office:"Văn phòng",ct_name:"Họ tên",ct_msg:"Nội dung",ct_send:"Gửi",
-  login_t:"Đăng nhập SVEF",sso_g:"Tiếp tục với Google",sso_m:"Tiếp tục với Microsoft",or:"hoặc bằng email",password:"Mật khẩu",
+  ev_t:"Sự kiện",ev_s:"Toàn bộ diễn đàn, hội thảo, phái đoàn thương mại và buổi kết nối do SVEF tổ chức, trong một lịch chung.",
+  ct_t:"Liên hệ",ct_name:"Họ tên",ct_msg:"Nội dung",ct_send:"Gửi",
+  login_t:"Đăng nhập hoặc tạo tài khoản",sso_g:"Tiếp tục với Google",sso_m:"Tiếp tục với Microsoft",or:"hoặc bằng email",password:"Mật khẩu",
+  li_tab_in:"Đăng nhập",li_tab_new:"Tạo tài khoản",li_create:"Tạo tài khoản",li_name_ph:"Họ và tên của bạn",
+  li_create_note:"Tạo tài khoản miễn phí và chỉ mất một chút thời gian. Các gói thành viên được thu xếp riêng với ban thư ký SVEF.",
+  t_account_created:"Đã tạo tài khoản, bạn đã đăng nhập",
+  prof_managed:"Hồ sơ do ban thư ký SVEF thiết lập.",
   login_note:"Demo. Mọi thông tin đều đăng nhập được. Một tài khoản quản lý nhiều hồ sơ (cá nhân + công ty).",
-  active_prof:"Hồ sơ đang dùng",add_prof:"＋ Thêm hồ sơ",
+  active_prof:"Hồ sơ đang dùng",
   pt_dash:"Tổng quan",pt_company:"Hồ sơ công ty",pt_docs:"Tài liệu",pt_events:"Sự kiện của tôi",pt_dir:"CSDL đối tác",pt_msg:"Tin nhắn",
-  welcome:"Chào mừng trở lại",k_docs:"Tài liệu",k_evsub:"Đề xuất sự kiện",k_conn:"Kết nối",k_tier:"Hạng thành viên",
+  welcome:"Chào mừng trở lại",k_docs:"Tài liệu",k_regs:"Đăng ký sự kiện",k_conn:"Kết nối",k_tier:"Hạng thành viên",
   quick_t:"Thao tác nhanh",quick_s:"Mọi thứ đối tác cần, tại một nơi.",
-  qa_edit:"Sửa hồ sơ công ty",qa_edit_s:"Logo, ngành, thị trường.",qa_upload:"Tải tài liệu",qa_upload_s:"Bài trình bày, poster.",qa_prop:"Đề xuất sự kiện",qa_prop_s:"Đăng lên diễn đàn.",
+  qa_edit:"Sửa hồ sơ công ty",qa_edit_s:"Logo, ngành, thị trường.",qa_upload:"Tải tài liệu",qa_upload_s:"Bài trình bày, poster.",qa_ev:"Xem sự kiện",qa_ev_s:"Đặt chỗ tại một sự kiện sắp tới.",
   cp_t:"Hồ sơ công ty",cp_s:"Tự cập nhật thông tin tổ chức. Thay đổi hiển thị trong danh bạ công khai.",
   cp_name:"Tên công ty",cp_ind:"Ngành",cp_market:"Thị trường hoạt động",cp_type:"Loại đối tác",cp_about:"Giới thiệu",cp_logo:"Logo",cp_logo_z:"Nhấn để tải logo mới (PNG/SVG)",save_changes:"Lưu thay đổi",
   dc_t:"Tài liệu, bài trình bày & poster",dc_s:"Tệp ở đây hiển thị thành tab riêng trên hồ sơ đối tác công khai.",dc_zone:"Nhấn để tải. PDF, PPTX, PNG (tối đa 25 MB)",
-  me_t:"Đề xuất sự kiện của tôi",me_s:"Theo dõi trạng thái duyệt các sự kiện bạn đã gửi.",
   pd_t:"Cơ sở dữ liệu đối tác",pd_s:"Thành viên & Đối tác chiến lược có thể duyệt CSDL và gửi tin nhắn. Người đăng ký chỉ nhận thông tin.",
   ms_t:"Tin nhắn",ms_s:"Tin nhắn trực tiếp với thành viên và đối tác khác.",
   foot_p:"Kết nối nền kinh tế Thụy Sĩ và Việt Nam qua diễn đàn, phái đoàn thương mại và quan hệ đối tác.",
   foot_plat:"Nền tảng",foot_org:"Tổ chức",foot_legal:"Pháp lý",foot_app:"Ứng dụng Sự kiện",foot_cookies:"Chính sách cookie",foot_before:"Mục tiêu: vận hành trước Diễn đàn Hà Nội · 10/2026",
-  pe_t:"Đề xuất sự kiện",pe_step1:"Chi tiết sự kiện",pe_step1s:"Cho chúng tôi biết về sự kiện.",pe_name:"Tên sự kiện",pe_date:"Ngày",pe_loc:"Địa điểm",pe_type:"Hình thức",pe_desc:"Mô tả",
-  pe_note:"ℹ️ Sự kiện do đối tác đề xuất sẽ được đội quản trị SVEF duyệt trước khi hiển thị công khai ở mục “Sự kiện sắp tới”.",pe_submit:"Gửi để duyệt",
-  documents_tab:"Tài liệu",overview_tab:"Tổng quan",send_msg:"Gửi tin nhắn",register_ev:"Đăng ký tham dự",by_partner:"Tổ chức bởi",by_forum:"Sự kiện SVEF",
-  t_sent:"Đã gửi, cảm ơn bạn!",t_saved:"Đã lưu hồ sơ công ty",t_upload:"Demo: chọn tệp",t_soon:"Demo: sắp có",t_addprof:"Demo: thêm hồ sơ khác",
-  t_login_need:"Vui lòng đăng nhập để truy cập CSDL đối tác.",t_msgsent:"Đã gửi tin nhắn",t_chat:"💬 Nhắn tin với ",t_proposed:"Đã gửi sự kiện để quản trị duyệt ✓",t_docadd:"Đã tải tài liệu",t_reg:"Đã xác nhận đăng ký ✓",
+  documents_tab:"Tài liệu",overview_tab:"Tổng quan",send_msg:"Gửi tin nhắn",
+  t_sent:"Đã gửi, cảm ơn bạn!",t_saved:"Đã lưu hồ sơ công ty",t_upload:"Demo: chọn tệp",t_soon:"Demo: sắp có",
+  t_login_need:"Vui lòng đăng nhập để truy cập CSDL đối tác.",t_msgsent:"Đã gửi tin nhắn",t_docadd:"Đã tải tài liệu",
   ck_t:"Chúng tôi tôn trọng quyền riêng tư",ck_p:"Chúng tôi dùng cookie để cải thiện trải nghiệm. Dữ liệu người dùng EU/Thụy Sĩ được xử lý theo GDPR (BRD §11.2).",ck_accept:"Chấp nhận tất cả",ck_decline:"Từ chối",t_ck:"Đã lưu tùy chọn cookie",
-  status_approved:"Đã duyệt",status_pending:"Chờ duyệt",status_rejected:"Cần chỉnh sửa",
   guest_dir:"Đăng nhập với vai trò Thành viên hoặc Đối tác để xem thông tin liên hệ và gửi tin nhắn.",
-  su_t:"Tham gia SVEF",su_type_q:"Bạn muốn tạo loại hồ sơ nào?",
-  st_account:"Tài khoản",st_type:"Loại hồ sơ",st_details:"Thông tin",st_tier:"Gói thành viên",st_review:"Xác nhận",
-  type_ind:"Cá nhân",type_ind_d:"Hồ sơ cá nhân",type_inst:"Công ty",type_inst_d:"Hồ sơ tổ chức",
-  tier_sub:"Người đăng ký",tier_ind:"Thành viên cá nhân",tier_mem:"Thành viên tổ chức",tier_partner:"Đối tác chiến lược",
-  wiz_back:"‹ Quay lại",wiz_next:"Tiếp tục",wiz_submit:"Gửi đăng ký",wiz_pending:"Đã gửi đăng ký, chờ quản trị duyệt ✓",
-  su_review_note:"Đăng ký của bạn sẽ được đội quản trị SVEF xem xét. Bạn sẽ được cấp quyền thành viên sau khi duyệt.",
+  wiz_back:"‹ Quay lại",wiz_next:"Tiếp tục",
   pt_account:"Tài khoản & cài đặt",pt_team:"Thành viên nhóm",tm_t:"Thành viên nhóm",tm_s:"Quản lý những người liên kết với hồ sơ tổ chức của bạn (đa tenant).",tm_add:"＋ Thêm thành viên",pd_add:"＋ Thêm đối tác",
-  ac_profiles:"Hồ sơ liên kết",ac_profiles_s:"Một tài khoản (một email) quản lý nhiều hồ sơ: cá nhân và công ty.",ac_add:"＋ Thêm hồ sơ",
-  ac_prefs:"Tuỳ chọn",ac_visibility:"Hiển thị hồ sơ",ac_vis_pub:"Công khai, hiện trong danh bạ đối tác",ac_vis_priv:"Riêng tư, ẩn khỏi danh bạ",
+  ac_profiles:"Hồ sơ liên kết",ac_profiles_s:"Một tài khoản (một email) quản lý nhiều hồ sơ: cá nhân và công ty.",
+  ac_prefs:"Tuỳ chọn",
   ac_notif:"Thông báo email",ac_notif1:"Thông báo sự kiện",ac_notif2:"Tin nhắn mới",ac_notif3:"Bản tin",
   ac_lang:"Ngôn ngữ giao diện",ac_security:"Bảo mật & đăng nhập",ac_pwd:"Đổi mật khẩu",ac_sso:"Đã liên kết Google",
   ac_privacy:"Quyền riêng tư & dữ liệu (GDPR)",ac_privacy_s:"Bạn kiểm soát dữ liệu của mình. Xuất hoặc xoá bất cứ lúc nào (BRD §11.2).",ac_export:"⬇ Xuất dữ liệu của tôi",ac_delete:"🗑 Xoá tài khoản",
   onboard_t:"Bắt đầu",onboard_s:"Hoàn thiện hồ sơ để mở khoá mọi tính năng.",
-  ob1:"Xác minh email",ob2:"Hoàn thiện hồ sơ",ob3:"Tải lên tài liệu",ob4:"Gửi sự kiện đầu tiên",
-  pending_t:"Hồ sơ đang chờ duyệt",pending_p:"Đăng ký của bạn đang được đội quản trị SVEF xem xét. Một số tính năng bị giới hạn cho tới khi duyệt.",
-  th_reply:"Nhập tin nhắn…",vis_saved:"Đã cập nhật hiển thị",
-  t_export:"Đang chuẩn bị xuất dữ liệu…",t_delete:"Demo: xoá tài khoản cần xác nhận",t_pwd:"Demo: đổi mật khẩu",
+  ob1:"Xác minh email",ob2:"Hoàn thiện hồ sơ",ob3:"Tải lên tài liệu",ob4:"Đăng ký sự kiện đầu tiên",
+  th_reply:"Nhập tin nhắn…",
+  t_export:"Đang chuẩn bị xuất dữ liệu…",t_pwd:"Demo: đổi mật khẩu",
   nav_become:"Trở thành đối tác",see_more:"Xem thêm →",read_more:"Xem thêm →",
   mm_t:"Sứ mệnh chính",mm_s:"Diễn đàn tồn tại để làm gì, gói gọn trong bốn câu.",
   oa_t:"Hoạt động của chúng tôi",oa_s:"Bốn nhóm chương trình hiện thực hoá các sứ mệnh đó. Di chuột hoặc chạm vào thẻ để xem thêm.",
@@ -1942,13 +1850,14 @@ const T={
   ra_t:"Bài viết liên quan",ra_s:"Bài viết và tin bài về các hoạt động gần đây của SVEF.",
   bp_h:"Tham gia cộng đồng doanh nghiệp Thụy Sĩ – Việt Nam",bp_p:"Năm hình thức tham gia, từ nhận thông tin cho tới đồng hành với diễn đàn ở vai trò đối tác chiến lược.",
   bp_t:"Các gói thành viên",bp_s:"Quyền lợi khác nhau theo từng gói. Mức phí được báo riêng, vui lòng liên hệ ban thư ký để biết mức phí hiện hành và các ưu đãi.",
-  bp_cta_t:"Sẵn sàng tham gia?",bp_cta_s:"Điền biểu mẫu đăng ký. Ban thư ký SVEF sẽ xem xét từng hồ sơ.",bp_cta_b:"Đăng ký ngay",
+  bp_cta_t:"Sẵn sàng tham gia?",bp_cta_s:"Tư cách thành viên được thu xếp trực tiếp với ban thư ký SVEF. Hãy cho chúng tôi biết gói nào phù hợp, phần còn lại chúng tôi lo.",
+  bp_cta_mail:"membership@swissvieteconomicforum.org &nbsp;·&nbsp; +41 44 000 00 00",bp_cta_b:"Liên hệ ban thư ký",
   bp_forwho:"Dành cho",
   ev_upcoming:"Sự kiện sắp tới",ev_past:"Sự kiện đã diễn ra",ev_none:"Chưa có nội dung.",
   information_tab:"Thông tin",
   gate_login:"Bạn cần đăng nhập để xem nội dung này",
   gate_tier:"Bạn cần là Institutional Subscriber / Institutional Member / Strategic Partner để xem nội dung này",
-  ac_export_what:"Bản xuất là tệp ZIP gồm thông tin hồ sơ, lịch sử thành viên, các đăng ký và đề xuất sự kiện, tài liệu đã tải lên và lịch sử tin nhắn. Không bao gồm mật khẩu hay token thanh toán.",
+  ac_export_what:"Bản xuất là tệp ZIP gồm thông tin hồ sơ, lịch sử thành viên, các đăng ký và vé sự kiện, tài liệu đã tải lên và lịch sử tin nhắn. Không bao gồm mật khẩu hay token thanh toán.",
   da_t:"Xoá tài khoản",da_p:"Việc xoá tài khoản do ban thư ký SVEF thực hiện. Khi bạn xác nhận, hệ thống tạo một yêu cầu xoá gửi tới đội quản trị; họ sẽ xoá tài khoản và xác nhận qua email.",
   da_note:"ℹ️ Hồ sơ của bạn vẫn hiển thị cho tới khi yêu cầu được xử lý. Bạn có thể huỷ bằng cách liên hệ ban thư ký.",
   da_cancel:"Huỷ",da_confirm:"Gửi yêu cầu xoá",t_delreq:"Đã gửi yêu cầu xoá tới đội quản trị SVEF ✓",
@@ -1957,8 +1866,6 @@ const T={
   cp_info_t:"Thông tin hiển thị trên hồ sơ công khai",
   cp_web:"Website",cp_founded:"Năm thành lập",cp_hq:"Trụ sở chính",cp_size:"Quy mô nhân sự",cp_contact:"Email liên hệ",cp_li:"LinkedIn",
   cp_fullname:"Họ và tên",cp_title:"Chức danh",cp_org:"Tổ chức",cp_photo:"Ảnh đại diện",cp_photo_z:"Nhấn để tải ảnh (PNG/JPG)",
-  pe_link:"Link thông tin sự kiện",pe_link_ph:"https://example.org/su-kien",pe_linknote:"Nút Đăng ký trên sự kiện đã đăng sẽ dẫn người xem tới link này.",
-  reg_ext:"Đăng ký trên trang của ban tổ chức ↗",no_link:"Sắp có link đăng ký",
   tm_email_first:"Bắt đầu bằng email công việc. Nếu người này đã liên kết với tổ chức của bạn, họ tên và chức danh sẽ tự điền.",
   tm_lookup:"Tra cứu",tm_found:"Đã tìm thấy trong danh bạ SVEF",tm_notify:"Người này được thêm ngay và nhận email thông báo.",
   tm_added_notified:"Đã thêm thành viên và gửi email thông báo",
@@ -1973,21 +1880,19 @@ const T={
   f_theme:"Chủ đề",f_start:"Bắt đầu",f_end:"Kết thúc",f_evtype:"Loại sự kiện",f_topics:"Lĩnh vực nội dung",
   f_loc:"Địa điểm",f_addr:"Địa chỉ chi tiết",f_aud:"Đối tượng tham dự",f_coorg:"Đơn vị đồng tổ chức",
   f_expect:"Số người dự kiến",f_dur:"Thời lượng",f_organiser:"Đơn vị tổ chức",f_lang:"Ngôn ngữ làm việc",
-  etype_conf:"Hội nghị & Diễn đàn",etype_mission:"Phái đoàn & Xúc tiến thương mại",etype_round:"Bàn tròn",
+  etype_conf:"Hội nghị & Diễn đàn",etype_mission:"Phái đoàn & Xúc tiến thương mại",
   etype_meetup:"Kết nối & Gặp gỡ",etype_sem:"Hội thảo & Tập huấn",
   top_trade:"Quan hệ kinh tế & Thương mại",top_innov:"Đổi mới & Chuyển đổi số",
   top_sust:"Phát triển bền vững & Kinh tế xanh",top_fin:"Tài chính & Đầu tư",
   top_mfg:"Sản xuất & Tăng trưởng công nghiệp",top_logi:"Logistics & Chuỗi cung ứng",top_edu:"Giáo dục & Kỹ năng",
   aud_ind:"Chuyên gia trong ngành",aud_ent:"Doanh nhân & Startup",aud_inv:"Nhà đầu tư & Chuyên gia tài chính",
-  aud_acad:"Giảng viên & Nhà nghiên cứu",aud_gov:"Cán bộ cơ quan nhà nước",aud_corp:"Lãnh đạo doanh nghiệp",aud_media:"Báo chí & Truyền thông",
+  aud_acad:"Giảng viên & Nhà nghiên cứu",aud_gov:"Cán bộ cơ quan nhà nước",aud_corp:"Lãnh đạo doanh nghiệp",
   /* ---- trạng thái đăng ký ---- */
   rs_open:"Đang mở đăng ký",rs_soon:"Chưa mở đăng ký",rs_opens:"Mở đăng ký từ ngày",
   rs_closes:"Đóng đăng ký ngày",rs_closed:"Đã đóng đăng ký",rs_soldout:"Hết chỗ, mời vào danh sách chờ",
   rs_left:"chỗ còn lại",rs_of:"trên",rs_taken:"chỗ đã có người đăng ký",
   rs_ended:"Sự kiện đã kết thúc",rs_ended_s:"Bài tổng kết và thư viện ảnh nằm trong mục Truyền thông.",
   rs_from:"Từ",rs_free:"Miễn phí tham dự",rs_approval:"Chỗ tham dự được xác nhận sau khi ban tổ chức xét duyệt.",
-  rs_ext:"Sự kiện này do đối tác tổ chức. Việc đăng ký được thực hiện trên trang của đơn vị tổ chức.",
-  rs_extshort:"Trang ban tổ chức",
   reg_btn:"Đăng ký tham dự",reg_apply:"Nộp đơn tham gia",reg_wait:"Vào danh sách chờ",
   reg_notify:"Báo cho tôi khi mở đăng ký",t_notify:"Chúng tôi sẽ gửi email khi mở đăng ký ✓",
   rs_yourreg:"Bạn đã đăng ký sự kiện này",rs_yourwait:"Bạn đang ở danh sách chờ của sự kiện này",
@@ -1998,8 +1903,8 @@ const T={
   rw_personal:"Cá nhân",rw_personal_d:"Chỉ mình tôi",rw_group:"Theo nhóm",rw_group_d:"Nhiều đồng nghiệp",
   rw_att:"Người tham dự",rw_att_add:"＋ Thêm người tham dự",rw_att_rm:"Xoá",rw_att_n:"Người tham dự",
   rw_name:"Họ và tên",rw_email:"Email",rw_company:"Công ty",rw_title:"Chức danh",
-  rw_tiers:"Chọn loại vé",rw_tiers_s:"Giá tính theo từng người, bao gồm toàn bộ phiên, bộ tài liệu và tiệc trà.",
-  rw_pass:"Loại vé của bạn",rw_free_note:"Sự kiện này miễn phí. Xác nhận loại vé để tiếp tục.",
+  rw_tiers_s:"Giá tính theo từng người, bao gồm toàn bộ phiên, bộ tài liệu và tiệc trà.",
+  rw_free_note:"Sự kiện này miễn phí. Xác nhận loại vé để tiếp tục.",
   rw_earlybird:"Ưu đãi sớm",rw_until:"đến",rw_soldout:"Hết vé",rw_left:"còn lại",
   rw_promo_t:"Mã ưu đãi",rw_promo_s:"Bạn có mã đối tác hoặc mã ưu đãi sớm? Nhập tại đây. Mã được đối chiếu với danh sách chương trình đang chạy.",
   rw_promo_ph:"VD: SVEF15",rw_apply:"Áp dụng",rw_promo_skip:"Không có mã? Bỏ qua bước này.",
@@ -2017,15 +1922,14 @@ const T={
   rw_pending_note:"Ban tổ chức xét duyệt từng đơn. Bạn sẽ nhận phản hồi qua email trong vòng năm ngày làm việc.",
   rw_seat_warn:"Chỉ còn vài chỗ ở mức giá này.",rw_need_qty:"Hãy chọn ít nhất một vé để tiếp tục.",
   rw_need_name:"Vui lòng điền họ tên và email cho từng người tham dự.",rw_view_portal:"Xem trong mục Đăng ký của tôi",
-  rw_event:"Sự kiện",rw_reg_type:"Hình thức đăng ký",rw_qty:"Số vé",rw_free_pass:"Vé tiêu chuẩn",
-  rw_free_pass_d:"Tham dự toàn bộ các phiên và tiệc kết nối.",
+  rw_event:"Sự kiện",rw_reg_type:"Hình thức đăng ký",rw_qty:"Số vé",
   rw_apply_note:"Nộp đơn không mất phí. Nếu được duyệt, ban thư ký sẽ gửi thông tin tham gia và phần chi phí đi lại cần chia sẻ.",
   /* ---- đăng ký của tôi ---- */
   mr_t:"Đăng ký của tôi",mr_s:"Toàn bộ sự kiện SVEF bạn đã đăng ký, kèm vé và mã đặt chỗ.",
   mr_none:"Chưa có đăng ký nào. Hãy xem trang sự kiện để đặt chỗ.",
-  mr_tab_reg:"Đăng ký",mr_tab_prop:"Đề xuất sự kiện",mr_browse:"Xem sự kiện",
+  mr_browse:"Xem sự kiện",
   mr_view:"Xem vé",mr_mod:"Chỉnh sửa",mr_cancel:"Huỷ đăng ký",mr_att:"Người tham dự",
-  mr_ticket_type:"Loại vé",mr_booked:"Đặt ngày",mr_paid:"Đã thanh toán",mr_ref:"Mã đặt chỗ",
+  mr_ticket_type:"Loại vé",mr_booked:"Đặt ngày",mr_ref:"Mã đặt chỗ",
   mr_status_confirmed:"Đã xác nhận",mr_status_pending:"Chờ duyệt",mr_status_waitlisted:"Danh sách chờ",mr_status_cancelled:"Đã huỷ",
   mr_cancel_t:"Huỷ đăng ký này?",
   mr_cancel_p:"Chỗ của bạn được trả lại ngay lập tức và khoản thanh toán sẽ được hoàn về thẻ gốc trong vòng mười ngày làm việc.",
@@ -2094,7 +1998,6 @@ const T={
   pm_inv:"Hoá đơn và chuyển khoản",pm_inv_d:"Dành cho khách hàng tổ chức. Chỗ tham dự được giữ trong khi chờ tiền về.",
   pm_change:"Đổi phương thức thanh toán",pm_selected:"Phương thức thanh toán",
   /* ---- thanh toán: thông tin xuất hoá đơn ---- */
-  bi_t:"Thông tin xuất hoá đơn",
   bi_s:"Những thông tin này sẽ hiển thị trên hoá đơn. Không thể phát hành hoá đơn nếu thiếu.",
   bi_prefill:"Dùng thông tin hồ sơ thành viên",
   bi_prefill_note:"Thành viên tổ chức có thể dùng lại thông tin xuất hoá đơn đã lưu trong hồ sơ.",
@@ -2135,7 +2038,7 @@ const T={
   aw_payref:"Mã thanh toán",aw_due:"Hạn thanh toán",
   /* ---- trạng thái thanh toán ---- */
   ps_paid:"Đã thanh toán",ps_awaiting:"Chờ chuyển khoản",ps_failed:"Thanh toán thất bại",ps_refunded:"Đã hoàn tiền",
-  ps_none:"Không phải thanh toán",ps_method:"Phương thức",ps_gwref:"Mã giao dịch",ps_paidon:"Ngày thanh toán",
+  ps_none:"Không phải thanh toán",ps_gwref:"Mã giao dịch",ps_paidon:"Ngày thanh toán",
   /* ---- hoá đơn ---- */
   iv_t:"Hoá đơn",iv_no:"Số hoá đơn",iv_issued:"Ngày phát hành",iv_billto:"Bên nhận hoá đơn",iv_from:"Bên phát hành",
   iv_item:"Khoản mục",iv_qty:"SL",iv_amount:"Thành tiền",iv_view:"Xem hoá đơn",iv_dl:"Tải hoá đơn",
@@ -2168,6 +2071,7 @@ const partners=[
    and time, event type, multi topics, location + detailed address, multi
    audience, co-organisers, expected participants, duration, share action.
    Plus the registration configuration that drives the in-site booking flow.
+   Every event is organised by SVEF and registers inside the product.
    --------------------------------------------------------------------------- */
 const VND_RATE=28500;
 const MONTHS={en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
@@ -2187,8 +2091,8 @@ const SPK_LONG={n:"Phạm Hoàng Long",i:"PL",c:"#4A3B6B",r:{en:"Chief executive
 const SPK_THU={n:"Lê Thu",i:"LT",c:"#2E2E2E",r:{en:"Head of trade policy",vi:"Trưởng bộ phận chính sách thương mại"},org:"An Phat Logistics JSC"};
 
 const events=[
- /* 0 - SOLD OUT, demonstrates the waitlist route */
- {id:"green-finance-basel-2026",img:"energy-solar",kind:"forum",day:"18",mon:{en:"SEP",vi:"TH9"},yr:"2026",
+ /* sold out, demonstrates the waitlist route */
+ {id:"green-finance-basel-2026",img:"energy-solar",day:"18",mon:{en:"SEP",vi:"TH9"},yr:"2026",
   t:{en:"SVEF Green Finance Summit · Basel",vi:"Hội nghị Tài chính Xanh SVEF · Basel"},
   loc:{en:"Basel · Switzerland",vi:"Basel · Thụy Sĩ"},
   addr:{en:"Congress Center Basel, Messeplatz 21, 4058 Basel",vi:"Congress Center Basel, Messeplatz 21, 4058 Basel"},
@@ -2219,8 +2123,8 @@ const events=[
         {id:"gf_std",nm:{en:"Standard pass",vi:"Vé tiêu chuẩn"},desc:{en:"All sessions, lunch and apéro",vi:"Toàn bộ phiên, ăn trưa và tiệc nhẹ"},chf:480,left:0,soldout:true},
         {id:"gf_inv",nm:{en:"Investor pass",vi:"Vé nhà đầu tư"},desc:{en:"Standard pass plus a bilateral meeting slot",vi:"Vé tiêu chuẩn kèm một lượt gặp song phương"},chf:790,left:0,soldout:true}]}},
 
- /* 1 - flagship, mirrors the real SVEF Da Nang / Hanoi forum record */
- {id:"svef-hanoi-forum-2026",img:"forum-talk",kind:"forum",day:"14",mon:{en:"OCT",vi:"TH10"},yr:"2026",
+ /* flagship, mirrors the real SVEF Da Nang / Hanoi forum record */
+ {id:"svef-hanoi-forum-2026",img:"forum-talk",day:"14",mon:{en:"OCT",vi:"TH10"},yr:"2026",
   t:{en:"Swiss-Viet Economic Forum 2026 · Hanoi",vi:"Diễn đàn Kinh tế Thụy Sĩ – Việt Nam 2026 · Hà Nội"},
   loc:{en:"Hanoi · National Convention Center",vi:"Hà Nội · Trung tâm Hội nghị Quốc gia"},
   addr:{en:"National Convention Center, 57 Pham Hung Street, Me Tri, Nam Tu Liem, Hanoi",vi:"Trung tâm Hội nghị Quốc gia, 57 Phạm Hùng, Mễ Trì, Nam Từ Liêm, Hà Nội"},
@@ -2230,7 +2134,6 @@ const events=[
   audience:["aud_ind","aud_ent","aud_inv","aud_acad","aud_gov","aud_corp"],
   dur:{en:"3 days",vi:"3 ngày"},expect:"800+",langs:{en:"English and Vietnamese, simultaneous interpretation",vi:"Tiếng Anh và tiếng Việt, có phiên dịch cabin"},
   co:[CO_SVEF,CO_HELV,CO_MEK,CO_ANPHAT],
-  link:"",
   d:{en:"The flagship annual forum bringing together Swiss and Vietnamese leaders across finance, technology, manufacturing and public policy.",vi:"Diễn đàn thường niên hàng đầu quy tụ lãnh đạo Thụy Sĩ và Việt Nam trong tài chính, công nghệ, sản xuất và chính sách công."},
   about:{en:["The Swiss-Viet Economic Forum is the largest annual gathering of Swiss and Vietnamese business leaders, held alternately in the two countries. The 2026 edition returns to Hanoi over three days, one year after the free trade agreement between Vietnam and the EFTA states began to bite in real trade figures.","Three days, one question: what does each side actually have that the other needs, and what is stopping the transaction. Day one is policy and macro. Day two is sector deep dives running in parallel. Day three is matchmaking, site visits and the closing dinner.","Registration includes all plenary and breakout sessions, the documentation pack, lunches, the welcome reception and the gala dinner on the second evening. Delegates arrange their own travel and accommodation; the secretariat holds a room block at three hotels near the venue."],
         vi:["Diễn đàn Kinh tế Thụy Sĩ – Việt Nam là sự kiện thường niên lớn nhất quy tụ lãnh đạo doanh nghiệp hai nước, tổ chức luân phiên tại Thụy Sĩ và Việt Nam. Kỳ 2026 trở lại Hà Nội trong ba ngày, đúng một năm sau khi hiệp định thương mại tự do giữa Việt Nam và khối EFTA bắt đầu thể hiện rõ trên số liệu thương mại.","Ba ngày, một câu hỏi: mỗi bên thực sự có gì mà bên kia cần, và điều gì đang cản trở giao dịch. Ngày thứ nhất bàn chính sách và vĩ mô. Ngày thứ hai là các phiên chuyên đề song song. Ngày thứ ba dành cho kết nối doanh nghiệp, tham quan nhà máy và tiệc bế mạc.","Phí đăng ký bao gồm toàn bộ phiên toàn thể và phiên chuyên đề, bộ tài liệu, các bữa trưa, tiệc chào mừng và tiệc gala tối ngày thứ hai. Đại biểu tự thu xếp đi lại và lưu trú; ban thư ký giữ sẵn phòng tại ba khách sạn gần địa điểm tổ chức."]},
@@ -2267,8 +2170,8 @@ const events=[
         {id:"hf_std",nm:{en:"Standard delegate",vi:"Đại biểu tiêu chuẩn"},desc:{en:"Full three day access, all sessions and both dinners",vi:"Tham dự trọn ba ngày, toàn bộ phiên và cả hai bữa tiệc"},chf:920,left:126},
         {id:"hf_acad",nm:{en:"Academic and student",vi:"Giảng viên và sinh viên"},desc:{en:"Day 2 research track only, proof of affiliation required",vi:"Chỉ nhánh nghiên cứu ngày 2, cần giấy tờ xác nhận"},chf:180,left:0,soldout:true}]}},
 
- /* 2 - free event, in-site flow, pass type confirmation only */
- {id:"members-evening-hanoi",img:"boardroom",kind:"forum",day:"02",mon:{en:"NOV",vi:"TH11"},yr:"2026",
+ /* free event, pass type confirmation only */
+ {id:"members-evening-hanoi",img:"boardroom",day:"02",mon:{en:"NOV",vi:"TH11"},yr:"2026",
   t:{en:"SVEF Members Networking Evening · Hanoi",vi:"Tối Kết nối Thành viên SVEF · Hà Nội"},
   loc:{en:"Hanoi · Metropole",vi:"Hà Nội · Metropole"},
   addr:{en:"Sofitel Legend Metropole, 15 Ngo Quyen Street, Hoan Kiem, Hanoi",vi:"Sofitel Legend Metropole, 15 Ngô Quyền, Hoàn Kiếm, Hà Nội"},
@@ -2294,8 +2197,8 @@ const events=[
        closes:{en:"28 October 2026",vi:"28 tháng 10 năm 2026"},
        tiers:[{id:"me_free",nm:{en:"Member pass",vi:"Vé thành viên"},desc:{en:"Free of charge, one pass per attendee",vi:"Miễn phí, mỗi người một vé"},chf:0,left:46}]}},
 
- /* 3 - application based, requires organiser approval */
- {id:"trade-mission-zurich-2026",img:"swiss-zurich",kind:"forum",day:"22",mon:{en:"NOV",vi:"TH11"},yr:"2026",
+ /* application based, requires approval by the secretariat */
+ {id:"trade-mission-zurich-2026",img:"swiss-zurich",day:"22",mon:{en:"NOV",vi:"TH11"},yr:"2026",
   t:{en:"Swiss-Vietnam Trade Mission · Zurich and Basel",vi:"Phái đoàn Thương mại Thụy Sĩ – Việt Nam · Zurich và Basel"},
   loc:{en:"Zurich and Basel · Switzerland",vi:"Zurich và Basel · Thụy Sĩ"},
   addr:{en:"Departure point: Swiss Business Hub, Stampfenbachstrasse 85, 8006 Zurich",vi:"Điểm tập trung: Swiss Business Hub, Stampfenbachstrasse 85, 8006 Zurich"},
@@ -2326,56 +2229,8 @@ const events=[
        closes:{en:"15 October 2026",vi:"15 tháng 10 năm 2026"},
        tiers:[{id:"tm_app",nm:{en:"Delegation place",vi:"Suất trong phái đoàn"},desc:{en:"Application only, reviewed by the secretariat",vi:"Chỉ nhận đơn, ban thư ký xét duyệt"},chf:0,left:7}]}},
 
- /* 4 - partner event, external registration, unchanged behaviour */
- {id:"cleantech-roundtable-2026",img:"energy-solar",kind:"partner",day:"05",mon:{en:"DEC",vi:"TH12"},yr:"2026",
-  t:{en:"CleanTech × Vietnam Roundtable",vi:"Bàn tròn CleanTech × Việt Nam"},
-  loc:{en:"Ho Chi Minh City",vi:"TP. Hồ Chí Minh"},
-  addr:{en:"GreenTech Vietnam head office, 12th floor, Bitexco Tower, District 1, Ho Chi Minh City",vi:"Trụ sở GreenTech Vietnam, tầng 12, toà Bitexco, Quận 1, TP. Hồ Chí Minh"},
-  theme:{en:"Where cleantech capital meets Vietnamese project pipelines",vi:"Nơi dòng vốn cleantech gặp danh mục dự án Việt Nam"},
-  start:"2026-12-05T13:30",end:"2026-12-05T17:30",etype:"etype_round",
-  topics:["top_sust","top_fin"],audience:["aud_inv","aud_ind","aud_ent"],
-  dur:{en:"4 hours",vi:"4 giờ"},expect:"60",langs:{en:"English",vi:"Tiếng Anh"},
-  co:[CO_GREEN,CO_SVEF],by:"GreenTech Vietnam",link:"https://greentech.vn/roundtable-2026",
-  d:{en:"Partner-organised roundtable on renewable-energy investment, hosted by GreenTech Vietnam.",vi:"Bàn tròn do đối tác GreenTech Vietnam tổ chức về đầu tư năng lượng tái tạo."},
-  about:{en:["A closed roundtable for sixty invited participants, organised by GreenTech Vietnam with SVEF as a supporting partner. Registration and the guest list are managed by the host on its own site."],
-        vi:["Bàn tròn kín dành cho sáu mươi khách mời, do GreenTech Vietnam tổ chức với SVEF là đối tác hỗ trợ. Việc đăng ký và danh sách khách mời do đơn vị chủ trì quản lý trên trang riêng của họ."]},
-  focus:{en:["Rooftop solar for industrial parks","Corporate power purchase agreements","Financing structures for mid-size projects"],
-         vi:["Điện mặt trời mái nhà cho khu công nghiệp","Hợp đồng mua bán điện trực tiếp cho doanh nghiệp","Cấu trúc tài chính cho dự án quy mô vừa"]},
-  who:{en:"Investors, developers and industrial energy buyers, by invitation of the host.",vi:"Nhà đầu tư, đơn vị phát triển dự án và doanh nghiệp mua điện công nghiệp, theo lời mời của đơn vị chủ trì."},
-  agenda:[{d:{en:"Afternoon programme",vi:"Chương trình buổi chiều"},date:{en:"Saturday 5 December 2026",vi:"Thứ bảy, 5 tháng 12 năm 2026"},items:[
-     {tm:"13:30",t:{en:"Arrival and coffee",vi:"Đón khách và cà phê"},s:{en:"",vi:""}},
-     {tm:"14:00",t:{en:"Host briefing on the 2027 pipeline",vi:"Đơn vị chủ trì trình bày danh mục dự án 2027"},s:{en:"GreenTech Vietnam",vi:"GreenTech Vietnam"}},
-     {tm:"15:00",t:{en:"Roundtable discussion",vi:"Thảo luận bàn tròn"},s:{en:"Chatham House rule",vi:"Áp dụng quy tắc Chatham House"}},
-     {tm:"17:00",t:{en:"Networking and close",vi:"Kết nối và bế mạc"},s:{en:"",vi:""}}]}],
-  speakers:[SPK_HA,SPK_MARCO],
-  reg:{mode:"external",free:false,approval:false,state:"open"}},
-
- /* 5 - partner event, external registration */
- {id:"fintech-bridge-meetup",img:"fintech",kind:"partner",day:"18",mon:{en:"DEC",vi:"TH12"},yr:"2026",
-  t:{en:"Fintech Bridge Meetup",vi:"Gặp gỡ Fintech Bridge"},
-  loc:{en:"Online / Hybrid",vi:"Trực tuyến / Kết hợp"},
-  addr:{en:"Helvetia Fintech AG, Löwenstrasse 3, 8001 Zurich, and online",vi:"Helvetia Fintech AG, Löwenstrasse 3, 8001 Zurich, và trực tuyến"},
-  theme:{en:"Cross-border payments, told by the people building them",vi:"Thanh toán xuyên biên giới, kể bởi chính những người đang xây dựng"},
-  start:"2026-12-18T17:00",end:"2026-12-18T19:30",etype:"etype_meetup",
-  topics:["top_fin","top_innov"],audience:["aud_ind","aud_ent","aud_acad"],
-  dur:{en:"2.5 hours",vi:"2,5 giờ"},expect:"180",langs:{en:"English",vi:"Tiếng Anh"},
-  co:[CO_HELV,CO_SVEF],by:"Helvetia Fintech AG",link:"https://helvetia-fintech.ch/bridge-meetup",
-  d:{en:"Networking meetup for cross-border payment innovators, hosted by Helvetia Fintech AG.",vi:"Sự kiện kết nối cho các nhà đổi mới thanh toán xuyên biên giới, do Helvetia Fintech AG tổ chức."},
-  about:{en:["An informal hybrid meetup run by Helvetia Fintech AG. Three short talks then open discussion, streamed for participants in Vietnam. Registration is handled on the host's own site."],
-        vi:["Buổi gặp kết hợp, không nghi thức, do Helvetia Fintech AG tổ chức. Ba bài nói ngắn rồi thảo luận mở, có phát trực tuyến cho người tham dự tại Việt Nam. Việc đăng ký thực hiện trên trang của đơn vị chủ trì."]},
-  focus:{en:["Remittance corridors and their real cost","Regulatory sandboxes in both markets","What has actually shipped this year"],
-         vi:["Các hành lang kiều hối và chi phí thực tế","Cơ chế thử nghiệm quản lý ở cả hai thị trường","Những gì thực sự đã ra mắt trong năm nay"]},
-  who:{en:"Payment engineers, product leads, compliance officers and anyone curious about the Zurich to Ho Chi Minh City corridor.",vi:"Kỹ sư thanh toán, phụ trách sản phẩm, cán bộ tuân thủ và bất kỳ ai quan tâm tới hành lang Zurich – TP. Hồ Chí Minh."},
-  agenda:[{d:{en:"Evening programme",vi:"Chương trình buổi tối"},date:{en:"Friday 18 December 2026",vi:"Thứ sáu, 18 tháng 12 năm 2026"},items:[
-     {tm:"17:00",t:{en:"Doors open and stream goes live",vi:"Mở cửa và bắt đầu phát trực tuyến"},s:{en:"",vi:""}},
-     {tm:"17:30",t:{en:"Three lightning talks",vi:"Ba bài nói chớp nhoáng"},s:{en:"Twelve minutes each",vi:"Mỗi bài mười hai phút"}},
-     {tm:"18:15",t:{en:"Open floor",vi:"Thảo luận mở"},s:{en:"Questions from the room and the stream",vi:"Câu hỏi từ hội trường và từ kênh trực tuyến"}},
-     {tm:"19:00",t:{en:"Drinks",vi:"Giao lưu"},s:{en:"In person only",vi:"Chỉ dành cho người dự trực tiếp"}}]}],
-  speakers:[SPK_LEA,SPK_LONG],
-  reg:{mode:"external",free:false,approval:false,state:"open"}},
-
- /* 6 - registration not yet open */
- {id:"startup-bridge-day-2027",img:"devices",kind:"forum",day:"28",mon:{en:"JAN",vi:"TH1"},yr:"2027",
+ /* registration not yet open */
+ {id:"startup-bridge-day-2027",img:"devices",day:"28",mon:{en:"JAN",vi:"TH1"},yr:"2027",
   t:{en:"Swiss-Vietnam Startup Bridge Day",vi:"Ngày Kết nối Startup Thụy Sĩ – Việt Nam"},
   loc:{en:"Ho Chi Minh City · Thu Duc",vi:"TP. Hồ Chí Minh · Thủ Đức"},
   addr:{en:"Saigon Innovation Hub, 273 Dien Bien Phu Street, Binh Thanh, Ho Chi Minh City",vi:"Saigon Innovation Hub, 273 Điện Biên Phủ, Bình Thạnh, TP. Hồ Chí Minh"},
@@ -2399,8 +2254,8 @@ const events=[
        opens:{en:"15 November 2026",vi:"15 tháng 11 năm 2026"},
        tiers:[{id:"sb_std",nm:{en:"Founder pass",vi:"Vé nhà sáng lập"},desc:{en:"Provisional, price to be confirmed",vi:"Dự kiến, giá sẽ được xác nhận"},chf:240,left:260}]}},
 
- /* 7, 8, 9 - past events */
- {id:"svef-hcmc-forum-2026",img:"forum-audience",kind:"forum",past:true,day:"12",mon:{en:"JUN",vi:"TH6"},yr:"2026",
+ /* past events */
+ {id:"svef-hcmc-forum-2026",img:"forum-audience",past:true,day:"12",mon:{en:"JUN",vi:"TH6"},yr:"2026",
   t:{en:"SVEF Business Forum · Ho Chi Minh City",vi:"Diễn đàn Doanh nghiệp SVEF · TP. Hồ Chí Minh"},
   loc:{en:"Ho Chi Minh City · GEM Center",vi:"TP. Hồ Chí Minh · GEM Center"},
   addr:{en:"GEM Center, 8 Nguyen Binh Khiem Street, District 1, Ho Chi Minh City",vi:"GEM Center, 8 Nguyễn Bỉnh Khiêm, Quận 1, TP. Hồ Chí Minh"},
@@ -2425,7 +2280,7 @@ const events=[
   reg:{mode:"inhouse",free:false,approval:false,state:"closed",cap:540,sold:540,vatRate:5,
        tiers:[{id:"hc_std",nm:{en:"Delegate pass",vi:"Vé đại biểu"},desc:{en:"Full two day access",vi:"Tham dự trọn hai ngày"},chf:640,left:0,soldout:true}]}},
 
- {id:"market-entry-seminar-2026",img:"seminar",kind:"forum",past:true,day:"03",mon:{en:"MAR",vi:"TH3"},yr:"2026",
+ {id:"market-entry-seminar-2026",img:"seminar",past:true,day:"03",mon:{en:"MAR",vi:"TH3"},yr:"2026",
   t:{en:"Swiss Market Entry Seminar",vi:"Hội thảo Thâm nhập Thị trường Thụy Sĩ"},
   loc:{en:"Hanoi · Melia",vi:"Hà Nội · Melia"},
   addr:{en:"Melia Hanoi, 44B Ly Thuong Kiet Street, Hoan Kiem, Hanoi",vi:"Melia Hà Nội, 44B Lý Thường Kiệt, Hoàn Kiếm, Hà Nội"},
@@ -2445,27 +2300,6 @@ const events=[
      {tm:"13:30",t:{en:"Customs clinic, one to one",vi:"Phòng tư vấn hải quan, một đối một"},s:{en:"",vi:""}}]}],
   speakers:[SPK_THU,SPK_ANH],
   reg:{mode:"inhouse",free:false,approval:false,state:"closed",cap:140,sold:140,vatRate:5}},
-
- {id:"investor-breakfast-zurich",img:"boardroom",kind:"partner",past:true,day:"21",mon:{en:"APR",vi:"TH4"},yr:"2026",
-  t:{en:"Zurich-Saigon Investor Breakfast",vi:"Bữa sáng Nhà đầu tư Zurich – Sài Gòn"},
-  loc:{en:"Zurich · Switzerland",vi:"Zurich · Thụy Sĩ"},
-  addr:{en:"Zurich Ventures, Bahnhofstrasse 52, 8001 Zurich",vi:"Zurich Ventures, Bahnhofstrasse 52, 8001 Zurich"},
-  theme:{en:"Closed-door breakfast between Swiss funds and Vietnamese growth companies",vi:"Bữa sáng kín giữa các quỹ Thụy Sĩ và doanh nghiệp tăng trưởng Việt Nam"},
-  start:"2026-04-21T08:00",end:"2026-04-21T10:30",etype:"etype_meetup",
-  topics:["top_fin","top_innov"],audience:["aud_inv","aud_corp"],
-  dur:{en:"2.5 hours",vi:"2,5 giờ"},expect:"40",langs:{en:"English",vi:"Tiếng Anh"},
-  co:[CO_ZV,CO_SVEF],by:"Zurich Ventures",link:"https://zurichventures.ch/breakfast",
-  d:{en:"Closed-door breakfast between Swiss funds and Vietnamese growth companies, hosted by Zurich Ventures.",vi:"Bữa sáng kín giữa các quỹ Thụy Sĩ và doanh nghiệp tăng trưởng Việt Nam, do Zurich Ventures tổ chức."},
-  about:{en:["Forty seats, no press, Chatham House rule. Two follow-on rounds were agreed within the quarter."],
-        vi:["Bốn mươi chỗ, không báo chí, áp dụng quy tắc Chatham House. Hai vòng gọi vốn tiếp theo đã được chốt ngay trong quý."]},
-  focus:{en:["Series B readiness for Vietnamese companies","Fund structures that work across both jurisdictions"],
-         vi:["Mức độ sẵn sàng cho vòng Series B của doanh nghiệp Việt Nam","Cấu trúc quỹ vận hành được ở cả hai hệ thống pháp lý"]},
-  who:{en:"Invited fund partners and eight Vietnamese growth companies.",vi:"Các thành viên quỹ được mời và tám doanh nghiệp tăng trưởng Việt Nam."},
-  agenda:[{d:{en:"Morning",vi:"Buổi sáng"},date:{en:"21 April 2026",vi:"21 tháng 4 năm 2026"},items:[
-     {tm:"08:00",t:{en:"Breakfast and introductions",vi:"Ăn sáng và giới thiệu"},s:{en:"",vi:""}},
-     {tm:"09:00",t:{en:"Eight company briefings",vi:"Tám phần giới thiệu doanh nghiệp"},s:{en:"",vi:""}}]}],
-  speakers:[SPK_MARCO,SPK_LONG],
-  reg:{mode:"external",free:false,approval:false,state:"closed"}},
 ];
 
 /* Demo promo codes. One valid percentage code, one expired, everything else unknown. */
@@ -2505,7 +2339,7 @@ const packages=[
  {id:'ind_sub',nm:{en:"Individual Subscriber",vi:"Individual Subscriber"},who:{en:"Professionals who want to stay informed",vi:"Cá nhân muốn cập nhật thông tin"},b:{en:["Newsletter and event announcements","Public event access at guest rates","Access to public reports"],vi:["Bản tin và thông báo sự kiện","Tham dự sự kiện công khai theo giá khách mời","Xem các báo cáo công khai"]}},
  {id:'ind_mem',nm:{en:"Individual Member",vi:"Individual Member"},who:{en:"Professionals active in both markets",vi:"Cá nhân hoạt động ở cả hai thị trường"},b:{en:["Everything in Individual Subscriber","Member rates for all SVEF events","Listed in the SVEF member database","Access to member-only documents"],vi:["Toàn bộ quyền lợi Individual Subscriber","Giá thành viên cho mọi sự kiện SVEF","Được liệt kê trong cơ sở dữ liệu thành viên","Xem tài liệu dành riêng cho thành viên"]}},
  {id:'inst_sub',nm:{en:"Institutional Subscriber",vi:"Institutional Subscriber"},who:{en:"Organisations testing the market",vi:"Tổ chức đang tìm hiểu thị trường"},b:{en:["Company listing in the partner database","Newsletter and event announcements","Member rates for two delegates"],vi:["Hiển thị doanh nghiệp trong cơ sở dữ liệu đối tác","Bản tin và thông báo sự kiện","Giá thành viên cho hai đại biểu"]}},
- {id:'inst_mem',nm:{en:"Institutional Member",vi:"Institutional Member"},who:{en:"Companies building a presence in both markets",vi:"Doanh nghiệp xây dựng hiện diện ở cả hai thị trường"},b:{en:["Full company profile with documents and presentations","Access to the partner database and messaging","Propose your own events to the forum","Multiple team members on one organisation account"],vi:["Hồ sơ doanh nghiệp đầy đủ kèm tài liệu và bài trình bày","Truy cập cơ sở dữ liệu đối tác và nhắn tin","Đề xuất sự kiện của riêng bạn lên diễn đàn","Nhiều thành viên trên một tài khoản tổ chức"]}},
+ {id:'inst_mem',nm:{en:"Institutional Member",vi:"Institutional Member"},who:{en:"Companies building a presence in both markets",vi:"Doanh nghiệp xây dựng hiện diện ở cả hai thị trường"},b:{en:["Full company profile with documents and presentations","Access to the partner database and messaging","Member rates and priority booking on every SVEF event","Multiple team members on one organisation account"],vi:["Hồ sơ doanh nghiệp đầy đủ kèm tài liệu và bài trình bày","Truy cập cơ sở dữ liệu đối tác và nhắn tin","Giá thành viên và ưu tiên đặt chỗ tại mọi sự kiện SVEF","Nhiều thành viên trên một tài khoản tổ chức"]}},
  {id:'strategic',nm:{en:"Strategic Partner",vi:"Strategic Partner"},who:{en:"Organisations shaping the forum's agenda",vi:"Tổ chức đồng hành định hình chương trình nghị sự"},b:{en:["Everything in Institutional Member","Priority placement across the site and at events","Speaking and sponsorship opportunities","Direct access to the secretariat and policy work"],vi:["Toàn bộ quyền lợi Institutional Member","Ưu tiên hiển thị trên website và tại sự kiện","Cơ hội phát biểu và tài trợ","Kết nối trực tiếp với ban thư ký và công tác chính sách"]}},
 ];
 const news=[
@@ -2547,12 +2381,8 @@ const profiles=[
  {id:"company",nm:"Helvetia Fintech",rl:{en:"Institutional Member",vi:"Thành viên tổ chức"},av:"HF",c:"#1F3A5F",tier:{en:"Member",vi:"Thành viên"}},
 ];
 let activeProfile=1;
-let myEvents=[
- {t:"Fintech Bridge Meetup",date:"18 Dec 2026",status:"approved"},
- {t:"Swiss FinReg Workshop",date:"20 Jan 2027",status:"pending"},
-];
 /* Registrations made through the in-site flow. Seeded so the portal shows a
-   paid booking, an awaiting-transfer booking, a pending application, a
+   paid booking, an awaiting-transfer booking, a delegation place awaiting review, a
    waitlisted place and a cancelled-and-refunded booking on first login.
    Card numbers are never stored: last four digits only. */
 let myRegs=[
@@ -2612,7 +2442,7 @@ const resources=[
  {t:{en:"Partnership Tiers & Benefits",vi:"Các hạng đối tác & quyền lợi"},f:"PDF · 1.1 MB",cat:"brief"},
  {t:{en:"Hanoi Forum Sponsorship Deck",vi:"Hồ sơ tài trợ Diễn đàn Hà Nội"},f:"PPTX · 8.7 MB",cat:"brief"},
  {t:{en:"Company Profile Template",vi:"Mẫu hồ sơ công ty"},f:"DOCX · 240 KB",cat:"tmpl"},
- {t:{en:"Event Proposal Form",vi:"Biểu mẫu đề xuất sự kiện"},f:"DOCX · 180 KB",cat:"tmpl"},
+ {t:{en:"Delegate Registration Form",vi:"Biểu mẫu đăng ký đại biểu"},f:"DOCX · 180 KB",cat:"tmpl"},
 ];
 const media=[
  {t:{en:"SVEF 2025 Forum · Highlights",vi:"Diễn đàn SVEF 2025 · Điểm nhấn"},k:{en:"Gallery · 48 photos",vi:"Thư viện · 48 ảnh"},img:"forum-audience"},
@@ -2666,7 +2496,7 @@ const actHow=[
  {t:{en:"Subscribe and read for a season",vi:"Đăng ký nhận tin và theo dõi một mùa"},
   p:{en:"Subscribers get the newsletter, the event calendar and the public reports without joining the database. Many members start here.",vi:"Người đăng ký nhận bản tin, lịch sự kiện và các báo cáo công khai mà chưa cần vào cơ sở dữ liệu. Nhiều thành viên bắt đầu từ đây."}},
  {t:{en:"Join as a member and be listed",vi:"Gia nhập thành viên và được liệt kê"},
-  p:{en:"Membership puts your organisation in the partner database, unlocks member rates and lets you propose your own events to the forum calendar.",vi:"Tư cách thành viên đưa tổ chức của bạn vào cơ sở dữ liệu đối tác, mở giá thành viên và cho phép bạn đề xuất sự kiện của mình lên lịch diễn đàn."}},
+  p:{en:"Membership puts your organisation in the partner database, unlocks member rates across the calendar and opens priority booking on the events that fill first.",vi:"Tư cách thành viên đưa tổ chức của bạn vào cơ sở dữ liệu đối tác, mở giá thành viên cho toàn bộ lịch sự kiện và cho phép ưu tiên đặt chỗ tại những sự kiện nhanh kín chỗ."}},
  {t:{en:"Become a strategic partner",vi:"Trở thành đối tác chiến lược"},
   p:{en:"Strategic partners help shape the annual agenda, take speaking and sponsorship slots, and work directly with the secretariat on policy submissions.",vi:"Đối tác chiến lược tham gia định hình chương trình nghị sự thường niên, có suất phát biểu và tài trợ, đồng thời làm việc trực tiếp với ban thư ký về các kiến nghị chính sách."}},
 ];
@@ -2703,7 +2533,7 @@ const ctFaq=[
  {q:{en:"I want to change or cancel a booking",vi:"Tôi muốn đổi hoặc huỷ chỗ đã đặt"},
   a:{en:"Log in and use My registrations in the member portal. Changes are confirmed by email straight away.",vi:"Hãy đăng nhập và vào mục Đăng ký của tôi trong cổng thành viên. Thay đổi được xác nhận qua email ngay lập tức."}},
  {q:{en:"I want a membership quote",vi:"Tôi muốn báo giá tư cách thành viên"},
-  a:{en:"Fees are quoted individually. Submit the registration form and the secretariat replies with the terms for your package.",vi:"Phí được báo riêng cho từng trường hợp. Hãy gửi biểu mẫu đăng ký, ban thư ký sẽ trả lời kèm điều khoản cho gói của bạn."}},
+  a:{en:"Fees are quoted individually. Write to the secretariat with the package you have in mind and we reply with the terms and current rates.",vi:"Phí được báo riêng cho từng trường hợp. Hãy gửi thư cho ban thư ký kèm gói bạn quan tâm, chúng tôi sẽ trả lời cùng điều khoản và mức phí hiện hành."}},
 ];
 
 let loggedIn=false;
@@ -2725,16 +2555,15 @@ function mobileMenu(){const m=document.getElementById('menu');m.classList.toggle
 /* ================= RENDER PUBLIC ================= */
 function plogo(p,size){return `<div class="plogo" style="background:${p.c}${size?';width:'+size+'px;height:'+size+'px':''}">${p.i}</div>`}
 function evCard(e,i){
-  const badge=e.kind==='forum'?`<span class="chip navy">${tr('by_forum')}</span>`:`<span class="chip gold">${tr('by_partner')}: ${e.by}</span>`;
+  const chip=evStateChip(e);
   return `<div class="ev-row" onclick="openEvent(${i})"><div class="date"><b>${e.day}</b><span>${e.mon[lang]}</span></div>
    <div class="shot pic" style="--img:url('assets/img/${e.img}.jpg')" aria-hidden="true"></div>
-   <div class="info"><h4>${e.t[lang]}</h4><p>${e.loc[lang]}</p><div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">${badge}${evStateChip(e)}</div></div><span class="muted">›</span></div>`;
+   <div class="info"><h4>${e.t[lang]}</h4><p>${e.loc[lang]}</p>${chip?`<div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">${chip}</div>`:''}</div><span class="muted">›</span></div>`;
 }
 /* one-line capacity / availability state, shown on every event card */
 function evStateChip(e){
   if(e.past)return '';
   const r=evReg(e);
-  if(r.mode==='external')return '<span class="chip">'+tr('rs_extshort')+'</span>';
   if(r.state==='soon')return '<span class="chip gold">'+tr('rs_soon')+'</span>';
   if(r.state==='closed')return '<span class="chip">'+tr('rs_closed')+'</span>';
   if(r.state==='soldout'||evSeatsLeft(e)<=0)return '<span class="chip red">'+tr('rs_soldout')+'</span>';
@@ -2750,7 +2579,7 @@ function renderHome(){
   document.getElementById('relArticles').innerHTML=news.slice(0,3).map(n=>
     `<div class="card hov" onclick="show('news')"><div class="thumb">${n.tag[lang]}</div><h3 style="font-size:16px">${n.t[lang]}</h3><p>${n.d[lang]}</p></div>`).join('');
   document.getElementById('pkgGrid').innerHTML=packages.map(function(p){
-    // no per-package register button: a single Register now sits above the grid
+    // no per-package call to action: a single route to the secretariat sits above the grid
     return `<div class="card pkg"><h3 style="font-size:18px;margin-bottom:2px">${p.nm[lang]}</h3>`+
       `<span class="who">${tr('bp_forwho')}: ${p.who[lang]}</span>`+
       `<ul class="pkgb">${p.b[lang].map(x=>`<li>${x}</li>`).join('')}</ul></div>`}).join('');
@@ -2852,17 +2681,13 @@ function renderActivities(){
       <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">${i+1}. ${a.t[lang]}</h3><span class="muted">＋</span></div>
       <p class="acc" style="display:${i===0?'block':'none'};margin:12px 0 0;font-size:14.5px" >${a.d[lang]}</p></div>`).join('');
 }
-let evCurrentFilter='all';
 function renderEvents(){
-  const match=e=>evCurrentFilter==='all'||e.kind===evCurrentFilter;
-  const up=events.filter(e=>!e.past&&match(e)),pastL=events.filter(e=>e.past&&match(e));
+  const up=events.filter(e=>!e.past),pastL=events.filter(e=>e.past);
   const none=`<p class="muted">${tr('ev_none')}</p>`;
   document.getElementById('eventListUp').innerHTML=up.map(e=>evCard(e,events.indexOf(e))).join('')||none;
   document.getElementById('eventListPast').innerHTML=pastL.map(e=>evCard(e,events.indexOf(e))).join('')||none;
-  const pb=document.getElementById('evProposeBtn');if(pb)pb.style.display=loggedIn?'':'none';
   enhanceA11y();
 }
-function evFilter(f,btn){evCurrentFilter=f;document.querySelectorAll('#page-events .tabbar button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderEvents();}
 
 function renderDirectory(){
   const m=document.getElementById('fMarket').value,t=document.getElementById('fType').value,ind=document.getElementById('fInd').value;
@@ -2882,7 +2707,43 @@ function resetFilters(){document.getElementById('fMarket').value='';document.get
 let _lastFocus=null;
 function openModal(id){_lastFocus=document.activeElement;const m=document.getElementById(id);m.classList.add('show');document.body.style.overflow='hidden';const dlg=m.querySelector('.modal');if(dlg){dlg.setAttribute('role','dialog');dlg.setAttribute('aria-modal','true');}enhanceA11y();const f=m.querySelector('input:not([disabled]),button,select,textarea,a');if(f)setTimeout(function(){f.focus();},30);}
 function closeModal(){document.querySelectorAll('.scrim').forEach(s=>s.classList.remove('show'));document.body.style.overflow='';if(_lastFocus&&_lastFocus.focus)_lastFocus.focus();}
-function openLogin(){if(loggedIn){show('portal');renderPortal();return;}openModal('scrimLogin');}
+/* The account panel offers both routes the client wants kept: sign in, or create
+   an account, either through SSO or with an email address and a password. */
+let liMode='in';
+function openLogin(){
+  if(loggedIn){show('portal');renderPortal();return;}
+  liMode='in';
+  document.querySelectorAll('#liTabs button').forEach(function(b,i){b.classList.toggle('on',i===0);});
+  renderLoginBody();openModal('scrimLogin');
+}
+function loginTab(m,btn){
+  liMode=m;
+  document.querySelectorAll('#liTabs button').forEach(function(b){b.classList.remove('on');});
+  if(btn)btn.classList.add('on');
+  renderLoginBody();
+}
+function renderLoginBody(){
+  const box=document.getElementById('liBody');if(!box)return;
+  if(liMode==='new'){
+    box.innerHTML='<div class="mrow"><label>'+tr('rw_name')+'</label><input id="liName" value="" placeholder="'+tr('li_name_ph')+'"></div>'+
+      '<div class="mrow"><label>'+tr('rw_email')+'</label><input id="liEmail" value="" placeholder="you@company.com"></div>'+
+      '<div class="mrow"><label>'+tr('password')+'</label><input type="password" value="demo1234"></div>'+
+      '<button class="btn block" onclick="doCreateAccount()">'+tr('li_create')+'</button>'+
+      '<p class="muted" style="font-size:12.5px;text-align:center;margin:12px 0 0">'+tr('li_create_note')+'</p>';
+  }else{
+    box.innerHTML='<div class="mrow"><label>'+tr('rw_email')+'</label><input id="liEmail" value="anh.tran@zegoe.vc" placeholder="you@company.com"></div>'+
+      '<div class="mrow"><label>'+tr('password')+'</label><input type="password" value="demo1234"></div>'+
+      '<button class="btn block" onclick="doLogin()">'+tr('login')+'</button>'+
+      '<p class="muted" style="font-size:12.5px;text-align:center;margin:12px 0 0">'+tr('login_note')+'</p>';
+  }
+  enhanceA11y();
+}
+function doCreateAccount(){
+  const n=document.getElementById('liName');
+  const nm=(n&&n.value.trim())||'';
+  doLogin();
+  toast(tr('t_account_created')+(nm?', '+nm:''));
+}
 function doLogin(){loggedIn=true;closeModal();document.getElementById('loginBtn').textContent=tr('pt_dash');document.getElementById('loginBtn').onclick=()=>{show('portal');renderPortal();};show('portal');renderPortal();renderEvents();toast(lang==='vi'?'Đăng nhập thành công':'Logged in');}
 function logout(){loggedIn=false;document.getElementById('loginBtn').textContent=tr('login');document.getElementById('loginBtn').onclick=openLogin;renderEvents();show('home');}
 
@@ -2954,7 +2815,6 @@ function chfFmt(n){
   return "CHF "+v.toLocaleString("en-US",{minimumFractionDigits:dec?2:0,maximumFractionDigits:2}).replace(/,/g,"'");
 }
 function vndFmt(n){return Math.round(Number(n)*VND_RATE).toLocaleString("en-US")+" ₫";}
-function money(n){return n===0?tr('rs_free'):chfFmt(n);}
 function pad2(n){return (n<10?'0':'')+n;}
 function fmtDT(iso,withTime){
   if(!iso)return '';
@@ -2970,9 +2830,9 @@ function evKicker(e){
   }
   return a.getDate()+' '+mo+' - '+b.getDate()+' '+MONTHS[lang][b.getMonth()].toUpperCase()+' '+b.getFullYear();
 }
-function evReg(e){return e.reg||{mode:'external',state:'closed'};}
+function evReg(e){return e.reg||{mode:'inhouse',state:'closed'};}
 function evSeatsLeft(e){const r=evReg(e);return Math.max(0,(r.cap||0)-(r.sold||0));}
-function evOrganiser(e){return e.kind==='forum'?'Swiss-Viet Economic Forum':(e.by||'');}
+function evOrganiser(){return 'Swiss-Viet Economic Forum';}
 /* the visitor's own live registration for an event, if any */
 function myRegFor(id){return myRegs.filter(function(r){
   return r.evId===id&&r.status!=='cancelled'&&(loggedIn||!r.seeded);})[0];}
@@ -2987,9 +2847,6 @@ function backToEvents(){show('events');renderEvents();}
 function renderEventPage(){
   const e=events[curEvent];if(!e)return;
   const r=evReg(e);
-  const badge=e.kind==='forum'
-    ?'<span class="chip red">'+tr('by_forum')+'</span>'
-    :'<span class="chip">'+tr('by_partner')+': '+e.by+'</span>';
   /* ---- masthead ---- */
   document.getElementById('evHero').innerHTML=
    '<div class="bg" style="--img:url(\'assets/img/'+e.img+'.jpg\')" aria-hidden="true"></div>'+
@@ -2999,7 +2856,7 @@ function renderEventPage(){
        '<span class="sep">/</span><span>'+e.loc[lang]+'</span></div>'+
      '<h1>'+e.t[lang]+'</h1>'+
      '<p class="evtheme">'+e.theme[lang]+'</p>'+
-     '<div style="display:flex;gap:6px;flex-wrap:wrap">'+badge+
+     '<div style="display:flex;gap:6px;flex-wrap:wrap">'+
        e.topics.map(function(t){return '<span class="chip">'+tr(t)+'</span>';}).join('')+'</div>'+
      '<div class="evbar">'+
        '<div><b>'+fmtDT(e.start,false)+'</b><span>'+tr('f_start')+'</span></div>'+
@@ -3058,7 +2915,7 @@ function renderEventPage(){
    [tr('f_addr'),e.addr[lang]],
    [tr('f_expect'),e.expect],
    [tr('f_lang'),e.langs[lang]],
-   [tr('f_organiser'),evOrganiser(e)]
+   [tr('f_organiser'),evOrganiser()]
   ];
   side+='<div class="factlist">'+facts.map(function(f){
     return '<div><span class="k">'+f[0]+'</span><b>'+f[1]+'</b></div>';}).join('')+
@@ -3101,11 +2958,6 @@ function evRegBox(e){
        '<button class="btn block" onclick="gotoMyRegs()">'+tr('rs_manage')+'</button>';
     return h+'</div>';
   }
-  if(r.mode==='external'){
-    h+='<h4>'+tr('register_ev')+'</h4><p class="muted" style="margin:6px 0 16px;font-size:13.5px">'+tr('rs_ext')+'</p>'+
-       '<a class="btn block" href="'+e.link+'" target="_blank" rel="noopener">'+tr('reg_ext')+'</a>';
-    return h+'</div>';
-  }
   if(r.state==='soon'){
     h+='<span class="chip gold">'+tr('rs_soon')+'</span>'+
        '<h4 style="margin-top:12px">'+tr('rs_opens')+' '+r.opens[lang]+'</h4>'+
@@ -3140,7 +2992,6 @@ function gotoMyRegs(){
   if(!loggedIn){openLogin();return;}
   show('portal');renderPortal();
   portalTab('events',qbtn('events'));
-  meTab('regs',document.querySelectorAll('#meTabs button')[0]);
 }
 function evShare(how){
   const e=events[curEvent];
@@ -3422,7 +3273,6 @@ function mkRef(){
    are ever written to state, rendered or exported.
    ========================================================================= */
 function payDelay(fn){return setTimeout(fn,900);}
-function paySet(k,v){RW.pay[k]=v;renderReg();}
 function payChoose(m){RW.pay.method=m;RW.pay.error=null;
   RW.pay.sub=(m==='invoice')?'confirm':(m==='card'?'form':(m==='twint'?'twintwait':'gateway'));
   if(m==='twint')RW.pay.gwref='TWINT-'+randHex(6);
@@ -3897,21 +3747,11 @@ function addToCalendar(ref){
   toast(tr('t_cal'));
 }
 
-function proposeEvent(){openModal('scrimPropose');}
-function submitPropose(){
-  const nm=document.getElementById('peName').value||'Untitled event';
-  const dt=document.getElementById('peDate').value||'TBD';
-  const lk=document.getElementById('peLink').value||'';
-  myEvents.unshift({t:nm,date:dt,status:'pending',link:lk});
-  closeModal();toast(tr('t_proposed'));
-  if(loggedIn){renderMyEvents();}
-}
-
 /* ================= PORTAL ================= */
 /* Individual profiles get a reduced portal: no company documents, no messaging,
    no team management and no company-wide actions (client feedback, Aug 2026). */
 function isIndividual(){const rl=profiles[activeProfile].rl.en;return rl.indexOf('Institutional')<0&&rl.indexOf('Strategic')<0;}
-function renderPortal(){renderProfiles();renderPortalMenu();renderMyEvents();renderMyRegs();renderDocs();renderPortalDir();renderMessages();renderAccount();renderTeam();updateDash();}
+function renderPortal(){renderProfiles();renderPortalMenu();renderMyRegs();renderDocs();renderPortalDir();renderMessages();renderAccount();renderTeam();updateDash();}
 function renderPortalMenu(){
   const ind=isIndividual();
   const hidden=ind?['docs','messages','team']:[];
@@ -3975,7 +3815,6 @@ let teamMembers=[
 ];
 let memEdit=-1;
 function trRole(r){const m={Admin:{en:'Admin',vi:'Quản trị'},Editor:{en:'Editor',vi:'Biên tập'},Viewer:{en:'Viewer',vi:'Chỉ xem'}};return m[r]?m[r][lang]:r;}
-function trStatus(s){const m={Active:{en:'Active',vi:'Hoạt động'},Invited:{en:'Invited',vi:'Đã mời'}};return m[s]?m[s][lang]:s;}
 function initials(n){const p=n.replace(/[^A-Za-zÀ-ỹ ]/g,'').trim().split(/\s+/);return (p.map(x=>x[0]).slice(-2).join('')||'?').toUpperCase();}
 function renderTeam(){
   const t=document.getElementById('teamTable');if(!t)return;
@@ -4040,9 +3879,9 @@ function renderProfiles(){
 function switchProfile(i){activeProfile=i;renderProfiles();renderPortalMenu();updateDash();renderPortalDir();toast((lang==='vi'?'Đang xem hồ sơ: ':'Now viewing: ')+profiles[i].nm);}
 function tierLabel(p){
   // the client asked for the tier to read as the actual package name, not a generic word
-  if(p.pending)return lang==='vi'?'Chờ duyệt':'Pending';
   return p.rl[lang];
 }
+function liveRegCount(){return myRegs.filter(function(r){return r.status!=='cancelled';}).length;}
 function updateDash(){
   const p=profiles[activeProfile];
   const ind=isIndividual();
@@ -4052,31 +3891,29 @@ function updateDash(){
   const tile=(v,k)=>`<div class="st"><b style="${String(v).length>6?'font-size:18px;line-height:1.2':''}">${v}</b><span>${tr(k)}</span></div>`;
   if(ind){
     st.style.gridTemplateColumns='repeat(2,1fr)';
-    st.innerHTML=tile(myEvents.length,'k_evsub')+tile(tierLabel(p),'k_tier');
+    st.innerHTML=tile(liveRegCount(),'k_regs')+tile(tierLabel(p),'k_tier');
   }else{
     st.style.gridTemplateColumns='';
-    st.innerHTML=tile(myDocs.length,'k_docs')+tile(myEvents.length,'k_evsub')+tile(18,'k_conn')+tile(tierLabel(p),'k_tier');
+    st.innerHTML=tile(myDocs.length,'k_docs')+tile(liveRegCount(),'k_regs')+tile(18,'k_conn')+tile(tierLabel(p),'k_tier');
   }
   const qa=document.getElementById('quickActions');
   const editCard=ind
     ?`<button class="card hov" style="text-align:left" onclick="portalTab('company',qbtn('company'))"><div class="ic n">👤</div><h3 style="font-size:15px">${tr('qa_editp')}</h3><p>${tr('qa_editp_s')}</p></button>`
     :`<button class="card hov" style="text-align:left" onclick="portalTab('company',qbtn('company'))"><div class="ic n">🏢</div><h3 style="font-size:15px">${tr('qa_edit')}</h3><p>${tr('qa_edit_s')}</p></button>`;
   const upCard=ind?'':`<button class="card hov" style="text-align:left" onclick="portalTab('docs',qbtn('docs'))"><div class="ic r">📎</div><h3 style="font-size:15px">${tr('qa_upload')}</h3><p>${tr('qa_upload_s')}</p></button>`;
-  qa.innerHTML=editCard+upCard+`<button class="card hov" style="text-align:left" onclick="proposeEvent()"><div class="ic g">📅</div><h3 style="font-size:15px">${tr('qa_prop')}</h3><p>${tr('qa_prop_s')}</p></button>`;
-  const pb=document.getElementById('pendingBanner');
-  if(pb)pb.innerHTML=p.pending?`<div class="pending-banner">⏳<div><b>${tr('pending_t')}</b><div class="muted" style="font-size:12.5px">${tr('pending_p')}</div></div></div>`:'';
-  renderOnboard(p);
+  qa.innerHTML=editCard+upCard+`<button class="card hov" style="text-align:left" onclick="show('events')"><div class="ic g">📅</div><h3 style="font-size:15px">${tr('qa_ev')}</h3><p>${tr('qa_ev_s')}</p></button>`;
+  renderOnboard();
 }
-function renderOnboard(p){
+function renderOnboard(){
   const box=document.getElementById('onboardList');if(!box)return;
   const items=isIndividual()
-    ?[['ob1',true],['ob2',!p.pending],['ob4',myEvents.length>0]]
-    :[['ob1',true],['ob2',!p.pending],['ob3',myDocs.length>0],['ob4',myEvents.length>0]];
+    ?[['ob1',true],['ob2',true],['ob4',liveRegCount()>0]]
+    :[['ob1',true],['ob2',true],['ob3',myDocs.length>0],['ob4',liveRegCount()>0]];
   box.innerHTML=items.map(function(it){return `<div class="chk ${it[1]?'done':''}"><span class="b">${it[1]?'✓':''}</span><span>${tr(it[0])}</span></div>`}).join('');
 }
 function renderAccount(){
   const box=document.getElementById('acProfiles');if(!box)return;
-  box.innerHTML=profiles.map(function(p,i){return `<div class="doc"><div class="fi" style="background:${p.c};color:#fff">${p.av}</div><div class="fn"><b>${p.nm}</b><span>${p.rl[lang]}${p.pending?' · '+tr('status_pending'):''}</span></div>`+(i===activeProfile?'<span class="chip green">'+(lang==='vi'?'Đang dùng':'Active')+'</span>':'<button class="btn ghost sm" onclick="switchProfile('+i+')">'+(lang==='vi'?'Chọn':'Use')+'</button>')+`</div>`}).join('');
+  box.innerHTML=profiles.map(function(p,i){return `<div class="doc"><div class="fi" style="background:${p.c};color:#fff">${p.av}</div><div class="fn"><b>${p.nm}</b><span>${p.rl[lang]}</span></div>`+(i===activeProfile?'<span class="chip green">'+(lang==='vi'?'Đang dùng':'Active')+'</span>':'<button class="btn ghost sm" onclick="switchProfile('+i+')">'+(lang==='vi'?'Chọn':'Use')+'</button>')+`</div>`}).join('');
 }
 function setLangFromAccount(v){lang=v;localStorage.setItem('svef_web_lang',v);applyI18n();}
 function portalTab(t,btn){
@@ -4086,19 +3923,7 @@ function portalTab(t,btn){
   if(btn)btn.classList.add('on');
 }
 function qbtn(t){return document.querySelector('#pmenu button[data-tab="'+t+'"]');}
-function renderMyEvents(){
-  document.getElementById('myEventList').innerHTML=myEvents.map(e=>{
-    const c=e.status==='approved'?'green':e.status==='pending'?'pend':'red';
-    return `<div class="ev-row" style="cursor:default"><div class="date" style="background:${e.status==='approved'?'var(--green)':e.status==='pending'?'var(--gold)':'var(--red)'}"><b>${e.date.split(' ')[0]}</b><span>${(e.date.split(' ')[1]||'').toUpperCase()}</span></div><div class="info"><h4>${e.t}</h4><p>${e.date}</p></div><span class="chip ${c}">${tr('status_'+e.status)}</span></div>`;
-  }).join('');
-}
 /* ===== MY REGISTRATIONS (BRD 8.1: view, modify and cancel a registration) ===== */
-function meTab(t,btn){
-  document.getElementById('me-regs').style.display=t==='regs'?'':'none';
-  document.getElementById('me-props').style.display=t==='props'?'':'none';
-  document.querySelectorAll('#meTabs button').forEach(function(b){b.classList.remove('on');});
-  if(btn)btn.classList.add('on');
-}
 function regStatusChip(st){
   const c=st==='confirmed'?'green':st==='pending'?'pend':st==='waitlisted'?'gold':'red';
   return '<span class="chip '+c+'">'+tr('mr_status_'+st)+'</span>';
@@ -4339,7 +4164,6 @@ function savePartner(){
   closeModal();renderDirectory();renderPortalDir();renderHome();
   toast(pfEdit>=0?(lang==='vi'?'Đã cập nhật đối tác':'Partner updated'):(lang==='vi'?'Đã thêm đối tác':'Partner added'));
 }
-function delPartner(i){partners.splice(i,1);renderDirectory();renderPortalDir();renderHome();toast(lang==='vi'?'Đã xoá đối tác':'Partner removed');}
 function renderMessages(){
   document.getElementById('msgList').innerHTML=messages.map((m,i)=>
     `<div class="msg" onclick="openThread(${i})"><div class="av" style="background:${m.c}">${m.i}</div><div class="mc"><h4>${m.n}</h4><p>${m.p[lang]}</p></div></div>`).join('');
@@ -4360,82 +4184,6 @@ function thSend(){
   const b=document.getElementById('thBody');b.insertAdjacentHTML('beforeend',`<div class="bubble me">${v.replace(/</g,'&lt;')}</div>`);inp.value='';b.scrollTop=b.scrollHeight;
 }
 
-/* ================= SIGN-UP / ONBOARDING WIZARD ================= */
-/* Packages, not prices: fees vary and are negotiated, so the form never quotes a figure. */
-function tiersFor(type){return packages.filter(p=>type==='individual'?p.id.indexOf('ind_')===0:p.id.indexOf('ind_')!==0);}
-let su={step:0,mode:'join',type:'institutional',tier:'inst_mem',name:'',company:'',industry:'Finance & Banking',market:'Switzerland',email:'you@company.com'};
-const suWizSteps=['st_account','st_type','st_details','st_tier','st_review'];
-function openSignup(mode,pkgId){
-  const indiv=pkgId&&pkgId.indexOf('ind_')===0;
-  su={step:mode==='addprofile'?1:0,mode:mode||'join',type:indiv?'individual':'institutional',tier:pkgId||'inst_mem',name:'',company:'',industry:'Finance & Banking',market:'Switzerland',email:'you@company.com'};
-  renderSignup();openModal('scrimSignup');
-}
-function suSet(k,v){su[k]=v;renderSignup();}
-function suNav(d){const min=su.mode==='addprofile'?1:0;let s=su.step+d;if(s<min)s=min;if(s>4)s=4;su.step=s;renderSignup();}
-function indOptions(sel){return ['Finance & Banking','Technology & Innovation','Manufacturing','Energy','Consulting'].map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('');}
-function mktOptions(sel){return ['Switzerland','Vietnam','Europe','South East Asia','Global'].map(o=>`<option ${o===sel?'selected':''}>${o}</option>`).join('');}
-function renderSignup(){
-  const steps=suWizSteps.map(function(k,i){
-    if(su.mode==='addprofile'&&i===0)return null;
-    const cls=i<su.step?'done':i===su.step?'act':'';
-    return `<div class="wstep ${cls}"><span class="n">${i<su.step?'✓':i+1}</span><b>${tr(k)}</b></div>`;
-  }).filter(Boolean).join('<span class="wline"></span>');
-  document.getElementById('suSteps').innerHTML=steps;
-  let b='';
-  if(su.step===0){
-    b=`<div class="sso"><button onclick="suNav(1)"><span class="g" style="background:#4285F4">G</span> ${tr('sso_g')}</button><button onclick="suNav(1)"><span class="g" style="background:#00A4EF">M</span> ${tr('sso_m')}</button></div>
-      <div class="divider">${tr('or')}</div>
-      <div class="mrow"><label>Email</label><input value="${su.email}" oninput="su.email=this.value"></div>
-      <div class="mrow"><label>${tr('password')}</label><input type="password" value="demo1234"></div>`;
-  }else if(su.step===1){
-    b=`<p class="muted" style="margin-top:0">${tr('su_type_q')}</p>
-      <div class="optcards">
-        <div class="optcard ${su.type==='individual'?'on':''}" onclick="suSet('type','individual')">👤<b>${tr('type_ind')}</b><span>${tr('type_ind_d')}</span></div>
-        <div class="optcard ${su.type==='institutional'?'on':''}" onclick="suSet('type','institutional')">🏢<b>${tr('type_inst')}</b><span>${tr('type_inst_d')}</span></div>
-      </div>`;
-  }else if(su.step===2){
-    if(su.type==='individual'){
-      b=`<div class="mrow"><label>${lang==='vi'?'Họ và tên':'Full name'}</label><input value="${su.name}" oninput="su.name=this.value" placeholder="${lang==='vi'?'Nguyễn Văn A':'Jane Doe'}"></div>
-        <div class="mrow"><label>${lang==='vi'?'Chức danh / Công ty':'Title / Company'}</label><input value="${su.company}" oninput="su.company=this.value"></div>
-        <div class="mrow"><label>${tr('cp_ind')}</label><select onchange="su.industry=this.value">${indOptions(su.industry)}</select></div>`;
-    }else{
-      b=`<div class="mrow"><label>${tr('cp_name')}</label><input value="${su.company}" oninput="su.company=this.value" placeholder="${lang==='vi'?'Tên công ty':'Company name'}"></div>
-        <div class="grid g2" style="gap:14px"><div class="mrow"><label>${tr('cp_ind')}</label><select onchange="su.industry=this.value">${indOptions(su.industry)}</select></div><div class="mrow"><label>${tr('cp_market')}</label><select onchange="su.market=this.value">${mktOptions(su.market)}</select></div></div>
-        <div class="mrow"><label>${tr('cp_logo')}</label><div class="uploadzone" onclick="toast(tr('t_upload'))">🖼️ ${tr('cp_logo_z')}</div></div>`;
-    }
-  }else if(su.step===3){
-    const list=tiersFor(su.type);
-    if(!list.some(t=>t.id===su.tier))su.tier=list[list.length-1].id;
-    b=list.map(t=>`<div class="ticket ${su.tier===t.id?'sel':''}" style="align-items:flex-start" onclick="suSet('tier','${t.id}')"><div><b>${t.nm[lang]}</b><div class="muted" style="font-size:11.5px">${t.who[lang]}</div></div><div class="radio" style="margin-top:3px"></div></div>`).join('');
-  }else{
-    const list=tiersFor(su.type);
-    const tn=list.find(t=>t.id===su.tier)||list[list.length-1];
-    b=`<div class="reviewbox">
-        <div><span class="muted">${tr('st_type')}</span><b>${su.type==='individual'?tr('type_ind'):tr('type_inst')}</b></div>
-        <div><span class="muted">${su.type==='individual'?(lang==='vi'?'Họ tên':'Name'):tr('cp_name')}</span><b>${(su.type==='individual'?su.name:su.company)||'—'}</b></div>
-        <div><span class="muted">${tr('cp_ind')}</span><b>${su.industry}</b></div>
-        <div><span class="muted">${tr('st_tier')}</span><b>${tn.nm[lang]}</b></div>
-      </div>
-      <div class="card" style="background:var(--soft);border:none;font-size:13px;color:var(--muted);margin-top:14px">ℹ️ ${tr('su_review_note')}</div>`;
-  }
-  const min=su.mode==='addprofile'?1:0;
-  const back=su.step>min?`<button class="btn ghost" onclick="suNav(-1)">${tr('wiz_back')}</button>`:'';
-  const next=su.step<4?`<button class="btn" onclick="suNav(1)">${tr('wiz_next')}</button>`:`<button class="btn" onclick="suSubmit()">${tr('wiz_submit')}</button>`;
-  document.getElementById('suBody').innerHTML=b+`<div class="wiznav">${back}${next}</div>`;
-  enhanceA11y();
-}
-function suSubmit(){
-  const label=su.type==='individual'?(su.name||(lang==='vi'?'Hồ sơ mới':'New profile')):(su.company||(lang==='vi'?'Công ty mới':'New company'));
-  const parts=label.replace(/[^A-Za-zÀ-ỹ ]/g,'').trim().split(/\s+/);
-  const avv=(parts.map(x=>x[0]).join('').slice(0,2)||'NP').toUpperCase();
-  const pk=packages.find(t=>t.id===su.tier)||packages[3];
-  const rl={en:pk.nm.en,vi:pk.nm.vi};
-  profiles.push({id:'p'+profiles.length,nm:label,rl:rl,av:avv,c:'#4A3B6B',tier:{en:'Pending',vi:'Chờ duyệt'},pending:true});
-  activeProfile=profiles.length-1;
-  if(su.mode!=='addprofile'&&!loggedIn){loggedIn=true;document.getElementById('loginBtn').textContent=tr('pt_dash');document.getElementById('loginBtn').onclick=function(){show('portal');renderPortal();};}
-  closeModal();renderPortal();show('portal');portalTab('dash',document.querySelectorAll('#pmenu button')[0]);toast(tr('wiz_pending'));
-}
-
 /* ================= I18N APPLY ================= */
 function applyI18n(){
   document.documentElement.lang=lang;
@@ -4444,6 +4192,7 @@ function applyI18n(){
   document.getElementById('langLbl').textContent=lang==='en'?'EN':'VI';
   document.getElementById('loginBtn').textContent=loggedIn?tr('pt_dash'):tr('login');
   document.querySelectorAll('[data-i18n-opt]').forEach(el=>{const k=el.getAttribute('data-i18n-opt');if(T[lang][k]!==undefined)el.textContent=T[lang][k];});
+  renderLoginBody();
   renderHome();renderNewsFull();renderActivities();renderActExtras();renderEvents();renderDirectory();
   renderResources();renderResExtras();renderMedia();renderAbout();renderContact();
   if(document.getElementById('page-event').classList.contains('active'))renderEventPage();

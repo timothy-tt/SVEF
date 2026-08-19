@@ -122,8 +122,6 @@ a{text-decoration:none;color:inherit}
 .snav button.on{background:rgba(255,255,255,.06);color:#fff;border-left-color:var(--red)}
 .snav .ni{font-style:normal;filter:grayscale(1) brightness(1.75);font-size:15px;width:19px;
   display:inline-block;text-align:center;flex:0 0 19px}
-.snav .badge{margin-left:auto;background:var(--red);color:#fff;font-family:var(--mono);font-size:9px;
-  font-weight:500;border-radius:0;padding:2px 6px;letter-spacing:.06em}
 .side .foot{padding:16px 20px;border-top:1px solid rgba(255,255,255,.16);font-family:var(--mono);
   font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.1em;line-height:1.7}
 .side .foot a{color:#fff;opacity:.9;display:block;margin-top:6px}
@@ -188,20 +186,6 @@ tr:hover td{background:var(--bg)}
 .namecell b{color:var(--ink);font-weight:600;letter-spacing:-.02em}
 .act-btns{display:flex;gap:0}
 .act-btns .btn+.btn{margin-left:-1px}
-
-/* ==================== APPROVAL QUEUE ==================== */
-.appr{border:1px solid var(--line);border-radius:0;padding:20px;margin-top:-1px;display:flex;gap:20px;
-  align-items:flex-start}
-.appr:hover{border-color:var(--ink);position:relative;z-index:1}
-.appr .d{flex:0 0 58px;text-align:center;background:var(--red);color:#fff;border-radius:0;padding:10px 0}
-.appr .d.blue{background:var(--ink);color:#fff}
-.appr .d b{display:block;font-size:20px;line-height:1;font-weight:700;letter-spacing:-.04em}
-.appr .d span{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;opacity:.85}
-.appr .body{flex:1;min-width:0}
-.appr .body h4{margin:0 0 5px;color:var(--ink);font-size:16px;font-weight:600;letter-spacing:-.025em}
-.appr .body p{margin:0;font-size:13px;color:var(--muted)}
-.appr .acts{display:flex;gap:0;flex-direction:column}
-.appr .acts .btn+.btn{margin-top:-1px}
 
 /* ==================== CMS EDITOR ==================== */
 .cms-grid{display:grid;grid-template-columns:230px 1fr;gap:24px}
@@ -443,9 +427,6 @@ tr:hover .pic::before{filter:none}
   .stat-grid{grid-template-columns:1fr}
   .kpigrid{grid-template-columns:1fr}
   .g2{grid-template-columns:1fr}
-  .appr{flex-direction:column}
-  .appr .acts{flex-direction:row}
-  .appr .acts .btn+.btn{margin-top:0;margin-left:-1px}
 }
 </style>
 </head>
@@ -483,9 +464,9 @@ tr:hover .pic::before{filter:none}
     <button onclick="nav('news',this)"><i class="ni">📰</i><span data-i18n="n_news">News / Media</span></button>
     <div class="grp" data-i18n="g_community">Community</div>
     <button onclick="nav('partners',this)"><i class="ni">🏢</i><span data-i18n="n_partners">Partners</span></button>
-    <button onclick="nav('members',this)"><i class="ni">👥</i><span data-i18n="n_members">Memberships</span> <span class="badge" id="memBadge">2</span></button>
+    <button onclick="nav('members',this)"><i class="ni">👥</i><span data-i18n="n_members">Memberships</span></button>
     <div class="grp" data-i18n="g_events">Events</div>
-    <button onclick="nav('events',this)"><i class="ni">📅</i><span data-i18n="n_events">Event Management</span> <span class="badge" id="apprBadge">2</span></button>
+    <button onclick="nav('events',this)"><i class="ni">📅</i><span data-i18n="n_events">Event Management</span></button>
     <div class="grp" data-i18n="g_data">Data</div>
     <button onclick="nav('reports',this)"><i class="ni">📈</i><span data-i18n="n_reports">Reports &amp; Export</span></button>
   </nav>
@@ -524,16 +505,6 @@ tr:hover .pic::before{filter:none}
         <div class="phead"><h2 data-i18n="h_dashreg">Event registrations</h2><div class="sp"></div>
           <button class="btn ghost sm" onclick="nav('events',document.querySelectorAll('.snav button')[5])" data-i18n="b_viewall">View all →</button></div>
         <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="rg_c_rev">Revenue (CHF)</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="dashRegTable"></tbody></table>
-      </div>
-
-      <div class="panel">
-        <div class="phead"><h2 data-i18n="h_memapps">Membership applications</h2><div class="sp"></div><button class="btn ghost sm" onclick="nav('members',document.querySelectorAll('.snav button')[4])" data-i18n="b_viewall">View all →</button></div>
-        <div class="pbody" id="dashMemApps"></div>
-      </div>
-
-      <div class="panel">
-        <div class="phead"><h2 data-i18n="h_evqueue">Event approval queue</h2><div class="sp"></div><button class="btn ghost sm" onclick="nav('events',document.querySelectorAll('.snav button')[5])" data-i18n="b_viewall">View all →</button></div>
-        <div class="pbody" id="dashAppr"></div>
       </div>
 
       <div class="panel">
@@ -619,13 +590,10 @@ tr:hover .pic::before{filter:none}
     <!-- ===== MEMBERS ===== -->
     <div class="view" id="v-members">
       <div class="panel">
-        <div class="phead"><h2 data-i18n="h_memapps">Membership applications</h2><div class="sp"></div><span class="chip pend" id="memPendCount">2 pending</span></div>
-        <div class="pbody" id="memAppList"></div>
-      </div>
-      <div class="panel">
         <div class="phead"><h2 data-i18n="h_members">Memberships &amp; roles</h2><div class="sp"></div>
           <button class="btn line sm" onclick="openImport('members')" data-i18n="b_import">⬆ Import list</button>
-          <button class="btn ghost sm" onclick="exportData('members')" data-i18n="b_export">⬇ Export CSV</button></div>
+          <button class="btn ghost sm" onclick="exportData('members')" data-i18n="b_export">⬇ Export CSV</button>
+          <button class="btn sm" onclick="openMemberA()" data-i18n="b_addmember">＋ Add member</button></div>
         <table><thead><tr><th data-i18n="c_account">Account (email)</th><th data-i18n="c_profiles">Profiles</th><th data-i18n="c_role">Role</th><th data-i18n="c_access">Access</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="memberTable"></tbody></table>
         <div class="pbody"><div class="export-note" data-i18n="mem_note">🔑 One account can hold multiple profiles (personal + company). The “Profiles” column shows how many are linked to a single email (BRD BR-W-04).</div></div>
       </div>
@@ -635,28 +603,23 @@ tr:hover .pic::before{filter:none}
     <div class="view" id="v-events">
       <div class="intro">
         <b data-i18n="ev_x_t">What Event Management does</b>
-        <p data-i18n="ev_x_p">Every event lives here, whether SVEF runs it or a partner proposes it. One record, created once.</p>
+        <p data-i18n="ev_x_p">Every SVEF event lives here as one record, created once and used by the website and the app alike.</p>
         <ul>
-          <li data-i18n="ev_x_1">Partner-proposed events arrive in the approval queue. Once approved they are published to the website like any other event.</li>
-          <li data-i18n="ev_x_2">Events organised by SVEF also carry app content: the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.</li>
-          <li data-i18n="ev_x_3">The website shows the basic record plus the link through. Partner events do not appear in the app.</li>
+          <li data-i18n="ev_x_rec">The record holds the basics: name, dates, format, location and description. Publishing it puts the event on the website.</li>
+          <li data-i18n="ev_x_2">Each event also carries its app content: the agenda and its sessions, speakers, sponsors, registrations, ticketing and payments, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.</li>
         </ul>
-      </div>
-      <div class="panel">
-        <div class="phead"><h2 data-i18n="h_evq2">Partner-proposed events · approval queue</h2><div class="sp"></div><span class="chip pend" id="pendCount">2 pending</span></div>
-        <div class="pbody" id="apprList"></div>
       </div>
       <div class="panel">
         <div class="phead"><h2 data-i18n="h_pubev">Published events</h2><div class="sp"></div>
           <button class="btn sm" onclick="openEvent(-1)" data-i18n="b_newev">＋ Create Event</button></div>
-        <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="c_organiser">Organiser</th><th data-i18n="c_date">Date</th><th data-i18n="c_status">Status</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="pubEvents"></tbody></table>
-        <div class="pbody"><div class="export-note" data-i18n="ev_note">📌 The website record holds the basic information plus the link through to the event's own page, where attendees register. For SVEF's own events, everything the mobile app shows is managed below under App content.</div></div>
+        <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="c_date">Date</th><th data-i18n="c_status">Status</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="pubEvents"></tbody></table>
+        <div class="pbody"><div class="export-note" data-i18n="ev_note">📌 The website record holds the basics. Everything the mobile app shows, and everything to do with registration, ticketing and payment, is managed below under App content.</div></div>
       </div>
 
-      <!-- ---- app content for the selected SVEF event ---- -->
+      <!-- ---- app content for the selected event ---- -->
       <div id="appSection">
         <div class="panel">
-          <div class="phead"><h2 data-i18n="ap_h_sel">App content · SVEF events</h2><div class="sp"></div><span class="chip navy" data-i18n="ap_only">SVEF events only</span></div>
+          <div class="phead"><h2 data-i18n="ap_h_sel">App content</h2></div>
           <div class="pbody" id="appPicker"></div>
           <div class="pbody" style="padding-top:0"><div class="langtab" id="appTabs"></div></div>
         </div>
@@ -745,8 +708,8 @@ const T={
   g_content:"Content",g_community:"Community",g_events:"Events",g_data:"Data",
   f_loggedas:"Logged in as",f_hub:"Demo hub",search_ph:"Search…",
   nda_t:"NDA signed · Admin access granted to IMT",nda_p:"Confidential-data access is enabled only after the NDA between SVEF and IMT is signed (BRD §7.5 / §11.2). Exports below never expose passwords or sensitive fields.",
-  s_partners:"Partners & members",s_partners_up:"▲ 12 this quarter",s_events:"Upcoming events",s_events_up:"2 pending approval",s_subs:"Subscribers",s_subs_up:"▲ 214 this month",s_growth:"Member growth YoY",s_growth_up:"▲ steady",
-  h_memapps:"Membership applications",h_evqueue:"Event approval queue",h_recent:"Recently joined partners",h_news:"News & Media",h_partner:"Partner management",h_members:"Memberships & roles",h_evq2:"Partner-proposed events · approval queue",h_pubev:"Published events",h_reports:"Reports & data export",
+  s_partners:"Partners & members",s_partners_up:"▲ 12 this quarter",s_events:"Upcoming events",s_subs:"Subscribers",s_subs_up:"▲ 214 this month",s_growth:"Member growth YoY",s_growth_up:"▲ steady",
+  h_recent:"Recently joined partners",h_news:"News & Media",h_partner:"Partner management",h_members:"Memberships & roles",h_pubev:"Published events",h_reports:"Reports & data export",
   cms_title:"Page title",cms_slug:"SEO slug",cms_body:"Body content",
   cms_body_src:"HTML",cms_body_prev:"Live preview",
   cms_body_h:"This field accepts HTML markup only. What you write in the HTML pane renders in the preview pane, exactly as it appears on the website.",
@@ -762,19 +725,22 @@ const T={
   f_all:"All",nt_news:"News",nt_media:"Media",
   na_t:"New article",na_save:"Publish article",na_ph:"Article title",
   doc_h:"Documents",doc_none:"No documents uploaded yet.",doc_drop:"⬆ Click to upload a document (PDF, DOCX, XLSX, JPG)",doc_dl:"⬇ Download",
+  mem_add_t:"Add member",
+  mem_add_h:"Membership is agreed with the SVEF secretariat directly. Once it is agreed, enter the account here to provision it.",
+  mem_add_save:"Add member",mem_needemail:"Please enter the account email address.",
+  mem_dup:"An account with that email already exists.",
+  t_memadd:"Member added",
   mp_t:"Linked profiles",mp_sub:"Profiles linked to this account. One account can hold several profiles (personal and company).",
   c_pname:"Profile name",cr_t:"Change role",cr_save:"Update role",cr_sub:"The role controls what the member can see and do in the member area.",
   q_suspend:"Suspend access for this account? The member will not be able to sign in until the account is reactivated.",
   q_reactivate:"Restore access for this account?",
-  ev_note:"📌 The website record holds the basic information plus the link through to the event's own page, where attendees register. For SVEF's own events, everything the mobile app shows is managed below under App content.",
+  ev_note:"📌 The website record holds the basics. Everything the mobile app shows, and everything to do with registration, ticketing and payment, is managed below under App content.",
   ev_x_t:"What Event Management does",
-  ev_x_p:"Every event lives here, whether SVEF runs it or a partner proposes it. One record, created once.",
-  ev_x_1:"Partner-proposed events arrive in the approval queue. Once approved they are published to the website like any other event.",
-  ev_x_2:"Events organised by SVEF also carry app content: the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.",
-  ev_x_3:"The website shows the basic record plus the link through. Partner events do not appear in the app.",
-  ev_add_t:"Create event",ev_edit_t:"Edit event",ev_name:"Event name",ev_org_h:"Create the event on behalf of SVEF or of a partner organisation.",
+  ev_x_p:"Every SVEF event lives here as one record, created once and used by the website and the app alike.",
+  ev_x_rec:"The record holds the basics: name, dates, format, location and description. Publishing it puts the event on the website.",
+  ev_x_2:"Each event also carries its app content: the agenda and its sessions, speakers, sponsors, registrations, ticketing and payments, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.",
+  ev_add_t:"Create event",ev_edit_t:"Edit event",ev_name:"Event name",
   ev_start:"Start date",ev_end:"End date",ev_fmt:"Format",fmt_in:"In-person",fmt_on:"Online",fmt_hy:"Hybrid",
-  ev_link:"Event website / registration link",ev_link_h:"Attendees register on the organiser's own event website. Paste that link here.",
   ev_zoom:"Online joining link (Zoom / Teams)",
   ev_zoom_h:"Shown as a “Join online” button in the event app and on each session, to registered attendees only.",
   ev_desc:"Description",ev_sess:"Agenda / sessions",ev_sess_none:"No sessions added yet. Use “Add session” to build the agenda.",
@@ -789,21 +755,20 @@ const T={
   mem_note:"🔑 One account can hold multiple profiles (personal + company). The “Profiles” column shows how many are linked to a single email (BRD BR-W-04).",
   rep_intro:"Export to Excel/CSV for reporting. Confidential fields (passwords, payment tokens) are always excluded (BRD BR-W-18 / §11.2).",
   rep_note:"🔒 Data-protection note: Exports comply with GDPR handling between Switzerland/Europe and Vietnam. No passwords or sensitive personal identifiers are included in any export file.",
-  b_viewall:"View all →",b_save:"💾 Save & publish",b_preview:"👁 Preview",b_newart:"＋ New article",b_export:"⬇ Export CSV",b_addpartner:"＋ Add partner",b_import:"⬆ Import list",b_newev:"＋ Create Event",b_cancel:"Cancel",
+  b_viewall:"View all →",b_save:"💾 Save & publish",b_preview:"👁 Preview",b_newart:"＋ New article",b_export:"⬇ Export CSV",b_addpartner:"＋ Add partner",b_addmember:"＋ Add member",b_import:"⬆ Import list",b_newev:"＋ Create Event",
   p_details:"Partner details",p_add_t:"Add partner",p_edit_t:"Edit partner",p_save:"Save partner",p_name:"Organisation name",
-  c_org:"Organisation",c_type:"Type",c_market:"Market",c_joined:"Joined",c_status:"Status",c_title:"Title",c_cat:"Category",c_date:"Date",c_ptype:"Partnership type",c_ind:"Industry",c_docs:"Docs",c_actions:"Actions",c_account:"Account (email)",c_profiles:"Profiles",c_role:"Role",c_access:"Access",c_event:"Event",c_organiser:"Organiser",c_loc:"Location",
+  c_org:"Organisation",c_type:"Type",c_market:"Market",c_joined:"Joined",c_status:"Status",c_title:"Title",c_cat:"Category",c_date:"Date",c_ptype:"Partnership type",c_ind:"Industry",c_docs:"Docs",c_actions:"Actions",c_account:"Account (email)",c_profiles:"Profiles",c_role:"Role",c_access:"Access",c_event:"Event",c_loc:"Location",
   c_name:"Name",c_email:"Email",c_company:"Company",c_job:"Job title",c_regdate:"Registered on",c_slot:"Time slot",c_sent:"Sent",c_audience:"Audience",c_message:"Message",c_tier:"Tier",
-  d_active:"Active",d_pending:"Pending",d_published:"Published",d_draft:"Draft",d_approve:"✓ Approve",d_reject:"✕ Reject",d_edit:"Edit",d_view:"View",d_pendsfx:"pending",
+  d_active:"Active",d_pending:"Pending",d_published:"Published",d_draft:"Draft",d_edit:"Edit",d_view:"View",
   d_delete:"Delete",d_viewprof:"View profiles",d_chrole:"Change role",d_suspend:"Suspend",d_reactivate:"Reactivate",d_suspended:"Suspended",
-  ma_note:"Membership application",
-  t_saved:"Content saved (demo)",t_preview:"Preview (demo)",t_editor:"Article editor (demo)",t_form:"New partner form (demo)",t_import:"Import finished (demo)",t_signed:"Signed in as Ops Admin",t_signed_m365:"Signed in with Microsoft 365 · Ops Admin",t_nda:"⚠️ Please confirm the NDA to continue",
+  t_saved:"Content saved (demo)",t_preview:"Preview (demo)",t_editor:"Article editor (demo)",t_import:"Import finished (demo)",t_signed:"Signed in as Ops Admin",t_signed_m365:"Signed in with Microsoft 365 · Ops Admin",t_nda:"⚠️ Please confirm the NDA to continue",
   t_artadded:"Article published (demo)",t_docadded:"Document uploaded (demo)",t_docdel:"Document deleted",t_docdl:"Downloading",
   t_rolechg:"Role updated",t_susp:"Account suspended",t_react:"Account reactivated",
   t_evadd:"Event created",t_evupd:"Event updated",t_evdel:"Event deleted",t_sessadd:"Session added",t_sessupd:"Session updated",t_sessdel:"Session deleted",
   /* ---- app content, inside Event Management ---- */
-  ap_h_sel:"App content · SVEF events",ap_only:"SVEF events only",ap_pick:"Selected event",ap_sum:"At a glance",
-  ap_open:"App content",ap_none:"Partner events do not appear in the app.",
-  ap_empty:"No SVEF event yet. Create one above with Create Event and set the organiser to SVEF.",
+  ap_h_sel:"App content",ap_pick:"Selected event",ap_sum:"At a glance",
+  ap_open:"App content",
+  ap_empty:"No event yet. Create one above with Create Event.",
   ap_tab_info:"Event info",ap_tab_agenda:"Agenda / sessions",ap_tab_speakers:"Speakers",ap_tab_sponsors:"Sponsors",
   ap_tab_reg:"Registrants",ap_tab_meet:"Meeting bookings",ap_tab_push:"Push notifications",
   ap_venue:"Venue",ap_tz:"Time zone",ap_tz_h:"Every session time in the app is shown in this time zone.",
@@ -835,7 +800,7 @@ const T={
   rg_tab_over:"Overview",rg_tab_list:"Registrants",rg_tab_tick:"Tickets & codes",rg_tab_ci:"Check-in",rg_tab_set:"Settings",
   rs_conf:"Confirmed",rs_pend:"Pending approval",rs_pend_s:"Pending",rs_wait:"Waitlisted",rs_canc:"Cancelled",
   py_paid:"Paid",py_unpaid:"Unpaid",py_ref:"Refunded",py_free:"Free",
-  rg_personal:"Personal",rg_group:"Group",rg_att:"attendees",rg_att1:"attendee",rg_seats:"seats",
+  rg_personal:"Personal",rg_group:"Group",rg_att:"attendees",rg_seats:"seats",
   rg_free_ev:"Free event",rg_paid_ev:"Paid event",rg_free:"Free",rg_paid:"Paid",
   rg_open_now:"Registration open",rg_closed:"Registration closed",rg_notopen:"Registration not open yet",
   /* overview */
@@ -916,7 +881,7 @@ const T={
   rg_need_type:"Allow at least one registration type.",
   /* toasts and confirmations */
   t_regappr:"Registration approved",t_regrej:"Registration rejected",t_regcanc:"Registration cancelled",
-  t_regprom:"Promoted from the waitlist to confirmed",t_regpaid:"Payment recorded",t_regref:"Refund issued (demo)",
+  t_regprom:"Promoted from the waitlist to confirmed",
   t_regmail:"Confirmation email resent (demo)",t_regadd:"Registrant added",t_regupd:"Registrant updated",
   t_tieradd:"Ticket tier added",t_tierupd:"Ticket tier updated",t_tierdel:"Ticket tier deleted",t_tiermov:"Tier order updated",
   t_codeadd:"Discount code created",t_codeoff:"Discount code deactivated",t_codeon:"Discount code reactivated",
@@ -1020,29 +985,19 @@ let members=[
  {e:"m.rossi@example.ch",role:"Strategic Partner",access:"Full partner access",susp:false,
   profiles:[{n:"Marco Rossi",t:"Individual",st:"Active"}]},
 ];
-let memberApps=[
- {n:"Nordic Green Capital",email:"apply@example.no",type:"Institutional Member",date:"26 JUL",note:{en:"Clean-energy investor applying for institutional membership.",vi:"Nhà đầu tư năng lượng sạch xin thành viên tổ chức."}},
- {n:"Trần Quốc Anh",email:"q.anh@example.com",type:"Individual Member",date:"25 JUL",note:{en:"Fintech startup founder applying for individual membership.",vi:"Nhà sáng lập startup fintech xin thành viên cá nhân."}},
-];
-let approvals=[
- {t:"CleanTech × Vietnam Roundtable",by:"GreenTech Vietnam",date:"05 DEC",ds:"2026-12-05",loc:"Ho Chi Minh City",d:{en:"Partner-hosted roundtable on renewable-energy investment. Expected 80 attendees.",vi:"Bàn tròn do đối tác tổ chức về đầu tư năng lượng tái tạo. Dự kiến 80 người."}},
- {t:"Swiss FinReg Workshop",by:"Helvetia Fintech AG",date:"20 JAN",ds:"2027-01-20",loc:"Online / Hybrid",d:{en:"Workshop on cross-border financial regulation for members.",vi:"Hội thảo về quy định tài chính xuyên biên giới cho thành viên."}},
-];
 const FORMATS=["In-person","Online","Hybrid"];
-/* Website event records: basic information plus the link through to the event's own
-   site. For SVEF's own events the agenda, speakers and registrations hang off the
-   matching entry in appEvents, reached through App content on the event's row. */
+/* Website event records: the basics the public site shows. The agenda, speakers,
+   registrations and payments hang off the matching entry in appEvents, reached
+   through App content on the event's row. The two arrays are kept in the same
+   order, so one index addresses both. */
 let pubEvents=[
- {id:"ev-hanoi",t:"SVEF Hanoi Economic Forum 2026",org:"SVEF",ds:"2026-10-14",de:"2026-10-15",loc:"Hanoi, Vietnam",fmt:"Hybrid",
-  link:"https://events.svef.org/hanoi-forum-2026",zoom:"https://zoom.us/j/8412200261",
+ {id:"ev-hanoi",t:"SVEF Hanoi Economic Forum 2026",ds:"2026-10-14",de:"2026-10-15",loc:"Hanoi, Vietnam",fmt:"Hybrid",
+  zoom:"https://zoom.us/j/8412200261",
   desc:"Two-day flagship forum bringing Swiss and Vietnamese business leaders together.",status:"Published"},
- {id:"ev-mission",t:"Swiss-Vietnam Trade Mission 2026",org:"SVEF",ds:"2026-11-22",de:"2026-11-24",loc:"Zurich, Switzerland",fmt:"In-person",
-  link:"https://events.svef.org/trade-mission-2026",desc:"Delegation programme with company visits and matchmaking sessions.",status:"Published"},
- {id:"ev-startup",t:"SVEF Startup Bridge Day 2027",org:"SVEF",ds:"2027-03-05",de:"2027-03-05",loc:"Ho Chi Minh City, Vietnam",fmt:"In-person",
-  link:"https://events.svef.org/startup-bridge-2027",desc:"One-day matchmaking day between Swiss scale-ups and Vietnamese founders.",status:"Draft"},
- {id:"ev-fintech",t:"Fintech Bridge Meetup",org:"Helvetia Fintech AG",ds:"2026-12-18",de:"2026-12-18",loc:"Online",fmt:"Online",
-  link:"https://helvetia-fintech.example.ch/bridge-meetup",zoom:"https://zoom.us/j/9930041827",
-  desc:"Partner-hosted evening meetup for fintech founders and investors.",status:"Published"},
+ {id:"ev-mission",t:"Swiss-Vietnam Trade Mission 2026",ds:"2026-11-22",de:"2026-11-24",loc:"Zurich, Switzerland",fmt:"In-person",
+  desc:"Delegation programme with company visits and matchmaking sessions.",status:"Published"},
+ {id:"ev-startup",t:"SVEF Startup Bridge Day 2027",ds:"2027-03-05",de:"2027-03-05",loc:"Ho Chi Minh City, Vietnam",fmt:"In-person",
+  desc:"One-day matchmaking day between Swiss scale-ups and Vietnamese founders.",status:"Draft"},
 ];
 /* SVEF does not run a blog and has no case studies, so the only content types are
    News and Media (June, review of 7 Aug 2026). */
@@ -1230,7 +1185,7 @@ function memberRow(m,i){
    `<td><span class="chip ${np>1?'navy':''}">${np} ${profWord(np)}</span></td>`+
    `<td>${esc(m.role)}</td>`+
    `<td class="${m.susp?'':'muted'}">${m.susp?`<span class="chip red">${tr('d_suspended')}</span>`:esc(m.access)}</td>`+
-   `<td><div class="act-btns"><button class="btn ghost sm" onclick="openProfiles(${i})">${tr('d_viewprof')}</button>`+
+   `<td><div class="act-btns wrap"><button class="btn ghost sm" onclick="openProfiles(${i})">${tr('d_viewprof')}</button>`+
    `<button class="btn line sm" onclick="openRole(${i})">${tr('d_chrole')}</button>`+
    `<button class="btn line sm" onclick="toggleSuspend(${i})">${m.susp?tr('d_reactivate'):tr('d_suspend')}</button></div></td></tr>`;
 }
@@ -1238,27 +1193,22 @@ function renderMembers(){document.getElementById('memberTable').innerHTML=member
 
 function pubEventRow(e,i){
   return `<tr><td><b style="color:var(--navy)">${esc(e.t)}</b><div class="muted" style="font-size:12px">📍 ${esc(e.loc||'')} · ${esc(fmtLabel(e.fmt))}</div></td>`+
-   `<td><span class="chip ${e.org==='SVEF'?'navy':'pend'}">${esc(e.org)}</span></td>`+
    `<td>${evDates(e)}</td>`+
    `<td>${stChip(e.status)}</td>`+
    `<td><div class="act-btns">`+
-   (e.org==='SVEF'?`<button class="btn line sm" onclick="openAppContent(${i})">📱 ${tr('ap_open')}</button>`:'')+
+   `<button class="btn line sm" onclick="openAppContent(${i})">📱 ${tr('ap_open')}</button>`+
    `<button class="btn line sm" onclick="openEvent(${i})">${tr('d_edit')}</button>`+
    `<button class="btn line sm" onclick="delEvent(${i})">${tr('d_delete')}</button></div></td></tr>`;
 }
-/* An event organised by SVEF is the one the mobile app shows, so its app content
-   is reachable straight from its row. Partner events have none. The two records are
-   linked by id, not by title, so renaming an event never breaks the link. */
-function appIndexFor(id){return id==null?-1:appEvents.findIndex(x=>x.id===id);}
+/* Every event carries app content, so the two arrays are created, updated and
+   deleted together and stay in the same order: pubEvents[i] and appEvents[i] are
+   the same event. */
 function openAppContent(i){
-  const e=pubEvents[i];
-  let k=appIndexFor(e.id);
-  if(k<0)k=addAppEvent(e);
-  appSel=k;appTab='info';regResetView();renderApp();
+  appSel=i;appTab='info';regResetView();renderApp();
   document.getElementById('appSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
-/* A newly created SVEF event starts with an empty app shell, so the organisers
-   never have to create the same event twice. */
+/* A newly created event starts with an empty app shell, so the organisers never
+   have to create the same event twice. */
 function addAppEvent(e){
   appEvents.push(regEnsure({id:e.id,t:e.t,ds:e.ds,de:e.de||e.ds,venue:e.loc||'',tz:APP_TZ[0],status:e.status||'Draft',
     desc:e.desc||'',sessions:[],speakers:[],sponsors:[],registrants:[],meetings:[],pushes:[]}));
@@ -1290,7 +1240,7 @@ function renderAll(){
   renderPubEvents();
   renderNews();
   document.getElementById('cmsList').innerHTML=cmsPages.map((p,i)=>`<button class="${i===1?'on':''}" onclick="pickCms(this,'${esc(p).replace(/'/g,'&#39;')}')">${esc(p)}</button>`).join('');
-  renderApprovals();renderMemApps();renderApp();renderRegSummaries();
+  renderApp();renderRegSummaries();
 }
 function pickCms(btn,name){document.querySelectorAll('#cmsList button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('cmsTitle').value=name;}
 
@@ -1318,48 +1268,6 @@ function cmsLang(l,btn){
 function initCmsBody(){
   document.getElementById('cmsBody').value=cmsBodyHtml[cmsBodyLang];
   renderCmsPreview();
-}
-
-/* ---- Event approvals ---- */
-function apprCard(a,i){return `<div class="appr"><div class="d"><b>${a.date.split(' ')[0]}</b><span>${a.date.split(' ')[1]}</span></div>
-    <div class="body"><h4>${a.t}</h4><p style="margin-bottom:6px">📍 ${a.loc} · <b>${a.by}</b></p><p>${a.d[lang]}</p></div>
-    <div class="acts"><button class="btn green sm" onclick="decide(${i},true)">${tr('d_approve')}</button><button class="btn line sm" onclick="decide(${i},false)">${tr('d_reject')}</button></div></div>`;}
-function renderApprovals(){
-  const html=approvals.map(apprCard).join('')||`<p class="muted">🎉 ${'No pending events, the queue is clear.'}</p>`;
-  document.getElementById('apprList').innerHTML=html;
-  document.getElementById('dashAppr').innerHTML=html;
-  const n=approvals.length;
-  document.getElementById('apprBadge').textContent=n;document.getElementById('apprBadge').style.display=n?'':'none';
-  document.getElementById('pendCount').textContent=n+' '+tr('d_pendsfx');
-}
-function decide(i,ok){
-  const a=approvals[i];
-  if(ok)pubEvents.push({id:newEventId(),t:a.t,org:a.by,ds:a.ds,de:a.ds,loc:a.loc,fmt:(a.loc||'').indexOf('Online')>=0?'Hybrid':'In-person',
-    link:'',desc:a.d.en,status:"Published"});
-  approvals.splice(i,1);renderApprovals();
-  renderPubEvents();
-  toast(ok?(('✓ Approved: "')+a.t+('" is now public')):(('Rejected: "')+a.t+('" sent back to partner')));
-}
-
-/* ---- Membership applications (P3) ---- */
-function memAppCard(a,i){return `<div class="appr"><div class="d blue"><b>${a.date.split(' ')[0]}</b><span>${a.date.split(' ')[1]}</span></div>
-    <div class="body"><h4>${a.n}</h4><p style="margin-bottom:6px"><span class="chip navy">${a.type}</span> · ${a.email}</p><p>${a.note[lang]}</p></div>
-    <div class="acts"><button class="btn green sm" onclick="decideMem(${i},true)">${tr('d_approve')}</button><button class="btn line sm" onclick="decideMem(${i},false)">${tr('d_reject')}</button></div></div>`;}
-function renderMemApps(){
-  const html=memberApps.map(memAppCard).join('')||`<p class="muted">🎉 ${'No pending applications.'}</p>`;
-  document.getElementById('memAppList').innerHTML=html;
-  document.getElementById('dashMemApps').innerHTML=html;
-  const n=memberApps.length;
-  document.getElementById('memBadge').textContent=n;document.getElementById('memBadge').style.display=n?'':'none';
-  document.getElementById('memPendCount').textContent=n+' '+tr('d_pendsfx');
-}
-function decideMem(i,ok){
-  const a=memberApps[i];
-  if(ok)members.unshift({e:a.email,role:a.type,access:a.type.indexOf('Subscriber')>=0?'Information only':'Partner DB, Messaging',susp:false,
-    profiles:[{n:a.n,t:a.type.indexOf('Individual')>=0?'Individual':'Company',st:'Active'}]});
-  memberApps.splice(i,1);renderMemApps();
-  if(ok)renderMembers();
-  toast(ok?(('✓ Member approved: ')+a.n):(('Application rejected: ')+a.n));
 }
 
 /* Registration exports build a real CSV from the demo state; the older partner and
@@ -1461,7 +1369,29 @@ function saveArticle(){
 }
 function todayISO(){const d=new Date();const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 
-/* ===== MEMBERSHIPS: profiles / role / suspend ===== */
+/* ===== MEMBERSHIPS: create / profiles / role / suspend =====
+   Membership is agreed with the secretariat away from the product, so the back
+   office needs a direct way to provision the account that was agreed. */
+function openMemberA(){
+  openGen(tr('mem_add_t'),
+    `<p class="muted" style="margin-top:0;font-size:13px">${tr('mem_add_h')}</p>`+
+    `<div class="mrow"><label>${tr('c_account')}</label><input id="maEmail" type="email" placeholder="name@example.com"></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('c_role')}</label><select id="maRole">${aopts(ROLES,'Individual Member')}</select></div>`+
+     `<div class="mrow"><label>${tr('c_access')}</label><select id="maAcc">${aopts(['Information only','Partner DB, Messaging','Full partner access'],'Partner DB, Messaging')}</select></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('c_pname')}</label><input id="maProf" placeholder="${tr('c_pname')}"></div>`+
+     `<div class="mrow"><label>${tr('c_type')}</label><select id="maType">${aopts(['Individual','Company'],'Individual')}</select></div></div>`+
+    `<div class="export-note" style="margin:0 0 14px">${tr('mem_note')}</div>`+
+    `<button class="btn block" onclick="saveMemberA()">${tr('mem_add_save')}</button>`);
+}
+function saveMemberA(){
+  const em=v('maEmail').trim();
+  if(!em){toast(tr('mem_needemail'));document.getElementById('maEmail').focus();return;}
+  if(members.some(m=>m.e.toLowerCase()===em.toLowerCase())){toast(tr('mem_dup'));return;}
+  const name=v('maProf').trim()||em;
+  members.unshift({e:em,role:v('maRole'),access:v('maAcc'),susp:false,
+    profiles:[{n:name,t:v('maType'),st:'Active'}]});
+  closeModal();renderMembers();toast(tr('t_memadd')+': '+em);
+}
 function openProfiles(i){
   const m=members[i];
   openGen(tr('mp_t'),
@@ -1500,26 +1430,20 @@ function openImport(kind){
 }
 
 /* ===== EVENT MANAGEMENT (website event record) =====
-   The public website shows basic information plus a button through to the event's
-   own page, and it never carries partner events in the app, so agendas and sessions
-   are not part of this record. They live in the App content section below. */
+   The record the public website reads. The agenda, sessions, registrations and
+   payments are not part of it: they live in the App content section below. */
 let evEdit=-1;
-function orgOptions(sel){return aopts(['SVEF'].concat(partners.map(p=>p.n)),sel);}
 function openEvent(i){
   evEdit=i;
-  const e=i>=0?pubEvents[i]:{t:'',org:'SVEF',ds:todayISO(),de:todayISO(),loc:'',fmt:'In-person',link:'',zoom:'',desc:'',status:'Published'};
+  const e=i>=0?pubEvents[i]:{t:'',ds:todayISO(),de:todayISO(),loc:'',fmt:'In-person',zoom:'',desc:'',status:'Published'};
   document.getElementById('evTitle').textContent=i>=0?tr('ev_edit_t'):tr('ev_add_t');
   document.getElementById('evBody').innerHTML=
     `<div class="mrow"><label>${tr('ev_name')}</label><input id="evN" value="${esc(e.t)}"></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('c_organiser')}</label><select id="evOrg">${orgOptions(e.org)}</select>`+
-      `<div class="hint">${tr('ev_org_h')}</div></div>`+
-     `<div class="mrow"><label>${tr('ev_fmt')}</label><select id="evFmt" onchange="toggleZoomField()">${FORMATS.map(f=>`<option value="${f}" ${f===e.fmt?'selected':''}>${fmtLabel(f)}</option>`).join('')}</select></div></div>`+
     `<div class="g2"><div class="mrow"><label>${tr('ev_start')}</label><input id="evDs" type="date" value="${esc(e.ds||'')}"></div>`+
      `<div class="mrow"><label>${tr('ev_end')}</label><input id="evDe" type="date" value="${esc(e.de||e.ds||'')}"></div></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('c_loc')}</label><input id="evLoc" value="${esc(e.loc||'')}"></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('ev_fmt')}</label><select id="evFmt" onchange="toggleZoomField()">${FORMATS.map(f=>`<option value="${f}" ${f===e.fmt?'selected':''}>${fmtLabel(f)}</option>`).join('')}</select></div>`+
      `<div class="mrow"><label>${tr('c_status')}</label><select id="evSt">${aopts(['Published','Draft'],e.status)}</select></div></div>`+
-    `<div class="mrow"><label>${tr('ev_link')}</label><input id="evLink" type="url" placeholder="https://" value="${esc(e.link||'')}">`+
-      `<div class="hint">${tr('ev_link_h')}</div></div>`+
+    `<div class="mrow"><label>${tr('c_loc')}</label><input id="evLoc" value="${esc(e.loc||'')}"></div>`+
     // online / hybrid events carry the joining link; the app surfaces it as "Join online"
     `<div class="mrow" id="evZoomRow"><label>${tr('ev_zoom')}</label><input id="evZoom" type="url" placeholder="https://zoom.us/j/..." value="${esc(e.zoom||'')}">`+
       `<div class="hint">${tr('ev_zoom_h')}</div></div>`+
@@ -1537,37 +1461,35 @@ function toggleZoomField(){
 function saveEvent(){
   const ds=v('evDs'),de=v('evDe')||ds;
   const fmt=v('evFmt');
-  const obj={t:v('evN').trim()||('Untitled event'),org:v('evOrg'),ds:ds,de:(de<ds?ds:de),
-    loc:v('evLoc').trim(),fmt:fmt,link:v('evLink').trim(),
+  const obj={t:v('evN').trim()||('Untitled event'),ds:ds,de:(de<ds?ds:de),
+    loc:v('evLoc').trim(),fmt:fmt,
     zoom:(fmt==='Online'||fmt==='Hybrid')?v('evZoom').trim():'',
     desc:v('evDesc').trim(),status:v('evSt')};
   obj.id=evEdit>=0?pubEvents[evEdit].id:newEventId();
-  if(evEdit>=0)pubEvents[evEdit]=obj;else pubEvents.push(obj);
-  syncAppEvent(obj);
+  if(evEdit>=0){pubEvents[evEdit]=obj;syncAppEvent(obj,evEdit);}
+  else {pubEvents.push(obj);addAppEvent(obj);}
   closeModal();renderPubEvents();renderApp();
   toast(evEdit>=0?tr('t_evupd'):tr('t_evadd'));
 }
 let evSeq=0;
 function newEventId(){return 'ev-n'+(++evSeq);}
-/* The event record is the single source of truth. An SVEF event always has an app
-   entry; a partner event never does, so demoting one removes it again. */
-function syncAppEvent(e){
-  const k=appIndexFor(e.id);
-  if(e.org!=='SVEF'){if(k>=0){appEvents.splice(k,1);appSel=0;}return;}
-  if(k<0){addAppEvent(e);return;}
-  const a=appEvents[k];
+/* The event record is the single source of truth: what the website shows is copied
+   into the app entry that sits at the same index. */
+function syncAppEvent(e,i){
+  const a=appEvents[i];
+  if(!a)return;
   a.t=e.t;a.ds=e.ds;a.de=e.de||e.ds;a.venue=e.loc||a.venue;a.status=e.status;a.desc=e.desc||a.desc;
 }
 function delEvent(i){
   if(!confirm(tr('q_delev')))return;
-  const k=appIndexFor(pubEvents[i].id);
-  if(k>=0){appEvents.splice(k,1);appSel=0;}
-  pubEvents.splice(i,1);renderPubEvents();renderApp();toast(tr('t_evdel'));
+  pubEvents.splice(i,1);appEvents.splice(i,1);
+  if(appSel>=appEvents.length)appSel=0;
+  renderPubEvents();renderApp();toast(tr('t_evdel'));
 }
 
 /* ==========================================================================
    SVEF APP EVENT MANAGEMENT
-   Everything the SVEF mobile app needs for one of SVEF's own events: info,
+   Everything the SVEF mobile app needs for an event: info,
    agenda, speakers, sponsors, registrants, meeting bookings and push
    notifications. Prototype state only: the arrays are mutated and the view is
    re-rendered, exactly like partners, articles and website events.
@@ -3141,7 +3063,7 @@ function regTotals(){
   });
   return t;
 }
-function regSummaryRow(e,withCi){
+function regSummaryRow(e,i,withCi){
   const s=regStats(e),cap=regCap(e);
   return `<tr><td><b style="color:var(--navy)">${esc(e.t)}</b>`+
     `<div class="muted" style="font-size:12px">${esc(evDates(e))}</div></td>`+
@@ -3153,20 +3075,24 @@ function regSummaryRow(e,withCi){
     (withCi?`<td>${s.ci} / ${s.att}</td>`:'')+
     `<td>${e.reg.paid?chf2(s.rev):tr('rg_free_ev')}</td>`+
     (withCi?`<td>${e.reg.paid?chf2(payStats(e).outstanding+payStats(e).awaiting):'-'}</td>`:'')+
-    (withCi?'':`<td><button class="btn ghost sm" onclick="openRegFor('${esc(e.id)}')">${tr('b_openreg')}</button></td>`)+
+    (withCi?'':`<td><button class="btn ghost sm" onclick="openRegAt(${i})">${tr('b_openreg')}</button></td>`)+
   `</tr>`;
 }
 function renderRegSummaries(){
   appEvents.forEach(regEnsure);
   const t=regTotals();
   const dash=document.getElementById('dashRegTable');
-  if(dash)dash.innerHTML=appEvents.map(e=>regSummaryRow(e,false)).join('')
+  if(dash)dash.innerHTML=appEvents.map((e,i)=>regSummaryRow(e,i,false)).join('')
     ||`<tr><td colspan="5" class="muted">${tr('ap_empty')}</td></tr>`;
   const rep=document.getElementById('repRegTable');
-  if(rep)rep.innerHTML=appEvents.map(e=>regSummaryRow(e,true)).join('')
+  if(rep)rep.innerHTML=appEvents.map((e,i)=>regSummaryRow(e,i,true)).join('')
     ||`<tr><td colspan="6" class="muted">${tr('ap_empty')}</td></tr>`;
   const evN=document.getElementById('stEvN');if(evN)evN.textContent=pubEvents.length;
-  const evS=document.getElementById('stEvSub');if(evS)evS.textContent=approvals.length+' pending approval';
+  const evS=document.getElementById('stEvSub');
+  if(evS){
+    const pub=pubEvents.filter(x=>x.status==='Published').length;
+    evS.textContent=pub+' published · '+(pubEvents.length-pub)+' draft';
+  }
   const rgN=document.getElementById('stRegN');if(rgN)rgN.textContent=numG(t.seats,',');
   const rgS=document.getElementById('stRegSub');
   if(rgS)rgS.textContent=t.conf+' confirmed · '+chf2(t.rev)+' collected';
@@ -3175,11 +3101,10 @@ function renderRegSummaries(){
   const pm=document.getElementById('repPayMeta');if(pm)pm.textContent=t.txns+' · CSV';
 }
 /* Jump straight from a dashboard or report row into that event's registrations. */
-function openRegFor(id){
-  const k=appIndexFor(id);
-  if(k<0)return;
+function openRegAt(i){
+  if(i<0||i>=appEvents.length)return;
   nav('events',document.querySelectorAll('.snav button')[5]);
-  appSel=k;appTab='reg';regResetView();
+  appSel=i;appTab='reg';regResetView();
   renderApp();
   document.getElementById('appSection').scrollIntoView({behavior:'smooth',block:'start'});
 }

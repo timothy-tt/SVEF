@@ -609,6 +609,65 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .working .wsub{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.1em;
   margin-top:9px;color:var(--muted)}
 
+/* ==================== ATTENDING EVENTS (round 5) ====================
+   The strip that tells the attendee which events they hold a booking for and lets
+   them move the whole app between them. */
+.attcard{flex:0 0 210px;background:#fff;border:1px solid var(--line);padding:12px;cursor:pointer;
+  text-align:left;font-family:var(--sans);color:var(--ink)}
+.attcard.on{border-color:var(--red);background:var(--red-t);position:relative;z-index:1}
+.attcard .ah{display:flex;gap:10px;align-items:flex-start}
+.attcard .dt{width:40px;height:40px;flex:0 0 40px;background:var(--ink);color:#fff;display:grid;
+  place-items:center;font-weight:700;font-size:15px;line-height:1;text-align:center;letter-spacing:-.045em}
+.attcard.on .dt{background:var(--red)}
+.attcard .dt small{display:block;font-family:var(--mono);font-size:7px;font-weight:500;opacity:.9;letter-spacing:.07em}
+.attcard .ab{flex:1;min-width:0}
+.attcard .ab b{display:block;font-size:13px;font-weight:600;letter-spacing:-.025em;line-height:1.25}
+.attcard .ab span{display:block;font-size:11px;color:var(--muted);margin-top:3px;line-height:1.35}
+.attcard .af{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);display:flex;gap:5px;flex-wrap:wrap}
+.attcard.on .af{border-top-color:rgba(228,32,38,.3)}
+.livedot{display:inline-block;width:6px;height:6px;background:var(--red);margin-right:5px;
+  animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ==================== SOCIAL HANDLES ==================== */
+.hnd{display:flex;flex-wrap:wrap;gap:0;margin:0 16px 10px}
+.hnd a,.hnd button{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);
+  padding:8px 11px;margin:0 0 -1px -1px;cursor:pointer;font-family:var(--sans);font-size:12.5px;
+  font-weight:500;color:var(--ink);letter-spacing:-.015em;max-width:100%}
+.hnd a:first-child,.hnd button:first-child{margin-left:0}
+.hnd a:active,.hnd button:active{background:var(--soft)}
+.hnd a i,.hnd button i{font-family:var(--mono);font-size:7.5px;font-weight:600;font-style:normal;letter-spacing:.04em;
+  border:1px solid var(--line);padding:2px 4px;color:var(--muted);flex:0 0 auto}
+.hnd a u,.hnd button u{text-decoration:none;color:var(--muted);font-size:11.5px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap;min-width:0;max-width:205px}
+
+/* ==================== SWITCH ROWS (privacy, notifications) ==================== */
+.sw{display:flex;align-items:center;gap:12px;width:calc(100% - 32px);background:#fff;
+  border:1px solid var(--line);margin:0 16px -1px;padding:12px 13px;cursor:pointer;
+  font-family:var(--sans);text-align:left;color:var(--ink)}
+.sw .swb{flex:1;min-width:0}
+.sw .swb b{display:block;font-size:13.5px;font-weight:600;letter-spacing:-.022em}
+.sw .swb span{display:block;font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+.sw i{width:34px;height:20px;flex:0 0 34px;border:1px solid var(--ink);background:#fff;position:relative}
+.sw i::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;background:var(--ink);
+  transition:left .16s}
+.sw.on i{background:var(--ink)}
+.sw.on i::after{left:16px;background:#fff}
+
+/* ==================== CONNECTION HISTORY ==================== */
+.hrow{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);
+  margin:0 16px -1px;padding:12px}
+.hrow .hb{flex:1;min-width:0}
+.hrow .hb b{display:block;font-size:13.5px;font-weight:600;letter-spacing:-.022em}
+.hrow .hb span{display:block;font-size:11px;color:var(--muted);margin-top:3px;line-height:1.45}
+.hrow .hb em{font-style:normal;font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted)}
+.hrow .ha{display:flex;gap:0;flex:0 0 auto}
+.hrow .ha button{border:1px solid var(--line);background:#fff;padding:8px 10px;font-size:13px;
+  cursor:pointer;margin-left:-1px;color:var(--ink)}
+.hrow .ha button:active{background:var(--ink);color:#fff}
+.selfrow{border-left:3px solid var(--red)}
+
 @media(max-height:700px){.phone{border-width:6px}}
 </style>
 </head>
@@ -692,6 +751,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <!-- HOME -->
     <section class="screen" data-screen="home">
       <div class="hero" id="homeHero"></div>
+      <div id="homeAttending"></div>
       <div class="qa" id="homeQA"></div>
       <div id="homeRecap"></div>
 
@@ -704,11 +764,6 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       <h2 class="sec"><span data-i18n="headline_spon">Nhà tài trợ chính</span> <a onclick="go('explore');switchTab('sponsors')" data-i18n="all">Tất cả</a></h2>
       <div class="hscroll" id="sponStrip"></div>
 
-      <div class="banner pic" id="homeBanner" style="--img:url('assets/img/workshop.jpg')">
-        <b data-i18n="banner_t">Nâng cấp Networking Pro</b>
-        <p data-i18n="banner_p">Mở khóa gợi ý kết nối thông minh & đặt lịch gặp ưu tiên.</p>
-        <button class="btn sm" style="background:#fff;color:var(--red)" onclick="toast(tr('t_pro'))" data-i18n="banner_btn">Tìm hiểu thêm</button>
-      </div>
     </section>
 
     <!-- EXPLORE -->
@@ -768,37 +823,33 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
         <h3 style="margin:0;font-size:19px;letter-spacing:-.035em" id="ppName">—</h3>
         <p style="margin:4px 0 0;opacity:.85;font-size:12.5px" id="ppRole">—</p>
       </div>
-      <div class="note mono" style="margin-top:14px" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
+      <div class="note mono" id="ppSynced" style="margin-top:14px" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
       <div class="facts" id="ppFacts"></div>
-      <div style="padding:4px 16px 0"><a class="btn ghost" id="ppLi" href="#" target="_blank" rel="noopener" data-i18n="pp_linkedin">Xem hồ sơ LinkedIn ↗</a></div>
+      <div id="ppHandles"></div>
       <div class="row" style="margin:10px 16px 18px" id="ppActs"></div>
     </section>
 
     <!-- PROFILE -->
     <section class="screen" data-screen="profile">
       <div class="phead">
-        <div class="av sm" style="width:84px;height:84px;font-size:30px;margin:0 auto 10px;background:#E42026">AT</div>
-        <h3 style="margin:0;font-size:19px">Anh Trần</h3>
-        <p style="margin:3px 0 0;opacity:.85;font-size:12.5px" data-i18n="p_role">Giám đốc Đầu tư · Zegoe Capital</p>
+        <div class="av sm" id="pfAv" style="width:84px;height:84px;font-size:30px;margin:0 auto 10px;background:#E42026">AT</div>
+        <h3 style="margin:0;font-size:19px" id="pfName">Anh Trần</h3>
+        <p style="margin:3px 0 0;opacity:.85;font-size:12.5px" id="pfRole">Giám đốc Đầu tư · Zegoe Capital</p>
         <span class="chip" id="pfTicket" style="margin-top:10px;background:rgba(255,255,255,.18);color:#fff"><span data-i18n="vip_ticket">🎫 Vé tham dự</span> · #SVEF-2041</span>
       </div>
-      <div class="stats">
-        <div><b>12</b><span data-i18n="st_conn">Kết nối</span></div>
-        <div><b>5</b><span data-i18n="st_sess">Phiên</span></div>
-        <div><b>3</b><span data-i18n="st_meet">Lịch gặp</span></div>
-      </div>
+      <div class="stats" id="pfStats"></div>
       <div class="menu">
         <button onclick="openQR()"><span class="mi">📱</span><span data-i18n="m_qrconnect">QR kết nối</span><span class="ch">›</span></button>
         <button onclick="openTicket()"><span class="mi">🎫</span><span data-i18n="m_eticket">Vé điện tử</span><span class="ch">›</span></button>
         <button onclick="openMyRegs()"><span class="mi">🧾</span><span data-i18n="m_regs">Đăng ký của tôi</span><span class="ch">›</span></button>
-        <button onclick="toast(tr('t_edit'))"><span class="mi">✏️</span><span data-i18n="m_edit">Chỉnh sửa hồ sơ</span><span class="ch">›</span></button>
-        <button onclick="toast(tr('t_hist'))"><span class="mi">🕑</span><span data-i18n="m_history">Lịch sử kết nối</span><span class="ch">›</span></button>
-        <button onclick="toast(tr('t_privacy'))"><span class="mi">🔒</span><span data-i18n="m_privacy">Quyền riêng tư & hiển thị</span><span class="ch">›</span></button>
+        <button onclick="openMe('edit')"><span class="mi">✏️</span><span data-i18n="m_edit">Chỉnh sửa hồ sơ</span><span class="ch">›</span></button>
+        <button onclick="openMe('history')"><span class="mi">🕑</span><span data-i18n="m_history">Lịch sử kết nối</span><span class="ch">›</span></button>
+        <button onclick="openMe('privacy')"><span class="mi">🔒</span><span data-i18n="m_privacy">Quyền riêng tư & hiển thị</span><span class="ch">›</span></button>
       </div>
       <div class="menu">
         <button onclick="toggleLang()"><span class="mi">🌐</span><span data-i18n="m_lang">Ngôn ngữ · Tiếng Việt</span><span class="ch">›</span></button>
-        <button onclick="toast(tr('t_notif'))"><span class="mi">🔔</span><span data-i18n="m_notif">Cài đặt thông báo</span><span class="ch">›</span></button>
-        <button onclick="toast(tr('t_help'))"><span class="mi">❓</span><span data-i18n="m_help">Trợ giúp & Hỗ trợ</span><span class="ch">›</span></button>
+        <button onclick="openMe('notif')"><span class="mi">🔔</span><span data-i18n="m_notif">Cài đặt thông báo</span><span class="ch">›</span></button>
+        <button onclick="openMe('help')"><span class="mi">❓</span><span data-i18n="m_help">Trợ giúp & Hỗ trợ</span><span class="ch">›</span></button>
         <button onclick="signOutApp()"><span class="mi">🚪</span><span data-i18n="m_signout">Đăng xuất</span><span class="ch">›</span></button>
       </div>
       <p class="muted" style="text-align:center;font-size:11px;margin:0 0 16px">SVEF App · Prototype v0.1</p>
@@ -925,9 +976,15 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <div class="grab"></div>
     <h3 data-i18n="qr_title">QR kết nối</h3>
     <p class="sub" data-i18n="qr_sub">Đưa mã này cho người tham dự khác quét để kết nối. Đây không phải mã vào cửa.</p>
-    <div class="qrbox"></div>
-    <div style="text-align:center;margin-bottom:8px"><b style="font-size:16px">Anh Trần</b><br><span class="muted" style="font-size:12.5px" data-i18n="p_role">Giám đốc Đầu tư · Zegoe Capital</span></div>
-    <div class="row" style="margin:0 16px"><button class="btn ghost" onclick="toast(tr('t_scan'))" data-i18n="scan">📷 Quét QR</button><button class="btn dark" onclick="toast(tr('t_saved_card'))" data-i18n="save">💾 Lưu</button></div>
+    <div id="qrBody"></div>
+  </div>
+
+  <!-- MY PROFILE SHEET (edit, privacy, connection history, notifications, help) -->
+  <div class="sheet" id="sheetMe">
+    <div class="grab"></div>
+    <h3 id="meTitle"></h3>
+    <p class="sub" id="meSub"></p>
+    <div id="meBody"></div>
   </div>
 
   <!-- E-TICKET SHEET (one pass per attendee on a group booking) -->
@@ -949,7 +1006,6 @@ const T={
   qa_qrconnect:"QR kết nối", qa_eticket:"Vé điện tử", qa_map:"Bản đồ", qa_connect:"Kết nối",
   qa_agenda:"Chương trình", qa_meetings:"Lịch gặp", qa_people:"Tham dự", qa_messages:"Tin nhắn",
   today:"Lịch hôm nay", seeall:"Xem tất cả", featured:"Diễn giả nổi bật", all:"Tất cả", headline_spon:"Nhà tài trợ chính",
-  banner_t:"Nâng cấp Networking Pro", banner_p:"Mở khóa gợi ý kết nối thông minh & đặt lịch gặp ưu tiên.", banner_btn:"Tìm hiểu thêm",
   search_ph:"Tìm phiên, diễn giả, nhà tài trợ…", tab_agenda:"Chương trình", tab_speakers:"Diễn giả",
   tab_sponsors:"Tài trợ", tab_booths:"Gian hàng",
   sess_unit:"phiên đã lưu", saved_h:"Phiên đã lưu", sched_empty:"Chưa lưu phiên nào. Nhấn biểu tượng lưu trên một dòng chương trình ở mục Khám phá.",
@@ -962,7 +1018,7 @@ const T={
   ai_note:"AI gợi ý dựa trên ngành nghề, thị trường mục tiêu và các mối quan tâm bạn khai báo trong hồ sơ.",
   btn_meet:"Yêu cầu gặp", btn_chat:"Nhắn tin",
   mtg_confirmed:"Đã xác nhận gặp", mtg_pending:"Chờ xác nhận gặp", mtg_canceled:"Lịch gặp đã huỷ", mtg_declined:"Lịch gặp bị từ chối",
-  p_role:"Giám đốc Đầu tư · Zegoe Capital", vip_ticket:"🎫 Vé tham dự", st_conn:"Kết nối", st_sess:"Phiên", st_meet:"Lịch gặp",
+  vip_ticket:"🎫 Vé tham dự", st_conn:"Kết nối", st_sess:"Phiên", st_meet:"Lịch gặp",
   m_qrconnect:"QR kết nối", m_eticket:"Vé điện tử", m_edit:"Chỉnh sửa hồ sơ", m_history:"Lịch sử kết nối", m_privacy:"Quyền riêng tư & hiển thị",
   m_lang:"Ngôn ngữ · Tiếng Việt", m_notif:"Cài đặt thông báo", m_help:"Trợ giúp & Hỗ trợ", m_signout:"Đăng xuất",
   li_h:"Chào mừng đến với SVEF Events",
@@ -979,8 +1035,7 @@ const T={
   nav_home:"Trang chủ", nav_explore:"Khám phá", nav_schedule:"Lịch", nav_network:"Kết nối", nav_people:"Tham dự", nav_profile:"Hồ sơ",
   ev_kicker:"Diễn đàn Kinh tế Thụy Sĩ - Việt Nam", ev_title:"SVEF Events", ev_sub:"Tất cả sự kiện SVEF trong một ứng dụng.",
   ev_tab_up:"Sắp diễn ra", ev_tab_past:"Đã qua", ev_tab_reg:"Đã đăng ký",
-  ev_register:"Đăng ký", ev_info:"Thông tin", ev_open:"Mở sự kiện", ev_buy:"Mua vé trên website ↗",
-  ev_paid_note:"Sự kiện có thu phí. Việc mua vé được thực hiện trên website sự kiện của ban tổ chức.",
+  ev_register:"Đăng ký", ev_info:"Thông tin", ev_open:"Mở sự kiện",
   ev_free:"Miễn phí", ev_paid:"Có phí", ev_readonly:"Chỉ đọc",
   ev_moves:"Khi một sự kiện kết thúc, sự kiện đó sẽ tự động chuyển từ mục Đã đăng ký sang mục Đã qua.",
   ev_readonly_note:"Sự kiện đã qua ở chế độ chỉ đọc: chương trình, tin nhắn, lịch gặp, người tham dự và ghi chú tổng kết của ban tổ chức.",
@@ -994,11 +1049,11 @@ const T={
   sr_register:"Đăng ký phiên này", sr_cancel:"Huỷ đăng ký phiên", sr_full:"Đã hết chỗ",
   t_sr_ok:"Đã đăng ký phiên. Phiên đã được thêm vào chương trình của bạn.",
   t_sr_cancel:"Đã huỷ đăng ký phiên", t_sr_full:"Phiên này đã hết chỗ.",
-  ei_st_up:"Sắp diễn ra", ei_st_reg:"Bạn đã đăng ký", ei_st_past:"Đã kết thúc",
-  reg_title:"Đăng ký tham dự", reg_free:"Đăng ký sự kiện SVEF là miễn phí. Vui lòng điền thông tin bên dưới.",
-  f_name:"Họ và tên", f_email:"Email", f_company:"Công ty", f_title:"Chức danh", reg_submit:"Gửi đăng ký",
+  ei_st_up:"Sắp diễn ra", ei_st_past:"Đã kết thúc",
+  reg_title:"Đăng ký tham dự",
+  f_name:"Họ và tên", f_email:"Email", f_company:"Công ty", f_title:"Chức danh",
   reg_ok_t:"Đã đăng ký!", reg_ok_p:"Xác nhận đã được gửi tới email của bạn. Sự kiện đã chuyển sang mục Đã đăng ký.",
-  reg_ok_btn:"Xem sự kiện đã đăng ký", reg_need:"Vui lòng nhập họ tên và email.",
+  reg_need:"Vui lòng nhập họ tên và email.",
   /* --- Registration flow: personal / group, tickets, mock payment --- */
   rg_step_who:"Người tham dự", rg_step_tick:"Chọn vé", rg_step_rev:"Xác nhận", rg_step_pay:"Thanh toán",
   rg_mode_l:"Hình thức đăng ký", rg_personal:"Cá nhân", rg_group:"Theo nhóm",
@@ -1024,10 +1079,8 @@ const T={
   rg_wait_t:"Bạn đã vào danh sách chờ",
   rg_wait_p:"Chúng tôi sẽ báo ngay khi có chỗ trống. Bạn chưa bị tính phí và có thể rời danh sách chờ bất cứ lúc nào.",
   rg_view_ticket:"Xem vé điện tử", rg_view_regs:"Xem đăng ký của tôi",
-  pay_mock:"Bước thanh toán giả lập cho bản demo. Không có giao dịch thật và không có dữ liệu thẻ nào được gửi đi.",
-  pay_method:"Phương thức thanh toán", pay_method_card:"Thẻ tín dụng",
   pay_card:"Số thẻ", pay_exp:"Hết hạn", pay_cvc:"CVC", pay_holder:"Tên trên thẻ",
-  pay_btn:"Thanh toán {x}", pay_working:"Đang xử lý thanh toán…", pay_ok:"Đã thanh toán", pay_none:"Miễn phí",
+  pay_btn:"Thanh toán {x}", pay_working:"Đang xử lý thanh toán…", pay_none:"Miễn phí",
   /* --- Booking states --- */
   bs_confirmed:"Đã xác nhận", bs_pending:"Chờ duyệt", bs_waitlisted:"Danh sách chờ", bs_cancelled:"Đã huỷ",
   /* --- Booking sheet: view / modify / cancel --- */
@@ -1041,7 +1094,7 @@ const T={
   bk_keep:"Giữ đăng ký", bk_cancel_yes:"Xác nhận huỷ",
   bk_cancelled_t:"Đã huỷ đăng ký",
   bk_cancelled_p:"Đăng ký của bạn đã được huỷ. Sự kiện quay lại mục Sắp diễn ra.",
-  bk_refund_l:"Hoàn tiền", bk_refund_v:"Đang xử lý · hoàn về phương thức thanh toán gốc trong 5 - 7 ngày làm việc",
+  bk_refund_v:"Đang xử lý · hoàn về phương thức thanh toán gốc trong 5 - 7 ngày làm việc",
   bk_wpos:"Vị trí danh sách chờ", bk_close:"Đóng",
   bk_pending_note:"Ban tổ chức đang xem xét đăng ký của bạn. Vé sẽ được phát hành sau khi được duyệt.",
   bk_wait_note:"Bạn đang ở danh sách chờ. Nếu có người huỷ, chỗ sẽ được chuyển cho bạn theo thứ tự.",
@@ -1054,7 +1107,6 @@ const T={
   ev_approval:"Cần duyệt", ev_from:"Từ",
   ev_reg_empty:"Bạn chưa đăng ký sự kiện nào. Chọn một sự kiện ở mục Sắp diễn ra để bắt đầu.",
   ev_reg_empty_btn:"Xem sự kiện sắp diễn ra",
-  ev_ext_note:"Vé của sự kiện này được bán trên website của ban tổ chức, không đặt trong app.",
   ei_seats:"Sức chứa", ei_reg:"Đăng ký", ei_reg_open:"Đang mở", ei_ref:"Mã đặt chỗ",
   /* --- E-ticket --- */
   et_pass:"Vé", et_tier:"Loại vé", et_ref:"Mã đặt chỗ",
@@ -1071,8 +1123,47 @@ const T={
   nt_pay_t:"Biên nhận thanh toán", nt_pay_p:"{ev} · {amt} · đã thanh toán. Mã đặt chỗ #{ref}.",
   nt_refund_t:"Đang hoàn tiền", nt_refund_p:"{amt} cho {ev} đang được hoàn về phương thức thanh toán gốc.",
   nt_now:"Vừa xong",
+  /* ===== Round 5: attending events, handles, own profile ===== */
+  at_l:"Sự kiện bạn tham dự", at_now:"Đang diễn ra", at_current:"Đang xem",
+  at_switch_hint:"Chạm vào một sự kiện để chuyển toàn bộ ứng dụng sang sự kiện đó.",
+  at_switched:"Đã chuyển sang {ev}",
+  at_none_t:"Bạn chưa tham dự sự kiện nào",
+  at_none_p:"Khi bạn đăng ký một sự kiện, sự kiện đó sẽ hiện ở đây và toàn bộ ứng dụng sẽ chuyển sang sự kiện đó.",
+  at_browse:"Xem sự kiện SVEF",
+  h_l:"Liên hệ & mạng xã hội", h_copied:"Đã sao chép {v}",
+  h_none:"Người này chưa chia sẻ kênh liên hệ nào.",
+  me_you:"Bạn", me_self_note:"Đây là hồ sơ của bạn, đúng như người tham dự khác đang nhìn thấy.",
+  me_bio:"Giới thiệu ngắn", me_handles_l:"Kênh liên hệ",
+  me_saved:"Đã lưu hồ sơ.", me_need:"Vui lòng nhập họ tên.",
+  me_preview:"Xem hồ sơ của bạn như người khác thấy",
+  pp_bio:"Giới thiệu",
+  pv_note:"Những gì bạn tắt sẽ biến mất khỏi thẻ hồ sơ, danh bạ người tham dự và mã QR ngay lập tức.",
+  pv_gdpr:"Bạn có thể thay đổi bất cứ lúc nào. SVEF chỉ hiển thị những trường bạn cho phép.",
+  pv_dir:"Hiện trong danh bạ người tham dự",
+  pv_dir_d:"Tắt thì người tham dự khác không tìm thấy bạn ở mục Tham dự.",
+  pv_email:"Hiện email", pv_co:"Hiện công ty", pv_bio:"Hiện giới thiệu ngắn",
+  pv_h:"Hiện {k}", pv_hidden:"Đang ẩn", pv_saved:"Đã cập nhật quyền riêng tư.",
+  hi_none:"Chưa có kết nối nào. Quét QR của người tham dự khác hoặc nhắn tin để bắt đầu.",
+  hi_how_qr:"Quét QR", hi_how_chat:"Nhắn tin", hi_how_meeting:"Lịch gặp", hi_count:"{n} kết nối",
+  nf_note:"Tắt một loại thì thông báo loại đó không còn hiện trong danh sách.",
+  nf_session:"Phiên & lịch trình", nf_meeting:"Yêu cầu gặp",
+  nf_reg:"Đăng ký & thanh toán", nf_chat:"Tin nhắn",
+  nf_off_all:"Bạn đã tắt tất cả các loại thông báo.",
+  hp_q1:"Làm sao để đăng ký một sự kiện?",
+  hp_a1:"Mở sự kiện ở mục Sự kiện SVEF rồi chọn Đăng ký hoặc Đặt vé. Bạn có thể đăng ký cho riêng mình hoặc cho cả nhóm.",
+  hp_q2:"Vé điện tử của tôi ở đâu?",
+  hp_a2:"Ở mục Hồ sơ, chọn Vé điện tử. Với đăng ký theo nhóm, mỗi người tham dự có một vé riêng.",
+  hp_q3:"Tôi muốn đổi hoặc huỷ đăng ký.",
+  hp_a3:"Mở Đăng ký của tôi, chọn sự kiện rồi chọn Quản lý đăng ký. Bạn có thể đổi loại vé, sửa thông tin người tham dự hoặc huỷ.",
+  hp_q4:"Ai nhìn thấy thông tin của tôi?",
+  hp_a4:"Chỉ những trường bạn bật trong Quyền riêng tư & hiển thị. Những trường đã tắt không xuất hiện ở bất kỳ đâu, kể cả mã QR và danh thiếp tải về.",
+  hp_contact_l:"Ban thư ký SVEF", hp_phone:"Điện thoại",
+  qr_scan_note:"Máy quét được mô phỏng trong bản demo: chạm để kết nối với một người tham dự ở gần.",
+  qr_shares_l:"Mã này chia sẻ", qr_scanned:"Đã kết nối với {n}",
+  qr_scan_none:"Bạn đã kết nối với tất cả người tham dự trong danh sách demo.",
+  vc_saved:"Đã tải danh thiếp {n}.",
   /* ===== Round 2: in-app payment ===== */
-  sum_sub:"Tạm tính", sum_disc:"Giảm giá nhóm ({p}%)", sum_vat:"VAT ({p}%)",
+  sum_disc:"Giảm giá nhóm ({p}%)", sum_vat:"VAT ({p}%)",
   vat_prov:"chờ xác nhận",
   vat_note:"Mức VAT do ban tổ chức cấu hình riêng cho từng sự kiện trong bảng điều khiển quản trị. Con số ở đây là giá trị tạm, chờ SVEF xác nhận chính sách thuế.",
   disc_note:"Đặt từ {n} vé trở lên được giảm {p}%.",
@@ -1121,7 +1212,7 @@ const T={
   tr_amount:"Số tiền cần chuyển", tr_done:"Tôi đã chuyển khoản",
   tr_t_done:"Đã ghi nhận. Ban tổ chức sẽ đối soát và xác nhận lại.",
   tr_copy:"Sao chép", tr_t_copy:"Đã sao chép nội dung chuyển khoản.",
-  iv_l:"Hoá đơn", iv_no:"Số hoá đơn", iv_date:"Ngày phát hành", iv_from:"Bên bán", iv_to:"Bên mua",
+  iv_l:"Hoá đơn", iv_date:"Ngày phát hành", iv_from:"Bên bán", iv_to:"Bên mua",
   iv_items:"Chi tiết", iv_view:"Xem hoá đơn", iv_dl:"Tải hoá đơn",
   iv_t_dl:"Đã tải hoá đơn {no}.", iv_paid_by:"Thanh toán bằng", iv_txn:"Mã giao dịch",
   iv_demo:"Hoá đơn mô phỏng phục vụ bản demo, không có giá trị pháp lý.",
@@ -1144,7 +1235,6 @@ const T={
   synced:"Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF",
   p_none:"Không có người tham dự nào phù hợp bộ lọc.",
   pp_title:"Chức danh", pp_company:"Công ty", pp_industry:"Ngành", pp_about_co:"Về công ty", pp_markets:"Thị trường",
-  pp_linkedin:"Xem hồ sơ LinkedIn ↗",
   past_recap_l:"Ghi chú từ ban tổ chức", past_recap_t:"Cảm ơn bạn đã tham dự",
   past_recap_p:"Ban tổ chức SVEF xin cảm ơn hơn 600 đại biểu đã đồng hành. Tài liệu và bản ghi các phiên sẽ được gửi qua email trong tuần này.",
   follow:"+ Theo dõi", directions_btn:"Chỉ đường",
@@ -1156,9 +1246,6 @@ const T={
   msg_none:"Chưa có cuộc trò chuyện nào. Nhấn “Nhắn tin” trên hồ sơ một người tham dự để bắt đầu.",
   chat_ph:"Nhập tin nhắn…", chat_send:"Gửi", chat_you:"Bạn", chat_profile:"Hồ sơ",
   chat_start:"Chưa có tin nhắn nào. Gửi lời chào để bắt đầu.",
-  t_pro:"Demo: tính năng Pro", t_edit:"Demo: Chỉnh sửa hồ sơ", t_hist:"Demo: Lịch sử kết nối",
-  t_privacy:"Demo: Quyền riêng tư", t_notif:"Demo: Cài đặt thông báo", t_help:"Demo: Hỗ trợ",
-  t_scan:"Đang mở máy quét…", t_saved_card:"Đã lưu danh thiếp",
   t_msgs:"Demo: Tin nhắn sự kiện",
   t_followed:"Đã theo dõi ", t_profile:"Hồ sơ: ", t_booth:"Gian hàng: ", t_chat:"Mở chat với ", t_dir:"Chỉ đường tới ",
   t_meet_sent:"Đã gửi yêu cầu gặp tới ", t_saved:"Đã lưu phiên vào chương trình của tôi", t_unsaved:"Đã bỏ lưu phiên",
@@ -1175,7 +1262,6 @@ const T={
   qa_qrconnect:"QR Connect", qa_eticket:"E-Ticket", qa_map:"Map", qa_connect:"Connect",
   qa_agenda:"Agenda", qa_meetings:"Meetings", qa_people:"People", qa_messages:"Messages",
   today:"Today's schedule", seeall:"See all", featured:"Featured speakers", all:"All", headline_spon:"Headline sponsors",
-  banner_t:"Upgrade to Networking Pro", banner_p:"Unlock smart connection suggestions & priority meeting booking.", banner_btn:"Learn more",
   search_ph:"Search sessions, speakers, sponsors…", tab_agenda:"Agenda", tab_speakers:"Speakers",
   tab_sponsors:"Sponsors", tab_booths:"Booths",
   sess_unit:"saved", saved_h:"Saved sessions", sched_empty:"No sessions saved yet. Tap the save icon on an agenda row in Explore.",
@@ -1188,7 +1274,7 @@ const T={
   ai_note:"AI suggestions are matched on your industry, your target markets and the interests stated in your profile.",
   btn_meet:"Request meeting", btn_chat:"Chat",
   mtg_confirmed:"Meeting confirmed", mtg_pending:"Meeting pending", mtg_canceled:"Meeting canceled", mtg_declined:"Meeting declined",
-  p_role:"Investment Director · Zegoe Capital", vip_ticket:"🎫 Attendee pass", st_conn:"Connections", st_sess:"Sessions", st_meet:"Meetings",
+  vip_ticket:"🎫 Attendee pass", st_conn:"Connections", st_sess:"Sessions", st_meet:"Meetings",
   m_qrconnect:"QR Connect", m_eticket:"E-Ticket", m_edit:"Edit profile", m_history:"Connection history", m_privacy:"Privacy & visibility",
   m_lang:"Language · English", m_notif:"Notification settings", m_help:"Help & Support", m_signout:"Sign out",
   li_h:"Welcome to SVEF Events",
@@ -1205,8 +1291,7 @@ const T={
   nav_home:"Home", nav_explore:"Explore", nav_schedule:"Agenda", nav_network:"Connect", nav_people:"Participants", nav_profile:"Profile",
   ev_kicker:"Swiss - Vietnam Economic Forum", ev_title:"SVEF Events", ev_sub:"Every SVEF event in one app.",
   ev_tab_up:"Upcoming", ev_tab_past:"Past", ev_tab_reg:"Registered",
-  ev_register:"Register", ev_info:"Event Info", ev_open:"Open event", ev_buy:"Buy tickets on website ↗",
-  ev_paid_note:"This is a paid event. Ticket purchase happens on the organiser's event website.",
+  ev_register:"Register", ev_info:"Event Info", ev_open:"Open event",
   ev_free:"Free", ev_paid:"Paid", ev_readonly:"Read-only",
   ev_moves:"When an event ends it moves automatically from Registered to Past.",
   ev_readonly_note:"Past events are read-only: agenda, messages, meetings, participants and the organisers' recap note.",
@@ -1220,11 +1305,11 @@ const T={
   sr_register:"Register for this session", sr_cancel:"Cancel session booking", sr_full:"Session full",
   t_sr_ok:"Session booked. It has been added to your agenda.",
   t_sr_cancel:"Session booking cancelled", t_sr_full:"This session is full.",
-  ei_st_up:"Upcoming", ei_st_reg:"You are registered", ei_st_past:"Ended",
-  reg_title:"Register to attend", reg_free:"Registering for SVEF events is free. Please fill in your details below.",
-  f_name:"Full name", f_email:"Email", f_company:"Company", f_title:"Job title", reg_submit:"Submit registration",
+  ei_st_up:"Upcoming", ei_st_past:"Ended",
+  reg_title:"Register to attend",
+  f_name:"Full name", f_email:"Email", f_company:"Company", f_title:"Job title",
   reg_ok_t:"You are registered!", reg_ok_p:"A confirmation has been sent to your email. The event now appears under Registered.",
-  reg_ok_btn:"View registered events", reg_need:"Please enter your name and email.",
+  reg_need:"Please enter your name and email.",
   /* --- Registration flow: personal / group, tickets, mock payment --- */
   rg_step_who:"Attendees", rg_step_tick:"Tickets", rg_step_rev:"Review", rg_step_pay:"Payment",
   rg_mode_l:"Registration type", rg_personal:"Personal", rg_group:"Group",
@@ -1250,10 +1335,8 @@ const T={
   rg_wait_t:"You are on the waitlist",
   rg_wait_p:"We will let you know as soon as a seat opens. You have not been charged and you can leave the waitlist at any time.",
   rg_view_ticket:"View e-ticket", rg_view_regs:"View my registrations",
-  pay_mock:"Mock payment step for this demo. No real transaction is made and no card data leaves this screen.",
-  pay_method:"Payment method", pay_method_card:"Credit card",
   pay_card:"Card number", pay_exp:"Expiry", pay_cvc:"CVC", pay_holder:"Name on card",
-  pay_btn:"Pay {x}", pay_working:"Processing payment…", pay_ok:"Paid", pay_none:"Free of charge",
+  pay_btn:"Pay {x}", pay_working:"Processing payment…", pay_none:"Free of charge",
   /* --- Booking states --- */
   bs_confirmed:"Confirmed", bs_pending:"Pending approval", bs_waitlisted:"Waitlisted", bs_cancelled:"Cancelled",
   /* --- Booking sheet: view / modify / cancel --- */
@@ -1267,7 +1350,7 @@ const T={
   bk_keep:"Keep my registration", bk_cancel_yes:"Confirm cancellation",
   bk_cancelled_t:"Registration cancelled",
   bk_cancelled_p:"Your registration has been cancelled. The event is back under Upcoming.",
-  bk_refund_l:"Refund", bk_refund_v:"Processing · back to the original payment method within 5 - 7 working days",
+  bk_refund_v:"Processing · back to the original payment method within 5 - 7 working days",
   bk_wpos:"Waitlist position", bk_close:"Close",
   bk_pending_note:"The organisers are reviewing your registration. Passes are issued once it is approved.",
   bk_wait_note:"You are on the waitlist. If someone cancels, the seat passes to you in order.",
@@ -1280,7 +1363,6 @@ const T={
   ev_approval:"Approval required", ev_from:"From",
   ev_reg_empty:"You have not registered for any event yet. Pick one from Upcoming to get started.",
   ev_reg_empty_btn:"Browse upcoming events",
-  ev_ext_note:"Tickets for this event are sold on the organisers' website, not inside the app.",
   ei_seats:"Capacity", ei_reg:"Registration", ei_reg_open:"Open", ei_ref:"Booking reference",
   /* --- E-ticket --- */
   et_pass:"Pass", et_tier:"Ticket type", et_ref:"Booking reference",
@@ -1297,8 +1379,47 @@ const T={
   nt_pay_t:"Payment receipt", nt_pay_p:"{ev} · {amt} · paid. Booking #{ref}.",
   nt_refund_t:"Refund on the way", nt_refund_p:"{amt} for {ev} is being refunded to your original payment method.",
   nt_now:"Just now",
+  /* ===== Round 5: attending events, handles, own profile ===== */
+  at_l:"Events you are attending", at_now:"Happening now", at_current:"Viewing",
+  at_switch_hint:"Tap an event to switch the whole app across to it.",
+  at_switched:"Switched to {ev}",
+  at_none_t:"You are not attending anything yet",
+  at_none_p:"Once you register for an event it shows up here, and the whole app switches across to it.",
+  at_browse:"Browse SVEF events",
+  h_l:"Contact and social", h_copied:"Copied {v}",
+  h_none:"This attendee has not shared any contact channels.",
+  me_you:"You", me_self_note:"This is your profile, exactly as other attendees see it right now.",
+  me_bio:"Short bio", me_handles_l:"Contact channels",
+  me_saved:"Profile saved.", me_need:"Please enter your name.",
+  me_preview:"See your profile as others see it",
+  pp_bio:"About",
+  pv_note:"Anything you switch off disappears from your profile card, the participant directory and your QR code immediately.",
+  pv_gdpr:"You can change this at any time. SVEF only shows the fields you allow.",
+  pv_dir:"Appear in the participant directory",
+  pv_dir_d:"Switch this off and other attendees will not find you under Participants.",
+  pv_email:"Show email address", pv_co:"Show company", pv_bio:"Show short bio",
+  pv_h:"Show {k}", pv_hidden:"Hidden", pv_saved:"Privacy updated.",
+  hi_none:"No connections yet. Scan another attendee's QR code or start a chat.",
+  hi_how_qr:"QR scan", hi_how_chat:"Chat", hi_how_meeting:"Meeting", hi_count:"{n} connections",
+  nf_note:"Switch a type off and those notifications stop appearing in your list.",
+  nf_session:"Sessions and schedule", nf_meeting:"Meeting requests",
+  nf_reg:"Registration and payment", nf_chat:"Messages",
+  nf_off_all:"You have switched every notification type off.",
+  hp_q1:"How do I register for an event?",
+  hp_a1:"Open the event under SVEF Events and choose Register or Book tickets. You can register for yourself or for a group.",
+  hp_q2:"Where is my e-ticket?",
+  hp_a2:"Under Profile, choose E-Ticket. On a group booking every attendee gets their own pass.",
+  hp_q3:"I need to change or cancel a registration.",
+  hp_a3:"Open My registrations, pick the event and choose Manage registration. You can change the ticket type, edit attendee details or cancel.",
+  hp_q4:"Who can see my details?",
+  hp_a4:"Only the fields you switch on under Privacy and visibility. Anything switched off appears nowhere, including your QR code and the contact card you download.",
+  hp_contact_l:"SVEF secretariat", hp_phone:"Phone",
+  qr_scan_note:"The scanner is simulated in this demo: tap to connect with an attendee nearby.",
+  qr_shares_l:"This code shares", qr_scanned:"Connected with {n}",
+  qr_scan_none:"You have already connected with everyone in the demo list.",
+  vc_saved:"Contact card {n} downloaded.",
   /* ===== Round 2: in-app payment ===== */
-  sum_sub:"Subtotal", sum_disc:"Group discount ({p}%)", sum_vat:"VAT ({p}%)",
+  sum_disc:"Group discount ({p}%)", sum_vat:"VAT ({p}%)",
   vat_prov:"pending confirmation",
   vat_note:"The VAT rate is configured per event by the organisers in the admin dashboard. The figure here is a placeholder pending SVEF's confirmed tax position.",
   disc_note:"Bookings of {n} tickets or more get {p}% off.",
@@ -1347,7 +1468,7 @@ const T={
   tr_amount:"Amount to transfer", tr_done:"I have made the transfer",
   tr_t_done:"Noted. The organisers will reconcile it and confirm.",
   tr_copy:"Copy", tr_t_copy:"Payment reference copied.",
-  iv_l:"Invoice", iv_no:"Invoice number", iv_date:"Issue date", iv_from:"From", iv_to:"Billed to",
+  iv_l:"Invoice", iv_date:"Issue date", iv_from:"From", iv_to:"Billed to",
   iv_items:"Line items", iv_view:"View invoice", iv_dl:"Download invoice",
   iv_t_dl:"Invoice {no} downloaded.", iv_paid_by:"Paid by", iv_txn:"Transaction reference",
   iv_demo:"A simulated invoice for this demo. It has no legal validity.",
@@ -1370,7 +1491,6 @@ const T={
   synced:"Data synced from the SVEF admin dashboard",
   p_none:"No participants match the current filter.",
   pp_title:"Job title", pp_company:"Company", pp_industry:"Industry", pp_about_co:"About the company", pp_markets:"Markets",
-  pp_linkedin:"View LinkedIn profile ↗",
   past_recap_l:"Note from the organisers", past_recap_t:"Thank you for joining us",
   past_recap_p:"The SVEF organising team thanks the 600+ delegates who joined us. Session materials and recordings will be emailed to you this week.",
   follow:"+ Follow", directions_btn:"Directions",
@@ -1382,9 +1502,6 @@ const T={
   msg_none:"No conversations yet. Tap “Chat” on an attendee profile to start one.",
   chat_ph:"Write a message…", chat_send:"Send", chat_you:"You", chat_profile:"Profile",
   chat_start:"No messages yet. Say hello to get started.",
-  t_pro:"Demo: Pro feature", t_edit:"Demo: Edit profile", t_hist:"Demo: Connection history",
-  t_privacy:"Demo: Privacy", t_notif:"Demo: Notification settings", t_help:"Demo: Support",
-  t_scan:"Opening scanner…", t_saved_card:"Card saved",
   t_msgs:"Demo: Event messages",
   t_followed:"Following ", t_profile:"Profile: ", t_booth:"Booth: ", t_chat:"Open chat with ", t_dir:"Directions to ",
   t_meet_sent:"Meeting request sent to ", t_saved:"Session saved to my agenda", t_unsaved:"Session removed from my agenda",
@@ -1409,7 +1526,7 @@ const speakers=[
 /* --- Events: one app, many SVEF events ------------------------------------ */
 const events=[
   {id:"svef26", img:"forum-stage", status:"registered", paid:false, tz:"GMT+7",
-   cap:800, taken:612,
+   cap:800, taken:612, live:true,
    fmt:"hybrid", zoom:"https://zoom.us/j/8412200261",
    url:"https://svef.example.org/events/svef-2026",
    n:{vi:"SVEF 2026 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2026 - Swiss-Vietnam Economic Forum"},
@@ -1529,18 +1646,6 @@ const events=[
    desc:{vi:"Bữa sáng làm việc kín cho lãnh đạo doanh nghiệp về thủ tục hải quan và tuyến vận tải Việt Nam - Thụy Sĩ.",
          en:"A closed working breakfast for company leaders on customs procedures and the Vietnam to Switzerland freight lane."},
    days:[{n:1,lbl:{vi:"Buổi sáng",en:"Morning"},d:{vi:"30/6",en:"30 Jun"}}]},
-  /* Paid event kept on the external route: tickets are sold on the website */
-  {id:"swissnight", img:"swiss-zurich", status:"upcoming", paid:true, ext:true, tz:"GMT+1",
-   url:"https://svef.example.org/events/swiss-business-night-geneva",
-   n:{vi:"Swiss Business Night - Genève",en:"Swiss Business Night - Geneva"},
-   short:{vi:"Business Night · Genève",en:"Business Night · Geneva"},
-   dnum:"05", dmon:{vi:"THG 12",en:"DEC"},
-   dates:{vi:"5 tháng 12, 2026",en:"5 December 2026"},
-   venue:{vi:"Bâtiment des Forces Motrices · Genève",en:"Bâtiment des Forces Motrices · Geneva"},
-   org:{vi:"Alpine Advisory phối hợp cùng SVEF",en:"Alpine Advisory with SVEF"},
-   desc:{vi:"Tiệc tối kết nối do đối tác Alpine Advisory tổ chức. Vé do ban tổ chức bán trực tiếp trên website sự kiện.",
-         en:"A networking dinner hosted by our partner Alpine Advisory. Tickets are sold by the organisers on their own event website."},
-   days:[{n:1,lbl:{vi:"Buổi tối",en:"Evening"},d:{vi:"5/12",en:"5 Dec"}}]},
   {id:"svef25", img:"forum-audience", status:"past", paid:false, tz:"GMT+1",
    url:"https://svef.example.org/events/svef-2025",
    n:{vi:"SVEF 2025 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2025 - Swiss-Vietnam Economic Forum"},
@@ -1629,17 +1734,20 @@ const people=[
    t:{vi:"Tổng giám đốc",en:"Chief Executive Officer"},
    cod:{vi:"Nền tảng thanh toán xuyên biên giới cho doanh nghiệp vừa và nhỏ giữa châu Âu và Đông Nam Á.",
         en:"A cross-border payments platform for SMEs trading between Europe and South East Asia."},
-   li:"https://www.linkedin.com/in/svef-demo-lara-weber"},
+   li:"https://www.linkedin.com/in/svef-demo-lara-weber",
+   h:{x:"@laraweber_ch",web:"https://helvetiafintech.example.ch",wa:"+41 79 412 88 20"}},
   {id:2,n:"Marco Rossi",i:"MR",c:"#0F5A4A",co:"Zurich Ventures",ind:"inv",mkts:["ch","eu","asean"],acted:true,
    t:{vi:"Thành viên điều hành",en:"Partner"},
    cod:{vi:"Quỹ đầu tư mạo hiểm giai đoạn sớm, tập trung vào công nghệ tài chính và công nghiệp.",
         en:"An early-stage venture fund focused on financial and industrial technology."},
-   li:"https://www.linkedin.com/in/svef-demo-marco-rossi"},
+   li:"https://www.linkedin.com/in/svef-demo-marco-rossi",
+   h:{x:"@mrossi_vc",web:"https://zurichventures.example.ch"}},
   {id:3,n:"Phạm Hà",i:"PH",c:"#1F3A5F",co:"GreenTech VN",ind:"eng",mkts:["vn","asean"],acted:true,
    t:{vi:"Nhà sáng lập",en:"Founder"},
    cod:{vi:"Doanh nghiệp phát triển điện mặt trời áp mái và giải pháp lưu trữ năng lượng cho khu công nghiệp.",
         en:"A developer of rooftop solar and energy-storage solutions for industrial parks."},
-   li:"https://www.linkedin.com/in/svef-demo-pham-ha"},
+   li:"https://www.linkedin.com/in/svef-demo-pham-ha",
+   h:{web:"https://greentech.example.vn",wa:"+84 90 214 7788"}},
   {id:4,n:"Daniel Frei",i:"DF",c:"#0A0A0A",co:"Credit Helvetia",ind:"fin",mkts:["ch","eu"],match:"92%",
    t:{vi:"Giám đốc M&A",en:"Head of M&A"},
    cod:{vi:"Ngân hàng doanh nghiệp Thụy Sĩ với mảng tư vấn mua bán và sáp nhập tại châu Á.",
@@ -1649,17 +1757,20 @@ const people=[
    t:{vi:"Phó Tổng giám đốc",en:"Vice President"},
    cod:{vi:"Quỹ tăng trưởng đầu tư vào doanh nghiệp tiêu dùng và sản xuất quy mô vừa tại Việt Nam.",
         en:"A growth fund investing in mid-sized Vietnamese consumer and manufacturing businesses."},
-   li:"https://www.linkedin.com/in/svef-demo-le-thu"},
+   li:"https://www.linkedin.com/in/svef-demo-le-thu",
+   h:{wa:"+84 91 335 0142"}},
   {id:6,n:"Sofia Meier",i:"SM",c:"#7A5C00",co:"Swiss Trade Association",ind:"pub",mkts:["ch","vn"],match:"81%",
    t:{vi:"Giám đốc khu vực",en:"Regional Director"},
    cod:{vi:"Hiệp hội xúc tiến thương mại hỗ trợ doanh nghiệp Thụy Sĩ mở rộng sang thị trường ASEAN.",
         en:"A trade promotion body helping Swiss companies expand into ASEAN markets."},
-   li:"https://www.linkedin.com/in/svef-demo-sofia-meier"},
+   li:"https://www.linkedin.com/in/svef-demo-sofia-meier",
+   h:{x:"@sofiameier",web:"https://swisstrade.example.ch"}, hid:{x:true}},
   {id:7,n:"Nguyễn Minh",i:"NM",c:"#0A0A0A",co:"SVEF",ind:"pub",mkts:["vn","ch"],
    t:{vi:"Chủ tịch",en:"Chairman"},
    cod:{vi:"Tổ chức phi lợi nhuận thúc đẩy quan hệ kinh tế giữa Thụy Sĩ và Việt Nam.",
         en:"A non-profit foundation promoting economic ties between Switzerland and Vietnam."},
-   li:"https://www.linkedin.com/in/svef-demo-nguyen-minh"},
+   li:"https://www.linkedin.com/in/svef-demo-nguyen-minh",
+   h:{web:"https://svef.example.org"}},
   {id:8,n:"Trần Bảo",i:"TB",c:"#E42026",co:"Bộ Công Thương",ind:"pub",mkts:["vn"],
    t:{vi:"Thứ trưởng",en:"Deputy Minister"},
    cod:{vi:"Cơ quan quản lý nhà nước về thương mại, công nghiệp và hội nhập kinh tế quốc tế.",
@@ -1669,23 +1780,66 @@ const people=[
    t:{vi:"Giám đốc vận hành",en:"Chief Operating Officer"},
    cod:{vi:"Nhà sản xuất linh kiện cơ khí chính xác cho ngành y tế và thiết bị công nghiệp.",
         en:"A manufacturer of precision mechanical components for medical and industrial equipment."},
-   li:"https://www.linkedin.com/in/svef-demo-andreas-kueng"},
+   li:"https://www.linkedin.com/in/svef-demo-andreas-kueng",
+   h:{web:"https://alpineprecision.example.ch",wa:"+41 76 908 33 41"}},
   {id:10,n:"Đỗ Quang",i:"DQ",c:"#1F3A5F",co:"Saigon Logistics",ind:"log",mkts:["vn","asean"],acted:true,
    t:{vi:"Giám đốc Chuỗi cung ứng",en:"Supply Chain Director"},
    cod:{vi:"Đơn vị giao nhận và kho vận phục vụ tuyến thương mại Việt Nam - châu Âu.",
         en:"A freight forwarding and warehousing operator serving the Vietnam to Europe trade lane."},
-   li:"https://www.linkedin.com/in/svef-demo-do-quang"},
+   li:"https://www.linkedin.com/in/svef-demo-do-quang",
+   h:{wa:"+84 93 887 2205"}},
   {id:11,n:"Claudia Berger",i:"CB",c:"#754715",co:"Helvetia Fintech",ind:"fin",mkts:["ch","asean"],
    t:{vi:"Giám đốc Phát triển kinh doanh",en:"Business Development Director"},
    cod:{vi:"Nền tảng thanh toán xuyên biên giới cho doanh nghiệp vừa và nhỏ giữa châu Âu và Đông Nam Á.",
         en:"A cross-border payments platform for SMEs trading between Europe and South East Asia."},
-   li:"https://www.linkedin.com/in/svef-demo-claudia-berger"},
+   li:"https://www.linkedin.com/in/svef-demo-claudia-berger",
+   h:{x:"@cberger_fin"}},
   {id:12,n:"Vũ Hải",i:"VH",c:"#3E7742",co:"Delta Manufacturing",ind:"mfg",mkts:["vn","asean","eu"],
    t:{vi:"Tổng giám đốc",en:"Managing Director"},
    cod:{vi:"Nhà máy gia công cơ khí và lắp ráp thiết bị điện tử tại Bình Dương.",
         en:"A metalworking and electronics assembly plant based in Binh Duong."},
-   li:"https://www.linkedin.com/in/svef-demo-vu-hai"},
+   li:"https://www.linkedin.com/in/svef-demo-vu-hai",
+   h:{web:"https://delta-mfg.example.vn",wa:"+84 98 550 3311"}, hid:{wa:true}},
 ];
+
+/* --- The attendee's own profile ------------------------------------------------
+   Everything the app shows about "me" reads from here, so editing it in the profile
+   sheet flows through to the person card, the directory, the QR payload, the vCard
+   and any registration the attendee starts. `vis` decides what other attendees see;
+   the defaults are deliberately conservative rather than maximally open. */
+const me={
+  id:0, self:true, n:"Anh Trần", i:"AT", c:"#E42026",
+  t:{vi:"Giám đốc Đầu tư",en:"Investment Director"},
+  co:"Zegoe Capital", e:"anh.tran@zegoe.vn", ind:"inv", mkts:["vn","ch","asean"],
+  bio:{vi:"Đầu tư vào doanh nghiệp sản xuất và logistics quy mô vừa tại Việt Nam. Đang tìm đối tác công nghệ Thụy Sĩ cho danh mục hiện tại.",
+       en:"Investing in mid-sized Vietnamese manufacturing and logistics businesses. Looking for Swiss technology partners for the current portfolio."},
+  cod:{vi:"Công ty đầu tư tập trung vào sản xuất, logistics và hạ tầng tại Việt Nam.",
+       en:"An investment firm focused on manufacturing, logistics and infrastructure in Vietnam."},
+  h:{li:"https://www.linkedin.com/in/svef-demo-tran-quoc-anh", x:"@tqanh_vc",
+     web:"https://zegoe.example.vn", wa:"+84 90 118 6420"},
+  vis:{dir:true, email:false, co:true, bio:true, li:true, x:false, web:true, wa:false}
+};
+/* Handle kinds. `open` ones are links, `copy` ones are numbers you paste elsewhere. */
+const hKinds={
+  li :{ic:"IN",  lbl:"LinkedIn", act:"open", pre:""},
+  x  :{ic:"X",   lbl:"X",        act:"open", pre:"https://x.com/"},
+  web:{ic:"WWW", lbl:{vi:"Website",en:"Website"}, act:"open", pre:""},
+  wa :{ic:"WA",  lbl:"WhatsApp", act:"copy", pre:""}
+};
+const hOrder=["li","x","web","wa"];
+
+/* --- Connection history --------------------------------------------------------
+   Seeded from the people the attendee has already dealt with, and appended to
+   whenever a new connection is actually made in the demo. */
+let connections=[
+  {pid:1, ev:"svef26", how:"meeting", at:{vi:"18/6/2026 · 15:30",en:"18 Jun 2026 · 15:30"}},
+  {pid:3, ev:"svef26", how:"qr",      at:{vi:"18/6/2026 · 11:05",en:"18 Jun 2026 · 11:05"}},
+  {pid:2, ev:"svef26", how:"chat",    at:{vi:"18/6/2026 · 14:02",en:"18 Jun 2026 · 14:02"}},
+  {pid:9, ev:"svef25", how:"qr",      at:{vi:"24/9/2025 · 10:40",en:"24 Sep 2025 · 10:40"}},
+  {pid:10,ev:"svef25", how:"meeting", at:{vi:"25/9/2025 · 09:15",en:"25 Sep 2025 · 09:15"}}
+];
+/* Which notification categories the attendee wants. This really filters the list. */
+let notifPrefs={session:true, meeting:true, reg:true, chat:true};
 
 /* --- Meetings (GMT+7 / Hanoi) ---------------------------------------------- */
 const meetings=[
@@ -1752,7 +1906,7 @@ let lang = (localStorage.getItem('svef_lang')==='en')?'en':'vi';
 function tr(k){return (T[lang][k]!==undefined)?T[lang][k]:k;}
 function tx(o){return (o&&o[lang]!==undefined)?o[lang]:'';}
 function byId(id){return document.getElementById(id);}
-function personById(id){return people.find(p=>p.id===id);}
+function personById(id){return id===0?selfPerson():people.find(p=>p.id===id);}
 function meetingFor(id){return meetings.find(m=>m.pid===id);}
 const msKey={confirmed:'ms_confirmed',pending:'ms_pending',canceled:'ms_canceled',declined:'ms_declined'};
 const mtgKey={confirmed:'mtg_confirmed',pending:'mtg_pending',canceled:'mtg_canceled',declined:'mtg_declined'};
@@ -1788,7 +1942,6 @@ function seatsFree(e){return (e&&e.cap)?Math.max(0,e.cap-(e.taken||0)):null;}
      'over'   the event is done, registration is no longer a thing
      'soon'   the window has not opened yet          (carries e.regOpen)
      'closed' the window has closed                  (carries e.regClosed)
-     'ext'    tickets are sold on the organiser site
      'full'   no seats left, the waitlist is the way in
      'open'   registration is taking bookings
    'closed' is only ever returned for a real closed window, never as a catch-all
@@ -1797,7 +1950,6 @@ function regWindow(e){
   if(!e||e.status==='past')return 'over';
   if(e.regState==='soon')return 'soon';
   if(e.regState==='closed')return 'closed';
-  if(e.ext)return 'ext';
   const left=seatsFree(e);
   if(left!==null&&left<=0)return 'full';
   return 'open';
@@ -1808,7 +1960,6 @@ function regWindowText(e){
   const w=regWindow(e);
   if(w==='soon')return trf('cap_soon_p',{d:e.regOpen},'cap_soon_plain');
   if(w==='closed')return trf('cap_closed_p',{d:e.regClosed},'cap_closed_plain');
-  if(w==='ext')return tr('ev_buy').replace(' ↗','');
   if(w==='full')return tr('cap_full');
   if(w==='over')return tr('ei_st_past');
   return e.approval?tr('ev_approval'):tr('ei_reg_open');
@@ -1902,8 +2053,7 @@ function downloadBlob(name,mime,text){
   }catch(err){}
 }
 function mkRef(){return 'SVEF-'+String(1000+Math.floor(Math.random()*8999));}
-function meAtt(){return {n:"Anh Trần",e:"anh.tran@zegoe.vn",co:"Zegoe Capital",
-  t:{vi:"Giám đốc Đầu tư",en:"Investment Director"}};}
+function meAtt(){return {n:me.n,e:me.e,co:me.co,t:me.t};}
 function attTitle(a){return (a&&a.t&&typeof a.t==='object')?tx(a.t):((a&&a.t)||'');}
 const bsChip={confirmed:'green',pending:'gold',awaiting:'gold',waitlisted:'gold',cancelled:'red'};
 function stateChip(st){return `<span class="chip ${bsChip[st]||''}">${tr('bs_'+st)}</span>`;}
@@ -1960,7 +2110,14 @@ function setAppbarTitle(s){
   const mb=byId('msgBtn');if(mb)mb.style.display=outScreens.includes(s)?'none':'grid';
   if(s==='events'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tr('ab_events')+'</small>';back.style.display='none';}
   else if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tx(curEv.short)+'</small>';back.style.display='none';}
-  else{ab.classList.remove('brand');t.innerHTML=tr('ab_'+s)||'SVEF';back.style.display=(tabsScreens.includes(s)?'none':'grid');}
+  else{
+    ab.classList.remove('brand');
+    // event-scoped screens name the event they belong to, so an agenda or a
+    // participant list can never be read against the wrong one
+    const scoped=['explore','schedule','network','participants','map','messages','chat','session','person'];
+    t.innerHTML=tr('ab_'+s)+((scoped.indexOf(s)>-1&&curEv)?'<small>'+tx(curEv.short)+'</small>':'');
+    back.style.display=(tabsScreens.includes(s)?'none':'grid');
+  }
 }
 function go(s,isBack){
   document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('active',e.dataset.screen===s));
@@ -2011,7 +2168,6 @@ function evActionHTML(e,ctx){
   let primary;
   if(w==='soon')primary=`<button class="btn ghost" onclick="remindMe('${e.id}')">${tr('cap_remind')}</button>`;
   else if(w==='closed'||w==='over')primary='';
-  else if(w==='ext')primary=`<a class="btn" href="${e.url}" target="_blank" rel="noopener">${tr('ev_buy')}</a>`;
   else if(w==='full')primary=`<button class="btn dark" onclick="openRegister('${e.id}')">${tr('ev_wait')}</button>`;
   else primary=`<button class="btn" onclick="openRegister('${e.id}')">${e.paid?tr('ev_book'):tr('ev_register')}</button>`;
   if(!primary&&!infoBtn)return '';
@@ -2021,7 +2177,6 @@ function evNoteHTML(e){
   const w=regWindow(e);
   if(w==='soon')return `<div class="note">${trf('cap_soon_p',{d:e.regOpen},'cap_soon_plain')}</div>`;
   if(w==='closed')return `<div class="note">${trf('cap_closed_p',{d:e.regClosed},'cap_closed_plain')}</div>`;
-  if(w==='ext')return `<div class="note">${tr('ev_ext_note')}</div>`;
   if(w==='full')return `<div class="note">${tr('rg_wait_note')}</div>`;
   return '';
 }
@@ -2106,7 +2261,7 @@ function renderHome(){
   else if(!hb){hcls='';hlbl=tr('ei_st_up');}
   else if(hb.state!=='confirmed'){hcls='gold';hlbl=tr('bs_'+hb.state);}
   byId('homeHero').innerHTML=
-    `<div class="hi">${tr('greet')}</div><div class="nm">Anh Trần</div>
+    `<div class="hi">${tr('greet')}</div><div class="nm">${esc(me.n)}</div>
      <div class="ev"><div class="d">${e.dnum}<small>${tx(e.dmon)}</small></div>
        <div style="flex:1"><b style="font-size:13px">${tx(e.short)}</b>
          <div style="font-size:11px;opacity:.85">${tx(e.venue)}</div></div>
@@ -2124,7 +2279,6 @@ function renderHome(){
          <div style="padding:15px"><b style="font-size:15px;letter-spacing:-.03em">${tr('past_recap_t')}</b>
            <p class="muted" style="margin:8px 0 0;font-size:12.5px;line-height:1.55">${tr('past_recap_p')}</p></div>
        </div>` : '';
-  byId('homeBanner').style.display=past?'none':'block';
 }
 function sessRow(i){const s=sessions[i];
   return `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${s.spk}</p></div></div>`;
@@ -2266,6 +2420,13 @@ function renderSchedule(){
 
 /* ===================== PEOPLE (Connect + Participants) ===================== */
 function personRow(p,showMatch){
+  if(p.self)return `<div class="prow selfrow">
+    <div class="ptop" onclick="openPerson(0)">${avHTML(p,'sm')}
+      <div class="meta"><h4>${esc(p.n)} <span class="chip red">${tr('me_you')}</span></h4>
+        <p>${tx(p.t)}${me.vis.co?' · '+esc(p.co):''}</p></div><span class="muted">›</span></div>
+    <div class="row"><button class="btn ghost" onclick="openMe('privacy')">${tr('m_privacy')}</button>
+      <button class="btn dark" onclick="openMe('edit')">${tr('m_edit')}</button></div>
+  </div>`;
   const m=meetingFor(p.id);
   // past events keep the record of what happened, but no new meeting requests
   const left=m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
@@ -2299,7 +2460,8 @@ function renderFilters(){
 function renderParticipants(){
   const el=byId('pList'),fi=byId('fltInd'),fm=byId('fltMkt');if(!el)return;
   const vi=(fi&&fi.value)||'all',vm=(fm&&fm.value)||'all';
-  const list=people.filter(p=>(vi==='all'||p.ind===vi)&&(vm==='all'||p.mkts.indexOf(vm)>-1));
+  const pool=me.vis.dir?[selfPerson()].concat(people):people.slice();
+  const list=pool.filter(p=>(vi==='all'||p.ind===vi)&&(vm==='all'||p.mkts.indexOf(vm)>-1));
   el.innerHTML=list.length?list.map(p=>personRow(p,false)).join('')
     :`<div class="empty"><div class="e-ic">👥</div><p>${tr('p_none')}</p></div>`;
 }
@@ -2308,15 +2470,27 @@ function renderPerson(){
   const p=personById(curPerson);if(!p||!byId('ppFacts'))return;
   const av=byId('ppAv');av.textContent=p.i;av.style.background=p.c;
   byId('ppName').textContent=p.n;
-  byId('ppRole').textContent=tx(p.t)+' · '+p.co;
-  byId('ppFacts').innerHTML=fact('pp_title',tx(p.t))+fact('pp_company',p.co)
-    +fact('pp_industry',tx(industries[p.ind]))+fact('pp_about_co',tx(p.cod))
+  const showCoHead=p.self?me.vis.co:true;
+  byId('ppRole').textContent=tx(p.t)+(showCoHead?' · '+p.co:'');
+  const sy=byId('ppSynced');if(sy)sy.textContent=p.self?tr('me_self_note'):tr('synced');
+  const bio=p.self?(me.vis.bio?meBio():''):'';
+  const showCo=p.self?me.vis.co:true, showMail=p.self?me.vis.email:false;
+  byId('ppFacts').innerHTML=fact('pp_title',tx(p.t))
+    +(showCo?fact('pp_company',esc(p.co)):'')
+    +(showMail?fact('f_email',esc(p.e||'')):'')
+    +(bio?fact('pp_bio',esc(bio)):'')
+    +fact('pp_industry',tx(industries[p.ind]))
+    +(p.cod?fact('pp_about_co',tx(p.cod)):'')
     +fact('pp_markets',p.mkts.map(k=>tx(markets[k])).join(' · '));
-  const li=byId('ppLi');li.href=p.li;li.textContent=tr('pp_linkedin');
+  byId('ppHandles').innerHTML=`<div class="sechead">${tr('h_l')}</div>`+handlesHTML(p);
   const m=meetingFor(p.id);
-  byId('ppActs').innerHTML=(m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
-    :(isPast()?'':`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`))
-    +`<button class="btn dark" onclick="openChat(${p.id})">${tr('btn_chat')}</button>`;
+  // your own card is a preview of what others see, not somebody to meet or message
+  byId('ppActs').innerHTML=p.self
+    ? `<button class="btn ghost" onclick="closeSheet();openMe('privacy')">${tr('m_privacy')}</button>`
+      +`<button class="btn dark" onclick="closeSheet();openMe('edit')">${tr('m_edit')}</button>`
+    : (m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
+        :(isPast()?'':`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`))
+      +`<button class="btn dark" onclick="openChat(${p.id})">${tr('btn_chat')}</button>`;
 }
 
 /* ===================== MESSAGES / CHAT ===================== */
@@ -2361,7 +2535,7 @@ function sendChat(){
   if(!v||chatWith==null)return;
   chats[chatWith].push({me:true,t:nowHM(),m:v});
   inp.value='';
-  const p=personById(chatWith);if(p)p.acted=true;   // a chat counts as a connection
+  addConnection(chatWith,'chat');                    // a chat counts as a connection
   renderChat();renderConvos();renderNetwork();
 }
 
@@ -2374,6 +2548,9 @@ function renderBooths(){
 /* Notifications the demo generates from real actions. Both languages are built at
    push time so switching language keeps the log readable. */
 let notifLog=[];
+/* Category per entry of the static notif array, in the same order. Kept out of the
+   dictionaries because it is not copy. */
+const notifCats=["session","meeting","reg","session","reg"];
 function trIn(l,k){return (T[l][k]!==undefined)?T[l][k]:k;}
 function fillIn(l,s,rep){
   if(rep)Object.keys(rep).forEach(k=>{const v=rep[k];
@@ -2384,17 +2561,21 @@ function fillIn(l,s,rep){
   // which is always safe, rather than shipping "đã đóng ngày ,." to the client
   return /\{[A-Za-z0-9_]+\}/.test(s)?'':s;
 }
-function pushNotif(ic,c,tk,pk,rep){
-  notifLog.unshift({ic:ic,c:c,
+function pushNotif(ic,c,tk,pk,rep,cat){
+  notifLog.unshift({ic:ic,c:c,cat:cat||'reg',
     t:{vi:trIn('vi',tk),en:trIn('en',tk)},
     p:{vi:fillIn('vi',trIn('vi',pk),rep),en:fillIn('en',trIn('en',pk),rep)}});
 }
 function renderNotif(){
   const el=byId('notifList');if(!el)return;
-  const fresh=notifLog.map(n=>[n.ic,n.c,tx(n.t),tx(n.p),tr('nt_now'),true]);
-  const list=fresh.concat(tr('notif'));
-  el.innerHTML=list.map(n=>
-    `<div class="nf${n[5]?' fresh':''}"><div class="nfi" style="background:${n[1]}">${n[0]}</div><div style="flex:1"><b>${n[2]}</b><p>${n[3]}</p></div><time>${n[4]}</time></div>`).join('');
+  const fresh=notifLog.map(n=>({ic:n.ic,c:n.c,t:tx(n.t),p:tx(n.p),time:tr('nt_now'),fresh:true,cat:n.cat}));
+  const seeded=tr('notif').map((n,i)=>({ic:n[0],c:n[1],t:n[2],p:n[3],time:n[4],fresh:false,cat:notifCats[i]||'reg'}));
+  const list=fresh.concat(seeded).filter(n=>notifPrefs[n.cat]!==false);
+  el.innerHTML=list.length
+    ? list.map(n=>`<div class="nf${n.fresh?' fresh':''}"><div class="nfi" style="background:${n.c}">${n.ic}</div>`
+        +`<div style="flex:1"><b>${n.t}</b><p>${n.p}</p></div><time>${n.time}</time></div>`).join('')
+    : `<div class="empty"><div class="e-ic">🔔</div><p>${tr('nf_off_all')}</p>`
+      +`<div style="padding:16px 8px 0"><button class="btn ghost" onclick="openMe('notif')">${tr('m_notif')}</button></div></div>`;
 }
 function openSession(i){
   curSession=i;const s=sessions[i];
@@ -2410,6 +2591,138 @@ function openSession(i){
   byId('sDsave').style.display=isPast()?'none':'inline-flex';
   updateSaveBtn();updateSessionActions();
   go('session');
+}
+
+/* ===================== ATTENDING EVENTS =====================
+   The app is scoped to one event at a time. This is the surface that says which
+   events the attendee holds a booking for and lets them move that scope on purpose,
+   instead of it only changing as a side effect of opening an event from the list. */
+function myEvents(){
+  return events.filter(function(e){
+    const b=bookingFor(e.id);
+    return !!b&&(b.state==='confirmed'||b.state==='awaiting');
+  }).sort(function(a,b){
+    const r=function(e){return e.live?0:(e.status==='past'?2:1);};
+    return r(a)-r(b);
+  });
+}
+function evPhase(e){return e.live?'now':(e.status==='past'?'past':'next');}
+function phaseChip(e){
+  const ph=evPhase(e);
+  if(ph==='now')return `<span class="chip red"><span class="livedot"></span>${tr('at_now')}</span>`;
+  if(ph==='past')return `<span class="chip">${tr('ev_ended')}</span>`;
+  return `<span class="chip green">${tr('ei_st_up')}</span>`;
+}
+function attCardHTML(e){
+  const on=curEv&&curEv.id===e.id, b=bookingFor(e.id);
+  return `<button class="attcard${on?' on':''}" onclick="switchAttending('${e.id}')">
+    <span class="ah"><span class="dt">${e.dnum}<small>${tx(e.dmon)}</small></span>
+      <span class="ab"><b>${tx(e.short)}</b><span>${tx(e.venue)}</span></span></span>
+    <span class="af">${phaseChip(e)}${on?`<span class="chip">${tr('at_current')}</span>`:''}
+      ${b&&b.state==='awaiting'?`<span class="chip gold">${tr('bs_awaiting')}</span>`:''}</span>
+  </button>`;
+}
+function renderAttending(){
+  const el=byId('homeAttending');if(!el)return;
+  const list=myEvents();
+  if(!list.length){
+    el.innerHTML=`<h2 class="sec"><span>${tr('at_l')}</span></h2>
+      <div class="empty" style="padding:30px 24px"><div class="e-ic">🎫</div>
+        <b style="display:block;font-size:14px;color:var(--ink);letter-spacing:-.025em">${tr('at_none_t')}</b>
+        <p style="font-size:12.5px;margin:8px 0 0">${tr('at_none_p')}</p>
+        <div style="padding:16px 8px 0"><button class="btn ghost" onclick="exitEvent()">${tr('at_browse')}</button></div>
+      </div>`;
+    return;
+  }
+  el.innerHTML=`<h2 class="sec"><span>${tr('at_l')}</span>
+      <span class="chip">${list.length}</span></h2>`
+    +`<div class="hscroll">`+list.map(attCardHTML).join('')+`</div>`
+    +(list.length>1?`<div class="note mono">${tr('at_switch_hint')}</div>`:'');
+}
+/* Moving scope re-renders everything that hangs off curEv: home, agenda, people, map. */
+function switchAttending(id){
+  const e=evById(id);if(!e||!curEv)return;
+  if(curEv.id===id){openEventInfo(id);return;}
+  curEv=e;curDay=e.days[0].n;curPerson=null;chatWith=null;
+  renderAll();setAppbarTitle(current);
+  toast(trf('at_switched',{ev:e.short},'at_l'));
+  if(isPast())toast(tr('t_readonly'));
+}
+
+/* ===================== SOCIAL HANDLES =====================
+   Handles are optional and partial by design. A handle the owner has hidden is not
+   rendered on their card, is not in the directory row and is not in the QR payload
+   or the downloaded contact card. */
+function handlesOf(p){
+  const h=Object.assign({},p.h||{});
+  if(p.li&&!h.li)h.li=p.li;
+  return h;
+}
+function handleHidden(p,k){return p.self?!me.vis[k]:!!(p.hid&&p.hid[k]);}
+function visibleHandles(p){
+  const h=handlesOf(p);
+  return hOrder.filter(k=>h[k]&&!handleHidden(p,k)).map(k=>({k:k,v:h[k]}));
+}
+function handleHref(k,v){
+  const kind=hKinds[k];
+  return kind.pre?kind.pre+String(v).replace(/^@/,''):v;
+}
+/* DISPLAY ONLY. A raw URL buries the useful part of the string and pushes the card
+   wide on a narrow frame, so the chip shows the readable tail. handleHref, copyHandle
+   and vcardText all keep working from the full stored value. */
+function stripUrl(v){return String(v||'').replace(/^https?:\/\//i,'').replace(/^www\./i,'').replace(/\/+$/,'');}
+function handleLabel(k,v){
+  const raw=String(v||'');
+  if(k==='li'){const b=stripUrl(raw);return b.replace(/^linkedin\.com\//i,'')||b;}
+  if(k==='web')return stripUrl(raw)||raw;
+  return raw;                       // X handles and phone numbers already read well
+}
+function handleChip(k,v){
+  const kind=hKinds[k],lbl=labelOf(kind.lbl);
+  const inner=`<i>${kind.ic}</i><u>${esc(handleLabel(k,v))}</u>`;
+  return kind.act==='copy'
+    ? `<button onclick="copyHandle('${k}','${esc(v)}')" title="${esc(lbl)}">${inner}</button>`
+    : `<a href="${esc(handleHref(k,v))}" target="_blank" rel="noopener" title="${esc(lbl)}">${inner}</a>`;
+}
+function copyHandle(k,v){
+  try{if(typeof navigator!=='undefined'&&navigator.clipboard&&navigator.clipboard.writeText)
+    navigator.clipboard.writeText(v);}catch(err){}
+  toast(trf('h_copied',{v:v},'h_l'));
+}
+function handlesHTML(p){
+  const list=visibleHandles(p);
+  if(!list.length)return `<div class="note mono">${tr('h_none')}</div>`;
+  return `<div class="hnd">`+list.map(x=>handleChip(x.k,x.v)).join('')+`</div>`;
+}
+
+/* ===================== THE ATTENDEE AS A PARTICIPANT =====================
+   The attendee appears in the directory like anybody else, which is what makes the
+   privacy switches observable rather than a stored preference. */
+function meTitle(){return (me.t&&typeof me.t==='object')?tx(me.t):(me.t||'');}
+function meBio(){return (me.bio&&typeof me.bio==='object')?tx(me.bio):(me.bio||'');}
+function selfPerson(){
+  return {id:0,self:true,n:me.n,i:me.i,c:me.c,co:me.co,e:me.e,ind:me.ind,mkts:me.mkts,
+          t:me.t,cod:me.cod,bio:me.bio,h:me.h};
+}
+
+/* ===================== CONNECTION HISTORY ===================== */
+function addConnection(pid,how){
+  if(!pid||connections.some(c=>c.pid===pid))return false;
+  const d=todayNum(),t=nowHM();
+  connections.unshift({pid:pid,ev:(curEv?curEv.id:''),how:how,at:{vi:d.vi+' · '+t,en:d.en+' · '+t}});
+  const p=people.find(x=>x.id===pid);if(p)p.acted=true;
+  return true;
+}
+function histRow(c){
+  const p=people.find(x=>x.id===c.pid);if(!p)return '';
+  const e=evById(c.ev);
+  return `<div class="hrow">${avHTML(p,'xs')}
+    <div class="hb"><b>${esc(p.n)}</b>
+      <span>${tx(p.t)} · ${esc(p.co)}</span>
+      <em>${tr('hi_how_'+c.how)} · ${tx(c.at)}${e?' · '+tx(e.short):''}</em></div>
+    <div class="ha"><button onclick="closeSheet();openPerson(${p.id})" title="${tr('chat_profile')}">👤</button>
+      <button onclick="closeSheet();openChat(${p.id})" title="${tr('btn_chat')}">💬</button></div>
+  </div>`;
 }
 
 /* ===================== SHEETS ===================== */
@@ -2444,7 +2757,6 @@ function openRegister(id){
   if(w==='over'){toast(tr('t_ended'));return;}
   if(w==='soon'){toast(trf('cap_soon_p',{d:e.regOpen},'cap_soon_plain'));return;}
   if(w==='closed'){toast(trf('cap_closed_p',{d:e.regClosed},'cap_closed_plain'));return;}
-  if(w==='ext'){window.open(e.url,'_blank','noopener');return;}
   regEvId=e.id;regWait=(w==='full');regMode='personal';regAtt=[meAtt()];
   const t=tierFrom(e);regTier=t?t.id:null;
   regMethod=null;regNewCard=false;regCard=savedCards[0].id;regFail=null;payDraft=null;regGw=null;
@@ -3221,9 +3533,12 @@ function renderMR(){
 }
 function mrSetDay(n){mrDay=n;renderMR();}
 function mrSetSlot(i){mrSlot=i;renderMR();}
-function sendMeetingReq(){const p=personById(mrPid);closeSheet();if(p)toast(tr('t_meet_sent')+p.n);}
+function sendMeetingReq(){
+  const p=personById(mrPid);closeSheet();
+  if(p){addConnection(mrPid,'meeting');renderNetwork();renderParticipants();toast(tr('t_meet_sent')+p.n);}
+}
 /* --- QR connect / e-ticket --- */
-function openQR(){openSheet('sheetQR');}
+function openQR(){renderQR();openSheet('sheetQR');}
 /* One pass per attendee: the selector below switches between them. */
 let tkEvId=null,tkPass=0;
 function openTicket(id){
@@ -3267,6 +3582,159 @@ function renderTicketSheet(){
   body.innerHTML=h;
 }
 
+/* ===================== MY PROFILE SHEET =====================
+   Edit, privacy, connection history, notification settings and help. The privacy
+   switches are not a stored preference: they change what the rest of the app
+   renders, immediately. */
+let meView='edit';
+function openMe(v){meView=v||'edit';renderMeSheet();openSheet('sheetMe');}
+function meSetView(v){meView=v;renderMeSheet();}
+function collectMe(){
+  const b=byId('meBody');if(!b)return;
+  document.querySelectorAll('#meBody [data-me]').forEach(function(inp){
+    const f=inp.getAttribute('data-me');
+    if(f.indexOf('h.')===0)me.h[f.slice(2)]=inp.value.trim();
+    else if(f==='t')me.t=inp.value;
+    else if(f==='bio')me.bio=inp.value;
+    else me[f]=inp.value;
+  });
+}
+function meSave(){
+  collectMe();
+  if(!(me.n||'').trim()){toast(tr('me_need'));return;}
+  me.i=(me.n.trim().split(/\s+/).map(w=>w[0]).join('').slice(-2)||'AT').toUpperCase();
+  renderAll();toast(tr('me_saved'));
+}
+function meToggle(k){
+  collectMe();
+  me.vis[k]=!me.vis[k];
+  renderAll();
+  toast(tr('pv_saved'));
+}
+function notifToggle(k){notifPrefs[k]=!notifPrefs[k];renderNotif();renderMeSheet();}
+function swRow(on,title,desc,fn){
+  return `<button class="sw${on?' on':''}" onclick="${fn}">
+    <span class="swb"><b>${title}</b>${desc?`<span>${desc}</span>`:''}</span><i></i></button>`;
+}
+function renderMeSheet(){
+  const body=byId('meBody');if(!body)return;
+  collectMe();   // keep anything typed when the sheet re-renders (language switch)
+  const T2={edit:'m_edit',privacy:'m_privacy',history:'m_history',notif:'m_notif',help:'m_help'};
+  byId('meTitle').textContent=tr(T2[meView]||'m_edit');
+  const sub=byId('meSub');
+  let h='';
+  if(meView==='edit'){
+    sub.textContent=tr('me_preview');
+    h+=`<div class="field"><label>${tr('f_name')}</label><input data-me="n" value="${esc(me.n)}"></div>`;
+    h+=`<div class="field"><label>${tr('f_title')}</label><input data-me="t" value="${esc(meTitle())}"></div>`;
+    h+=`<div class="field"><label>${tr('f_company')}</label><input data-me="co" value="${esc(me.co)}"></div>`;
+    h+=`<div class="field"><label>${tr('f_email')}</label><input data-me="e" type="email" value="${esc(me.e)}"></div>`;
+    h+=`<div class="field"><label>${tr('me_bio')}</label><textarea data-me="bio">${esc(meBio())}</textarea></div>`;
+    h+=`<div class="sechead">${tr('me_handles_l')}</div>`;
+    hOrder.forEach(function(k){
+      const kind=hKinds[k];
+      h+=`<div class="field"><label>${esc(labelOf(kind.lbl))}${me.vis[k]?'':' · '+tr('pv_hidden')}</label>
+        <input data-me="h.${k}" value="${esc(me.h[k]||'')}" placeholder="${k==='x'?'@svef':''}"></div>`;
+    });
+    h+=`<div class="note mono">${tr('pv_note')}</div>`;
+    h+=`<div class="row" style="margin:6px 16px 0">
+      <button class="btn ghost" onclick="closeSheet();openPerson(0)">${tr('me_preview')}</button>
+      <button class="btn" onclick="meSave()">${tr('bk_save')}</button></div>`;
+  }else if(meView==='privacy'){
+    sub.textContent='';
+    h+=`<div class="note">${tr('pv_note')}</div>`;
+    h+=swRow(me.vis.dir,tr('pv_dir'),tr('pv_dir_d'),'meToggle(\'dir\')');
+    h+=swRow(me.vis.email,tr('pv_email'),esc(me.e),'meToggle(\'email\')');
+    h+=swRow(me.vis.co,tr('pv_co'),esc(me.co),'meToggle(\'co\')');
+    h+=swRow(me.vis.bio,tr('pv_bio'),esc(meBio()).slice(0,70)+'…','meToggle(\'bio\')');
+    // only handles the attendee has actually filled in get a switch
+    hOrder.forEach(function(k){
+      if(!me.h[k])return;
+      h+=swRow(me.vis[k],trf('pv_h',{k:labelOf(hKinds[k].lbl)},'m_privacy'),esc(me.h[k]),'meToggle(\''+k+'\')');
+    });
+    h+=`<div class="note mono" style="margin-top:14px">${tr('pv_gdpr')}</div>`;
+    h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="closeSheet();openPerson(0)">${tr('me_preview')}</button></div>`;
+  }else if(meView==='history'){
+    sub.textContent=trf('hi_count',{n:connections.length},'m_history');
+    h+=connections.length?connections.map(histRow).join('')
+      :`<div class="empty" style="padding:34px 24px"><div class="e-ic">🕑</div><p style="font-size:12.5px">${tr('hi_none')}</p></div>`;
+  }else if(meView==='notif'){
+    sub.textContent='';
+    h+=`<div class="note mono">${tr('nf_note')}</div>`;
+    ['session','meeting','reg','chat'].forEach(function(k){
+      h+=swRow(notifPrefs[k],tr('nf_'+k),'','notifToggle(\''+k+'\')');
+    });
+    if(!Object.keys(notifPrefs).some(k=>notifPrefs[k]))
+      h+=`<div class="note warn" style="margin-top:12px">${tr('nf_off_all')}</div>`;
+    h+=`<div style="padding:14px 16px 0"><button class="btn ghost" onclick="closeSheet();go('notifications')">${tr('ab_notifications')}</button></div>`;
+  }else if(meView==='help'){
+    sub.textContent='';
+    h+=`<div class="facts">`+[1,2,3,4].map(function(i){
+      return factRaw(tr('hp_q'+i),tr('hp_a'+i));
+    }).join('')+`</div>`;
+    h+=`<div class="sechead">${tr('hp_contact_l')}</div>`;
+    h+=`<div class="facts">`
+      +factRaw(tr('f_email'),'events@svef.example.org')
+      +factRaw(tr('hp_phone'),'+41 44 000 00 00')+`</div>`;
+    h+=`<div class="row" style="margin:0 16px">
+      <button class="btn ghost" onclick="copyText('events@svef.example.org')">${tr('tr_copy')}</button>
+      <button class="btn dark" onclick="closeSheet();openMe('notif')">${tr('m_notif')}</button></div>`;
+  }
+  body.innerHTML=h;byId('sheetMe').scrollTop=0;
+}
+
+/* ===================== QR CONNECT =====================
+   The code carries exactly the fields the attendee has chosen to share, and the
+   sheet says so, so the privacy switches are legible where they matter most. */
+function qrFields(){
+  const f=[[tr('f_name'),me.n],[tr('f_title'),meTitle()]];
+  if(me.vis.co)f.push([tr('f_company'),me.co]);
+  if(me.vis.email)f.push([tr('f_email'),me.e]);
+  if(me.vis.bio)f.push([tr('pp_bio'),meBio()]);
+  visibleHandles(selfPerson()).forEach(x=>f.push([labelOf(hKinds[x.k].lbl),handleLabel(x.k,x.v)]));
+  return f;
+}
+function renderQR(){
+  const el=byId('qrBody');if(!el)return;
+  el.innerHTML=`<div class="qrbox"></div>
+    <div style="text-align:center;margin-bottom:12px"><b style="font-size:16px">${esc(me.n)}</b><br>
+      <span class="muted" style="font-size:12.5px">${esc(meTitle())}${me.vis.co?' · '+esc(me.co):''}</span></div>
+    <div class="sechead">${tr('qr_shares_l')}</div>
+    <div class="facts">`+qrFields().map(f=>factRaw(esc(f[0]),esc(f[1]))).join('')+`</div>
+    <div class="note mono">${tr('qr_scan_note')}</div>
+    <div class="row" style="margin:0 16px">
+      <button class="btn ghost" onclick="qrScan()">${tr('scan')}</button>
+      <button class="btn dark" onclick="downloadVCard()">${tr('save')}</button></div>`;
+}
+/* A simulated scan, but the connection it creates is real state. */
+function qrScan(){
+  const cand=people.find(p=>!connections.some(c=>c.pid===p.id));
+  if(!cand){toast(tr('qr_scan_none'));return;}
+  addConnection(cand.id,'qr');
+  closeSheet();renderNetwork();renderParticipants();
+  toast(trf('qr_scanned',{n:cand.n},'qr_title'));
+  openPerson(cand.id);
+}
+/* vCard export, visible fields only, same Blob route as the invoice. */
+function vcardText(){
+  const L=['BEGIN:VCARD','VERSION:3.0','N:'+me.n+';;;','FN:'+me.n,'TITLE:'+meTitle()];
+  if(me.vis.co)L.push('ORG:'+me.co);
+  if(me.vis.email)L.push('EMAIL;TYPE=INTERNET:'+me.e);
+  if(me.vis.bio)L.push('NOTE:'+meBio().replace(/\r?\n/g,' '));
+  visibleHandles(selfPerson()).forEach(function(x){
+    if(x.k==='web')L.push('URL:'+x.v);
+    else if(x.k==='wa')L.push('TEL;TYPE=CELL:'+x.v);
+    else L.push('X-SOCIALPROFILE;TYPE='+x.k+':'+handleHref(x.k,x.v));
+  });
+  L.push('END:VCARD');
+  return L.join('\r\n');
+}
+function downloadVCard(){
+  const name='SVEF-'+me.n.replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.vcf';
+  downloadBlob(name,'text/vcard;charset=utf-8',vcardText());
+  toast(trf('vc_saved',{n:name},'save'));
+}
+
 /* ===================== TOAST ===================== */
 let toTimer;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toTimer);toTimer=setTimeout(()=>t.classList.remove('show'),1900);}
@@ -3281,8 +3749,19 @@ function renderAll(){
   if(regEvId)renderRegSheet();
   if(bkEvId)renderBookingSheet();
   if(tkEvId)renderTicketSheet();
+  renderAttending();renderProfileHead();renderMeSheet();renderQR();
   renderProfileTicket();
   updateSaveBtn();updateSessionActions();
+}
+/* The profile header, the stats and the pass code all read from live state. */
+function renderProfileHead(){
+  const av=byId('pfAv');if(av){av.textContent=me.i;av.style.background=me.c;}
+  const nm=byId('pfName');if(nm)nm.textContent=me.n;
+  const rl=byId('pfRole');if(rl)rl.textContent=meTitle()+(me.vis.co?' · '+me.co:'');
+  const st=byId('pfStats');
+  if(st)st.innerHTML=`<div><b>${connections.length}</b><span>${tr('st_conn')}</span></div>`
+    +`<div><b>${saved.size}</b><span>${tr('st_sess')}</span></div>`
+    +`<div><b>${meetings.length}</b><span>${tr('st_meet')}</span></div>`;
 }
 /* The pass code on the profile header follows the current event's booking. */
 function renderProfileTicket(){
