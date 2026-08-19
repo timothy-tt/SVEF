@@ -303,6 +303,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
 .dayh:first-child{border-top:none;padding-top:0;margin-top:0}
 
 /* ==================== EVENT REGISTRATION MANAGEMENT ==================== */
+.f1{background:var(--ink)}.f2{background:var(--red)}.f4{background:var(--line)}
 .kpigrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:24px}
 .kpi{border:1px solid var(--line);border-radius:0;padding:16px 18px;margin-left:-1px;background:#fff}
 .kpi:first-child{margin-left:0}
@@ -312,7 +313,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
 .kpi .sub{margin-top:6px;color:var(--ink-2);letter-spacing:.07em}
 .rbar{display:flex;height:14px;border:1px solid var(--ink);background:#fff;overflow:hidden}
 .rbar i{display:block;height:100%;font-style:normal}
-.f1{background:var(--ink)}.f2{background:var(--red)}.f3{background:var(--muted)}.f4{background:var(--line)}
+
 .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:11px;font-family:var(--mono);text-transform:uppercase;
   letter-spacing:.1em;font-size:9px;color:var(--muted)}
 .legend s{text-decoration:none;display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px;
@@ -341,14 +342,6 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
 .selbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 18px;background:var(--soft);
   border-bottom:1px solid var(--line);font-size:12.5px}
 .panel table.wide{min-width:900px}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-td.num b{display:block;white-space:nowrap;font-weight:600;letter-spacing:-.01em}
-.rec{border-top:1px solid var(--line)}
-.recrow{display:flex;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
-.recrow .rl{flex:1;min-width:0;letter-spacing:-.015em}
-.recrow .rv{font-family:var(--mono);font-size:12px;letter-spacing:.04em;white-space:nowrap;color:var(--ink)}
-.recrow.tot{border-bottom:none;border-top:1px solid var(--rule);font-weight:600}
-.recrow.tot .rv{font-size:13.5px;color:var(--red)}
 td.tight,th.tight{padding-left:12px;padding-right:12px}
 td.stack b{font-weight:600;letter-spacing:-.02em;color:var(--ink)}
 td.stack>b{display:block}
@@ -380,18 +373,6 @@ tr.subatt td{background:var(--bg);padding-top:0;padding-bottom:0}
 .cirow:last-child{border-bottom:none}
 .cirow .cn{flex:1 1 200px;min-width:0;font-weight:600;letter-spacing:-.02em}
 .cirow .cm,.attrow .cm{flex:0 0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted)}
-.tierrow{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
-.tierrow:last-child{border-bottom:none}
-.tierrow .tn{flex:1 1 190px;min-width:0;font-weight:600;font-size:14px;letter-spacing:-.02em}
-.tierrow .tp{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-2);flex:0 0 auto}
-.tierrow .tq{flex:0 0 190px;min-width:150px}
-.ord{display:flex;flex-direction:column;gap:0}
-.ord button{border:1px solid var(--line);background:#fff;width:24px;height:18px;line-height:1;font-size:9px;
-  cursor:pointer;color:var(--ink);padding:0}
-.ord button+button{margin-top:-1px}
-.ord button:hover{background:var(--ink);color:#fff}
-.ord button[disabled]{opacity:.35;cursor:default}
-.ord button[disabled]:hover{background:#fff;color:var(--ink)}
 
 /* ==================== PHOTOGRAPHY ==================== */
 .pic{position:relative;overflow:hidden;background:var(--ink)}
@@ -504,7 +485,7 @@ tr:hover .pic::before{filter:none}
       <div class="panel">
         <div class="phead"><h2 data-i18n="h_dashreg">Event registrations</h2><div class="sp"></div>
           <button class="btn ghost sm" onclick="nav('events',document.querySelectorAll('.snav button')[5])" data-i18n="b_viewall">View all →</button></div>
-        <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="rg_c_rev">Revenue (CHF)</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="dashRegTable"></tbody></table>
+        <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="dashRegTable"></tbody></table>
       </div>
 
       <div class="panel">
@@ -606,14 +587,14 @@ tr:hover .pic::before{filter:none}
         <p data-i18n="ev_x_p">Every SVEF event lives here as one record, created once and used by the website and the app alike.</p>
         <ul>
           <li data-i18n="ev_x_rec">The record holds the basics: name, dates, format, location and description. Publishing it puts the event on the website.</li>
-          <li data-i18n="ev_x_2">Each event also carries its app content: the agenda and its sessions, speakers, sponsors, registrations, ticketing and payments, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.</li>
+          <li data-i18n="ev_x_2">Each event also carries its app content: the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.</li>
         </ul>
       </div>
       <div class="panel">
         <div class="phead"><h2 data-i18n="h_pubev">Published events</h2><div class="sp"></div>
           <button class="btn sm" onclick="openEvent(-1)" data-i18n="b_newev">＋ Create Event</button></div>
         <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="c_date">Date</th><th data-i18n="c_status">Status</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="pubEvents"></tbody></table>
-        <div class="pbody"><div class="export-note" data-i18n="ev_note">📌 The website record holds the basics. Everything the mobile app shows, and everything to do with registration, ticketing and payment, is managed below under App content.</div></div>
+        <div class="pbody"><div class="export-note" data-i18n="ev_note">📌 The website record holds the basics. Everything the mobile app shows, and everything to do with registration and check-in, is managed below under App content.</div></div>
       </div>
 
       <!-- ---- app content for the selected event ---- -->
@@ -632,16 +613,15 @@ tr:hover .pic::before{filter:none}
       <div class="panel">
         <div class="phead"><h2 data-i18n="h_reports">Reports &amp; data export</h2></div>
         <div class="pbody">
-          <p class="muted" style="margin-top:0" data-i18n="rep_intro">Export to Excel/CSV for reporting. Confidential fields (passwords, payment tokens) are always excluded (BRD BR-W-18 / §11.2).</p>
+          <p class="muted" style="margin-top:0" data-i18n="rep_intro">Export to Excel/CSV for reporting. Confidential fields such as passwords are always excluded (BRD BR-W-18 / §11.2).</p>
           <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
             <div class="st" style="cursor:pointer" onclick="exportData('partners')"><div class="ic">🏢</div><b style="font-size:17px" data-i18n="n_partners">Partners</b><span>124 · CSV / XLSX</span></div>
             <div class="st" style="cursor:pointer" onclick="exportData('members')"><div class="ic">👥</div><b style="font-size:17px" data-i18n="n_members">Memberships</b><span>1,842 · CSV / XLSX</span></div>
             <div class="st" style="cursor:pointer" onclick="exportData('registrants')"><div class="ic">🎟</div><b style="font-size:17px" data-i18n="rep_regs">Event registrations</b><span id="repRegMeta">0 · CSV</span></div>
             <div class="st" style="cursor:pointer" onclick="exportData('checkin')"><div class="ic">✅</div><b style="font-size:17px" data-i18n="rep_ci">Check-in log</b><span id="repCiMeta">0 · CSV</span></div>
-            <div class="st" style="cursor:pointer" onclick="exportData('payments')"><div class="ic">🧾</div><b style="font-size:17px" data-i18n="rep_pay">Payments &amp; refunds</b><span id="repPayMeta">0 · CSV</span></div>
           </div>
           <h4 class="seoh" data-i18n="rep_regh">Registrations by event</h4>
-          <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="rg_c_ci">Checked in</th><th data-i18n="rg_c_rev">Revenue (CHF)</th><th data-i18n="rg_c_owed">Still owed (CHF)</th></tr></thead><tbody id="repRegTable"></tbody></table>
+          <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="rg_c_ci">Checked in</th></tr></thead><tbody id="repRegTable"></tbody></table>
           <div class="export-note" data-i18n="rep_note">🔒 Data-protection note: Exports comply with GDPR handling between Switzerland/Europe and Vietnam. No passwords or sensitive personal identifiers are included in any export file.</div>
           <div class="export-note" data-i18n="rep_lists">⬆ Uploading a list is done where the data lives: use the “Import list” button in the Partners section or in the Memberships section. Reports is for exporting only.</div>
         </div>
@@ -734,11 +714,11 @@ const T={
   c_pname:"Profile name",cr_t:"Change role",cr_save:"Update role",cr_sub:"The role controls what the member can see and do in the member area.",
   q_suspend:"Suspend access for this account? The member will not be able to sign in until the account is reactivated.",
   q_reactivate:"Restore access for this account?",
-  ev_note:"📌 The website record holds the basics. Everything the mobile app shows, and everything to do with registration, ticketing and payment, is managed below under App content.",
+  ev_note:"📌 The website record holds the basics. Everything the mobile app shows, and everything to do with registration and check-in, is managed below under App content.",
   ev_x_t:"What Event Management does",
   ev_x_p:"Every SVEF event lives here as one record, created once and used by the website and the app alike.",
   ev_x_rec:"The record holds the basics: name, dates, format, location and description. Publishing it puts the event on the website.",
-  ev_x_2:"Each event also carries its app content: the agenda and its sessions, speakers, sponsors, registrations, ticketing and payments, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.",
+  ev_x_2:"Each event also carries its app content: the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.",
   ev_add_t:"Create event",ev_edit_t:"Edit event",ev_name:"Event name",
   ev_start:"Start date",ev_end:"End date",ev_fmt:"Format",fmt_in:"In-person",fmt_on:"Online",fmt_hy:"Hybrid",
   ev_zoom:"Online joining link (Zoom / Teams)",
@@ -753,7 +733,7 @@ const T={
   imp_note:"Existing records are matched by email or organisation name and updated rather than duplicated (BRD BR-W-19).",
   rep_lists:"⬆ Uploading a list is done where the data lives: use the “Import list” button in the Partners section or in the Memberships section. Reports is for exporting only.",
   mem_note:"🔑 One account can hold multiple profiles (personal + company). The “Profiles” column shows how many are linked to a single email (BRD BR-W-04).",
-  rep_intro:"Export to Excel/CSV for reporting. Confidential fields (passwords, payment tokens) are always excluded (BRD BR-W-18 / §11.2).",
+  rep_intro:"Export to Excel/CSV for reporting. Confidential fields such as passwords are always excluded (BRD BR-W-18 / §11.2).",
   rep_note:"🔒 Data-protection note: Exports comply with GDPR handling between Switzerland/Europe and Vietnam. No passwords or sensitive personal identifiers are included in any export file.",
   b_viewall:"View all →",b_save:"💾 Save & publish",b_preview:"👁 Preview",b_newart:"＋ New article",b_export:"⬇ Export CSV",b_addpartner:"＋ Add partner",b_addmember:"＋ Add member",b_import:"⬆ Import list",b_newev:"＋ Create Event",
   p_details:"Partner details",p_add_t:"Add partner",p_edit_t:"Edit partner",p_save:"Save partner",p_name:"Organisation name",
@@ -794,83 +774,58 @@ const T={
   /* ---- event registration management (BRD 8.2) ---- */
   s_regs:"Event registrations",h_dashreg:"Event registrations",
   rep_regs:"Event registrations",rep_ci:"Check-in log",rep_regh:"Registrations by event",
-  rg_c_seats:"Registered / capacity",rg_c_status:"Status split",rg_c_rev:"Revenue (CHF)",rg_c_ci:"Checked in",
-  rg_c_owed:"Still owed (CHF)",
+  rg_c_seats:"Registered / capacity",rg_c_status:"Status split",rg_c_ci:"Checked in",
   b_openreg:"Registrations →",
-  rg_tab_over:"Overview",rg_tab_list:"Registrants",rg_tab_tick:"Tickets & codes",rg_tab_ci:"Check-in",rg_tab_set:"Settings",
+  rg_tab_over:"Overview",rg_tab_list:"Registrants",rg_tab_ci:"Check-in",rg_tab_set:"Settings",
   rs_conf:"Confirmed",rs_pend:"Pending approval",rs_pend_s:"Pending",rs_wait:"Waitlisted",rs_canc:"Cancelled",
-  py_paid:"Paid",py_unpaid:"Unpaid",py_ref:"Refunded",py_free:"Free",
-  rg_personal:"Personal",rg_group:"Group",rg_att:"attendees",rg_seats:"seats",
-  rg_free_ev:"Free event",rg_paid_ev:"Paid event",rg_free:"Free",rg_paid:"Paid",
+  rg_personal:"Personal",rg_group:"Group",rg_att:"attendees",rg_seats:"seats",rg_seats_left:"seats left",
   rg_open_now:"Registration open",rg_closed:"Registration closed",rg_notopen:"Registration not open yet",
   /* overview */
   rg_over_h:"Registration overview",
-  rg_k_total:"Registrations",rg_k_conf:"Confirmed seats",rg_k_rev:"Revenue collected",rg_k_ci:"Checked in",
+  rg_k_total:"Registrations",rg_k_conf:"Confirmed seats",rg_k_ci:"Checked in",
   rg_cap_head:"Confirmed seats against capacity",rg_of:"of",rg_bookings:"bookings",rg_grp1:"group booking",rg_grpn:"group bookings",
-  rg_bystatus:"By registration status",rg_bytier:"By ticket tier",rg_overtime:"Registrations over time",
-  rg_topco:"Top companies",rg_rev_h:"Revenue collected against expected",
-  rg_expected:"Expected",rg_collected:"Collected",rg_outstanding:"Outstanding",
-  rg_rev_h2:"Including VAT at the rate set for this event. Full detail is on the Payments tab.",
+  rg_bystatus:"By registration status",rg_overtime:"Registrations over time",
+  rg_topco:"Top companies",
   rg_nodata:"No registrations yet, so there is nothing to chart.",
-  rg_capfree:"Capacity is not limited on this event.",
+  rg_capnone:"Capacity is not limited on this event.",
   /* registrant table */
   rg_search:"Search name, email, company or reference",
-  rg_f_status:"Registration status",rg_f_tier:"Ticket tier",rg_f_pay:"Payment",
-  rg_c_tier:"Ticket tier",rg_c_regst:"Registration",
-  rg_c_person:"Registrant",rg_c_org:"Company / role",rg_c_ticketref:"Ticket / reference",
-  rg_c_pay:"Payment",rg_c_cin:"Check-in",
+  rg_f_status:"Registration status",rg_c_regst:"Registration",
+  rg_c_person:"Registrant",rg_c_org:"Company / role",rg_c_ref:"Booking reference",
+  rg_c_cin:"Check-in",
   rg_add:"＋ Add registrant",rg_none_f:"No registrations match these filters.",
   rg_sel_n:"selected",rg_bulk_appr:"✓ Approve selected",rg_bulk_mail:"✉ Email selected",rg_bulk_exp:"⬇ Export selected",
   rg_clear:"Clear selection",rg_selall:"Select all",
-  rg_a_appr:"Approve",rg_a_rej:"Reject",rg_a_canc:"Cancel",rg_a_prom:"Promote",rg_a_paid:"Mark paid",
-  rg_a_ref:"Refund",rg_a_mail:"Resend",
+  rg_a_appr:"Approve",rg_a_rej:"Reject",rg_a_canc:"Cancel",rg_a_prom:"Promote",rg_a_mail:"Resend",
   rg_ci_yes:"Checked in",rg_ci_no:"Not arrived",rg_ci_part:"checked in",
-  rg_note:"📋 Registrations arrive from the event page and from the app, and are managed here: approve, waitlist, cancel, record payment and check attendees in. The export carries the columns of this table only, with no passwords or sensitive fields.",
+  rg_note:"📋 Registrations arrive from the event page and from the app, and are managed here: approve, waitlist, cancel and check attendees in. The export carries the columns of this table only, with no passwords or sensitive fields.",
   /* add / edit registrant */
   rg_add_t:"Add registrant",rg_edit_t:"Edit registrant",
-  rg_add_h:"For walk-ins and telephone bookings. The registrant receives the same confirmation email and e-ticket as an app registration.",
+  rg_add_h:"For walk-ins and telephone bookings. The registrant receives the same confirmation email and pass as an app registration.",
   rg_kind:"Registration type",rg_gnames:"Attendee names",
   rg_gnames_h:"One name per line, one line per seat. The first line is the booking contact.",
-  rg_code:"Discount code",rg_save:"💾 Save registrant",
+  rg_save:"💾 Save registrant",
   rg_needemail:"Please enter an email address.",
   rg_full_wait:"Capacity is reached, so the booking went on the waitlist.",
   rg_full_no:"Capacity is reached and the waitlist is switched off, so this booking cannot be confirmed.",
   rg_gtoobig:"That is more seats than the maximum group size allows.",
   /* tiers and codes */
-  rg_tick_h:"Ticket tiers",rg_tick_add:"＋ Add tier",
-  rg_tick_none:"No ticket tiers yet. Add the first one to start selling.",
-  rg_t_name:"Tier name",rg_t_chf:"Price (CHF)",rg_t_vnd:"Price (VND)",rg_t_qty:"Quantity",
-  rg_t_from:"Sales open",rg_t_to:"Sales close",rg_t_eb:"Early-bird tier",rg_t_ebd:"Early-bird cut-off",
-  rg_t_new:"Add ticket tier",rg_t_edit:"Edit ticket tier",rg_t_save:"💾 Save tier",
-  rg_t_sold:"sold",rg_t_left:"left",rg_t_soldout:"Sold out",rg_t_earlybird:"Early bird",
-  rg_t_free_h:"This event is free, so every registrant holds the same free pass. Switch the event to paid registration under Settings to sell ticket tiers.",
-  rg_freepass:"Free pass",rg_t_needname:"Please enter a tier name.",
-  rg_t_del_q:"Delete this ticket tier? Registrants already holding it keep their booking.",
-  rg_t_window:"Sales window",
-  rg_code_h:"Discount codes",rg_code_add:"＋ Create code",rg_code_none:"No discount codes for this event yet.",
-  rg_c_code:"Code",rg_c_ctype:"Type",rg_c_val:"Value",rg_c_use:"Used / limit",rg_c_until:"Valid until",
-  rg_pct:"Percentage",rg_fix:"Fixed amount (CHF)",
-  rg_code_new:"Create discount code",rg_code_save:"💾 Create code",
-  rg_deact:"Deactivate",rg_react:"Reactivate",
-  rg_st_exp:"Expired",rg_st_used:"Fully used",rg_st_off:"Inactive",
-  rg_code_dup:"That code already exists for this event.",rg_code_need:"Please enter a code.",
-  rg_code_note:"🏷 Codes are checked when the attendee registers on the event page or in the app. A code stops working once it expires, once its usage limit is reached or once it is deactivated here.",
   /* check-in */
-  rg_ci_h:"Check-in",rg_ci_scan:"📷 Scan e-ticket QR",
-  rg_ci_scan_p:"On the door the organiser scans the attendee's e-ticket. In this prototype the scan checks in the next confirmed attendee who has not arrived yet.",
-  rg_ci_code:"Ticket code",rg_ci_go:"Check in",rg_ci_undo:"↶ Undo last check-in",
+  rg_ci_h:"Check-in",rg_ci_scan:"📷 Scan pass QR",
+  rg_ci_scan_p:"On the door the organiser scans the attendee's pass. In this prototype the scan checks in the next confirmed attendee who has not arrived yet.",
+  rg_ci_code:"Pass code",rg_ci_go:"Check in",rg_ci_undo:"↶ Undo last check-in",
   rg_ci_k_in:"Checked in",rg_ci_k_exp:"Expected",rg_ci_k_on:"On site now",rg_ci_k_rate:"Arrival rate",
-  rg_ci_list:"Attendee list",rg_ci_search:"Search attendee or ticket code",
+  rg_ci_list:"Attendee list",rg_ci_search:"Search attendee or pass code",
   rg_ci_out:"Check out",rg_ci_none:"No confirmed attendees to check in yet.",
   rg_ci_allin:"Everyone confirmed has already checked in.",
-  rg_ci_nomatch:"No confirmed attendee holds that ticket code.",
+  rg_ci_nomatch:"No confirmed attendee holds that pass code.",
   rg_ci_already:"That attendee is already checked in.",
   rg_ci_noundo:"There is nothing to undo.",
-  rg_ci_note:"🎫 Attendees show the e-ticket QR from the app. Scanning it here records the arrival. Group bookings check in one attendee at a time.",
+  rg_ci_note:"🎫 Attendees show the pass QR from the app. Scanning it here records the arrival. Group bookings check in one attendee at a time.",
   /* settings */
-  rg_set_h:"Registration settings",rg_set_paid:"Registration model",
+  rg_set_h:"Registration settings",
   rg_types:"Registration types allowed",rg_type_p:"Personal registration",rg_type_g:"Group registration",
-  rg_maxg:"Maximum group size",rg_cap:"Capacity limit",rg_cap_h:"Seats available in total. Set 0 for no limit.",
+  rg_maxg:"Maximum group size",rg_maxg_h:"Seats one group booking may hold.",rg_cap:"Capacity limit",rg_cap_h:"Seats available in total. Set 0 for no limit.",
   rg_open_d:"Registration opens",rg_close_d:"Registration closes",
   rg_appr_t:"Requires organiser approval",
   rg_appr_h:"New registrations arrive as Pending approval and take a seat only once approved.",
@@ -883,71 +838,12 @@ const T={
   t_regappr:"Registration approved",t_regrej:"Registration rejected",t_regcanc:"Registration cancelled",
   t_regprom:"Promoted from the waitlist to confirmed",
   t_regmail:"Confirmation email resent (demo)",t_regadd:"Registrant added",t_regupd:"Registrant updated",
-  t_tieradd:"Ticket tier added",t_tierupd:"Ticket tier updated",t_tierdel:"Ticket tier deleted",t_tiermov:"Tier order updated",
-  t_codeadd:"Discount code created",t_codeoff:"Discount code deactivated",t_codeon:"Discount code reactivated",
+  
+  
   t_ciin:"Checked in",t_ciout:"Checked out",t_ciundo:"Check-in undone",t_regset:"Registration settings saved",
   t_bulkappr:"Selected registrations approved",t_bulkmail:"Email sent to the selected registrants (demo)",
   t_nosel:"Select at least one registration first.",
-  /* ---- in-app payment, back-office side (round 2) ---- */
-  rg_tab_pay:"Payments",rg_pay_h:"Refunds are issued from the Payments tab, so the ledger and this column always agree.",
-  py_part:"Partly refunded",
-  pm_card:"Card",pm_twint:"TWINT",pm_vngw:"VNPay / MoMo",pm_invoice:"Invoice / bank transfer",
-  pm_manual:"Recorded by organiser",
-  pm_card_h:"Visa, Mastercard and Amex. Only the brand and the last four digits are ever kept.",
-  pm_twint_h:"For payers with a Swiss account. The registrant confirms in the TWINT app.",
-  pm_vngw_h:"Domestic Vietnam gateway, redirect and return. New design, BRD section 8.4.",
-  pm_invoice_h:"For institutional buyers. Produces an awaiting-transfer booking with a payment reference.",
-  tx_paid:"Paid",tx_await:"Awaiting transfer",tx_fail:"Failed",tx_part:"Partly refunded",tx_ref:"Refunded",
-  pay_h_recon:"Reconciliation",pay_h_ledger:"Payments ledger",pay_h_refunds:"Refunds and credit notes",
-  pay_h_set:"Payment settings",
-  pay_k_coll:"Net collected",pay_k_await:"Awaiting",pay_k_out:"Outstanding",pay_k_ref:"Refunded",pay_k_vat:"VAT collected",
-  pay_expected:"Expected, active bookings including VAT",
-  pay_collected:"Collected, settled transactions",
-  pay_refunded:"Refunded, credit notes issued",
-  pay_netcoll:"Net collected",
-  pay_awaiting:"Awaiting bank transfer",
-  pay_outstanding:"Outstanding, not yet paid",
-  pay_diff:"Difference to explain",
-  pay_diff_ok:"The ledger agrees with the bookings, nothing to explain.",
-  pay_diff_rf:"The difference is the refunds issued on bookings that are still active.",
-  pay_diff_chk:"Review the ledger against the bookings: a price or a discount changed after payment.",
-  pay_amounts:"💱 All amounts are in Swiss francs. Prototype ledger: no payment provider is connected, nothing is charged, and card details are never held beyond the brand and the last four digits.",
-  pay_ledger_note:"🧾 One row per payment attempt, including the ones that failed. A failed attempt never confirms a booking and never takes a seat.",
-  pay_c_date:"Date / invoice",pay_c_who:"Registrant / booking",pay_c_method:"Method / reference",
-  pay_c_gross:"Gross",pay_c_vat:"VAT",pay_c_net:"Net",pay_c_gw:"Gateway reference",
-  pay_c_cn:"Credit note",pay_c_amt:"Amount",pay_c_reason:"Reason",rg_c_ref:"Booking reference",
-  pay_less_disc:"less discount",pay_fee:"less fee",
-  pay_none:"No payments for this event yet.",
-  pay_free_ev:"This event is free, so there is nothing to collect and no ledger to keep.",
-  pay_f_st:"Transaction status",pay_f_m:"Payment method",
-  pay_a_recv:"Mark received",pay_a_ref:"Refund",pay_a_inv:"Invoice",pay_a_link:"Payment link",
-  pay_a_exp:"⬇ Export payments",
-  pay_rf_t:"Issue a refund",
-  pay_rf_h:"The refund is recorded against this transaction and a credit note number is issued. Prototype only, no money moves.",
-  pay_rf_amt:"Refund amount (CHF)",pay_rf_max:"Refundable balance",pay_rf_reason:"Reason",
-  pay_rf_note:"Note",pay_rf_note_ph:"Optional, appears on the credit note",
-  pay_rf_save:"Issue refund and credit note",
-  pay_rf_bad:"Enter an amount between zero and the refundable balance.",
-  pay_rf_none:"No refunds issued for this event yet.",
-  rf_r1:"Booking cancelled",rf_r2:"Duplicate payment",rf_r3:"Ticket downgraded",rf_r4:"Goodwill",rf_r5:"Other",
-  pay_s_vat:"VAT rate (%)",
-  pay_s_vat_h:"Placeholder pending confirmation of SVEF's tax position. The rate is held on the event, not in the code, and drives every VAT line here, on the website and in the app.",
-  pay_s_fee:"Payment provider fee (%)",
-  pay_s_fee_h:"Deducted from each settled transaction to give the net column.",
-  pay_s_inv:"Invoice number prefix",pay_s_invn:"Next invoice number",
-  pay_s_m:"Accepted payment methods",pay_s_m_h:"These are the methods registrants see on the event page and in the app.",
-  pay_s_need:"Accept at least one payment method.",
-  pay_s_save:"💾 Save payment settings",
-  pay_s_note:"🔢 Invoice numbers are issued in sequence per event. Transactions already taken keep the VAT rate and the fee that applied on the day, so history never moves under a rate change.",
-  pay_vat_at:"VAT is applied at",
-  pay_vat_note:"a placeholder rate held on this event, pending confirmation of SVEF's tax position. It is changed under Settings, not in the code.",
-  pay_bill:"Billing details",pay_bill_vat:"VAT / UID number",pay_bill_addr:"Address",pay_bill_country:"Country",
-  pay_inv_t:"Invoice",pay_inv_items:"Items",pay_inv_total:"Total charged",
-  pay_inv_demo:"Prototype document generated by the SVEF back-office demo. Not a valid invoice, no payment was taken.",
-  rep_pay:"Payments & refunds",
-  t_payrecv:"Bank transfer recorded",t_payref:"Refund issued, credit note",t_payinv:"Invoice downloaded (demo)",
-  t_paylink:"Payment link sent (demo)",t_payset:"Payment settings saved",t_paymanual:"Payment recorded, invoice",
-  q_regcanc:"Cancel this registration? The seat is released back to the event, and any payment already taken is refunded with a credit note.",
+  q_regcanc:"Cancel this registration? The seat is released back to the event.",
   q_regrej:"Reject this registration? The applicant is notified by email.",
  }
 };
@@ -987,7 +883,7 @@ let members=[
 ];
 const FORMATS=["In-person","Online","Hybrid"];
 /* Website event records: the basics the public site shows. The agenda, speakers,
-   registrations and payments hang off the matching entry in appEvents, reached
+   registrations and the registrant list hang off the matching entry in appEvents, reached
    through App content on the event's row. The two arrays are kept in the same
    order, so one index addresses both. */
 let pubEvents=[
@@ -1038,40 +934,30 @@ let appEvents=[
    {n:"Helvetia Fintech AG",tier:"Gold"},
    {n:"Mekong Digital",tier:"Silver"}],
   /* --- registration management (BRD 8.2) --- */
-  reg:{paid:true,personal:true,group:true,maxGroup:6,cap:60,open:"2026-06-01",close:"2026-10-10",approval:true,waitlist:true},
-  tiers:[
-   {id:"t-eb",n:"Early bird",chf:180,vnd:4900000,qty:4,from:"2026-06-01",to:"2026-08-15",eb:true,ebDate:"2026-08-15"},
-   {id:"t-std",n:"Standard pass",chf:250,vnd:6900000,qty:30,from:"2026-06-01",to:"2026-10-10",eb:false,ebDate:""},
-   {id:"t-exec",n:"Executive pass",chf:480,vnd:13200000,qty:12,from:"2026-06-01",to:"2026-10-10",eb:false,ebDate:""},
-   {id:"t-acad",n:"Student / academic",chf:60,vnd:1600000,qty:10,from:"2026-06-01",to:"2026-10-01",eb:false,ebDate:""}],
-  codes:[
-   {c:"SVEF25",type:"percent",val:25,limit:50,used:12,until:"2026-09-30",active:true},
-   {c:"PARTNER100",type:"fixed",val:100,limit:20,used:4,until:"2026-10-01",active:true},
-   {c:"EARLYVN15",type:"percent",val:15,limit:100,used:100,until:"2026-08-10",active:true},
-   {c:"PRESSPASS",type:"percent",val:100,limit:15,used:3,until:"2026-10-10",active:false}],
+  reg:{personal:true,group:true,maxGroup:6,cap:60,open:"2026-06-01",close:"2026-10-10",approval:true,waitlist:true},
   registrants:[
-   {n:"Trần Quốc Anh",em:"q.anh@example.com",co:"An Phát Logistics JSC",job:"Founder",d:"2026-08-02",kind:"personal",tier:"t-eb",ref:"SVEF-HAN-0001",st:"Confirmed",pay:"Paid",code:"SVEF25",qr:"HAN-4821",ci:true,ciAt:"08:42",out:false},
-   {n:"Lea Weber",em:"l.weber@example.ch",co:"Helvetia Fintech AG",job:"Head of Partnerships",d:"2026-08-04",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0002",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5093",ci:true,ciAt:"08:47",out:false},
-   {n:"Nguyễn Thu Hà",em:"ha.nguyen@example.vn",co:"GreenTech Vietnam",job:"Project Manager",d:"2026-08-05",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0003",st:"Confirmed",pay:"Unpaid",code:"",qr:"HAN-5144",ci:false,ciAt:"",out:false},
-   {n:"Marco Rossi",em:"m.rossi@example.ch",co:"Alpine Advisory",job:"Partner",d:"2026-08-06",kind:"personal",tier:"t-exec",ref:"SVEF-HAN-0004",st:"Confirmed",pay:"Paid",code:"PARTNER100",qr:"HAN-5210",ci:true,ciAt:"09:05",out:true},
-   {n:"Phạm Hoàng Long",em:"long.pham@example.vn",co:"Mekong Digital",job:"CTO",d:"2026-08-07",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0005",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5288",ci:false,ciAt:"",out:false},
-   {n:"Đặng Hải Yến",em:"yen.dang@example.vn",co:"Zurich Ventures",job:"Investment Manager",d:"2026-08-08",kind:"group",tier:"t-std",ref:"SVEF-HAN-0006",st:"Confirmed",pay:"Paid",code:"",qr:"",ci:false,ciAt:"",out:false,
+   {n:"Trần Quốc Anh",em:"q.anh@example.com",co:"An Phát Logistics JSC",job:"Founder",d:"2026-08-02",kind:"personal",ref:"SVEF-HAN-0001",st:"Confirmed",qr:"HAN-4821",ci:true,ciAt:"08:42",out:false},
+   {n:"Lea Weber",em:"l.weber@example.ch",co:"Helvetia Fintech AG",job:"Head of Partnerships",d:"2026-08-04",kind:"personal",ref:"SVEF-HAN-0002",st:"Confirmed",qr:"HAN-5093",ci:true,ciAt:"08:47",out:false},
+   {n:"Nguyễn Thu Hà",em:"ha.nguyen@example.vn",co:"GreenTech Vietnam",job:"Project Manager",d:"2026-08-05",kind:"personal",ref:"SVEF-HAN-0003",st:"Confirmed",qr:"HAN-5144",ci:false,ciAt:"",out:false},
+   {n:"Marco Rossi",em:"m.rossi@example.ch",co:"Alpine Advisory",job:"Partner",d:"2026-08-06",kind:"personal",ref:"SVEF-HAN-0004",st:"Confirmed",qr:"HAN-5210",ci:true,ciAt:"09:05",out:true},
+   {n:"Phạm Hoàng Long",em:"long.pham@example.vn",co:"Mekong Digital",job:"CTO",d:"2026-08-07",kind:"personal",ref:"SVEF-HAN-0005",st:"Confirmed",qr:"HAN-5288",ci:false,ciAt:"",out:false},
+   {n:"Đặng Hải Yến",em:"yen.dang@example.vn",co:"Zurich Ventures",job:"Investment Manager",d:"2026-08-08",kind:"group",ref:"SVEF-HAN-0006",st:"Confirmed",qr:"",ci:false,ciAt:"",out:false,
     party:[{n:"Đặng Hải Yến",em:"yen.dang@example.vn",job:"Investment Manager",qr:"HAN-6001",ci:true,ciAt:"08:55",out:false},
            {n:"Thomas Bühler",em:"t.buehler@example.ch",job:"Principal",qr:"HAN-6002",ci:true,ciAt:"08:56",out:false},
            {n:"Lukas Frei",em:"l.frei@example.ch",job:"Analyst",qr:"HAN-6003",ci:false,ciAt:"",out:false}]},
-   {n:"Phan Thị Mai",em:"mai.phan@example.vn",co:"Vietnam National University",job:"Researcher",d:"2026-08-09",kind:"personal",tier:"t-acad",ref:"SVEF-HAN-0007",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5341",ci:false,ciAt:"",out:false},
-   {n:"Bùi Quang Huy",em:"huy.bui@example.vn",co:"Mekong Digital",job:"Data Lead",d:"2026-08-09",kind:"personal",tier:"t-eb",ref:"SVEF-HAN-0008",st:"Confirmed",pay:"Unpaid",code:"",qr:"HAN-5377",ci:false,ciAt:"",out:false},
-   {n:"Daniel Brunner",em:"d.brunner@example.ch",co:"Swiss Precision Mfg",job:"Head of Sales",d:"2026-08-10",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0009",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5402",ci:true,ciAt:"09:12",out:false},
-   {n:"Sandra Meier",em:"s.meier@example.ch",co:"Trade Office Zurich",job:"Trade Counsellor",d:"2026-08-10",kind:"personal",tier:"t-exec",ref:"SVEF-HAN-0010",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5455",ci:false,ciAt:"",out:false},
-   {n:"Nguyễn Minh Đức",em:"duc.nguyen@example.vn",co:"GreenTech Vietnam",job:"Managing Director",d:"2026-08-11",kind:"personal",tier:"t-exec",ref:"SVEF-HAN-0011",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5501",ci:false,ciAt:"",out:false},
-   {n:"Vũ Thị Lan Anh",em:"lananh.vu@example.vn",co:"Vietnam National University",job:"Lecturer",d:"2026-08-11",kind:"personal",tier:"t-acad",ref:"SVEF-HAN-0012",st:"Confirmed",pay:"Unpaid",code:"",qr:"HAN-5533",ci:false,ciAt:"",out:false},
-   {n:"Stefan Baumgartner",em:"s.baumgartner@example.ch",co:"Helvetia Fintech AG",job:"Risk Officer",d:"2026-08-12",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0013",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5570",ci:false,ciAt:"",out:false},
-   {n:"Lê Thị Minh Châu",em:"chau.le@example.vn",co:"An Phát Logistics JSC",job:"Export Director",d:"2026-08-12",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0014",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5612",ci:false,ciAt:"",out:false},
-   {n:"Julia Frei",em:"j.frei@example.ch",co:"Alpine Advisory",job:"Consultant",d:"2026-08-13",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0015",st:"Pending",pay:"Unpaid",code:"",qr:"HAN-5644",ci:false,ciAt:"",out:false},
-   {n:"Trịnh Văn Nam",em:"nam.trinh@example.vn",co:"GreenTech Vietnam",job:"Field Engineer",d:"2026-08-14",kind:"personal",tier:"t-acad",ref:"SVEF-HAN-0016",st:"Pending",pay:"Unpaid",code:"",qr:"HAN-5679",ci:false,ciAt:"",out:false},
-   {n:"Đỗ Minh Tuấn",em:"tuan.do@example.vn",co:"Mekong Digital",job:"Product Lead",d:"2026-08-15",kind:"personal",tier:"t-eb",ref:"SVEF-HAN-0017",st:"Waitlisted",pay:"Unpaid",code:"",qr:"HAN-5703",ci:false,ciAt:"",out:false},
-   {n:"Céline Dubois",em:"c.dubois@example.ch",co:"Helvetia Fintech AG",job:"Analyst",d:"2026-08-16",kind:"personal",tier:"t-eb",ref:"SVEF-HAN-0018",st:"Waitlisted",pay:"Unpaid",code:"",qr:"HAN-5740",ci:false,ciAt:"",out:false},
-   {n:"Dr. Anna Keller",em:"a.keller@example.ch",co:"Helvetia Fintech AG",job:"Chief Economist",d:"2026-08-06",kind:"personal",tier:"t-exec",ref:"SVEF-HAN-0019",st:"Cancelled",pay:"Refunded",code:"",qr:"HAN-5788",ci:false,ciAt:"",out:false}],
+   {n:"Phan Thị Mai",em:"mai.phan@example.vn",co:"Vietnam National University",job:"Researcher",d:"2026-08-09",kind:"personal",ref:"SVEF-HAN-0007",st:"Confirmed",qr:"HAN-5341",ci:false,ciAt:"",out:false},
+   {n:"Bùi Quang Huy",em:"huy.bui@example.vn",co:"Mekong Digital",job:"Data Lead",d:"2026-08-09",kind:"personal",ref:"SVEF-HAN-0008",st:"Confirmed",qr:"HAN-5377",ci:false,ciAt:"",out:false},
+   {n:"Daniel Brunner",em:"d.brunner@example.ch",co:"Swiss Precision Mfg",job:"Head of Sales",d:"2026-08-10",kind:"personal",ref:"SVEF-HAN-0009",st:"Confirmed",qr:"HAN-5402",ci:true,ciAt:"09:12",out:false},
+   {n:"Sandra Meier",em:"s.meier@example.ch",co:"Trade Office Zurich",job:"Trade Counsellor",d:"2026-08-10",kind:"personal",ref:"SVEF-HAN-0010",st:"Confirmed",qr:"HAN-5455",ci:false,ciAt:"",out:false},
+   {n:"Nguyễn Minh Đức",em:"duc.nguyen@example.vn",co:"GreenTech Vietnam",job:"Managing Director",d:"2026-08-11",kind:"personal",ref:"SVEF-HAN-0011",st:"Confirmed",qr:"HAN-5501",ci:false,ciAt:"",out:false},
+   {n:"Vũ Thị Lan Anh",em:"lananh.vu@example.vn",co:"Vietnam National University",job:"Lecturer",d:"2026-08-11",kind:"personal",ref:"SVEF-HAN-0012",st:"Confirmed",qr:"HAN-5533",ci:false,ciAt:"",out:false},
+   {n:"Stefan Baumgartner",em:"s.baumgartner@example.ch",co:"Helvetia Fintech AG",job:"Risk Officer",d:"2026-08-12",kind:"personal",ref:"SVEF-HAN-0013",st:"Confirmed",qr:"HAN-5570",ci:false,ciAt:"",out:false},
+   {n:"Lê Thị Minh Châu",em:"chau.le@example.vn",co:"An Phát Logistics JSC",job:"Export Director",d:"2026-08-12",kind:"personal",ref:"SVEF-HAN-0014",st:"Confirmed",qr:"HAN-5612",ci:false,ciAt:"",out:false},
+   {n:"Julia Frei",em:"j.frei@example.ch",co:"Alpine Advisory",job:"Consultant",d:"2026-08-13",kind:"personal",ref:"SVEF-HAN-0015",st:"Pending",qr:"HAN-5644",ci:false,ciAt:"",out:false},
+   {n:"Trịnh Văn Nam",em:"nam.trinh@example.vn",co:"GreenTech Vietnam",job:"Field Engineer",d:"2026-08-14",kind:"personal",ref:"SVEF-HAN-0016",st:"Pending",qr:"HAN-5679",ci:false,ciAt:"",out:false},
+   {n:"Đỗ Minh Tuấn",em:"tuan.do@example.vn",co:"Mekong Digital",job:"Product Lead",d:"2026-08-15",kind:"personal",ref:"SVEF-HAN-0017",st:"Waitlisted",qr:"HAN-5703",ci:false,ciAt:"",out:false},
+   {n:"Céline Dubois",em:"c.dubois@example.ch",co:"Helvetia Fintech AG",job:"Analyst",d:"2026-08-16",kind:"personal",ref:"SVEF-HAN-0018",st:"Waitlisted",qr:"HAN-5740",ci:false,ciAt:"",out:false},
+   {n:"Dr. Anna Keller",em:"a.keller@example.ch",co:"Helvetia Fintech AG",job:"Chief Economist",d:"2026-08-06",kind:"personal",ref:"SVEF-HAN-0019",st:"Cancelled",qr:"HAN-5788",ci:false,ciAt:"",out:false}],
   meetings:[
    {rq:"Trần Quốc Anh",rc:"Lea Weber",day:"2026-10-14",slot:"11:15 - 11:45",st:"Confirmed"},
    {rq:"Phạm Hoàng Long",rc:"Marco Rossi",day:"2026-10-14",slot:"13:00 - 13:30",st:"Pending"},
@@ -1093,17 +979,12 @@ let appEvents=[
   sponsors:[
    {n:"Swiss Precision Mfg",tier:"Headline"},
    {n:"Alpine Advisory",tier:"Silver"}],
-  reg:{paid:true,personal:true,group:true,maxGroup:4,cap:45,open:"2026-07-01",close:"2026-11-15",approval:true,waitlist:true},
-  tiers:[
-   {id:"m-del",n:"Delegate pass",chf:950,vnd:26000000,qty:40,from:"2026-07-01",to:"2026-11-15",eb:false,ebDate:""},
-   {id:"m-part",n:"Partner delegate",chf:650,vnd:18000000,qty:20,from:"2026-07-01",to:"2026-09-30",eb:true,ebDate:"2026-09-30"}],
-  codes:[
-   {c:"MISSION10",type:"percent",val:10,limit:25,used:6,until:"2026-10-31",active:true}],
+  reg:{personal:true,group:true,maxGroup:4,cap:45,open:"2026-07-01",close:"2026-11-15",approval:true,waitlist:true},
   registrants:[
-   {n:"Marco Rossi",em:"m.rossi@example.ch",co:"Alpine Advisory",job:"Partner",d:"2026-09-12",kind:"personal",tier:"m-part",ref:"SVEF-MIS-0001",st:"Confirmed",pay:"Paid",code:"MISSION10",qr:"MIS-2201",ci:false,ciAt:"",out:false},
-   {n:"Lê Thị Minh Châu",em:"chau.le@example.vn",co:"An Phát Logistics JSC",job:"Export Director",d:"2026-09-15",kind:"personal",tier:"m-del",ref:"SVEF-MIS-0002",st:"Confirmed",pay:"Paid",code:"",qr:"MIS-2244",ci:false,ciAt:"",out:false},
-   {n:"Daniel Brunner",em:"d.brunner@example.ch",co:"Swiss Precision Mfg",job:"Head of Sales",d:"2026-09-18",kind:"personal",tier:"m-del",ref:"SVEF-MIS-0003",st:"Confirmed",pay:"Unpaid",code:"",qr:"MIS-2290",ci:false,ciAt:"",out:false},
-   {n:"Sandra Meier",em:"s.meier@example.ch",co:"Trade Office Zurich",job:"Trade Counsellor",d:"2026-09-20",kind:"personal",tier:"m-part",ref:"SVEF-MIS-0004",st:"Pending",pay:"Unpaid",code:"",qr:"MIS-2318",ci:false,ciAt:"",out:false}],
+   {n:"Marco Rossi",em:"m.rossi@example.ch",co:"Alpine Advisory",job:"Partner",d:"2026-09-12",kind:"personal",ref:"SVEF-MIS-0001",st:"Confirmed",qr:"MIS-2201",ci:false,ciAt:"",out:false},
+   {n:"Lê Thị Minh Châu",em:"chau.le@example.vn",co:"An Phát Logistics JSC",job:"Export Director",d:"2026-09-15",kind:"personal",ref:"SVEF-MIS-0002",st:"Confirmed",qr:"MIS-2244",ci:false,ciAt:"",out:false},
+   {n:"Daniel Brunner",em:"d.brunner@example.ch",co:"Swiss Precision Mfg",job:"Head of Sales",d:"2026-09-18",kind:"personal",ref:"SVEF-MIS-0003",st:"Confirmed",qr:"MIS-2290",ci:false,ciAt:"",out:false},
+   {n:"Sandra Meier",em:"s.meier@example.ch",co:"Trade Office Zurich",job:"Trade Counsellor",d:"2026-09-20",kind:"personal",ref:"SVEF-MIS-0004",st:"Pending",qr:"MIS-2318",ci:false,ciAt:"",out:false}],
   meetings:[
    {rq:"Daniel Brunner",rc:"Lê Thị Minh Châu",day:"2026-11-24",slot:"10:00 - 10:30",st:"Confirmed"},
    {rq:"Marco Rossi",rc:"Sandra Meier",day:"2026-11-24",slot:"10:45 - 11:15",st:"Pending"}],
@@ -1119,15 +1000,11 @@ let appEvents=[
    {n:"Đặng Hải Yến",job:"Investment Manager",co:"Zurich Ventures"}],
   sponsors:[
    {n:"Zurich Ventures",tier:"Gold"}],
-  /* A free event: one free pass type, no payment column to chase. */
-  reg:{paid:false,personal:true,group:false,maxGroup:1,cap:120,open:"2026-11-01",close:"2027-03-01",approval:true,waitlist:false},
-  tiers:[
-   {id:"s-std",n:"Standard pass",chf:90,vnd:2500000,qty:120,from:"2026-11-01",to:"2027-03-01",eb:false,ebDate:""}],
-  codes:[],
+  reg:{personal:true,group:false,maxGroup:1,cap:120,open:"2026-11-01",close:"2027-03-01",approval:true,waitlist:false},
   registrants:[
-   {n:"Đặng Hải Yến",em:"yen.dang@example.vn",co:"Zurich Ventures",job:"Investment Manager",d:"2026-08-01",kind:"personal",tier:"t-free",ref:"SVEF-STA-0001",st:"Confirmed",pay:"Free",code:"",qr:"STA-1101",ci:false,ciAt:"",out:false},
-   {n:"Nguyễn Hoàng Nam",em:"nam.nguyen@example.vn",co:"Vietnam National University",job:"Student",d:"2026-08-03",kind:"personal",tier:"t-free",ref:"SVEF-STA-0002",st:"Pending",pay:"Free",code:"",qr:"STA-1102",ci:false,ciAt:"",out:false},
-   {n:"Laura Fischer",em:"l.fischer@example.ch",co:"Zurich Ventures",job:"Community Manager",d:"2026-08-05",kind:"personal",tier:"t-free",ref:"SVEF-STA-0003",st:"Confirmed",pay:"Free",code:"",qr:"STA-1103",ci:false,ciAt:"",out:false}],
+   {n:"Đặng Hải Yến",em:"yen.dang@example.vn",co:"Zurich Ventures",job:"Investment Manager",d:"2026-08-01",kind:"personal",ref:"SVEF-STA-0001",st:"Confirmed",qr:"STA-1101",ci:false,ciAt:"",out:false},
+   {n:"Nguyễn Hoàng Nam",em:"nam.nguyen@example.vn",co:"Vietnam National University",job:"Student",d:"2026-08-03",kind:"personal",ref:"SVEF-STA-0002",st:"Pending",qr:"STA-1102",ci:false,ciAt:"",out:false},
+   {n:"Laura Fischer",em:"l.fischer@example.ch",co:"Zurich Ventures",job:"Community Manager",d:"2026-08-05",kind:"personal",ref:"SVEF-STA-0003",st:"Confirmed",qr:"STA-1103",ci:false,ciAt:"",out:false}],
   meetings:[],
   pushes:[]},
 ];
@@ -1271,12 +1148,11 @@ function initCmsBody(){
 }
 
 /* Registration exports build a real CSV from the demo state; the older partner and
-   membership exports stay as they were. No export ever carries a password or a
-   payment token (BRD BR-W-18 / §11.2). */
+   membership exports stay as they were. No export ever carries a password or any
+   other confidential field (BRD BR-W-18 / §11.2). */
 function exportData(kind){
   if(kind==='registrants'){regExport('all');return;}
   if(kind==='checkin'){ciExport();return;}
-  if(kind==='payments'){payExport('all');return;}
   toast(('⬇ Exporting ')+kind+('.csv, confidential fields excluded'));
 }
 
@@ -1430,8 +1306,8 @@ function openImport(kind){
 }
 
 /* ===== EVENT MANAGEMENT (website event record) =====
-   The record the public website reads. The agenda, sessions, registrations and
-   payments are not part of it: they live in the App content section below. */
+   The record the public website reads. The agenda, sessions and registrations are
+   not part of it: they live in the App content section below. */
 let evEdit=-1;
 function openEvent(i){
   evEdit=i;
@@ -1671,51 +1547,33 @@ function delAppSponsor(i){appEv().sponsors.splice(i,1);renderApp();toast(tr('t_s
 
 /* ==========================================================================
    EVENT REGISTRATION MANAGEMENT (BRD 8.2)
-   Everything that hangs off one SVEF event's registration: settings, ticket
-   tiers, discount codes, the registrant list, door check-in and a small
-   registration dashboard. It is one tab of the App content panel, split into
-   sub-tabs because a single table cannot carry it. Prototype state only: the
-   arrays are mutated in place and the pane is re-rendered.
+   Everything that hangs off one SVEF event's registration: settings, the
+   registrant list, door check-in and a small registration dashboard. It is one
+   tab of the App content panel, split into sub-tabs because a single table
+   cannot carry it. Prototype state only: the arrays are mutated in place and the
+   pane is re-rendered.
    ========================================================================== */
 const REG_STATUS=['Confirmed','Pending','Waitlisted','Cancelled'];
-/* Partial is written by the refund flow, never picked by hand in the editor. */
-const PAY_STATUS=['Paid','Unpaid','Partial','Refunded','Free'];
-const REG_TABS=[['over','rg_tab_over'],['list','rg_tab_list'],['tick','rg_tab_tick'],
-  ['pay','rg_tab_pay'],['ci','rg_tab_ci'],['set','rg_tab_set']];
-let regTab='over',regQ='',regFSt='All',regFTier='All',regFPay='All',regCiQ='';
-let regSel={},regOpen={},ciLog=[],regEditRef='',tierEdit=-1,regSeq=100;
-let payFSt='All',payFM='All',payRfTx='';
+const REG_TABS=[['over','rg_tab_over'],['list','rg_tab_list'],['ci','rg_tab_ci'],['set','rg_tab_set']];
+let regTab='over',regQ='',regFSt='All',regCiQ='';
+let regSel={},regOpen={},ciLog=[],regEditRef='',regSeq=100;
 
 function regResetView(){
-  regTab='over';regQ='';regFSt='All';regFTier='All';regFPay='All';regCiQ='';
-  regSel={};regOpen={};ciLog=[];payFSt='All';payFM='All';payRfTx='';
+  regTab='over';regQ='';regFSt='All';regCiQ='';
+  regSel={};regOpen={};ciLog=[];
 }
 /* Events created inside the demo start with a usable registration shell, so no
    tab is ever opened against a half-built record. */
 function regEnsure(e){
   if(!e)return e;
-  if(!e.reg)e.reg={paid:true,personal:true,group:true,maxGroup:5,cap:100,
+  if(!e.reg)e.reg={personal:true,group:true,maxGroup:5,cap:100,
     open:todayISO(),close:e.ds||todayISO(),approval:false,waitlist:true};
-  if(!e.tiers)e.tiers=[{id:'t-gen',n:'General admission',chf:0,vnd:0,qty:e.reg.cap,
-    from:e.reg.open,to:e.reg.close,eb:false,ebDate:''}];
-  if(!e.codes)e.codes=[];
   if(!e.registrants)e.registrants=[];
-  if(!e.pay)e.pay=payDefaults(e);
-  if(!e.txns)payBuild(e);
   return e;
 }
 
 /* ---- small formatters ---- */
 function numG(n,sep){return String(Math.round(Number(n)||0)).replace(/\B(?=(\d{3})+(?!\d))/g,sep);}
-function round2(n){return Math.round((Number(n)||0)*100)/100;}
-/* Money is written to the centime, grouped the Swiss way. */
-function amt2(n){
-  const x=round2(n),neg=x<0,a=Math.abs(x),i=Math.floor(a),f=Math.round((a-i)*100);
-  return (neg?'-':'')+numG(i,"'")+'.'+String(f).padStart(2,'0');
-}
-function chf2(n){return 'CHF '+amt2(n);}
-function chf(n){return 'CHF '+numG(n,"'");}
-function vnd(n){return numG(n,'.')+' ₫';}
 function pct(a,b){return b>0?Math.round(a/b*100):0;}
 function rsLabel(s){return {Confirmed:tr('rs_conf'),Pending:tr('rs_pend'),Waitlisted:tr('rs_wait'),
   Cancelled:tr('rs_canc')}[s]||s;}
@@ -1728,12 +1586,8 @@ function rsChipShort(s){
   const l=s==='Pending'?tr('rs_pend_s'):rsLabel(s);
   return `<span class="chip ${m[s]||''}">${l}</span>`;
 }
-function pyLabel(p){return {Paid:tr('py_paid'),Unpaid:tr('py_unpaid'),Partial:tr('py_part'),
-  Refunded:tr('py_ref'),Free:tr('py_free')}[p]||p;}
-function pyChip(p){const m={Paid:'green',Unpaid:'pend',Partial:'pend',Refunded:'red',Free:''};
-  return `<span class="chip ${m[p]||''}">${pyLabel(p)}</span>`;}
 
-/* ---- seats, attendees, tiers ---- */
+/* ---- seats and attendees ---- */
 function regSeats(r){return r.kind==='group'?Math.max(1,(r.party||[]).length):1;}
 /* A personal booking is its own single attendee, so the registrant object doubles
    as the attendee record and check-in writes straight to it. */
@@ -1741,13 +1595,6 @@ function attList(r){return r.kind==='group'
   ? (r.party||[]).map((p,a)=>({a:a,o:p}))
   : [{a:0,o:r}];}
 function attOf(r,a){return r.kind==='group'?(r.party||[])[a]:r;}
-function regFreeTier(e){return {id:'t-free',n:tr('rg_freepass'),chf:0,vnd:0,qty:regCap(e),
-  from:e.reg.open,to:e.reg.close,eb:false,ebDate:''};}
-function regTiers(e){return e.reg.paid?(e.tiers||[]):[regFreeTier(e)];}
-function tierById(e,id){const ts=regTiers(e);return ts.filter(t=>t.id===id)[0]||ts[0]||null;}
-function tierName(e,id){const t=tierById(e,id);return t?t.n:'-';}
-function tierPrice(e,id){const t=tierById(e,id);return (e.reg.paid&&t)?(+t.chf||0):0;}
-function regPrice(e,r){return tierPrice(e,r.tier)*regSeats(r);}
 function regCap(e){return +e.reg.cap||0;}
 function regWindow(e){
   const t=todayISO();
@@ -1763,8 +1610,7 @@ function regWindowChip(e){
 /* ---- one pass over the registrants, everything else reads this ---- */
 function regStats(e){
   regEnsure(e);
-  const s={bookings:0,groups:0,seats:0,conf:0,pend:0,wait:0,canc:0,ci:0,onSite:0,att:0,
-    rev:0,exp:0,tickets:0,tier:{},co:{},day:{}};
+  const s={bookings:0,groups:0,seats:0,conf:0,pend:0,wait:0,canc:0,ci:0,onSite:0,att:0,co:{},day:{}};
   (e.registrants||[]).forEach(function(r){
     const n=regSeats(r);
     s.bookings++;
@@ -1775,9 +1621,7 @@ function regStats(e){
     else {s.conf+=n;}
     if(r.st!=='Cancelled'){
       s.seats+=n;
-      s.tier[r.tier]=(s.tier[r.tier]||0)+n;
       if(r.co)s.co[r.co]=(s.co[r.co]||0)+n;
-      s.tickets+=regPrice(e,r);
     }
     if(r.d)s.day[r.d]=(s.day[r.d]||0)+n;
     if(r.st==='Confirmed'){
@@ -1787,18 +1631,7 @@ function regStats(e){
       });
     }
   });
-  /* Revenue is whatever the ledger says, so the overview, the dashboard and the
-     reconciliation panel can never quote three different numbers. */
-  if(e.reg.paid){
-    const p=payStats(e);
-    s.exp=p.expected;s.rev=round2(p.collected-p.refunded);
-  }
   return s;
-}
-function tierSold(e,id){
-  let n=0;
-  (e.registrants||[]).forEach(r=>{if(r.st!=='Cancelled'&&r.tier===id)n+=regSeats(r);});
-  return n;
 }
 /* Confirmed seats are the ones that occupy the room, so capacity is measured
    against those and nothing else. */
@@ -1808,15 +1641,13 @@ function regRoomLeft(e){const cap=regCap(e);return cap?cap-regStats(e).conf:Infi
 function appRegHtml(e){
   regEnsure(e);
   const s=regStats(e);
-  const body={over:regOverHtml,list:regListHtml,tick:regTickHtml,pay:payPaneHtml,
-    ci:regCiHtml,set:regSetHtml}[regTab]||regOverHtml;
+  const body={over:regOverHtml,list:regListHtml,ci:regCiHtml,set:regSetHtml}[regTab]||regOverHtml;
   return `<div class="panel"><div class="pbody">`+
     `<div class="langtab" style="margin-bottom:14px">`+
       REG_TABS.map(t=>`<button class="${regTab===t[0]?'on':''}" onclick="regSubTab('${t[0]}')">${tr(t[1])}</button>`).join('')+
     `</div>`+
     `<div class="chiprow">${regWindowChip(e)}`+
-      `<span class="chip ${e.reg.paid?'navy':''}">${e.reg.paid?tr('rg_paid_ev'):tr('rg_free_ev')}</span>`+
-      `<span class="chip">${s.conf} ${tr('rg_of')} ${regCap(e)||'∞'} ${tr('rg_seats')}</span>`+
+      `<span class="chip navy">${s.conf} ${tr('rg_of')} ${regCap(e)||'∞'} ${tr('rg_seats')}</span>`+
       (e.reg.approval?`<span class="chip pend">${tr('rg_appr_t')}</span>`:'')+
       (e.reg.waitlist?`<span class="chip">${tr('rg_wait_t')}</span>`:'')+
     `</div></div></div>`+
@@ -1845,7 +1676,7 @@ function regSparkHtml(e){
       `<span>${i%step===0?d.slice(8)+'/'+d.slice(5,7):''}</span>`).join('')+`</div>`;
 }
 function regOverHtml(e){
-  const s=regStats(e),cap=regCap(e),tiers=regTiers(e);
+  const s=regStats(e),cap=regCap(e);
   const base=cap||Math.max(1,s.conf+s.pend);
   const capBar=`<div class="rbar">`+
     `<i class="f1" style="width:${(s.conf/base*100).toFixed(1)}%"></i>`+
@@ -1853,23 +1684,14 @@ function regOverHtml(e){
     `</div>`+
     `<div class="legend"><span><s class="f1"></s>${tr('rs_conf')} ${s.conf}</span>`+
     `<span><s class="f2"></s>${tr('rs_pend')} ${s.pend}</span>`+
-    `<span><s class="f4"></s>${cap?(Math.max(0,cap-s.conf-s.pend)+' '+tr('rg_t_left')):tr('rg_capfree')}</span></div>`;
+    `<span><s class="f4"></s>${cap?(Math.max(0,cap-s.conf-s.pend)+' '+tr('rg_seats_left')):tr('rg_capnone')}</span></div>`;
   const totalSeats=s.seats+s.canc||1;
   const statusRows=[['rs_conf',s.conf],['rs_pend',s.pend],['rs_wait',s.wait],['rs_canc',s.canc]]
     .map(x=>drow(tr(x[0]),x[1]/totalSeats*100,x[1]+' '+tr('rg_seats'))).join('');
-  const tierRows=tiers.map(t=>{
-    const sold=tierSold(e,t.id),q=+t.qty||0;
-    return drow(esc(t.n),q?sold/q*100:0,sold+(q?' / '+q:'')+' '+tr('rg_t_sold'));
-  }).join('')||`<div class="emptyline">${tr('rg_tick_none')}</div>`;
   const cos=Object.keys(s.co).map(k=>({n:k,v:s.co[k]})).sort((a,b)=>b.v-a.v).slice(0,5);
   const coMax=cos.length?cos[0].v:1;
   const coRows=cos.map(c=>drow(esc(c.n),c.v/coMax*100,c.v+' '+tr('rg_seats'))).join('')
     ||`<div class="emptyline">${tr('rg_nodata')}</div>`;
-  const revRows=e.reg.paid
-    ? drow(tr('rg_collected'),s.exp?s.rev/s.exp*100:0,chf2(s.rev))+
-      drow(tr('rg_expected'),100,chf2(s.exp))+
-      drow(tr('rg_outstanding'),s.exp?(s.exp-s.rev)/s.exp*100:0,chf2(s.exp-s.rev))
-    : `<div class="emptyline">${tr('rg_free_ev')}</div>`;
   return `<div class="panel">`+appHead('rg_over_h',
       `<button class="btn ghost sm" onclick="regSubTab('list')">${tr('rg_tab_list')} →</button>`)+
     `<div class="pbody">`+
@@ -1878,23 +1700,18 @@ function regOverHtml(e){
           `<div class="sub">${s.bookings} ${tr('rg_bookings')}`+
           (s.groups?` · ${s.groups} ${s.groups===1?tr('rg_grp1'):tr('rg_grpn')}`:'')+`</div></div>`+
         `<div class="kpi"><b>${s.conf}<em> / ${cap||'∞'}</em></b><span>${tr('rg_k_conf')}</span>`+
-          `<div class="sub">${cap?pct(s.conf,cap)+'%':tr('rg_capfree')}</div></div>`+
-        `<div class="kpi"><b>${e.reg.paid?chf2(s.rev):tr('rg_free_ev')}</b><span>${tr('rg_k_rev')}</span>`+
-          `<div class="sub">${e.reg.paid?(tr('rg_expected')+' '+chf2(s.exp)):tr('rg_free_ev')}</div></div>`+
+          `<div class="sub">${cap?pct(s.conf,cap)+'%':tr('rg_capnone')}</div></div>`+
+        `<div class="kpi"><b>${s.pend}</b><span>${tr('rs_pend')}</span>`+
+          `<div class="sub">${tr('rs_wait')} ${s.wait}</div></div>`+
         `<div class="kpi"><b>${s.ci}<em> / ${s.att}</em></b><span>${tr('rg_k_ci')}</span>`+
           `<div class="sub">${tr('rg_ci_k_on')} ${s.onSite}</div></div>`+
       `</div>`+
       `<h4 class="seoh" style="margin-top:0">${tr('rg_cap_head')}</h4>${capBar}`+
       `<div class="g2" style="margin-top:26px">`+
         `<div><h4 class="seoh" style="margin-top:0">${tr('rg_bystatus')}</h4>${statusRows}</div>`+
-        `<div><h4 class="seoh" style="margin-top:0">${tr('rg_bytier')}</h4>${tierRows}</div>`+
-      `</div>`+
-      `<h4 class="seoh">${tr('rg_overtime')}</h4>${regSparkHtml(e)}`+
-      `<div class="g2" style="margin-top:26px">`+
-        `<div><h4 class="seoh" style="margin-top:0">${tr('rg_rev_h')}</h4>${revRows}`+
-          (e.reg.paid?`<div class="hint">${tr('rg_rev_h2')}</div>`:'')+`</div>`+
         `<div><h4 class="seoh" style="margin-top:0">${tr('rg_topco')}</h4>${coRows}</div>`+
       `</div>`+
+      `<h4 class="seoh">${tr('rg_overtime')}</h4>${regSparkHtml(e)}`+
     `</div></div>`;
 }
 
@@ -1904,8 +1721,6 @@ function regFiltered(e){
   return (e.registrants||[]).map((r,i)=>({r:r,i:i})).filter(function(x){
     const r=x.r;
     if(regFSt!=='All'&&r.st!==regFSt)return false;
-    if(regFTier!=='All'&&r.tier!==regFTier)return false;
-    if(regFPay!=='All'&&r.pay!==regFPay)return false;
     if(q){
       const hay=[r.n,r.em,r.co,r.job,r.ref].concat((r.party||[]).map(p=>p.n+' '+p.em)).join(' ').toLowerCase();
       if(hay.indexOf(q)<0)return false;
@@ -1930,18 +1745,14 @@ function regActions(e,r,i){
   }
   if(r.st==='Waitlisted')
     b.push(`<button class="btn green sm" onclick="regPromote(${i})">${tr('rg_a_prom')}</button>`);
-  if(r.st==='Confirmed'&&e.reg.paid&&r.pay==='Unpaid')
-    b.push(`<button class="btn green sm" onclick="regMarkPaid(${i})">${tr('rg_a_paid')}</button>`);
-  if(e.reg.paid&&(r.pay==='Paid'||r.pay==='Partial'))
-    b.push(`<button class="btn line sm" onclick="regRefund(${i})">${tr('rg_a_ref')}</button>`);
   if(r.st!=='Cancelled')
     b.push(`<button class="btn line sm" onclick="regCancel(${i})">${tr('rg_a_canc')}</button>`);
   b.push(`<button class="btn line sm" onclick="regResend(${i})">${tr('rg_a_mail')}</button>`);
   b.push(`<button class="btn ghost sm" onclick="regEditOpen(${i})">${tr('d_edit')}</button>`);
   return `<div class="act-btns wrap">${b.join('')}</div>`;
 }
-/* Nine columns, not thirteen: name over email, company over job title and tier over
-   booking reference, so the whole row fits the panel without sideways scrolling. */
+/* Stacked cells, not one column per field: name over email and company over job
+   title, so the whole row fits the panel without sideways scrolling. */
 function regRowHtml(e,r,i){
   const seats=regSeats(r),grp=r.kind==='group',open=!!regOpen[r.ref];
   const nameCell=`<div class="nmline">`+
@@ -1954,15 +1765,13 @@ function regRowHtml(e,r,i){
     `<td class="stack">${nameCell}</td>`+
     `<td class="stack tight"><b>${esc(r.co||'')}</b>`+
       (r.job?`<span class="sub2">${esc(r.job)}</span>`:'')+`</td>`+
-    `<td class="stack tight"><b>${esc(tierName(e,r.tier))}</b>`+
-      `<span class="ref">${esc(r.ref)}</span></td>`+
+    `<td class="tight"><span class="ref" style="margin-top:0">${esc(r.ref)}</span></td>`+
     `<td class="tight">${fmtD(r.d)}</td>`+
     `<td class="tight">${rsChipShort(r.st)}</td>`+
-    `<td class="tight">${pyChip(r.pay)}</td>`+
     `<td class="tight">${regCiCell(r)}</td>`+
     `<td>${regActions(e,r,i)}</td></tr>`;
   if(grp&&open){
-    html+=`<tr class="subatt"><td class="ck"></td><td colspan="8"><div class="attlist">`+
+    html+=`<tr class="subatt"><td class="ck"></td><td colspan="7"><div class="attlist">`+
       attList(r).map(function(x){
         return `<div class="attrow"><span class="an">${esc(x.o.n)}</span>`+
           `<span class="aj">${esc(x.o.job||'')}</span>`+
@@ -1978,7 +1787,7 @@ function regRowsHtml(e){
   const rows=regFiltered(e);
   if(rows.length)return rows.map(x=>regRowHtml(e,x.r,x.i)).join('');
   const empty=(e.registrants||[]).length?tr('rg_none_f'):tr('ap_reg_none');
-  return `<tr><td colspan="9" class="muted">${empty}</td></tr>`;
+  return `<tr><td colspan="8" class="muted">${empty}</td></tr>`;
 }
 function regCountsHtml(e){
   const s=regStats(e);
@@ -2001,7 +1810,6 @@ function regSelbarHtml(){
     `<button class="btn ghost sm" onclick="regClearSel()">${tr('rg_clear')}</button>`;
 }
 function regListHtml(e){
-  const tiers=regTiers(e);
   const opt=(v,l,cur)=>`<option value="${esc(v)}" ${v===cur?'selected':''}>${esc(l)}</option>`;
   return `<div class="panel">`+
     appHead('ap_tab_reg',
@@ -2013,18 +1821,13 @@ function regListHtml(e){
         `<input id="regQ" value="${esc(regQ)}" oninput="regSearch(this.value)" placeholder="${tr('rg_search')}"></div>`+
       `<div class="field"><label>${tr('rg_f_status')}</label><select onchange="regSetFilter('st',this.value)">`+
         opt('All',tr('f_all'),regFSt)+REG_STATUS.map(s=>opt(s,rsLabel(s),regFSt)).join('')+`</select></div>`+
-      `<div class="field"><label>${tr('rg_f_tier')}</label><select onchange="regSetFilter('tier',this.value)">`+
-        opt('All',tr('f_all'),regFTier)+tiers.map(t=>opt(t.id,t.n,regFTier)).join('')+`</select></div>`+
-      `<div class="field"><label>${tr('rg_f_pay')}</label><select onchange="regSetFilter('pay',this.value)">`+
-        opt('All',tr('f_all'),regFPay)+PAY_STATUS.map(p=>opt(p,pyLabel(p),regFPay)).join('')+`</select></div>`+
     `</div>`+
     `<div class="selbar" id="regSelbar" style="${regSelCount()?'':'display:none'}">${regSelbarHtml()}</div>`+
     `<table class="wide"><thead><tr>`+
       `<th class="ck"><input type="checkbox" onchange="regSelAll(this.checked)" aria-label="${tr('rg_selall')}"></th>`+
       `<th>${tr('rg_c_person')}</th><th class="tight">${tr('rg_c_org')}</th>`+
-      `<th class="tight">${tr('rg_c_ticketref')}</th><th class="tight">${tr('c_regdate')}</th>`+
-      `<th class="tight">${tr('c_status')}</th><th class="tight">${tr('rg_c_pay')}</th>`+
-      `<th class="tight">${tr('rg_c_cin')}</th>`+
+      `<th class="tight">${tr('rg_c_ref')}</th><th class="tight">${tr('c_regdate')}</th>`+
+      `<th class="tight">${tr('c_status')}</th><th class="tight">${tr('rg_c_cin')}</th>`+
       `<th>${tr('c_actions')}</th></tr></thead>`+
     `<tbody id="regTbody">${regRowsHtml(e)}</tbody></table>`+
     `<div class="pbody"><div class="export-note">${tr('rg_note')}</div></div></div>`;
@@ -2043,10 +1846,7 @@ function regRefresh(){
   renderRegSummaries();
 }
 function regSearch(q){regQ=q;regRefresh();}
-function regSetFilter(k,v){
-  if(k==='st')regFSt=v;else if(k==='tier')regFTier=v;else regFPay=v;
-  regRefresh();
-}
+function regSetFilter(k,v){if(k==='st')regFSt=v;regRefresh();}
 function regExpand(ref){if(regOpen[ref])delete regOpen[ref];else regOpen[ref]=1;regRefresh();}
 function regToggleSel(ref){if(regSel[ref])delete regSel[ref];else regSel[ref]=1;regRefresh();}
 function regSelAll(on){
@@ -2068,17 +1868,15 @@ function regApprove(i){
 function regReject(i){
   const e=appEv(),r=e.registrants[i];
   if(!confirm(tr('q_regrej')))return;
-  r.st='Cancelled';if(r.pay==='Paid')r.pay='Refunded';
+  r.st='Cancelled';
   regRefresh();toast(tr('t_regrej')+': '+r.n);
 }
 function regCancel(i){
   const e=appEv(),r=e.registrants[i];
   if(!confirm(tr('q_regcanc')))return;
   r.st='Cancelled';
-  const rec=e.reg.paid?payRefundForCancel(e,r):null;
   attList(r).forEach(x=>{x.o.ci=false;x.o.out=false;x.o.ciAt='';});
-  regRefresh();
-  toast(tr('t_regcanc')+': '+r.n+(rec?' · '+rec.cn+' '+chf2(rec.amt):''));
+  regRefresh();toast(tr('t_regcanc')+': '+r.n);
 }
 /* Promotion respects the capacity limit: a waitlisted booking only moves up when
    the seats it needs are actually free. */
@@ -2086,20 +1884,6 @@ function regPromote(i){
   const e=appEv(),r=e.registrants[i];
   if(regRoomLeft(e)<regSeats(r)){toast(tr('rg_full_no'));return;}
   r.st='Confirmed';regRefresh();toast(tr('t_regprom')+': '+r.n);
-}
-/* Marking a booking paid writes a transaction, so the ledger and the registrant
-   table always tell the same story. An awaiting bank transfer is simply received. */
-function regMarkPaid(i){
-  const e=appEv(),r=e.registrants[i],t=payTxnFor(e,r.ref);
-  if(t&&t.st==='Awaiting'){payMarkReceived(e,t);return;}
-  payRecordManual(e,r);
-}
-/* Refunds are issued against the transaction, never by flipping a status. */
-function regRefund(i){
-  const e=appEv(),r=e.registrants[i];
-  let t=payTxnFor(e,r.ref);
-  if(!t||t.st==='Awaiting'){t=payRecordManual(e,r,true);}
-  payRefundOpen(t.id);
 }
 function regResend(i){toast(tr('t_regmail')+': '+appEv().registrants[i].em);}
 function regBulkApprove(){
@@ -2124,7 +1908,6 @@ function regBulkExport(){
 
 /* ---- add / edit a registrant (walk-ins and telephone bookings) ---- */
 function regFormHtml(e,r,isNew){
-  const tiers=regTiers(e);
   const names=(r.party||[]).map(p=>p.n).join('\n')||r.n||'';
   const kinds=[];
   if(e.reg.personal||r.kind==='personal')kinds.push(['personal',tr('rg_personal')]);
@@ -2140,17 +1923,10 @@ function regFormHtml(e,r,isNew){
     `<div class="mrow" id="rfPartyRow"><label>${tr('rg_gnames')}</label>`+
       `<textarea id="rfParty" rows="3">${esc(names)}</textarea>`+
       `<div class="hint">${tr('rg_gnames_h')} ${tr('rg_maxg')}: ${e.reg.maxGroup}</div></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('rg_c_tier')}</label><select id="rfTier">`+
-       tiers.map(t=>`<option value="${t.id}" ${t.id===r.tier?'selected':''}>${esc(t.n)}${e.reg.paid?' · '+chf(t.chf):''}</option>`).join('')+
-     `</select></div>`+
-     `<div class="mrow"><label>${tr('rg_code')}</label><input id="rfCode" value="${esc(r.code||'')}"></div></div>`+
     `<div class="g2"><div class="mrow"><label>${tr('rg_c_regst')}</label><select id="rfSt">`+
        REG_STATUS.map(s=>`<option value="${s}" ${s===r.st?'selected':''}>${rsLabel(s)}</option>`).join('')+
      `</select></div>`+
-     `<div class="mrow"><label>${tr('rg_c_pay')}</label><select id="rfPay" ${e.reg.paid?'':'disabled'}>`+
-       payEditableStates(e,r).map(p=>`<option value="${p}" ${p===r.pay?'selected':''}>${pyLabel(p)}</option>`).join('')+
-       `</select><div class="hint">${tr('rg_pay_h')}</div></div></div>`+
-    `<div class="mrow"><label>${tr('c_regdate')}</label><input id="rfD" type="date" value="${esc(r.d||todayISO())}"></div>`+
+     `<div class="mrow"><label>${tr('c_regdate')}</label><input id="rfD" type="date" value="${esc(r.d||todayISO())}"></div></div>`+
     `<button class="btn block" onclick="${isNew?'regSaveNew()':'regSaveEdit()'}">${isNew?tr('rg_add_t'):tr('rg_save')}</button>`;
 }
 function regKindToggle(){
@@ -2161,8 +1937,8 @@ function regKindToggle(){
 function regAddOpen(){
   const e=appEv();
   regEditRef='';
-  openGen(tr('rg_add_t'),regFormHtml(e,{kind:e.reg.personal?'personal':'group',tier:(regTiers(e)[0]||{}).id,
-    st:e.reg.approval?'Pending':'Confirmed',pay:e.reg.paid?'Unpaid':'Free',d:todayISO()},true));
+  openGen(tr('rg_add_t'),regFormHtml(e,{kind:e.reg.personal?'personal':'group',
+    st:e.reg.approval?'Pending':'Confirmed',d:todayISO()},true));
   regKindToggle();
 }
 function regEditOpen(i){
@@ -2184,7 +1960,7 @@ function regReadForm(e){
     if(names.length>(+e.reg.maxGroup||1)){toast(tr('rg_gtoobig'));return null;}
   }
   return {n:n,em:em,co:v('rfCo').trim(),job:v('rfJob').trim(),kind:kind,names:names,
-    tier:v('rfTier'),code:v('rfCode').trim(),st:v('rfSt'),pay:e.reg.paid?v('rfPay'):'Free',d:v('rfD')||todayISO()};
+    st:v('rfSt'),d:v('rfD')||todayISO()};
 }
 function regNewRef(e){
   const pre='SVEF-'+String(e.id).replace(/^ev-/,'').slice(0,3).toUpperCase();
@@ -2206,18 +1982,15 @@ function regBuildParty(e,f,old){
 function regSaveNew(){
   const e=appEv(),f=regReadForm(e);
   if(!f)return;
-  const r={n:f.n,em:f.em,co:f.co,job:f.job,d:f.d,kind:f.kind,tier:f.tier,ref:regNewRef(e),
-    st:f.st,pay:f.pay,code:f.code,qr:regNewQr(e),ci:false,ciAt:'',out:false};
+  const r={n:f.n,em:f.em,co:f.co,job:f.job,d:f.d,kind:f.kind,ref:regNewRef(e),
+    st:f.st,qr:regNewQr(e),ci:false,ciAt:'',out:false};
   if(f.kind==='group')r.party=regBuildParty(e,f,null);
   let msg=tr('t_regadd');
-  const wantPaid=r.pay==='Paid';
-  if(wantPaid)r.pay='Unpaid';
   if(r.st==='Confirmed'&&regRoomLeft(e)<regSeats(r)){
     if(e.reg.waitlist){r.st='Waitlisted';msg=tr('rg_full_wait');}
     else {toast(tr('rg_full_no'));return;}
   }
   e.registrants.push(r);
-  if(wantPaid)payRecordManual(e,r,true);
   closeModal();renderApp();renderRegSummaries();toast(msg+': '+r.n);
 }
 function regSaveEdit(){
@@ -2225,9 +1998,8 @@ function regSaveEdit(){
   if(!f)return;
   const r=e.registrants.filter(x=>x.ref===regEditRef)[0];
   if(!r){closeModal();return;}
-  const wasConf=r.st==='Confirmed',oldPay=r.pay;
-  r.n=f.n;r.em=f.em;r.co=f.co;r.job=f.job;r.tier=f.tier;r.code=f.code;r.pay=f.pay;r.d=f.d;
-  paySyncBooking(e,r,oldPay);
+  const wasConf=r.st==='Confirmed';
+  r.n=f.n;r.em=f.em;r.co=f.co;r.job=f.job;r.d=f.d;
   if(f.kind==='group'){r.party=regBuildParty(e,f,r.party);r.kind='group';}
   else {r.kind='personal';delete r.party;if(!r.qr)r.qr=regNewQr(e);}
   let msg=tr('t_regupd');
@@ -2237,591 +2009,7 @@ function regSaveEdit(){
   } else {r.st=f.st;}
   closeModal();renderApp();renderRegSummaries();toast(msg+': '+r.n);
 }
-/* The payment column is owned by the ledger: the editor may move a booking between
-   unpaid and paid, and anything else is the refund flow's business. */
-function payEditableStates(e,r){
-  if(!e.reg.paid)return ['Free'];
-  const base=['Unpaid','Paid'];
-  return base.indexOf(r.pay)>=0?base:[r.pay].concat(base);
-}
-function paySyncBooking(e,r,oldPay){
-  if(!e.reg.paid||r.pay===oldPay)return;
-  if(r.pay!=='Paid')return;
-  const t=payTxnFor(e,r.ref);
-  if(t&&t.st==='Awaiting'){payMarkReceived(e,t,true);return;}
-  if(!t||payRemaining(t)<=0)payRecordManual(e,r,true);
-}
-
-/* ==================== 3. TICKET TIERS AND DISCOUNT CODES ==================== */
-function tierRowHtml(e,t,i,last){
-  const sold=tierSold(e,t.id),q=+t.qty||0,left=q-sold;
-  return `<div class="tierrow">`+
-    `<div class="ord"><button onclick="tierMove(${i},-1)" ${i===0?'disabled':''} aria-label="Up">▲</button>`+
-      `<button onclick="tierMove(${i},1)" ${last?'disabled':''} aria-label="Down">▼</button></div>`+
-    `<div class="tn">${esc(t.n)}`+
-      (t.eb?` <span class="chip red">${tr('rg_t_earlybird')} ${fmtD(t.ebDate)}</span>`:'')+
-      `<div class="hint" style="margin-top:4px">${tr('rg_t_window')}: ${fmtD(t.from)} - ${fmtD(t.to)}</div></div>`+
-    (e.reg.paid?`<div class="tp">${chf(t.chf)}<br>${vnd(t.vnd)}</div>`:'')+
-    `<div class="tq"><div class="drow" style="border:none;padding:0">`+
-      `<span class="tr"><i style="width:${(q?Math.min(100,sold/q*100):0).toFixed(1)}%"></i></span>`+
-      `<span class="vl">${sold} / ${q||'∞'} ${tr('rg_t_sold')}</span></div>`+
-      `<div class="hint" style="margin-top:5px">${q&&left<=0?tr('rg_t_soldout'):(q?left+' '+tr('rg_t_left'):'')}</div></div>`+
-    `<button class="btn ghost sm" onclick="tierOpen(${i})">${tr('d_edit')}</button>`+
-    `<button class="btn line sm" onclick="tierDel(${i})">${tr('d_delete')}</button>`+
-  `</div>`;
-}
-function codeStatus(c){
-  if(!c.active)return 'off';
-  if(c.until&&c.until<todayISO())return 'exp';
-  if(c.limit&&c.used>=c.limit)return 'used';
-  return 'on';
-}
-function codeChip(c){
-  const st=codeStatus(c);
-  const m={on:['green','d_active'],exp:['red','rg_st_exp'],used:['pend','rg_st_used'],off:['','rg_st_off']}[st];
-  return `<span class="chip ${m[0]}">${tr(m[1])}</span>`;
-}
-function regTickHtml(e){
-  const tiers=e.tiers||[];
-  const tierBody=e.reg.paid
-    ? (tiers.length?tiers.map((t,i)=>tierRowHtml(e,t,i,i===tiers.length-1)).join(''):`<div class="emptyline">${tr('rg_tick_none')}</div>`)
-    : tierRowHtml(e,regFreeTier(e),0,true).replace(/<button[\s\S]*?<\/button>/g,'')+
-      `<div class="export-note">${tr('rg_t_free_h')}</div>`;
-  const codeRows=(e.codes||[]).map(function(c,i){
-    return `<tr><td><b style="font-family:var(--mono);letter-spacing:.06em">${esc(c.c)}</b></td>`+
-      `<td>${c.type==='percent'?tr('rg_pct'):tr('rg_fix')}</td>`+
-      `<td>${c.type==='percent'?c.val+' %':chf(c.val)}</td>`+
-      `<td>${c.used} / ${c.limit||'∞'}</td>`+
-      `<td>${fmtD(c.until)}</td>`+
-      `<td>${codeChip(c)}</td>`+
-      `<td><button class="btn line sm" onclick="codeToggle(${i})">${c.active?tr('rg_deact'):tr('rg_react')}</button></td></tr>`;
-  }).join('')||`<tr><td colspan="7" class="muted">${tr('rg_code_none')}</td></tr>`;
-  return `<div class="panel">`+
-    appHead('rg_tick_h',e.reg.paid?`<button class="btn sm" onclick="tierOpen(-1)">${tr('rg_tick_add')}</button>`:'')+
-    `<div class="pbody">${tierBody}</div></div>`+
-    /* Nothing to discount on a free event, so the codes panel belongs to paid ones. */
-    (e.reg.paid
-      ? `<div class="panel">`+
-        appHead('rg_code_h',`<button class="btn sm" onclick="codeOpen()">${tr('rg_code_add')}</button>`)+
-        `<table><thead><tr><th>${tr('rg_c_code')}</th><th>${tr('rg_c_ctype')}</th><th>${tr('rg_c_val')}</th>`+
-        `<th>${tr('rg_c_use')}</th><th>${tr('rg_c_until')}</th><th>${tr('c_status')}</th><th>${tr('c_actions')}</th>`+
-        `</tr></thead><tbody>${codeRows}</tbody></table>`+
-        `<div class="pbody"><div class="export-note">${tr('rg_code_note')}</div></div></div>`
-      : '');
-}
-function tierOpen(i){
-  const e=appEv();
-  tierEdit=i;
-  const t=i>=0?e.tiers[i]:{n:'',chf:0,vnd:0,qty:50,from:e.reg.open,to:e.reg.close,eb:false,ebDate:''};
-  openGen(i>=0?tr('rg_t_edit'):tr('rg_t_new'),
-    `<div class="mrow"><label>${tr('rg_t_name')}</label><input id="tfN" value="${esc(t.n)}"></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('rg_t_chf')}</label><input id="tfChf" type="number" min="0" value="${+t.chf||0}"></div>`+
-     `<div class="mrow"><label>${tr('rg_t_vnd')}</label><input id="tfVnd" type="number" min="0" value="${+t.vnd||0}"></div></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('rg_t_qty')}</label><input id="tfQty" type="number" min="0" value="${+t.qty||0}"></div>`+
-     `<div class="mrow"><label>${tr('rg_t_from')}</label><input id="tfFrom" type="date" value="${esc(t.from||'')}"></div></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('rg_t_to')}</label><input id="tfTo" type="date" value="${esc(t.to||'')}"></div>`+
-     `<div class="mrow"><label>${tr('rg_t_ebd')}</label><input id="tfEbd" type="date" value="${esc(t.ebDate||'')}"></div></div>`+
-    `<label class="ndacheck" style="background:#fff;border-color:var(--line)"><input type="checkbox" id="tfEb" ${t.eb?'checked':''}><span>${tr('rg_t_eb')}</span></label>`+
-    `<button class="btn block" onclick="tierSave()">${tr('rg_t_save')}</button>`);
-}
-function tierSave(){
-  const e=appEv(),n=v('tfN').trim();
-  if(!n){toast(tr('rg_t_needname'));document.getElementById('tfN').focus();return;}
-  const o={id:tierEdit>=0?e.tiers[tierEdit].id:('t-n'+(++regSeq)),n:n,
-    chf:+v('tfChf')||0,vnd:+v('tfVnd')||0,qty:+v('tfQty')||0,
-    from:v('tfFrom'),to:v('tfTo'),eb:document.getElementById('tfEb').checked,ebDate:v('tfEbd')};
-  if(tierEdit>=0)e.tiers[tierEdit]=o;else e.tiers.push(o);
-  closeModal();renderApp();toast(tierEdit>=0?tr('t_tierupd'):tr('t_tieradd'));
-}
-function tierDel(i){
-  const e=appEv();
-  if(!confirm(tr('rg_t_del_q')))return;
-  e.tiers.splice(i,1);renderApp();toast(tr('t_tierdel'));
-}
-function tierMove(i,d){
-  const e=appEv(),j=i+d;
-  if(j<0||j>=e.tiers.length)return;
-  const t=e.tiers[i];e.tiers[i]=e.tiers[j];e.tiers[j]=t;
-  renderApp();toast(tr('t_tiermov'));
-}
-function codeOpen(){
-  openGen(tr('rg_code_new'),
-    `<div class="mrow"><label>${tr('rg_c_code')}</label><input id="cfC" placeholder="SVEF10"></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('rg_c_ctype')}</label><select id="cfT">`+
-      `<option value="percent">${tr('rg_pct')}</option><option value="fixed">${tr('rg_fix')}</option></select></div>`+
-     `<div class="mrow"><label>${tr('rg_c_val')}</label><input id="cfV" type="number" min="0" value="10"></div></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('rg_c_use')}</label><input id="cfL" type="number" min="0" value="50"></div>`+
-     `<div class="mrow"><label>${tr('rg_c_until')}</label><input id="cfU" type="date" value="${esc(appEv().reg.close||todayISO())}"></div></div>`+
-    `<div class="export-note" style="margin:0 0 14px">${tr('rg_code_note')}</div>`+
-    `<button class="btn block" onclick="codeSave()">${tr('rg_code_save')}</button>`);
-}
-function codeSave(){
-  const e=appEv(),c=v('cfC').trim().toUpperCase();
-  if(!c){toast(tr('rg_code_need'));document.getElementById('cfC').focus();return;}
-  if(e.codes.some(x=>x.c===c)){toast(tr('rg_code_dup'));return;}
-  e.codes.unshift({c:c,type:v('cfT'),val:+v('cfV')||0,limit:+v('cfL')||0,used:0,until:v('cfU'),active:true});
-  closeModal();renderApp();toast(tr('t_codeadd')+': '+c);
-}
-function codeToggle(i){
-  const c=appEv().codes[i];
-  c.active=!c.active;
-  renderApp();toast(c.active?tr('t_codeon'):tr('t_codeoff'));
-}
-
-/* ==================== 4. PAYMENTS, RECONCILIATION AND REFUNDS ==================== */
-/* Prototype only. No payment service provider is contacted, no money moves and no
-   card data is held: a card transaction keeps the brand and the last four digits,
-   which is all a back office needs to match a payment to a booking. */
-const PAY_VAT_DEFAULT=8.1;          /* placeholder rate, pending SVEF's tax position */
-const PAY_FEE_DEFAULT=2.9;          /* placeholder provider fee, drives the net column */
-const PAY_METHODS=[['card','pm_card'],['twint','pm_twint'],['vngw','pm_vngw'],['invoice','pm_invoice']];
-const PAY_ALL_METHODS=PAY_METHODS.concat([['manual','pm_manual']]);
-const TX_STATUS=['Paid','Awaiting','Failed','Partial','Refunded'];
-const PAY_ROTATE=['card','twint','invoice','vngw'];
-const PAY_BRANDS=[['Visa','4242'],['Mastercard','5454'],['Visa','8891'],['Amex','1007']];
-const RF_REASONS=['rf_r1','rf_r2','rf_r3','rf_r4','rf_r5'];
-/* The mock payment story: which demo booking paid how, and what went wrong. Anything
-   not listed falls back to a plain settled payment. */
-const PAY_STORY={
- 'SVEF-HAN-0001':{m:'card',brand:'Visa',last4:'4242'},
- 'SVEF-HAN-0002':{m:'twint'},
- 'SVEF-HAN-0004':{m:'invoice',bill:{co:'Alpine Advisory',vatNo:'CHE-114.222.333 MWST',
-   addr:'Bahnhofstrasse 21, 8001 Zurich',country:'Switzerland'}},
- 'SVEF-HAN-0005':{m:'twint',fail:{m:'card',brand:'Mastercard',last4:'5454',reason:'Card declined by the issuer'}},
- 'SVEF-HAN-0006':{m:'invoice',st:'Awaiting',bill:{co:'Zurich Ventures',vatNo:'CHE-201.884.910 MWST',
-   addr:'Seefeldstrasse 4, 8008 Zurich',country:'Switzerland'}},
- 'SVEF-HAN-0009':{m:'vngw'},
- 'SVEF-HAN-0010':{m:'card',brand:'Amex',last4:'1007',refund:{amt:150,reason:'rf_r3'}},
- 'SVEF-HAN-0013':{m:'card',brand:'Visa',last4:'8891'},
- 'SVEF-HAN-0014':{m:'vngw',bill:{co:'An Phát Logistics JSC',vatNo:'0312345678',
-   addr:'12 Nguyễn Huệ, District 1, Ho Chi Minh City',country:'Vietnam'}},
- 'SVEF-HAN-0016':{fail:{m:'card',brand:'Visa',last4:'0341',reason:'Insufficient funds'}},
- 'SVEF-HAN-0019':{m:'card',brand:'Visa',last4:'3310',refund:{amt:'full',reason:'rf_r1'}},
-};
-function payDefaults(e){
-  const yr=String(e.ds||todayISO()).slice(0,4);
-  return {vat:PAY_VAT_DEFAULT,feePct:PAY_FEE_DEFAULT,invPrefix:'SVEF-'+yr+'-',invNext:1001,cnNext:1,
-    methods:{card:true,twint:true,vngw:true,invoice:true}};
-}
-function payMethodLabel(m){
-  const k=(PAY_ALL_METHODS.filter(x=>x[0]===m)[0]||[null,'pm_manual'])[1];
-  return tr(k);
-}
-function txLabel(st){return {Paid:tr('tx_paid'),Awaiting:tr('tx_await'),Failed:tr('tx_fail'),
-  Partial:tr('tx_part'),Refunded:tr('tx_ref')}[st]||st;}
-function txChip(st){
-  const m={Paid:'green',Awaiting:'pend',Failed:'red',Partial:'pend',Refunded:'red'};
-  return `<span class="chip ${m[st]||''}">${txLabel(st)}</span>`;
-}
-/* ---- money for one booking ---- */
-function payDiscount(e,gross,code){
-  if(!code)return 0;
-  const c=(e.codes||[]).filter(x=>x.c===String(code).toUpperCase())[0];
-  if(!c)return 0;
-  return round2(c.type==='percent'?gross*(+c.val||0)/100:Math.min(gross,+c.val||0));
-}
-function payDue(e,r){
-  const gross=regPrice(e,r),disc=payDiscount(e,gross,r.code),sub=round2(gross-disc);
-  return round2(sub+sub*(+e.pay.vat||0)/100);
-}
-function payRefunded(t){return round2((t.refunds||[]).reduce((a,x)=>a+(+x.amt||0),0));}
-function payRemaining(t){return round2(t.total-payRefunded(t));}
-/* Net is money actually kept: a failed attempt and a transfer that has not arrived
-   have collected nothing, whatever their gross says. */
-function payNet(t){
-  if(t.st==='Failed'||t.st==='Awaiting')return 0;
-  return round2(t.total-t.fee-payRefunded(t));
-}
-function payNextInv(e){const n=e.pay.invNext||1001;e.pay.invNext=n+1;return e.pay.invPrefix+n;}
-function payNextCn(e){const n=e.pay.cnNext||1;e.pay.cnNext=n+1;return 'CN-'+e.pay.invPrefix+String(n).padStart(4,'0');}
-function payGwRef(m,ref,seq){
-  const tail=String(ref).replace(/\D/g,'').slice(-4)+String(1000+seq).slice(-3);
-  return {card:'pi_3N'+tail+'KY',twint:'TW-'+tail,vngw:'VNP'+tail,
-    invoice:'BT-'+String(ref).slice(-8),manual:'DESK-'+tail}[m]||('REF-'+tail);
-}
-let payTxSeq=0;
-/* One transaction. Every amount is derived here so the ledger can never drift from
-   the ticket price, the discount code and the event's VAT and fee settings. */
-function payMakeTxn(e,r,o){
-  const gross=o.gross==null?regPrice(e,r):o.gross;
-  const disc=payDiscount(e,gross,r.code);
-  const sub=round2(gross-disc);
-  const vatPct=+e.pay.vat||0,feePct=+e.pay.feePct||0;
-  const vat=round2(sub*vatPct/100),total=round2(sub+vat);
-  const settled=o.st==='Paid'||o.st==='Partial'||o.st==='Refunded';
-  const t={id:'tx-'+(++payTxSeq),d:o.d||r.d||todayISO(),ref:r.ref,name:r.n,
-    m:o.m,brand:o.brand||'',last4:o.last4||'',gw:o.gw||payGwRef(o.m,r.ref,payTxSeq),
-    code:r.code||'',gross:gross,disc:disc,vatPct:vatPct,vat:vat,total:total,
-    feePct:settled?feePct:0,fee:settled?round2(total*feePct/100):0,
-    st:o.st||'Paid',inv:'',reason:o.reason||'',refunds:[],
-    bill:Object.assign({n:r.n,co:r.co||'',vatNo:'',addr:'',country:''},o.bill||{})};
-  if(t.st!=='Failed')t.inv=payNextInv(e);
-  return t;
-}
-function payAddRefund(e,t,amt,reasonKey,note){
-  const a=round2(Math.min(amt,payRemaining(t)));
-  if(a<=0)return null;
-  const rec={amt:a,reason:reasonKey,note:note||'',cn:payNextCn(e),d:todayISO()};
-  t.refunds.push(rec);
-  t.st=payRemaining(t)<=0?'Refunded':'Partial';
-  const r=(e.registrants||[]).filter(x=>x.ref===t.ref)[0];
-  if(r&&r.pay!=='Free')r.pay=t.st==='Refunded'?'Refunded':'Partial';
-  return rec;
-}
-/* Builds the opening ledger from the demo bookings once per event. */
-function payBuild(e){
-  e.txns=[];
-  if(!e.reg||!e.reg.paid)return;
-  let k=0;
-  (e.registrants||[]).forEach(function(r){
-    const story=PAY_STORY[r.ref]||{};
-    if(story.fail){
-      e.txns.push(payMakeTxn(e,r,{m:story.fail.m,brand:story.fail.brand,last4:story.fail.last4,
-        st:'Failed',reason:story.fail.reason}));
-    }
-    let st=story.st;
-    if(!st){
-      if(r.pay==='Paid')st='Paid';
-      else if(r.pay==='Refunded')st='Refunded';
-      else return;
-    }
-    const m=story.m||PAY_ROTATE[(k++)%PAY_ROTATE.length];
-    const br=PAY_BRANDS[(k+1)%PAY_BRANDS.length];
-    const t=payMakeTxn(e,r,{m:m,st:st==='Refunded'?'Paid':st,
-      brand:m==='card'?(story.brand||br[0]):'',last4:m==='card'?(story.last4||br[1]):'',
-      bill:story.bill});
-    e.txns.push(t);
-    if(story.refund)
-      payAddRefund(e,t,story.refund.amt==='full'?t.total:story.refund.amt,story.refund.reason);
-    else if(st==='Refunded')payAddRefund(e,t,t.total,'rf_r1');
-    if(t.st==='Awaiting'&&r.pay!=='Free')r.pay='Unpaid';
-  });
-  e.txns.sort((a,b)=>(b.d+b.id).localeCompare(a.d+a.id));
-}
-function payTxns(e){return e.txns||[];}
-function payTxById(e,id){return payTxns(e).filter(t=>t.id===id)[0]||null;}
-/* The transaction that carries a booking's money: the settled one if there is one,
-   otherwise the transfer we are waiting for. Failed attempts are never it. */
-function payTxnFor(e,ref){
-  const list=payTxns(e).filter(t=>t.ref===ref&&t.st!=='Failed');
-  return list.filter(t=>t.st!=='Awaiting')[0]||list[0]||null;
-}
-function payBookingOf(e,ref){return (e.registrants||[]).filter(r=>r.ref===ref)[0]||null;}
-
-/* ---- reconciliation ---- */
-function payStats(e){
-  const s={expected:0,collected:0,awaiting:0,outstanding:0,refunded:0,fees:0,vat:0,
-    net:0,diff:0,activeRef:0,n:{},byM:{}};
-  if(!e.pay)e.pay=payDefaults(e);
-  if(!e.txns)payBuild(e);
-  if(!e.reg||!e.reg.paid)return s;
-  (e.registrants||[]).forEach(function(r){
-    if(r.st==='Cancelled'||r.pay==='Free')return;
-    s.expected=round2(s.expected+payDue(e,r));
-  });
-  payTxns(e).forEach(function(t){
-    s.n[t.st]=(s.n[t.st]||0)+1;
-    if(t.st==='Failed')return;
-    s.byM[t.m]=round2((s.byM[t.m]||0)+(t.st==='Awaiting'?0:t.total));
-    if(t.st==='Awaiting'){s.awaiting=round2(s.awaiting+t.total);return;}
-    const rf=payRefunded(t);
-    s.collected=round2(s.collected+t.total);
-    s.refunded=round2(s.refunded+rf);
-    s.fees=round2(s.fees+t.fee);
-    s.vat=round2(s.vat+t.vat);
-    const b=payBookingOf(e,t.ref);
-    if(b&&b.st!=='Cancelled'&&rf)s.activeRef=round2(s.activeRef+rf);
-  });
-  (e.registrants||[]).forEach(function(r){
-    if(r.st==='Cancelled'||r.pay==='Free'||r.pay==='Paid'||r.pay==='Partial')return;
-    const t=payTxnFor(e,r.ref);
-    if(t&&t.st==='Awaiting')return;
-    s.outstanding=round2(s.outstanding+payDue(e,r));
-  });
-  s.net=round2(s.collected-s.refunded);
-  s.diff=round2(s.expected-(s.net+s.awaiting+s.outstanding));
-  return s;
-}
-function payDiffNote(s){
-  if(Math.abs(s.diff)<0.01)return tr('pay_diff_ok');
-  if(Math.abs(round2(s.diff-s.activeRef))<0.01)return tr('pay_diff_rf');
-  return tr('pay_diff_chk');
-}
-
-/* ---- the payments pane ---- */
-function payReconHtml(e){
-  const s=payStats(e);
-  const row=(labelKey,val,cls)=>`<div class="recrow ${cls||''}"><span class="rl">${tr(labelKey)}</span>`+
-    `<span class="rv">${chf2(val)}</span></div>`;
-  const barBase=Math.max(s.expected,round2(s.net+s.awaiting+s.outstanding))||1;
-  const seg=(v,c)=>`<i class="${c}" style="width:${Math.max(0,v/barBase*100).toFixed(1)}%"></i>`;
-  return `<div class="panel">`+appHead('pay_h_recon',
-      `<button class="btn line sm" onclick="payExport('event')">${tr('pay_a_exp')}</button>`)+
-    `<div class="countrow">`+
-      `<div><b>${chf2(s.net)}</b><span>${tr('pay_k_coll')}</span></div>`+
-      `<div><b>${chf2(s.awaiting)}</b><span>${tr('pay_k_await')}</span></div>`+
-      `<div><b>${chf2(s.outstanding)}</b><span>${tr('pay_k_out')}</span></div>`+
-      `<div><b>${chf2(s.refunded)}</b><span>${tr('pay_k_ref')}</span></div>`+
-      `<div><b>${chf2(s.vat)}</b><span>${tr('pay_k_vat')}</span></div>`+
-    `</div>`+
-    `<div class="pbody">`+
-      `<div class="rbar">${seg(s.net,'f1')}${seg(s.awaiting,'f2')}${seg(s.outstanding,'f3')}</div>`+
-      `<div class="legend"><span><s class="f1"></s>${tr('pay_k_coll')}</span>`+
-        `<span><s class="f2"></s>${tr('pay_k_await')}</span>`+
-        `<span><s class="f3"></s>${tr('pay_k_out')}</span></div>`+
-      `<div class="rec" style="margin-top:22px">`+
-        row('pay_expected',s.expected)+
-        row('pay_collected',s.collected)+
-        row('pay_refunded',-s.refunded)+
-        row('pay_netcoll',s.net)+
-        row('pay_awaiting',s.awaiting)+
-        row('pay_outstanding',s.outstanding)+
-        row('pay_diff',s.diff,'tot')+
-      `</div>`+
-      `<div class="hint">${payDiffNote(s)}</div>`+
-      `<div class="hint">${tr('pay_vat_at')} ${e.pay.vat} %. ${tr('pay_vat_note')}</div>`+
-      `<div class="export-note">${tr('pay_amounts')}</div>`+
-    `</div></div>`;
-}
-function payFiltered(e){
-  return payTxns(e).map((t,i)=>({t:t,i:i})).filter(function(x){
-    if(payFSt!=='All'&&x.t.st!==payFSt)return false;
-    if(payFM!=='All'&&x.t.m!==payFM)return false;
-    return true;
-  });
-}
-function payMethodCell(t){
-  const label=t.m==='card'&&t.last4
-    ? esc(t.brand||tr('pm_card'))+' ···· '+esc(t.last4)   /* last four digits only, never the full number */
-    : payMethodLabel(t.m);
-  return `<span class="chip">${label}</span><span class="ref">${esc(t.gw)}</span>`;
-}
-function payActions(e,t){
-  const b=[];
-  if(t.st==='Awaiting')
-    b.push(`<button class="btn green sm" onclick="payMarkReceivedId('${t.id}')">${tr('pay_a_recv')}</button>`);
-  if(t.st==='Failed')
-    b.push(`<button class="btn line sm" onclick="payLink('${t.id}')">${tr('pay_a_link')}</button>`);
-  if(payRemaining(t)>0&&t.st!=='Failed'&&t.st!=='Awaiting')
-    b.push(`<button class="btn line sm" onclick="payRefundOpen('${t.id}')">${tr('pay_a_ref')}</button>`);
-  if(t.inv)
-    b.push(`<button class="btn ghost sm" onclick="payInvoice('${t.id}')">${tr('pay_a_inv')}</button>`);
-  return `<div class="act-btns wrap">${b.join('')}</div>`;
-}
-function payRowHtml(e,t){
-  const rf=payRefunded(t);
-  return `<tr>`+
-    `<td class="stack tight"><b>${fmtD(t.d)}</b>`+
-      (t.inv?`<span class="ref">${esc(t.inv)}</span>`:'')+`</td>`+
-    `<td class="stack tight"><b>${esc(t.name)}</b><span class="ref">${esc(t.ref)}</span></td>`+
-    `<td class="stack tight">${payMethodCell(t)}</td>`+
-    `<td class="num tight"><b>${amt2(t.gross)}</b>`+
-      (t.disc?`<span class="sub2">${tr('pay_less_disc')} ${amt2(t.disc)}</span>`:'')+`</td>`+
-    `<td class="num tight"><b>${amt2(t.vat)}</b><span class="sub2">${t.vatPct} %</span></td>`+
-    `<td class="num tight"><b>${amt2(payNet(t))}</b>`+
-      (t.fee?`<span class="sub2">${tr('pay_fee')} ${amt2(t.fee)}</span>`:'')+`</td>`+
-    `<td class="tight">${txChip(t.st)}`+
-      (rf?`<span class="sub2">${amt2(-rf)}</span>`:'')+
-      (t.st==='Failed'&&t.reason?`<span class="sub2">${esc(t.reason)}</span>`:'')+`</td>`+
-    `<td>${payActions(e,t)}</td></tr>`;
-}
-function payRowsHtml(e){
-  const rows=payFiltered(e);
-  if(rows.length)return rows.map(x=>payRowHtml(e,x.t)).join('');
-  return `<tr><td colspan="8" class="muted">${payTxns(e).length?tr('rg_none_f'):tr('pay_none')}</td></tr>`;
-}
-function payLedgerHtml(e){
-  const opt=(v,l,cur)=>`<option value="${esc(v)}" ${v===cur?'selected':''}>${esc(l)}</option>`;
-  return `<div class="panel">`+
-    appHead('pay_h_ledger',`<span class="chip navy">${payTxns(e).length}</span>`+
-      `<button class="btn sm" onclick="payExport('event')">${tr('b_export')}</button>`)+
-    `<div class="filterbar">`+
-      `<div class="field"><label>${tr('pay_f_st')}</label><select onchange="paySetFilter('st',this.value)">`+
-        opt('All',tr('f_all'),payFSt)+TX_STATUS.map(x=>opt(x,txLabel(x),payFSt)).join('')+`</select></div>`+
-      `<div class="field"><label>${tr('pay_f_m')}</label><select onchange="paySetFilter('m',this.value)">`+
-        opt('All',tr('f_all'),payFM)+PAY_ALL_METHODS.map(x=>opt(x[0],tr(x[1]),payFM)).join('')+`</select></div>`+
-    `</div>`+
-    `<table class="wide"><thead><tr>`+
-      `<th class="tight">${tr('pay_c_date')}</th><th class="tight">${tr('pay_c_who')}</th>`+
-      `<th class="tight">${tr('pay_c_method')}</th><th class="num tight">${tr('pay_c_gross')}</th>`+
-      `<th class="num tight">${tr('pay_c_vat')}</th><th class="num tight">${tr('pay_c_net')}</th>`+
-      `<th class="tight">${tr('c_status')}</th><th>${tr('c_actions')}</th>`+
-    `</tr></thead><tbody>${payRowsHtml(e)}</tbody></table>`+
-    `<div class="pbody"><div class="export-note">${tr('pay_ledger_note')}</div></div></div>`;
-}
-function payRefundsHtml(e){
-  const rows=[];
-  payTxns(e).forEach(function(t){
-    (t.refunds||[]).forEach(function(x){
-      rows.push(`<tr><td class="tight">${fmtD(x.d)}</td>`+
-        `<td class="stack tight"><b>${esc(t.name)}</b><span class="ref">${esc(t.ref)}</span></td>`+
-        `<td class="tight"><span class="ref" style="margin-top:0">${esc(x.cn)}</span></td>`+
-        `<td class="num tight"><b>${amt2(x.amt)}</b></td>`+
-        `<td class="tight">${esc(tr(x.reason))}${x.note?`<span class="sub2">${esc(x.note)}</span>`:''}</td></tr>`);
-    });
-  });
-  return `<div class="panel">`+appHead('pay_h_refunds',`<span class="chip navy">${rows.length}</span>`)+
-    `<table><thead><tr><th class="tight">${tr('c_date')}</th><th class="tight">${tr('pay_c_who')}</th>`+
-    `<th class="tight">${tr('pay_c_cn')}</th><th class="num tight">${tr('pay_c_amt')}</th>`+
-    `<th class="tight">${tr('pay_c_reason')}</th></tr></thead>`+
-    `<tbody>${rows.join('')||`<tr><td colspan="5" class="muted">${tr('pay_rf_none')}</td></tr>`}</tbody></table></div>`;
-}
-function payPaneHtml(e){
-  if(!e.reg.paid)
-    return `<div class="panel">`+appHead('pay_h_recon')+
-      `<div class="pbody"><div class="emptyline">${tr('pay_free_ev')}</div>`+
-      `<button class="btn ghost sm" onclick="regSubTab('set')">${tr('rg_tab_set')} →</button></div></div>`;
-  return payReconHtml(e)+payLedgerHtml(e)+payRefundsHtml(e);
-}
-function paySetFilter(k,v){if(k==='st')payFSt=v;else payFM=v;renderApp();}
-/* Every payment action rebuilds the pane and the roll-ups, so the registrant table,
-   the overview revenue split, the tab counts and the dashboard all move together. */
-function payRefreshAll(){renderApp();renderRegSummaries();}
-
-/* ---- actions ---- */
-function payMarkReceived(e,t,quiet){
-  if(!t||t.st!=='Awaiting')return false;
-  t.st='Paid';t.d=todayISO();
-  t.feePct=+e.pay.feePct||0;t.fee=round2(t.total*t.feePct/100);
-  const r=payBookingOf(e,t.ref);
-  if(r&&r.pay!=='Free')r.pay='Paid';
-  if(!quiet){payRefreshAll();toast(tr('t_payrecv')+': '+t.name+' · '+chf2(t.total));}
-  return true;
-}
-function payMarkReceivedId(id){const e=appEv();payMarkReceived(e,payTxById(e,id));}
-function payLink(id){const e=appEv(),t=payTxById(e,id);toast(tr('t_paylink')+': '+t.name);}
-function payRecordManual(e,r,quiet){
-  const t=payMakeTxn(e,r,{m:'manual',st:'Paid'});
-  e.txns.unshift(t);
-  r.pay='Paid';
-  if(!quiet){payRefreshAll();toast(tr('t_paymanual')+': '+t.inv);}
-  return t;
-}
-function payRefundOpen(id){
-  const e=appEv(),t=payTxById(e,id);
-  if(!t)return;
-  payRfTx=id;
-  const max=payRemaining(t);
-  openGen(tr('pay_rf_t'),
-    `<p class="muted" style="margin-top:0;font-size:13px">${tr('pay_rf_h')}</p>`+
-    `<div class="rec" style="margin-bottom:18px">`+
-      `<div class="recrow"><span class="rl">${esc(t.name)}</span><span class="rv">${esc(t.ref)}</span></div>`+
-      `<div class="recrow"><span class="rl">${tr('pay_c_gross')}</span><span class="rv">${chf2(t.total)}</span></div>`+
-      `<div class="recrow"><span class="rl">${tr('pay_rf_max')}</span><span class="rv">${chf2(max)}</span></div>`+
-    `</div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('pay_rf_amt')}</label>`+
-      `<input id="rfAmt" type="number" min="0" step="0.05" max="${max}" value="${amt2(max)}"></div>`+
-     `<div class="mrow"><label>${tr('pay_rf_reason')}</label><select id="rfWhy">`+
-       RF_REASONS.map(k=>`<option value="${k}">${tr(k)}</option>`).join('')+`</select></div></div>`+
-    `<div class="mrow"><label>${tr('pay_rf_note')}</label><input id="rfNote" placeholder="${tr('pay_rf_note_ph')}"></div>`+
-    `<button class="btn block" onclick="payRefundSave()">${tr('pay_rf_save')}</button>`);
-}
-function payRefundSave(){
-  const e=appEv(),t=payTxById(e,payRfTx);
-  if(!t){closeModal();return;}
-  const amt=round2(+v('rfAmt')||0);
-  if(amt<=0||amt>payRemaining(t)+0.001){toast(tr('pay_rf_bad'));return;}
-  const rec=payAddRefund(e,t,amt,v('rfWhy'),v('rfNote').trim());
-  closeModal();payRefreshAll();
-  toast(tr('t_payref')+' '+rec.cn+' · '+chf2(rec.amt));
-}
-/* A cancelled booking that was paid gets its money back through the same ledger
-   route, so a credit note always exists behind a refunded booking. */
-function payRefundForCancel(e,r){
-  const t=payTxnFor(e,r.ref);
-  if(!t)return null;
-  if(t.st==='Awaiting'){t.st='Failed';t.reason=tr('rf_r1');t.fee=0;t.feePct=0;return null;}
-  if(payRemaining(t)<=0)return null;
-  return payAddRefund(e,t,payRemaining(t),'rf_r1');
-}
-function payInvoice(id){
-  const e=appEv(),t=payTxById(e,id);
-  if(!t)return;
-  txtDownload(t.inv+'.txt',payInvoiceText(e,t));
-  toast(tr('t_payinv')+': '+t.inv);
-}
-/* A plain-text invoice, built from the same Blob route as the CSV exports. */
-function payInvoiceText(e,t){
-  const r=payBookingOf(e,t.ref),seats=r?regSeats(r):1;
-  const L=[];
-  const line=(k,val)=>L.push(String(k).padEnd(30,' ')+val);
-  L.push('SVEF - Swiss-Viet Economic Forum');
-  L.push(tr('pay_inv_t').toUpperCase()+'  '+t.inv);
-  L.push('');
-  line(tr('c_event'),e.t);
-  line(tr('rg_c_ref'),t.ref);
-  line(tr('c_date'),fmtD(t.d));
-  L.push('');
-  L.push(tr('pay_bill').toUpperCase());
-  line(tr('c_name'),t.bill.n||'');
-  if(t.bill.co)line(tr('c_company'),t.bill.co);
-  if(t.bill.vatNo)line(tr('pay_bill_vat'),t.bill.vatNo);
-  if(t.bill.addr)line(tr('pay_bill_addr'),t.bill.addr);
-  if(t.bill.country)line(tr('pay_bill_country'),t.bill.country);
-  L.push('');
-  L.push(tr('pay_inv_items').toUpperCase());
-  line(tierName(e,r?r.tier:'')+' x '+seats,amt2(t.gross)+' CHF');
-  if(t.disc)line(tr('rg_code')+' '+(t.code||''),'-'+amt2(t.disc)+' CHF');
-  line(tr('pay_c_vat')+' '+t.vatPct+' %',amt2(t.vat)+' CHF');
-  line(tr('pay_inv_total'),amt2(t.total)+' CHF');
-  (t.refunds||[]).forEach(function(x){
-    line(tr('pay_c_cn')+' '+x.cn,'-'+amt2(x.amt)+' CHF');
-  });
-  L.push('');
-  line(tr('pay_c_method'),payMethodLabel(t.m)+(t.last4?' ···· '+t.last4:''));
-  line(tr('pay_c_gw'),t.gw);
-  line(tr('c_status'),txLabel(t.st));
-  L.push('');
-  L.push(tr('pay_inv_demo'));
-  return L.join('\r\n');
-}
-function txtDownload(name,text){
-  const b=new Blob(['﻿'+text],{type:'text/plain;charset=utf-8'});
-  const u=URL.createObjectURL(b),a=document.createElement('a');
-  a.href=u;a.download=name;document.body.appendChild(a);a.click();
-  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u);},400);
-}
-
-/* ---- payment settings, per event ---- */
-function paySetHtml(e){
-  const g=e.pay;
-  return `<div class="panel">`+appHead('pay_h_set')+`<div class="pbody">`+
-    `<div class="g2"><div class="mrow"><label>${tr('pay_s_vat')}</label>`+
-      `<input id="psVat" type="number" min="0" max="30" step="0.1" value="${+g.vat||0}">`+
-      `<div class="hint">${tr('pay_s_vat_h')}</div></div>`+
-     `<div class="mrow"><label>${tr('pay_s_fee')}</label>`+
-      `<input id="psFee" type="number" min="0" max="15" step="0.1" value="${+g.feePct||0}">`+
-      `<div class="hint">${tr('pay_s_fee_h')}</div></div></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('pay_s_inv')}</label>`+
-      `<input id="psPrefix" value="${esc(g.invPrefix||'')}"></div>`+
-     `<div class="mrow"><label>${tr('pay_s_invn')}</label>`+
-      `<input id="psNext" type="number" min="1" value="${+g.invNext||1}"></div></div>`+
-    `<div class="mrow"><label>${tr('pay_s_m')}</label>`+
-      PAY_METHODS.map(m=>`<label class="ndacheck" style="background:#fff;border-color:var(--line)">`+
-        `<input type="checkbox" id="psM_${m[0]}" ${g.methods[m[0]]?'checked':''}>`+
-        `<div><b>${tr(m[1])}</b><div class="hint" style="margin-top:4px">${tr(m[1]+'_h')}</div></div></label>`).join('')+
-      `<div class="hint">${tr('pay_s_m_h')}</div></div>`+
-    `<div class="export-note" style="margin-bottom:18px">${tr('pay_s_note')}</div>`+
-    `<button class="btn" onclick="paySetSave()">${tr('pay_s_save')}</button>`+
-  `</div></div>`;
-}
-function paySetSave(){
-  const e=appEv(),g=e.pay;
-  const m={};let any=false;
-  PAY_METHODS.forEach(function(x){
-    m[x[0]]=document.getElementById('psM_'+x[0]).checked;
-    if(m[x[0]])any=true;
-  });
-  if(!any){toast(tr('pay_s_need'));return;}
-  g.vat=Math.max(0,+v('psVat')||0);
-  g.feePct=Math.max(0,+v('psFee')||0);
-  g.invPrefix=v('psPrefix').trim()||g.invPrefix;
-  g.invNext=Math.max(1,+v('psNext')||1);
-  g.methods=m;
-  payRefreshAll();toast(tr('t_payset'));
-}
-
-/* ==================== 5. CHECK-IN (organiser side of the e-ticket) ==================== */
+/* ==================== 3. CHECK-IN (organiser side of the pass) ==================== */
 function ciAttendees(e){
   const out=[];
   (e.registrants||[]).forEach(function(r,i){
@@ -2847,7 +2035,7 @@ function ciListHtml(e){
   return list.map(function(x){
     return `<div class="cirow"><div class="cn">${esc(x.o.n)}`+
       (x.r.kind==='group'?` <span class="chip navy">${tr('rg_group')}</span>`:'')+
-      `<div class="hint" style="margin-top:3px">${esc(x.r.co||'')}${x.r.co?' · ':''}${esc(tierName(e,x.r.tier))}</div></div>`+
+      `<div class="hint" style="margin-top:3px">${esc(x.r.co||'')}${x.r.co?' · ':''}${esc(x.r.ref)}</div></div>`+
       `<span class="cm">${esc(x.o.qr||'')}</span>`+
       `<span>${x.o.ci?(x.o.out?`<span class="chip">${tr('rg_ci_out')}</span>`:`<span class="chip green">${tr('rg_ci_yes')}${x.o.ciAt?' '+esc(x.o.ciAt):''}</span>`):`<span class="chip">${tr('rg_ci_no')}</span>`}</span>`+
       `<button class="btn ${x.o.ci&&!x.o.out?'line':'green'} sm" onclick="ciToggle(${x.i},${x.a})">`+
@@ -2927,52 +2115,38 @@ function ciUndoLast(){
   if(regTab==='ci')ciRefresh();else regRefresh();
 }
 
-/* ==================== 6. REGISTRATION AND PAYMENT SETTINGS ==================== */
+/* ==================== 4. REGISTRATION SETTINGS ==================== */
 function regSetHtml(e){
   const g=e.reg;
   const chk=(id,on,label,hint)=>`<label class="ndacheck" style="background:#fff;border-color:var(--line)">`+
     `<input type="checkbox" id="${id}" ${on?'checked':''}><div><b>${label}</b>`+
     (hint?`<div class="hint" style="margin-top:4px">${hint}</div>`:'')+`</div></label>`;
   return `<div class="panel">`+appHead('rg_set_h')+`<div class="pbody">`+
-    `<div class="g2"><div class="mrow"><label>${tr('rg_set_paid')}</label><select id="sgPaid">`+
-      `<option value="paid" ${g.paid?'selected':''}>${tr('rg_paid')}</option>`+
-      `<option value="free" ${g.paid?'':'selected'}>${tr('rg_free')}</option></select></div>`+
-     `<div class="mrow"><label>${tr('rg_cap')}</label><input id="sgCap" type="number" min="0" value="${+g.cap||0}">`+
-       `<div class="hint">${tr('rg_cap_h')}</div></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_cap')}</label><input id="sgCap" type="number" min="0" value="${+g.cap||0}">`+
+       `<div class="hint">${tr('rg_cap_h')}</div></div>`+
+     `<div class="mrow"><label>${tr('rg_maxg')}</label>`+
+      `<input id="sgMaxG" type="number" min="1" max="50" value="${+g.maxGroup||1}">`+
+      `<div class="hint">${tr('rg_maxg_h')}</div></div></div>`+
     `<div class="g2"><div class="mrow"><label>${tr('rg_open_d')}</label><input id="sgOpen" type="date" value="${esc(g.open||'')}"></div>`+
      `<div class="mrow"><label>${tr('rg_close_d')}</label><input id="sgClose" type="date" value="${esc(g.close||'')}"></div></div>`+
     `<div class="mrow"><label>${tr('rg_types')}</label>`+
       chk('sgPers',g.personal,tr('rg_type_p'),'')+
       chk('sgGrp',g.group,tr('rg_type_g'),'')+
     `</div>`+
-    `<div class="mrow" style="max-width:280px"><label>${tr('rg_maxg')}</label>`+
-      `<input id="sgMaxG" type="number" min="1" max="50" value="${+g.maxGroup||1}"></div>`+
     chk('sgAppr',g.approval,tr('rg_appr_t'),tr('rg_appr_h'))+
     chk('sgWait',g.waitlist,tr('rg_wait_t'),tr('rg_wait_h'))+
     `<div class="export-note" style="margin-bottom:18px">${tr('rg_set_note')}</div>`+
     `<button class="btn" onclick="regSetSave()">${tr('rg_set_save')}</button>`+
-  `</div></div>`+
-  (e.reg.paid?paySetHtml(e):'');
+  `</div></div>`;
 }
 function regSetSave(){
   const e=appEv(),g=e.reg;
   const pers=document.getElementById('sgPers').checked,grp=document.getElementById('sgGrp').checked;
   if(!pers&&!grp){toast(tr('rg_need_type'));return;}
-  const wasPaid=g.paid;
-  g.paid=v('sgPaid')==='paid';
   g.cap=+v('sgCap')||0;g.open=v('sgOpen');g.close=v('sgClose');
   g.personal=pers;g.group=grp;g.maxGroup=Math.max(1,+v('sgMaxG')||1);
   g.approval=document.getElementById('sgAppr').checked;
   g.waitlist=document.getElementById('sgWait').checked;
-  /* The payment column has to follow the model: a free event has nothing to
-     collect, and a paid event cannot leave bookings marked free. */
-  if(wasPaid!==g.paid){
-    e.registrants.forEach(function(r){
-      if(r.st==='Cancelled')return;
-      if(!g.paid)r.pay='Free';
-      else if(r.pay==='Free')r.pay='Unpaid';
-    });
-  }
   renderApp();toast(tr('t_regset'));
 }
 
@@ -2988,13 +2162,11 @@ function csvDownload(name,text){
   setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u);},400);
 }
 const REG_CSV_HEAD=['Event','Booking reference','Name','Email','Company','Job title','Registration type',
-  'Attendees','Ticket tier','Discount code','Registered on','Registration status','Payment status',
-  'Amount (CHF)','Ticket code','Check-in'];
+  'Attendees','Registered on','Registration status','Pass code','Check-in'];
 function regCsvRow(e,r){
   const list=attList(r),done=list.filter(x=>x.o.ci).length;
   return [e.t,r.ref,r.n,r.em,r.co||'',r.job||'',r.kind==='group'?'Group':'Personal',
-    regSeats(r),tierName(e,r.tier),r.code||'',r.d,r.st,r.pay,regPrice(e,r),
-    list.map(x=>x.o.qr||'').join(' '),done+' / '+list.length];
+    regSeats(r),r.d,r.st,list.map(x=>x.o.qr||'').join(' '),done+' / '+list.length];
 }
 function slug(s){return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);}
 /* scope: 'event' the open event, 'selected' the ticked rows, 'all' every SVEF event */
@@ -3012,39 +2184,14 @@ function regExport(scope){
   csvDownload(name,csvText(REG_CSV_HEAD,rows));
   toast('⬇ '+name+' · '+rows.length+' '+(rows.length===1?'row':'rows'));
 }
-/* Payments export. Carries what accounting needs to reconcile and nothing else:
-   no card numbers, no security codes, no credentials. */
-const PAY_CSV_HEAD=['Event','Invoice number','Date','Booking reference','Registrant','Billing name',
-  'VAT / UID number','Method','Card brand','Card last four','Gateway reference','Discount code',
-  'Gross (CHF)','Discount (CHF)','VAT rate (%)','VAT (CHF)','Total charged (CHF)','Provider fee (CHF)',
-  'Refunded (CHF)','Net (CHF)','Status','Credit notes'];
-function payCsvRow(e,t){
-  return [e.t,t.inv||'',t.d,t.ref,t.name,t.bill.n||'',t.bill.vatNo||'',payMethodLabel(t.m),
-    t.brand||'',t.last4||'',t.gw,t.code||'',amt2(t.gross),amt2(t.disc),t.vatPct,amt2(t.vat),
-    amt2(t.total),amt2(t.fee),amt2(payRefunded(t)),amt2(payNet(t)),txLabel(t.st),
-    (t.refunds||[]).map(x=>x.cn+' '+amt2(x.amt)).join(' ')];
-}
-function payExport(scope){
-  const rows=[];let name='payments.csv';
-  if(scope==='all'){
-    appEvents.forEach(function(e){regEnsure(e);payTxns(e).forEach(t=>rows.push(payCsvRow(e,t)));});
-    name='svef-payments-all-events.csv';
-  } else {
-    const e=appEv();if(!e)return;
-    payTxns(e).forEach(t=>rows.push(payCsvRow(e,t)));
-    name='payments-'+slug(e.t)+'.csv';
-  }
-  csvDownload(name,csvText(PAY_CSV_HEAD,rows));
-  toast('⬇ '+name+' · '+rows.length+' '+(rows.length===1?'row':'rows'));
-}
 function ciExport(){
-  const head=['Event','Booking reference','Attendee','Company','Ticket tier','Ticket code','Checked in at','On site'];
+  const head=['Event','Booking reference','Attendee','Company','Pass code','Checked in at','On site'];
   const rows=[];
   appEvents.forEach(function(e){
     regEnsure(e);
     ciAttendees(e).forEach(function(x){
       if(!x.o.ci)return;
-      rows.push([e.t,x.r.ref,x.o.n,x.r.co||'',tierName(e,x.r.tier),x.o.qr||'',x.o.ciAt||'',x.o.out?'No':'Yes']);
+      rows.push([e.t,x.r.ref,x.o.n,x.r.co||'',x.o.qr||'',x.o.ciAt||'',x.o.out?'No':'Yes']);
     });
   });
   csvDownload('svef-check-in-log.csv',csvText(head,rows));
@@ -3053,13 +2200,12 @@ function ciExport(){
 
 /* ==================== ROLL-UP INTO DASHBOARD AND REPORTS ==================== */
 function regTotals(){
-  const t={seats:0,conf:0,pend:0,wait:0,ci:0,rev:0,exp:0,txns:0,await:0,out:0};
+  const t={seats:0,conf:0,pend:0,wait:0,canc:0,ci:0,att:0};
   appEvents.forEach(function(e){
     regEnsure(e);
-    const s=regStats(e),p=payStats(e);
-    t.seats+=s.seats;t.conf+=s.conf;t.pend+=s.pend;t.wait+=s.wait;t.ci+=s.ci;
-    t.rev=round2(t.rev+s.rev);t.exp=round2(t.exp+s.exp);
-    t.txns+=payTxns(e).length;t.await=round2(t.await+p.awaiting);t.out=round2(t.out+p.outstanding);
+    const s=regStats(e);
+    t.seats+=s.seats;t.conf+=s.conf;t.pend+=s.pend;t.wait+=s.wait;t.canc+=s.canc;
+    t.ci+=s.ci;t.att+=s.att;
   });
   return t;
 }
@@ -3072,10 +2218,9 @@ function regSummaryRow(e,i,withCi){
     `<td><div class="chiprow" style="padding-top:0">${rsChip('Confirmed')} ${s.conf}`+
       (s.pend?` ${rsChip('Pending')} ${s.pend}`:'')+
       (s.wait?` ${rsChip('Waitlisted')} ${s.wait}`:'')+`</div></td>`+
-    (withCi?`<td>${s.ci} / ${s.att}</td>`:'')+
-    `<td>${e.reg.paid?chf2(s.rev):tr('rg_free_ev')}</td>`+
-    (withCi?`<td>${e.reg.paid?chf2(payStats(e).outstanding+payStats(e).awaiting):'-'}</td>`:'')+
-    (withCi?'':`<td><button class="btn ghost sm" onclick="openRegAt(${i})">${tr('b_openreg')}</button></td>`)+
+    (withCi
+      ? `<td>${s.ci} / ${s.att}</td>`
+      : `<td><button class="btn ghost sm" onclick="openRegAt(${i})">${tr('b_openreg')}</button></td>`)+
   `</tr>`;
 }
 function renderRegSummaries(){
@@ -3083,10 +2228,10 @@ function renderRegSummaries(){
   const t=regTotals();
   const dash=document.getElementById('dashRegTable');
   if(dash)dash.innerHTML=appEvents.map((e,i)=>regSummaryRow(e,i,false)).join('')
-    ||`<tr><td colspan="5" class="muted">${tr('ap_empty')}</td></tr>`;
+    ||`<tr><td colspan="4" class="muted">${tr('ap_empty')}</td></tr>`;
   const rep=document.getElementById('repRegTable');
   if(rep)rep.innerHTML=appEvents.map((e,i)=>regSummaryRow(e,i,true)).join('')
-    ||`<tr><td colspan="6" class="muted">${tr('ap_empty')}</td></tr>`;
+    ||`<tr><td colspan="4" class="muted">${tr('ap_empty')}</td></tr>`;
   const evN=document.getElementById('stEvN');if(evN)evN.textContent=pubEvents.length;
   const evS=document.getElementById('stEvSub');
   if(evS){
@@ -3095,10 +2240,9 @@ function renderRegSummaries(){
   }
   const rgN=document.getElementById('stRegN');if(rgN)rgN.textContent=numG(t.seats,',');
   const rgS=document.getElementById('stRegSub');
-  if(rgS)rgS.textContent=t.conf+' confirmed · '+chf2(t.rev)+' collected';
+  if(rgS)rgS.textContent=t.conf+' confirmed · '+t.pend+' pending';
   const rm=document.getElementById('repRegMeta');if(rm)rm.textContent=t.seats+' · CSV';
   const cm=document.getElementById('repCiMeta');if(cm)cm.textContent=t.ci+' · CSV';
-  const pm=document.getElementById('repPayMeta');if(pm)pm.textContent=t.txns+' · CSV';
 }
 /* Jump straight from a dashboard or report row into that event's registrations. */
 function openRegAt(i){

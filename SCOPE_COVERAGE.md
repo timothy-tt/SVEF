@@ -24,14 +24,14 @@ decision. This table now records where things actually stand.
 |---|---|---|---|
 | Personal registration | Wizard, step 1 | Registration sheet | Built |
 | Group registration | Add and remove attendee rows, one booking, many passes | Same | Built |
-| Ticket booking, free events | Free pass confirmation | Free pass confirmation | Built |
-| Ticket booking, paid events | Tiers with CHF and VND, early bird with cut-off, sold-out tier, quantity | Same | Built |
-| Payment | Card, TWINT, Vietnam domestic gateway, invoice and bank transfer, with billing details and a VAT line | Same, phone shaped, with gateway redirect and return screens | Built, simulated |
-| Registration confirmation and tickets | Booking reference, per-attendee ticket codes, add to calendar (.ics), confirmation-email note | Booking reference, one pass per attendee | Built |
+| Registration, all events | Confirmation with booking reference and pass | Same | Built |
+| Ticket booking, paid events | Removed from scope, all events are free | Removed | Removed |
+| Payment | Removed from scope | Removed | Removed |
+| Registration confirmation and passes | Booking reference, per-attendee pass codes, add to calendar (.ics), confirmation-email note | Booking reference, one pass per attendee | Built |
 | View registration | Member portal, My registrations | Registered tab and booking sheet | Built |
 | Modify registration | Change tier, edit attendee details | Same | Built |
 | Cancel registration | Confirm step, seats released | Confirm step, mock refund status | Built |
-| Discount and early-bird codes | Promo field validated against a mock code table, live totals | Tier-level early bird | Built |
+| Discount and early-bird codes | Removed from scope | Removed | Removed |
 | Waitlist when full | Join the waitlist, position shown | Same | Built |
 | Registration window | Not yet open, open, closed states | Same | Built |
 | Approval workflow | Registering yields Pending approval | Same | Built |
@@ -46,18 +46,18 @@ carries app content and a registration panel.
 |---|---|---|
 | Create and configure events, free or paid | Built | Settings sub-tab |
 | Registration types, personal and group, max group size | Built | Settings |
-| Pricing tiers | Built | Tickets & codes |
+| Pricing tiers | Removed from scope | |
 | Registration capacity limits | Built | Settings, enforced on confirm and promote |
-| Early-bird and discount codes | Built | Tickets & codes |
+| Early-bird and discount codes | Removed from scope | |
 | Approval workflows | Built | Settings toggle, approve and reject row actions |
 | Attendee registration dashboard | Built | Overview sub-tab |
 | Export data and reports | Built | CSV export, extended columns, no passwords or sensitive fields |
 | Send confirmation emails | Simulated | Resend action and bulk email, toast only |
 | Manage waitlists | Built | Waitlisted status, promote respects capacity |
-| Track payment status | Built | Paid, unpaid, refunded, free |
-| Process refunds | Built, simulated | Full or partial with a reason, credit note number, reflected everywhere |
-| Payment reconciliation | Built, simulated | Payments sub-tab: ledger, expected against collected against outstanding against refunded, difference explained, mark bank transfer received |
-| QR check-in | Built | Check-in sub-tab, mock scan plus ticket-code entry, per-attendee, undo |
+| Track payment status | Removed from scope | |
+| Process refunds | Removed from scope | |
+| Payment reconciliation | Removed from scope | |
+| QR check-in | Built | Check-in sub-tab, mock scan plus pass-code entry, per-attendee, undo |
 
 ## Open decisions for SVEF
 
@@ -142,6 +142,40 @@ enquiry from someone who wants to join. The Become a Partner page ends at the
 secretariat's contact details, and whatever arrives by email or phone is keyed into
 the back office by hand. There is also no record in the system of applications that
 were declined, since they never enter it.
+
+## Scope removed on 19/08/2026: payment and ticketing
+
+"Cut payment out, all events are free at this moment", and on ticketing, "no ticketing
+anymore, just full conference registration."
+
+Money has left the product entirely. Removed from all three prototypes: every price
+and currency, ticket tiers including early bird, discount and promo codes, all four
+payment methods with their screens, billing details, VAT, invoices and credit notes,
+refunds, the payments ledger and reconciliation, payment status, and revenue wherever
+it was reported. There are no tiers, no named pass types and no access levels: one
+registration admits you to the whole event.
+
+What stays is the whole of registration: personal and group, capacity, seats
+remaining, sold out, the waitlist and its position, the registration window, organiser
+approval, modify and cancel, the pass and its QR, back-office check-in, and the
+registrant table with its filters and exports. The admission artefact is called a
+**pass** throughout, not a ticket, since nothing is bought.
+
+This drops the commercial half of the BRD's event module:
+
+| BRD | Requirement | Status |
+|---|---|---|
+| 8.1 | Ticket booking and payment, paid and free events | Removed, registration only |
+| 8.2 | Pricing tiers and payment options | Removed |
+| 8.2 | Early-bird and discount codes | Removed |
+| 8.2 | Track payment status and reconciliation | Removed |
+| 8.2 | Process refunds | Removed |
+| 8.4 | Domestic Vietnam payment gateway | Removed, was already ranked low priority |
+
+Note the wording "at this moment". Payment is expected to be revisited. It was removed
+cleanly rather than disabled, with no dormant flags or commented-out code, so the
+reference implementation lives in git history at commit 4e703cb and the two commits
+around it, which is where to look if it returns.
 
 ## Still outstanding elsewhere in the BRD
 
