@@ -511,6 +511,13 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .attcard .ab span{display:block;font-size:11px;color:var(--muted);margin-top:3px;line-height:1.35}
 .attcard .af{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);display:flex;gap:5px;flex-wrap:wrap}
 .attcard.on .af{border-top-color:rgba(228,32,38,.3)}
+.livebar{display:inline-flex;align-items:center;gap:2px;margin:0 0 10px;font-family:var(--mono);
+  text-transform:uppercase;letter-spacing:.12em;font-size:9.5px;color:#fff;
+  border:1px solid rgba(255,255,255,.5);padding:4px 9px}
+.homeback{display:block;margin-top:12px;background:none;border:none;padding:0;cursor:pointer;
+  font-family:var(--mono);text-transform:uppercase;letter-spacing:.11em;font-size:9.5px;
+  color:rgba(255,255,255,.8)}
+.homeback:hover{color:#fff}
 .livedot{display:inline-block;width:6px;height:6px;background:var(--red);margin-right:5px;
   animation:pulse 1.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
@@ -637,6 +644,10 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <!-- HOME -->
     <section class="screen" data-screen="home">
       <div class="hero" id="homeHero"></div>
+      <!-- shown when no event is open: what is coming up next -->
+      <div id="homeList"></div>
+      <!-- shown when an event is open: everything scoped to that event -->
+      <div id="homeEvent">
       <div id="homeAttending"></div>
       <div class="qa" id="homeQA"></div>
       <div id="homeRecap"></div>
@@ -649,6 +660,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 
       <h2 class="sec"><span data-i18n="headline_spon">Nhà tài trợ chính</span> <a onclick="go('explore');switchTab('sponsors')" data-i18n="all">Tất cả</a></h2>
       <div class="hscroll" id="sponStrip"></div>
+      </div><!-- /homeEvent -->
 
     </section>
 
@@ -931,7 +943,10 @@ const T={
   time_l:"Thời gian", loc_l:"Địa điểm", speaker_l:"Diễn giả",
   add_sched:"➕ Lưu vào chương trình của tôi", added_sched:"✓ Đã lưu vào chương trình của tôi",
   nav_home:"Trang chủ", nav_explore:"Khám phá", nav_schedule:"Chương trình", nav_network:"Kết nối", nav_people:"Mọi người", nav_profile:"Hồ sơ",
-  sc_tab_all:"Toàn bộ", sc_tab_mine:"Của tôi", sess_unit_n:"phiên", pp_tab_dir:"Danh bạ", pp_tab_match:"Gợi ý", pp_tab_conns:"Kết nối",
+  sc_tab_all:"Toàn bộ", sc_tab_mine:"Của tôi", sess_unit_n:"phiên",
+  h_close_ev:"‹ Về trang chủ", h_next_yours:"Bạn đã đăng ký", h_next_open:"Đang mở đăng ký",
+  h_open:"Mở", h_open_events:"Sự kiện đang mở đăng ký", h_all_events:"Xem tất cả sự kiện",
+  ev_live_now:"Đang diễn ra", pp_tab_dir:"Danh bạ", pp_tab_match:"Gợi ý", pp_tab_conns:"Kết nối",
   pp_sessions:"Phiên trình bày", spk_none:"Chưa công bố diễn giả cho phiên này.", agenda_all_h:"Toàn bộ chương trình", ex_map:"Sơ đồ địa điểm",
   ev_kicker:"Diễn đàn Kinh tế Thụy Sĩ - Việt Nam", ev_title:"SVEF Events", ev_sub:"Tất cả sự kiện SVEF trong một ứng dụng.",
   ev_tab_up:"Sắp diễn ra", ev_tab_past:"Đã qua", ev_tab_reg:"Đã đăng ký",
@@ -1108,7 +1123,10 @@ const T={
   time_l:"Time", loc_l:"Location", speaker_l:"Speaker",
   add_sched:"➕ Save to my agenda", added_sched:"✓ Saved to my agenda",
   nav_home:"Home", nav_explore:"Explore", nav_schedule:"Agenda", nav_network:"Connect", nav_people:"People", nav_profile:"Profile",
-  sc_tab_all:"All", sc_tab_mine:"Mine", sess_unit_n:"sessions", pp_tab_dir:"Directory", pp_tab_match:"Suggested", pp_tab_conns:"Connections",
+  sc_tab_all:"All", sc_tab_mine:"Mine", sess_unit_n:"sessions",
+  h_close_ev:"‹ Back to home", h_next_yours:"You are registered", h_next_open:"Registration open",
+  h_open:"Open", h_open_events:"Open for registration", h_all_events:"See all events",
+  ev_live_now:"Happening now", pp_tab_dir:"Directory", pp_tab_match:"Suggested", pp_tab_conns:"Connections",
   pp_sessions:"Speaking at", spk_none:"No speaker announced for this session yet.", agenda_all_h:"Full programme", ex_map:"Venue map",
   ev_kicker:"Swiss - Vietnam Economic Forum", ev_title:"SVEF Events", ev_sub:"Every SVEF event in one app.",
   ev_tab_up:"Upcoming", ev_tab_past:"Past", ev_tab_reg:"Registered",
@@ -1757,9 +1775,17 @@ function signInApp(method){
    chooser is a switcher, not the front door. */
 function enterApp(){
   const mine=myEvents();
-  const target=mine.find(e=>e.live)||mine.find(e=>e.status!=='past')||mine[0];
-  if(target){openEvent(target.id);return;}
-  inEvent=false;navStack=['events'];renderEvents();go('events',true);
+  /* An event you hold a booking for and that is running today opens straight
+     away, because during those three days it is the only thing you want. Any
+     other time Home shows what is coming up and you choose. */
+  const live=mine.find(e=>e.live)||events.find(e=>e.live&&bookingFor(e.id));
+  const focus=live||null;
+  curEv=focus||mine.find(e=>e.status!=='past')||events.find(e=>e.status!=='past')||curEv;
+  curDay=curEv.days[0].n;
+  loadEventData();
+  inEvent=!!focus;
+  navStack=['home'];
+  renderAll();go('home',true);
 }
 function signOutApp(){
   closeSheet();
@@ -1780,24 +1806,23 @@ const outScreens=["events"];
 const noNavScreens=["chat"];
 /* Every screen is owned by exactly one tab, so drilling into a session or a
    person never leaves the tab bar with nothing lit. */
-const navOwner={home:"home",schedule:"schedule",participants:"participants",
+const navOwner={home:"home",events:"home",schedule:"schedule",participants:"participants",
   explore:"explore",profile:"profile",session:"schedule",person:"participants",
   messages:"participants",chat:"participants",map:"explore",
   notifications:"home",eventinfo:"home"};
-/* True once an event has been opened: it is what puts the app shell on screen.
-   The chooser is a switcher you step out to, not the app's front door. */
+/* Whether an event is currently open. This changes what Home shows; it never
+   changes whether the app shell is on screen. The tab bar is always there. */
 let inEvent=false;
 let current="events", navStack=["events"], curSession=0;
 function setAppbarTitle(s){
   const ab=byId('appbar'), back=byId('backBtn'), t=byId('abTitle'), ev=byId('evSwitchBtn');
-  /* Switcher, messages and notifications are all event-scoped, so they only exist
-     inside the shell. Leaving the bell out of this is what used to summon the tab
-     bar on top of the chooser. */
-  const shell=inEvent&&s!=='events';
-  ev.style.display=shell?'grid':'none';
-  const mb=byId('msgBtn');if(mb)mb.style.display=shell?'grid':'none';
-  const nb=byId('notifBtn');if(nb)nb.style.display=shell?'grid':'none';
-  if(s==='events'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tr('ab_events')+'</small>';back.style.display='none';}
+  /* An event is always selected, so messages and notifications always have a
+     subject. Only the "all events" shortcut is pointless, on the all-events list. */
+  const onList=(s==='events');
+  ev.style.display=onList?'none':'grid';
+  const mb=byId('msgBtn');if(mb)mb.style.display=onList?'grid':'grid';
+  const nb=byId('notifBtn');if(nb)nb.style.display='grid';
+  if(s==='events'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tr('ab_events')+'</small>';back.style.display='grid';}
   else if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tx(curEv.short)+'</small>';back.style.display='none';}
   else{
     ab.classList.remove('brand');
@@ -1811,9 +1836,10 @@ function setAppbarTitle(s){
 function go(s,isBack){
   document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('active',e.dataset.screen===s));
   const c=byId('content');c.scrollTop=0;
-  /* The tab bar is the app shell. It is present for the whole of an event and
-     absent outside one, so it can never appear or vanish mid-task. */
-  const hideNav=!inEvent||outScreens.includes(s)||noNavScreens.includes(s);
+  /* The tab bar is the app. Once you are signed in it is always on screen, so it
+     can never appear or vanish as a side effect of where you navigated. Only a
+     full-viewport screen like a chat thread takes it over. */
+  const hideNav=noNavScreens.includes(s);
   byId('nav').style.display=hideNav?'none':'flex';
   c.classList.toggle('nonav',hideNav);
   c.classList.toggle('chatmode',s==='chat');
@@ -1822,10 +1848,14 @@ function go(s,isBack){
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===owner));
   setAppbarTitle(s);
 }
-function goBack(){navStack.pop();const prev=navStack[navStack.length-1]||(inEvent?'home':'events');go(prev,true);}
-/* Stepping out to the chooser ends the event session, so the stack starts over
-   rather than carrying screens from the event you just left. */
-function exitEvent(){inEvent=false;navStack=['events'];go('events',true);}
+function goBack(){navStack.pop();const prev=navStack[navStack.length-1]||'home';go(prev,true);}
+/* "All events" is a push from Home, not a mode change: the tab bar stays, Home
+   stays the root, and closing the event returns you to Home showing what is next. */
+function openAllEvents(){renderEvents();go('events');}
+function exitEvent(){
+  inEvent=false;navStack=['home'];
+  renderHome();renderAttending();go('home',true);
+}
 
 /* ===================== EVENTS LIST ===================== */
 let evTab='upcoming';
@@ -1959,6 +1989,17 @@ function renderEventInfo(){
 function qaBtn(name,k,fn){return `<button onclick="${fn}"><span class="ico">${ic(name,24)}</span><span>${tr(k)}</span></button>`}
 function renderHome(){
   if(!byId('homeHero'))return;
+  const blocks=byId('homeEvent'), list=byId('homeList');
+  /* Home has two faces and one job: tell you what to do next. During an event it
+     is that event. Outside one it is what is coming up. It is never an empty
+     shell waiting for you to pick something from somewhere else. */
+  if(!inEvent){
+    blocks.style.display='none';list.style.display='';
+    renderHomeList();
+    return;
+  }
+  blocks.style.display='';list.style.display='none';
+
   const e=curEv,past=isPast(),hb=bookingFor(e.id);
   // the hero chip tells the attendee where they stand on this event, not a fixed label
   let hcls='green',hlbl=tr('bs_confirmed');
@@ -1967,11 +2008,13 @@ function renderHome(){
   else if(hb.state!=='confirmed'){hcls='gold';hlbl=tr('bs_'+hb.state);}
   byId('homeHero').innerHTML=
     `<div class="hi">${greeting()}</div><div class="nm">${esc(me.n)}</div>
+     ${e.live?`<div class="livebar"><span class="livedot"></span>${tr('ev_live_now')}</div>`:''}
      <div class="ev"><div class="d">${e.dnum}<small>${tx(e.dmon)}</small></div>
        <div style="flex:1"><b style="font-size:13px">${tx(e.short)}</b>
          <div style="font-size:11px;opacity:.85">${tx(e.venue)}</div></div>
        <span class="chip ${hcls}" ${hcls?'':'style="border-color:rgba(255,255,255,.45);color:#fff"'}>${hlbl}</span>
-     </div>`;
+     </div>
+     <button class="homeback" onclick="exitEvent()">${tr('h_close_ev')}</button>`;
   byId('homeQA').innerHTML = past
     ? qaBtn('clipboard','qa_agenda','openAgendaAll()')+qaBtn('chat','qa_messages',"openMessages()")
       +qaBtn('calendar','qa_meetings','openMeetings()')+qaBtn('people','qa_people',"go('participants')")
@@ -1984,6 +2027,36 @@ function renderHome(){
          <div style="padding:15px"><b style="font-size:15px;letter-spacing:-.03em">${tr('past_recap_t')}</b>
            <p class="muted" style="margin:8px 0 0;font-size:12.5px;line-height:1.55">${tr('past_recap_p')}</p></div>
        </div>` : '';
+}
+/* Home with no event open: the next thing in your diary, then everything else
+   that is coming up, so the first screen is never a dead end. */
+function renderHomeList(){
+  const mine=myEvents().filter(e=>e.status!=='past');
+  const next=mine[0]||events.filter(e=>e.status!=='past')[0];
+  byId('homeHero').innerHTML=
+    `<div class="hi">${greeting()}</div><div class="nm">${esc(me.n)}</div>`
+    +(next
+      ? `<div class="ev" onclick="openEvent('${next.id}')" style="cursor:pointer">
+           <div class="d">${next.dnum}<small>${tx(next.dmon)}</small></div>
+           <div style="flex:1"><b style="font-size:13px">${tx(next.short)}</b>
+             <div style="font-size:11px;opacity:.85">${bookingFor(next.id)?tr('h_next_yours'):tr('h_next_open')}</div></div>
+           <span class="chip" style="border-color:rgba(255,255,255,.45);color:#fff">${tr('h_open')}</span>
+         </div>`
+      : `<div class="ev"><div style="flex:1"><b style="font-size:13px">${tr('at_none_t')}</b>
+           <div style="font-size:11px;opacity:.85">${tr('at_none_p')}</div></div></div>`);
+
+  let h='';
+  if(mine.length){
+    h+=`<h2 class="sec"><span>${tr('at_l')}</span> <span class="chip">${mine.length}</span></h2>`
+      +mine.map(eventCard).join('');
+  }
+  const others=events.filter(e=>e.status!=='past'&&!bookingFor(e.id));
+  if(others.length){
+    h+=`<h2 class="sec"><span>${tr('h_open_events')}</span> <a onclick="openAllEvents()" data-i18n="seeall">${tr('seeall')}</a></h2>`
+      +others.slice(0,3).map(eventCard).join('');
+  }
+  h+=`<div style="padding:6px 16px 20px"><button class="btn ghost" onclick="openAllEvents()">${tr('h_all_events')}</button></div>`;
+  byId('homeList').innerHTML=h;
 }
 function sessRow(i){const s=sessions[i];
   return `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${esc(speakerNames(s))}</p></div></div>`;
@@ -2370,7 +2443,7 @@ function renderAttending(){
       <div class="empty" style="padding:30px 24px"><div class="e-ic">🎫</div>
         <b style="display:block;font-size:14px;color:var(--ink);letter-spacing:-.025em">${tr('at_none_t')}</b>
         <p style="font-size:12.5px;margin:8px 0 0">${tr('at_none_p')}</p>
-        <div style="padding:16px 8px 0"><button class="btn ghost" onclick="exitEvent()">${tr('at_browse')}</button></div>
+        <div style="padding:16px 8px 0"><button class="btn ghost" onclick="openAllEvents()">${tr('at_browse')}</button></div>
       </div>`;
     return;
   }
@@ -2386,7 +2459,7 @@ function switchAttending(id){
   if(curEv.id===id){openEventInfo(id);return;}
   curEv=e;curDay=e.days[0].n;curPerson=null;
   loadEventData();
-  navStack=['home'];
+  inEvent=true;navStack=['home'];
   renderAll();go('home',true);
   // one toast per action: a second one here would immediately overwrite the first
   toast(isPast()?tr('t_readonly'):trf('at_switched',{ev:e.short},'at_l'));
@@ -2648,7 +2721,7 @@ let bkEvId=null,bkView='main';
 /* Your registrations span every SVEF event, so this genuinely leaves the current
    event. Say so and land on the chooser's Registered tab with the shell closed,
    rather than dropping the tab bar mid-task with no way back. */
-function openMyRegs(){switchEvTab('registered');exitEvent();toast(tr('t_myregs'));}
+function openMyRegs(){switchEvTab('registered');openAllEvents();toast(tr('t_myregs'));}
 function openBooking(id){
   const b=bookingFor(id);if(!b)return;
   bkEvId=id;bkView='main';renderBookingSheet();openSheet('sheetBooking');

@@ -765,7 +765,7 @@ const T={
   t_artadded:"Article published (demo)",t_docadded:"Document uploaded (demo)",t_docdel:"Document deleted",t_docdl:"Downloading",
   t_rolechg:"Role updated",t_susp:"Account suspended",t_react:"Account reactivated",
   t_evadd:"Event created",t_evupd:"Event updated",t_evdel:"Event deleted",t_sessadd:"Session added",t_sessupd:"Session updated",t_sessdel:"Session deleted",
-  /* ---- app content, inside Event Management ---- */
+  /* ---- the single event page, inside Event Management ---- */
   ap_empty:"No event yet. Create one above with Create Event.",
   ap_tab_over:"Overview",ap_tab_info:"Details",ap_tab_agenda:"Agenda / sessions",ap_tab_speakers:"Speakers",ap_tab_sponsors:"Sponsors",
   ap_tab_reg:"Registrants",ap_tab_meet:"Meeting bookings",ap_tab_push:"Push notifications",
@@ -921,7 +921,7 @@ const cmsPages=["Home","About us","Activities","FAQ","Contact","Privacy / GDPR"]
    It carries the published details, the agenda and its sessions, speakers,
    sponsors, the registrant list, 1-to-1 meeting bookings and notifications.
    There is no second copy of an event anywhere: the split between a "website
-   record" and separate "app content" is what let the two drift apart. */
+   record" and a separate second copy is what let the two drift apart. */
 const APP_TZ=["(GMT+7) Hanoi","(GMT+1) Zurich","(GMT+0) UTC"];
 const TIERS=["Headline","Gold","Silver"];
 const AUDIENCES=["all","reg","spk"];
@@ -1467,8 +1467,8 @@ function renderApp(){
 function appOverHtml(e){return regOverHtml(e);}
 
 /* ---- Details: the whole published record in one form -----------------------
-   This used to be split between a modal holding "the basics" and an App content
-   tab holding venue and timezone, with a one-way sync between them that quietly
+   This used to be split between a modal holding "the basics" and a second panel
+   holding venue and timezone, with a one-way sync between them that quietly
    overwrote the venue with the city. One form, one record, one save. */
 const EV_TOPICS=["Trade","Innovation","Sustainability","Finance","Manufacturing","Logistics","Public policy"];
 const EV_AUDIENCE=["Industry","Entrepreneurs","Investors","Academia","Government","Corporates"];
@@ -2436,7 +2436,6 @@ function renderRegSummaries(){
 function openRegAt(i){
   if(i<0||i>=events.length)return;
   openEventDetail(i,'reg');
-  document.getElementById('appSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 /* ---- 1-to-1 meeting bookings (read-only, possibly not needed) ---- */
