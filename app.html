@@ -85,6 +85,8 @@ body::after{content:"";position:fixed;left:-140px;top:-140px;width:460px;height:
   min-width:36px;padding:0 9px;border-radius:0;display:grid;place-items:center;cursor:pointer;
   position:relative;font-size:14px}
 .appbar .ic-btn:active{background:rgba(255,255,255,.14)}
+.appbar .ic-btn>span[data-ic]{display:grid;place-items:center}
+.statusbar .dots span[data-ic]{display:grid;place-items:center;opacity:.9}
 .appbar .lang-btn{display:flex;flex-direction:row;align-items:center;gap:5px;font-family:var(--mono);
   font-weight:500;font-size:10px;letter-spacing:.08em;white-space:nowrap;padding:0 10px}
 .badge-dot{position:absolute;top:-4px;right:-4px;width:9px;height:9px;border-radius:0;background:var(--red);
@@ -201,7 +203,10 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   cursor:pointer;padding:8px 1px 0;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;
   border-top:3px solid transparent;margin-top:-1px}
 .nav button.on{color:var(--red);border-top-color:var(--red)}
-.nav button .ni{width:20px;height:20px;font-size:15px;line-height:20px;filter:grayscale(1)}
+.nav button .ni{width:22px;height:22px;display:grid;place-items:center}
+.ico-svg{display:block}
+.qa .ico{display:grid;place-items:center;color:var(--ink)}
+.menu .mi{display:grid;place-items:center;color:var(--ink-2)}
 .content.nonav{padding-bottom:24px}
 
 /* ==================== SHEETS / OVERLAYS ==================== */
@@ -303,8 +308,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .savebtn.on{border-color:var(--red);background:var(--red-t);color:var(--red);filter:none}
 
 /* ==================== QR / MAP ==================== */
-.qrbox{margin:14px auto;width:200px;height:200px;
-  background:repeating-conic-gradient(var(--ink) 0% 25%, #fff 0% 50%) 0/20px 20px;
+.qrbox{margin:14px auto;width:200px;height:200px;background:#fff;display:grid;place-items:center;
   border-radius:0;border:8px solid #fff;box-shadow:0 0 0 1px var(--ink)}
 .mapwrap{margin:16px 16px;background:#fff;border:1px solid var(--ink);border-radius:0;box-shadow:none;overflow:hidden}
 .legend{display:flex;gap:14px;flex-wrap:wrap;padding:12px 16px;font-family:var(--mono);font-size:9px;
@@ -557,7 +561,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 <div class="phone locked" id="phone">
   <div class="statusbar">
     <span id="clock">9:41</span>
-    <div class="dots"><span>5G</span><span>📶</span><span>🔋</span></div>
+    <div class="dots"><span>5G</span><span data-ic="signal" data-ic-size="13"></span><span data-ic="battery" data-ic-size="15"></span></div>
   </div>
 
   <!-- SIGN IN -->
@@ -588,11 +592,11 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 
   <div class="appbar brand" id="appbar">
     <button class="back" id="backBtn" style="display:none" onclick="goBack()">‹</button>
-    <h1 id="abTitle">SVEF <small>Swiss–Vietnam Economic Forum</small></h1>
-    <button class="ic-btn" id="evSwitchBtn" onclick="exitEvent()" data-i18n-title="ab_toevents" title="Danh sách sự kiện">▤</button>
-    <button class="ic-btn lang-btn" onclick="toggleLang()" title="Language / Ngôn ngữ">🌐<span id="globeLbl">VI</span></button>
-    <button class="ic-btn" id="msgBtn" onclick="openMessages()" data-i18n-title="qa_messages" title="Tin nhắn">💬<span class="badge-dot"></span></button>
-    <button class="ic-btn" onclick="go('notifications')" title="Notifications">🔔<span class="badge-dot"></span></button>
+    <h1 id="abTitle">SVEF <small>Swiss-Viet Economic Forum</small></h1>
+    <button class="ic-btn" id="evSwitchBtn" onclick="exitEvent()" data-i18n-title="ab_toevents" title="Danh sách sự kiện"><span data-ic="grid" data-ic-size="17"></span></button>
+    <button class="ic-btn lang-btn" onclick="toggleLang()" title="Language / Ngôn ngữ"><span data-ic="globe" data-ic-size="16"></span><span id="globeLbl">VI</span></button>
+    <button class="ic-btn" id="msgBtn" onclick="openMessages()" data-i18n-title="qa_messages" title="Tin nhắn"><span data-ic="chat" data-ic-size="17"></span><span class="badge-dot"></span></button>
+    <button class="ic-btn" id="notifBtn" onclick="go('notifications')" title="Notifications"><span data-ic="bell" data-ic-size="17"></span><span class="badge-dot"></span></button>
   </div>
 
   <div class="content" id="content">
@@ -637,7 +641,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       <div class="qa" id="homeQA"></div>
       <div id="homeRecap"></div>
 
-      <h2 class="sec"><span data-i18n="today">Lịch hôm nay</span> <a onclick="go('schedule')" data-i18n="seeall">Xem tất cả</a></h2>
+      <h2 class="sec"><span data-i18n="today">Chương trình</span> <span class="chip" id="homeAgendaDay"></span> <a onclick="openAgendaAll()" data-i18n="seeall">Xem tất cả</a></h2>
       <div class="card" id="homeAgenda"></div>
 
       <h2 class="sec"><span data-i18n="featured">Diễn giả nổi bật</span> <a onclick="go('explore');switchTab('speakers')" data-i18n="all">Tất cả</a></h2>
@@ -652,10 +656,12 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <section class="screen" data-screen="explore">
       <div class="search">🔎<input id="exSearch" data-i18n-ph="search_ph" placeholder="Tìm session, diễn giả, gian hàng…" oninput="filterExplore(this.value)"><span class="muted">⚙️</span></div>
       <div class="tabs" id="exTabs">
-        <button class="on" data-tab="agenda" onclick="switchTab('agenda')" data-i18n="tab_agenda">Chương trình</button>
-        <button data-tab="speakers" onclick="switchTab('speakers')" data-i18n="tab_speakers">Diễn giả</button>
+        <button class="on" data-tab="speakers" onclick="switchTab('speakers')" data-i18n="tab_speakers">Diễn giả</button>
         <button data-tab="sponsors" onclick="switchTab('sponsors')" data-i18n="tab_sponsors">Tài trợ</button>
         <button data-tab="exhibitors" onclick="switchTab('exhibitors')" data-i18n="tab_booths">Gian hàng</button>
+      </div>
+      <div class="row" style="margin:10px 16px 0">
+        <button class="btn ghost" onclick="go(\'map\')"><span data-ic="map" data-ic-size="17"></span><span data-i18n="ex_map">Sơ đồ địa điểm</span></button>
       </div>
       <div style="height:6px"></div>
       <div id="exList"></div>
@@ -664,37 +670,47 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <!-- SCHEDULE (Agenda + Meetings) -->
     <section class="screen" data-screen="schedule">
       <div class="tabs" id="scTabs" style="margin-top:16px">
-        <button class="on" data-sctab="agenda" onclick="switchScTab('agenda')" data-i18n="sc_tab_agenda">Chương trình</button>
+        <button class="on" data-sctab="all" onclick="switchScTab('all')" data-i18n="sc_tab_all">Toàn bộ</button>
+        <button data-sctab="mine" onclick="switchScTab('mine')" data-i18n="sc_tab_mine">Của tôi</button>
         <button data-sctab="meetings" onclick="switchScTab('meetings')" data-i18n="sc_tab_meet">Lịch gặp</button>
       </div>
       <div id="scBody"></div>
       <div style="height:18px"></div>
     </section>
 
-    <!-- NETWORK -->
-    <section class="screen" data-screen="network">
-      <div class="row" style="margin:16px" id="netActions">
-        <button class="btn dark" id="netQrBtn" onclick="openQR()"><span>📱</span><span data-i18n="qr_card_btn">QR kết nối</span></button>
-        <button class="btn ghost" onclick="openMeetings()"><span>📅</span><span data-i18n="meetings">Lịch gặp</span></button>
-      </div>
-      <!-- AI matching is forward-looking, so it is hidden once the event is over -->
-      <h2 class="sec" id="suggestHead"><span data-i18n="suggested">Gợi ý cho bạn</span> <span class="chip gold">AI Match</span></h2>
-      <div class="note" id="suggestNote" data-i18n="ai_note">AI gợi ý dựa trên ngành nghề, thị trường mục tiêu và các mối quan tâm bạn khai báo trong hồ sơ.</div>
-      <div id="suggest"></div>
-      <h2 class="sec"><span data-i18n="my_conns">Kết nối của tôi</span></h2>
-      <div class="note mono" data-i18n="my_conns_sub">Những người bạn đã nhắn tin hoặc đã gửi yêu cầu gặp.</div>
-      <div id="myConns"></div>
-      <div style="height:18px"></div>
-    </section>
-
-    <!-- PARTICIPANTS -->
+    <!-- PEOPLE (directory + AI suggestions + connections, one tab) -->
     <section class="screen" data-screen="participants">
-      <div class="note mono" style="margin-top:16px" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
-      <div class="filterbar">
-        <label><span data-i18n="flt_industry">Ngành</span><select id="fltInd" onchange="renderParticipants()"></select></label>
-        <label><span data-i18n="flt_market">Thị trường</span><select id="fltMkt" onchange="renderParticipants()"></select></label>
+      <div class="tabs" id="ppTabs" style="margin-top:16px">
+        <button class="on" data-pptab="dir" onclick="switchPpTab('dir')" data-i18n="pp_tab_dir">Danh bạ</button>
+        <button data-pptab="match" onclick="switchPpTab('match')" data-i18n="pp_tab_match">Gợi ý</button>
+        <button data-pptab="conns" onclick="switchPpTab('conns')" data-i18n="pp_tab_conns">Kết nối</button>
       </div>
-      <div id="pList"></div>
+      <div class="row" style="margin:12px 16px 4px" id="netActions">
+        <button class="btn dark" id="netQrBtn" onclick="openQR()"><span data-ic="qr" data-ic-size="17"></span><span data-i18n="qr_card_btn">QR kết nối</span></button>
+        <button class="btn ghost" onclick="openMeetings()"><span data-ic="calendar" data-ic-size="17"></span><span data-i18n="meetings">Lịch gặp</span></button>
+      </div>
+
+      <div id="ppPaneDir">
+        <div class="note mono" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
+        <div class="filterbar">
+          <label><span data-i18n="flt_industry">Ngành</span><select id="fltInd" onchange="renderParticipants()"></select></label>
+          <label><span data-i18n="flt_market">Thị trường</span><select id="fltMkt" onchange="renderParticipants()"></select></label>
+        </div>
+        <div id="pList"></div>
+      </div>
+
+      <div id="ppPaneMatch" style="display:none">
+        <!-- AI matching is forward-looking, so it is hidden once the event is over -->
+        <h2 class="sec" id="suggestHead"><span data-i18n="suggested">Gợi ý cho bạn</span> <span class="chip gold">AI Match</span></h2>
+        <div class="note" id="suggestNote" data-i18n="ai_note">AI gợi ý dựa trên ngành nghề, thị trường mục tiêu và các mối quan tâm bạn khai báo trong hồ sơ.</div>
+        <div id="suggest"></div>
+      </div>
+
+      <div id="ppPaneConns" style="display:none">
+        <h2 class="sec"><span data-i18n="my_conns">Kết nối của tôi</span></h2>
+        <div class="note mono" data-i18n="my_conns_sub">Những người bạn đã nhắn tin hoặc đã gửi yêu cầu gặp.</div>
+        <div id="myConns"></div>
+      </div>
       <div style="height:18px"></div>
     </section>
 
@@ -707,6 +723,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       </div>
       <div class="note mono" id="ppSynced" style="margin-top:14px" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
       <div class="facts" id="ppFacts"></div>
+      <div id="ppSessions"></div>
       <div id="ppHandles"></div>
       <div class="row" style="margin:10px 16px 18px" id="ppActs"></div>
     </section>
@@ -721,18 +738,18 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       </div>
       <div class="stats" id="pfStats"></div>
       <div class="menu">
-        <button onclick="openQR()"><span class="mi">📱</span><span data-i18n="m_qrconnect">QR kết nối</span><span class="ch">›</span></button>
-        <button onclick="openTicket()"><span class="mi">🎫</span><span data-i18n="m_eticket">Thẻ tham dự</span><span class="ch">›</span></button>
-        <button onclick="openMyRegs()"><span class="mi">🧾</span><span data-i18n="m_regs">Đăng ký của tôi</span><span class="ch">›</span></button>
-        <button onclick="openMe('edit')"><span class="mi">✏️</span><span data-i18n="m_edit">Chỉnh sửa hồ sơ</span><span class="ch">›</span></button>
-        <button onclick="openMe('history')"><span class="mi">🕑</span><span data-i18n="m_history">Lịch sử kết nối</span><span class="ch">›</span></button>
-        <button onclick="openMe('privacy')"><span class="mi">🔒</span><span data-i18n="m_privacy">Quyền riêng tư & hiển thị</span><span class="ch">›</span></button>
+        <button onclick="openQR()"><span class="mi" data-ic="qr" data-ic-size="19"></span><span data-i18n="m_qrconnect">QR kết nối</span><span class="ch">›</span></button>
+        <button onclick="openTicket()"><span class="mi" data-ic="ticket" data-ic-size="19"></span><span data-i18n="m_eticket">Thẻ tham dự</span><span class="ch">›</span></button>
+        <button onclick="openMyRegs()"><span class="mi" data-ic="receipt" data-ic-size="19"></span><span data-i18n="m_regs">Đăng ký của tôi</span><span class="ch">›</span></button>
+        <button onclick="openMe('edit')"><span class="mi" data-ic="edit" data-ic-size="19"></span><span data-i18n="m_edit">Chỉnh sửa hồ sơ</span><span class="ch">›</span></button>
+        <button onclick="openMe('history')"><span class="mi" data-ic="clock" data-ic-size="19"></span><span data-i18n="m_history">Lịch sử kết nối</span><span class="ch">›</span></button>
+        <button onclick="openMe('privacy')"><span class="mi" data-ic="lock" data-ic-size="19"></span><span data-i18n="m_privacy">Quyền riêng tư & hiển thị</span><span class="ch">›</span></button>
       </div>
       <div class="menu">
-        <button onclick="toggleLang()"><span class="mi">🌐</span><span data-i18n="m_lang">Ngôn ngữ · Tiếng Việt</span><span class="ch">›</span></button>
-        <button onclick="openMe('notif')"><span class="mi">🔔</span><span data-i18n="m_notif">Cài đặt thông báo</span><span class="ch">›</span></button>
-        <button onclick="openMe('help')"><span class="mi">❓</span><span data-i18n="m_help">Trợ giúp & Hỗ trợ</span><span class="ch">›</span></button>
-        <button onclick="signOutApp()"><span class="mi">🚪</span><span data-i18n="m_signout">Đăng xuất</span><span class="ch">›</span></button>
+        <button onclick="toggleLang()"><span class="mi" data-ic="globe" data-ic-size="19"></span><span data-i18n="m_lang">Ngôn ngữ · Tiếng Việt</span><span class="ch">›</span></button>
+        <button onclick="openMe('notif')"><span class="mi" data-ic="bell" data-ic-size="19"></span><span data-i18n="m_notif">Cài đặt thông báo</span><span class="ch">›</span></button>
+        <button onclick="openMe('help')"><span class="mi" data-ic="help" data-ic-size="19"></span><span data-i18n="m_help">Trợ giúp & Hỗ trợ</span><span class="ch">›</span></button>
+        <button onclick="signOutApp()"><span class="mi" data-ic="exit" data-ic-size="19"></span><span data-i18n="m_signout">Đăng xuất</span><span class="ch">›</span></button>
       </div>
       <p class="muted" style="text-align:center;font-size:11px;margin:0 0 16px">SVEF App · Prototype v0.1</p>
     </section>
@@ -803,7 +820,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
         <p class="muted" style="font-size:13px;line-height:1.5" id="sDdesc">—</p>
       </div>
       <h2 class="sec"><span data-i18n="speaker_l">Diễn giả</span></h2>
-      <div class="conn"><div class="av sm" id="sDav">N</div><div class="meta"><h4 id="sDspk">—</h4><p id="sDspkrole">—</p></div></div>
+      <div id="sDspks"></div>
       <span class="seats" id="sDseats"></span>
       <div style="padding:8px 16px 0" id="sDregWrap"><button class="btn" id="sDreg" onclick="toggleSessionReg(curSession)">—</button></div>
       <div style="padding:8px 16px 0" id="sDjoinWrap"><a class="btn dark" id="sDjoin" href="#" target="_blank" rel="noopener" data-i18n="ev_join">🔗 Tham dự trực tuyến</a></div>
@@ -813,12 +830,11 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   </div><!-- /content -->
 
   <div class="nav" id="nav">
-    <button class="on" data-nav="home" onclick="go('home')"><span class="ni">🏠</span><span data-i18n="nav_home">Trang chủ</span></button>
-    <button data-nav="explore" onclick="go('explore')"><span class="ni">🧭</span><span data-i18n="nav_explore">Khám phá</span></button>
-    <button data-nav="schedule" onclick="go('schedule')"><span class="ni">📅</span><span data-i18n="nav_schedule">Lịch</span></button>
-    <button data-nav="network" onclick="go('network')"><span class="ni">🤝</span><span data-i18n="nav_network">Kết nối</span></button>
-    <button data-nav="participants" onclick="go('participants')"><span class="ni">👥</span><span data-i18n="nav_people">Tham dự</span></button>
-    <button data-nav="profile" onclick="go('profile')"><span class="ni">👤</span><span data-i18n="nav_profile">Hồ sơ</span></button>
+    <button class="on" data-nav="home" onclick="go('home')"><span class="ni" data-ic="home"></span><span data-i18n="nav_home">Trang chủ</span></button>
+    <button data-nav="schedule" onclick="go('schedule')"><span class="ni" data-ic="calendar"></span><span data-i18n="nav_schedule">Chương trình</span></button>
+    <button data-nav="participants" onclick="go('participants')"><span class="ni" data-ic="people"></span><span data-i18n="nav_people">Mọi người</span></button>
+    <button data-nav="explore" onclick="go('explore')"><span class="ni" data-ic="compass"></span><span data-i18n="nav_explore">Khám phá</span></button>
+    <button data-nav="profile" onclick="go('profile')"><span class="ni" data-ic="person"></span><span data-i18n="nav_profile">Hồ sơ</span></button>
   </div>
 
   <div class="scrim" id="scrim" onclick="closeSheet()"></div>
@@ -884,14 +900,14 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 /* ===================== I18N DICTIONARY ===================== */
 const T={
  vi:{
-  greet:"Chào buổi sáng 👋", checkedin:"Đã check-in", ev_ended:"Đã kết thúc",
+  greet:"Chào buổi sáng", greet_pm:"Chào buổi chiều", greet_eve:"Chào buổi tối", checkedin:"Đã check-in", ev_ended:"Đã kết thúc",
   qa_qrconnect:"QR kết nối", qa_eticket:"Thẻ tham dự", qa_map:"Bản đồ", qa_connect:"Kết nối",
   qa_agenda:"Chương trình", qa_meetings:"Lịch gặp", qa_people:"Tham dự", qa_messages:"Tin nhắn",
-  today:"Lịch hôm nay", seeall:"Xem tất cả", featured:"Diễn giả nổi bật", all:"Tất cả", headline_spon:"Nhà tài trợ chính",
+  today:"Chương trình", sched_none_day:"Chưa có phiên nào cho ngày này.", seeall:"Xem tất cả", featured:"Diễn giả nổi bật", all:"Tất cả", headline_spon:"Nhà tài trợ chính",
   search_ph:"Tìm phiên, diễn giả, nhà tài trợ…", tab_agenda:"Chương trình", tab_speakers:"Diễn giả",
   tab_sponsors:"Tài trợ", tab_booths:"Gian hàng",
   sess_unit:"phiên đã lưu", saved_h:"Phiên đã lưu", sched_empty:"Chưa lưu phiên nào. Nhấn biểu tượng lưu trên một dòng chương trình ở mục Khám phá.",
-  sc_tab_agenda:"Chương trình", sc_tab_meet:"Lịch gặp", tz_note:"Tất cả thời gian theo giờ GMT+7 (Hà Nội).",
+  sc_tab_agenda:"Chương trình", sc_tab_meet:"Lịch gặp", tz_note:"Tất cả thời gian theo múi giờ của sự kiện:",
   mt_created:"Yêu cầu tạo ngày", mt_with:"Gặp với", dir_received:"Nhận được", dir_sent:"Đã gửi",
   ms_confirmed:"Đã xác nhận", ms_pending:"Chờ xác nhận", ms_canceled:"Đã huỷ", ms_declined:"Đã từ chối",
   meet_none:"Chưa có lịch gặp nào cho sự kiện này.",
@@ -914,7 +930,9 @@ const T={
   svgHall:"Hội trường A", svgB1:"Phòng B1", svgB2:"Phòng B2", svgLounge:"Networking", svgLobby:"Sảnh chính · Check-in · Cà phê", directions:"Chỉ đường",
   time_l:"Thời gian", loc_l:"Địa điểm", speaker_l:"Diễn giả",
   add_sched:"➕ Lưu vào chương trình của tôi", added_sched:"✓ Đã lưu vào chương trình của tôi",
-  nav_home:"Trang chủ", nav_explore:"Khám phá", nav_schedule:"Lịch", nav_network:"Kết nối", nav_people:"Tham dự", nav_profile:"Hồ sơ",
+  nav_home:"Trang chủ", nav_explore:"Khám phá", nav_schedule:"Chương trình", nav_network:"Kết nối", nav_people:"Mọi người", nav_profile:"Hồ sơ",
+  sc_tab_all:"Toàn bộ", sc_tab_mine:"Của tôi", sess_unit_n:"phiên", pp_tab_dir:"Danh bạ", pp_tab_match:"Gợi ý", pp_tab_conns:"Kết nối",
+  pp_sessions:"Phiên trình bày", spk_none:"Chưa công bố diễn giả cho phiên này.", agenda_all_h:"Toàn bộ chương trình", ex_map:"Sơ đồ địa điểm",
   ev_kicker:"Diễn đàn Kinh tế Thụy Sĩ - Việt Nam", ev_title:"SVEF Events", ev_sub:"Tất cả sự kiện SVEF trong một ứng dụng.",
   ev_tab_up:"Sắp diễn ra", ev_tab_past:"Đã qua", ev_tab_reg:"Đã đăng ký",
   ev_register:"Đăng ký", ev_info:"Thông tin", ev_open:"Mở sự kiện", ev_readonly:"Chỉ đọc",
@@ -981,7 +999,7 @@ const T={
   et_pending:"Thẻ tham dự sẽ được phát hành sau khi ban tổ chức duyệt đăng ký của bạn.",
   et_wait:"Thẻ tham dự sẽ được phát hành nếu bạn được chuyển lên từ danh sách chờ.",
   et_group_note:"Mỗi người tham dự có một thẻ riêng. Chọn thẻ cần xuất trình ở thanh bên dưới.",
-  m_regs:"Đăng ký của tôi",
+  m_regs:"Đăng ký của tôi", t_myregs:"Đăng ký của bạn trên tất cả sự kiện SVEF",
   /* --- Notification copy generated by registration actions --- */
   nt_ok_t:"Đăng ký thành công", nt_ok_p:"Đăng ký tham dự {ev} đã được xác nhận. Mã đặt chỗ #{ref}.",
   nt_pend_t:"Đăng ký chờ duyệt", nt_pend_p:"Đăng ký tham dự {ev} đã được gửi tới ban tổ chức. Mã đặt chỗ #{ref}.",
@@ -1039,7 +1057,7 @@ const T={
   past_recap_l:"Ghi chú từ ban tổ chức", past_recap_t:"Cảm ơn bạn đã tham dự",
   past_recap_p:"Ban tổ chức SVEF xin cảm ơn hơn 600 đại biểu đã đồng hành. Tài liệu và bản ghi các phiên sẽ được gửi qua email trong tuần này.",
   follow:"+ Theo dõi", directions_btn:"Chỉ đường",
-  ab_explore:"Khám phá", ab_schedule:"Lịch của tôi", ab_network:"Kết nối", ab_participants:"Người tham dự",
+  ab_explore:"Khám phá", ab_schedule:"Chương trình", ab_network:"Kết nối", ab_participants:"Mọi người",
   ab_profile:"Hồ sơ", ab_map:"Bản đồ", ab_notifications:"Thông báo", ab_session:"Chi tiết phiên",
   ab_person:"Hồ sơ", ab_events:"Sự kiện SVEF", ab_eventinfo:"Thông tin sự kiện", ab_toevents:"Danh sách sự kiện",
   ab_messages:"Tin nhắn", ab_chat:"Nhắn tin",
@@ -1059,14 +1077,14 @@ const T={
          ["✅","var(--green)","Đăng ký thành công","Đăng ký tham dự SVEF 2026 đã được xác nhận. Mã đặt chỗ #SVEF-2041.","1 ngày"]]
  },
  en:{
-  greet:"Good morning 👋", checkedin:"Checked in", ev_ended:"Ended",
+  greet:"Good morning", greet_pm:"Good afternoon", greet_eve:"Good evening", checkedin:"Checked in", ev_ended:"Ended",
   qa_qrconnect:"QR Connect", qa_eticket:"Pass", qa_map:"Map", qa_connect:"Connect",
   qa_agenda:"Agenda", qa_meetings:"Meetings", qa_people:"People", qa_messages:"Messages",
-  today:"Today's schedule", seeall:"See all", featured:"Featured speakers", all:"All", headline_spon:"Headline sponsors",
+  today:"Programme", sched_none_day:"No sessions scheduled for this day yet.", seeall:"See all", featured:"Featured speakers", all:"All", headline_spon:"Headline sponsors",
   search_ph:"Search sessions, speakers, sponsors…", tab_agenda:"Agenda", tab_speakers:"Speakers",
   tab_sponsors:"Sponsors", tab_booths:"Booths",
   sess_unit:"saved", saved_h:"Saved sessions", sched_empty:"No sessions saved yet. Tap the save icon on an agenda row in Explore.",
-  sc_tab_agenda:"Agenda", sc_tab_meet:"Meetings", tz_note:"All times shown in GMT+7 (Hanoi).",
+  sc_tab_agenda:"Agenda", sc_tab_meet:"Meetings", tz_note:"All times are shown in the event time zone:",
   mt_created:"Requested on", mt_with:"Meeting with", dir_received:"Received", dir_sent:"Sent",
   ms_confirmed:"Confirmed", ms_pending:"Pending", ms_canceled:"Canceled", ms_declined:"Declined",
   meet_none:"No meetings for this event yet.",
@@ -1089,7 +1107,9 @@ const T={
   svgHall:"Hall A", svgB1:"Room B1", svgB2:"Room B2", svgLounge:"Networking", svgLobby:"Main lobby · Check-in · Coffee", directions:"Directions",
   time_l:"Time", loc_l:"Location", speaker_l:"Speaker",
   add_sched:"➕ Save to my agenda", added_sched:"✓ Saved to my agenda",
-  nav_home:"Home", nav_explore:"Explore", nav_schedule:"Agenda", nav_network:"Connect", nav_people:"Participants", nav_profile:"Profile",
+  nav_home:"Home", nav_explore:"Explore", nav_schedule:"Agenda", nav_network:"Connect", nav_people:"People", nav_profile:"Profile",
+  sc_tab_all:"All", sc_tab_mine:"Mine", sess_unit_n:"sessions", pp_tab_dir:"Directory", pp_tab_match:"Suggested", pp_tab_conns:"Connections",
+  pp_sessions:"Speaking at", spk_none:"No speaker announced for this session yet.", agenda_all_h:"Full programme", ex_map:"Venue map",
   ev_kicker:"Swiss - Vietnam Economic Forum", ev_title:"SVEF Events", ev_sub:"Every SVEF event in one app.",
   ev_tab_up:"Upcoming", ev_tab_past:"Past", ev_tab_reg:"Registered",
   ev_register:"Register", ev_info:"Event Info", ev_open:"Open event", ev_readonly:"Read-only",
@@ -1156,7 +1176,7 @@ const T={
   et_pending:"Your pass is issued once the organisers approve your registration.",
   et_wait:"Your pass is issued if you move up from the waitlist.",
   et_group_note:"Every attendee has their own pass. Pick the pass to show on the selector below.",
-  m_regs:"My registrations",
+  m_regs:"My registrations", t_myregs:"Your registrations across all SVEF events",
   /* --- Notification copy generated by registration actions --- */
   nt_ok_t:"Registration confirmed", nt_ok_p:"Your registration for {ev} is confirmed. Booking #{ref}.",
   nt_pend_t:"Registration pending approval", nt_pend_p:"Your registration for {ev} has gone to the organisers. Booking #{ref}.",
@@ -1214,7 +1234,7 @@ const T={
   past_recap_l:"Note from the organisers", past_recap_t:"Thank you for joining us",
   past_recap_p:"The SVEF organising team thanks the 600+ delegates who joined us. Session materials and recordings will be emailed to you this week.",
   follow:"+ Follow", directions_btn:"Directions",
-  ab_explore:"Explore", ab_schedule:"My agenda", ab_network:"Connect", ab_participants:"Participants",
+  ab_explore:"Explore", ab_schedule:"Agenda", ab_network:"Connect", ab_participants:"People",
   ab_profile:"Profile", ab_map:"Event map", ab_notifications:"Notifications", ab_session:"Session",
   ab_person:"Attendee", ab_events:"SVEF Events", ab_eventinfo:"Event information", ab_toevents:"Event list",
   ab_messages:"Messages", ab_chat:"Chat",
@@ -1237,95 +1257,112 @@ const T={
 
 /* ===================== DATA (language-keyed) ===================== */
 const speakers=[
-  {n:"Nguyễn Minh",i:"NM",c:"#0A0A0A",r:{vi:"Chủ tịch SVEF",en:"SVEF Chairman"}},
-  {n:"Lara Weber",i:"LW",c:"#7A5C00",r:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"}},
-  {n:"Trần Bảo",i:"TB",c:"#E42026",r:{vi:"Thứ trưởng Kinh tế",en:"Deputy Minister of Economy"}},
-  {n:"Marco Rossi",i:"MR",c:"#0F5A4A",r:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"}},
-  {n:"Phạm Hà",i:"PH",c:"#1F3A5F",r:{vi:"Founder, GreenTech VN",en:"Founder, GreenTech VN"}},
+  /* pid links a speaker to their attendee record, so a name on the agenda is the
+     same person you can look up, message and request a meeting with. */
+  {pid:7,n:"Nguyễn Minh",i:"NM",c:"#0A0A0A",r:{vi:"Chủ tịch SVEF",en:"SVEF Chairman"}},
+  {pid:1,n:"Lara Weber",i:"LW",c:"#7A5C00",r:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"}},
+  {pid:8,n:"Trần Bảo",i:"TB",c:"#E42026",r:{vi:"Thứ trưởng Kinh tế",en:"Deputy Minister of Economy"}},
+  {pid:2,n:"Marco Rossi",i:"MR",c:"#0F5A4A",r:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"}},
+  {pid:3,n:"Phạm Hà",i:"PH",c:"#1F3A5F",r:{vi:"Founder, GreenTech VN",en:"Founder, GreenTech VN"}},
+  {pid:9,n:"Andreas Küng",i:"AK",c:"#0F5A4A",r:{vi:"Giám đốc vận hành, Alpine Precision AG",en:"COO, Alpine Precision AG"}},
 ];
 /* --- Events: one app, many SVEF events ------------------------------------ */
-const events=[
-  {id:"svef26", img:"forum-stage", status:"registered", tz:"GMT+7",
-   cap:800, taken:612, live:true,
+/* Status is derived from the calendar rather than typed in, so an event can never
+   be labelled "upcoming" on a date that has already passed, and the flagship flips
+   to live on its own opening morning. */
+function todayISO(){const d=new Date(),p=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+function stampEvents(list){
+  const t=todayISO();
+  list.forEach(function(e){
+    e.live=!!(e.ds&&e.de&&e.ds<=t&&t<=e.de);
+    e.status=(e.de&&e.de<t)?'past':'upcoming';
+  });
+  return list;
+}
+const events=stampEvents([
+  {id:"svef26", img:"forum-stage", ds:"2026-10-14", de:"2026-10-16", tz:"GMT+7",
+   cap:800, taken:612,
    fmt:"hybrid", zoom:"https://zoom.us/j/8412200261",
-   url:"https://svef.example.org/events/svef-2026",
-   n:{vi:"SVEF 2026 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2026 - Swiss-Vietnam Economic Forum"},
-   short:{vi:"SVEF 2026 · TP. Hồ Chí Minh",en:"SVEF 2026 · Ho Chi Minh City"},
-   dnum:"18", dmon:{vi:"THG 6",en:"JUN"},
-   dates:{vi:"18 - 19 tháng 6, 2026",en:"18 - 19 June 2026"},
-   venue:{vi:"GEM Center · TP. Hồ Chí Minh",en:"GEM Center · Ho Chi Minh City"},
+   url:"https://svef.example.org/events/svef-hanoi-forum-2026",
+   n:{vi:"Diễn đàn Kinh tế Thụy Sĩ - Việt Nam 2026 · Hà Nội",en:"Swiss-Viet Economic Forum 2026 · Hanoi"},
+   short:{vi:"SVEF 2026 · Hà Nội",en:"SVEF 2026 · Hanoi"},
+   dnum:"14", dmon:{vi:"THG 10",en:"OCT"},
+   dates:{vi:"14 - 16 tháng 10, 2026",en:"14 - 16 October 2026"},
+   venue:{vi:"Trung tâm Hội nghị Quốc gia · Hà Nội",en:"National Convention Center · Hanoi"},
    org:{vi:"Quỹ Kinh tế Thụy Sĩ - Việt Nam (SVEF)",en:"Swiss-Vietnam Economic Foundation (SVEF)"},
-   desc:{vi:"Diễn đàn thường niên kết nối doanh nghiệp Thụy Sĩ và Việt Nam trong hai ngày với các phiên toàn thể, hội thảo chuyên đề, khu triển lãm và chương trình gặp gỡ doanh nghiệp một đối một.",
-         en:"The annual two-day forum connecting Swiss and Vietnamese business, with plenary sessions, thematic workshops, an exhibition area and a one-to-one business matchmaking programme."},
-   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"18/6",en:"18 Jun"}},
-         {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"19/6",en:"19 Jun"}}]},
-  {id:"roundtable", img:"boardroom", status:"upcoming", tz:"GMT+7",
+   desc:{vi:"Diễn đàn thường niên hàng đầu quy tụ lãnh đạo Thụy Sĩ và Việt Nam trong ba ngày, với các phiên toàn thể, hội thảo chuyên đề song song, khu triển lãm và chương trình gặp gỡ doanh nghiệp một đối một.",
+         en:"The flagship annual forum bringing Swiss and Vietnamese leaders together over three days, with plenary sessions, parallel sector deep dives, an exhibition area and a one-to-one business matchmaking programme."},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"14/10",en:"14 Oct"}},
+         {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"15/10",en:"15 Oct"}},
+         {n:3,lbl:{vi:"Ngày 3",en:"Day 3"},d:{vi:"16/10",en:"16 Oct"}}]},
+  {id:"roundtable", img:"boardroom", ds:"2026-09-24", de:"2026-09-24", tz:"GMT+7",
    cap:40, taken:31, approval:true,
    url:"https://svef.example.org/events/investment-roundtable-hanoi",
    n:{vi:"Bàn tròn Đầu tư SVEF - Hà Nội",en:"SVEF Investment Roundtable - Hanoi"},
    short:{vi:"Bàn tròn Đầu tư · Hà Nội",en:"Investment Roundtable · Hanoi"},
-   dnum:"12", dmon:{vi:"THG 8",en:"AUG"},
-   dates:{vi:"12 tháng 8, 2026",en:"12 August 2026"},
+   dnum:"24", dmon:{vi:"THG 9",en:"SEP"},
+   dates:{vi:"24 tháng 9, 2026",en:"24 September 2026"},
    venue:{vi:"Pan Pacific · Hà Nội",en:"Pan Pacific · Hanoi"},
    org:{vi:"SVEF phối hợp cùng Đại sứ quán Thụy Sĩ tại Hà Nội",en:"SVEF with the Swiss Embassy in Hanoi"},
    desc:{vi:"Phiên bàn tròn nửa ngày dành cho quỹ đầu tư và doanh nghiệp sản xuất về dòng vốn Thụy Sĩ vào miền Bắc Việt Nam.",
          en:"A half-day roundtable for funds and manufacturers on Swiss capital flows into northern Vietnam."},
-   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"12/8",en:"12 Aug"}}]},
-  {id:"greenforum", img:"energy-wind", status:"upcoming", tz:"GMT+7",
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"24/9",en:"24 Sep"}}]},
+  {id:"greenforum", img:"energy-wind", ds:"2026-11-05", de:"2026-11-06", tz:"GMT+7",
    cap:300, taken:300,
    fmt:"hybrid", zoom:"https://zoom.us/j/7755390014",
    url:"https://svef.example.org/events/green-transition-forum",
    n:{vi:"Diễn đàn Chuyển dịch Xanh SVEF",en:"SVEF Green Transition Forum"},
    short:{vi:"Chuyển dịch Xanh · Đà Nẵng",en:"Green Transition · Da Nang"},
-   dnum:"03", dmon:{vi:"THG 10",en:"OCT"},
-   dates:{vi:"3 - 4 tháng 10, 2026",en:"3 - 4 October 2026"},
+   dnum:"05", dmon:{vi:"THG 11",en:"NOV"},
+   dates:{vi:"5 - 6 tháng 11, 2026",en:"5 - 6 November 2026"},
    venue:{vi:"Ariyana Center · Đà Nẵng",en:"Ariyana Center · Da Nang"},
    org:{vi:"SVEF phối hợp cùng Sở Công Thương Đà Nẵng",en:"SVEF with the Da Nang Department of Industry and Trade"},
    desc:{vi:"Hai ngày về năng lượng tái tạo, tài chính xanh và công nghệ môi trường Thụy Sĩ cho thị trường miền Trung Việt Nam.",
          en:"Two days on renewable energy, green finance and Swiss environmental technology for central Vietnam."},
-   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"3/10",en:"3 Oct"}},
-         {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"4/10",en:"4 Oct"}}]},
-  {id:"gala", img:"signing", status:"upcoming", tz:"GMT+1",
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"5/11",en:"5 Nov"}},
+         {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"6/11",en:"6 Nov"}}]},
+  {id:"gala", img:"signing", ds:"2026-12-04", de:"2026-12-04", tz:"GMT+1",
    cap:220, taken:174,
    url:"https://svef.example.org/events/gala-dinner-zurich",
    n:{vi:"Gala Dinner SVEF 2026 - Zürich",en:"SVEF Gala Dinner 2026 - Zurich"},
    short:{vi:"Gala Dinner · Zürich",en:"Gala Dinner · Zurich"},
-   dnum:"20", dmon:{vi:"THG 11",en:"NOV"},
-   dates:{vi:"20 tháng 11, 2026",en:"20 November 2026"},
+   dnum:"04", dmon:{vi:"THG 12",en:"DEC"},
+   dates:{vi:"4 tháng 12, 2026",en:"4 December 2026"},
    venue:{vi:"Dolder Grand · Zürich",en:"Dolder Grand · Zurich"},
    org:{vi:"SVEF Thụy Sĩ",en:"SVEF Switzerland"},
    desc:{vi:"Tiệc tối thường niên của SVEF tại Thụy Sĩ, quy tụ doanh nghiệp hai nước sau một năm hợp tác. Số lượng chỗ hạn chế, vui lòng đăng ký sớm.",
          en:"SVEF's annual dinner in Switzerland, bringing together businesses from both countries after a year of cooperation. Seats are limited, so register early."},
-   days:[{n:1,lbl:{vi:"Buổi tối",en:"Evening"},d:{vi:"20/11",en:"20 Nov"}}]},
+   days:[{n:1,lbl:{vi:"Buổi tối",en:"Evening"},d:{vi:"4/12",en:"4 Dec"}}]},
   /* Registration window not open yet */
-  {id:"innovday", img:"seminar", status:"upcoming", tz:"GMT+1",
+  {id:"innovday", img:"seminar", ds:"2027-01-21", de:"2027-01-21", tz:"GMT+1",
    cap:150, taken:0, regState:"soon",
-   regOpen:{vi:"1 tháng 9, 2026",en:"1 September 2026"},
+   regOpen:{vi:"1 tháng 11, 2026",en:"1 November 2026"},
    url:"https://svef.example.org/events/innovation-day-basel",
    n:{vi:"SVEF Innovation Day - Basel",en:"SVEF Innovation Day - Basel"},
    short:{vi:"Innovation Day · Basel",en:"Innovation Day · Basel"},
-   dnum:"15", dmon:{vi:"THG 9",en:"SEP"},
-   dates:{vi:"15 tháng 9, 2026",en:"15 September 2026"},
+   dnum:"21", dmon:{vi:"THG 1",en:"JAN"},
+   dates:{vi:"21 tháng 1, 2027",en:"21 January 2027"},
    venue:{vi:"Congress Center · Basel",en:"Congress Center · Basel"},
    org:{vi:"SVEF Thụy Sĩ phối hợp cùng Swissnex",en:"SVEF Switzerland with Swissnex"},
    desc:{vi:"Ngày hội đổi mới sáng tạo giới thiệu các startup deep tech Thụy Sĩ và Việt Nam, kèm phiên gọi vốn và khu trưng bày sản phẩm.",
          en:"An innovation day showcasing Swiss and Vietnamese deep-tech startups, with a pitch session and a product showcase."},
-   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"15/9",en:"15 Sep"}}]},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"21/1",en:"21 Jan"}}]},
   /* Registration window already closed */
-  {id:"breakfast", img:"office", status:"upcoming", tz:"GMT+7",
+  {id:"breakfast", img:"office", ds:"2026-09-10", de:"2026-09-10", tz:"GMT+7",
    cap:35, taken:33, regState:"closed",
-   regClosed:{vi:"20 tháng 6, 2026",en:"20 June 2026"},
+   regClosed:{vi:"15 tháng 8, 2026",en:"15 August 2026"},
    url:"https://svef.example.org/events/business-breakfast-hanoi",
    n:{vi:"Bữa sáng Doanh nghiệp SVEF - Hà Nội",en:"SVEF Business Breakfast - Hanoi"},
    short:{vi:"Bữa sáng Doanh nghiệp · Hà Nội",en:"Business Breakfast · Hanoi"},
-   dnum:"30", dmon:{vi:"THG 6",en:"JUN"},
-   dates:{vi:"30 tháng 6, 2026",en:"30 June 2026"},
+   dnum:"10", dmon:{vi:"THG 9",en:"SEP"},
+   dates:{vi:"10 tháng 9, 2026",en:"10 September 2026"},
    venue:{vi:"Metropole · Hà Nội",en:"Metropole · Hanoi"},
    org:{vi:"SVEF phối hợp cùng An Phát Logistics JSC",en:"SVEF with An Phat Logistics JSC"},
    desc:{vi:"Bữa sáng làm việc kín cho lãnh đạo doanh nghiệp về thủ tục hải quan và tuyến vận tải Việt Nam - Thụy Sĩ.",
          en:"A closed working breakfast for company leaders on customs procedures and the Vietnam to Switzerland freight lane."},
-   days:[{n:1,lbl:{vi:"Buổi sáng",en:"Morning"},d:{vi:"30/6",en:"30 Jun"}}]},
-  {id:"svef25", img:"forum-audience", status:"past", tz:"GMT+1",
+   days:[{n:1,lbl:{vi:"Buổi sáng",en:"Morning"},d:{vi:"10/9",en:"10 Sep"}}]},
+  {id:"svef25", img:"forum-audience", ds:"2025-09-24", de:"2025-09-25", tz:"GMT+1",
    url:"https://svef.example.org/events/svef-2025",
    n:{vi:"SVEF 2025 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2025 - Swiss-Vietnam Economic Forum"},
    short:{vi:"SVEF 2025 · Zürich",en:"SVEF 2025 · Zurich"},
@@ -1337,7 +1374,7 @@ const events=[
          en:"The 2025 edition in Zurich, with over 600 delegates, focused on bilateral trade after the EFTA agreement."},
    days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"24/9",en:"24 Sep"}},
          {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"25/9",en:"25 Sep"}}]},
-  {id:"techday", img:"devices", status:"past", tz:"GMT+7",
+  {id:"techday", img:"devices", ds:"2026-03-05", de:"2026-03-05", tz:"GMT+7",
    url:"https://svef.example.org/events/swiss-tech-day-hcmc",
    n:{vi:"Swiss Tech Day - TP. Hồ Chí Minh",en:"Swiss Tech Day - Ho Chi Minh City"},
    short:{vi:"Swiss Tech Day · TP.HCM",en:"Swiss Tech Day · HCMC"},
@@ -1348,7 +1385,7 @@ const events=[
    desc:{vi:"Ngày hội công nghệ một ngày giới thiệu giải pháp công nghiệp và deep tech của Thụy Sĩ tới đối tác Việt Nam.",
          en:"A one-day showcase of Swiss industrial and deep-tech solutions for Vietnamese partners."},
    days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"5/3",en:"5 Mar"}}]},
-];
+]);
 
 /* --- Sponsors -------------------------------------------------------------- */
 const tiers={headline:{vi:"Đồng hành chính",en:"Headline"},gold:{vi:"Vàng",en:"Gold"},silver:{vi:"Bạc",en:"Silver"}};
@@ -1486,59 +1523,98 @@ let connections=[
 /* Which notification categories the attendee wants. This really filters the list. */
 let notifPrefs={session:true, meeting:true, reg:true, chat:true};
 
-/* --- Meetings (GMT+7 / Hanoi) ---------------------------------------------- */
-const meetings=[
+/* --- 1:1 meetings, per event ------------------------------------------------
+   A meeting is an appointment at one event; carrying the same four across every
+   event made the Zurich gala show the Hanoi forum's diary. */
+const meetingsByEv={
+ svef26:[
   {pid:1,status:"confirmed",dir:"received",day:1,time:"15:30 – 16:00",
-   created:{vi:"4 tháng 6, 2026",en:"4th June 2026"},place:{vi:"Khu Networking",en:"Networking Lounge"}},
+   created:{vi:"4 tháng 10, 2026",en:"4th October 2026"},place:{vi:"Khu Networking",en:"Networking Lounge"}},
   {pid:3,status:"pending",dir:"sent",day:2,time:"10:00 – 10:30",
-   created:{vi:"6 tháng 6, 2026",en:"6th June 2026"},place:{vi:"Bàn gặp 3",en:"Meeting table 3"}},
+   created:{vi:"6 tháng 10, 2026",en:"6th October 2026"},place:{vi:"Bàn gặp 3",en:"Meeting table 3"}},
   {pid:9,status:"canceled",dir:"sent",day:1,time:"11:15 – 11:45",
-   created:{vi:"2 tháng 6, 2026",en:"2nd June 2026"},place:{vi:"Bàn gặp 1",en:"Meeting table 1"}},
+   created:{vi:"2 tháng 10, 2026",en:"2nd October 2026"},place:{vi:"Bàn gặp 1",en:"Meeting table 1"}},
   {pid:10,status:"declined",dir:"received",day:2,time:"14:00 – 14:30",
-   created:{vi:"5 tháng 6, 2026",en:"5th June 2026"},place:{vi:"Sảnh chính",en:"Main lobby"}},
-];
+   created:{vi:"5 tháng 10, 2026",en:"5th October 2026"},place:{vi:"Sảnh chính",en:"Main lobby"}},
+ ]
+};
+let meetings=meetingsByEv.svef26||[];
 const slots=["09:00 – 09:30","10:00 – 10:30","11:15 – 11:45","14:00 – 14:30","15:30 – 16:00","16:30 – 17:00"];
 
-/* --- Chat threads, keyed by participant id --------------------------------- */
-const chats={
+/* --- Chat threads, per event then per participant id -----------------------
+   The messages screen tells the attendee these threads are scoped to this event,
+   so they have to actually be scoped to it. */
+const chatsByEv={
+ svef26:{
   1:[{me:false,t:"09:12",m:{vi:"Chào anh Trần! Em thấy anh có mặt ở phiên Fintech sáng nay.",en:"Hi Anh! I saw you were in the Fintech session this morning."}},
      {me:true, t:"09:20",m:{vi:"Chào chị Lara, đúng rồi ạ. Phần thanh toán xuyên biên giới rất hữu ích.",en:"Hi Lara, I was. The cross-border payments part was very useful."}},
      {me:false,t:"09:24",m:{vi:"Mình gặp nhau 15:30 ở khu Networking nhé, em đã gửi lịch rồi ạ.",en:"Shall we meet at 15:30 in the networking lounge? I have sent the request."}}],
   2:[{me:true, t:"14:02",m:{vi:"Chào anh Marco, em muốn trao đổi về vòng gọi vốn Series A tại Việt Nam.",en:"Hi Marco, I would like to talk about Series A rounds in Vietnam."}},
      {me:false,t:"14:31",m:{vi:"Chào anh, rất sẵn lòng. Ngày mai anh rảnh khung nào?",en:"Happy to. Which slot works for you tomorrow?"}}],
   3:[{me:false,t:"11:05",m:{vi:"Cảm ơn anh đã ghé gian hàng GreenTech ạ!",en:"Thanks for stopping by the GreenTech booth!"}}],
+ }
 };
+let chats=chatsByEv.svef26||{};
 let chatWith=null;
 
-const sessions=[
-  {day:1,img:"forum-stage",av:"NM",c:"#0A0A0A",spk:"Nguyễn Minh",time:"09:00 – 09:30",
+/* --- Agenda, per event -----------------------------------------------------
+   Every event used to share one agenda, so the Zurich gala listed the Hanoi
+   keynote. Events with no programme published yet fall through to the empty
+   state, which is the honest answer. */
+const sessionsByEv={
+ svef26:[
+  {day:1,img:"forum-stage",av:"NM",c:"#0A0A0A",spk:"Nguyễn Minh",pids:[7],time:"09:00 – 09:30",
    t:{vi:"Khai mạc & Phát biểu chính",en:"Opening & Keynote"}, tag:{vi:"Keynote",en:"Keynote"},
    room:{vi:"Hội trường A",en:"Hall A"}, role:{vi:"Chủ tịch SVEF",en:"SVEF Chairman"},
    desc:{vi:"Lễ khai mạc Diễn đàn Kinh tế Thụy Sĩ – Việt Nam 2026 và định hướng hợp tác song phương giai đoạn tới.",
          en:"Opening ceremony of the Swiss–Vietnam Economic Forum 2026 and the bilateral cooperation outlook for the coming period."}},
-  {day:1,img:"boardroom",av:"MR",c:"#7A5C00",spk:"Marco Rossi",time:"10:30 – 11:30",
+  {day:1,img:"boardroom",av:"MR",c:"#7A5C00",spk:"Marco Rossi",pids:[2,1,8],time:"10:30 – 11:30",
    t:{vi:"Đầu tư Thụy Sĩ – Việt Nam",en:"Swiss–Vietnam Investment"}, tag:{vi:"Panel",en:"Panel"},
    room:{vi:"Phòng B2",en:"Room B2"}, role:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"},
    desc:{vi:"Cơ hội và rào cản cho dòng vốn Thụy Sĩ vào Việt Nam: tài chính xanh, sản xuất công nghệ cao và khởi nghiệp.",
          en:"Opportunities and barriers for Swiss capital into Vietnam: green finance, high-tech manufacturing and startups."}},
-  {day:1,img:"data",av:"LW",c:"#E42026",spk:"Lara Weber",time:"14:00 – 14:45",
+  {day:1,img:"data",av:"LW",c:"#E42026",spk:"Lara Weber",pids:[1],time:"14:00 – 14:45",
    reg:true, cap:60, taken:44,
    t:{vi:"Chuyển đổi số & Fintech",en:"Digital Transformation & Fintech"}, tag:{vi:"Talk",en:"Talk"},
    room:{vi:"Phòng B1",en:"Room B1"}, role:{vi:"CEO, Helvetia Fintech",en:"CEO, Helvetia Fintech"},
    desc:{vi:"Thanh toán xuyên biên giới, ngân hàng số và xu hướng Fintech kết nối hai thị trường.",
          en:"Cross-border payments, digital banking and Fintech trends connecting the two markets."}},
-  {day:2,img:"energy-solar",av:"PH",c:"#3E7742",spk:"Phạm Hà",time:"09:30 – 10:15",
+  {day:2,img:"energy-solar",av:"PH",c:"#3E7742",spk:"Phạm Hà",pids:[3,7],time:"09:30 – 10:15",
    t:{vi:"Chuyển dịch năng lượng xanh",en:"Green Energy Transition"}, tag:{vi:"Panel",en:"Panel"},
    room:{vi:"Hội trường A",en:"Hall A"}, role:{vi:"Nhà sáng lập, GreenTech VN",en:"Founder, GreenTech VN"},
    desc:{vi:"Điện mặt trời áp mái, lưu trữ năng lượng và cơ chế mua bán điện trực tiếp cho khu công nghiệp Việt Nam.",
          en:"Rooftop solar, energy storage and direct power purchase mechanisms for Vietnamese industrial parks."}},
-  {day:2,img:"manufacturing",av:"AK",c:"#0F5A4A",spk:"Andreas Küng",time:"13:30 – 14:15",
+  {day:2,img:"manufacturing",av:"AK",c:"#0F5A4A",spk:"Andreas Küng",pids:[9],time:"13:30 – 14:15",
    reg:true, cap:30, taken:29,
    t:{vi:"Sản xuất chính xác & chuỗi cung ứng",en:"Precision Manufacturing & Supply Chains"}, tag:{vi:"Workshop",en:"Workshop"},
    room:{vi:"Phòng B1",en:"Room B1"}, role:{vi:"Giám đốc vận hành, Alpine Precision AG",en:"COO, Alpine Precision AG"},
    desc:{vi:"Chuyển giao công nghệ gia công chính xác của Thụy Sĩ và cơ hội nội địa hoá chuỗi cung ứng tại Việt Nam.",
          en:"Transfer of Swiss precision machining know-how and the case for localising supply chains in Vietnam."}},
-];
+  {day:3,img:"office",av:"MR",c:"#1F3A5F",spk:"Marco Rossi",pids:[2,10],time:"09:30 – 11:00",
+   t:{vi:"Kết nối doanh nghiệp – phiên gặp gỡ",en:"Business matchmaking floor"}, tag:{vi:"Networking",en:"Networking"},
+   room:{vi:"Khu Networking",en:"Networking Lounge"}, role:{vi:"Partner, Zurich VC",en:"Partner, Zurich VC"},
+   desc:{vi:"Sàn kết nối một đối một theo lịch hẹn đã đặt trong ứng dụng, kèm khu tư vấn thủ tục đầu tư và hải quan.",
+         en:"The one-to-one matchmaking floor, running against the meeting slots booked in the app, with an investment and customs advisory desk alongside."}},
+  {day:3,img:"signing",av:"NM",c:"#E42026",spk:"Nguyễn Minh",pids:[7,8],time:"16:00 – 17:00",
+   t:{vi:"Phiên bế mạc & công bố hợp tác",en:"Closing plenary & partnership announcements"}, tag:{vi:"Keynote",en:"Keynote"},
+   room:{vi:"Hội trường A",en:"Hall A"}, role:{vi:"Chủ tịch SVEF",en:"SVEF Chairman"},
+   desc:{vi:"Tổng kết ba ngày diễn đàn, công bố các thoả thuận hợp tác và định hướng kỳ 2027 tại Thụy Sĩ.",
+         en:"Closing summary of the three days, the partnership agreements signed during the forum, and the outlook for the 2027 edition in Switzerland."}},
+ ],
+ roundtable:[
+  {day:1,img:"boardroom",av:"LT",c:"#1F3A5F",spk:"Lê Thu",pids:[5,2],time:"09:00 – 10:30",
+   t:{vi:"Dòng vốn Thụy Sĩ vào miền Bắc Việt Nam",en:"Swiss capital into northern Vietnam"}, tag:{vi:"Panel",en:"Panel"},
+   room:{vi:"Phòng họp Pan Pacific",en:"Pan Pacific boardroom"}, role:{vi:"Giám đốc, VN Growth Fund",en:"Director, VN Growth Fund"},
+   desc:{vi:"Phiên bàn tròn kín về khẩu vị rủi ro, định giá và lộ trình thoái vốn cho các thương vụ sản xuất tại miền Bắc.",
+         en:"A closed roundtable on risk appetite, valuation and exit routes for manufacturing deals in the north."}},
+  {day:1,img:"manufacturing",av:"VH",c:"#0F5A4A",spk:"Vũ Hải",pids:[12],time:"10:45 – 12:00",
+   t:{vi:"Thực địa: khu công nghiệp và hạ tầng",en:"Field view: industrial parks and infrastructure"}, tag:{vi:"Talk",en:"Talk"},
+   room:{vi:"Phòng họp Pan Pacific",en:"Pan Pacific boardroom"}, role:{vi:"Giám đốc, Delta Manufacturing",en:"Director, Delta Manufacturing"},
+   desc:{vi:"Hiện trạng quỹ đất, điện và nhân lực tại các khu công nghiệp phụ trợ quanh Hà Nội.",
+         en:"Land, power and labour conditions across the supplier parks around Hanoi."}}
+ ]
+};
+let sessions=sessionsByEv.svef26||[];
 const exhibitors=[
   {n:"Helvetia Fintech",i:"HF",d:{vi:"Gian S1 · Fintech & Thanh toán",en:"Booth S1 · Fintech & Payments"}},
   {n:"GreenTech VN",i:"GT",d:{vi:"Gian S2 · Năng lượng tái tạo",en:"Booth S2 · Renewable energy"}},
@@ -1552,6 +1628,19 @@ function tr(k){return (T[lang][k]!==undefined)?T[lang][k]:k;}
 function tx(o){return (o&&o[lang]!==undefined)?o[lang]:'';}
 function byId(id){return document.getElementById(id);}
 function personById(id){return id===0?selfPerson():people.find(p=>p.id===id);}
+/* --- agenda <-> speaker, resolved both ways from one id list ---------------- */
+function sessionSpeakers(s){
+  if(!s)return [];
+  const ids=s.pids||[];
+  const out=ids.map(personById).filter(Boolean);
+  // a session whose speaker is not an attendee still shows a name, just not a link
+  return out.length?out:(s.spk?[{n:s.spk,i:s.av,c:s.c,t:s.role,noLink:true}]:[]);
+}
+function speakerNames(s){return sessionSpeakers(s).map(p=>p.n).join(', ');}
+function sessionsBySpeaker(pid){
+  if(!pid)return [];
+  return sessions.map((x,i)=>i).filter(i=>(sessions[i].pids||[]).indexOf(pid)>-1);
+}
 function meetingFor(id){return meetings.find(m=>m.pid===id);}
 const msKey={confirmed:'ms_confirmed',pending:'ms_pending',canceled:'ms_canceled',declined:'ms_declined'};
 const mtgKey={confirmed:'mtg_confirmed',pending:'mtg_pending',canceled:'mtg_canceled',declined:'mtg_declined'};
@@ -1560,12 +1649,13 @@ const msChip={confirmed:'green',pending:'gold',canceled:'red',declined:''};
 
 let curEv=events.find(e=>e.id==='svef26');
 let infoEv=curEv, regEvId=null, curDay=1, curPerson=null;
-let saved=new Set([0,2]);
+const savedByEv={svef26:[0,2]};
+let saved=new Set(savedByEv.svef26||[]);
 function isPast(){return !!curEv&&curEv.status==='past';}
 function fact(k,v){return `<div class="f"><div class="k">${tr(k)}</div><div class="v">${v}</div></div>`}
 function factRaw(l,v){return `<div class="f"><div class="k">${l}</div><div class="v">${v}</div></div>`}
 function avHTML(o,cls){return `<div class="av ${cls||'sm'}" style="background:${o.c}">${o.i}</div>`}
-function emptyHTML(){return `<div class="empty"><div class="e-ic">🔍</div><p>${tr('empty_search')}</p></div>`}
+function emptyHTML(){return `<div class="empty"><div class="e-ic">${ic('search',26)}</div><p>${tr('empty_search')}</p></div>`}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 /* ===================== REGISTRATIONS & BOOKINGS =====================
@@ -1576,7 +1666,7 @@ const bookings={
   svef26:{ref:"SVEF-2041", ev:"svef26", mode:"personal", state:"confirmed", wpos:0,
     att:[{n:"Anh Trần", e:"anh.tran@zegoe.vn", co:"Zegoe Capital",
           t:{vi:"Giám đốc Đầu tư",en:"Investment Director"}}],
-    made:{vi:"2 tháng 6, 2026",en:"2 June 2026"}}
+    made:{vi:"2 tháng 7, 2026",en:"2 July 2026"}}
 };
 function bookingFor(id){const b=bookings[id];return (b&&b.state!=='cancelled')?b:null;}
 function evById(id){return events.find(x=>x.id===id);}
@@ -1659,8 +1749,17 @@ function trf(k,rep,fb){
 function signInApp(method){
   if(method==='svef'&&!(byId('liEmail').value||'').trim()){toast(tr('li_need'));return;}
   byId('phone').classList.remove('locked');
-  go('events');
+  enterApp();
   toast(method==='svef'?tr('t_signed_svef'):tr('t_signed_sso')+({google:'Google',linkedin:'LinkedIn',microsoft:'Microsoft'}[method]||''));
+}
+/* Where the app opens. An attendee holding a booking goes straight into that
+   event's shell; only somebody with nothing booked meets the chooser first. The
+   chooser is a switcher, not the front door. */
+function enterApp(){
+  const mine=myEvents();
+  const target=mine.find(e=>e.live)||mine.find(e=>e.status!=='past')||mine[0];
+  if(target){openEvent(target.id);return;}
+  inEvent=false;navStack=['events'];renderEvents();go('events',true);
 }
 function signOutApp(){
   closeSheet();
@@ -1673,40 +1772,60 @@ function signOutApp(){
 }
 
 /* ===================== NAV ===================== */
-const tabsScreens=["home","explore","schedule","network","participants","profile"];
-const outScreens=["events","eventinfo"];
-/* screens that take over the whole viewport, so the tab bar steps out of the way */
-const noNavScreens=outScreens.concat(["chat"]);
+const tabsScreens=["home","schedule","participants","explore","profile"];
+/* The chooser is the only screen that lives outside an event shell. Everything
+   else belongs to the event you are currently in. */
+const outScreens=["events"];
+/* Chat takes over the whole viewport, so the tab bar steps out of the way. */
+const noNavScreens=["chat"];
+/* Every screen is owned by exactly one tab, so drilling into a session or a
+   person never leaves the tab bar with nothing lit. */
+const navOwner={home:"home",schedule:"schedule",participants:"participants",
+  explore:"explore",profile:"profile",session:"schedule",person:"participants",
+  messages:"participants",chat:"participants",map:"explore",
+  notifications:"home",eventinfo:"home"};
+/* True once an event has been opened: it is what puts the app shell on screen.
+   The chooser is a switcher you step out to, not the app's front door. */
+let inEvent=false;
 let current="events", navStack=["events"], curSession=0;
 function setAppbarTitle(s){
   const ab=byId('appbar'), back=byId('backBtn'), t=byId('abTitle'), ev=byId('evSwitchBtn');
-  ev.style.display=outScreens.includes(s)?'none':'grid';
-  // messages belong to an event, so the shortcut disappears on the event list
-  const mb=byId('msgBtn');if(mb)mb.style.display=outScreens.includes(s)?'none':'grid';
+  /* Switcher, messages and notifications are all event-scoped, so they only exist
+     inside the shell. Leaving the bell out of this is what used to summon the tab
+     bar on top of the chooser. */
+  const shell=inEvent&&s!=='events';
+  ev.style.display=shell?'grid':'none';
+  const mb=byId('msgBtn');if(mb)mb.style.display=shell?'grid':'none';
+  const nb=byId('notifBtn');if(nb)nb.style.display=shell?'grid':'none';
   if(s==='events'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tr('ab_events')+'</small>';back.style.display='none';}
   else if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tx(curEv.short)+'</small>';back.style.display='none';}
   else{
     ab.classList.remove('brand');
     // event-scoped screens name the event they belong to, so an agenda or a
     // participant list can never be read against the wrong one
-    const scoped=['explore','schedule','network','participants','map','messages','chat','session','person'];
+    const scoped=['explore','schedule','participants','map','messages','chat','session','person'];
     t.innerHTML=tr('ab_'+s)+((scoped.indexOf(s)>-1&&curEv)?'<small>'+tx(curEv.short)+'</small>':'');
-    back.style.display=(tabsScreens.includes(s)?'none':'grid');
+    back.style.display=(tabsScreens.includes(s)||s==='events')?'none':'grid';
   }
 }
 function go(s,isBack){
   document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('active',e.dataset.screen===s));
   const c=byId('content');c.scrollTop=0;
-  const hideNav=noNavScreens.includes(s);
+  /* The tab bar is the app shell. It is present for the whole of an event and
+     absent outside one, so it can never appear or vanish mid-task. */
+  const hideNav=!inEvent||outScreens.includes(s)||noNavScreens.includes(s);
   byId('nav').style.display=hideNav?'none':'flex';
   c.classList.toggle('nonav',hideNav);
   c.classList.toggle('chatmode',s==='chat');
   if(current!==s&&!isBack){navStack.push(s);} current=s;
-  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===s));
+  const owner=navOwner[s]||s;
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.nav===owner));
   setAppbarTitle(s);
 }
-function goBack(){navStack.pop();const prev=navStack[navStack.length-1]||'events';go(prev,true);}
-function exitEvent(){go('events');}
+function goBack(){navStack.pop();const prev=navStack[navStack.length-1]||(inEvent?'home':'events');go(prev,true);}
+/* Stepping out to the chooser ends the event session, so the stack starts over
+   rather than carrying screens from the event you just left. */
+function exitEvent(){inEvent=false;navStack=['events'];go('events',true);}
 
 /* ===================== EVENTS LIST ===================== */
 let evTab='upcoming';
@@ -1776,7 +1895,8 @@ function eventCard(e){
 }
 function renderEvents(){
   const el=byId('evList');if(!el)return;
-  const list=(evTab==='registered')?events.filter(e=>bookingFor(e.id)):events.filter(e=>e.status===evTab);
+  const list=(evTab==='registered')?events.filter(e=>bookingFor(e.id))
+    :events.filter(e=>(evTab==='past')?e.status==='past':e.status!=='past');
   let h='';
   if(evTab==='registered'&&list.length)h+=`<div class="note">${tr('ev_moves')}</div>`;
   if(evTab==='past')h+=`<div class="note mono">${tr('ev_readonly_note')}</div>`;
@@ -1788,10 +1908,23 @@ function renderEvents(){
   el.innerHTML=h;
 }
 function remindMe(id){const e=evById(id);if(!e)return;toast(tr('t_remind'));}
+/* Everything below is scoped to one event, so entering one swaps the lot. Saved
+   sessions and session registrations are indexes into that event's agenda, so they
+   have to be rebuilt rather than carried across. */
+function loadEventData(){
+  sessions=sessionsByEv[curEv.id]||[];
+  meetings=meetingsByEv[curEv.id]||[];
+  chats=chatsByEv[curEv.id]||{};
+  saved=new Set(savedByEv[curEv.id]||[]);
+  sessionReg=new Set();
+  chatWith=null;
+}
 function openEvent(id){
   const e=events.find(x=>x.id===id);if(e)curEv=e;
   curDay=curEv.days[0].n;curPerson=null;
-  renderAll();go('home');
+  loadEventData();
+  inEvent=true;navStack=['home'];
+  renderAll();go('home',true);
   if(isPast())toast(tr('t_readonly'));
 }
 function openEventInfo(id){const e=events.find(x=>x.id===id);infoEv=e||curEv;renderEventInfo();go('eventinfo');}
@@ -1823,27 +1956,27 @@ function renderEventInfo(){
 }
 
 /* ===================== HOME ===================== */
-function qaBtn(ic,k,fn){return `<button onclick="${fn}"><span class="ico">${ic}</span><span>${tr(k)}</span></button>`}
+function qaBtn(name,k,fn){return `<button onclick="${fn}"><span class="ico">${ic(name,24)}</span><span>${tr(k)}</span></button>`}
 function renderHome(){
   if(!byId('homeHero'))return;
   const e=curEv,past=isPast(),hb=bookingFor(e.id);
   // the hero chip tells the attendee where they stand on this event, not a fixed label
-  let hcls='green',hlbl=tr('checkedin');
+  let hcls='green',hlbl=tr('bs_confirmed');
   if(past){hcls='';hlbl=tr('ev_ended');}
   else if(!hb){hcls='';hlbl=tr('ei_st_up');}
   else if(hb.state!=='confirmed'){hcls='gold';hlbl=tr('bs_'+hb.state);}
   byId('homeHero').innerHTML=
-    `<div class="hi">${tr('greet')}</div><div class="nm">${esc(me.n)}</div>
+    `<div class="hi">${greeting()}</div><div class="nm">${esc(me.n)}</div>
      <div class="ev"><div class="d">${e.dnum}<small>${tx(e.dmon)}</small></div>
        <div style="flex:1"><b style="font-size:13px">${tx(e.short)}</b>
          <div style="font-size:11px;opacity:.85">${tx(e.venue)}</div></div>
        <span class="chip ${hcls}" ${hcls?'':'style="border-color:rgba(255,255,255,.45);color:#fff"'}>${hlbl}</span>
      </div>`;
   byId('homeQA').innerHTML = past
-    ? qaBtn('📋','qa_agenda',"go('schedule')")+qaBtn('💬','qa_messages',"openMessages()")
-      +qaBtn('📅','qa_meetings','openMeetings()')+qaBtn('👥','qa_people',"go('participants')")
-    : qaBtn('📱','qa_qrconnect','openQR()')+qaBtn('🎫','qa_eticket','openTicket()')
-      +qaBtn('🗺️','qa_map',"go('map')")+qaBtn('🤝','qa_connect',"go('network')");
+    ? qaBtn('clipboard','qa_agenda','openAgendaAll()')+qaBtn('chat','qa_messages',"openMessages()")
+      +qaBtn('calendar','qa_meetings','openMeetings()')+qaBtn('people','qa_people',"go('participants')")
+    : qaBtn('qr','qa_qrconnect','openQR()')+qaBtn('ticket','qa_eticket','openTicket()')
+      +qaBtn('map','qa_map',"go('map')")+qaBtn('handshake','qa_connect','openSuggestions()');
   byId('homeRecap').innerHTML = past
     ? `<h2 class="sec"><span>${tr('past_recap_l')}</span></h2>
        <div class="card" style="padding:0">
@@ -1853,7 +1986,7 @@ function renderHome(){
        </div>` : '';
 }
 function sessRow(i){const s=sessions[i];
-  return `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${s.spk}</p></div></div>`;
+  return `<div class="sess" style="margin-bottom:14px" onclick="openSession(${i})"><div class="time"><b>${s.time.slice(0,5)}</b><span>${tx(s.tag)}</span></div><div class="bar" style="background:${s.c}"></div><div class="body"><h4>${tx(s.t)}</h4><p>${tx(s.room)} · ${esc(speakerNames(s))}</p></div></div>`;
 }
 function renderSpeakers(){
   const el=byId('spkScroll');if(!el)return;
@@ -1869,11 +2002,15 @@ function renderHomeAgenda(){
   const el=byId('homeAgenda');if(!el)return;
   const d=curEv.days[0].n;
   const idx=sessions.map((s,i)=>i).filter(i=>sessions[i].day===d);
-  el.innerHTML=idx.map(i=>sessRow(i)).join('');
+  el.innerHTML=idx.length?idx.map(i=>sessRow(i)).join('')
+    :`<div class="empty" style="padding:22px"><p>${tr('sched_none_day')}</p></div>`;
+  // the heading has to name the day being shown, not claim it is today
+  const hd=byId('homeAgendaDay');
+  if(hd){const day=curEv.days.find(x=>x.n===d)||curEv.days[0];hd.textContent=tx(day.lbl)+' \u00b7 '+tx(day.d);}
 }
 
 /* ===================== EXPLORE ===================== */
-let exTab='agenda';
+let exTab='speakers';
 function switchTab(tab){exTab=tab;document.querySelectorAll('#exTabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));renderExplore();}
 function setDay(n){curDay=n;renderExplore();renderSchedule();}
 function dayPills(fn){
@@ -1886,7 +2023,7 @@ function agendaRow(i){
   // sessions with limited capacity are registered for separately from bookmarking
   const badge=s.reg?`<span class="regchip${sessionReg.has(i)?' on':''}">${sessionReg.has(i)?'✓ '+tr('sr_registered'):tr('sr_required')}</span>`:'';
   return `<div class="li" onclick="openSession(${i})"><div class="thumb pic" style="--img:url('assets/img/${s.img}.jpg')"></div>`
-    +`<div class="meta"><h4>${tx(s.t)}</h4><p>${s.time} · ${tx(s.room)} · ${s.spk}</p>${badge}</div>`
+    +`<div class="meta"><h4>${tx(s.t)}</h4><p>${s.time} · ${tx(s.room)} · ${esc(speakerNames(s))}</p>${badge}</div>`
     +(isPast()?`<span class="muted">›</span>`
       :`<button class="savebtn ${sv?'on':''}" onclick="event.stopPropagation();toggleSave(${i})">${sv?'★':'☆'}</button>`)
     +`</div>`;
@@ -1894,13 +2031,18 @@ function agendaRow(i){
 function renderExplore(q){
   const inp=byId('exSearch'),el=byId('exList');if(!el)return;
   q=((q!==undefined&&q!==null)?q:(inp?inp.value:'')||'').toString().toLowerCase();
-  if(exTab==='agenda'){
-    const idx=sessions.map((s,i)=>i).filter(i=>sessions[i].day===curDay
-      &&(tx(sessions[i].t).toLowerCase().includes(q)||sessions[i].spk.toLowerCase().includes(q)));
-    el.innerHTML=dayPills('setDay')+(idx.length?idx.map(i=>agendaRow(i)).join(''):emptyHTML());
-  }else if(exTab==='speakers'){
-    el.innerHTML=speakers.map(s=>s.n.toLowerCase().includes(q)?
-      `<div class="li" onclick="toast(tr('t_profile')+'${s.n}')">${avHTML(s,'sm')}<div class="meta"><h4>${s.n}</h4><p>${tx(s.r)}</p></div><button class="btn sm ghost" onclick="event.stopPropagation();toast(tr('t_followed')+'${s.n}')">${tr('follow')}</button></div>`:'').join('')||emptyHTML();
+  if(exTab==='speakers'){
+    /* A speaker who is also an attendee opens their real profile instead of a
+       toast, so the agenda, the directory and the speaker list are one graph. */
+    el.innerHTML=speakers.map(s=>{
+      if(!s.n.toLowerCase().includes(q))return '';
+      const sess=sessionsBySpeaker(s.pid);
+      const sub=sess.length?`${tx(s.r)} \u00b7 ${sess.length} ${tr('sess_unit_n')}`:tx(s.r);
+      const act=s.pid?`<span class="muted">\u203a</span>`
+        :`<button class="btn sm ghost" onclick="event.stopPropagation();toast(tr('t_followed')+'${s.n}')">${tr('follow')}</button>`;
+      return `<div class="li" onclick="${s.pid?`openPerson(${s.pid})`:`toast(tr('t_profile')+'${s.n}')`}">${avHTML(s,'sm')}`
+        +`<div class="meta"><h4>${s.n}</h4><p>${sub}</p></div>${act}</div>`;
+    }).join('')||emptyHTML();
   }else if(exTab==='sponsors'){
     el.innerHTML=sponsors.map(s=>s.n.toLowerCase().includes(q)?
       `<div class="li" onclick="toast(tr('t_profile')+'${s.n}')"><div class="thumb" style="background:${s.c}">${s.i}</div><div class="meta"><h4>${s.n}</h4><p>${tx(s.d)}</p></div><span class="chip ${s.tier==='headline'?'red':(s.tier==='gold'?'gold':'')}">${tx(tiers[s.tier])}</span></div>`:'').join('')||emptyHTML();
@@ -1921,7 +2063,7 @@ function updateSaveBtn(){
 }
 
 /* --- Per-session registration (limited-capacity sessions) ------------------ */
-let sessionReg=new Set();
+var sessionReg=new Set();
 function seatsLeft(i){const s=sessions[i];return Math.max(0,(s.cap||0)-(s.taken||0));}
 function toggleSessionReg(i){
   const s=sessions[i];if(!s||!s.reg)return;
@@ -1959,13 +2101,14 @@ function updateSessionActions(){
 }
 
 /* ===================== SCHEDULE (Agenda + Meetings) ===================== */
-let scTab='agenda';
+let scTab='all';
 function switchScTab(t){scTab=t;document.querySelectorAll('#scTabs button').forEach(b=>b.classList.toggle('on',b.dataset.sctab===t));renderSchedule();}
 function openMeetings(){go('schedule');switchScTab('meetings');}
+function openAgendaAll(){go('schedule');switchScTab('all');}
 function mtgCard(m){
   const p=personById(m.pid),d=curEv.days.find(x=>x.n===m.day)||curEv.days[0];
   return `<div class="mtg">
-    <div class="mh"><div class="mt">${m.time}<small>GMT+7 · ${tx(d.lbl)} · ${tx(d.d)}</small></div>
+    <div class="mh"><div class="mt">${m.time}<small>${curEv.tz} · ${tx(d.lbl)} · ${tx(d.d)}</small></div>
       <span class="chip ${msChip[m.status]}">${tr(msKey[m.status])}</span></div>
     <div class="mp"><b>${p.n}</b><span>${tx(p.t)} · ${p.co}</span></div>
     <div class="mf"><span class="chip">${tr('dir_'+m.dir)}</span>
@@ -1974,7 +2117,15 @@ function mtgCard(m){
 }
 function renderSchedule(){
   const el=byId('scBody');if(!el)return;
-  if(scTab==='agenda'){
+  if(scTab==='all'){
+    /* The full programme lives here, so Home's "see all" genuinely shows more
+       rather than the saved-only subset it used to land on. */
+    const idx=sessions.map((x,i)=>i).filter(i=>sessions[i].day===curDay);
+    let h=`<h2 class="sec"><span>${tr('agenda_all_h')}</span> <span class="chip">${idx.length} ${tr('sess_unit_n')}</span></h2>`;
+    h+=dayPills('setDay');
+    h+=idx.length?idx.map(i=>agendaRow(i)).join(''):emptyHTML();
+    el.innerHTML=h;
+  }else if(scTab==='mine'){
     const idx=Array.from(saved).sort((a,b)=>a-b).filter(i=>sessions[i]&&sessions[i].day===curDay);
     let h=`<h2 class="sec"><span>${tr('saved_h')}</span> <span class="chip red">${saved.size} ${tr('sess_unit')}</span></h2>`;
     h+=dayPills('setDay');
@@ -1982,8 +2133,8 @@ function renderSchedule(){
       :`<div class="empty" style="padding:34px 24px"><div class="e-ic">☆</div><p style="font-size:12.5px">${tr('sched_empty')}</p></div>`;
     el.innerHTML=h;
   }else{
-    let h=`<h2 class="sec"><span>${tr('sc_tab_meet')}</span> <span class="chip">GMT+7</span></h2>`;
-    h+=`<div class="note mono">${tr('tz_note')}</div>`;
+    let h=`<h2 class="sec"><span>${tr('sc_tab_meet')}</span> <span class="chip">${curEv.tz}</span></h2>`;
+    h+=`<div class="note mono">${tr('tz_note')} ${curEv.tz}</div>`;
     h+=meetings.length?meetings.map(mtgCard).join('')
       :`<div class="empty"><div class="e-ic">📅</div><p>${tr('meet_none')}</p></div>`;
     el.innerHTML=h;
@@ -2017,6 +2168,9 @@ function renderNetwork(){
   ['suggestHead','suggestNote','suggest'].forEach(function(id){
     const el=byId(id);if(el)el.style.display=past?'none':'';
   });
+  // AI matching is prospective, so on a finished event the tab itself goes too
+  const mt=document.querySelector('#ppTabs button[data-pptab="match"]');
+  if(mt){mt.style.display=past?'none':'';if(past&&ppTab==='match')switchPpTab('conns');}
   // the connect QR only makes sense on site; meetings stay reachable as a record
   const qr=byId('netQrBtn');if(qr)qr.style.display=past?'none':'';
   byId('suggest').innerHTML=past?'':people.filter(p=>p.match).map(p=>personRow(p,true)).join('');
@@ -2037,6 +2191,16 @@ function renderParticipants(){
   el.innerHTML=list.length?list.map(p=>personRow(p,false)).join('')
     :`<div class="empty"><div class="e-ic">👥</div><p>${tr('p_none')}</p></div>`;
 }
+let ppTab='dir';
+function switchPpTab(t){
+  ppTab=t;
+  document.querySelectorAll('#ppTabs button').forEach(b=>b.classList.toggle('on',b.dataset.pptab===t));
+  const map={dir:'ppPaneDir',match:'ppPaneMatch',conns:'ppPaneConns'};
+  Object.keys(map).forEach(k=>{const el=byId(map[k]);if(el)el.style.display=(k===t)?'':'none';});
+  renderParticipants();renderNetwork();
+}
+function openConnections(){go('participants');switchPpTab('conns');}
+function openSuggestions(){go('participants');switchPpTab('match');}
 function openPerson(id){curPerson=id;renderPerson();go('person');}
 function renderPerson(){
   const p=personById(curPerson);if(!p||!byId('ppFacts'))return;
@@ -2054,6 +2218,12 @@ function renderPerson(){
     +fact('pp_industry',tx(industries[p.ind]))
     +(p.cod?fact('pp_about_co',tx(p.cod)):'')
     +fact('pp_markets',p.mkts.map(k=>tx(markets[k])).join(' · '));
+  /* The reverse of the agenda link: if this person speaks, say where. */
+  const spk=sessionsBySpeaker(p.id);
+  byId('ppSessions').innerHTML=spk.length
+    ? `<h2 class="sec"><span>${tr('pp_sessions')}</span> <span class="chip red">${spk.length}</span></h2>`
+      +spk.map(i=>sessRow(i)).join('')
+    : '';
   byId('ppHandles').innerHTML=`<div class="sechead">${tr('h_l')}</div>`+handlesHTML(p);
   const m=meetingFor(p.id);
   // your own card is a preview of what others see, not somebody to meet or message
@@ -2153,12 +2323,10 @@ function openSession(i){
   curSession=i;const s=sessions[i];
   byId('sDtag').textContent=tx(s.tag);
   byId('sDtitle').textContent=tx(s.t);
-  byId('sDtime').textContent=s.time+' · GMT+7';
+  byId('sDtime').textContent=s.time+' · '+curEv.tz;
   byId('sDroom').textContent=tx(s.room);
   byId('sDdesc').textContent=tx(s.desc);
-  byId('sDspk').textContent=s.spk;
-  byId('sDspkrole').textContent=tx(s.role);
-  const av=byId('sDav');av.textContent=s.av;av.style.background=`${s.c}`;
+  renderSessionSpeakers(s);
   byId('sDhero').style.setProperty('--img',`url('assets/img/${s.img}.jpg')`);
   byId('sDsave').style.display=isPast()?'none':'inline-flex';
   updateSaveBtn();updateSessionActions();
@@ -2214,11 +2382,14 @@ function renderAttending(){
 /* Moving scope re-renders everything that hangs off curEv: home, agenda, people, map. */
 function switchAttending(id){
   const e=evById(id);if(!e||!curEv)return;
+  // tapping the event you are already in opens its details rather than doing nothing
   if(curEv.id===id){openEventInfo(id);return;}
-  curEv=e;curDay=e.days[0].n;curPerson=null;chatWith=null;
-  renderAll();setAppbarTitle(current);
-  toast(trf('at_switched',{ev:e.short},'at_l'));
-  if(isPast())toast(tr('t_readonly'));
+  curEv=e;curDay=e.days[0].n;curPerson=null;
+  loadEventData();
+  navStack=['home'];
+  renderAll();go('home',true);
+  // one toast per action: a second one here would immediately overwrite the first
+  toast(isPast()?tr('t_readonly'):trf('at_switched',{ev:e.short},'at_l'));
 }
 
 /* ===================== SOCIAL HANDLES =====================
@@ -2381,7 +2552,8 @@ function finishReg(){
     made:{vi:"Hôm nay",en:"Today"}};
   bookings[e.id]=b;
   if(!regWait&&e.cap)e.taken=Math.min(e.cap,(e.taken||0)+b.att.length);
-  e.status='registered';
+  /* Booking state lives on the booking, not on the event: an event you have
+     registered for is still an upcoming event and must stay in that list. */
   const rep={ev:e.n,ref:b.ref};
   if(st==='confirmed')pushNotif('✅','var(--green)','nt_ok_t','nt_ok_p',rep);
   else if(st==='pending')pushNotif('⏳','var(--gold)','nt_pend_t','nt_pend_p',rep);
@@ -2473,7 +2645,10 @@ function renderRegSheet(){
 
 /* ===================== BOOKING: VIEW / MODIFY / CANCEL ===================== */
 let bkEvId=null,bkView='main';
-function openMyRegs(){switchEvTab('registered');go('events');}
+/* Your registrations span every SVEF event, so this genuinely leaves the current
+   event. Say so and land on the chooser's Registered tab with the shell closed,
+   rather than dropping the tab bar mid-task with no way back. */
+function openMyRegs(){switchEvTab('registered');exitEvent();toast(tr('t_myregs'));}
 function openBooking(id){
   const b=bookingFor(id);if(!b)return;
   bkEvId=id;bkView='main';renderBookingSheet();openSheet('sheetBooking');
@@ -2612,7 +2787,7 @@ function renderTicketSheet(){
     h+=`<div class="passrow">`+b.att.map((x,i)=>
       `<button class="${i===tkPass?'on':''}" onclick="tkSetPass(${i})">${tr('et_pass')} ${String(i+1).padStart(2,'0')}</button>`).join('')+`</div>`;
   }
-  h+=`<div class="qrbox"></div>`;
+  h+=`<div class="qrbox">${qrSVG()}</div>`;
   h+=`<div class="facts" style="margin-top:4px">`
     +factRaw(tr('et_holder'),esc(a.n)+(a.co?' · '+esc(a.co):''))
     +factRaw(tr('et_event'),tx(e.n)+'<span class="muted" style="display:block;font-size:11.5px">'+tx(e.dates)+' · '+tx(e.venue)+'</span>')
@@ -2737,7 +2912,7 @@ function qrFields(){
 }
 function renderQR(){
   const el=byId('qrBody');if(!el)return;
-  el.innerHTML=`<div class="qrbox"></div>
+  el.innerHTML=`<div class="qrbox">${qrSVG()}</div>
     <div style="text-align:center;margin-bottom:12px"><b style="font-size:16px">${esc(me.n)}</b><br>
       <span class="muted" style="font-size:12.5px">${esc(meTitle())}${me.vis.co?' · '+esc(me.co):''}</span></div>
     <div class="sechead">${tr('qr_shares_l')}</div>
@@ -2826,12 +3001,94 @@ function applyI18n(){
   // globe label = current language code
   document.getElementById('globeLbl').textContent=(lang==='vi'?'VI':'EN');
 }
+/* One speaker or five, the session screen renders them the same way, and each one
+   is a route into the attendee record rather than a dead line of text. */
+function renderSessionSpeakers(s){
+  const el=byId('sDspks');if(!el)return;
+  const list=sessionSpeakers(s);
+  el.innerHTML=list.length?list.map(function(p){
+    const role=tx(p.t)+(p.co?' \u00b7 '+esc(p.co):'');
+    return `<div class="conn"${p.noLink?'':` onclick="openPerson(${p.id})" style="cursor:pointer"`}>`
+      +`<div class="av sm" style="background:${p.c}">${p.i}</div>`
+      +`<div class="meta"><h4>${esc(p.n)}</h4><p>${role}</p></div>`
+      +(p.noLink?'':`<span class="muted">\u203a</span>`)+`</div>`;
+  }).join(''):`<div class="note mono">${tr('spk_none')}</div>`;
+}
 function openSessionRefresh(){const s=sessions[curSession];if(!s)return;
   byId('sDtag').textContent=tx(s.tag);byId('sDtitle').textContent=tx(s.t);
   byId('sDroom').textContent=tx(s.room);byId('sDdesc').textContent=tx(s.desc);
-  byId('sDspkrole').textContent=tx(s.role);}
-function setLang(l){lang=l;localStorage.setItem('svef_lang',l);applyI18n();}
+  renderSessionSpeakers(s);}
+function setLang(l){lang=l;localStorage.setItem('svef_lang',l);applyI18n();paintIcons();}
 function toggleLang(){setLang(lang==='vi'?'en':'vi');toast(tr('lang_switched'));}
+
+
+
+/* A real QR matrix (29x29, error level M) encoding the attendee's connect URL.
+   The old checkerboard was a repeating-conic-gradient, which anybody who looked at
+   it for two seconds could see was not a code. */
+const QR_N=29;
+const QR_BITS="1111111010011001000110111111110000010110010101000001000001101110100000110010001010111011011101010111001110100101110110111010010101110101001011101100000100110101011110010000011111111010101010101010111111100000000100011101111000000000101101110111011001000010010111100010011011000011101101000110010010000110100010011110110111000001010011010111001000010001101101101001110000000110001000001011011010101001000111001011111000101011010111001110100100001111100000010011001010101110001010001001110111010010100001000110111001101011101010001100111001110001100010000100101001110001110100000100011101100000010110111111111000000000011101110000110001111111111110110001000001101011010100000101000000100101000110011011101001101011000011111010010111010110111101111110011001101110101100010001101001001011000001000110101101011010101011111110101100100111110101010";
+function qrSVG(size){
+  const px=1, q=2, dim=QR_N+q*2;
+  let d='';
+  for(let y=0;y<QR_N;y++){
+    for(let x=0;x<QR_N;x++){
+      if(QR_BITS.charCodeAt(y*QR_N+x)===49)d+=`M${x+q} ${y+q}h${px}v${px}h-${px}z`;
+    }
+  }
+  return `<svg viewBox="0 0 ${dim} ${dim}" width="${size||186}" height="${size||186}" `
+    +`shape-rendering="crispEdges" role="img" aria-label="QR"><rect width="${dim}" height="${dim}" fill="#fff"/>`
+    +`<path d="${d}" fill="var(--ink)"/></svg>`;
+}
+/* The greeting sits next to a live clock, so it has to agree with it. */
+function greeting(){
+  const h=new Date().getHours();
+  return h<12?tr('greet'):(h<18?tr('greet_pm'):tr('greet_eve'));
+}
+
+/* ===================== ICONS =====================
+   Emoji rendered per platform and had to be desaturated with a CSS filter to stop
+   them clashing with the brand. These are one stroke weight, one grid and one
+   colour, which is what makes the chrome read as an app rather than a web page. */
+const ICON_PATHS={
+  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.5 20v-6h5v6"/>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  people:'<circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16.5 5.6a3.2 3.2 0 0 1 0 6.3"/><path d="M18 14.4c2.1.7 3.5 2.5 3.5 5.1"/>',
+  compass:'<circle cx="12" cy="12" r="9"/><path d="m15.6 8.4-2 5.2-5.2 2 2-5.2z"/>',
+  person:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c0-4 3.4-6.5 7.5-6.5s7.5 2.5 7.5 6.5"/>',
+  qr:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 21h3M21 14v3"/>',
+  ticket:'<path d="M3 8.5V6.5a1.5 1.5 0 0 1 1.5-1.5h15A1.5 1.5 0 0 1 21 6.5v2a2.5 2.5 0 0 0 0 7v2a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-2a2.5 2.5 0 0 0 0-7z"/><path d="M13 5v14" stroke-dasharray="2 2.5"/>',
+  map:'<path d="m3 6.5 6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13M15 6.5v13"/>',
+  handshake:'<path d="m3 12.5 3.5-3.5 3 1 3-1.5 3 1.5 3-1 3 3.5"/><path d="m8 14 2.5 2.5a1.6 1.6 0 0 0 2.3 0L18 11.5"/><path d="m6.5 9 3.5 3.5"/>',
+  clipboard:'<rect x="5" y="4.5" width="14" height="16.5" rx="2"/><path d="M9 4.5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 4.5v1.5H9z"/><path d="M9 11h6M9 15h4"/>',
+  chat:'<path d="M20.5 12.2c0 4-3.8 7.2-8.5 7.2a10 10 0 0 1-2.7-.36L4 21l1.3-3.6A6.8 6.8 0 0 1 3.5 12.2C3.5 8.2 7.3 5 12 5s8.5 3.2 8.5 7.2z"/>',
+  bell:'<path d="M6.5 10a5.5 5.5 0 0 1 11 0c0 4.2 1.5 5.8 1.5 5.8H5s1.5-1.6 1.5-5.8z"/><path d="M10.2 19.2a2 2 0 0 0 3.6 0"/>',
+  edit:'<path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17z"/><path d="M14.5 5.5l4 4"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5.3l3.4 2"/>',
+  lock:'<rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3.2 9.6h17.6M3.2 14.4h17.6"/><path d="M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3z"/>',
+  help:'<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2-2.4 3.5"/><path d="M12 17.2h.01"/>',
+  exit:'<path d="M14.5 4.5H6a1.5 1.5 0 0 0-1.5 1.5v12A1.5 1.5 0 0 0 6 19.5h8.5"/><path d="M17 8.5 20.5 12 17 15.5M20.5 12h-9"/>',
+  receipt:'<path d="M6 3.5h12v17l-2.4-1.6-2.4 1.6-2.4-1.6-2.4 1.6L6 20.5z"/><path d="M9.2 8.5h5.6M9.2 12.5h5.6"/>',
+  search:'<circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.4 15.4 4.1 4.1"/>',
+  grid:'<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9h17M3.5 13h17M3.5 17h17"/>',
+  signal:'<path d="M4 20v-4M9.3 20v-8M14.7 20v-12M20 20V4"/>',
+  battery:'<rect x="2.5" y="8" width="16" height="8" rx="2"/><path d="M21 11v2"/><rect x="4.8" y="10.3" width="10" height="3.4" fill="currentColor" stroke="none"/>'
+};
+function ic(name,size){
+  const p=ICON_PATHS[name];if(!p)return '';
+  const w=size||22;
+  return `<svg class="ico-svg" viewBox="0 0 24 24" width="${w}" height="${w}" fill="none" `
+    +`stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" `
+    +`aria-hidden="true">${p}</svg>`;
+}
+function paintIcons(){
+  document.querySelectorAll('[data-ic]').forEach(function(el){
+    if(el.dataset.icPainted)return;
+    el.innerHTML=ic(el.dataset.ic,+el.dataset.icSize||22);
+    el.dataset.icPainted='1';
+  });
+}
 
 /* ===================== CLOCK ===================== */
 function tick(){const d=new Date();document.getElementById('clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
@@ -2840,7 +3097,8 @@ setInterval(tick,10000);tick();
 /* ===================== INIT ===================== */
 curDay=curEv.days[0].n;
 applyI18n();
-go('events');
+paintIcons();
+enterApp();
 </script>
 </body>
 </html>
