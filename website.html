@@ -501,6 +501,25 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
   letter-spacing:-.03em;margin-bottom:15px}
 .spk b{display:block;font-size:14.5px;font-weight:600;letter-spacing:-.025em}
 .spk span{font-size:12.5px;color:var(--muted);display:block;margin-top:4px;line-height:1.35}
+.agspk{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.agspkchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);padding:3px 9px 3px 3px;
+  font-size:12px;color:var(--ink);background:#fff}
+.agspkchip i{width:19px;height:19px;display:grid;place-items:center;color:#fff;font-style:normal;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.02em}
+.agcap{display:inline-block;margin-top:7px;font-family:var(--mono);text-transform:uppercase;
+  letter-spacing:.09em;font-size:9.5px;color:var(--red);border:1px solid var(--red);padding:3px 8px}
+.spostrip{display:flex;flex-direction:column;gap:0}
+.spotier{border:1px solid var(--line);border-bottom:none;padding:14px 18px}
+.spotier:last-child{border-bottom:1px solid var(--line)}
+.spotierh{display:block;font-family:var(--mono);text-transform:uppercase;letter-spacing:.11em;
+  font-size:9.5px;color:var(--muted);margin-bottom:11px}
+.spolist{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.spo{display:flex;gap:11px;align-items:center;min-width:0}
+.spo i{width:38px;height:38px;flex:0 0 38px;display:grid;place-items:center;color:#fff;font-style:normal;
+  font-family:var(--mono);font-size:11px}
+.spo b{display:block;font-size:13.5px;font-weight:600;letter-spacing:-.02em}
+.spo span{display:block;font-size:12px;color:var(--muted)}
+.joinbox{margin-top:12px}
 .orgstrip{display:flex;flex-wrap:wrap;gap:0}
 .orgstrip>div{display:flex;gap:13px;align-items:center;border:1px solid var(--line);padding:15px 18px;
   margin-left:-1px;flex:1 1 240px;min-width:0;background:#fff}
@@ -620,7 +639,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
   .subband{grid-template-columns:1fr;gap:22px}
 }
 @media(max-width:900px){
-  .spkstrip,.people{grid-template-columns:1fr 1fr}
+  .spkstrip,.people,.spolist{grid-template-columns:1fr 1fr}
   .spk,.person{margin-left:-1px;margin-top:-1px}
   .evbar{grid-template-columns:1fr 1fr}
   .evbar>div{border-bottom:1px solid rgba(255,255,255,.16)}
@@ -629,7 +648,7 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 }
 @media(max-width:640px){
   .twocol{grid-template-columns:1fr}
-  .spkstrip,.people,.numband{grid-template-columns:1fr}
+  .spkstrip,.people,.numband,.spolist{grid-template-columns:1fr}
   .agrow,.tlrow,.numitem{grid-template-columns:1fr;gap:6px}
   .evbar{grid-template-columns:1fr}
   .passstub .tl{border-right:none;border-bottom:1px dashed var(--line);padding:0 0 16px}
@@ -1503,7 +1522,10 @@ const T={
   /* ---- event detail page ---- */
   ev_back:"Back to all events",ev_also:"Also on the calendar",
   ev_about:"About this event",ev_focus:"Focus areas",ev_who:"Who takes part",ev_prog:"Programme",
-  ev_spk:"Speakers",ev_coorg:"Co-organisers",ev_share:"Share this event",ev_facts:"Event facts",
+  ev_spk:"Speakers",ev_spon:"Sponsors",ev_coorg:"Co-organisers",
+  ev_cap_sess:"Limited seats · reserve in the SVEF event app",
+  ev_join:"Join online",ev_join_locked:"The joining link appears here once your registration is confirmed.",
+  ev_fmt_hy:"Hybrid",ev_fmt_on:"Online",ev_fmt_in:"In person",ev_share:"Share this event",ev_facts:"Event facts",
   ev_share_copy:"Copy link",ev_share_mail:"Email",ev_share_li:"LinkedIn",
   t_copied:"Event link copied to the clipboard",t_share_mail:"Demo: an email draft would open here",
   t_share_li:"Demo: a LinkedIn share window would open here",
@@ -1703,7 +1725,10 @@ const T={
   /* ---- trang chi tiết sự kiện ---- */
   ev_back:"Quay lại danh sách sự kiện",ev_also:"Các sự kiện khác",
   ev_about:"Về sự kiện này",ev_focus:"Nội dung trọng tâm",ev_who:"Thành phần tham dự",ev_prog:"Chương trình",
-  ev_spk:"Diễn giả",ev_coorg:"Đơn vị đồng tổ chức",ev_share:"Chia sẻ sự kiện",ev_facts:"Thông tin sự kiện",
+  ev_spk:"Diễn giả",ev_spon:"Nhà tài trợ",ev_coorg:"Đơn vị đồng tổ chức",
+  ev_cap_sess:"Số chỗ hạn chế · giữ chỗ trên ứng dụng sự kiện SVEF",
+  ev_join:"Tham dự trực tuyến",ev_join_locked:"Đường dẫn tham dự sẽ hiện ở đây khi đăng ký của bạn được xác nhận.",
+  ev_fmt_hy:"Kết hợp",ev_fmt_on:"Trực tuyến",ev_fmt_in:"Trực tiếp",ev_share:"Chia sẻ sự kiện",ev_facts:"Thông tin sự kiện",
   ev_share_copy:"Sao chép liên kết",ev_share_mail:"Gửi email",ev_share_li:"LinkedIn",
   t_copied:"Đã sao chép liên kết sự kiện",t_share_mail:"Bản demo: trình soạn email sẽ mở ra ở đây",
   t_share_li:"Bản demo: cửa sổ chia sẻ LinkedIn sẽ mở ra ở đây",
@@ -1851,6 +1876,16 @@ const SPK_MARCO={n:"Marco Rossi",i:"MR",c:"#7A5C00",r:{en:"Managing partner",vi:
 const SPK_LONG={n:"Phạm Hoàng Long",i:"PL",c:"#4A3B6B",r:{en:"Chief executive",vi:"Tổng giám đốc"},org:"Mekong Digital"};
 const SPK_THU={n:"Lê Thu",i:"LT",c:"#2E2E2E",r:{en:"Head of trade policy",vi:"Trưởng bộ phận chính sách thương mại"},org:"An Phat Logistics JSC"};
 
+/* Sponsors pay for public visibility, so the public site is the one surface that
+   has to carry them. Same shape as the co-organiser records above. */
+const SPO_ZURICH={n:"Zurich Ventures",i:"ZV",c:"#0A0A0A",d:{en:"Venture capital",vi:"Quỹ đầu tư mạo hiểm"}};
+const SPO_HELV={n:"Helvetia Fintech AG",i:"HF",c:"#7A5C00",d:{en:"Digital banking & payments",vi:"Ngân hàng số & thanh toán"}};
+const SPO_ALPINE={n:"Alpine Precision AG",i:"AP",c:"#0F5A4A",d:{en:"Precision manufacturing",vi:"Sản xuất chính xác"}};
+const SPO_GREEN={n:"GreenTech Vietnam",i:"GT",c:"#3E7742",d:{en:"Renewable energy",vi:"Năng lượng tái tạo"}};
+const SPO_MEKONG={n:"Mekong Digital",i:"MD",c:"#4A3B6B",d:{en:"Digital infrastructure",vi:"Hạ tầng số"}};
+const SPO_SAIGON={n:"Saigon Logistics",i:"SL",c:"#1F3A5F",d:{en:"Freight & supply chain",vi:"Vận tải & chuỗi cung ứng"}};
+const TIER_L={headline:{en:"Headline",vi:"Đồng hành chính"},gold:{en:"Gold",vi:"Vàng"},silver:{en:"Silver",vi:"Bạc"}};
+
 const events=[
  /* sold out, demonstrates the waitlist route */
  {id:"green-finance-basel-2026",img:"energy-solar",day:"18",mon:{en:"SEP",vi:"TH9"},yr:"2026",
@@ -1871,13 +1906,15 @@ const events=[
        vi:"Nhà đầu tư tổ chức, đơn vị phát triển dự án, các định chế tài chính phát triển và những bộ ngành soạn ra quy định. Số lượng tham dự giới hạn ở 320 người để lịch gặp song phương còn khả thi."},
   agenda:[{d:{en:"Day 1 · Friday",vi:"Ngày 1 · Thứ sáu"},date:{en:"18 September 2026",vi:"18 tháng 9 năm 2026"},items:[
      {tm:"09:00",t:{en:"Registration and coffee",vi:"Đón khách và cà phê"},s:{en:"Congress Center foyer",vi:"Sảnh Congress Center"}},
-     {tm:"09:45",t:{en:"Opening: the 135 billion question",vi:"Khai mạc: câu hỏi 135 tỷ"},s:{en:"Trần Quốc Anh, SVEF",vi:"Trần Quốc Anh, SVEF"}},
-     {tm:"10:30",t:{en:"Panel: making a Vietnamese PPA bankable in Zurich",vi:"Toạ đàm: đưa hợp đồng mua bán điện Việt Nam đạt chuẩn vay vốn tại Zurich"},s:{en:"Four speakers, moderated",vi:"Bốn diễn giả, có điều phối"}},
+     {tm:"09:45",t:{en:"Opening: the 135 billion question",vi:"Khai mạc: câu hỏi 135 tỷ"},spk:[SPK_ANH]},
+     {tm:"10:30",t:{en:"Panel: making a Vietnamese PPA bankable in Zurich",vi:"Toạ đàm: đưa hợp đồng mua bán điện Việt Nam đạt chuẩn vay vốn tại Zurich"},spk:[SPK_HA,SPK_MARCO,SPK_LEA],s:{en:"Moderated",vi:"Có điều phối"}},
      {tm:"12:00",t:{en:"Working lunch",vi:"Ăn trưa làm việc"},s:{en:"Seated by sector",vi:"Xếp chỗ theo lĩnh vực"}},
      {tm:"13:30",t:{en:"Bilateral meetings, round one",vi:"Gặp song phương, vòng một"},s:{en:"25 minutes per slot, pre-booked",vi:"25 phút mỗi lượt, đặt trước"}},
      {tm:"16:00",t:{en:"Closing plenary and next steps",vi:"Phiên toàn thể bế mạc và các bước tiếp theo"},s:{en:"Main hall",vi:"Hội trường chính"}},
      {tm:"17:00",t:{en:"Apéro riche",vi:"Tiệc nhẹ Apéro riche"},s:{en:"Terrace",vi:"Sân thượng"}}]}],
   speakers:[SPK_ANH,SPK_HA,SPK_MARCO,SPK_LEA],
+  sponsors:[{o:SPO_HELV,tier:"headline"},{o:SPO_GREEN,tier:"gold"},{o:SPO_SAIGON,tier:"silver"}],
+  fmt:"hybrid",zoom:"https://zoom.us/j/7755390014",
   reg:{approval:false,state:"soldout",cap:320,sold:320,
        closes:{en:"11 September 2026",vi:"11 tháng 9 năm 2026"}}},
 
@@ -1902,25 +1939,27 @@ const events=[
   agenda:[
    {d:{en:"Day 1 · Policy and macro",vi:"Ngày 1 · Chính sách và vĩ mô"},date:{en:"Wednesday 14 October 2026",vi:"Thứ tư, 14 tháng 10 năm 2026"},items:[
      {tm:"08:00",t:{en:"Registration, badge collection and coffee",vi:"Đón tiếp, nhận thẻ và cà phê"},s:{en:"North foyer",vi:"Sảnh Bắc"}},
-     {tm:"09:00",t:{en:"Opening addresses",vi:"Phát biểu khai mạc"},s:{en:"SVEF chair and the guest of honour",vi:"Chủ tịch SVEF và khách mời danh dự"}},
-     {tm:"09:45",t:{en:"Keynote: two open economies in a closing world",vi:"Phát biểu chính: hai nền kinh tế mở trong một thế giới đang khép lại"},s:{en:"Plenary hall",vi:"Hội trường toàn thể"}},
-     {tm:"11:00",t:{en:"Panel: one year of the EFTA agreement in practice",vi:"Toạ đàm: một năm thực thi hiệp định EFTA"},s:{en:"Trade officials and exporters from both sides",vi:"Cán bộ thương mại và doanh nghiệp xuất khẩu hai bên"}},
+     {tm:"09:00",t:{en:"Opening addresses",vi:"Phát biểu khai mạc"},spk:[SPK_ANH],s:{en:"SVEF chair and the guest of honour",vi:"Chủ tịch SVEF và khách mời danh dự"}},
+     {tm:"09:45",t:{en:"Keynote: two open economies in a closing world",vi:"Phát biểu chính: hai nền kinh tế mở trong một thế giới đang khép lại"},spk:[SPK_LEA],s:{en:"Plenary hall",vi:"Hội trường toàn thể"}},
+     {tm:"11:00",t:{en:"Panel: one year of the EFTA agreement in practice",vi:"Toạ đàm: một năm thực thi hiệp định EFTA"},spk:[SPK_THU,SPK_ANH,SPK_MARCO],s:{en:"Trade officials and exporters from both sides",vi:"Cán bộ thương mại và doanh nghiệp xuất khẩu hai bên"}},
      {tm:"12:30",t:{en:"Networking lunch",vi:"Tiệc trưa kết nối"},s:{en:"Terrace level",vi:"Tầng sân thượng"}},
-     {tm:"14:00",t:{en:"Roundtable: what investors still price as risk",vi:"Bàn tròn: điều nhà đầu tư vẫn tính là rủi ro"},s:{en:"Closed session, member delegates",vi:"Phiên kín, dành cho đại biểu thành viên"}},
+     {tm:"14:00",t:{en:"Roundtable: what investors still price as risk",vi:"Bàn tròn: điều nhà đầu tư vẫn tính là rủi ro"},spk:[SPK_MARCO],s:{en:"Closed session, member delegates",vi:"Phiên kín, dành cho đại biểu thành viên"}},
      {tm:"16:00",t:{en:"Member assembly and forum business",vi:"Đại hội thành viên và công việc của diễn đàn"},s:{en:"Members only",vi:"Chỉ dành cho thành viên"}},
      {tm:"18:30",t:{en:"Welcome reception",vi:"Tiệc chào mừng"},s:{en:"Open to all delegates",vi:"Mở cho toàn bộ đại biểu"}}]},
    {d:{en:"Day 2 · Sector deep dives",vi:"Ngày 2 · Chuyên đề theo ngành"},date:{en:"Thursday 15 October 2026",vi:"Thứ năm, 15 tháng 10 năm 2026"},items:[
-     {tm:"09:00",t:{en:"Track A: finance, payments and capital markets",vi:"Nhánh A: tài chính, thanh toán và thị trường vốn"},s:{en:"Hall 2, runs to 12:30",vi:"Phòng 2, kéo dài tới 12:30"}},
-     {tm:"09:00",t:{en:"Track B: precision manufacturing and supply chains",vi:"Nhánh B: cơ khí chính xác và chuỗi cung ứng"},s:{en:"Hall 3, runs to 12:30",vi:"Phòng 3, kéo dài tới 12:30"}},
-     {tm:"09:00",t:{en:"Track C: green economy and energy transition",vi:"Nhánh C: kinh tế xanh và chuyển dịch năng lượng"},s:{en:"Hall 4, runs to 12:30",vi:"Phòng 4, kéo dài tới 12:30"}},
+     {tm:"09:00",t:{en:"Track A: finance, payments and capital markets",vi:"Nhánh A: tài chính, thanh toán và thị trường vốn"},spk:[SPK_LEA],cap:180,s:{en:"Hall 2, runs to 12:30",vi:"Phòng 2, kéo dài tới 12:30"}},
+     {tm:"09:00",t:{en:"Track B: precision manufacturing and supply chains",vi:"Nhánh B: cơ khí chính xác và chuỗi cung ứng"},spk:[SPK_LONG],cap:120,s:{en:"Hall 3, runs to 12:30",vi:"Phòng 3, kéo dài tới 12:30"}},
+     {tm:"09:00",t:{en:"Track C: green economy and energy transition",vi:"Nhánh C: kinh tế xanh và chuyển dịch năng lượng"},spk:[SPK_HA],cap:150,s:{en:"Hall 4, runs to 12:30",vi:"Phòng 4, kéo dài tới 12:30"}},
      {tm:"14:00",t:{en:"Startup and scale-up showcase",vi:"Trình diễn startup và doanh nghiệp tăng trưởng"},s:{en:"Twelve companies, eight minutes each",vi:"Mười hai doanh nghiệp, mỗi bên tám phút"}},
      {tm:"16:30",t:{en:"Research forum with partner universities",vi:"Diễn đàn nghiên cứu cùng các trường đối tác"},s:{en:"Academic track",vi:"Nhánh học thuật"}},
      {tm:"19:30",t:{en:"Gala dinner",vi:"Tiệc gala"},s:{en:"Open to all delegates",vi:"Mở cho toàn bộ đại biểu"}}]},
    {d:{en:"Day 3 · Matchmaking and site visits",vi:"Ngày 3 · Kết nối và tham quan"},date:{en:"Friday 16 October 2026",vi:"Thứ sáu, 16 tháng 10 năm 2026"},items:[
      {tm:"08:30",t:{en:"Pre-booked one to one meetings",vi:"Các cuộc gặp một đối một đã đặt trước"},s:{en:"25 minute slots, booked through the SVEF event app",vi:"Mỗi lượt 25 phút, đặt qua ứng dụng sự kiện SVEF"}},
      {tm:"12:00",t:{en:"Departure for site visits",vi:"Khởi hành đi tham quan"},s:{en:"Three routes: industrial park, fintech campus, solar plant",vi:"Ba tuyến: khu công nghiệp, khuôn viên fintech, nhà máy điện mặt trời"}},
-     {tm:"16:30",t:{en:"Closing remarks and handover to the 2027 edition",vi:"Phát biểu bế mạc và chuyển giao cho kỳ 2027"},s:{en:"Plenary hall",vi:"Hội trường toàn thể"}}]}],
+     {tm:"16:30",t:{en:"Closing remarks and handover to the 2027 edition",vi:"Phát biểu bế mạc và chuyển giao cho kỳ 2027"},spk:[SPK_ANH],s:{en:"Plenary hall",vi:"Hội trường toàn thể"}}]}],
   speakers:[SPK_ANH,SPK_LEA,SPK_LONG,SPK_MARCO,SPK_HA,SPK_THU],
+  sponsors:[{o:SPO_ZURICH,tier:"headline"},{o:SPO_HELV,tier:"headline"},{o:SPO_ALPINE,tier:"gold"},{o:SPO_GREEN,tier:"gold"},{o:SPO_MEKONG,tier:"silver"},{o:SPO_SAIGON,tier:"silver"}],
+  fmt:"hybrid",zoom:"https://zoom.us/j/8412200261",
   reg:{approval:false,state:"open",cap:800,sold:612,
        closes:{en:"30 September 2026",vi:"30 tháng 9 năm 2026"}}},
 
@@ -1947,6 +1986,8 @@ const events=[
      {tm:"19:30",t:{en:"Dinner buffet and open networking",vi:"Tiệc buffet và kết nối tự do"},s:{en:"Garden terrace",vi:"Sân vườn"}},
      {tm:"21:30",t:{en:"Close",vi:"Kết thúc"},s:{en:"",vi:""}}]}],
   speakers:[SPK_LONG,SPK_THU,SPK_HA],
+  sponsors:[{o:SPO_MEKONG,tier:"headline"},{o:SPO_SAIGON,tier:"gold"}],
+  fmt:"in-person",zoom:"",
   reg:{approval:false,state:"open",cap:120,sold:74,
        closes:{en:"28 October 2026",vi:"28 tháng 10 năm 2026"}}},
 
@@ -1978,6 +2019,8 @@ const events=[
      {tm:"Day 5",t:{en:"Research institute visits and a policy briefing",vi:"Thăm viện nghiên cứu và họp về chính sách"},s:{en:"",vi:""}},
      {tm:"Day 6",t:{en:"Debrief, follow-up planning and departure",vi:"Tổng kết, lập kế hoạch theo dõi và kết thúc"},s:{en:"Ends at 16:00",vi:"Kết thúc lúc 16:00"}}]}],
   speakers:[SPK_ANH,SPK_THU,SPK_MARCO],
+  sponsors:[{o:SPO_ALPINE,tier:"headline"},{o:SPO_ZURICH,tier:"gold"}],
+  fmt:"in-person",zoom:"",
   reg:{approval:true,state:"open",cap:24,sold:17,
        closes:{en:"15 October 2026",vi:"15 tháng 10 năm 2026"}}},
 
@@ -2002,6 +2045,8 @@ const events=[
      {tm:"13:00",t:{en:"Investor office hours",vi:"Giờ tiếp xúc nhà đầu tư"},s:{en:"Booked through the SVEF event app",vi:"Đặt lịch qua ứng dụng sự kiện SVEF"}},
      {tm:"17:00",t:{en:"Closing dinner",vi:"Tiệc bế mạc"},s:{en:"Details to follow",vi:"Thông tin chi tiết sẽ có sau"}}]}],
   speakers:[SPK_MARCO,SPK_LONG,SPK_LEA],
+  sponsors:[{o:SPO_ZURICH,tier:"headline"},{o:SPO_MEKONG,tier:"silver"}],
+  fmt:"hybrid",zoom:"https://zoom.us/j/8412244551",
   reg:{approval:false,state:"soon",cap:260,sold:0,
        opens:{en:"15 November 2026",vi:"15 tháng 11 năm 2026"}}},
 
@@ -2028,6 +2073,8 @@ const events=[
      {tm:"09:00",t:{en:"Matchmaking meetings",vi:"Các cuộc gặp kết nối"},s:{en:"",vi:""}},
      {tm:"15:00",t:{en:"Closing communiqué",vi:"Thông cáo bế mạc"},s:{en:"",vi:""}}]}],
   speakers:[SPK_ANH,SPK_LONG,SPK_THU],
+  sponsors:[{o:SPO_GREEN,tier:"headline"},{o:SPO_ALPINE,tier:"silver"}],
+  fmt:"in-person",zoom:"",
   reg:{approval:false,state:"closed",cap:540,sold:540}},
 
  {id:"market-entry-seminar-2026",img:"seminar",past:true,day:"03",mon:{en:"MAR",vi:"TH3"},yr:"2026",
@@ -2049,6 +2096,8 @@ const events=[
      {tm:"09:00",t:{en:"Certification and labelling",vi:"Chứng nhận và nhãn mác"},s:{en:"",vi:""}},
      {tm:"13:30",t:{en:"Customs clinic, one to one",vi:"Phòng tư vấn hải quan, một đối một"},s:{en:"",vi:""}}]}],
   speakers:[SPK_THU,SPK_ANH],
+  sponsors:[{o:SPO_SAIGON,tier:"headline"}],
+  fmt:"online",zoom:"https://zoom.us/j/8412299087",
   reg:{approval:false,state:"closed",cap:140,sold:140}},
 ];
 
@@ -2567,8 +2616,17 @@ function renderEventPage(){
     m+=e.agenda.map(function(d,di){
       return '<div class="agday'+(di===0?' first':'')+'"><h5>'+d.d[lang]+'</h5><div class="dt">'+d.date[lang]+'</div>'+
         d.items.map(function(it){
+          /* Speakers are the same records the strip below renders, so a name on the
+             agenda and a name in the speaker list can never drift apart. */
+          const chips=(it.spk&&it.spk.length)
+            ? '<div class="agspk">'+it.spk.map(function(sp){
+                return '<span class="agspkchip"><i style="background:'+sp.c+'">'+sp.i+'</i>'+sp.n+'</span>';
+              }).join('')+'</div>' : '';
+          // a capped breakout is booked separately, and the web says so rather than
+          // implying the main registration covers it
+          const cap=it.cap?'<span class="agcap">'+tr('ev_cap_sess')+'</span>':'';
           return '<div class="agrow"><div class="tm">'+it.tm+'</div><div><b>'+it.t[lang]+'</b>'+
-            (it.s&&it.s[lang]?'<span>'+it.s[lang]+'</span>':'')+'</div></div>';
+            (it.s&&it.s[lang]?'<span>'+it.s[lang]+'</span>':'')+chips+cap+'</div></div>';
         }).join('')+'</div>';
     }).join('');
   }
@@ -2577,6 +2635,18 @@ function renderEventPage(){
     m+='<div class="spkstrip">'+e.speakers.map(function(sp){
       return '<div class="spk"><div class="av" style="background:'+sp.c+'">'+sp.i+'</div><b>'+sp.n+'</b>'+
         '<span>'+sp.r[lang]+'</span><span>'+sp.org+'</span></div>';
+    }).join('')+'</div>';
+  }
+  if(e.sponsors&&e.sponsors.length){
+    m+='<span class="evh">'+tr('ev_spon')+'</span>';
+    m+='<div class="spostrip">'+['headline','gold','silver'].map(function(t){
+      const list=e.sponsors.filter(function(x){return x.tier===t;});
+      if(!list.length)return '';
+      return '<div class="spotier"><span class="spotierh">'+TIER_L[t][lang]+'</span><div class="spolist">'+
+        list.map(function(x){
+          return '<div class="spo"><i style="background:'+x.o.c+'">'+x.o.i+'</i>'+
+            '<div style="min-width:0"><b>'+x.o.n+'</b><span>'+x.o.d[lang]+'</span></div></div>';
+        }).join('')+'</div></div>';
     }).join('')+'</div>';
   }
   if(e.co&&e.co.length){
@@ -2626,6 +2696,15 @@ function renderEventPage(){
 }
 
 /* The registration call to action, one branch per capacity / approval state. */
+/* An attendee who registered on the web and never installs the app still has to
+   be able to join a hybrid event, so the link lives here too, on the same rule
+   the app uses: confirmed booking only. */
+function joinBoxHtml(e,rec){
+  if(!e.zoom||!(e.fmt==='hybrid'||e.fmt==='online'))return '';
+  if(rec&&rec.status==='confirmed')
+    return '<a class="btn dark block joinbox" href="'+e.zoom+'" target="_blank" rel="noopener">\u{1F517} '+tr('ev_join')+'</a>';
+  return '<p class="muted joinbox" style="font-size:13px;margin:12px 0 0">'+tr('ev_join_locked')+'</p>';
+}
 function evRegBox(e){
   const r=evReg(e),i=events.indexOf(e);
   const mine=myRegFor(e.id);
@@ -2641,7 +2720,8 @@ function evRegBox(e){
     h+='<span class="chip '+chipc+'">'+tr('mr_status_'+mine.status)+'</span>'+
        '<h4 style="margin-top:12px">'+lbl+'</h4>'+
        '<p class="muted" style="margin:6px 0 14px;font-size:13.5px">'+tr('rw_ref')+': '+mine.ref+'</p>'+
-       '<button class="btn block" onclick="gotoMyRegs()">'+tr('rs_manage')+'</button>';
+       '<button class="btn block" onclick="gotoMyRegs()">'+tr('rs_manage')+'</button>'+
+       joinBoxHtml(e,mine);
     return h+'</div>';
   }
   if(r.state==='soon'){
@@ -3109,6 +3189,8 @@ function renderMyRegs(){
         '<button class="btn ghost sm" onclick="openModReg(\''+rec.ref+'\')">'+tr('mr_mod')+'</button>'+
         '<button class="btn ghost sm" onclick="openCancelReg(\''+rec.ref+'\')">'+tr('mr_cancel')+'</button>'+
         '<button class="btn ghost sm" onclick="openEvent('+i+')">'+tr('mr_open_ev')+'</button>'+
+        ((e.zoom&&(e.fmt==='hybrid'||e.fmt==='online')&&rec.status==='confirmed')
+          ? '<a class="btn dark sm" href="'+e.zoom+'" target="_blank" rel="noopener">\u{1F517} '+tr('ev_join')+'</a>' : '')+
         '</div>';
     }
     return h+'</div>';
