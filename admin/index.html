@@ -130,7 +130,7 @@ main{flex:1;min-width:0;display:flex;flex-direction:column}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 
 /* ==================== STAT CARDS ==================== */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:32px}
+.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-bottom:32px}
 .st{background:#fff;border:1px solid var(--line);border-radius:0;padding:24px;box-shadow:none;margin-left:-1px}
 .st:first-child{margin-left:0}
 .st .ic{width:38px;height:38px;border-radius:0;display:grid;place-items:center;font-size:17px;
@@ -294,6 +294,90 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
   color:var(--ink);border-top:1px solid var(--rule);padding-top:14px;margin:22px 0 10px}
 .dayh:first-child{border-top:none;padding-top:0;margin-top:0}
 
+/* ==================== EVENT REGISTRATION MANAGEMENT ==================== */
+.kpigrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:24px}
+.kpi{border:1px solid var(--line);border-radius:0;padding:16px 18px;margin-left:-1px;background:#fff}
+.kpi:first-child{margin-left:0}
+.kpi b{display:block;font-size:27px;font-weight:700;line-height:1;letter-spacing:-.05em;color:var(--ink)}
+.kpi b em{font-style:normal;font-size:15px;font-weight:600;color:var(--muted);letter-spacing:-.03em}
+.kpi span,.kpi .sub{display:block;font-family:var(--mono);text-transform:uppercase;letter-spacing:.11em;font-size:9px;color:var(--muted);margin-top:9px}
+.kpi .sub{margin-top:6px;color:var(--ink-2);letter-spacing:.07em}
+.rbar{display:flex;height:14px;border:1px solid var(--ink);background:#fff;overflow:hidden}
+.rbar i{display:block;height:100%;font-style:normal}
+.f1{background:var(--ink)}.f2{background:var(--red)}.f3{background:var(--muted)}.f4{background:var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:11px;font-family:var(--mono);text-transform:uppercase;
+  letter-spacing:.1em;font-size:9px;color:var(--muted)}
+.legend s{text-decoration:none;display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px;
+  border:1px solid var(--ink)}
+.drow{display:flex;align-items:center;gap:14px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.drow:last-child{border-bottom:none}
+.drow .lb{flex:0 0 168px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.015em}
+.drow .tr{flex:1;min-width:60px;height:8px;background:var(--soft)}
+.drow .tr i{display:block;height:100%;background:var(--ink);font-style:normal}
+.drow .vl{flex:0 0 116px;text-align:right;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-2)}
+.spark{display:flex;align-items:flex-end;gap:3px;height:104px;border-bottom:1px solid var(--rule);padding-top:8px}
+.spark i{flex:1;min-width:3px;background:var(--ink);min-height:2px;display:block;font-style:normal}
+.spark i.z{background:var(--line)}
+.sparkx{display:flex;gap:3px;margin-top:8px}
+.sparkx span{flex:1;min-width:3px;text-align:center;font-family:var(--mono);font-size:8px;letter-spacing:.02em;
+  color:var(--muted);overflow:hidden;white-space:nowrap}
+.filterbar{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;padding:18px 22px 16px;border-bottom:1px solid var(--line)}
+.filterbar .field{margin-bottom:0;flex:0 1 190px;min-width:140px}
+.filterbar .field.grow{flex:1 1 240px}
+.countrow{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule)}
+.countrow div{flex:1 1 108px;padding:13px 18px;border-left:1px solid var(--line)}
+.countrow div:first-child{border-left:none}
+.countrow b{display:block;font-size:19px;font-weight:700;line-height:1;letter-spacing:-.04em}
+.countrow span{display:block;margin-top:7px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.11em;
+  font-size:8.5px;color:var(--muted)}
+.selbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 18px;background:var(--soft);
+  border-bottom:1px solid var(--line);font-size:12.5px}
+.panel table.wide{min-width:900px}
+td.tight,th.tight{padding-left:12px;padding-right:12px}
+td.nw{white-space:nowrap}
+td.stack b{font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+td.stack>b{display:block}
+td .sub2{display:block;font-size:12px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}
+td .ref{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);
+  margin-top:4px;overflow-wrap:anywhere}
+.nmline{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nmline b{min-width:0;overflow-wrap:anywhere}
+/* The registrant row carries up to four actions; they form a block instead of a
+   single long line, so the table never has to grow wider than its panel. */
+.act-btns.wrap{flex-wrap:wrap;max-width:200px}
+.act-btns.wrap .btn{margin-top:-1px}
+td.ck,th.ck{width:34px;padding-right:0}
+td.ck input{width:auto}
+.exp{border:1px solid var(--line);background:#fff;width:22px;height:22px;line-height:1;border-radius:0;cursor:pointer;
+  font-size:10px;color:var(--ink);margin-right:9px;flex:0 0 22px;padding:0}
+.exp:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+tr.subatt td{background:var(--bg);padding-top:0;padding-bottom:0}
+.attlist{margin:0;border-top:1px solid var(--line)}
+.attrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.attrow:last-child{border-bottom:none}
+.attrow .an{flex:1 1 180px;min-width:0;font-weight:600;letter-spacing:-.02em}
+.attrow .aj{flex:1 1 160px;color:var(--muted);font-size:12.5px}
+.scanbox{border:1px dashed var(--ink);border-radius:0;padding:26px 20px;text-align:center;margin-bottom:0}
+.scanbox .qz{width:74px;height:74px;margin:0 auto 14px;border:1px solid var(--ink);display:grid;place-items:center;
+  font-size:26px;filter:grayscale(1)}
+.scanbox p{margin:0 0 16px;font-size:13px;color:var(--muted)}
+.cirow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px;flex-wrap:wrap}
+.cirow:last-child{border-bottom:none}
+.cirow .cn{flex:1 1 200px;min-width:0;font-weight:600;letter-spacing:-.02em}
+.cirow .cm,.attrow .cm{flex:0 0 auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted)}
+.tierrow{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tierrow:last-child{border-bottom:none}
+.tierrow .tn{flex:1 1 190px;min-width:0;font-weight:600;font-size:14px;letter-spacing:-.02em}
+.tierrow .tp{font-family:var(--mono);font-size:11px;letter-spacing:.05em;color:var(--ink-2);flex:0 0 auto}
+.tierrow .tq{flex:0 0 190px;min-width:150px}
+.ord{display:flex;flex-direction:column;gap:0}
+.ord button{border:1px solid var(--line);background:#fff;width:24px;height:18px;line-height:1;font-size:9px;
+  cursor:pointer;color:var(--ink);padding:0}
+.ord button+button{margin-top:-1px}
+.ord button:hover{background:var(--ink);color:#fff}
+.ord button[disabled]{opacity:.35;cursor:default}
+.ord button[disabled]:hover{background:#fff;color:var(--ink)}
+
 /* ==================== PHOTOGRAPHY ==================== */
 .pic{position:relative;overflow:hidden;background:var(--ink)}
 .pic::before{content:"";position:absolute;inset:0;background-image:var(--img);
@@ -311,6 +395,9 @@ tr:hover .pic::before{filter:none}
     height:40px;border-radius:0;font-size:18px;cursor:pointer;color:var(--ink)}
   .stat-grid{grid-template-columns:repeat(2,1fr)}
   .st{margin-left:-1px;margin-top:-1px}
+  .kpigrid{grid-template-columns:repeat(2,1fr)}
+  .kpi{margin-top:-1px}
+  .drow .lb{flex:0 0 120px}
   .cms-grid{grid-template-columns:1fr}
   .htmlgrid{grid-template-columns:1fr}
   .htmlpane{margin:-1px 0 0}
@@ -323,6 +410,7 @@ tr:hover .pic::before{filter:none}
   .search{display:none}
   .demo-tag{display:none}
   .stat-grid{grid-template-columns:1fr}
+  .kpigrid{grid-template-columns:1fr}
   .g2{grid-template-columns:1fr}
   .appr{flex-direction:column}
   .appr .acts{flex-direction:row}
@@ -336,12 +424,12 @@ tr:hover .pic::before{filter:none}
   <div class="authcard">
     <div class="mk">SV</div>
     <h2 data-i18n="ag_h">SVEF Admin Back-office</h2>
-    <p class="desc" data-i18n="ag_desc">Restricted area — role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).</p>
+    <p class="desc" data-i18n="ag_desc">Restricted area. Role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).</p>
     <button class="ssobtn" onclick="signIn('m365')">
       <svg viewBox="0 0 23 23" aria-hidden="true"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
       <span data-i18n="ag_m365">Sign in with Microsoft 365</span>
     </button>
-    <p class="ssohint" data-i18n="ag_m365_h">The SVEF team signs in with its existing @svef.org Microsoft 365 work account. Roles and access come from the M365 group the person belongs to — no separate admin password to manage.</p>
+    <p class="ssohint" data-i18n="ag_m365_h">The SVEF team signs in with its existing @svef.org Microsoft 365 work account. Roles and access come from the M365 group the person belongs to, with no separate admin password to manage.</p>
     <div class="authdiv" data-i18n="ag_or">or with an SVEF password</div>
     <div class="field"><label for="agEmail">Email</label><input id="agEmail" value="ops.admin@svef.org"></div>
     <div class="field"><label for="agPwd" data-i18n="password">Password</label><input id="agPwd" type="password" value="demo1234"></div>
@@ -392,9 +480,16 @@ tr:hover .pic::before{filter:none}
       </div>
       <div class="stat-grid">
         <div class="st"><div class="ic">🏢</div><b>124</b><span data-i18n="s_partners">Partners &amp; members</span><div class="up" data-i18n="s_partners_up">▲ 12 this quarter</div></div>
-        <div class="st"><div class="ic">📅</div><b>7</b><span data-i18n="s_events">Upcoming events</span><div class="up" data-i18n="s_events_up">2 pending approval</div></div>
+        <div class="st"><div class="ic">📅</div><b id="stEvN">7</b><span data-i18n="s_events">Upcoming events</span><div class="up" id="stEvSub">2 pending approval</div></div>
+        <div class="st"><div class="ic">🎟</div><b id="stRegN">0</b><span data-i18n="s_regs">Event registrations</span><div class="up" id="stRegSub">0 confirmed</div></div>
         <div class="st"><div class="ic">👥</div><b>1,842</b><span data-i18n="s_subs">Subscribers</span><div class="up" data-i18n="s_subs_up">▲ 214 this month</div></div>
         <div class="st"><div class="ic">📈</div><b>68%</b><span data-i18n="s_growth">Member growth YoY</span><div class="up" data-i18n="s_growth_up">▲ steady</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="h_dashreg">Event registrations</h2><div class="sp"></div>
+          <button class="btn ghost sm" onclick="nav('events',document.querySelectorAll('.snav button')[5])" data-i18n="b_viewall">View all →</button></div>
+        <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="rg_c_rev">Revenue (CHF)</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="dashRegTable"></tbody></table>
       </div>
 
       <div class="panel">
@@ -498,7 +593,7 @@ tr:hover .pic::before{filter:none}
           <button class="btn line sm" onclick="openImport('members')" data-i18n="b_import">⬆ Import list</button>
           <button class="btn ghost sm" onclick="exportData('members')" data-i18n="b_export">⬇ Export CSV</button></div>
         <table><thead><tr><th data-i18n="c_account">Account (email)</th><th data-i18n="c_profiles">Profiles</th><th data-i18n="c_role">Role</th><th data-i18n="c_access">Access</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="memberTable"></tbody></table>
-        <div class="pbody"><div class="export-note" data-i18n="mem_note">🔑 One account can hold multiple profiles (personal + company) — the “Profiles” column shows how many are linked to a single email (BRD BR-W-04).</div></div>
+        <div class="pbody"><div class="export-note" data-i18n="mem_note">🔑 One account can hold multiple profiles (personal + company). The “Profiles” column shows how many are linked to a single email (BRD BR-W-04).</div></div>
       </div>
     </div>
 
@@ -514,7 +609,7 @@ tr:hover .pic::before{filter:none}
         </ul>
       </div>
       <div class="panel">
-        <div class="phead"><h2 data-i18n="h_evq2">Partner-proposed events — approval queue</h2><div class="sp"></div><span class="chip pend" id="pendCount">2 pending</span></div>
+        <div class="phead"><h2 data-i18n="h_evq2">Partner-proposed events · approval queue</h2><div class="sp"></div><span class="chip pend" id="pendCount">2 pending</span></div>
         <div class="pbody" id="apprList"></div>
       </div>
       <div class="panel">
@@ -527,7 +622,7 @@ tr:hover .pic::before{filter:none}
       <!-- ---- app content for the selected SVEF event ---- -->
       <div id="appSection">
         <div class="panel">
-          <div class="phead"><h2 data-i18n="ap_h_sel">App content — SVEF events</h2><div class="sp"></div><span class="chip navy" data-i18n="ap_only">SVEF events only</span></div>
+          <div class="phead"><h2 data-i18n="ap_h_sel">App content · SVEF events</h2><div class="sp"></div><span class="chip navy" data-i18n="ap_only">SVEF events only</span></div>
           <div class="pbody" id="appPicker"></div>
           <div class="pbody" style="padding-top:0"><div class="langtab" id="appTabs"></div></div>
         </div>
@@ -544,7 +639,11 @@ tr:hover .pic::before{filter:none}
           <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
             <div class="st" style="cursor:pointer" onclick="exportData('partners')"><div class="ic">🏢</div><b style="font-size:17px" data-i18n="n_partners">Partners</b><span>124 · CSV / XLSX</span></div>
             <div class="st" style="cursor:pointer" onclick="exportData('members')"><div class="ic">👥</div><b style="font-size:17px" data-i18n="n_members">Memberships</b><span>1,842 · CSV / XLSX</span></div>
+            <div class="st" style="cursor:pointer" onclick="exportData('registrants')"><div class="ic">🎟</div><b style="font-size:17px" data-i18n="rep_regs">Event registrations</b><span id="repRegMeta">0 · CSV</span></div>
+            <div class="st" style="cursor:pointer" onclick="exportData('checkin')"><div class="ic">✅</div><b style="font-size:17px" data-i18n="rep_ci">Check-in log</b><span id="repCiMeta">0 · CSV</span></div>
           </div>
+          <h4 class="seoh" data-i18n="rep_regh">Registrations by event</h4>
+          <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="rg_c_ci">Checked in</th><th data-i18n="rg_c_rev">Revenue (CHF)</th></tr></thead><tbody id="repRegTable"></tbody></table>
           <div class="export-note" data-i18n="rep_note">🔒 Data-protection note: Exports comply with GDPR handling between Switzerland/Europe and Vietnam. No passwords or sensitive personal identifiers are included in any export file.</div>
           <div class="export-note" data-i18n="rep_lists">⬆ Uploading a list is done where the data lives: use the “Import list” button in the Partners section or in the Memberships section. Reports is for exporting only.</div>
         </div>
@@ -603,16 +702,16 @@ function applyOutLinks(){
 const T={
  en:{
   password:"Password",
-  ag_h:"SVEF Admin Back-office",ag_desc:"Restricted area — role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).",
+  ag_h:"SVEF Admin Back-office",ag_desc:"Restricted area. Role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).",
   ag_nda:"🔐 I confirm the NDA between SVEF and IMT has been signed and admin access is authorised.",ag_signin:"Sign in as Ops Admin",ag_back:"← Back to public website",
   ag_m365:"Sign in with Microsoft 365",ag_or:"or with an SVEF password",
-  ag_m365_h:"The SVEF team signs in with its existing @svef.org Microsoft 365 work account. Roles and access come from the M365 group the person belongs to — no separate admin password to manage.",
+  ag_m365_h:"The SVEF team signs in with its existing @svef.org Microsoft 365 work account. Roles and access come from the M365 group the person belongs to, with no separate admin password to manage.",
   n_dash:"Dashboard",n_cms:"CMS & Pages",n_news:"News / Media",n_partners:"Partners",n_members:"Memberships",n_events:"Event Management",n_reports:"Reports & Export",
   g_content:"Content",g_community:"Community",g_events:"Events",g_data:"Data",
   f_loggedas:"Logged in as",f_hub:"Demo hub",search_ph:"Search…",
   nda_t:"NDA signed · Admin access granted to IMT",nda_p:"Confidential-data access is enabled only after the NDA between SVEF and IMT is signed (BRD §7.5 / §11.2). Exports below never expose passwords or sensitive fields.",
   s_partners:"Partners & members",s_partners_up:"▲ 12 this quarter",s_events:"Upcoming events",s_events_up:"2 pending approval",s_subs:"Subscribers",s_subs_up:"▲ 214 this month",s_growth:"Member growth YoY",s_growth_up:"▲ steady",
-  h_memapps:"Membership applications",h_evqueue:"Event approval queue",h_recent:"Recently joined partners",h_news:"News & Media",h_partner:"Partner management",h_members:"Memberships & roles",h_evq2:"Partner-proposed events — approval queue",h_pubev:"Published events",h_reports:"Reports & data export",
+  h_memapps:"Membership applications",h_evqueue:"Event approval queue",h_recent:"Recently joined partners",h_news:"News & Media",h_partner:"Partner management",h_members:"Memberships & roles",h_evq2:"Partner-proposed events · approval queue",h_pubev:"Published events",h_reports:"Reports & data export",
   cms_title:"Page title",cms_slug:"SEO slug",cms_body:"Body content",
   cms_body_src:"HTML",cms_body_prev:"Live preview",
   cms_body_h:"This field accepts HTML markup only. What you write in the HTML pane renders in the preview pane, exactly as it appears on the website.",
@@ -652,7 +751,7 @@ const T={
   imp_drop:"⬆ Click to choose a CSV or XLSX file",imp_go:"Start import",
   imp_note:"Existing records are matched by email or organisation name and updated rather than duplicated (BRD BR-W-19).",
   rep_lists:"⬆ Uploading a list is done where the data lives: use the “Import list” button in the Partners section or in the Memberships section. Reports is for exporting only.",
-  mem_note:"🔑 One account can hold multiple profiles (personal + company) — the “Profiles” column shows how many are linked to a single email (BRD BR-W-04).",
+  mem_note:"🔑 One account can hold multiple profiles (personal + company). The “Profiles” column shows how many are linked to a single email (BRD BR-W-04).",
   rep_intro:"Export to Excel/CSV for reporting. Confidential fields (passwords, payment tokens) are always excluded (BRD BR-W-18 / §11.2).",
   rep_note:"🔒 Data-protection note: Exports comply with GDPR handling between Switzerland/Europe and Vietnam. No passwords or sensitive personal identifiers are included in any export file.",
   b_viewall:"View all →",b_save:"💾 Save & publish",b_preview:"👁 Preview",b_newart:"＋ New article",b_export:"⬇ Export CSV",b_addpartner:"＋ Add partner",b_import:"⬆ Import list",b_newev:"＋ Create Event",b_cancel:"Cancel",
@@ -667,7 +766,7 @@ const T={
   t_rolechg:"Role updated",t_susp:"Account suspended",t_react:"Account reactivated",
   t_evadd:"Event created",t_evupd:"Event updated",t_evdel:"Event deleted",t_sessadd:"Session added",t_sessupd:"Session updated",t_sessdel:"Session deleted",
   /* ---- app content, inside Event Management ---- */
-  ap_h_sel:"App content — SVEF events",ap_only:"SVEF events only",ap_pick:"Selected event",ap_sum:"At a glance",
+  ap_h_sel:"App content · SVEF events",ap_only:"SVEF events only",ap_pick:"Selected event",ap_sum:"At a glance",
   ap_open:"App content",ap_none:"Partner events do not appear in the app.",
   ap_empty:"No SVEF event yet. Create one above with Create Event and set the organiser to SVEF.",
   ap_tab_info:"Event info",ap_tab_agenda:"Agenda / sessions",ap_tab_speakers:"Speakers",ap_tab_sponsors:"Sponsors",
@@ -680,7 +779,6 @@ const T={
   ap_spo_none:"No sponsors added yet.",ap_spo_add:"＋ Add sponsor",ap_spo_new:"Add sponsor",ap_spo_edit:"Edit sponsor",
   ap_spo_save:"💾 Save sponsor",tier_head:"Headline",tier_gold:"Gold",tier_silver:"Silver",
   ap_reg_none:"Nobody has registered for this event yet.",
-  ap_reg_note:"📋 Registrations come in through the app and are read-only here. Export gives the same CSV as everywhere else, with no passwords or sensitive fields.",
   ap_meet_req:"Requester",ap_meet_rec:"Recipient",ap_meet_none:"No meeting requests for this event yet.",
   ap_meet_note:"🤝 Attendees book 1-to-1 meetings with each other in the app. SVEF only watches the bookings here, there is nothing to approve.",
   ap_push_t:"Notification title",ap_push_b:"Message",ap_push_aud:"Audience",ap_push_when:"When to send",
@@ -693,6 +791,103 @@ const T={
   t_appinfo:"Event info saved",t_spkadd:"Speaker added",t_spkupd:"Speaker updated",t_spkdel:"Speaker deleted",
   t_spoadd:"Sponsor added",t_spoupd:"Sponsor updated",t_spodel:"Sponsor deleted",
   t_pushsent:"Push notification sent (demo)",t_pushsched:"Push notification scheduled (demo)",
+  /* ---- event registration management (BRD 8.2) ---- */
+  s_regs:"Event registrations",h_dashreg:"Event registrations",
+  rep_regs:"Event registrations",rep_ci:"Check-in log",rep_regh:"Registrations by event",
+  rg_c_seats:"Registered / capacity",rg_c_status:"Status split",rg_c_rev:"Revenue (CHF)",rg_c_ci:"Checked in",
+  b_openreg:"Registrations →",
+  rg_tab_over:"Overview",rg_tab_list:"Registrants",rg_tab_tick:"Tickets & codes",rg_tab_ci:"Check-in",rg_tab_set:"Settings",
+  rs_conf:"Confirmed",rs_pend:"Pending approval",rs_pend_s:"Pending",rs_wait:"Waitlisted",rs_canc:"Cancelled",
+  py_paid:"Paid",py_unpaid:"Unpaid",py_ref:"Refunded",py_free:"Free",
+  rg_personal:"Personal",rg_group:"Group",rg_att:"attendees",rg_att1:"attendee",rg_seats:"seats",
+  rg_free_ev:"Free event",rg_paid_ev:"Paid event",rg_free:"Free",rg_paid:"Paid",
+  rg_open_now:"Registration open",rg_closed:"Registration closed",rg_notopen:"Registration not open yet",
+  /* overview */
+  rg_over_h:"Registration overview",
+  rg_k_total:"Registrations",rg_k_conf:"Confirmed seats",rg_k_rev:"Revenue collected",rg_k_ci:"Checked in",
+  rg_cap_head:"Confirmed seats against capacity",rg_of:"of",rg_bookings:"bookings",rg_grp1:"group booking",rg_grpn:"group bookings",
+  rg_bystatus:"By registration status",rg_bytier:"By ticket tier",rg_overtime:"Registrations over time",
+  rg_topco:"Top companies",rg_rev_h:"Revenue collected against expected",
+  rg_expected:"Expected",rg_collected:"Collected",rg_outstanding:"Outstanding",
+  rg_nodata:"No registrations yet, so there is nothing to chart.",
+  rg_capfree:"Capacity is not limited on this event.",
+  /* registrant table */
+  rg_search:"Search name, email, company or reference",
+  rg_f_status:"Registration status",rg_f_tier:"Ticket tier",rg_f_pay:"Payment",
+  rg_c_tier:"Ticket tier",rg_c_regst:"Registration",
+  rg_c_person:"Registrant",rg_c_org:"Company / role",rg_c_ticketref:"Ticket / reference",
+  rg_c_pay:"Payment",rg_c_cin:"Check-in",
+  rg_add:"＋ Add registrant",rg_none_f:"No registrations match these filters.",
+  rg_sel_n:"selected",rg_bulk_appr:"✓ Approve selected",rg_bulk_mail:"✉ Email selected",rg_bulk_exp:"⬇ Export selected",
+  rg_clear:"Clear selection",rg_selall:"Select all",
+  rg_a_appr:"Approve",rg_a_rej:"Reject",rg_a_canc:"Cancel",rg_a_prom:"Promote",rg_a_paid:"Mark paid",
+  rg_a_ref:"Refund",rg_a_mail:"Resend",
+  rg_ci_yes:"Checked in",rg_ci_no:"Not arrived",rg_ci_part:"checked in",
+  rg_note:"📋 Registrations arrive from the event page and from the app, and are managed here: approve, waitlist, cancel, record payment and check attendees in. The export carries the columns of this table only, with no passwords or sensitive fields.",
+  /* add / edit registrant */
+  rg_add_t:"Add registrant",rg_edit_t:"Edit registrant",
+  rg_add_h:"For walk-ins and telephone bookings. The registrant receives the same confirmation email and e-ticket as an app registration.",
+  rg_kind:"Registration type",rg_gnames:"Attendee names",
+  rg_gnames_h:"One name per line, one line per seat. The first line is the booking contact.",
+  rg_code:"Discount code",rg_save:"💾 Save registrant",
+  rg_needemail:"Please enter an email address.",
+  rg_full_wait:"Capacity is reached, so the booking went on the waitlist.",
+  rg_full_no:"Capacity is reached and the waitlist is switched off, so this booking cannot be confirmed.",
+  rg_gtoobig:"That is more seats than the maximum group size allows.",
+  /* tiers and codes */
+  rg_tick_h:"Ticket tiers",rg_tick_add:"＋ Add tier",
+  rg_tick_none:"No ticket tiers yet. Add the first one to start selling.",
+  rg_t_name:"Tier name",rg_t_chf:"Price (CHF)",rg_t_vnd:"Price (VND)",rg_t_qty:"Quantity",
+  rg_t_from:"Sales open",rg_t_to:"Sales close",rg_t_eb:"Early-bird tier",rg_t_ebd:"Early-bird cut-off",
+  rg_t_new:"Add ticket tier",rg_t_edit:"Edit ticket tier",rg_t_save:"💾 Save tier",
+  rg_t_sold:"sold",rg_t_left:"left",rg_t_soldout:"Sold out",rg_t_earlybird:"Early bird",
+  rg_t_free_h:"This event is free, so every registrant holds the same free pass. Switch the event to paid registration under Settings to sell ticket tiers.",
+  rg_freepass:"Free pass",rg_t_needname:"Please enter a tier name.",
+  rg_t_del_q:"Delete this ticket tier? Registrants already holding it keep their booking.",
+  rg_t_window:"Sales window",
+  rg_code_h:"Discount codes",rg_code_add:"＋ Create code",rg_code_none:"No discount codes for this event yet.",
+  rg_c_code:"Code",rg_c_ctype:"Type",rg_c_val:"Value",rg_c_use:"Used / limit",rg_c_until:"Valid until",
+  rg_pct:"Percentage",rg_fix:"Fixed amount (CHF)",
+  rg_code_new:"Create discount code",rg_code_save:"💾 Create code",
+  rg_deact:"Deactivate",rg_react:"Reactivate",
+  rg_st_exp:"Expired",rg_st_used:"Fully used",rg_st_off:"Inactive",
+  rg_code_dup:"That code already exists for this event.",rg_code_need:"Please enter a code.",
+  rg_code_note:"🏷 Codes are checked when the attendee registers on the event page or in the app. A code stops working once it expires, once its usage limit is reached or once it is deactivated here.",
+  /* check-in */
+  rg_ci_h:"Check-in",rg_ci_scan:"📷 Scan e-ticket QR",
+  rg_ci_scan_p:"On the door the organiser scans the attendee's e-ticket. In this prototype the scan checks in the next confirmed attendee who has not arrived yet.",
+  rg_ci_code:"Ticket code",rg_ci_go:"Check in",rg_ci_undo:"↶ Undo last check-in",
+  rg_ci_k_in:"Checked in",rg_ci_k_exp:"Expected",rg_ci_k_on:"On site now",rg_ci_k_rate:"Arrival rate",
+  rg_ci_list:"Attendee list",rg_ci_search:"Search attendee or ticket code",
+  rg_ci_out:"Check out",rg_ci_none:"No confirmed attendees to check in yet.",
+  rg_ci_allin:"Everyone confirmed has already checked in.",
+  rg_ci_nomatch:"No confirmed attendee holds that ticket code.",
+  rg_ci_already:"That attendee is already checked in.",
+  rg_ci_noundo:"There is nothing to undo.",
+  rg_ci_note:"🎫 Attendees show the e-ticket QR from the app. Scanning it here records the arrival. Group bookings check in one attendee at a time.",
+  /* settings */
+  rg_set_h:"Registration settings",rg_set_paid:"Registration model",
+  rg_types:"Registration types allowed",rg_type_p:"Personal registration",rg_type_g:"Group registration",
+  rg_maxg:"Maximum group size",rg_cap:"Capacity limit",rg_cap_h:"Seats available in total. Set 0 for no limit.",
+  rg_open_d:"Registration opens",rg_close_d:"Registration closes",
+  rg_appr_t:"Requires organiser approval",
+  rg_appr_h:"New registrations arrive as Pending approval and take a seat only once approved.",
+  rg_wait_t:"Waitlist when full",
+  rg_wait_h:"Once capacity is reached, further registrations go on the waitlist instead of being turned away.",
+  rg_set_save:"💾 Save registration settings",
+  rg_set_note:"⚙ These settings drive the registration form on the event page and in the app, and everything on the other registration tabs here.",
+  rg_need_type:"Allow at least one registration type.",
+  /* toasts and confirmations */
+  t_regappr:"Registration approved",t_regrej:"Registration rejected",t_regcanc:"Registration cancelled",
+  t_regprom:"Promoted from the waitlist to confirmed",t_regpaid:"Payment recorded",t_regref:"Refund issued (demo)",
+  t_regmail:"Confirmation email resent (demo)",t_regadd:"Registrant added",t_regupd:"Registrant updated",
+  t_tieradd:"Ticket tier added",t_tierupd:"Ticket tier updated",t_tierdel:"Ticket tier deleted",t_tiermov:"Tier order updated",
+  t_codeadd:"Discount code created",t_codeoff:"Discount code deactivated",t_codeon:"Discount code reactivated",
+  t_ciin:"Checked in",t_ciout:"Checked out",t_ciundo:"Check-in undone",t_regset:"Registration settings saved",
+  t_bulkappr:"Selected registrations approved",t_bulkmail:"Email sent to the selected registrants (demo)",
+  t_nosel:"Select at least one registration first.",
+  q_regcanc:"Cancel this registration? The seat is released back to the event.",
+  q_regrej:"Reject this registration? The applicant is notified by email.",
  }
 };
 /* The back-office interface is English only. Website content stays bilingual:
@@ -791,12 +986,41 @@ let appEvents=[
    {n:"Zurich Ventures",tier:"Headline"},
    {n:"Helvetia Fintech AG",tier:"Gold"},
    {n:"Mekong Digital",tier:"Silver"}],
+  /* --- registration management (BRD 8.2) --- */
+  reg:{paid:true,personal:true,group:true,maxGroup:6,cap:60,open:"2026-06-01",close:"2026-10-10",approval:true,waitlist:true},
+  tiers:[
+   {id:"t-eb",n:"Early bird",chf:180,vnd:4900000,qty:4,from:"2026-06-01",to:"2026-08-15",eb:true,ebDate:"2026-08-15"},
+   {id:"t-std",n:"Standard pass",chf:250,vnd:6900000,qty:30,from:"2026-06-01",to:"2026-10-10",eb:false,ebDate:""},
+   {id:"t-exec",n:"Executive pass",chf:480,vnd:13200000,qty:12,from:"2026-06-01",to:"2026-10-10",eb:false,ebDate:""},
+   {id:"t-acad",n:"Student / academic",chf:60,vnd:1600000,qty:10,from:"2026-06-01",to:"2026-10-01",eb:false,ebDate:""}],
+  codes:[
+   {c:"SVEF25",type:"percent",val:25,limit:50,used:12,until:"2026-09-30",active:true},
+   {c:"PARTNER100",type:"fixed",val:100,limit:20,used:4,until:"2026-10-01",active:true},
+   {c:"EARLYVN15",type:"percent",val:15,limit:100,used:100,until:"2026-08-10",active:true},
+   {c:"PRESSPASS",type:"percent",val:100,limit:15,used:3,until:"2026-10-10",active:false}],
   registrants:[
-   {n:"Trần Quốc Anh",em:"q.anh@example.com",co:"An Phát Logistics JSC",job:"Founder",d:"2026-08-02"},
-   {n:"Lea Weber",em:"l.weber@example.ch",co:"Helvetia Fintech AG",job:"Head of Partnerships",d:"2026-08-04"},
-   {n:"Nguyễn Thu Hà",em:"ha.nguyen@example.vn",co:"GreenTech Vietnam",job:"Project Manager",d:"2026-08-05"},
-   {n:"Marco Rossi",em:"m.rossi@example.ch",co:"Alpine Advisory",job:"Partner",d:"2026-08-06"},
-   {n:"Phạm Hoàng Long",em:"long.pham@example.vn",co:"Mekong Digital",job:"CTO",d:"2026-08-07"}],
+   {n:"Trần Quốc Anh",em:"q.anh@example.com",co:"An Phát Logistics JSC",job:"Founder",d:"2026-08-02",kind:"personal",tier:"t-eb",ref:"SVEF-HAN-0001",st:"Confirmed",pay:"Paid",code:"SVEF25",qr:"HAN-4821",ci:true,ciAt:"08:42",out:false},
+   {n:"Lea Weber",em:"l.weber@example.ch",co:"Helvetia Fintech AG",job:"Head of Partnerships",d:"2026-08-04",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0002",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5093",ci:true,ciAt:"08:47",out:false},
+   {n:"Nguyễn Thu Hà",em:"ha.nguyen@example.vn",co:"GreenTech Vietnam",job:"Project Manager",d:"2026-08-05",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0003",st:"Confirmed",pay:"Unpaid",code:"",qr:"HAN-5144",ci:false,ciAt:"",out:false},
+   {n:"Marco Rossi",em:"m.rossi@example.ch",co:"Alpine Advisory",job:"Partner",d:"2026-08-06",kind:"personal",tier:"t-exec",ref:"SVEF-HAN-0004",st:"Confirmed",pay:"Paid",code:"PARTNER100",qr:"HAN-5210",ci:true,ciAt:"09:05",out:true},
+   {n:"Phạm Hoàng Long",em:"long.pham@example.vn",co:"Mekong Digital",job:"CTO",d:"2026-08-07",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0005",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5288",ci:false,ciAt:"",out:false},
+   {n:"Đặng Hải Yến",em:"yen.dang@example.vn",co:"Zurich Ventures",job:"Investment Manager",d:"2026-08-08",kind:"group",tier:"t-std",ref:"SVEF-HAN-0006",st:"Confirmed",pay:"Paid",code:"",qr:"",ci:false,ciAt:"",out:false,
+    party:[{n:"Đặng Hải Yến",em:"yen.dang@example.vn",job:"Investment Manager",qr:"HAN-6001",ci:true,ciAt:"08:55",out:false},
+           {n:"Thomas Bühler",em:"t.buehler@example.ch",job:"Principal",qr:"HAN-6002",ci:true,ciAt:"08:56",out:false},
+           {n:"Lukas Frei",em:"l.frei@example.ch",job:"Analyst",qr:"HAN-6003",ci:false,ciAt:"",out:false}]},
+   {n:"Phan Thị Mai",em:"mai.phan@example.vn",co:"Vietnam National University",job:"Researcher",d:"2026-08-09",kind:"personal",tier:"t-acad",ref:"SVEF-HAN-0007",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5341",ci:false,ciAt:"",out:false},
+   {n:"Bùi Quang Huy",em:"huy.bui@example.vn",co:"Mekong Digital",job:"Data Lead",d:"2026-08-09",kind:"personal",tier:"t-eb",ref:"SVEF-HAN-0008",st:"Confirmed",pay:"Unpaid",code:"",qr:"HAN-5377",ci:false,ciAt:"",out:false},
+   {n:"Daniel Brunner",em:"d.brunner@example.ch",co:"Swiss Precision Mfg",job:"Head of Sales",d:"2026-08-10",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0009",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5402",ci:true,ciAt:"09:12",out:false},
+   {n:"Sandra Meier",em:"s.meier@example.ch",co:"Trade Office Zurich",job:"Trade Counsellor",d:"2026-08-10",kind:"personal",tier:"t-exec",ref:"SVEF-HAN-0010",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5455",ci:false,ciAt:"",out:false},
+   {n:"Nguyễn Minh Đức",em:"duc.nguyen@example.vn",co:"GreenTech Vietnam",job:"Managing Director",d:"2026-08-11",kind:"personal",tier:"t-exec",ref:"SVEF-HAN-0011",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5501",ci:false,ciAt:"",out:false},
+   {n:"Vũ Thị Lan Anh",em:"lananh.vu@example.vn",co:"Vietnam National University",job:"Lecturer",d:"2026-08-11",kind:"personal",tier:"t-acad",ref:"SVEF-HAN-0012",st:"Confirmed",pay:"Unpaid",code:"",qr:"HAN-5533",ci:false,ciAt:"",out:false},
+   {n:"Stefan Baumgartner",em:"s.baumgartner@example.ch",co:"Helvetia Fintech AG",job:"Risk Officer",d:"2026-08-12",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0013",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5570",ci:false,ciAt:"",out:false},
+   {n:"Lê Thị Minh Châu",em:"chau.le@example.vn",co:"An Phát Logistics JSC",job:"Export Director",d:"2026-08-12",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0014",st:"Confirmed",pay:"Paid",code:"",qr:"HAN-5612",ci:false,ciAt:"",out:false},
+   {n:"Julia Frei",em:"j.frei@example.ch",co:"Alpine Advisory",job:"Consultant",d:"2026-08-13",kind:"personal",tier:"t-std",ref:"SVEF-HAN-0015",st:"Pending",pay:"Unpaid",code:"",qr:"HAN-5644",ci:false,ciAt:"",out:false},
+   {n:"Trịnh Văn Nam",em:"nam.trinh@example.vn",co:"GreenTech Vietnam",job:"Field Engineer",d:"2026-08-14",kind:"personal",tier:"t-acad",ref:"SVEF-HAN-0016",st:"Pending",pay:"Unpaid",code:"",qr:"HAN-5679",ci:false,ciAt:"",out:false},
+   {n:"Đỗ Minh Tuấn",em:"tuan.do@example.vn",co:"Mekong Digital",job:"Product Lead",d:"2026-08-15",kind:"personal",tier:"t-eb",ref:"SVEF-HAN-0017",st:"Waitlisted",pay:"Unpaid",code:"",qr:"HAN-5703",ci:false,ciAt:"",out:false},
+   {n:"Céline Dubois",em:"c.dubois@example.ch",co:"Helvetia Fintech AG",job:"Analyst",d:"2026-08-16",kind:"personal",tier:"t-eb",ref:"SVEF-HAN-0018",st:"Waitlisted",pay:"Unpaid",code:"",qr:"HAN-5740",ci:false,ciAt:"",out:false},
+   {n:"Dr. Anna Keller",em:"a.keller@example.ch",co:"Helvetia Fintech AG",job:"Chief Economist",d:"2026-08-06",kind:"personal",tier:"t-exec",ref:"SVEF-HAN-0019",st:"Cancelled",pay:"Refunded",code:"",qr:"HAN-5788",ci:false,ciAt:"",out:false}],
   meetings:[
    {rq:"Trần Quốc Anh",rc:"Lea Weber",day:"2026-10-14",slot:"11:15 - 11:45",st:"Confirmed"},
    {rq:"Phạm Hoàng Long",rc:"Marco Rossi",day:"2026-10-14",slot:"13:00 - 13:30",st:"Pending"},
@@ -818,10 +1042,17 @@ let appEvents=[
   sponsors:[
    {n:"Swiss Precision Mfg",tier:"Headline"},
    {n:"Alpine Advisory",tier:"Silver"}],
+  reg:{paid:true,personal:true,group:true,maxGroup:4,cap:45,open:"2026-07-01",close:"2026-11-15",approval:true,waitlist:true},
+  tiers:[
+   {id:"m-del",n:"Delegate pass",chf:950,vnd:26000000,qty:40,from:"2026-07-01",to:"2026-11-15",eb:false,ebDate:""},
+   {id:"m-part",n:"Partner delegate",chf:650,vnd:18000000,qty:20,from:"2026-07-01",to:"2026-09-30",eb:true,ebDate:"2026-09-30"}],
+  codes:[
+   {c:"MISSION10",type:"percent",val:10,limit:25,used:6,until:"2026-10-31",active:true}],
   registrants:[
-   {n:"Marco Rossi",em:"m.rossi@example.ch",co:"Alpine Advisory",job:"Partner",d:"2026-09-12"},
-   {n:"Lê Thị Minh Châu",em:"chau.le@example.vn",co:"An Phát Logistics JSC",job:"Export Director",d:"2026-09-15"},
-   {n:"Daniel Brunner",em:"d.brunner@example.ch",co:"Swiss Precision Mfg",job:"Head of Sales",d:"2026-09-18"}],
+   {n:"Marco Rossi",em:"m.rossi@example.ch",co:"Alpine Advisory",job:"Partner",d:"2026-09-12",kind:"personal",tier:"m-part",ref:"SVEF-MIS-0001",st:"Confirmed",pay:"Paid",code:"MISSION10",qr:"MIS-2201",ci:false,ciAt:"",out:false},
+   {n:"Lê Thị Minh Châu",em:"chau.le@example.vn",co:"An Phát Logistics JSC",job:"Export Director",d:"2026-09-15",kind:"personal",tier:"m-del",ref:"SVEF-MIS-0002",st:"Confirmed",pay:"Paid",code:"",qr:"MIS-2244",ci:false,ciAt:"",out:false},
+   {n:"Daniel Brunner",em:"d.brunner@example.ch",co:"Swiss Precision Mfg",job:"Head of Sales",d:"2026-09-18",kind:"personal",tier:"m-del",ref:"SVEF-MIS-0003",st:"Confirmed",pay:"Unpaid",code:"",qr:"MIS-2290",ci:false,ciAt:"",out:false},
+   {n:"Sandra Meier",em:"s.meier@example.ch",co:"Trade Office Zurich",job:"Trade Counsellor",d:"2026-09-20",kind:"personal",tier:"m-part",ref:"SVEF-MIS-0004",st:"Pending",pay:"Unpaid",code:"",qr:"MIS-2318",ci:false,ciAt:"",out:false}],
   meetings:[
    {rq:"Daniel Brunner",rc:"Lê Thị Minh Châu",day:"2026-11-24",slot:"10:00 - 10:30",st:"Confirmed"},
    {rq:"Marco Rossi",rc:"Sandra Meier",day:"2026-11-24",slot:"10:45 - 11:15",st:"Pending"}],
@@ -837,8 +1068,15 @@ let appEvents=[
    {n:"Đặng Hải Yến",job:"Investment Manager",co:"Zurich Ventures"}],
   sponsors:[
    {n:"Zurich Ventures",tier:"Gold"}],
+  /* A free event: one free pass type, no payment column to chase. */
+  reg:{paid:false,personal:true,group:false,maxGroup:1,cap:120,open:"2026-11-01",close:"2027-03-01",approval:true,waitlist:false},
+  tiers:[
+   {id:"s-std",n:"Standard pass",chf:90,vnd:2500000,qty:120,from:"2026-11-01",to:"2027-03-01",eb:false,ebDate:""}],
+  codes:[],
   registrants:[
-   {n:"Đặng Hải Yến",em:"yen.dang@example.vn",co:"Zurich Ventures",job:"Investment Manager",d:"2026-08-01"}],
+   {n:"Đặng Hải Yến",em:"yen.dang@example.vn",co:"Zurich Ventures",job:"Investment Manager",d:"2026-08-01",kind:"personal",tier:"t-free",ref:"SVEF-STA-0001",st:"Confirmed",pay:"Free",code:"",qr:"STA-1101",ci:false,ciAt:"",out:false},
+   {n:"Nguyễn Hoàng Nam",em:"nam.nguyen@example.vn",co:"Vietnam National University",job:"Student",d:"2026-08-03",kind:"personal",tier:"t-free",ref:"SVEF-STA-0002",st:"Pending",pay:"Free",code:"",qr:"STA-1102",ci:false,ciAt:"",out:false},
+   {n:"Laura Fischer",em:"l.fischer@example.ch",co:"Zurich Ventures",job:"Community Manager",d:"2026-08-05",kind:"personal",tier:"t-free",ref:"SVEF-STA-0003",st:"Confirmed",pay:"Free",code:"",qr:"STA-1103",ci:false,ciAt:"",out:false}],
   meetings:[],
   pushes:[]},
 ];
@@ -920,17 +1158,20 @@ function openAppContent(i){
   const e=pubEvents[i];
   let k=appIndexFor(e.id);
   if(k<0)k=addAppEvent(e);
-  appSel=k;appTab='info';renderApp();
+  appSel=k;appTab='info';regResetView();renderApp();
   document.getElementById('appSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
 /* A newly created SVEF event starts with an empty app shell, so the organisers
    never have to create the same event twice. */
 function addAppEvent(e){
-  appEvents.push({id:e.id,t:e.t,ds:e.ds,de:e.de||e.ds,venue:e.loc||'',tz:APP_TZ[0],status:e.status||'Draft',
-    desc:e.desc||'',sessions:[],speakers:[],sponsors:[],registrants:[],meetings:[],pushes:[]});
+  appEvents.push(regEnsure({id:e.id,t:e.t,ds:e.ds,de:e.de||e.ds,venue:e.loc||'',tz:APP_TZ[0],status:e.status||'Draft',
+    desc:e.desc||'',sessions:[],speakers:[],sponsors:[],registrants:[],meetings:[],pushes:[]}));
   return appEvents.length-1;
 }
-function renderPubEvents(){document.getElementById('pubEvents').innerHTML=pubEvents.map(pubEventRow).join('');}
+function renderPubEvents(){
+  document.getElementById('pubEvents').innerHTML=pubEvents.map(pubEventRow).join('');
+  renderRegSummaries();
+}
 
 function renderNews(){
   document.getElementById('newsFilters').innerHTML=['All'].concat(NTYPES).map(t=>
@@ -953,7 +1194,7 @@ function renderAll(){
   renderPubEvents();
   renderNews();
   document.getElementById('cmsList').innerHTML=cmsPages.map((p,i)=>`<button class="${i===1?'on':''}" onclick="pickCms(this,'${esc(p).replace(/'/g,'&#39;')}')">${esc(p)}</button>`).join('');
-  renderApprovals();renderMemApps();renderApp();
+  renderApprovals();renderMemApps();renderApp();renderRegSummaries();
 }
 function pickCms(btn,name){document.querySelectorAll('#cmsList button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('cmsTitle').value=name;}
 
@@ -988,7 +1229,7 @@ function apprCard(a,i){return `<div class="appr"><div class="d"><b>${a.date.spli
     <div class="body"><h4>${a.t}</h4><p style="margin-bottom:6px">📍 ${a.loc} · <b>${a.by}</b></p><p>${a.d[lang]}</p></div>
     <div class="acts"><button class="btn green sm" onclick="decide(${i},true)">${tr('d_approve')}</button><button class="btn line sm" onclick="decide(${i},false)">${tr('d_reject')}</button></div></div>`;}
 function renderApprovals(){
-  const html=approvals.map(apprCard).join('')||`<p class="muted">🎉 ${'No pending events — the queue is clear.'}</p>`;
+  const html=approvals.map(apprCard).join('')||`<p class="muted">🎉 ${'No pending events, the queue is clear.'}</p>`;
   document.getElementById('apprList').innerHTML=html;
   document.getElementById('dashAppr').innerHTML=html;
   const n=approvals.length;
@@ -1001,7 +1242,7 @@ function decide(i,ok){
     link:'',desc:a.d.en,status:"Published"});
   approvals.splice(i,1);renderApprovals();
   renderPubEvents();
-  toast(ok?(('✓ Approved — "')+a.t+('" is now public')):(('Rejected — "')+a.t+('" sent back to partner')));
+  toast(ok?(('✓ Approved: "')+a.t+('" is now public')):(('Rejected: "')+a.t+('" sent back to partner')));
 }
 
 /* ---- Membership applications (P3) ---- */
@@ -1025,7 +1266,14 @@ function decideMem(i,ok){
   toast(ok?(('✓ Member approved: ')+a.n):(('Application rejected: ')+a.n));
 }
 
-function exportData(kind){toast(('⬇ Exporting ')+kind+('.csv — confidential fields excluded'));}
+/* Registration exports build a real CSV from the demo state; the older partner and
+   membership exports stay as they were. No export ever carries a password or a
+   payment token (BRD BR-W-18 / §11.2). */
+function exportData(kind){
+  if(kind==='registrants'){regExport('all');return;}
+  if(kind==='checkin'){ciExport();return;}
+  toast(('⬇ Exporting ')+kind+('.csv, confidential fields excluded'));
+}
 
 /* ===== PARTNER CRUD (admin) ===== */
 const PCOL=["#1F3A5F","#0F5A4A","#0A0A0A","#DA291C","#4A3B6B","#7A5C00","#2E2E2E"];
@@ -1230,15 +1478,27 @@ function delEvent(i){
 const APP_TABS=[['info','ap_tab_info'],['agenda','ap_tab_agenda'],['speakers','ap_tab_speakers'],
   ['sponsors','ap_tab_sponsors'],['reg','ap_tab_reg'],['meet','ap_tab_meet'],['push','ap_tab_push']];
 function appEv(){return appEvents[appSel];}
-function appPick(i){appSel=i;appTab='info';renderApp();}
+function appPick(i){appSel=i;appTab='info';regResetView();renderApp();}
 function appTabSet(k){appTab=k;renderApp();}
 function nowHM(){const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getHours())+':'+p(d.getMinutes());}
 function appHead(titleKey,btn){
   return `<div class="phead"><h2>${tr(titleKey)}</h2><div class="sp"></div>${btn||''}</div>`;
 }
+/* The Registrants tab carries the live seat count, so the number is visible
+   without opening the tab. Kept out of renderApp so a row action can refresh
+   the label without rebuilding the whole pane. */
+function appTabsRender(){
+  const bar=document.getElementById('appTabs'),e=appEv();
+  if(!bar||!e)return;
+  bar.innerHTML=APP_TABS.map(t=>{
+    const n=t[0]==='reg'?' · '+regStats(e).seats:'';
+    return `<button class="${appTab===t[0]?'on':''}" onclick="appTabSet('${t[0]}')">${tr(t[1])}${n}</button>`;
+  }).join('');
+}
 function renderApp(){
   const pick=document.getElementById('appPicker');if(!pick)return;
   if(appSel>=appEvents.length)appSel=0;
+  appEvents.forEach(regEnsure);
   const e=appEv();
   if(!e){
     pick.innerHTML=`<p class="muted" style="margin:0">${tr('ap_empty')}</p>`;
@@ -1253,8 +1513,7 @@ function renderApp(){
     `<div class="field" style="margin-bottom:0"><label>${tr('ap_sum')}</label><div class="chiprow">`+
       `<span class="chip navy">${esc(evDates(e))}</span><span class="chip">📍 ${esc(e.venue)}</span>`+
       `<span class="chip">${esc(e.tz)}</span>${stChip(e.status)}</div></div></div>`;
-  document.getElementById('appTabs').innerHTML=APP_TABS.map(t=>
-    `<button class="${appTab===t[0]?'on':''}" onclick="appTabSet('${t[0]}')">${tr(t[1])}</button>`).join('');
+  appTabsRender();
   const pane={info:appInfoHtml,agenda:appAgendaHtml,speakers:appSpeakersHtml,sponsors:appSponsorsHtml,
     reg:appRegHtml,meet:appMeetHtml,push:appPushHtml}[appTab]||appInfoHtml;
   document.getElementById('appPane').innerHTML=pane(e);
@@ -1391,17 +1650,908 @@ function saveAppSponsor(){
 }
 function delAppSponsor(i){appEv().sponsors.splice(i,1);renderApp();toast(tr('t_spodel'));}
 
-/* ---- registrants (read-only, exportable) ---- */
+/* ==========================================================================
+   EVENT REGISTRATION MANAGEMENT (BRD 8.2)
+   Everything that hangs off one SVEF event's registration: settings, ticket
+   tiers, discount codes, the registrant list, door check-in and a small
+   registration dashboard. It is one tab of the App content panel, split into
+   sub-tabs because a single table cannot carry it. Prototype state only: the
+   arrays are mutated in place and the pane is re-rendered.
+   ========================================================================== */
+const REG_STATUS=['Confirmed','Pending','Waitlisted','Cancelled'];
+const PAY_STATUS=['Paid','Unpaid','Refunded','Free'];
+const REG_TABS=[['over','rg_tab_over'],['list','rg_tab_list'],['tick','rg_tab_tick'],
+  ['ci','rg_tab_ci'],['set','rg_tab_set']];
+let regTab='over',regQ='',regFSt='All',regFTier='All',regFPay='All',regCiQ='';
+let regSel={},regOpen={},ciLog=[],regEditRef='',tierEdit=-1,regSeq=100;
+
+function regResetView(){
+  regTab='over';regQ='';regFSt='All';regFTier='All';regFPay='All';regCiQ='';
+  regSel={};regOpen={};ciLog=[];
+}
+/* Events created inside the demo start with a usable registration shell, so no
+   tab is ever opened against a half-built record. */
+function regEnsure(e){
+  if(!e)return e;
+  if(!e.reg)e.reg={paid:true,personal:true,group:true,maxGroup:5,cap:100,
+    open:todayISO(),close:e.ds||todayISO(),approval:false,waitlist:true};
+  if(!e.tiers)e.tiers=[{id:'t-gen',n:'General admission',chf:0,vnd:0,qty:e.reg.cap,
+    from:e.reg.open,to:e.reg.close,eb:false,ebDate:''}];
+  if(!e.codes)e.codes=[];
+  if(!e.registrants)e.registrants=[];
+  return e;
+}
+
+/* ---- small formatters ---- */
+function numG(n,sep){return String(Math.round(Number(n)||0)).replace(/\B(?=(\d{3})+(?!\d))/g,sep);}
+function chf(n){return 'CHF '+numG(n,"'");}
+function vnd(n){return numG(n,'.')+' ₫';}
+function pct(a,b){return b>0?Math.round(a/b*100):0;}
+function rsLabel(s){return {Confirmed:tr('rs_conf'),Pending:tr('rs_pend'),Waitlisted:tr('rs_wait'),
+  Cancelled:tr('rs_canc')}[s]||s;}
+function rsChip(s){const m={Confirmed:'green',Pending:'pend',Waitlisted:'navy',Cancelled:'red'};
+  return `<span class="chip ${m[s]||''}">${rsLabel(s)}</span>`;}
+/* Inside the table the chip carries the short word so the column stays narrow; the
+   full wording stays in the filter, the count row and the editor. */
+function rsChipShort(s){
+  const m={Confirmed:'green',Pending:'pend',Waitlisted:'navy',Cancelled:'red'};
+  const l=s==='Pending'?tr('rs_pend_s'):rsLabel(s);
+  return `<span class="chip ${m[s]||''}">${l}</span>`;
+}
+function pyLabel(p){return {Paid:tr('py_paid'),Unpaid:tr('py_unpaid'),Refunded:tr('py_ref'),
+  Free:tr('py_free')}[p]||p;}
+function pyChip(p){const m={Paid:'green',Unpaid:'pend',Refunded:'red',Free:''};
+  return `<span class="chip ${m[p]||''}">${pyLabel(p)}</span>`;}
+
+/* ---- seats, attendees, tiers ---- */
+function regSeats(r){return r.kind==='group'?Math.max(1,(r.party||[]).length):1;}
+/* A personal booking is its own single attendee, so the registrant object doubles
+   as the attendee record and check-in writes straight to it. */
+function attList(r){return r.kind==='group'
+  ? (r.party||[]).map((p,a)=>({a:a,o:p}))
+  : [{a:0,o:r}];}
+function attOf(r,a){return r.kind==='group'?(r.party||[])[a]:r;}
+function regFreeTier(e){return {id:'t-free',n:tr('rg_freepass'),chf:0,vnd:0,qty:regCap(e),
+  from:e.reg.open,to:e.reg.close,eb:false,ebDate:''};}
+function regTiers(e){return e.reg.paid?(e.tiers||[]):[regFreeTier(e)];}
+function tierById(e,id){const ts=regTiers(e);return ts.filter(t=>t.id===id)[0]||ts[0]||null;}
+function tierName(e,id){const t=tierById(e,id);return t?t.n:'-';}
+function tierPrice(e,id){const t=tierById(e,id);return (e.reg.paid&&t)?(+t.chf||0):0;}
+function regPrice(e,r){return tierPrice(e,r.tier)*regSeats(r);}
+function regCap(e){return +e.reg.cap||0;}
+function regWindow(e){
+  const t=todayISO();
+  if(e.reg.open&&t<e.reg.open)return 'soon';
+  if(e.reg.close&&t>e.reg.close)return 'closed';
+  return 'open';
+}
+function regWindowChip(e){
+  const m={open:['green','rg_open_now'],closed:['red','rg_closed'],soon:['pend','rg_notopen']}[regWindow(e)];
+  return `<span class="chip ${m[0]}">${tr(m[1])}</span>`;
+}
+
+/* ---- one pass over the registrants, everything else reads this ---- */
+function regStats(e){
+  regEnsure(e);
+  const s={bookings:0,groups:0,seats:0,conf:0,pend:0,wait:0,canc:0,ci:0,onSite:0,att:0,
+    rev:0,exp:0,tier:{},co:{},day:{}};
+  (e.registrants||[]).forEach(function(r){
+    const n=regSeats(r);
+    s.bookings++;
+    if(r.kind==='group')s.groups++;
+    if(r.st==='Cancelled'){s.canc+=n;}
+    else if(r.st==='Pending'){s.pend+=n;}
+    else if(r.st==='Waitlisted'){s.wait+=n;}
+    else {s.conf+=n;}
+    if(r.st!=='Cancelled'){
+      s.seats+=n;
+      s.tier[r.tier]=(s.tier[r.tier]||0)+n;
+      if(r.co)s.co[r.co]=(s.co[r.co]||0)+n;
+      s.exp+=regPrice(e,r);
+      if(r.pay==='Paid')s.rev+=regPrice(e,r);
+    }
+    if(r.d)s.day[r.d]=(s.day[r.d]||0)+n;
+    if(r.st==='Confirmed'){
+      attList(r).forEach(function(x){
+        s.att++;
+        if(x.o.ci){s.ci++;if(!x.o.out)s.onSite++;}
+      });
+    }
+  });
+  return s;
+}
+function tierSold(e,id){
+  let n=0;
+  (e.registrants||[]).forEach(r=>{if(r.st!=='Cancelled'&&r.tier===id)n+=regSeats(r);});
+  return n;
+}
+/* Confirmed seats are the ones that occupy the room, so capacity is measured
+   against those and nothing else. */
+function regRoomLeft(e){const cap=regCap(e);return cap?cap-regStats(e).conf:Infinity;}
+
+/* ---- the tab itself: sub-tabs plus the selected pane ---- */
 function appRegHtml(e){
-  const rows=e.registrants.map(r=>`<tr><td><b style="color:var(--navy)">${esc(r.n)}</b></td>`+
-    `<td>${esc(r.em)}</td><td>${esc(r.co||'')}</td><td>${esc(r.job||'')}</td><td>${fmtD(r.d)}</td></tr>`).join('')
-    ||`<tr><td colspan="5" class="muted">${tr('ap_reg_none')}</td></tr>`;
+  regEnsure(e);
+  const s=regStats(e);
+  const body={over:regOverHtml,list:regListHtml,tick:regTickHtml,ci:regCiHtml,set:regSetHtml}[regTab]||regOverHtml;
+  return `<div class="panel"><div class="pbody">`+
+    `<div class="langtab" style="margin-bottom:14px">`+
+      REG_TABS.map(t=>`<button class="${regTab===t[0]?'on':''}" onclick="regSubTab('${t[0]}')">${tr(t[1])}</button>`).join('')+
+    `</div>`+
+    `<div class="chiprow">${regWindowChip(e)}`+
+      `<span class="chip ${e.reg.paid?'navy':''}">${e.reg.paid?tr('rg_paid_ev'):tr('rg_free_ev')}</span>`+
+      `<span class="chip">${s.conf} ${tr('rg_of')} ${regCap(e)||'∞'} ${tr('rg_seats')}</span>`+
+      (e.reg.approval?`<span class="chip pend">${tr('rg_appr_t')}</span>`:'')+
+      (e.reg.waitlist?`<span class="chip">${tr('rg_wait_t')}</span>`:'')+
+    `</div></div></div>`+
+    body(e);
+}
+function regSubTab(k){regTab=k;renderApp();}
+
+/* ==================== 1. OVERVIEW (registration dashboard) ==================== */
+function drow(label,barPct,value){
+  return `<div class="drow"><span class="lb">${label}</span>`+
+    `<span class="tr"><i style="width:${Math.max(0,Math.min(100,barPct)).toFixed(1)}%"></i></span>`+
+    `<span class="vl">${value}</span></div>`;
+}
+function isoOf(d){const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+/* Registrations over time, drawn as plain divs. No chart library, no CDN. */
+function regSparkHtml(e){
+  const s=regStats(e),keys=Object.keys(s.day).sort();
+  if(!keys.length)return `<div class="emptyline">${tr('rg_nodata')}</div>`;
+  const days=[],cur=new Date(keys[0]+'T12:00:00'),end=new Date(keys[keys.length-1]+'T12:00:00');
+  while(cur<=end&&days.length<45){days.push(isoOf(cur));cur.setDate(cur.getDate()+1);}
+  const vals=days.map(d=>s.day[d]||0),max=Math.max.apply(null,vals)||1;
+  const step=days.length>16?Math.ceil(days.length/8):1;
+  return `<div class="spark">`+vals.map(v=>
+      `<i class="${v?'':'z'}" style="height:${Math.max(2,Math.round(v/max*96))}px" title="${v}"></i>`).join('')+`</div>`+
+    `<div class="sparkx">`+days.map((d,i)=>
+      `<span>${i%step===0?d.slice(8)+'/'+d.slice(5,7):''}</span>`).join('')+`</div>`;
+}
+function regOverHtml(e){
+  const s=regStats(e),cap=regCap(e),tiers=regTiers(e);
+  const base=cap||Math.max(1,s.conf+s.pend);
+  const capBar=`<div class="rbar">`+
+    `<i class="f1" style="width:${(s.conf/base*100).toFixed(1)}%"></i>`+
+    `<i class="f2" style="width:${(s.pend/base*100).toFixed(1)}%"></i>`+
+    `</div>`+
+    `<div class="legend"><span><s class="f1"></s>${tr('rs_conf')} ${s.conf}</span>`+
+    `<span><s class="f2"></s>${tr('rs_pend')} ${s.pend}</span>`+
+    `<span><s class="f4"></s>${cap?(Math.max(0,cap-s.conf-s.pend)+' '+tr('rg_t_left')):tr('rg_capfree')}</span></div>`;
+  const totalSeats=s.seats+s.canc||1;
+  const statusRows=[['rs_conf',s.conf],['rs_pend',s.pend],['rs_wait',s.wait],['rs_canc',s.canc]]
+    .map(x=>drow(tr(x[0]),x[1]/totalSeats*100,x[1]+' '+tr('rg_seats'))).join('');
+  const tierRows=tiers.map(t=>{
+    const sold=tierSold(e,t.id),q=+t.qty||0;
+    return drow(esc(t.n),q?sold/q*100:0,sold+(q?' / '+q:'')+' '+tr('rg_t_sold'));
+  }).join('')||`<div class="emptyline">${tr('rg_tick_none')}</div>`;
+  const cos=Object.keys(s.co).map(k=>({n:k,v:s.co[k]})).sort((a,b)=>b.v-a.v).slice(0,5);
+  const coMax=cos.length?cos[0].v:1;
+  const coRows=cos.map(c=>drow(esc(c.n),c.v/coMax*100,c.v+' '+tr('rg_seats'))).join('')
+    ||`<div class="emptyline">${tr('rg_nodata')}</div>`;
+  const revRows=e.reg.paid
+    ? drow(tr('rg_collected'),s.exp?s.rev/s.exp*100:0,chf(s.rev))+
+      drow(tr('rg_expected'),100,chf(s.exp))+
+      drow(tr('rg_outstanding'),s.exp?(s.exp-s.rev)/s.exp*100:0,chf(s.exp-s.rev))
+    : `<div class="emptyline">${tr('rg_free_ev')}</div>`;
+  return `<div class="panel">`+appHead('rg_over_h',
+      `<button class="btn ghost sm" onclick="regSubTab('list')">${tr('rg_tab_list')} →</button>`)+
+    `<div class="pbody">`+
+      `<div class="kpigrid">`+
+        `<div class="kpi"><b>${s.seats}</b><span>${tr('rg_k_total')}</span>`+
+          `<div class="sub">${s.bookings} ${tr('rg_bookings')}`+
+          (s.groups?` · ${s.groups} ${s.groups===1?tr('rg_grp1'):tr('rg_grpn')}`:'')+`</div></div>`+
+        `<div class="kpi"><b>${s.conf}<em> / ${cap||'∞'}</em></b><span>${tr('rg_k_conf')}</span>`+
+          `<div class="sub">${cap?pct(s.conf,cap)+'%':tr('rg_capfree')}</div></div>`+
+        `<div class="kpi"><b>${e.reg.paid?chf(s.rev):tr('rg_free_ev')}</b><span>${tr('rg_k_rev')}</span>`+
+          `<div class="sub">${e.reg.paid?(tr('rg_expected')+' '+chf(s.exp)):tr('rg_free_ev')}</div></div>`+
+        `<div class="kpi"><b>${s.ci}<em> / ${s.att}</em></b><span>${tr('rg_k_ci')}</span>`+
+          `<div class="sub">${tr('rg_ci_k_on')} ${s.onSite}</div></div>`+
+      `</div>`+
+      `<h4 class="seoh" style="margin-top:0">${tr('rg_cap_head')}</h4>${capBar}`+
+      `<div class="g2" style="margin-top:26px">`+
+        `<div><h4 class="seoh" style="margin-top:0">${tr('rg_bystatus')}</h4>${statusRows}</div>`+
+        `<div><h4 class="seoh" style="margin-top:0">${tr('rg_bytier')}</h4>${tierRows}</div>`+
+      `</div>`+
+      `<h4 class="seoh">${tr('rg_overtime')}</h4>${regSparkHtml(e)}`+
+      `<div class="g2" style="margin-top:26px">`+
+        `<div><h4 class="seoh" style="margin-top:0">${tr('rg_rev_h')}</h4>${revRows}</div>`+
+        `<div><h4 class="seoh" style="margin-top:0">${tr('rg_topco')}</h4>${coRows}</div>`+
+      `</div>`+
+    `</div></div>`;
+}
+
+/* ==================== 2. REGISTRANT TABLE ==================== */
+function regFiltered(e){
+  const q=regQ.trim().toLowerCase();
+  return (e.registrants||[]).map((r,i)=>({r:r,i:i})).filter(function(x){
+    const r=x.r;
+    if(regFSt!=='All'&&r.st!==regFSt)return false;
+    if(regFTier!=='All'&&r.tier!==regFTier)return false;
+    if(regFPay!=='All'&&r.pay!==regFPay)return false;
+    if(q){
+      const hay=[r.n,r.em,r.co,r.job,r.ref].concat((r.party||[]).map(p=>p.n+' '+p.em)).join(' ').toLowerCase();
+      if(hay.indexOf(q)<0)return false;
+    }
+    return true;
+  });
+}
+function regCiCell(r){
+  const list=attList(r),done=list.filter(x=>x.o.ci).length;
+  if(r.kind==='group')
+    return `<span class="chip ${done===list.length?'green':(done?'pend':'')}">${done} / ${list.length}</span>`+
+      `<span class="sub2">${tr('rg_ci_part')}</span>`;
+  if(r.ci)return `<span class="chip green">${tr('rg_ci_yes')}</span>`+
+    (r.ciAt?`<span class="sub2">${esc(r.ciAt)}</span>`:'');
+  return `<span class="chip">${tr('rg_ci_no')}</span>`;
+}
+function regActions(e,r,i){
+  const b=[];
+  if(r.st==='Pending'){
+    b.push(`<button class="btn green sm" onclick="regApprove(${i})">${tr('rg_a_appr')}</button>`);
+    b.push(`<button class="btn line sm" onclick="regReject(${i})">${tr('rg_a_rej')}</button>`);
+  }
+  if(r.st==='Waitlisted')
+    b.push(`<button class="btn green sm" onclick="regPromote(${i})">${tr('rg_a_prom')}</button>`);
+  if(r.st==='Confirmed'&&e.reg.paid&&r.pay==='Unpaid')
+    b.push(`<button class="btn green sm" onclick="regMarkPaid(${i})">${tr('rg_a_paid')}</button>`);
+  if(e.reg.paid&&r.pay==='Paid')
+    b.push(`<button class="btn line sm" onclick="regRefund(${i})">${tr('rg_a_ref')}</button>`);
+  if(r.st!=='Cancelled')
+    b.push(`<button class="btn line sm" onclick="regCancel(${i})">${tr('rg_a_canc')}</button>`);
+  b.push(`<button class="btn line sm" onclick="regResend(${i})">${tr('rg_a_mail')}</button>`);
+  b.push(`<button class="btn ghost sm" onclick="regEditOpen(${i})">${tr('d_edit')}</button>`);
+  return `<div class="act-btns wrap">${b.join('')}</div>`;
+}
+/* Nine columns, not thirteen: name over email, company over job title and tier over
+   booking reference, so the whole row fits the panel without sideways scrolling. */
+function regRowHtml(e,r,i){
+  const seats=regSeats(r),grp=r.kind==='group',open=!!regOpen[r.ref];
+  const nameCell=`<div class="nmline">`+
+    (grp?`<button class="exp" onclick="regExpand('${r.ref}')" aria-label="${tr('rg_att')}">${open?'▾':'▸'}</button>`:'')+
+    `<b>${esc(r.n)}</b>`+
+    `<span class="chip ${grp?'navy':''}">${grp?tr('rg_group')+' · '+seats:tr('rg_personal')}</span></div>`+
+    `<span class="sub2">${esc(r.em)}</span>`;
+  let html=`<tr>`+
+    `<td class="ck"><input type="checkbox" ${regSel[r.ref]?'checked':''} onchange="regToggleSel('${r.ref}')" aria-label="${esc(r.n)}"></td>`+
+    `<td class="stack">${nameCell}</td>`+
+    `<td class="stack tight"><b>${esc(r.co||'')}</b>`+
+      (r.job?`<span class="sub2">${esc(r.job)}</span>`:'')+`</td>`+
+    `<td class="stack tight"><b>${esc(tierName(e,r.tier))}</b>`+
+      `<span class="ref">${esc(r.ref)}</span></td>`+
+    `<td class="tight nw">${fmtD(r.d)}</td>`+
+    `<td class="tight">${rsChipShort(r.st)}</td>`+
+    `<td class="tight">${pyChip(r.pay)}</td>`+
+    `<td class="tight">${regCiCell(r)}</td>`+
+    `<td>${regActions(e,r,i)}</td></tr>`;
+  if(grp&&open){
+    html+=`<tr class="subatt"><td class="ck"></td><td colspan="8"><div class="attlist">`+
+      attList(r).map(function(x){
+        return `<div class="attrow"><span class="an">${esc(x.o.n)}</span>`+
+          `<span class="aj">${esc(x.o.job||'')}</span>`+
+          `<span class="cm">${esc(x.o.qr||'')}</span>`+
+          `<span>${x.o.ci?`<span class="chip green">${tr('rg_ci_yes')}${x.o.ciAt?' '+esc(x.o.ciAt):''}</span>`:`<span class="chip">${tr('rg_ci_no')}</span>`}</span>`+
+          `<button class="btn ${x.o.ci?'line':'green'} sm" onclick="ciToggle(${i},${x.a})">${x.o.ci?tr('rg_ci_out'):tr('rg_ci_go')}</button>`+
+        `</div>`;
+      }).join('')+`</div></td></tr>`;
+  }
+  return html;
+}
+function regRowsHtml(e){
+  const rows=regFiltered(e);
+  if(rows.length)return rows.map(x=>regRowHtml(e,x.r,x.i)).join('');
+  const empty=(e.registrants||[]).length?tr('rg_none_f'):tr('ap_reg_none');
+  return `<tr><td colspan="9" class="muted">${empty}</td></tr>`;
+}
+function regCountsHtml(e){
+  const s=regStats(e);
+  return `<div><b>${s.seats}</b><span>${tr('rg_k_total')}</span></div>`+
+    `<div><b>${s.conf}</b><span>${tr('rs_conf')}</span></div>`+
+    `<div><b>${s.pend}</b><span>${tr('rs_pend')}</span></div>`+
+    `<div><b>${s.wait}</b><span>${tr('rs_wait')}</span></div>`+
+    `<div><b>${s.canc}</b><span>${tr('rs_canc')}</span></div>`+
+    `<div><b>${s.ci}</b><span>${tr('rg_k_ci')}</span></div>`;
+}
+function regSelCount(){return Object.keys(regSel).length;}
+function regSelbarHtml(){
+  const n=regSelCount();
+  if(!n)return '';
+  return `<b>${n}</b> <span class="muted">${tr('rg_sel_n')}</span>`+
+    `<div class="sp" style="flex:1"></div>`+
+    `<button class="btn green sm" onclick="regBulkApprove()">${tr('rg_bulk_appr')}</button>`+
+    `<button class="btn line sm" onclick="regBulkEmail()">${tr('rg_bulk_mail')}</button>`+
+    `<button class="btn line sm" onclick="regBulkExport()">${tr('rg_bulk_exp')}</button>`+
+    `<button class="btn ghost sm" onclick="regClearSel()">${tr('rg_clear')}</button>`;
+}
+function regListHtml(e){
+  const tiers=regTiers(e);
+  const opt=(v,l,cur)=>`<option value="${esc(v)}" ${v===cur?'selected':''}>${esc(l)}</option>`;
   return `<div class="panel">`+
-    appHead('ap_tab_reg',`<span class="chip navy">${e.registrants.length}</span>`+
-      `<button class="btn ghost sm" onclick="exportData('registrants')">${tr('b_export')}</button>`)+
-    `<table><thead><tr><th>${tr('c_name')}</th><th>${tr('c_email')}</th><th>${tr('c_company')}</th>`+
-    `<th>${tr('c_job')}</th><th>${tr('c_regdate')}</th></tr></thead><tbody>${rows}</tbody></table>`+
-    `<div class="pbody"><div class="export-note">${tr('ap_reg_note')}</div></div></div>`;
+    appHead('ap_tab_reg',
+      `<button class="btn line sm" onclick="regExport('event')">${tr('b_export')}</button>`+
+      `<button class="btn sm" onclick="regAddOpen()">${tr('rg_add')}</button>`)+
+    `<div class="countrow" id="regCounts">${regCountsHtml(e)}</div>`+
+    `<div class="filterbar">`+
+      `<div class="field grow"><label>${tr('rg_search')}</label>`+
+        `<input id="regQ" value="${esc(regQ)}" oninput="regSearch(this.value)" placeholder="${tr('rg_search')}"></div>`+
+      `<div class="field"><label>${tr('rg_f_status')}</label><select onchange="regSetFilter('st',this.value)">`+
+        opt('All',tr('f_all'),regFSt)+REG_STATUS.map(s=>opt(s,rsLabel(s),regFSt)).join('')+`</select></div>`+
+      `<div class="field"><label>${tr('rg_f_tier')}</label><select onchange="regSetFilter('tier',this.value)">`+
+        opt('All',tr('f_all'),regFTier)+tiers.map(t=>opt(t.id,t.n,regFTier)).join('')+`</select></div>`+
+      `<div class="field"><label>${tr('rg_f_pay')}</label><select onchange="regSetFilter('pay',this.value)">`+
+        opt('All',tr('f_all'),regFPay)+PAY_STATUS.map(p=>opt(p,pyLabel(p),regFPay)).join('')+`</select></div>`+
+    `</div>`+
+    `<div class="selbar" id="regSelbar" style="${regSelCount()?'':'display:none'}">${regSelbarHtml()}</div>`+
+    `<table class="wide"><thead><tr>`+
+      `<th class="ck"><input type="checkbox" onchange="regSelAll(this.checked)" aria-label="${tr('rg_selall')}"></th>`+
+      `<th>${tr('rg_c_person')}</th><th class="tight">${tr('rg_c_org')}</th>`+
+      `<th class="tight">${tr('rg_c_ticketref')}</th><th class="tight">${tr('c_regdate')}</th>`+
+      `<th class="tight">${tr('c_status')}</th><th class="tight">${tr('rg_c_pay')}</th>`+
+      `<th class="tight">${tr('rg_c_cin')}</th>`+
+      `<th>${tr('c_actions')}</th></tr></thead>`+
+    `<tbody id="regTbody">${regRowsHtml(e)}</tbody></table>`+
+    `<div class="pbody"><div class="export-note">${tr('rg_note')}</div></div></div>`;
+}
+/* Only the parts that change are rewritten, so the search box keeps its focus
+   and the caret while the table filters underneath it. */
+function regRefresh(){
+  const e=appEv();if(!e)return;
+  const tb=document.getElementById('regTbody');
+  if(tb)tb.innerHTML=regRowsHtml(e);
+  const c=document.getElementById('regCounts');
+  if(c)c.innerHTML=regCountsHtml(e);
+  const sb=document.getElementById('regSelbar');
+  if(sb){sb.innerHTML=regSelbarHtml();sb.style.display=regSelCount()?'':'none';}
+  appTabsRender();
+  renderRegSummaries();
+}
+function regSearch(q){regQ=q;regRefresh();}
+function regSetFilter(k,v){
+  if(k==='st')regFSt=v;else if(k==='tier')regFTier=v;else regFPay=v;
+  regRefresh();
+}
+function regExpand(ref){if(regOpen[ref])delete regOpen[ref];else regOpen[ref]=1;regRefresh();}
+function regToggleSel(ref){if(regSel[ref])delete regSel[ref];else regSel[ref]=1;regRefresh();}
+function regSelAll(on){
+  const e=appEv();regSel={};
+  if(on)regFiltered(e).forEach(x=>{regSel[x.r.ref]=1;});
+  regRefresh();
+}
+function regClearSel(){regSel={};regRefresh();}
+
+/* ---- row actions ---- */
+function regApprove(i){
+  const e=appEv(),r=e.registrants[i];
+  if(regRoomLeft(e)<regSeats(r)){
+    if(e.reg.waitlist){r.st='Waitlisted';regRefresh();toast(tr('rg_full_wait'));return;}
+    toast(tr('rg_full_no'));return;
+  }
+  r.st='Confirmed';regRefresh();toast(tr('t_regappr')+': '+r.n);
+}
+function regReject(i){
+  const e=appEv(),r=e.registrants[i];
+  if(!confirm(tr('q_regrej')))return;
+  r.st='Cancelled';if(r.pay==='Paid')r.pay='Refunded';
+  regRefresh();toast(tr('t_regrej')+': '+r.n);
+}
+function regCancel(i){
+  const e=appEv(),r=e.registrants[i];
+  if(!confirm(tr('q_regcanc')))return;
+  r.st='Cancelled';if(r.pay==='Paid')r.pay='Refunded';
+  attList(r).forEach(x=>{x.o.ci=false;x.o.out=false;x.o.ciAt='';});
+  regRefresh();toast(tr('t_regcanc')+': '+r.n);
+}
+/* Promotion respects the capacity limit: a waitlisted booking only moves up when
+   the seats it needs are actually free. */
+function regPromote(i){
+  const e=appEv(),r=e.registrants[i];
+  if(regRoomLeft(e)<regSeats(r)){toast(tr('rg_full_no'));return;}
+  r.st='Confirmed';regRefresh();toast(tr('t_regprom')+': '+r.n);
+}
+function regMarkPaid(i){const r=appEv().registrants[i];r.pay='Paid';regRefresh();toast(tr('t_regpaid')+': '+r.n);}
+function regRefund(i){const r=appEv().registrants[i];r.pay='Refunded';regRefresh();toast(tr('t_regref')+': '+r.n);}
+function regResend(i){toast(tr('t_regmail')+': '+appEv().registrants[i].em);}
+function regBulkApprove(){
+  const e=appEv();let n=0;
+  e.registrants.forEach(function(r){
+    if(!regSel[r.ref]||r.st!=='Pending')return;
+    if(regRoomLeft(e)>=regSeats(r)){r.st='Confirmed';n++;}
+    else if(e.reg.waitlist){r.st='Waitlisted';}
+  });
+  if(!n&&!regSelCount()){toast(tr('t_nosel'));return;}
+  regRefresh();toast(tr('t_bulkappr')+' ('+n+')');
+}
+function regBulkEmail(){
+  const n=regSelCount();
+  if(!n){toast(tr('t_nosel'));return;}
+  toast(tr('t_bulkmail')+' ('+n+')');
+}
+function regBulkExport(){
+  if(!regSelCount()){toast(tr('t_nosel'));return;}
+  regExport('selected');
+}
+
+/* ---- add / edit a registrant (walk-ins and telephone bookings) ---- */
+function regFormHtml(e,r,isNew){
+  const tiers=regTiers(e);
+  const names=(r.party||[]).map(p=>p.n).join('\n')||r.n||'';
+  const kinds=[];
+  if(e.reg.personal||r.kind==='personal')kinds.push(['personal',tr('rg_personal')]);
+  if(e.reg.group||r.kind==='group')kinds.push(['group',tr('rg_group')]);
+  return (isNew?`<p class="muted" style="margin-top:0;font-size:13px">${tr('rg_add_h')}</p>`:'')+
+    `<div class="mrow"><label>${tr('c_name')}</label><input id="rfN" value="${esc(r.n||'')}"></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('c_email')}</label><input id="rfEm" type="email" value="${esc(r.em||'')}"></div>`+
+     `<div class="mrow"><label>${tr('c_company')}</label><input id="rfCo" value="${esc(r.co||'')}"></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('c_job')}</label><input id="rfJob" value="${esc(r.job||'')}"></div>`+
+     `<div class="mrow"><label>${tr('rg_kind')}</label><select id="rfKind" onchange="regKindToggle()">`+
+       kinds.map(k=>`<option value="${k[0]}" ${k[0]===(r.kind||'personal')?'selected':''}>${k[1]}</option>`).join('')+
+     `</select></div></div>`+
+    `<div class="mrow" id="rfPartyRow"><label>${tr('rg_gnames')}</label>`+
+      `<textarea id="rfParty" rows="3">${esc(names)}</textarea>`+
+      `<div class="hint">${tr('rg_gnames_h')} ${tr('rg_maxg')}: ${e.reg.maxGroup}</div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_c_tier')}</label><select id="rfTier">`+
+       tiers.map(t=>`<option value="${t.id}" ${t.id===r.tier?'selected':''}>${esc(t.n)}${e.reg.paid?' · '+chf(t.chf):''}</option>`).join('')+
+     `</select></div>`+
+     `<div class="mrow"><label>${tr('rg_code')}</label><input id="rfCode" value="${esc(r.code||'')}"></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_c_regst')}</label><select id="rfSt">`+
+       REG_STATUS.map(s=>`<option value="${s}" ${s===r.st?'selected':''}>${rsLabel(s)}</option>`).join('')+
+     `</select></div>`+
+     `<div class="mrow"><label>${tr('rg_c_pay')}</label><select id="rfPay" ${e.reg.paid?'':'disabled'}>`+
+       PAY_STATUS.map(p=>`<option value="${p}" ${p===r.pay?'selected':''}>${pyLabel(p)}</option>`).join('')+
+     `</select></div></div>`+
+    `<div class="mrow"><label>${tr('c_regdate')}</label><input id="rfD" type="date" value="${esc(r.d||todayISO())}"></div>`+
+    `<button class="btn block" onclick="${isNew?'regSaveNew()':'regSaveEdit()'}">${isNew?tr('rg_add_t'):tr('rg_save')}</button>`;
+}
+function regKindToggle(){
+  const row=document.getElementById('rfPartyRow'),sel=document.getElementById('rfKind');
+  if(!row||!sel)return;
+  row.style.display=sel.value==='group'?'':'none';
+}
+function regAddOpen(){
+  const e=appEv();
+  regEditRef='';
+  openGen(tr('rg_add_t'),regFormHtml(e,{kind:e.reg.personal?'personal':'group',tier:(regTiers(e)[0]||{}).id,
+    st:e.reg.approval?'Pending':'Confirmed',pay:e.reg.paid?'Unpaid':'Free',d:todayISO()},true));
+  regKindToggle();
+}
+function regEditOpen(i){
+  const e=appEv(),r=e.registrants[i];
+  regEditRef=r.ref;
+  openGen(tr('rg_edit_t'),regFormHtml(e,r,false));
+  regKindToggle();
+}
+function regReadForm(e){
+  const n=v('rfN').trim();
+  if(!n){toast(tr('ap_needname'));document.getElementById('rfN').focus();return null;}
+  const em=v('rfEm').trim();
+  if(!em){toast(tr('rg_needemail'));document.getElementById('rfEm').focus();return null;}
+  const kind=v('rfKind');
+  let names=[];
+  if(kind==='group'){
+    names=v('rfParty').split('\n').map(s=>s.trim()).filter(Boolean);
+    if(!names.length)names=[n];
+    if(names.length>(+e.reg.maxGroup||1)){toast(tr('rg_gtoobig'));return null;}
+  }
+  return {n:n,em:em,co:v('rfCo').trim(),job:v('rfJob').trim(),kind:kind,names:names,
+    tier:v('rfTier'),code:v('rfCode').trim(),st:v('rfSt'),pay:e.reg.paid?v('rfPay'):'Free',d:v('rfD')||todayISO()};
+}
+function regNewRef(e){
+  const pre='SVEF-'+String(e.id).replace(/^ev-/,'').slice(0,3).toUpperCase();
+  let max=0;
+  (e.registrants||[]).forEach(function(r){const m=/(\d+)$/.exec(r.ref||'');if(m)max=Math.max(max,+m[1]);});
+  return pre+'-'+String(max+1).padStart(4,'0');
+}
+function regNewQr(e){
+  regSeq++;
+  return String(e.id).replace(/^ev-/,'').slice(0,3).toUpperCase()+'-'+(7000+regSeq);
+}
+function regBuildParty(e,f,old){
+  return f.names.map(function(nm,k){
+    const prev=(old||[])[k]||{};
+    return {n:nm,em:k===0?f.em:(prev.em||''),job:k===0?f.job:(prev.job||''),
+      qr:prev.qr||regNewQr(e),ci:!!prev.ci,ciAt:prev.ciAt||'',out:!!prev.out};
+  });
+}
+function regSaveNew(){
+  const e=appEv(),f=regReadForm(e);
+  if(!f)return;
+  const r={n:f.n,em:f.em,co:f.co,job:f.job,d:f.d,kind:f.kind,tier:f.tier,ref:regNewRef(e),
+    st:f.st,pay:f.pay,code:f.code,qr:regNewQr(e),ci:false,ciAt:'',out:false};
+  if(f.kind==='group')r.party=regBuildParty(e,f,null);
+  let msg=tr('t_regadd');
+  if(r.st==='Confirmed'&&regRoomLeft(e)<regSeats(r)){
+    if(e.reg.waitlist){r.st='Waitlisted';msg=tr('rg_full_wait');}
+    else {toast(tr('rg_full_no'));return;}
+  }
+  e.registrants.push(r);
+  closeModal();renderApp();toast(msg+': '+r.n);
+}
+function regSaveEdit(){
+  const e=appEv(),f=regReadForm(e);
+  if(!f)return;
+  const r=e.registrants.filter(x=>x.ref===regEditRef)[0];
+  if(!r){closeModal();return;}
+  const wasConf=r.st==='Confirmed';
+  r.n=f.n;r.em=f.em;r.co=f.co;r.job=f.job;r.tier=f.tier;r.code=f.code;r.pay=f.pay;r.d=f.d;
+  if(f.kind==='group'){r.party=regBuildParty(e,f,r.party);r.kind='group';}
+  else {r.kind='personal';delete r.party;if(!r.qr)r.qr=regNewQr(e);}
+  let msg=tr('t_regupd');
+  if(f.st==='Confirmed'&&!wasConf&&regRoomLeft(e)<regSeats(r)){
+    if(e.reg.waitlist){r.st='Waitlisted';msg=tr('rg_full_wait');}
+    else {toast(tr('rg_full_no'));return;}
+  } else {r.st=f.st;}
+  closeModal();renderApp();toast(msg+': '+r.n);
+}
+
+/* ==================== 3. TICKET TIERS AND DISCOUNT CODES ==================== */
+function tierRowHtml(e,t,i,last){
+  const sold=tierSold(e,t.id),q=+t.qty||0,left=q-sold;
+  return `<div class="tierrow">`+
+    `<div class="ord"><button onclick="tierMove(${i},-1)" ${i===0?'disabled':''} aria-label="Up">▲</button>`+
+      `<button onclick="tierMove(${i},1)" ${last?'disabled':''} aria-label="Down">▼</button></div>`+
+    `<div class="tn">${esc(t.n)}`+
+      (t.eb?` <span class="chip red">${tr('rg_t_earlybird')} ${fmtD(t.ebDate)}</span>`:'')+
+      `<div class="hint" style="margin-top:4px">${tr('rg_t_window')}: ${fmtD(t.from)} - ${fmtD(t.to)}</div></div>`+
+    (e.reg.paid?`<div class="tp">${chf(t.chf)}<br>${vnd(t.vnd)}</div>`:'')+
+    `<div class="tq"><div class="drow" style="border:none;padding:0">`+
+      `<span class="tr"><i style="width:${q?Math.min(100,sold/q*100):0}%"></i></span>`+
+      `<span class="vl">${sold} / ${q||'∞'} ${tr('rg_t_sold')}</span></div>`+
+      `<div class="hint" style="margin-top:5px">${q&&left<=0?tr('rg_t_soldout'):(q?left+' '+tr('rg_t_left'):'')}</div></div>`+
+    `<button class="btn ghost sm" onclick="tierOpen(${i})">${tr('d_edit')}</button>`+
+    `<button class="btn line sm" onclick="tierDel(${i})">${tr('d_delete')}</button>`+
+  `</div>`;
+}
+function codeStatus(c){
+  if(!c.active)return 'off';
+  if(c.until&&c.until<todayISO())return 'exp';
+  if(c.limit&&c.used>=c.limit)return 'used';
+  return 'on';
+}
+function codeChip(c){
+  const st=codeStatus(c);
+  const m={on:['green','d_active'],exp:['red','rg_st_exp'],used:['pend','rg_st_used'],off:['','rg_st_off']}[st];
+  return `<span class="chip ${m[0]}">${tr(m[1])}</span>`;
+}
+function regTickHtml(e){
+  const tiers=e.tiers||[];
+  const tierBody=e.reg.paid
+    ? (tiers.length?tiers.map((t,i)=>tierRowHtml(e,t,i,i===tiers.length-1)).join(''):`<div class="emptyline">${tr('rg_tick_none')}</div>`)
+    : tierRowHtml(e,regFreeTier(e),0,true).replace(/<button[\s\S]*?<\/button>/g,'')+
+      `<div class="export-note">${tr('rg_t_free_h')}</div>`;
+  const codeRows=(e.codes||[]).map(function(c,i){
+    return `<tr><td><b style="font-family:var(--mono);letter-spacing:.06em">${esc(c.c)}</b></td>`+
+      `<td>${c.type==='percent'?tr('rg_pct'):tr('rg_fix')}</td>`+
+      `<td>${c.type==='percent'?c.val+' %':chf(c.val)}</td>`+
+      `<td>${c.used} / ${c.limit||'∞'}</td>`+
+      `<td>${fmtD(c.until)}</td>`+
+      `<td>${codeChip(c)}</td>`+
+      `<td><button class="btn line sm" onclick="codeToggle(${i})">${c.active?tr('rg_deact'):tr('rg_react')}</button></td></tr>`;
+  }).join('')||`<tr><td colspan="7" class="muted">${tr('rg_code_none')}</td></tr>`;
+  return `<div class="panel">`+
+    appHead('rg_tick_h',e.reg.paid?`<button class="btn sm" onclick="tierOpen(-1)">${tr('rg_tick_add')}</button>`:'')+
+    `<div class="pbody">${tierBody}</div></div>`+
+    /* Nothing to discount on a free event, so the codes panel belongs to paid ones. */
+    (e.reg.paid
+      ? `<div class="panel">`+
+        appHead('rg_code_h',`<button class="btn sm" onclick="codeOpen()">${tr('rg_code_add')}</button>`)+
+        `<table><thead><tr><th>${tr('rg_c_code')}</th><th>${tr('rg_c_ctype')}</th><th>${tr('rg_c_val')}</th>`+
+        `<th>${tr('rg_c_use')}</th><th>${tr('rg_c_until')}</th><th>${tr('c_status')}</th><th>${tr('c_actions')}</th>`+
+        `</tr></thead><tbody>${codeRows}</tbody></table>`+
+        `<div class="pbody"><div class="export-note">${tr('rg_code_note')}</div></div></div>`
+      : '');
+}
+function tierOpen(i){
+  const e=appEv();
+  tierEdit=i;
+  const t=i>=0?e.tiers[i]:{n:'',chf:0,vnd:0,qty:50,from:e.reg.open,to:e.reg.close,eb:false,ebDate:''};
+  openGen(i>=0?tr('rg_t_edit'):tr('rg_t_new'),
+    `<div class="mrow"><label>${tr('rg_t_name')}</label><input id="tfN" value="${esc(t.n)}"></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_t_chf')}</label><input id="tfChf" type="number" min="0" value="${+t.chf||0}"></div>`+
+     `<div class="mrow"><label>${tr('rg_t_vnd')}</label><input id="tfVnd" type="number" min="0" value="${+t.vnd||0}"></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_t_qty')}</label><input id="tfQty" type="number" min="0" value="${+t.qty||0}"></div>`+
+     `<div class="mrow"><label>${tr('rg_t_from')}</label><input id="tfFrom" type="date" value="${esc(t.from||'')}"></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_t_to')}</label><input id="tfTo" type="date" value="${esc(t.to||'')}"></div>`+
+     `<div class="mrow"><label>${tr('rg_t_ebd')}</label><input id="tfEbd" type="date" value="${esc(t.ebDate||'')}"></div></div>`+
+    `<label class="ndacheck" style="background:#fff;border-color:var(--line)"><input type="checkbox" id="tfEb" ${t.eb?'checked':''}><span>${tr('rg_t_eb')}</span></label>`+
+    `<button class="btn block" onclick="tierSave()">${tr('rg_t_save')}</button>`);
+}
+function tierSave(){
+  const e=appEv(),n=v('tfN').trim();
+  if(!n){toast(tr('rg_t_needname'));document.getElementById('tfN').focus();return;}
+  const o={id:tierEdit>=0?e.tiers[tierEdit].id:('t-n'+(++regSeq)),n:n,
+    chf:+v('tfChf')||0,vnd:+v('tfVnd')||0,qty:+v('tfQty')||0,
+    from:v('tfFrom'),to:v('tfTo'),eb:document.getElementById('tfEb').checked,ebDate:v('tfEbd')};
+  if(tierEdit>=0)e.tiers[tierEdit]=o;else e.tiers.push(o);
+  closeModal();renderApp();toast(tierEdit>=0?tr('t_tierupd'):tr('t_tieradd'));
+}
+function tierDel(i){
+  const e=appEv();
+  if(!confirm(tr('rg_t_del_q')))return;
+  e.tiers.splice(i,1);renderApp();toast(tr('t_tierdel'));
+}
+function tierMove(i,d){
+  const e=appEv(),j=i+d;
+  if(j<0||j>=e.tiers.length)return;
+  const t=e.tiers[i];e.tiers[i]=e.tiers[j];e.tiers[j]=t;
+  renderApp();toast(tr('t_tiermov'));
+}
+function codeOpen(){
+  openGen(tr('rg_code_new'),
+    `<div class="mrow"><label>${tr('rg_c_code')}</label><input id="cfC" placeholder="SVEF10"></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_c_ctype')}</label><select id="cfT">`+
+      `<option value="percent">${tr('rg_pct')}</option><option value="fixed">${tr('rg_fix')}</option></select></div>`+
+     `<div class="mrow"><label>${tr('rg_c_val')}</label><input id="cfV" type="number" min="0" value="10"></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_c_use')}</label><input id="cfL" type="number" min="0" value="50"></div>`+
+     `<div class="mrow"><label>${tr('rg_c_until')}</label><input id="cfU" type="date" value="${esc(appEv().reg.close||todayISO())}"></div></div>`+
+    `<div class="export-note" style="margin:0 0 14px">${tr('rg_code_note')}</div>`+
+    `<button class="btn block" onclick="codeSave()">${tr('rg_code_save')}</button>`);
+}
+function codeSave(){
+  const e=appEv(),c=v('cfC').trim().toUpperCase();
+  if(!c){toast(tr('rg_code_need'));document.getElementById('cfC').focus();return;}
+  if(e.codes.some(x=>x.c===c)){toast(tr('rg_code_dup'));return;}
+  e.codes.unshift({c:c,type:v('cfT'),val:+v('cfV')||0,limit:+v('cfL')||0,used:0,until:v('cfU'),active:true});
+  closeModal();renderApp();toast(tr('t_codeadd')+': '+c);
+}
+function codeToggle(i){
+  const c=appEv().codes[i];
+  c.active=!c.active;
+  renderApp();toast(c.active?tr('t_codeon'):tr('t_codeoff'));
+}
+
+/* ==================== 4. CHECK-IN (organiser side of the e-ticket) ==================== */
+function ciAttendees(e){
+  const out=[];
+  (e.registrants||[]).forEach(function(r,i){
+    if(r.st!=='Confirmed')return;
+    attList(r).forEach(function(x){out.push({i:i,a:x.a,o:x.o,r:r});});
+  });
+  return out;
+}
+function ciCountsHtml(e){
+  const s=regStats(e);
+  return `<div><b>${s.ci}</b><span>${tr('rg_ci_k_in')}</span></div>`+
+    `<div><b>${s.att}</b><span>${tr('rg_ci_k_exp')}</span></div>`+
+    `<div><b>${s.onSite}</b><span>${tr('rg_ci_k_on')}</span></div>`+
+    `<div><b>${pct(s.ci,s.att)}%</b><span>${tr('rg_ci_k_rate')}</span></div>`;
+}
+function ciListHtml(e){
+  const q=regCiQ.trim().toLowerCase();
+  const list=ciAttendees(e).filter(function(x){
+    if(!q)return true;
+    return (x.o.n+' '+(x.o.qr||'')+' '+(x.r.co||'')).toLowerCase().indexOf(q)>=0;
+  });
+  if(!list.length)return `<div class="emptyline">${tr('rg_ci_none')}</div>`;
+  return list.map(function(x){
+    return `<div class="cirow"><div class="cn">${esc(x.o.n)}`+
+      (x.r.kind==='group'?` <span class="chip navy">${tr('rg_group')}</span>`:'')+
+      `<div class="hint" style="margin-top:3px">${esc(x.r.co||'')}${x.r.co?' · ':''}${esc(tierName(e,x.r.tier))}</div></div>`+
+      `<span class="cm">${esc(x.o.qr||'')}</span>`+
+      `<span>${x.o.ci?(x.o.out?`<span class="chip">${tr('rg_ci_out')}</span>`:`<span class="chip green">${tr('rg_ci_yes')}${x.o.ciAt?' '+esc(x.o.ciAt):''}</span>`):`<span class="chip">${tr('rg_ci_no')}</span>`}</span>`+
+      `<button class="btn ${x.o.ci&&!x.o.out?'line':'green'} sm" onclick="ciToggle(${x.i},${x.a})">`+
+        `${x.o.ci&&!x.o.out?tr('rg_ci_out'):tr('rg_ci_go')}</button>`+
+    `</div>`;
+  }).join('');
+}
+function regCiHtml(e){
+  const first=ciAttendees(e)[0];
+  const sample=(first&&first.o.qr)||tr('rg_ci_code');
+  return `<div class="panel">`+
+    appHead('rg_ci_h',`<button class="btn line sm" onclick="ciUndoLast()">${tr('rg_ci_undo')}</button>`)+
+    `<div class="countrow" id="ciCounts">${ciCountsHtml(e)}</div>`+
+    `<div class="pbody"><div class="g2">`+
+      `<div class="scanbox"><div class="qz" aria-hidden="true">▣</div>`+
+        `<p>${tr('rg_ci_scan_p')}</p>`+
+        `<button class="btn" onclick="ciScan()">${tr('rg_ci_scan')}</button></div>`+
+      `<div><div class="mrow"><label>${tr('rg_ci_code')}</label>`+
+        `<input id="ciCode" placeholder="${esc(sample)}" onkeydown="if(event.key==='Enter'){event.preventDefault();ciByCode()}"></div>`+
+        `<button class="btn dark" onclick="ciByCode()">${tr('rg_ci_go')}</button>`+
+        `<div class="hint">${tr('rg_ci_note')}</div></div>`+
+    `</div></div></div>`+
+    `<div class="panel">`+appHead('rg_ci_list')+
+    `<div class="pbody">`+
+      `<div class="field"><label>${tr('rg_ci_search')}</label>`+
+        `<input id="ciQ" value="${esc(regCiQ)}" oninput="ciSearch(this.value)" placeholder="${tr('rg_ci_search')}"></div>`+
+      `<div id="ciList">${ciListHtml(e)}</div>`+
+    `</div></div>`;
+}
+function ciRefresh(){
+  const e=appEv();if(!e)return;
+  const c=document.getElementById('ciCounts');if(c)c.innerHTML=ciCountsHtml(e);
+  const l=document.getElementById('ciList');if(l)l.innerHTML=ciListHtml(e);
+  appTabsRender();renderRegSummaries();
+}
+function ciSearch(q){regCiQ=q;ciRefresh();}
+function ciIn(r,a){
+  const o=attOf(r,a);
+  if(!o)return false;
+  o.ci=true;o.out=false;o.ciAt=nowHM();
+  ciLog.push({ref:r.ref,a:a});
+  return true;
+}
+function ciToggle(i,a){
+  const e=appEv(),r=e.registrants[i],o=attOf(r,a);
+  if(!o)return;
+  if(o.ci&&!o.out){o.out=true;toast(tr('t_ciout')+': '+o.n);}
+  else {ciIn(r,a);toast(tr('t_ciin')+': '+o.n);}
+  if(regTab==='ci')ciRefresh();else regRefresh();
+}
+/* The scan stands in for the camera: it admits the next confirmed attendee who
+   has not arrived yet, which is what the door queue looks like. */
+function ciScan(){
+  const e=appEv(),next=ciAttendees(e).filter(x=>!x.o.ci)[0];
+  if(!next){toast(tr('rg_ci_allin'));return;}
+  ciIn(next.r,next.a);
+  ciRefresh();toast(tr('t_ciin')+': '+next.o.n+' · '+next.o.qr);
+}
+function ciByCode(){
+  const e=appEv(),code=v('ciCode').trim().toUpperCase();
+  if(!code)return;
+  const hit=ciAttendees(e).filter(x=>String(x.o.qr||'').toUpperCase()===code)[0];
+  if(!hit){toast(tr('rg_ci_nomatch'));return;}
+  if(hit.o.ci&&!hit.o.out){toast(tr('rg_ci_already')+' '+hit.o.n);return;}
+  ciIn(hit.r,hit.a);
+  document.getElementById('ciCode').value='';
+  ciRefresh();toast(tr('t_ciin')+': '+hit.o.n);
+}
+function ciUndoLast(){
+  const e=appEv(),last=ciLog.pop();
+  if(!last){toast(tr('rg_ci_noundo'));return;}
+  const r=(e.registrants||[]).filter(x=>x.ref===last.ref)[0];
+  if(r){
+    const o=attOf(r,last.a);
+    if(o){o.ci=false;o.out=false;o.ciAt='';toast(tr('t_ciundo')+': '+o.n);}
+  }
+  if(regTab==='ci')ciRefresh();else regRefresh();
+}
+
+/* ==================== 5. REGISTRATION SETTINGS ==================== */
+function regSetHtml(e){
+  const g=e.reg;
+  const chk=(id,on,label,hint)=>`<label class="ndacheck" style="background:#fff;border-color:var(--line)">`+
+    `<input type="checkbox" id="${id}" ${on?'checked':''}><div><b>${label}</b>`+
+    (hint?`<div class="hint" style="margin-top:4px">${hint}</div>`:'')+`</div></label>`;
+  return `<div class="panel">`+appHead('rg_set_h')+`<div class="pbody">`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_set_paid')}</label><select id="sgPaid">`+
+      `<option value="paid" ${g.paid?'selected':''}>${tr('rg_paid')}</option>`+
+      `<option value="free" ${g.paid?'':'selected'}>${tr('rg_free')}</option></select></div>`+
+     `<div class="mrow"><label>${tr('rg_cap')}</label><input id="sgCap" type="number" min="0" value="${+g.cap||0}">`+
+       `<div class="hint">${tr('rg_cap_h')}</div></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('rg_open_d')}</label><input id="sgOpen" type="date" value="${esc(g.open||'')}"></div>`+
+     `<div class="mrow"><label>${tr('rg_close_d')}</label><input id="sgClose" type="date" value="${esc(g.close||'')}"></div></div>`+
+    `<div class="mrow"><label>${tr('rg_types')}</label>`+
+      chk('sgPers',g.personal,tr('rg_type_p'),'')+
+      chk('sgGrp',g.group,tr('rg_type_g'),'')+
+    `</div>`+
+    `<div class="mrow" style="max-width:280px"><label>${tr('rg_maxg')}</label>`+
+      `<input id="sgMaxG" type="number" min="1" max="50" value="${+g.maxGroup||1}"></div>`+
+    chk('sgAppr',g.approval,tr('rg_appr_t'),tr('rg_appr_h'))+
+    chk('sgWait',g.waitlist,tr('rg_wait_t'),tr('rg_wait_h'))+
+    `<div class="export-note" style="margin-bottom:18px">${tr('rg_set_note')}</div>`+
+    `<button class="btn" onclick="regSetSave()">${tr('rg_set_save')}</button>`+
+  `</div></div>`;
+}
+function regSetSave(){
+  const e=appEv(),g=e.reg;
+  const pers=document.getElementById('sgPers').checked,grp=document.getElementById('sgGrp').checked;
+  if(!pers&&!grp){toast(tr('rg_need_type'));return;}
+  const wasPaid=g.paid;
+  g.paid=v('sgPaid')==='paid';
+  g.cap=+v('sgCap')||0;g.open=v('sgOpen');g.close=v('sgClose');
+  g.personal=pers;g.group=grp;g.maxGroup=Math.max(1,+v('sgMaxG')||1);
+  g.approval=document.getElementById('sgAppr').checked;
+  g.waitlist=document.getElementById('sgWait').checked;
+  /* The payment column has to follow the model: a free event has nothing to
+     collect, and a paid event cannot leave bookings marked free. */
+  if(wasPaid!==g.paid){
+    e.registrants.forEach(function(r){
+      if(r.st==='Cancelled')return;
+      if(!g.paid)r.pay='Free';
+      else if(r.pay==='Free')r.pay='Unpaid';
+    });
+  }
+  renderApp();toast(tr('t_regset'));
+}
+
+/* ==================== EXPORT (CSV, no passwords or sensitive fields) ==================== */
+function csvCell(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"';}
+function csvText(head,rows){
+  return [head.map(csvCell).join(',')].concat(rows.map(r=>r.map(csvCell).join(','))).join('\r\n');
+}
+function csvDownload(name,text){
+  const b=new Blob(['﻿'+text],{type:'text/csv;charset=utf-8'});
+  const u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(u);},400);
+}
+const REG_CSV_HEAD=['Event','Booking reference','Name','Email','Company','Job title','Registration type',
+  'Attendees','Ticket tier','Discount code','Registered on','Registration status','Payment status',
+  'Amount (CHF)','Ticket code','Check-in'];
+function regCsvRow(e,r){
+  const list=attList(r),done=list.filter(x=>x.o.ci).length;
+  return [e.t,r.ref,r.n,r.em,r.co||'',r.job||'',r.kind==='group'?'Group':'Personal',
+    regSeats(r),tierName(e,r.tier),r.code||'',r.d,r.st,r.pay,regPrice(e,r),
+    list.map(x=>x.o.qr||'').join(' '),done+' / '+list.length];
+}
+function slug(s){return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);}
+/* scope: 'event' the open event, 'selected' the ticked rows, 'all' every SVEF event */
+function regExport(scope){
+  const rows=[];let name='registrants.csv';
+  if(scope==='all'){
+    appEvents.forEach(function(e){regEnsure(e);e.registrants.forEach(r=>rows.push(regCsvRow(e,r)));});
+    name='svef-registrants-all-events.csv';
+  } else {
+    const e=appEv();if(!e)return;
+    const list=scope==='selected'?e.registrants.filter(r=>regSel[r.ref]):e.registrants;
+    list.forEach(r=>rows.push(regCsvRow(e,r)));
+    name='registrants-'+slug(e.t)+(scope==='selected'?'-selection':'')+'.csv';
+  }
+  csvDownload(name,csvText(REG_CSV_HEAD,rows));
+  toast('⬇ '+name+' · '+rows.length+' '+(rows.length===1?'row':'rows'));
+}
+function ciExport(){
+  const head=['Event','Booking reference','Attendee','Company','Ticket tier','Ticket code','Checked in at','On site'];
+  const rows=[];
+  appEvents.forEach(function(e){
+    regEnsure(e);
+    ciAttendees(e).forEach(function(x){
+      if(!x.o.ci)return;
+      rows.push([e.t,x.r.ref,x.o.n,x.r.co||'',tierName(e,x.r.tier),x.o.qr||'',x.o.ciAt||'',x.o.out?'No':'Yes']);
+    });
+  });
+  csvDownload('svef-check-in-log.csv',csvText(head,rows));
+  toast('⬇ svef-check-in-log.csv · '+rows.length+' '+(rows.length===1?'row':'rows'));
+}
+
+/* ==================== ROLL-UP INTO DASHBOARD AND REPORTS ==================== */
+function regTotals(){
+  const t={seats:0,conf:0,pend:0,wait:0,ci:0,rev:0,exp:0};
+  appEvents.forEach(function(e){
+    regEnsure(e);
+    const s=regStats(e);
+    t.seats+=s.seats;t.conf+=s.conf;t.pend+=s.pend;t.wait+=s.wait;t.ci+=s.ci;t.rev+=s.rev;t.exp+=s.exp;
+  });
+  return t;
+}
+function regSummaryRow(e,withCi){
+  const s=regStats(e),cap=regCap(e);
+  return `<tr><td><b style="color:var(--navy)">${esc(e.t)}</b>`+
+    `<div class="muted" style="font-size:12px">${esc(evDates(e))}</div></td>`+
+    `<td><b>${s.conf}</b> <span class="muted">/ ${cap||'∞'}</span>`+
+      `<div class="rbar" style="margin-top:6px;max-width:180px"><i class="f1" style="width:${cap?Math.min(100,s.conf/cap*100):0}%"></i></div></td>`+
+    `<td><div class="chiprow" style="padding-top:0">${rsChip('Confirmed')} ${s.conf}`+
+      (s.pend?` ${rsChip('Pending')} ${s.pend}`:'')+
+      (s.wait?` ${rsChip('Waitlisted')} ${s.wait}`:'')+`</div></td>`+
+    (withCi?`<td>${s.ci} / ${s.att}</td>`:'')+
+    `<td>${e.reg.paid?chf(s.rev):tr('rg_free_ev')}</td>`+
+    (withCi?'':`<td><button class="btn ghost sm" onclick="openRegFor('${esc(e.id)}')">${tr('b_openreg')}</button></td>`)+
+  `</tr>`;
+}
+function renderRegSummaries(){
+  appEvents.forEach(regEnsure);
+  const t=regTotals();
+  const dash=document.getElementById('dashRegTable');
+  if(dash)dash.innerHTML=appEvents.map(e=>regSummaryRow(e,false)).join('')
+    ||`<tr><td colspan="5" class="muted">${tr('ap_empty')}</td></tr>`;
+  const rep=document.getElementById('repRegTable');
+  if(rep)rep.innerHTML=appEvents.map(e=>regSummaryRow(e,true)).join('')
+    ||`<tr><td colspan="5" class="muted">${tr('ap_empty')}</td></tr>`;
+  const evN=document.getElementById('stEvN');if(evN)evN.textContent=pubEvents.length;
+  const evS=document.getElementById('stEvSub');if(evS)evS.textContent=approvals.length+' pending approval';
+  const rgN=document.getElementById('stRegN');if(rgN)rgN.textContent=numG(t.seats,',');
+  const rgS=document.getElementById('stRegSub');
+  if(rgS)rgS.textContent=t.conf+' confirmed · '+t.pend+' pending';
+  const rm=document.getElementById('repRegMeta');if(rm)rm.textContent=t.seats+' · CSV';
+  const cm=document.getElementById('repCiMeta');if(cm)cm.textContent=t.ci+' · CSV';
+}
+/* Jump straight from a dashboard or report row into that event's registrations. */
+function openRegFor(id){
+  const k=appIndexFor(id);
+  if(k<0)return;
+  nav('events',document.querySelectorAll('.snav button')[5]);
+  appSel=k;appTab='reg';regResetView();
+  renderApp();
+  document.getElementById('appSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 /* ---- 1-to-1 meeting bookings (read-only, possibly not needed) ---- */

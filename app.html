@@ -422,6 +422,94 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .login .foot{margin-top:22px;font-size:11px;line-height:1.6;color:rgba(255,255,255,.45)}
 .login .foot b{color:rgba(255,255,255,.8);font-weight:600}
 
+/* ==================== REGISTRATION / BOOKING / TICKETING ==================== */
+/* Capacity meter: one hairline track, one solid fill. No pill, no gradient. */
+.capline{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 5px}
+.capline b{font-size:12px;font-weight:600;letter-spacing:-.02em}
+.seatbar{height:3px;background:var(--line);margin:0 0 11px;overflow:hidden}
+.seatbar i{display:block;height:3px;background:var(--ink)}
+.seatbar.tight i{background:var(--gold)}
+.seatbar.full i{background:var(--red)}
+
+/* Step rail inside the registration sheet */
+.steps{display:flex;gap:0;margin:2px 16px 16px}
+/* four steps on a 390px frame leave ~79px a column, so the labels wrap rather than
+   truncate: "01 NGƯỜI THAM DỰ" must stay readable, not become "01 NGƯỜI TH..." */
+.steps div{flex:1;min-width:0;padding:8px 6px 0 0;font-family:var(--mono);font-size:8px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-top:3px solid var(--line);
+  line-height:1.4;overflow-wrap:anywhere}
+.steps div.done{color:var(--ink-2);border-top-color:var(--ink)}
+.steps div.on{color:var(--red);border-top-color:var(--red)}
+
+/* Attendee blocks in the group flow */
+.atd{margin:0 16px 10px;background:#fff;border:1px solid var(--line);padding:13px 13px 3px}
+.atd.lead{border-left:3px solid var(--red)}
+.atd .atdh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+.atd .field{margin:0 0 9px}
+.lnk{background:none;border:none;font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--red);cursor:pointer;padding:0}
+.lnk:active{color:var(--red-d)}
+
+/* Ticket tiers */
+.tier{display:block;width:calc(100% - 32px);text-align:left;background:#fff;border:1px solid var(--line);
+  border-radius:0;margin:0 16px -1px;padding:13px;cursor:pointer;font-family:var(--sans);color:var(--ink)}
+.tier.on{border-color:var(--red);background:var(--red-t);position:relative;z-index:1}
+.tier.out{color:var(--muted);background:var(--soft)}
+.tier .th{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.tier .th b{font-size:14.5px;font-weight:600;letter-spacing:-.025em}
+.tier p{margin:6px 0 0;font-size:11.5px;color:var(--muted);line-height:1.45}
+.tier .tf{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-top:10px;
+  padding-top:9px;border-top:1px solid var(--line)}
+.tier.on .tf{border-top-color:rgba(218,41,28,.3)}
+.tier .price{font-size:16px;font-weight:700;letter-spacing:-.04em}
+.tier .kv{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+
+/* Quantity stepper */
+.qtyrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 16px 6px}
+.qty{display:flex;align-items:stretch;flex:0 0 auto}
+.qty button{width:40px;height:40px;border:1px solid var(--ink);background:#fff;color:var(--ink);font-size:17px;
+  line-height:1;cursor:pointer;font-family:var(--sans);margin-left:-1px}
+.qty button:first-child{margin-left:0}
+.qty button:active{background:var(--ink);color:#fff}
+.qty b{width:52px;display:grid;place-items:center;border:1px solid var(--ink);margin-left:-1px;font-size:15px;
+  font-weight:700;letter-spacing:-.03em;background:#fff}
+
+/* Order summary */
+.sum{margin:0 16px 10px;background:#fff;border:1px solid var(--line)}
+.sum .sr{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:11px 13px;
+  border-bottom:1px solid var(--line);font-size:13px;letter-spacing:-.012em}
+.sum .sr span{color:var(--muted);font-size:12px}
+.sum .sr b{font-weight:600;white-space:nowrap}
+.sum .sr.tot{border-bottom:none;background:var(--soft)}
+.sum .sr.tot b{font-size:17px;font-weight:700;letter-spacing:-.04em}
+
+/* Pass selector on the e-ticket */
+.passrow{display:flex;gap:0;padding:0 16px 10px;overflow-x:auto}
+.passrow::-webkit-scrollbar{height:0}
+.passrow button{font-family:var(--mono);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;
+  padding:8px 12px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;white-space:nowrap;
+  margin-left:-1px}
+.passrow button:first-child{margin-left:0}
+.passrow button.on{background:var(--ink);color:#fff;border-color:var(--ink);position:relative;z-index:1}
+
+/* .btn is nowrap by default; in a two-up row inside a sheet a long VI label would
+   push past the frame, so sheet rows wrap the same way .evcard and .prow rows do. */
+.sheet .row .btn{white-space:normal;line-height:1.25;text-align:center;padding:12px 10px}
+.sheet .row .btn.sm{padding:9px 14px}
+
+/* Booking reference, set in the mono voice used for codes elsewhere */
+.chip.ink{background:var(--ink);color:#fff;border-color:var(--ink)}
+.refline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px;font-family:var(--mono);
+  font-size:8.5px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.refline b{color:var(--ink);letter-spacing:.08em}
+.nf.fresh{border-left:3px solid var(--red)}
+.sheet .sechead{font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--muted);margin:16px 16px 8px;padding-bottom:7px;border-bottom:1px solid var(--ink)}
+.working{text-align:center;padding:40px 24px;color:var(--muted)}
+.working .wk{width:44px;height:44px;border:3px solid var(--line);border-top-color:var(--red);margin:0 auto 16px;
+  animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 @media(max-height:700px){.phone{border-width:6px}}
 </style>
 </head>
@@ -455,7 +543,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <div class="field"><label data-i18n="f_email">Email</label><input id="liEmail" type="email" value="anh.tran@zegoe.vn"></div>
     <div class="field"><label data-i18n="li_pwd">Mật khẩu</label><input id="liPwd" type="password" value="demo1234"></div>
     <button class="btn" onclick="signInApp('svef')" data-i18n="li_signin">Đăng nhập</button>
-    <p class="foot"><b data-i18n="li_sync_t">Không phải nhập lại thông tin.</b> <span data-i18n="li_sync_p">Nếu bạn đã là thành viên trên website SVEF, hồ sơ của bạn được đồng bộ sang app — tên, chức danh, công ty và ngành nghề đã có sẵn.</span></p>
+    <p class="foot"><b data-i18n="li_sync_t">Không phải nhập lại thông tin.</b> <span data-i18n="li_sync_p">Nếu bạn đã là thành viên trên website SVEF, hồ sơ của bạn được đồng bộ sang app: tên, chức danh, công ty và ngành nghề đã có sẵn.</span></p>
   </div>
 
   <div class="appbar brand" id="appbar">
@@ -593,7 +681,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
         <div class="av sm" style="width:84px;height:84px;font-size:30px;margin:0 auto 10px;background:#DA291C">AT</div>
         <h3 style="margin:0;font-size:19px">Anh Trần</h3>
         <p style="margin:3px 0 0;opacity:.85;font-size:12.5px" data-i18n="p_role">Giám đốc Đầu tư · Zegoe Capital</p>
-        <span class="chip" style="margin-top:10px;background:rgba(255,255,255,.18);color:#fff"><span data-i18n="vip_ticket">🎫 Vé tham dự</span> · #SVEF-2041</span>
+        <span class="chip" id="pfTicket" style="margin-top:10px;background:rgba(255,255,255,.18);color:#fff"><span data-i18n="vip_ticket">🎫 Vé tham dự</span> · #SVEF-2041</span>
       </div>
       <div class="stats">
         <div><b>12</b><span data-i18n="st_conn">Kết nối</span></div>
@@ -603,6 +691,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       <div class="menu">
         <button onclick="openQR()"><span class="mi">📱</span><span data-i18n="m_qrconnect">QR kết nối</span><span class="ch">›</span></button>
         <button onclick="openTicket()"><span class="mi">🎫</span><span data-i18n="m_eticket">Vé điện tử</span><span class="ch">›</span></button>
+        <button onclick="openMyRegs()"><span class="mi">🧾</span><span data-i18n="m_regs">Đăng ký của tôi</span><span class="ch">›</span></button>
         <button onclick="toast(tr('t_edit'))"><span class="mi">✏️</span><span data-i18n="m_edit">Chỉnh sửa hồ sơ</span><span class="ch">›</span></button>
         <button onclick="toast(tr('t_hist'))"><span class="mi">🕑</span><span data-i18n="m_history">Lịch sử kết nối</span><span class="ch">›</span></button>
         <button onclick="toast(tr('t_privacy'))"><span class="mi">🔒</span><span data-i18n="m_privacy">Quyền riêng tư & hiển thị</span><span class="ch">›</span></button>
@@ -702,25 +791,20 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 
   <div class="scrim" id="scrim" onclick="closeSheet()"></div>
 
-  <!-- REGISTRATION SHEET (free registration form) -->
+  <!-- REGISTRATION SHEET (personal / group, ticketing, mock payment) -->
   <div class="sheet" id="sheetReg">
     <div class="grab"></div>
-    <h3 data-i18n="reg_title">Đăng ký tham dự</h3>
+    <h3 id="regTitle" data-i18n="reg_title">Đăng ký tham dự</h3>
     <p class="sub" id="regSub">—</p>
-    <div id="regForm">
-      <div class="note" data-i18n="reg_free">Đăng ký sự kiện SVEF là miễn phí. Vui lòng điền thông tin bên dưới.</div>
-      <div class="field"><label data-i18n="f_name">Họ và tên</label><input id="rgName" value="Anh Trần"></div>
-      <div class="field"><label data-i18n="f_email">Email</label><input id="rgMail" type="email" value="anh.tran@zegoe.vn"></div>
-      <div class="field"><label data-i18n="f_company">Công ty</label><input id="rgCo" value="Zegoe Capital"></div>
-      <div class="field"><label data-i18n="f_title">Chức danh</label><input id="rgTitle" value="Giám đốc Đầu tư"></div>
-      <div style="padding:4px 16px 0"><button class="btn" onclick="submitReg()" data-i18n="reg_submit">Gửi đăng ký</button></div>
-    </div>
-    <div id="regDone" style="display:none;text-align:center;padding:6px 16px 0">
-      <div style="font-size:48px">✅</div>
-      <h3 style="text-align:center" data-i18n="reg_ok_t">Đã đăng ký!</h3>
-      <p class="sub" style="text-align:center" data-i18n="reg_ok_p">Xác nhận đã được gửi tới email của bạn. Sự kiện đã chuyển sang mục Đã đăng ký.</p>
-      <button class="btn" onclick="closeSheet();switchEvTab('registered');go('events')" data-i18n="reg_ok_btn">Xem sự kiện đã đăng ký</button>
-    </div>
+    <div id="regBody"></div>
+  </div>
+
+  <!-- BOOKING SHEET (view / modify / cancel a registration) -->
+  <div class="sheet" id="sheetBooking">
+    <div class="grab"></div>
+    <h3 id="bkTitle" data-i18n="bk_title">Đăng ký của bạn</h3>
+    <p class="sub" id="bkSub"></p>
+    <div id="bkBody"></div>
   </div>
 
   <!-- MEETING REQUEST SHEET -->
@@ -747,17 +831,12 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <div class="row" style="margin:0 16px"><button class="btn ghost" onclick="toast(tr('t_scan'))" data-i18n="scan">📷 Quét QR</button><button class="btn dark" onclick="toast(tr('t_saved_card'))" data-i18n="save">💾 Lưu</button></div>
   </div>
 
-  <!-- E-TICKET SHEET -->
+  <!-- E-TICKET SHEET (one pass per attendee on a group booking) -->
   <div class="sheet" id="sheetTicket">
     <div class="grab"></div>
     <h3 data-i18n="et_title">Vé điện tử</h3>
     <p class="sub" data-i18n="et_sub">Xuất trình mã này tại quầy check-in.</p>
-    <div class="qrbox"></div>
-    <div class="facts" style="margin-top:4px">
-      <div class="f"><div class="k" data-i18n="et_holder">Người sở hữu</div><div class="v">Anh Trần · Zegoe Capital</div></div>
-      <div class="f"><div class="k" data-i18n="et_event">Sự kiện</div><div class="v" id="etEvent">—</div></div>
-      <div class="f"><div class="k" data-i18n="et_code">Mã vé</div><div class="v" style="font-family:var(--mono);letter-spacing:.06em">#SVEF-2041</div></div>
-    </div>
+    <div id="etBody"></div>
   </div>
 
   <div class="toast" id="toast"></div>
@@ -792,7 +871,7 @@ const T={
   li_google:"Tiếp tục với Google", li_linkedin:"Tiếp tục với LinkedIn", li_microsoft:"Tiếp tục với Microsoft",
   li_or:"hoặc bằng tài khoản SVEF", li_pwd:"Mật khẩu", li_signin:"Đăng nhập", li_need:"Vui lòng nhập email.",
   li_sync_t:"Không phải nhập lại thông tin.",
-  li_sync_p:"Nếu bạn đã là thành viên trên website SVEF, hồ sơ của bạn được đồng bộ sang app — tên, chức danh, công ty và ngành nghề đã có sẵn.",
+  li_sync_p:"Nếu bạn đã là thành viên trên website SVEF, hồ sơ của bạn được đồng bộ sang app: tên, chức danh, công ty và ngành nghề đã có sẵn.",
   t_signed_sso:"Đã đăng nhập bằng ", t_signed_svef:"Đã đăng nhập bằng tài khoản SVEF", t_signedout:"Đã đăng xuất",
   leg_booth:"Gian hàng nổi bật", leg_session:"Phiên / phòng", leg_net:"Networking", leg_you:"Vị trí của bạn", booths_near:"Gian hàng gần bạn",
   svgHall:"Hội trường A", svgB1:"Phòng B1", svgB2:"Phòng B2", svgLounge:"Networking", svgLobby:"Sảnh chính · Check-in · Cà phê", directions:"Chỉ đường",
@@ -821,6 +900,78 @@ const T={
   f_name:"Họ và tên", f_email:"Email", f_company:"Công ty", f_title:"Chức danh", reg_submit:"Gửi đăng ký",
   reg_ok_t:"Đã đăng ký!", reg_ok_p:"Xác nhận đã được gửi tới email của bạn. Sự kiện đã chuyển sang mục Đã đăng ký.",
   reg_ok_btn:"Xem sự kiện đã đăng ký", reg_need:"Vui lòng nhập họ tên và email.",
+  /* --- Registration flow: personal / group, tickets, mock payment --- */
+  rg_step_who:"Người tham dự", rg_step_tick:"Chọn vé", rg_step_rev:"Xác nhận", rg_step_pay:"Thanh toán",
+  rg_mode_l:"Hình thức đăng ký", rg_personal:"Cá nhân", rg_group:"Theo nhóm",
+  rg_personal_note:"Vé sẽ được phát hành theo đúng thông tin bạn điền bên dưới.",
+  rg_group_note:"Đăng ký theo nhóm cho phép bạn đặt nhiều vé trong một lần, dùng chung một mã đặt chỗ và mỗi người có một vé riêng.",
+  rg_att_n:"Người tham dự", rg_add:"+ Thêm người tham dự", rg_remove:"Xoá",
+  rg_count:"Tổng số người tham dự", rg_max:"Tối đa 10 người trong một lần đăng ký.",
+  rg_need_all:"Vui lòng nhập họ tên và email cho tất cả người tham dự.",
+  rg_next:"Tiếp tục", rg_back:"Quay lại",
+  rg_tier_l:"Chọn loại vé", rg_early:"Early Bird", rg_soldout:"Hết vé", rg_left:"Còn {n} vé",
+  rg_qty:"Số lượng vé", rg_qty_note:"Mỗi người tham dự một vé, nên số vé luôn bằng số người trong nhóm.",
+  rg_t_soldout:"Loại vé này đã hết.", rg_t_max:"Tối đa 10 vé trong một lần đặt.",
+  rg_t_left:"Loại vé này chỉ còn {n} vé.",
+  rg_sum:"Đơn đặt vé", rg_total:"Tổng cộng", rg_review_l:"Kiểm tra lại trước khi xác nhận",
+  rg_pay_go:"Tới bước thanh toán", rg_confirm:"Xác nhận đăng ký",
+  rg_appr_note:"Sự kiện này cần ban tổ chức duyệt. Sau khi gửi, đăng ký của bạn ở trạng thái chờ duyệt.",
+  rg_wait_note:"Sự kiện đã hết chỗ. Bạn có thể vào danh sách chờ và sẽ được thông báo ngay khi có chỗ trống.",
+  rg_wait_join:"Vào danh sách chờ",
+  rg_ref:"Mã đặt chỗ", rg_passes:"Số vé", rg_ok_paid_t:"Thanh toán thành công",
+  rg_ok_paid_p:"Vé của bạn đã sẵn sàng. Biên nhận đã được gửi tới email của bạn.",
+  rg_pend_t:"Đã gửi đăng ký",
+  rg_pend_p:"Đăng ký của bạn đang chờ ban tổ chức duyệt. Bạn sẽ nhận được email xác nhận trong vòng 2 ngày làm việc.",
+  rg_wait_t:"Bạn đã vào danh sách chờ",
+  rg_wait_p:"Chúng tôi sẽ báo ngay khi có chỗ trống. Bạn chưa bị tính phí và có thể rời danh sách chờ bất cứ lúc nào.",
+  rg_view_ticket:"Xem vé điện tử", rg_view_regs:"Xem đăng ký của tôi",
+  pay_mock:"Bước thanh toán giả lập cho bản demo. Không có giao dịch thật và không có dữ liệu thẻ nào được gửi đi.",
+  pay_method:"Phương thức thanh toán", pay_method_card:"Thẻ tín dụng",
+  pay_card:"Số thẻ", pay_exp:"Hết hạn", pay_cvc:"CVC", pay_holder:"Tên trên thẻ",
+  pay_btn:"Thanh toán {x}", pay_working:"Đang xử lý thanh toán…", pay_ok:"Đã thanh toán", pay_none:"Miễn phí",
+  /* --- Booking states --- */
+  bs_confirmed:"Đã xác nhận", bs_pending:"Chờ duyệt", bs_waitlisted:"Danh sách chờ", bs_cancelled:"Đã huỷ",
+  /* --- Booking sheet: view / modify / cancel --- */
+  bk_title:"Đăng ký của bạn", bk_state:"Trạng thái", bk_tier:"Loại vé", bk_amount:"Số tiền",
+  bk_pay_status:"Thanh toán", bk_made:"Ngày đăng ký", bk_att:"Người tham dự", bk_mode:"Hình thức",
+  bk_change_tier:"Đổi loại vé", bk_edit_att:"Sửa thông tin người tham dự", bk_cancel:"Huỷ đăng ký",
+  bk_save:"Lưu thay đổi", bk_t_saved:"Đã cập nhật thông tin người tham dự.", bk_t_tier:"Đã đổi loại vé.",
+  bk_cancel_q:"Huỷ đăng ký này?",
+  bk_cancel_p:"Vé của bạn sẽ bị thu hồi và chỗ được trả lại cho sự kiện. Bạn có thể đăng ký lại nếu còn chỗ.",
+  bk_cancel_p_paid:"Vé của bạn sẽ bị thu hồi và tiền vé được hoàn theo chính sách của ban tổ chức.",
+  bk_keep:"Giữ đăng ký", bk_cancel_yes:"Xác nhận huỷ",
+  bk_cancelled_t:"Đã huỷ đăng ký",
+  bk_cancelled_p:"Đăng ký của bạn đã được huỷ. Sự kiện quay lại mục Sắp diễn ra.",
+  bk_refund_l:"Hoàn tiền", bk_refund_v:"Đang xử lý · hoàn về phương thức thanh toán gốc trong 5 - 7 ngày làm việc",
+  bk_wpos:"Vị trí danh sách chờ", bk_close:"Đóng",
+  bk_pending_note:"Ban tổ chức đang xem xét đăng ký của bạn. Vé sẽ được phát hành sau khi được duyệt.",
+  bk_wait_note:"Bạn đang ở danh sách chờ. Nếu có người huỷ, chỗ sẽ được chuyển cho bạn theo thứ tự.",
+  /* --- Capacity, waitlist, approval, registration windows --- */
+  cap_left:"Chỗ còn lại", cap_full:"Hết chỗ", cap_soon:"Chưa mở đăng ký", cap_closed:"Đã đóng đăng ký",
+  cap_soon_p:"Đăng ký mở từ {d}.", cap_closed_p:"Đăng ký đã đóng ngày {d}.",
+  cap_soon_plain:"Đăng ký chưa mở.", cap_closed_plain:"Đăng ký đã đóng.",
+  cap_remind:"Nhắc tôi khi mở đăng ký", t_remind:"Đã bật nhắc. Bạn sẽ nhận thông báo khi đăng ký mở.",
+  ev_book:"Đặt vé", ev_wait:"Hết chỗ · vào danh sách chờ", ev_manage:"Quản lý đăng ký",
+  ev_approval:"Cần duyệt", ev_from:"Từ",
+  ev_reg_empty:"Bạn chưa đăng ký sự kiện nào. Chọn một sự kiện ở mục Sắp diễn ra để bắt đầu.",
+  ev_reg_empty_btn:"Xem sự kiện sắp diễn ra",
+  ev_ext_note:"Vé của sự kiện này được bán trên website của ban tổ chức, không đặt trong app.",
+  ei_seats:"Sức chứa", ei_reg:"Đăng ký", ei_reg_open:"Đang mở", ei_ref:"Mã đặt chỗ",
+  /* --- E-ticket --- */
+  et_pass:"Vé", et_tier:"Loại vé", et_ref:"Mã đặt chỗ",
+  et_none:"Bạn chưa có vé cho sự kiện này.",
+  et_pending:"Vé sẽ được phát hành sau khi ban tổ chức duyệt đăng ký của bạn.",
+  et_wait:"Vé sẽ được phát hành nếu bạn được chuyển lên từ danh sách chờ.",
+  et_group_note:"Mỗi người tham dự có một vé riêng. Chọn vé cần xuất trình ở thanh bên dưới.",
+  m_regs:"Đăng ký của tôi",
+  /* --- Notification copy generated by registration actions --- */
+  nt_ok_t:"Đăng ký thành công", nt_ok_p:"Đăng ký tham dự {ev} đã được xác nhận. Mã đặt chỗ #{ref}.",
+  nt_pend_t:"Đăng ký chờ duyệt", nt_pend_p:"Đăng ký tham dự {ev} đã được gửi tới ban tổ chức. Mã đặt chỗ #{ref}.",
+  nt_wait_t:"Đã vào danh sách chờ", nt_wait_p:"Bạn đang ở danh sách chờ của {ev}. Mã đặt chỗ #{ref}.",
+  nt_cancel_t:"Đã huỷ đăng ký", nt_cancel_p:"Đăng ký tham dự {ev} đã được huỷ. Mã đặt chỗ #{ref}.",
+  nt_pay_t:"Biên nhận thanh toán", nt_pay_p:"{ev} · {amt} · đã thanh toán. Mã đặt chỗ #{ref}.",
+  nt_refund_t:"Đang hoàn tiền", nt_refund_p:"{amt} cho {ev} đang được hoàn về phương thức thanh toán gốc.",
+  nt_now:"Vừa xong",
   mr_title:"Yêu cầu gặp", mr_day:"Chọn ngày", mr_time:"Chọn khung giờ", mr_note:"Lời nhắn (không bắt buộc)", mr_send:"Gửi yêu cầu",
   qr_title:"QR kết nối", qr_sub:"Đưa mã này cho người tham dự khác quét để kết nối. Đây không phải mã vào cửa.",
   scan:"📷 Quét QR", save:"💾 Lưu",
@@ -852,8 +1003,9 @@ const T={
   lang_switched:"Đã chuyển sang Tiếng Việt", empty_search:"Không tìm thấy kết quả phù hợp.",
   notif:[["📅","var(--red)","Phiên sắp bắt đầu","“Đầu tư Thụy Sĩ – Việt Nam” bắt đầu sau 15 phút tại Phòng B2.","2 phút"],
          ["🤝","var(--gold)","Yêu cầu gặp mới","Lara Weber muốn gặp bạn lúc 15:30 (GMT+7). Chấp nhận?","12 phút"],
+         ["🎟️","var(--green)","Đã có chỗ từ danh sách chờ","Phiên “Sản xuất chính xác & chuỗi cung ứng” vừa có chỗ trống. Đăng ký của bạn đã được xác nhận.","3 giờ"],
          ["🔔","var(--navy)","Thay đổi lịch trình","Phiên “Fintech” chuyển sang Phòng B1.","1 giờ"],
-         ["✅","var(--green)","Đăng ký thành công","Đăng ký tham dự SVEF 2026 đã được xác nhận. Mã vé #SVEF-2041.","1 ngày"]]
+         ["✅","var(--green)","Đăng ký thành công","Đăng ký tham dự SVEF 2026 đã được xác nhận. Mã đặt chỗ #SVEF-2041.","1 ngày"]]
  },
  en:{
   greet:"Good morning 👋", checkedin:"Checked in", ev_ended:"Ended",
@@ -881,7 +1033,7 @@ const T={
   li_google:"Continue with Google", li_linkedin:"Continue with LinkedIn", li_microsoft:"Continue with Microsoft",
   li_or:"or with an SVEF account", li_pwd:"Password", li_signin:"Sign in", li_need:"Please enter your email.",
   li_sync_t:"No need to type it all again.",
-  li_sync_p:"If you are already a member on the SVEF website, your profile syncs into the app — name, job title, company and industry are filled in for you.",
+  li_sync_p:"If you are already a member on the SVEF website, your profile syncs into the app: name, job title, company and industry are filled in for you.",
   t_signed_sso:"Signed in with ", t_signed_svef:"Signed in with your SVEF account", t_signedout:"Signed out",
   leg_booth:"Featured booths", leg_session:"Sessions / rooms", leg_net:"Networking", leg_you:"Your location", booths_near:"Booths near you",
   svgHall:"Hall A", svgB1:"Room B1", svgB2:"Room B2", svgLounge:"Networking", svgLobby:"Main lobby · Check-in · Coffee", directions:"Directions",
@@ -910,6 +1062,78 @@ const T={
   f_name:"Full name", f_email:"Email", f_company:"Company", f_title:"Job title", reg_submit:"Submit registration",
   reg_ok_t:"You are registered!", reg_ok_p:"A confirmation has been sent to your email. The event now appears under Registered.",
   reg_ok_btn:"View registered events", reg_need:"Please enter your name and email.",
+  /* --- Registration flow: personal / group, tickets, mock payment --- */
+  rg_step_who:"Attendees", rg_step_tick:"Tickets", rg_step_rev:"Review", rg_step_pay:"Payment",
+  rg_mode_l:"Registration type", rg_personal:"Personal", rg_group:"Group",
+  rg_personal_note:"Your pass will be issued exactly as you fill in the details below.",
+  rg_group_note:"A group registration books several passes at once under one booking reference, with a separate pass for each attendee.",
+  rg_att_n:"Attendee", rg_add:"+ Add attendee", rg_remove:"Remove",
+  rg_count:"Total attendees", rg_max:"Up to 10 attendees per booking.",
+  rg_need_all:"Please enter a name and an email for every attendee.",
+  rg_next:"Continue", rg_back:"Back",
+  rg_tier_l:"Choose a ticket type", rg_early:"Early bird", rg_soldout:"Sold out", rg_left:"{n} left",
+  rg_qty:"Number of tickets", rg_qty_note:"One pass per attendee, so the ticket count always matches the group size.",
+  rg_t_soldout:"This ticket type is sold out.", rg_t_max:"Up to 10 tickets per booking.",
+  rg_t_left:"Only {n} tickets left in this type.",
+  rg_sum:"Order summary", rg_total:"Total", rg_review_l:"Check this before you confirm",
+  rg_pay_go:"Continue to payment", rg_confirm:"Confirm registration",
+  rg_appr_note:"This event is approved by the organisers. Once submitted, your registration sits in pending approval.",
+  rg_wait_note:"This event is sold out. You can join the waitlist and we will notify you as soon as a seat opens.",
+  rg_wait_join:"Join the waitlist",
+  rg_ref:"Booking reference", rg_passes:"Passes", rg_ok_paid_t:"Payment successful",
+  rg_ok_paid_p:"Your passes are ready. A receipt has been sent to your email.",
+  rg_pend_t:"Registration submitted",
+  rg_pend_p:"Your registration is waiting for organiser approval. You will get a confirmation email within 2 working days.",
+  rg_wait_t:"You are on the waitlist",
+  rg_wait_p:"We will let you know as soon as a seat opens. You have not been charged and you can leave the waitlist at any time.",
+  rg_view_ticket:"View e-ticket", rg_view_regs:"View my registrations",
+  pay_mock:"Mock payment step for this demo. No real transaction is made and no card data leaves this screen.",
+  pay_method:"Payment method", pay_method_card:"Credit card",
+  pay_card:"Card number", pay_exp:"Expiry", pay_cvc:"CVC", pay_holder:"Name on card",
+  pay_btn:"Pay {x}", pay_working:"Processing payment…", pay_ok:"Paid", pay_none:"Free of charge",
+  /* --- Booking states --- */
+  bs_confirmed:"Confirmed", bs_pending:"Pending approval", bs_waitlisted:"Waitlisted", bs_cancelled:"Cancelled",
+  /* --- Booking sheet: view / modify / cancel --- */
+  bk_title:"Your registration", bk_state:"Status", bk_tier:"Ticket type", bk_amount:"Amount",
+  bk_pay_status:"Payment", bk_made:"Registered on", bk_att:"Attendees", bk_mode:"Type",
+  bk_change_tier:"Change ticket type", bk_edit_att:"Edit attendee details", bk_cancel:"Cancel registration",
+  bk_save:"Save changes", bk_t_saved:"Attendee details updated.", bk_t_tier:"Ticket type changed.",
+  bk_cancel_q:"Cancel this registration?",
+  bk_cancel_p:"Your passes are withdrawn and the seats go back to the event. You can register again while seats last.",
+  bk_cancel_p_paid:"Your passes are withdrawn and the ticket price is refunded under the organisers' policy.",
+  bk_keep:"Keep my registration", bk_cancel_yes:"Confirm cancellation",
+  bk_cancelled_t:"Registration cancelled",
+  bk_cancelled_p:"Your registration has been cancelled. The event is back under Upcoming.",
+  bk_refund_l:"Refund", bk_refund_v:"Processing · back to the original payment method within 5 - 7 working days",
+  bk_wpos:"Waitlist position", bk_close:"Close",
+  bk_pending_note:"The organisers are reviewing your registration. Passes are issued once it is approved.",
+  bk_wait_note:"You are on the waitlist. If someone cancels, the seat passes to you in order.",
+  /* --- Capacity, waitlist, approval, registration windows --- */
+  cap_left:"Seats left", cap_full:"Sold out", cap_soon:"Registration not open", cap_closed:"Registration closed",
+  cap_soon_p:"Registration opens on {d}.", cap_closed_p:"Registration closed on {d}.",
+  cap_soon_plain:"Registration is not open yet.", cap_closed_plain:"Registration is closed.",
+  cap_remind:"Remind me when it opens", t_remind:"Reminder set. We will notify you when registration opens.",
+  ev_book:"Book tickets", ev_wait:"Sold out · join the waitlist", ev_manage:"Manage registration",
+  ev_approval:"Approval required", ev_from:"From",
+  ev_reg_empty:"You have not registered for any event yet. Pick one from Upcoming to get started.",
+  ev_reg_empty_btn:"Browse upcoming events",
+  ev_ext_note:"Tickets for this event are sold on the organisers' website, not inside the app.",
+  ei_seats:"Capacity", ei_reg:"Registration", ei_reg_open:"Open", ei_ref:"Booking reference",
+  /* --- E-ticket --- */
+  et_pass:"Pass", et_tier:"Ticket type", et_ref:"Booking reference",
+  et_none:"You do not have a pass for this event yet.",
+  et_pending:"Your pass is issued once the organisers approve your registration.",
+  et_wait:"Your pass is issued if you move up from the waitlist.",
+  et_group_note:"Every attendee has their own pass. Pick the pass to show on the selector below.",
+  m_regs:"My registrations",
+  /* --- Notification copy generated by registration actions --- */
+  nt_ok_t:"Registration confirmed", nt_ok_p:"Your registration for {ev} is confirmed. Booking #{ref}.",
+  nt_pend_t:"Registration pending approval", nt_pend_p:"Your registration for {ev} has gone to the organisers. Booking #{ref}.",
+  nt_wait_t:"Added to the waitlist", nt_wait_p:"You are on the waitlist for {ev}. Booking #{ref}.",
+  nt_cancel_t:"Registration cancelled", nt_cancel_p:"Your registration for {ev} has been cancelled. Booking #{ref}.",
+  nt_pay_t:"Payment receipt", nt_pay_p:"{ev} · {amt} · paid. Booking #{ref}.",
+  nt_refund_t:"Refund on the way", nt_refund_p:"{amt} for {ev} is being refunded to your original payment method.",
+  nt_now:"Just now",
   mr_title:"Request meeting", mr_day:"Choose a day", mr_time:"Choose a time", mr_note:"Message (optional)", mr_send:"Send request",
   qr_title:"QR Connect", qr_sub:"Show this code to another attendee to connect. This is not the entry code.",
   scan:"📷 Scan QR", save:"💾 Save",
@@ -941,8 +1165,9 @@ const T={
   lang_switched:"Switched to English", empty_search:"No matching results found.",
   notif:[["📅","var(--red)","Session starting soon","“Swiss–Vietnam Investment” starts in 15 min at Room B2.","2 min"],
          ["🤝","var(--gold)","New meeting request","Lara Weber wants to meet you at 15:30 (GMT+7). Accept?","12 min"],
+         ["🎟️","var(--green)","Moved up from the waitlist","A seat opened in “Precision Manufacturing & Supply Chains”. Your booking is now confirmed.","3 hr"],
          ["🔔","var(--navy)","Schedule change","The “Fintech” session moved to Room B1.","1 hr"],
-         ["✅","var(--green)","Registration confirmed","Your registration for SVEF 2026 is confirmed. Ticket #SVEF-2041.","1 day"]]
+         ["✅","var(--green)","Registration confirmed","Your registration for SVEF 2026 is confirmed. Booking #SVEF-2041.","1 day"]]
  }
 };
 
@@ -957,6 +1182,7 @@ const speakers=[
 /* --- Events: one app, many SVEF events ------------------------------------ */
 const events=[
   {id:"svef26", img:"forum-stage", status:"registered", paid:false, tz:"GMT+7",
+   cap:800, taken:612,
    fmt:"hybrid", zoom:"https://zoom.us/j/8412200261",
    url:"https://svef.example.org/events/svef-2026",
    n:{vi:"SVEF 2026 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2026 - Swiss-Vietnam Economic Forum"},
@@ -970,6 +1196,7 @@ const events=[
    days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"18/6",en:"18 Jun"}},
          {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"19/6",en:"19 Jun"}}]},
   {id:"roundtable", img:"boardroom", status:"upcoming", paid:false, tz:"GMT+7",
+   cap:40, taken:31, approval:true,
    url:"https://svef.example.org/events/investment-roundtable-hanoi",
    n:{vi:"Bàn tròn Đầu tư SVEF - Hà Nội",en:"SVEF Investment Roundtable - Hanoi"},
    short:{vi:"Bàn tròn Đầu tư · Hà Nội",en:"Investment Roundtable · Hanoi"},
@@ -981,6 +1208,7 @@ const events=[
          en:"A half-day roundtable for funds and manufacturers on Swiss capital flows into northern Vietnam."},
    days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"12/8",en:"12 Aug"}}]},
   {id:"greenforum", img:"energy-wind", status:"upcoming", paid:false, tz:"GMT+7",
+   cap:300, taken:300,
    fmt:"hybrid", zoom:"https://zoom.us/j/7755390014",
    url:"https://svef.example.org/events/green-transition-forum",
    n:{vi:"Diễn đàn Chuyển dịch Xanh SVEF",en:"SVEF Green Transition Forum"},
@@ -994,6 +1222,20 @@ const events=[
    days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"3/10",en:"3 Oct"}},
          {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"4/10",en:"4 Oct"}}]},
   {id:"gala", img:"signing", status:"upcoming", paid:true, tz:"GMT+1",
+   cap:220, taken:174, cur:"CHF",
+   /* SVEF's own paid event: tickets are booked and paid inside the app */
+   tickets:[
+     {id:"early", price:180, left:14, early:true,
+      n:{vi:"Vé Early Bird",en:"Early bird ticket"},
+      d:{vi:"Ưu đãi áp dụng đến hết ngày 30 tháng 9, 2026.",en:"Available until 30 September 2026."}},
+     {id:"std", price:240, left:52,
+      n:{vi:"Vé tiêu chuẩn",en:"Standard ticket"},
+      d:{vi:"Tiệc tối ba món, chương trình nghệ thuật và tiệc networking sau chương trình.",
+         en:"Three-course dinner, the evening programme and the networking reception."}},
+     {id:"table", price:2200, left:0,
+      n:{vi:"Bàn doanh nghiệp (10 chỗ)",en:"Corporate table (10 seats)"},
+      d:{vi:"Bàn riêng 10 chỗ, tên công ty trên bàn và trong ấn phẩm sự kiện.",
+         en:"A private table for ten, with your company name on the table and in the programme."}}],
    url:"https://svef.example.org/events/gala-dinner-zurich",
    n:{vi:"Gala Dinner SVEF 2026 - Zürich",en:"SVEF Gala Dinner 2026 - Zurich"},
    short:{vi:"Gala Dinner · Zürich",en:"Gala Dinner · Zurich"},
@@ -1001,9 +1243,49 @@ const events=[
    dates:{vi:"20 tháng 11, 2026",en:"20 November 2026"},
    venue:{vi:"Dolder Grand · Zürich",en:"Dolder Grand · Zurich"},
    org:{vi:"SVEF Thụy Sĩ",en:"SVEF Switzerland"},
-   desc:{vi:"Tiệc tối gây quỹ thường niên của SVEF tại Thụy Sĩ. Số lượng chỗ hạn chế, vé được bán trên website sự kiện.",
-         en:"SVEF's annual fundraising dinner in Switzerland. Seats are limited and tickets are sold on the event website."},
+   desc:{vi:"Tiệc tối gây quỹ thường niên của SVEF tại Thụy Sĩ. Số lượng chỗ hạn chế, vé đặt và thanh toán ngay trong app theo từng loại vé.",
+         en:"SVEF's annual fundraising dinner in Switzerland. Seats are limited and tickets are booked and paid for in the app by ticket type."},
    days:[{n:1,lbl:{vi:"Buổi tối",en:"Evening"},d:{vi:"20/11",en:"20 Nov"}}]},
+  /* Registration window not open yet */
+  {id:"innovday", img:"seminar", status:"upcoming", paid:false, tz:"GMT+1",
+   cap:150, taken:0, regState:"soon",
+   regOpen:{vi:"1 tháng 9, 2026",en:"1 September 2026"},
+   url:"https://svef.example.org/events/innovation-day-basel",
+   n:{vi:"SVEF Innovation Day - Basel",en:"SVEF Innovation Day - Basel"},
+   short:{vi:"Innovation Day · Basel",en:"Innovation Day · Basel"},
+   dnum:"15", dmon:{vi:"THG 9",en:"SEP"},
+   dates:{vi:"15 tháng 9, 2026",en:"15 September 2026"},
+   venue:{vi:"Congress Center · Basel",en:"Congress Center · Basel"},
+   org:{vi:"SVEF Thụy Sĩ phối hợp cùng Swissnex",en:"SVEF Switzerland with Swissnex"},
+   desc:{vi:"Ngày hội đổi mới sáng tạo giới thiệu các startup deep tech Thụy Sĩ và Việt Nam, kèm phiên gọi vốn và khu trưng bày sản phẩm.",
+         en:"An innovation day showcasing Swiss and Vietnamese deep-tech startups, with a pitch session and a product showcase."},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"15/9",en:"15 Sep"}}]},
+  /* Registration window already closed */
+  {id:"breakfast", img:"office", status:"upcoming", paid:false, tz:"GMT+7",
+   cap:35, taken:33, regState:"closed",
+   regClosed:{vi:"20 tháng 6, 2026",en:"20 June 2026"},
+   url:"https://svef.example.org/events/business-breakfast-hanoi",
+   n:{vi:"Bữa sáng Doanh nghiệp SVEF - Hà Nội",en:"SVEF Business Breakfast - Hanoi"},
+   short:{vi:"Bữa sáng Doanh nghiệp · Hà Nội",en:"Business Breakfast · Hanoi"},
+   dnum:"30", dmon:{vi:"THG 6",en:"JUN"},
+   dates:{vi:"30 tháng 6, 2026",en:"30 June 2026"},
+   venue:{vi:"Metropole · Hà Nội",en:"Metropole · Hanoi"},
+   org:{vi:"SVEF phối hợp cùng An Phát Logistics JSC",en:"SVEF with An Phat Logistics JSC"},
+   desc:{vi:"Bữa sáng làm việc kín cho lãnh đạo doanh nghiệp về thủ tục hải quan và tuyến vận tải Việt Nam - Thụy Sĩ.",
+         en:"A closed working breakfast for company leaders on customs procedures and the Vietnam to Switzerland freight lane."},
+   days:[{n:1,lbl:{vi:"Buổi sáng",en:"Morning"},d:{vi:"30/6",en:"30 Jun"}}]},
+  /* Paid event kept on the external route: tickets are sold on the website */
+  {id:"swissnight", img:"swiss-zurich", status:"upcoming", paid:true, ext:true, tz:"GMT+1",
+   url:"https://svef.example.org/events/swiss-business-night-geneva",
+   n:{vi:"Swiss Business Night - Genève",en:"Swiss Business Night - Geneva"},
+   short:{vi:"Business Night · Genève",en:"Business Night · Geneva"},
+   dnum:"05", dmon:{vi:"THG 12",en:"DEC"},
+   dates:{vi:"5 tháng 12, 2026",en:"5 December 2026"},
+   venue:{vi:"Bâtiment des Forces Motrices · Genève",en:"Bâtiment des Forces Motrices · Geneva"},
+   org:{vi:"Alpine Advisory phối hợp cùng SVEF",en:"Alpine Advisory with SVEF"},
+   desc:{vi:"Tiệc tối kết nối do đối tác Alpine Advisory tổ chức. Vé do ban tổ chức bán trực tiếp trên website sự kiện.",
+         en:"A networking dinner hosted by our partner Alpine Advisory. Tickets are sold by the organisers on their own event website."},
+   days:[{n:1,lbl:{vi:"Buổi tối",en:"Evening"},d:{vi:"5/12",en:"5 Dec"}}]},
   {id:"svef25", img:"forum-audience", status:"past", paid:false, tz:"GMT+1",
    url:"https://svef.example.org/events/svef-2025",
    n:{vi:"SVEF 2025 - Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"SVEF 2025 - Swiss-Vietnam Economic Forum"},
@@ -1193,8 +1475,88 @@ let infoEv=curEv, regEvId=null, curDay=1, curPerson=null;
 let saved=new Set([0,2]);
 function isPast(){return !!curEv&&curEv.status==='past';}
 function fact(k,v){return `<div class="f"><div class="k">${tr(k)}</div><div class="v">${v}</div></div>`}
+function factRaw(l,v){return `<div class="f"><div class="k">${l}</div><div class="v">${v}</div></div>`}
 function avHTML(o,cls){return `<div class="av ${cls||'sm'}" style="background:${o.c}">${o.i}</div>`}
 function emptyHTML(){return `<div class="empty"><div class="e-ic">🔍</div><p>${tr('empty_search')}</p></div>`}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ===================== REGISTRATIONS & BOOKINGS =====================
+   BRD 8.1 "Event Registration Management": personal and group registration,
+   ticket booking and payment, confirmation and tickets, view / modify / cancel.
+   One booking per event, holding one pass per attendee. */
+const bookings={
+  svef26:{ref:"SVEF-2041", ev:"svef26", mode:"personal", state:"confirmed",
+    tier:null, cur:"", total:0, paid:false, refund:null, wpos:0,
+    att:[{n:"Anh Trần", e:"anh.tran@zegoe.vn", co:"Zegoe Capital",
+          t:{vi:"Giám đốc Đầu tư",en:"Investment Director"}}],
+    made:{vi:"2 tháng 6, 2026",en:"2 June 2026"}}
+};
+function bookingFor(id){const b=bookings[id];return (b&&b.state!=='cancelled')?b:null;}
+function evById(id){return events.find(x=>x.id===id);}
+function seatsFree(e){return (e&&e.cap)?Math.max(0,e.cap-(e.taken||0)):null;}
+/* The state of the registration WINDOW itself, independent of whether the attendee
+   already holds a booking:
+     'over'   the event is done, registration is no longer a thing
+     'soon'   the window has not opened yet          (carries e.regOpen)
+     'closed' the window has closed                  (carries e.regClosed)
+     'ext'    tickets are sold on the organiser site
+     'full'   no seats left, the waitlist is the way in
+     'open'   registration is taking bookings
+   'closed' is only ever returned for a real closed window, never as a catch-all
+   for "not upcoming", so no caller can end up printing a date that does not exist. */
+function regWindow(e){
+  if(!e||e.status==='past')return 'over';
+  if(e.regState==='soon')return 'soon';
+  if(e.regState==='closed')return 'closed';
+  if(e.ext)return 'ext';
+  const left=seatsFree(e);
+  if(left!==null&&left<=0)return 'full';
+  return 'open';
+}
+/* The window sentence for an event, always with a dateless fallback so a missing
+   regOpen / regClosed can never render "Đăng ký đã đóng ngày ,." */
+function regWindowText(e){
+  const w=regWindow(e);
+  if(w==='soon')return trf('cap_soon_p',{d:e.regOpen},'cap_soon_plain');
+  if(w==='closed')return trf('cap_closed_p',{d:e.regClosed},'cap_closed_plain');
+  if(w==='ext')return tr('ev_buy').replace(' ↗','');
+  if(w==='full')return tr('cap_full');
+  if(w==='over')return tr('ei_st_past');
+  return e.approval?tr('ev_approval'):tr('ei_reg_open');
+}
+function tierById(e,id){return ((e&&e.tickets)||[]).find(t=>t.id===id)||null;}
+function tierFrom(e){
+  const av=(e.tickets||[]).filter(t=>t.left>0);
+  return av.length?av.reduce((a,b)=>a.price<b.price?a:b):null;
+}
+function fmtNum(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,"'");}
+function money(n,cur){return (cur||'CHF')+' '+fmtNum(n);}
+function mkRef(){return 'SVEF-'+String(1000+Math.floor(Math.random()*8999));}
+function meAtt(){return {n:"Anh Trần",e:"anh.tran@zegoe.vn",co:"Zegoe Capital",
+  t:{vi:"Giám đốc Đầu tư",en:"Investment Director"}};}
+function attTitle(a){return (a&&a.t&&typeof a.t==='object')?tx(a.t):((a&&a.t)||'');}
+const bsChip={confirmed:'green',pending:'gold',waitlisted:'gold',cancelled:'red'};
+function stateChip(st){return `<span class="chip ${bsChip[st]||''}">${tr('bs_'+st)}</span>`;}
+/* Fills {tokens} in a dictionary string. Values may be plain or {vi,en}. */
+function fill(s,rep){return fillIn(lang,s,rep);}
+/* True only when every token has a real value to put in. 0 counts as a value. */
+function repComplete(rep,l){
+  if(!rep)return true;
+  return Object.keys(rep).every(function(k){
+    const v=rep[k];
+    if(v===undefined||v===null)return false;
+    const t=(v&&typeof v==='object')?(v[l]!==undefined?v[l]:''):v;
+    return String(t).trim().length>0;
+  });
+}
+/* trf(key, values, fallbackKey): if any value is missing, the dateless fallback
+   sentence is used instead, so a formatted string never ships with an empty slot or
+   a dangling separator like "đã đóng ngày ,.". With no fallback given it renders
+   nothing at all, which is always safe, rather than a half-filled sentence. */
+function trf(k,rep,fb){
+  if(!repComplete(rep,lang))return fb?tr(fb):'';
+  return fill(tr(k),rep);
+}
 
 /* ===================== SIGN IN / OUT ===================== */
 /* SSO is faked in the prototype, but the flow is the real one: the attendee never
@@ -1247,11 +1609,54 @@ function exitEvent(){go('events');}
 /* ===================== EVENTS LIST ===================== */
 let evTab='upcoming';
 function switchEvTab(t){evTab=t;document.querySelectorAll('#evTabs button').forEach(b=>b.classList.toggle('on',b.dataset.evtab===t));renderEvents();}
+/* Capacity meter. Amber when it gets tight, red when the event is full. */
+function capHTML(e){
+  const left=seatsFree(e);
+  if(left===null||e.status==='past')return '';
+  const pct=Math.min(100,Math.round(((e.taken||0)/e.cap)*100));
+  const cls=left<=0?'full':(pct>=85?'tight':'');
+  return `<div class="capline"><span class="mlabel">${left<=0?tr('cap_full'):tr('cap_left')}</span>`
+    +`<b>${left<=0?(e.cap+' / '+e.cap):(left+' / '+e.cap)}</b></div>`
+    +`<div class="seatbar ${cls}"><i style="width:${pct}%"></i></div>`;
+}
+/* State chips shown before the attendee has a booking */
+function evStateChips(e){
+  const w=regWindow(e),out=[];
+  if(w==='over')return '';
+  if(e.approval)out.push(`<span class="chip">${tr('ev_approval')}</span>`);
+  if(w==='soon')out.push(`<span class="chip gold">${tr('cap_soon')}</span>`);
+  if(w==='closed')out.push(`<span class="chip">${tr('cap_closed')}</span>`);
+  if(w==='full')out.push(`<span class="chip red">${tr('cap_full')}</span>`);
+  return out.join('');
+}
+/* The one place that decides what an attendee can press on a given event. */
+function evActionHTML(e,ctx){
+  const b=bookingFor(e.id),info=(ctx==='info');
+  const infoBtn=info?'':`<button class="btn ghost" onclick="openEventInfo('${e.id}')">${tr('ev_info')}</button>`;
+  if(e.status==='past')return `<div class="row"><button class="btn" onclick="openEvent('${e.id}')">${tr('ev_open')}</button>${infoBtn}</div>`;
+  if(b)return `<div class="row"><button class="btn dark" onclick="openBooking('${e.id}')">${tr('ev_manage')}</button>`
+    +`<button class="btn ghost" onclick="openEvent('${e.id}')">${tr('ev_open')}</button></div>`
+    +(info?'':`<div class="row" style="margin-top:-1px">${infoBtn}</div>`);
+  const w=regWindow(e);
+  let primary;
+  if(w==='soon')primary=`<button class="btn ghost" onclick="remindMe('${e.id}')">${tr('cap_remind')}</button>`;
+  else if(w==='closed'||w==='over')primary='';
+  else if(w==='ext')primary=`<a class="btn" href="${e.url}" target="_blank" rel="noopener">${tr('ev_buy')}</a>`;
+  else if(w==='full')primary=`<button class="btn dark" onclick="openRegister('${e.id}')">${tr('ev_wait')}</button>`;
+  else primary=`<button class="btn" onclick="openRegister('${e.id}')">${e.paid?tr('ev_book'):tr('ev_register')}</button>`;
+  if(!primary&&!infoBtn)return '';
+  return `<div class="row">${primary}${infoBtn}</div>`;
+}
+function evNoteHTML(e){
+  const w=regWindow(e);
+  if(w==='soon')return `<div class="note">${trf('cap_soon_p',{d:e.regOpen},'cap_soon_plain')}</div>`;
+  if(w==='closed')return `<div class="note">${trf('cap_closed_p',{d:e.regClosed},'cap_closed_plain')}</div>`;
+  if(w==='ext')return `<div class="note">${tr('ev_ext_note')}</div>`;
+  if(w==='full')return `<div class="note">${tr('rg_wait_note')}</div>`;
+  return '';
+}
 function eventCard(e){
-  const primary = (e.status==='upcoming')
-    ? (e.paid?`<a class="btn" href="${e.url}" target="_blank" rel="noopener">${tr('ev_buy')}</a>`
-             :`<button class="btn" onclick="openRegister('${e.id}')">${tr('ev_register')}</button>`)
-    : `<button class="btn" onclick="openEvent('${e.id}')">${tr('ev_open')}</button>`;
+  const b=bookingFor(e.id),t=e.paid?tierFrom(e):null;
   return `<div class="evcard">
     <div class="pic evthumb" style="--img:url('assets/img/${e.img}.jpg')"></div>
     <div class="evb">
@@ -1260,22 +1665,30 @@ function eventCard(e){
       <p>${tx(e.venue)}</p>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px">
         <span class="chip ${e.paid?'gold':'green'}">${e.paid?tr('ev_paid'):tr('ev_free')}</span>
-        ${e.status==='registered'?`<span class="chip red">${tr('ev_tab_reg')}</span>`:''}
+        ${b?stateChip(b.state):evStateChips(e)}
         ${e.status==='past'?`<span class="chip">${tr('ev_readonly')}</span>`:''}
       </div>
-      ${(e.paid&&e.status==='upcoming')?`<div class="note">${tr('ev_paid_note')}</div>`:''}
-      <div class="row">${primary}<button class="btn ghost" onclick="openEventInfo('${e.id}')">${tr('ev_info')}</button></div>
+      ${b?`<div class="refline"><span>${tr('rg_ref')}</span> <b>#${b.ref}</b> <span>· ${b.att.length} ${tr('rg_passes').toLowerCase()}</span></div>`:''}
+      ${(t&&!b)?`<div class="refline"><span>${tr('ev_from')}</span> <b>${money(t.price,e.cur)}</b></div>`:''}
+      ${b?'':capHTML(e)}
+      ${b?'':evNoteHTML(e)}
+      ${evActionHTML(e)}
     </div></div>`;
 }
 function renderEvents(){
   const el=byId('evList');if(!el)return;
-  const list=events.filter(e=>e.status===evTab);
+  const list=(evTab==='registered')?events.filter(e=>bookingFor(e.id)):events.filter(e=>e.status===evTab);
   let h='';
-  if(evTab==='registered')h+=`<div class="note">${tr('ev_moves')}</div>`;
+  if(evTab==='registered'&&list.length)h+=`<div class="note">${tr('ev_moves')}</div>`;
   if(evTab==='past')h+=`<div class="note mono">${tr('ev_readonly_note')}</div>`;
-  h+=list.length?list.map(eventCard).join(''):`<div class="empty"><div class="e-ic">▤</div><p>${tr('ev_none')}</p></div>`;
+  if(list.length)h+=list.map(eventCard).join('');
+  else if(evTab==='registered')
+    h+=`<div class="empty"><div class="e-ic">🎫</div><p>${tr('ev_reg_empty')}</p>`
+      +`<div style="padding:16px 8px 0"><button class="btn ghost" onclick="switchEvTab('upcoming')">${tr('ev_reg_empty_btn')}</button></div></div>`;
+  else h+=`<div class="empty"><div class="e-ic">▤</div><p>${tr('ev_none')}</p></div>`;
   el.innerHTML=h;
 }
+function remindMe(id){const e=evById(id);if(!e)return;toast(tr('t_remind'));}
 function openEvent(id){
   const e=events.find(x=>x.id===id);if(e)curEv=e;
   curDay=curEv.days[0].n;curPerson=null;
@@ -1288,35 +1701,46 @@ function renderEventInfo(){
   byId('eiHero').style.setProperty('--img',`url('assets/img/${e.img}.jpg')`);
   byId('eiTag').textContent=tx(e.dates);
   byId('eiName').textContent=tx(e.n);
-  const st=e.status==='past'?tr('ei_st_past'):(e.status==='registered'?tr('ei_st_reg'):tr('ei_st_up'));
+  const b=bookingFor(e.id);
+  const st=e.status==='past'?tr('ei_st_past'):(b?tr('bs_'+b.state):tr('ei_st_up'));
+  const left=seatsFree(e);
+  const regTxt=regWindowText(e);
+  const tf=e.paid?tierFrom(e):null;
   byId('eiFacts').innerHTML=fact('ei_dates',tx(e.dates))+fact('ei_venue',tx(e.venue))+fact('ei_org',tx(e.org))
     +(e.fmt?fact('ei_fmt',tr('fmt_'+e.fmt)):'')
-    +fact('ei_tz',e.tz)+fact('ei_fee',e.paid?tr('ev_paid'):tr('ev_free'))+fact('ei_status',st);
+    +fact('ei_tz',e.tz)
+    +fact('ei_fee',e.paid?(tf?tr('ev_from')+' '+money(tf.price,e.cur):tr('ev_paid')):tr('ev_free'))
+    +(e.cap?fact('ei_seats',(left<=0?tr('cap_full'):left+' / '+e.cap)):'')
+    +(e.status==='past'?'':fact('ei_reg',regTxt))
+    +(b?fact('ei_ref','#'+b.ref):'')
+    +fact('ei_status',st);
   byId('eiDesc').textContent=tx(e.desc);
   const lk=byId('eiLink');lk.href=e.url;lk.textContent=tr('ei_web');
   // the joining link is a benefit of having registered, so it is gated on that
   const join=e.zoom&&e.status!=='past'
-    ? (e.status==='registered'
+    ? ((b&&b.state==='confirmed')
         ? `<a class="btn dark" href="${e.zoom}" target="_blank" rel="noopener" style="margin-bottom:8px">🔗 ${tr('ev_join')}</a>`
         : `<div class="note" style="margin:0 0 10px">${tr('ev_join_locked')}</div>`)
     : '';
-  byId('eiAct').innerHTML=join+((e.status==='upcoming')
-    ? (e.paid?`<a class="btn" href="${e.url}" target="_blank" rel="noopener">${tr('ev_buy')}</a>`
-             :`<button class="btn" onclick="openRegister('${e.id}')">${tr('ev_register')}</button>`)
-    : `<button class="btn" onclick="openEvent('${e.id}')">${tr('ev_open')}</button>`);
+  byId('eiAct').innerHTML=join+(b?'':evNoteHTML(e))+evActionHTML(e,'info');
 }
 
 /* ===================== HOME ===================== */
 function qaBtn(ic,k,fn){return `<button onclick="${fn}"><span class="ico">${ic}</span><span>${tr(k)}</span></button>`}
 function renderHome(){
   if(!byId('homeHero'))return;
-  const e=curEv,past=isPast();
+  const e=curEv,past=isPast(),hb=bookingFor(e.id);
+  // the hero chip tells the attendee where they stand on this event, not a fixed label
+  let hcls='green',hlbl=tr('checkedin');
+  if(past){hcls='';hlbl=tr('ev_ended');}
+  else if(!hb){hcls='';hlbl=tr('ei_st_up');}
+  else if(hb.state!=='confirmed'){hcls='gold';hlbl=tr('bs_'+hb.state);}
   byId('homeHero').innerHTML=
     `<div class="hi">${tr('greet')}</div><div class="nm">Anh Trần</div>
      <div class="ev"><div class="d">${e.dnum}<small>${tx(e.dmon)}</small></div>
        <div style="flex:1"><b style="font-size:13px">${tx(e.short)}</b>
          <div style="font-size:11px;opacity:.85">${tx(e.venue)}</div></div>
-       <span class="chip ${past?'':'green'}" ${past?'style="border-color:rgba(255,255,255,.45);color:#fff"':''}>${past?tr('ev_ended'):tr('checkedin')}</span>
+       <span class="chip ${hcls}" ${hcls?'':'style="border-color:rgba(255,255,255,.45);color:#fff"'}>${hlbl}</span>
      </div>`;
   byId('homeQA').innerHTML = past
     ? qaBtn('📋','qa_agenda',"go('schedule')")+qaBtn('💬','qa_messages',"openMessages()")
@@ -1432,7 +1856,8 @@ function updateSessionActions(){
   }
   // online / hybrid events carry a joining link, shown to registered attendees only
   const jw=byId('sDjoinWrap'),ja=byId('sDjoin');
-  const canJoin=!past&&curEv.zoom&&curEv.status==='registered';
+  const cb=bookingFor(curEv.id);
+  const canJoin=!past&&curEv.zoom&&!!cb&&cb.state==='confirmed';
   jw.style.display=canJoin?'':'none';
   if(canJoin)ja.href=curEv.zoom;
 }
@@ -1576,10 +2001,30 @@ function renderBooths(){
   el.innerHTML=exhibitors.slice(0,3).map(x=>
     `<div class="li" onclick="toast(tr('t_dir')+'${x.n}')"><div class="thumb">${x.i}</div><div class="meta"><h4>${x.n}</h4><p>${tx(x.d)}</p></div><button class="btn sm ghost" onclick="event.stopPropagation();toast(tr('t_dir')+'${x.n}')">${tr('directions_btn')}</button></div>`).join('');
 }
+/* Notifications the demo generates from real actions. Both languages are built at
+   push time so switching language keeps the log readable. */
+let notifLog=[];
+function trIn(l,k){return (T[l][k]!==undefined)?T[l][k]:k;}
+function fillIn(l,s,rep){
+  if(rep)Object.keys(rep).forEach(k=>{const v=rep[k];
+    if(v===undefined||v===null)return;
+    const t=(v&&typeof v==='object')?(v[l]!==undefined?v[l]:''):v;
+    if(String(t).trim().length)s=s.split('{'+k+'}').join(t);});
+  // last-resort net: a sentence that still has a hole in it is not shown at all,
+  // which is always safe, rather than shipping "đã đóng ngày ,." to the client
+  return /\{[A-Za-z0-9_]+\}/.test(s)?'':s;
+}
+function pushNotif(ic,c,tk,pk,rep){
+  notifLog.unshift({ic:ic,c:c,
+    t:{vi:trIn('vi',tk),en:trIn('en',tk)},
+    p:{vi:fillIn('vi',trIn('vi',pk),rep),en:fillIn('en',trIn('en',pk),rep)}});
+}
 function renderNotif(){
   const el=byId('notifList');if(!el)return;
-  el.innerHTML=tr('notif').map(n=>
-    `<div class="nf"><div class="nfi" style="background:${n[1]}">${n[0]}</div><div style="flex:1"><b>${n[2]}</b><p>${n[3]}</p></div><time>${n[4]}</time></div>`).join('');
+  const fresh=notifLog.map(n=>[n.ic,n.c,tx(n.t),tx(n.p),tr('nt_now'),true]);
+  const list=fresh.concat(tr('notif'));
+  el.innerHTML=list.map(n=>
+    `<div class="nf${n[5]?' fresh':''}"><div class="nfi" style="background:${n[1]}">${n[0]}</div><div style="flex:1"><b>${n[2]}</b><p>${n[3]}</p></div><time>${n[4]}</time></div>`).join('');
 }
 function openSession(i){
   curSession=i;const s=sessions[i];
@@ -1600,20 +2045,365 @@ function openSession(i){
 /* ===================== SHEETS ===================== */
 function openSheet(id){document.getElementById('scrim').classList.add('show');document.getElementById(id).classList.add('show');}
 function closeSheet(){document.getElementById('scrim').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));}
-/* --- free registration form --- */
+/* ===================== REGISTRATION FLOW =====================
+   One sheet, a few steps: who is coming (personal or group), which ticket,
+   an order summary, a clearly-labelled mock payment, then the confirmation. */
+let regStep='who', regMode='personal', regAtt=[], regTier=null, regWait=false;
+function blankAtt(){return {n:"",e:"",co:"",t:""};}
+function regEv(){return evById(regEvId)||curEv;}
+function regFlow(){const e=regEv();return (e&&e.paid&&e.tickets&&!regWait)?['who','tick','rev','pay']:['who','rev'];}
+function regQty(){return regAtt.length;}
+function regCurTier(){return tierById(regEv(),regTier);}
+function regTotal(){const t=regCurTier();return t?t.price*regQty():0;}
+
 function openRegister(id){
-  regEvId=id||curEv.id;
-  const e=events.find(x=>x.id===regEvId)||curEv;
-  byId('regSub').textContent=tx(e.n)+' · '+tx(e.dates);
-  byId('regForm').style.display='block';byId('regDone').style.display='none';
-  openSheet('sheetReg');
+  const e=evById(id||(curEv&&curEv.id));if(!e)return;
+  // already registered: manage that booking instead of talking about registering
+  if(bookingFor(e.id)){openBooking(e.id);return;}
+  const w=regWindow(e);
+  if(w==='over'){toast(tr('t_ended'));return;}
+  if(w==='soon'){toast(trf('cap_soon_p',{d:e.regOpen},'cap_soon_plain'));return;}
+  if(w==='closed'){toast(trf('cap_closed_p',{d:e.regClosed},'cap_closed_plain'));return;}
+  if(w==='ext'){window.open(e.url,'_blank','noopener');return;}
+  regEvId=e.id;regWait=(w==='full');regMode='personal';regAtt=[meAtt()];
+  const t=tierFrom(e);regTier=t?t.id:null;
+  regStep='who';renderRegSheet();openSheet('sheetReg');
 }
+/* Values live in the DOM between renders, so they are read back before every move. */
+function collectReg(){
+  document.querySelectorAll('#regBody [data-att]').forEach(inp=>{
+    const i=+inp.getAttribute('data-att'),f=inp.getAttribute('data-f');
+    if(regAtt[i])regAtt[i][f]=inp.value;
+  });
+}
+function regSetMode(m){
+  collectReg();regMode=m;
+  if(m==='personal')regAtt=regAtt.slice(0,1);
+  else if(regAtt.length<2)regAtt.push(blankAtt());
+  renderRegSheet();
+}
+function regAddAtt(){
+  collectReg();
+  if(regAtt.length>=10){toast(tr('rg_t_max'));return;}
+  const t=regCurTier();
+  if(t&&t.left<=regAtt.length){toast(trf('rg_t_left',{n:t.left}));return;}
+  regAtt.push(blankAtt());regMode='group';renderRegSheet();
+}
+function regRemoveAtt(i){
+  collectReg();
+  if(regAtt.length<=1)return;
+  regAtt.splice(i,1);
+  if(regAtt.length<2)regMode='personal';
+  renderRegSheet();
+}
+function regSetQty(n){
+  collectReg();
+  if(n<1)return;
+  if(n>10){toast(tr('rg_t_max'));return;}
+  const t=regCurTier();
+  if(t&&n>t.left){toast(trf('rg_t_left',{n:t.left}));return;}
+  while(regAtt.length<n)regAtt.push(blankAtt());
+  while(regAtt.length>n)regAtt.pop();
+  regMode=regAtt.length>1?'group':'personal';
+  renderRegSheet();
+}
+function regSetTier(id){
+  const t=tierById(regEv(),id);if(!t)return;
+  if(t.left<=0){toast(tr('rg_t_soldout'));return;}
+  collectReg();regTier=id;
+  if(regAtt.length>t.left){regSetQty(t.left);return;}
+  renderRegSheet();
+}
+function regNext(){
+  collectReg();
+  const f=regFlow(),i=f.indexOf(regStep);
+  if(regStep==='who'&&!regAtt.every(a=>(a.n||'').trim()&&(a.e||'').trim())){
+    toast(tr(regAtt.length>1?'rg_need_all':'reg_need'));return;
+  }
+  if(i>-1&&i<f.length-1){regStep=f[i+1];renderRegSheet();}
+}
+function regBack(){
+  collectReg();
+  const f=regFlow(),i=f.indexOf(regStep);
+  if(i>0){regStep=f[i-1];renderRegSheet();}
+}
+function regPay(){regStep='paying';renderRegSheet();setTimeout(finishReg,1000);}
+/* submitReg stays the entry point for a confirm without a payment step. */
 function submitReg(){
-  if(!byId('rgName').value.trim()||!byId('rgMail').value.trim()){toast(tr('reg_need'));return;}
-  const e=events.find(x=>x.id===regEvId);
-  if(e)e.status='registered';
-  byId('regForm').style.display='none';byId('regDone').style.display='block';
-  renderEvents();renderEventInfo();
+  collectReg();
+  if(!regAtt.every(a=>(a.n||'').trim()&&(a.e||'').trim())){
+    toast(tr(regAtt.length>1?'rg_need_all':'reg_need'));return;
+  }
+  finishReg();
+}
+function finishReg(){
+  const e=regEv();if(!e)return;
+  const t=regWait?null:regCurTier();
+  const st=regWait?'waitlisted':(e.approval?'pending':'confirmed');
+  const b={ref:mkRef(),ev:e.id,mode:regAtt.length>1?'group':'personal',state:st,
+    tier:t?t.id:null,cur:e.cur||'CHF',total:t?t.price*regAtt.length:0,paid:!!t,refund:null,
+    wpos:regWait?4:0,att:regAtt.map(a=>({n:a.n,e:a.e,co:a.co,t:a.t})),
+    made:{vi:"Hôm nay",en:"Today"}};
+  bookings[e.id]=b;
+  if(!regWait){
+    if(e.cap)e.taken=Math.min(e.cap,(e.taken||0)+b.att.length);
+    if(t)t.left=Math.max(0,t.left-b.att.length);
+    e.status='registered';
+  }else{e.status='registered';}
+  const rep={ev:e.n,ref:b.ref,amt:money(b.total,b.cur)};
+  if(st==='confirmed')pushNotif('✅','var(--green)','nt_ok_t','nt_ok_p',rep);
+  else if(st==='pending')pushNotif('⏳','var(--gold)','nt_pend_t','nt_pend_p',rep);
+  else pushNotif('🎟️','var(--gold)','nt_wait_t','nt_wait_p',rep);
+  if(b.paid)pushNotif('💳','var(--ink)','nt_pay_t','nt_pay_p',rep);
+  regStep='done';renderRegSheet();
+  renderEvents();renderEventInfo();renderHome();renderNotif();updateSessionActions();
+}
+
+/* ---- registration sheet markup ---- */
+function regRail(){
+  const f=regFlow(),lbl={who:'rg_step_who',tick:'rg_step_tick',rev:'rg_step_rev',pay:'rg_step_pay'};
+  const cur=f.indexOf(regStep==='paying'?'pay':regStep);
+  return `<div class="steps">`+f.map((s,i)=>
+    `<div class="${i===cur?'on':(i<cur?'done':'')}">${String(i+1).padStart(2,'0')} ${tr(lbl[s])}</div>`).join('')+`</div>`;
+}
+function attCard(a,i){
+  return `<div class="atd${i===0?' lead':''}">
+    <div class="atdh"><span class="mlabel">${tr('rg_att_n')} ${String(i+1).padStart(2,'0')}</span>
+      ${i>0?`<button class="lnk" onclick="regRemoveAtt(${i})">${tr('rg_remove')}</button>`:''}</div>
+    <div class="field"><label>${tr('f_name')}</label><input data-att="${i}" data-f="n" value="${esc(a.n)}"></div>
+    <div class="field"><label>${tr('f_email')}</label><input type="email" data-att="${i}" data-f="e" value="${esc(a.e)}"></div>
+    <div class="field"><label>${tr('f_company')}</label><input data-att="${i}" data-f="co" value="${esc(a.co)}"></div>
+    <div class="field"><label>${tr('f_title')}</label><input data-att="${i}" data-f="t" value="${esc(attTitle(a))}"></div>
+  </div>`;
+}
+function tierRow(e,t){
+  const on=regTier===t.id,out=t.left<=0;
+  return `<button class="tier${on?' on':''}${out?' out':''}" onclick="regSetTier('${t.id}')">
+    <div class="th"><b>${tx(t.n)}</b>${out?`<span class="chip red">${tr('rg_soldout')}</span>`
+      :(t.early?`<span class="chip gold">${tr('rg_early')}</span>`:'')}</div>
+    <p>${tx(t.d)}</p>
+    <div class="tf"><span class="price">${money(t.price,e.cur)}</span>
+      <span class="kv">${out?tr('rg_soldout'):trf('rg_left',{n:t.left})}</span></div>
+  </button>`;
+}
+function sumHTML(e){
+  const t=regCurTier();if(!t)return '';
+  return `<div class="sechead">${tr('rg_sum')}</div>
+    <div class="sum">
+      <div class="sr"><div>${tx(t.n)}<span>${money(t.price,e.cur)} × ${regQty()}</span></div>
+        <b>${money(t.price*regQty(),e.cur)}</b></div>
+      <div class="sr tot"><div>${tr('rg_total')}</div><b>${money(regTotal(),e.cur)}</b></div>
+    </div>`;
+}
+function renderRegSheet(){
+  const body=byId('regBody');if(!body||!regEvId)return;
+  collectReg();   // keep anything typed when the sheet is re-rendered (language switch)
+  const e=regEv(),left=seatsFree(e);
+  byId('regTitle').textContent=regStep==='done'?tr('reg_ok_t'):(e.paid&&!regWait?tr('ev_book'):tr('reg_title'));
+  byId('regSub').textContent=tx(e.n)+' · '+tx(e.dates);
+  let h='';
+  if(regStep==='done'){
+    const b=bookings[e.id];
+    const ic=b.state==='confirmed'?'✅':(b.state==='pending'?'⏳':'🎟️');
+    const tt=b.paid?'rg_ok_paid_t':(b.state==='pending'?'rg_pend_t':(b.state==='waitlisted'?'rg_wait_t':'reg_ok_t'));
+    const tp=b.paid?'rg_ok_paid_p':(b.state==='pending'?'rg_pend_p':(b.state==='waitlisted'?'rg_wait_p':'reg_ok_p'));
+    const t=tierById(e,b.tier);
+    h+=`<div style="text-align:center;padding:6px 16px 0"><div style="font-size:44px;line-height:1">${ic}</div>
+        <h3 style="text-align:center;margin:6px 16px 4px">${tr(tt)}</h3>
+        <p class="sub" style="text-align:center;margin:0 0 14px">${tr(tp)}</p></div>`;
+    h+=`<div class="facts">`+factRaw(tr('rg_ref'),'<b style="font-family:var(--mono);letter-spacing:.06em">#'+b.ref+'</b>')
+      +factRaw(tr('bk_state'),stateChip(b.state))
+      +factRaw(tr('rg_passes'),b.att.length+' · '+tr(b.mode==='group'?'rg_group':'rg_personal'))
+      +(t?factRaw(tr('bk_tier'),tx(t.n)):'')
+      +(b.paid?factRaw(tr('bk_amount'),money(b.total,b.cur)+' · '+tr('pay_ok')):'')
+      +`</div>`;
+    h+=`<div style="padding:6px 16px 0">`
+      +(b.state==='confirmed'?`<button class="btn" onclick="closeSheet();openTicket('${e.id}')">${tr('rg_view_ticket')}</button>`:'')
+      +`</div><div style="padding:8px 16px 0"><button class="btn ghost" onclick="closeSheet();openMyRegs()">${tr('rg_view_regs')}</button></div>`;
+    body.innerHTML=h;byId('sheetReg').scrollTop=0;return;
+  }
+  h+=regRail();
+  if(regStep==='who'){
+    h+=`<div class="mlabel" style="margin:0 16px 7px">${tr('rg_mode_l')}</div>
+      <div class="row" style="margin:0 16px 12px">
+        <button class="btn ${regMode==='personal'?'dark':'ghost'}" onclick="regSetMode('personal')">${tr('rg_personal')}</button>
+        <button class="btn ${regMode==='group'?'dark':'ghost'}" onclick="regSetMode('group')">${tr('rg_group')}</button>
+      </div>`;
+    h+=`<div class="note">${tr(regMode==='group'?'rg_group_note':'rg_personal_note')}</div>`;
+    if(regWait)h+=`<div class="note">${tr('rg_wait_note')}</div>`;
+    else if(e.approval)h+=`<div class="note">${tr('rg_appr_note')}</div>`;
+    h+=regAtt.map(attCard).join('');
+    if(regMode==='group'){
+      h+=`<div style="padding:0 16px 4px"><button class="btn ghost sm" onclick="regAddAtt()">${tr('rg_add')}</button></div>`;
+      h+=`<span class="seats" style="margin:6px 16px 0">${tr('rg_count')} <b>${regQty()}</b></span>`;
+      h+=`<div class="note mono">${tr('rg_max')}</div>`;
+    }
+    h+=`<div style="padding:6px 16px 0"><button class="btn" onclick="regNext()">${tr('rg_next')}</button></div>`;
+  }else if(regStep==='tick'){
+    if(left!==null)h+=`<span class="seats" style="margin:0 16px 12px">${tr('cap_left')} <b>${left} / ${e.cap}</b></span>`;
+    h+=`<div class="mlabel" style="margin:0 16px 8px">${tr('rg_tier_l')}</div>`;
+    h+=(e.tickets||[]).map(t=>tierRow(e,t)).join('');
+    h+=`<div class="qtyrow"><span class="mlabel">${tr('rg_qty')}</span>
+      <div class="qty"><button onclick="regSetQty(${regQty()-1})">−</button><b>${regQty()}</b>
+        <button onclick="regSetQty(${regQty()+1})">+</button></div></div>`;
+    h+=`<div class="note mono">${tr('rg_qty_note')}</div>`;
+    h+=sumHTML(e);
+    h+=`<div class="row" style="margin:6px 16px 0"><button class="btn ghost" onclick="regBack()">${tr('rg_back')}</button>
+      <button class="btn" onclick="regNext()">${tr('rg_next')}</button></div>`;
+  }else if(regStep==='rev'){
+    h+=`<div class="mlabel" style="margin:0 16px 8px">${tr('rg_review_l')}</div>`;
+    h+=`<div class="facts">`+factRaw(tr('et_event'),tx(e.n))+factRaw(tr('ei_dates'),tx(e.dates))
+      +factRaw(tr('ei_venue'),tx(e.venue))
+      +factRaw(tr('bk_mode'),tr(regAtt.length>1?'rg_group':'rg_personal'))
+      +factRaw(tr('rg_count'),String(regQty()))+`</div>`;
+    h+=`<div class="sechead">${tr('bk_att')}</div><div class="facts">`
+      +regAtt.map((a,i)=>factRaw(tr('rg_att_n')+' '+String(i+1).padStart(2,'0'),
+        esc(a.n)+'<span class="muted" style="display:block;font-size:11.5px">'+esc(a.e)
+        +(a.co?' · '+esc(a.co):'')+'</span>')).join('')+`</div>`;
+    if(!regWait&&regCurTier())h+=sumHTML(e);
+    if(regWait)h+=`<div class="note">${tr('rg_wait_note')}</div>`;
+    else if(e.approval)h+=`<div class="note">${tr('rg_appr_note')}</div>`;
+    const act=regWait?`<button class="btn dark" onclick="submitReg()">${tr('rg_wait_join')}</button>`
+      :(regCurTier()?`<button class="btn" onclick="regNext()">${tr('rg_pay_go')}</button>`
+                    :`<button class="btn" onclick="submitReg()">${tr('rg_confirm')}</button>`);
+    h+=`<div class="row" style="margin:6px 16px 0"><button class="btn ghost" onclick="regBack()">${tr('rg_back')}</button>${act}</div>`;
+  }else if(regStep==='pay'){
+    h+=`<div class="note mono">${tr('pay_mock')}</div>`;
+    h+=`<div class="facts">`+factRaw(tr('pay_method'),tr('pay_method_card'))+`</div>`;
+    h+=`<div class="field"><label>${tr('pay_card')}</label><input id="pyNum" value="4242 4242 4242 4242" inputmode="numeric"></div>`;
+    h+=`<div style="display:flex;margin:0 16px 11px">
+      <div class="field" style="margin:0;flex:1"><label>${tr('pay_exp')}</label><input id="pyExp" value="09 / 28"></div>
+      <div class="field" style="margin:0 0 0 -1px;flex:1"><label>${tr('pay_cvc')}</label><input id="pyCvc" value="123"></div></div>`;
+    h+=`<div class="field"><label>${tr('pay_holder')}</label><input id="pyNm" value="${esc(regAtt[0]?regAtt[0].n:'')}"></div>`;
+    h+=sumHTML(e);
+    h+=`<div class="row" style="margin:6px 16px 0"><button class="btn ghost" onclick="regBack()">${tr('rg_back')}</button>
+      <button class="btn" onclick="regPay()">${trf('pay_btn',{x:money(regTotal(),e.cur)},'rg_step_pay')}</button></div>`;
+  }else if(regStep==='paying'){
+    h+=`<div class="working"><div class="wk"></div><p>${tr('pay_working')}</p></div>`;
+  }
+  body.innerHTML=h;byId('sheetReg').scrollTop=0;
+}
+
+/* ===================== BOOKING: VIEW / MODIFY / CANCEL ===================== */
+let bkEvId=null,bkView='main';
+function openMyRegs(){switchEvTab('registered');go('events');}
+function openBooking(id){
+  const b=bookingFor(id);if(!b)return;
+  bkEvId=id;bkView='main';renderBookingSheet();openSheet('sheetBooking');
+}
+function bkSetView(v){bkView=v;renderBookingSheet();}
+function bkSetTier(tid){
+  const e=evById(bkEvId),b=bookings[bkEvId],t=tierById(e,tid);if(!e||!b||!t)return;
+  if(t.id!==b.tier&&t.left<b.att.length){toast(trf('rg_t_left',{n:t.left}));return;}
+  const old=tierById(e,b.tier);
+  if(old)old.left+=b.att.length;
+  t.left=Math.max(0,t.left-b.att.length);
+  b.tier=t.id;b.total=t.price*b.att.length;
+  bkView='main';renderBookingSheet();renderEvents();renderEventInfo();
+  toast(tr('bk_t_tier'));
+}
+function bkSaveAtt(){
+  const b=bookings[bkEvId];if(!b)return;
+  const draft=b.att.map(a=>({n:a.n,e:a.e,co:a.co,t:a.t}));
+  document.querySelectorAll('#bkBody [data-att]').forEach(inp=>{
+    const i=+inp.getAttribute('data-att'),f=inp.getAttribute('data-f');
+    if(draft[i])draft[i][f]=inp.value;
+  });
+  if(!draft.every(a=>(a.n||'').trim()&&(a.e||'').trim())){
+    toast(tr(draft.length>1?'rg_need_all':'reg_need'));return;
+  }
+  b.att=draft;bkView='main';renderBookingSheet();renderEvents();toast(tr('bk_t_saved'));
+}
+function cancelBooking(){
+  const e=evById(bkEvId),b=bookings[bkEvId];if(!e||!b)return;
+  const t=tierById(e,b.tier);
+  if(b.state!=='waitlisted'){
+    if(e.cap)e.taken=Math.max(0,(e.taken||0)-b.att.length);
+    if(t)t.left+=b.att.length;
+  }
+  b.state='cancelled';
+  if(b.paid)b.refund='processing';
+  if(e.status!=='past')e.status='upcoming';
+  const rep={ev:e.n,ref:b.ref,amt:money(b.total,b.cur)};
+  pushNotif('🚫','var(--red)','nt_cancel_t','nt_cancel_p',rep);
+  if(b.paid)pushNotif('💳','var(--gold)','nt_refund_t','nt_refund_p',rep);
+  bkView='cancelled';renderBookingSheet();
+  renderEvents();renderEventInfo();renderHome();renderNotif();updateSessionActions();
+}
+function renderBookingSheet(){
+  const body=byId('bkBody');if(!body||!bkEvId)return;
+  const e=evById(bkEvId),b=bookings[bkEvId];if(!e||!b)return;
+  byId('bkTitle').textContent=bkView==='cancelled'?tr('bk_cancelled_t'):tr('bk_title');
+  byId('bkSub').textContent=tx(e.n)+' · '+tx(e.dates);
+  const t=tierById(e,b.tier);
+  let h='';
+  if(bkView==='cancelled'){
+    h+=`<div style="text-align:center;padding:6px 16px 0"><div style="font-size:44px;line-height:1">🚫</div>
+      <p class="sub" style="text-align:center;margin:10px 0 14px">${tr('bk_cancelled_p')}</p></div>`;
+    h+=`<div class="facts">`+factRaw(tr('rg_ref'),'#'+b.ref)+factRaw(tr('bk_state'),stateChip('cancelled'))
+      +(b.paid?factRaw(tr('bk_refund_l'),money(b.total,b.cur)+' · '+tr('bk_refund_v')):'')+`</div>`;
+    h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="closeSheet()">${tr('bk_close')}</button></div>`;
+    body.innerHTML=h;byId('sheetBooking').scrollTop=0;return;
+  }
+  if(bkView==='tier'){
+    h+=`<div class="mlabel" style="margin:0 16px 8px">${tr('bk_change_tier')}</div>`;
+    h+=(e.tickets||[]).map(x=>{
+      const on=x.id===b.tier,out=x.left<=0&&!on;
+      return `<button class="tier${on?' on':''}${out?' out':''}" onclick="bkSetTier('${x.id}')">
+        <div class="th"><b>${tx(x.n)}</b>${out?`<span class="chip red">${tr('rg_soldout')}</span>`
+          :(x.early?`<span class="chip gold">${tr('rg_early')}</span>`:'')}</div>
+        <p>${tx(x.d)}</p>
+        <div class="tf"><span class="price">${money(x.price*b.att.length,e.cur)}</span>
+          <span class="kv">${money(x.price,e.cur)} × ${b.att.length}</span></div></button>`;
+    }).join('');
+    h+=`<div style="padding:14px 16px 0"><button class="btn ghost" onclick="bkSetView('main')">${tr('rg_back')}</button></div>`;
+    body.innerHTML=h;byId('sheetBooking').scrollTop=0;return;
+  }
+  if(bkView==='att'){
+    h+=`<div class="mlabel" style="margin:0 16px 8px">${tr('bk_edit_att')}</div>`;
+    h+=b.att.map((a,i)=>`<div class="atd${i===0?' lead':''}">
+      <div class="atdh"><span class="mlabel">${tr('rg_att_n')} ${String(i+1).padStart(2,'0')}</span></div>
+      <div class="field"><label>${tr('f_name')}</label><input data-att="${i}" data-f="n" value="${esc(a.n)}"></div>
+      <div class="field"><label>${tr('f_email')}</label><input type="email" data-att="${i}" data-f="e" value="${esc(a.e)}"></div>
+      <div class="field"><label>${tr('f_company')}</label><input data-att="${i}" data-f="co" value="${esc(a.co)}"></div>
+      <div class="field"><label>${tr('f_title')}</label><input data-att="${i}" data-f="t" value="${esc(attTitle(a))}"></div>
+    </div>`).join('');
+    h+=`<div class="row" style="margin:6px 16px 0"><button class="btn ghost" onclick="bkSetView('main')">${tr('rg_back')}</button>
+      <button class="btn" onclick="bkSaveAtt()">${tr('bk_save')}</button></div>`;
+    body.innerHTML=h;byId('sheetBooking').scrollTop=0;return;
+  }
+  if(bkView==='cancel'){
+    h+=`<div class="mlabel" style="margin:0 16px 8px">${tr('bk_cancel_q')}</div>`;
+    h+=`<div class="note">${tr(b.paid?'bk_cancel_p_paid':'bk_cancel_p')}</div>`;
+    h+=`<div class="facts">`+factRaw(tr('rg_ref'),'#'+b.ref)
+      +factRaw(tr('rg_passes'),String(b.att.length))
+      +(b.paid?factRaw(tr('bk_amount'),money(b.total,b.cur)):'')+`</div>`;
+    h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="bkSetView('main')">${tr('bk_keep')}</button></div>`;
+    h+=`<div style="padding:8px 16px 0"><button class="btn" onclick="cancelBooking()">${tr('bk_cancel_yes')}</button></div>`;
+    body.innerHTML=h;byId('sheetBooking').scrollTop=0;return;
+  }
+  /* main view */
+  if(b.state==='pending')h+=`<div class="note">${tr('bk_pending_note')}</div>`;
+  if(b.state==='waitlisted')h+=`<div class="note">${tr('bk_wait_note')}</div>`;
+  h+=`<div class="facts">`+factRaw(tr('rg_ref'),'<b style="font-family:var(--mono);letter-spacing:.06em">#'+b.ref+'</b>')
+    +factRaw(tr('bk_state'),stateChip(b.state))
+    +factRaw(tr('bk_mode'),tr(b.mode==='group'?'rg_group':'rg_personal')+' · '+b.att.length+' '+tr('rg_passes').toLowerCase())
+    +(t?factRaw(tr('bk_tier'),tx(t.n)):'')
+    +(b.paid?factRaw(tr('bk_amount'),money(b.total,b.cur)):'')
+    +(b.paid?factRaw(tr('bk_pay_status'),tr('pay_ok')):(b.state==='waitlisted'?'':factRaw(tr('bk_pay_status'),tr('pay_none'))))
+    +(b.state==='waitlisted'?factRaw(tr('bk_wpos'),'#'+b.wpos):'')
+    +factRaw(tr('bk_made'),tx(b.made))+`</div>`;
+  h+=`<div class="sechead">${tr('bk_att')}</div><div class="facts">`
+    +b.att.map((a,i)=>factRaw(tr('rg_att_n')+' '+String(i+1).padStart(2,'0'),
+      esc(a.n)+'<span class="muted" style="display:block;font-size:11.5px">'+esc(a.e)
+      +(a.co?' · '+esc(a.co):'')+(attTitle(a)?' · '+esc(attTitle(a)):'')+'</span>')).join('')+`</div>`;
+  if(b.state==='confirmed')
+    h+=`<div style="padding:6px 16px 0"><button class="btn" onclick="closeSheet();openTicket('${e.id}')">${tr('rg_view_ticket')}</button></div>`;
+  if(b.paid&&b.state==='confirmed')
+    h+=`<div style="padding:8px 16px 0"><button class="btn ghost" onclick="bkSetView('tier')">${tr('bk_change_tier')}</button></div>`;
+  h+=`<div style="padding:8px 16px 0"><button class="btn ghost" onclick="bkSetView('att')">${tr('bk_edit_att')}</button></div>`;
+  h+=`<div style="padding:8px 16px 0"><button class="btn ghost" style="border-color:var(--red);color:var(--red)" onclick="bkSetView('cancel')">${tr('bk_cancel')}</button></div>`;
+  body.innerHTML=h;byId('sheetBooking').scrollTop=0;
 }
 /* --- meeting request --- */
 let mrPid=null,mrDay=1,mrSlot=0;
@@ -1637,7 +2427,46 @@ function mrSetSlot(i){mrSlot=i;renderMR();}
 function sendMeetingReq(){const p=personById(mrPid);closeSheet();if(p)toast(tr('t_meet_sent')+p.n);}
 /* --- QR connect / e-ticket --- */
 function openQR(){openSheet('sheetQR');}
-function openTicket(){byId('etEvent').textContent=tx(curEv.n);openSheet('sheetTicket');}
+/* One pass per attendee: the selector below switches between them. */
+let tkEvId=null,tkPass=0;
+function openTicket(id){
+  tkEvId=id||(curEv&&curEv.id);tkPass=0;renderTicketSheet();openSheet('sheetTicket');
+}
+function tkSetPass(i){tkPass=i;renderTicketSheet();}
+function renderTicketSheet(){
+  const body=byId('etBody');if(!body)return;
+  const e=evById(tkEvId)||curEv;if(!e)return;
+  const b=bookingFor(e.id);
+  let h='';
+  if(!b||b.state!=='confirmed'){
+    const msg=!b?tr('et_none'):(b.state==='pending'?tr('et_pending'):tr('et_wait'));
+    h+=`<div class="empty" style="padding:34px 24px"><div class="e-ic">🎫</div><p style="font-size:12.5px">${msg}</p></div>`;
+    h+=`<div class="facts">`+factRaw(tr('et_event'),tx(e.n))
+      +(b?factRaw(tr('et_ref'),'#'+b.ref)+factRaw(tr('bk_state'),stateChip(b.state)):'')+`</div>`;
+    if(!b&&regWindow(e)==='open')
+      h+=`<div style="padding:6px 16px 0"><button class="btn" onclick="closeSheet();openRegister('${e.id}')">${e.paid?tr('ev_book'):tr('ev_register')}</button></div>`;
+    else if(b)
+      h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="closeSheet();openBooking('${e.id}')">${tr('ev_manage')}</button></div>`;
+    body.innerHTML=h;return;
+  }
+  if(tkPass>=b.att.length)tkPass=0;
+  const a=b.att[tkPass],t=tierById(e,b.tier);
+  if(b.att.length>1){
+    h+=`<div class="note mono">${tr('et_group_note')}</div>`;
+    h+=`<div class="passrow">`+b.att.map((x,i)=>
+      `<button class="${i===tkPass?'on':''}" onclick="tkSetPass(${i})">${tr('et_pass')} ${String(i+1).padStart(2,'0')}</button>`).join('')+`</div>`;
+  }
+  h+=`<div class="qrbox"></div>`;
+  h+=`<div class="facts" style="margin-top:4px">`
+    +factRaw(tr('et_holder'),esc(a.n)+(a.co?' · '+esc(a.co):''))
+    +factRaw(tr('et_event'),tx(e.n)+'<span class="muted" style="display:block;font-size:11.5px">'+tx(e.dates)+' · '+tx(e.venue)+'</span>')
+    +factRaw(tr('et_tier'),t?tx(t.n):tr('ev_free'))
+    +factRaw(tr('et_code'),'<span style="font-family:var(--mono);letter-spacing:.06em">#'+b.ref+'-'+String(tkPass+1).padStart(2,'0')+'</span>')
+    +factRaw(tr('et_ref'),'<span style="font-family:var(--mono);letter-spacing:.06em">#'+b.ref+'</span>')
+    +`</div>`;
+  h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="closeSheet();openBooking('${e.id}')">${tr('ev_manage')}</button></div>`;
+  body.innerHTML=h;
+}
 
 /* ===================== TOAST ===================== */
 let toTimer;
@@ -1650,7 +2479,18 @@ function renderAll(){
   renderBooths();renderNotif();renderMR();renderConvos();
   if(chatWith!=null)renderChat();
   if(curPerson)renderPerson();
+  if(regEvId)renderRegSheet();
+  if(bkEvId)renderBookingSheet();
+  if(tkEvId)renderTicketSheet();
+  renderProfileTicket();
   updateSaveBtn();updateSessionActions();
+}
+/* The pass code on the profile header follows the current event's booking. */
+function renderProfileTicket(){
+  const el=byId('pfTicket');if(!el)return;
+  const b=curEv?bookingFor(curEv.id):null;
+  el.style.display=b?'inline-flex':'none';
+  if(b)el.innerHTML=`<span data-i18n="vip_ticket">${tr('vip_ticket')}</span> · #${b.ref}`;
 }
 function applyI18n(){
   document.documentElement.lang=lang;
