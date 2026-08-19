@@ -510,6 +510,80 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* ==================== PAYMENT (round 2) ====================
+   Method rows, the simulated third-party gateway, status trackers and the invoice.
+   All of it is a prototype: no PSP, no bank, no card ever leaves this page. */
+.pm{display:flex;align-items:center;gap:12px;width:calc(100% - 32px);text-align:left;background:#fff;
+  border:1px solid var(--line);margin:0 16px -1px;padding:13px;cursor:pointer;font-family:var(--sans);
+  color:var(--ink)}
+.pm.on{border-color:var(--red);background:var(--red-t);position:relative;z-index:1}
+.pm.out{color:var(--muted);background:var(--soft)}
+.pm .pmi{width:38px;height:26px;flex:0 0 38px;display:grid;place-items:center;border:1px solid var(--line);
+  background:#fff;font-family:var(--mono);font-size:7.5px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
+.pm.on .pmi{border-color:var(--red)}
+.pm .pmb{flex:1;min-width:0}
+.pm .pmb b{display:block;font-size:14px;font-weight:600;letter-spacing:-.022em}
+.pm .pmb span{display:block;font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:3px}
+.pm .pmk{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.08em;flex:0 0 auto}
+.pm.on .pmk{color:var(--red)}
+
+/* The simulated gateway is framed as somewhere else, not as an SVEF screen. */
+.gwbox{margin:0 16px 12px;border:1px solid var(--ink);background:#fff}
+.gwbox .gwh{background:var(--ink);color:#fff;padding:11px 13px;display:flex;align-items:center;
+  justify-content:space-between;gap:10px}
+.gwbox .gwh b{font-size:13.5px;font-weight:700;letter-spacing:-.025em}
+.gwbox .gwh span{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.1em;opacity:.66}
+.gwbox .gwc{padding:13px}
+.gwbox .gwc p{margin:0 0 11px;font-size:12px;line-height:1.5;color:var(--ink-2)}
+.gwbox .gwamt{font-size:23px;font-weight:700;letter-spacing:-.05em;line-height:1;margin:0 0 5px}
+.gwbox .gwref{font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.08em;margin-bottom:13px}
+.gwbank{display:flex;flex-wrap:wrap;gap:0;margin-bottom:13px}
+.gwbank button{font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;
+  letter-spacing:.08em;padding:8px 10px;border:1px solid var(--line);background:#fff;color:var(--ink-2);
+  cursor:pointer;margin:0 0 -1px -1px}
+.gwbank button:first-child{margin-left:0}
+.gwbank button.on{background:var(--ink);color:#fff;border-color:var(--ink);position:relative;z-index:1}
+
+/* Status tracker: transfers and refunds move through steps, not one toast. */
+.track{margin:0 16px 12px;background:#fff;border:1px solid var(--line);padding:13px 13px 3px}
+.track .tk{display:flex;gap:11px;padding-bottom:12px;position:relative}
+.track .tk::before{content:"";position:absolute;left:5px;top:13px;bottom:0;width:1px;background:var(--line)}
+.track .tk:last-child::before{display:none}
+.track .tk i{width:11px;height:11px;flex:0 0 11px;border:1px solid var(--line);background:#fff;margin-top:2px;
+  position:relative;z-index:1}
+.track .tk.done i{background:var(--ink);border-color:var(--ink)}
+.track .tk.now i{background:var(--red);border-color:var(--red)}
+.track .tk .tkb{flex:1;min-width:0}
+.track .tk b{display:block;font-size:12.5px;font-weight:600;letter-spacing:-.02em}
+.track .tk.todo b{color:var(--muted);font-weight:500}
+.track .tk time{font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.08em;
+  display:block;margin-top:3px}
+
+/* Invoice, on screen and as the downloaded file's on-screen twin */
+.inv{margin:0 16px 12px;background:#fff;border:1px solid var(--ink)}
+.inv .ivh{padding:13px;border-bottom:1px solid var(--ink)}
+.inv .ivh b{display:block;font-size:15px;font-weight:700;letter-spacing:-.035em}
+.inv .ivh span{font-family:var(--mono);font-size:8.5px;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;display:block;margin-top:5px}
+.inv .ivp{padding:12px 13px;border-bottom:1px solid var(--line);font-size:12px;line-height:1.55}
+.inv .ivp em{font-style:normal;font-family:var(--mono);font-size:8.5px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted);display:block;margin-bottom:5px}
+.inv .ivr{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 13px;
+  font-size:12.5px;border-bottom:1px solid var(--line)}
+.inv .ivr div span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.inv .ivr b{white-space:nowrap;font-weight:600}
+.inv .ivr.tot{background:var(--soft);border-bottom:none}
+.inv .ivr.tot b{font-size:16px;font-weight:700;letter-spacing:-.04em}
+
+.field select{width:100%;border:1px solid var(--ink);border-radius:0;background:#fff;padding:11px 12px;
+  font-family:var(--sans);font-size:14px;color:var(--ink);outline:none;letter-spacing:-.01em;
+  -webkit-appearance:none;appearance:none}
+.field select:focus{border-color:var(--red)}
+.note.warn{border-left-color:var(--red);background:var(--red-t);color:var(--ink)}
+/* a waiting screen that is honest about waiting on someone else */
+.working .wsub{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.1em;
+  margin-top:9px;color:var(--muted)}
+
 @media(max-height:700px){.phone{border-width:6px}}
 </style>
 </head>
@@ -972,6 +1046,70 @@ const T={
   nt_pay_t:"Biên nhận thanh toán", nt_pay_p:"{ev} · {amt} · đã thanh toán. Mã đặt chỗ #{ref}.",
   nt_refund_t:"Đang hoàn tiền", nt_refund_p:"{amt} cho {ev} đang được hoàn về phương thức thanh toán gốc.",
   nt_now:"Vừa xong",
+  /* ===== Round 2: in-app payment ===== */
+  sum_sub:"Tạm tính", sum_disc:"Giảm giá nhóm ({p}%)", sum_vat:"VAT ({p}%)",
+  vat_prov:"chờ xác nhận",
+  vat_note:"Mức VAT do ban tổ chức cấu hình riêng cho từng sự kiện trong bảng điều khiển quản trị. Con số ở đây là giá trị tạm, chờ SVEF xác nhận chính sách thuế.",
+  disc_note:"Đặt từ {n} vé trở lên được giảm {p}%.",
+  bl_l:"Thông tin xuất hoá đơn", bl_use:"Dùng thông tin hồ sơ SVEF",
+  bl_name:"Tên đơn vị hoặc cá nhân thanh toán", bl_co:"Đơn vị", bl_vat:"Mã số thuế / UID",
+  bl_addr:"Địa chỉ", bl_city:"Thành phố", bl_country:"Quốc gia",
+  bl_need:"Vui lòng nhập tên và địa chỉ xuất hoá đơn.",
+  bl_t_used:"Đã điền từ hồ sơ SVEF của bạn.",
+  bl_note:"Thông tin này được in trên hoá đơn. Doanh nghiệp cần mã số thuế để kê khai khấu trừ.",
+  pm_l:"Chọn phương thức thanh toán",
+  pm_card:"Thẻ tín dụng / ghi nợ", pm_card_d:"Visa, Mastercard, American Express",
+  pm_twint:"TWINT", pm_twint_d:"Xác nhận trong ứng dụng TWINT trên điện thoại của bạn.",
+  pm_vnpay:"VNPAY", pm_vnpay_d:"Chuyển sang cổng VNPAY để thanh toán bằng thẻ nội địa hoặc QR ngân hàng.",
+  pm_momo:"Ví MoMo", pm_momo_d:"Chuyển sang ứng dụng MoMo rồi quay lại app SVEF.",
+  pm_invoice:"Hoá đơn / chuyển khoản",
+  pm_invoice_d:"Dành cho đơn vị thanh toán qua phòng kế toán. Vé được phát hành sau khi nhận được tiền.",
+  pm_pick:"Chọn", pm_picked:"Đã chọn",
+  cd_l:"Thẻ đã lưu", cd_new:"Dùng thẻ khác", cd_ph:"•••• •••• •••• 0000",
+  cd_need:"Vui lòng nhập số thẻ hợp lệ, từ 13 đến 19 chữ số.",
+  cd_exp_need:"Vui lòng nhập ngày hết hạn và CVC.",
+  cd_store:"Bản demo chỉ giữ 4 số cuối. Không có số thẻ đầy đủ nào được lưu hay hiển thị ở bất kỳ đâu.",
+  cd_demo_ok:"Thẻ demo được chấp nhận", cd_demo_bad:"Thẻ demo bị từ chối",
+  pay_demo:"Đây là bản demo. Không có giao dịch thật, không có khoản tiền nào được chuyển và không có dữ liệu thẻ nào rời khỏi màn hình này.",
+  pay_dont_close:"Vui lòng không đóng màn hình này.",
+  tw_t:"Mở ứng dụng TWINT",
+  tw_p:"Yêu cầu thanh toán {x} đã được gửi tới TWINT trên số {ph}. Mở ứng dụng và xác nhận để hoàn tất.",
+  tw_exp:"Yêu cầu hết hạn sau 2 phút", tw_wait:"Đang chờ xác nhận từ TWINT…",
+  tw_done:"Tôi đã xác nhận trong TWINT", tw_cancel:"Huỷ yêu cầu",
+  gw_out:"Đang chuyển sang {g}…", gw_leave:"Bạn đang rời khỏi ứng dụng SVEF",
+  gw_ext:"Cổng thanh toán bên ngoài", gw_bank:"Chọn ngân hàng", gw_pay:"Xác nhận thanh toán",
+  gw_cancel:"Huỷ giao dịch", gw_back:"Đang quay lại ứng dụng SVEF…", gw_order:"Mã đơn hàng",
+  gw_sim:"Màn hình mô phỏng cổng thanh toán nội địa. BRD mục 8.4 ghi nhận cổng này chưa có giao diện, nên đây là đề xuất thiết kế.",
+  ps_succeeded:"Đã thanh toán", ps_failed:"Thanh toán thất bại", ps_awaiting:"Chờ chuyển khoản",
+  ps_refunding:"Đang hoàn tiền", ps_refunded:"Đã hoàn tiền", ps_reported:"Đã báo đã chuyển",
+  bs_awaiting:"Chờ thanh toán",
+  fail_t:"Thanh toán không thành công",
+  fail_declined:"Ngân hàng phát hành đã từ chối giao dịch này.",
+  fail_cancelled:"Giao dịch đã bị huỷ tại cổng thanh toán.",
+  fail_twint:"Yêu cầu TWINT đã bị huỷ hoặc đã hết hạn.",
+  fail_note:"Chưa có khoản tiền nào bị trừ và chưa có chỗ nào được giữ. Bạn có thể thử lại hoặc chọn phương thức khác.",
+  fail_retry:"Thử lại", fail_other:"Chọn phương thức khác",
+  tr_t:"Chờ bạn chuyển khoản",
+  tr_p:"Chỗ của bạn được giữ trong {n} ngày. Vé sẽ được phát hành ngay khi ban tổ chức nhận được tiền.",
+  tr_bank:"Ngân hàng", tr_holder:"Chủ tài khoản", tr_ref:"Nội dung chuyển khoản",
+  tr_ref_note:"Ghi đúng nội dung này để ban tổ chức đối soát được khoản tiền của bạn.",
+  tr_amount:"Số tiền cần chuyển", tr_done:"Tôi đã chuyển khoản",
+  tr_t_done:"Đã ghi nhận. Ban tổ chức sẽ đối soát và xác nhận lại.",
+  tr_copy:"Sao chép", tr_t_copy:"Đã sao chép nội dung chuyển khoản.",
+  iv_l:"Hoá đơn", iv_no:"Số hoá đơn", iv_date:"Ngày phát hành", iv_from:"Bên bán", iv_to:"Bên mua",
+  iv_items:"Chi tiết", iv_view:"Xem hoá đơn", iv_dl:"Tải hoá đơn",
+  iv_t_dl:"Đã tải hoá đơn {no}.", iv_paid_by:"Thanh toán bằng", iv_txn:"Mã giao dịch",
+  iv_demo:"Hoá đơn mô phỏng phục vụ bản demo, không có giá trị pháp lý.",
+  iv_none:"Hoá đơn sẽ có sau khi thanh toán thành công.",
+  rf_l:"Tình trạng hoàn tiền", rf_requested:"Đã yêu cầu hoàn tiền",
+  rf_processing:"Ngân hàng đang xử lý", rf_refunded:"Đã hoàn tiền", rf_to:"Hoàn về {m}",
+  rf_none:"Đây là đăng ký miễn phí nên không phát sinh hoàn tiền.",
+  bk_method:"Phương thức", bk_txn:"Mã giao dịch", bk_inv:"Hoá đơn",
+  nt_fail_t:"Thanh toán thất bại", nt_fail_p:"Giao dịch cho {ev} không thành công. Chưa có khoản tiền nào bị trừ.",
+  nt_await_t:"Chờ chuyển khoản", nt_await_p:"Đã gửi hướng dẫn chuyển khoản {amt} cho {ev}. Nội dung chuyển khoản {ref}.",
+  nt_transfer_t:"Đã báo chuyển khoản", nt_transfer_p:"Ban tổ chức sẽ đối soát khoản {amt} cho {ev}.",
+  nt_refunded_t:"Đã hoàn tiền", nt_refunded_p:"{amt} của {ev} đã được hoàn về phương thức thanh toán gốc.",
+  nt_inv_t:"Hoá đơn đã sẵn sàng", nt_inv_p:"Hoá đơn {ref} cho {ev} đã có trong mục đăng ký của bạn.",
   mr_title:"Yêu cầu gặp", mr_day:"Chọn ngày", mr_time:"Chọn khung giờ", mr_note:"Lời nhắn (không bắt buộc)", mr_send:"Gửi yêu cầu",
   qr_title:"QR kết nối", qr_sub:"Đưa mã này cho người tham dự khác quét để kết nối. Đây không phải mã vào cửa.",
   scan:"📷 Quét QR", save:"💾 Lưu",
@@ -1134,6 +1272,70 @@ const T={
   nt_pay_t:"Payment receipt", nt_pay_p:"{ev} · {amt} · paid. Booking #{ref}.",
   nt_refund_t:"Refund on the way", nt_refund_p:"{amt} for {ev} is being refunded to your original payment method.",
   nt_now:"Just now",
+  /* ===== Round 2: in-app payment ===== */
+  sum_sub:"Subtotal", sum_disc:"Group discount ({p}%)", sum_vat:"VAT ({p}%)",
+  vat_prov:"pending confirmation",
+  vat_note:"The VAT rate is configured per event by the organisers in the admin dashboard. The figure here is a placeholder pending SVEF's confirmed tax position.",
+  disc_note:"Bookings of {n} tickets or more get {p}% off.",
+  bl_l:"Billing details", bl_use:"Use my SVEF profile",
+  bl_name:"Billing name", bl_co:"Company", bl_vat:"VAT / UID number",
+  bl_addr:"Address", bl_city:"City", bl_country:"Country",
+  bl_need:"Please enter a billing name and address.",
+  bl_t_used:"Filled in from your SVEF profile.",
+  bl_note:"These details are printed on the invoice. Companies need a VAT number to reclaim it.",
+  pm_l:"Choose a payment method",
+  pm_card:"Credit or debit card", pm_card_d:"Visa, Mastercard, American Express",
+  pm_twint:"TWINT", pm_twint_d:"Confirm in the TWINT app on your phone.",
+  pm_vnpay:"VNPAY", pm_vnpay_d:"Redirects to the VNPAY gateway for domestic cards or bank QR.",
+  pm_momo:"MoMo wallet", pm_momo_d:"Redirects to the MoMo app and back to the SVEF app.",
+  pm_invoice:"Invoice / bank transfer",
+  pm_invoice_d:"For organisations paying through their finance team. Passes are issued once the transfer arrives.",
+  pm_pick:"Select", pm_picked:"Selected",
+  cd_l:"Saved cards", cd_new:"Use another card", cd_ph:"•••• •••• •••• 0000",
+  cd_need:"Please enter a valid card number, 13 to 19 digits.",
+  cd_exp_need:"Please enter the expiry date and CVC.",
+  cd_store:"This demo keeps the last four digits only. No full card number is stored or displayed anywhere.",
+  cd_demo_ok:"Demo card, approved", cd_demo_bad:"Demo card, declined",
+  pay_demo:"This is a demo. No real transaction is made, no money moves and no card data leaves this screen.",
+  pay_dont_close:"Please do not close this screen.",
+  tw_t:"Open the TWINT app",
+  tw_p:"A {x} payment request has been sent to TWINT on {ph}. Open the app and confirm to finish.",
+  tw_exp:"The request expires in 2 minutes", tw_wait:"Waiting for TWINT to confirm…",
+  tw_done:"I have confirmed in TWINT", tw_cancel:"Cancel the request",
+  gw_out:"Redirecting to {g}…", gw_leave:"You are leaving the SVEF app",
+  gw_ext:"External payment gateway", gw_bank:"Choose your bank", gw_pay:"Confirm payment",
+  gw_cancel:"Cancel the transaction", gw_back:"Returning to the SVEF app…", gw_order:"Order reference",
+  gw_sim:"A simulated domestic gateway screen. BRD section 8.4 records that this gateway has no existing UI, so this is a design proposal.",
+  ps_succeeded:"Paid", ps_failed:"Payment failed", ps_awaiting:"Awaiting transfer",
+  ps_refunding:"Refund in progress", ps_refunded:"Refunded", ps_reported:"Transfer reported",
+  bs_awaiting:"Awaiting payment",
+  fail_t:"Payment did not go through",
+  fail_declined:"The issuing bank declined this transaction.",
+  fail_cancelled:"The transaction was cancelled at the payment gateway.",
+  fail_twint:"The TWINT request was cancelled or has expired.",
+  fail_note:"Nothing has been charged and no seat has been held. You can try again or choose another method.",
+  fail_retry:"Try again", fail_other:"Choose another method",
+  tr_t:"Awaiting your transfer",
+  tr_p:"Your seats are held for {n} days. Passes are issued as soon as the organisers see the transfer.",
+  tr_bank:"Bank", tr_holder:"Account holder", tr_ref:"Payment reference",
+  tr_ref_note:"Quote this reference exactly so the organisers can match your payment.",
+  tr_amount:"Amount to transfer", tr_done:"I have made the transfer",
+  tr_t_done:"Noted. The organisers will reconcile it and confirm.",
+  tr_copy:"Copy", tr_t_copy:"Payment reference copied.",
+  iv_l:"Invoice", iv_no:"Invoice number", iv_date:"Issue date", iv_from:"From", iv_to:"Billed to",
+  iv_items:"Line items", iv_view:"View invoice", iv_dl:"Download invoice",
+  iv_t_dl:"Invoice {no} downloaded.", iv_paid_by:"Paid by", iv_txn:"Transaction reference",
+  iv_demo:"A simulated invoice for this demo. It has no legal validity.",
+  iv_none:"The invoice becomes available once payment succeeds.",
+  rf_l:"Refund status", rf_requested:"Refund requested",
+  rf_processing:"Processing with the bank", rf_refunded:"Refunded", rf_to:"Back to {m}",
+  rf_none:"This was a free registration, so there is nothing to refund.",
+  bk_method:"Method", bk_txn:"Transaction", bk_inv:"Invoice",
+  nt_fail_t:"Payment failed", nt_fail_p:"The transaction for {ev} did not go through. Nothing has been charged.",
+  nt_await_t:"Awaiting your transfer", nt_await_p:"Transfer instructions for {amt} for {ev} have been sent. Payment reference {ref}.",
+  nt_transfer_t:"Transfer reported", nt_transfer_p:"The organisers will reconcile {amt} for {ev}.",
+  nt_refunded_t:"Refunded", nt_refunded_p:"{amt} for {ev} has gone back to the original payment method.",
+  nt_inv_t:"Invoice ready", nt_inv_p:"Invoice {ref} for {ev} is in your registrations.",
   mr_title:"Request meeting", mr_day:"Choose a day", mr_time:"Choose a time", mr_note:"Message (optional)", mr_send:"Send request",
   qr_title:"QR Connect", qr_sub:"Show this code to another attendee to connect. This is not the entry code.",
   scan:"📷 Scan QR", save:"💾 Save",
@@ -1223,6 +1425,11 @@ const events=[
          {n:2,lbl:{vi:"Ngày 2",en:"Day 2"},d:{vi:"4/10",en:"4 Oct"}}]},
   {id:"gala", img:"signing", status:"upcoming", paid:true, tz:"GMT+1",
    cap:220, taken:174, cur:"CHF",
+   /* VAT is per-event configuration owned by the back office, never markup. The
+      rate here is a PLACEHOLDER for the demo: SVEF has not confirmed their tax
+      position, so nothing in this file should be read as a tax rule. */
+   vat:{rate:8.1, src:"placeholder"},
+   groupDiscount:{min:3, pct:10},
    /* SVEF's own paid event: tickets are booked and paid inside the app */
    tickets:[
      {id:"early", price:180, left:14, early:true,
@@ -1246,6 +1453,29 @@ const events=[
    desc:{vi:"Tiệc tối gây quỹ thường niên của SVEF tại Thụy Sĩ. Số lượng chỗ hạn chế, vé đặt và thanh toán ngay trong app theo từng loại vé.",
          en:"SVEF's annual fundraising dinner in Switzerland. Seats are limited and tickets are booked and paid for in the app by ticket type."},
    days:[{n:1,lbl:{vi:"Buổi tối",en:"Evening"},d:{vi:"20/11",en:"20 Nov"}}]},
+  /* Paid in VND, so the domestic Vietnam gateway (BRD 8.4) has a real home */
+  {id:"smartmfg", img:"manufacturing", status:"upcoming", paid:true, tz:"GMT+7",
+   cap:180, taken:96, cur:"VND",
+   vat:{rate:10, src:"placeholder"},
+   groupDiscount:{min:3, pct:10},
+   tickets:[
+     {id:"early", price:2400000, left:22, early:true,
+      n:{vi:"Vé Early Bird",en:"Early bird ticket"},
+      d:{vi:"Ưu đãi áp dụng đến hết ngày 31 tháng 7, 2026.",en:"Available until 31 July 2026."}},
+     {id:"std", price:3200000, left:48,
+      n:{vi:"Vé tiêu chuẩn",en:"Standard ticket"},
+      d:{vi:"Trọn hai phiên hội thảo, bộ tài liệu kỹ thuật và bữa trưa.",
+         en:"Both workshop sessions, the technical handbook and lunch."}}],
+   url:"https://svef.example.org/events/smart-manufacturing-workshop",
+   n:{vi:"Hội thảo Sản xuất Thông minh SVEF",en:"SVEF Smart Manufacturing Workshop"},
+   short:{vi:"Sản xuất Thông minh · Bình Dương",en:"Smart Manufacturing · Binh Duong"},
+   dnum:"09", dmon:{vi:"THG 9",en:"SEP"},
+   dates:{vi:"9 tháng 9, 2026",en:"9 September 2026"},
+   venue:{vi:"Becamex Convention · Bình Dương",en:"Becamex Convention · Binh Duong"},
+   org:{vi:"SVEF phối hợp cùng Alpine Precision AG",en:"SVEF with Alpine Precision AG"},
+   desc:{vi:"Hội thảo một ngày về tự động hoá dây chuyền, bảo trì dự đoán và tiêu chuẩn chất lượng Thụy Sĩ cho nhà máy tại Việt Nam.",
+         en:"A one-day workshop on line automation, predictive maintenance and Swiss quality standards for plants in Vietnam."},
+   days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"9/9",en:"9 Sep"}}]},
   /* Registration window not open yet */
   {id:"innovday", img:"seminar", status:"upcoming", paid:false, tz:"GMT+1",
    cap:150, taken:0, regState:"soon",
@@ -1310,6 +1540,40 @@ const events=[
          en:"A one-day showcase of Swiss industrial and deep-tech solutions for Vietnamese partners."},
    days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"5/3",en:"5 Mar"}}]},
 ];
+
+/* --- Payment configuration (owned by the back office, not by the markup) -----
+   Everything here is mock. There is no payment service provider behind any of it,
+   no bank connection and no card data ever leaves the page. The VAT rate lives on
+   each event (e.vat) and is a PLACEHOLDER pending SVEF's confirmed tax position. */
+const payCfg={
+  vatFallback:0,
+  invPrefix:"INV-2026-", invNext:41,
+  seller:{n:"Swiss-Vietnam Economic Foundation (SVEF)",
+    addr:{vi:"Bahnhofstrasse 12, 8001 Zürich, Thụy Sĩ",en:"Bahnhofstrasse 12, 8001 Zurich, Switzerland"},
+    uid:"CHE-000.000.000 (placeholder)"},
+  bank:{
+    CHF:{bank:"Zürcher Kantonalbank", holder:"Swiss-Vietnam Economic Foundation",
+         acc:"CH00 0000 0000 0000 0000 0", code:"ZKBKCHZZ80A", accL:"IBAN", codeL:"BIC"},
+    VND:{bank:"Vietcombank - Chi nhánh TP. Hồ Chí Minh", holder:"Quy Kinh te Thuy Si - Viet Nam",
+         acc:"0071 0000 000000", code:"BFTVVNVX", accL:{vi:"Số tài khoản",en:"Account number"}, codeL:"SWIFT"}
+  },
+  /* days the organiser holds a seat for an unpaid bank transfer */
+  transferDays:7
+};
+/* Cards are never stored in full. The wallet keeps a brand and the last four only,
+   and the new-card form clears its input the moment the last four are taken. */
+const savedCards=[
+  {id:"v4242", brand:"Visa", last4:"4242", exp:"09/28", ok:true},
+  {id:"m0002", brand:"Mastercard", last4:"0002", exp:"11/27", ok:false}
+];
+const countries={
+  vn:{vi:"Việt Nam",en:"Vietnam"}, ch:{vi:"Thụy Sĩ",en:"Switzerland"},
+  de:{vi:"Đức",en:"Germany"}, sg:{vi:"Singapore",en:"Singapore"},
+  other:{vi:"Quốc gia khác",en:"Other country"}
+};
+/* Institutional buyers reuse this from their SVEF member profile instead of retyping */
+const memberBilling={n:"Trần Quốc Anh", co:"Zegoe Capital", vat:"0312345678",
+  addr:"12 Nguyễn Huệ, Quận 1", city:"TP. Hồ Chí Minh", country:"vn"};
 
 /* --- Sponsors -------------------------------------------------------------- */
 const tiers={headline:{vi:"Đồng hành chính",en:"Headline"},gold:{vi:"Vàng",en:"Gold"},silver:{vi:"Bạc",en:"Silver"}};
@@ -1529,13 +1793,94 @@ function tierFrom(e){
   const av=(e.tickets||[]).filter(t=>t.left>0);
   return av.length?av.reduce((a,b)=>a.price<b.price?a:b):null;
 }
-function fmtNum(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,"'");}
-function money(n,cur){return (cur||'CHF')+' '+fmtNum(n);}
+function grp(v,sep){return String(v).replace(/\B(?=(\d{3})+(?!\d))/g,sep);}
+function fmtNum(n){return grp(n,"'");}
+/* CHF keeps the Swiss apostrophe grouping, VND groups the way the reader's language
+   does and carries the dong sign. Decimals only appear when there are any. */
+function money(n,cur){
+  cur=cur||'CHF';
+  if(cur==='VND')return grp(Math.round(n),lang==='vi'?'.':',')+' ₫';
+  const r=Math.round(n*100)/100, str=(r%1===0)?String(r):r.toFixed(2), part=str.split('.');
+  return 'CHF '+grp(part[0],"'")+(part[1]?'.'+part[1]:'');
+}
+function pctStr(r){const v=String(r);return lang==='vi'?v.replace('.',','):v;}
+function roundCur(n,cur){return cur==='VND'?Math.round(n):Math.round(n*100)/100;}
+
+/* ===================== PRICING, TAX, DISCOUNT =====================
+   The VAT rate is per-event configuration set by the back office (e.vat.rate), it is
+   never written into the markup. Every rate in this prototype is a PLACEHOLDER:
+   SVEF has not confirmed a tax position, so nothing here states a tax rule. */
+function vatOf(e){return (e&&e.vat&&typeof e.vat.rate==='number')?e.vat.rate:payCfg.vatFallback;}
+function vatIsPlaceholder(e){return !!(e&&e.vat&&e.vat.src==='placeholder');}
+function orderCalc(e,tier,qty){
+  const cur=(e&&e.cur)||'CHF';
+  const price=tier?tier.price:0, gross=roundCur(price*qty,cur);
+  const g=e&&e.groupDiscount, dpct=(g&&qty>=g.min)?g.pct:0;
+  const damt=roundCur(gross*dpct/100,cur), net=roundCur(gross-damt,cur);
+  const rate=vatOf(e), vat=roundCur(net*rate/100,cur);
+  return {cur:cur, qty:qty, price:price, gross:gross, dpct:dpct, damt:damt, net:net,
+          rate:rate, vat:vat, total:roundCur(net+vat,cur), prov:vatIsPlaceholder(e),
+          tier:tier?tier.id:null, tierName:tier?tier.n:null};
+}
+
+/* ===================== PAYMENT METHODS =====================
+   Prototype only: there is no payment service provider behind any of this. */
+const pmMeta={
+  card   :{k:'pm_card',    d:'pm_card_d',    i:'CARD'},
+  twint  :{k:'pm_twint',   d:'pm_twint_d',   i:'TWINT'},
+  vnpay  :{k:'pm_vnpay',   d:'pm_vnpay_d',   i:'VNPAY'},
+  momo   :{k:'pm_momo',    d:'pm_momo_d',    i:'MOMO'},
+  invoice:{k:'pm_invoice', d:'pm_invoice_d', i:'BANK'}
+};
+/* CHF payers get TWINT, VND payers get the domestic gateways (BRD 8.4). */
+function payMethods(e){return ((e&&e.cur)==='VND')?['card','vnpay','momo','invoice']:['card','twint','invoice'];}
+function methodLabel(m,pay){
+  if(m==='card'&&pay&&pay.last4)return (pay.brand||tr('pm_card'))+' ···· '+pay.last4;
+  return pmMeta[m]?tr(pmMeta[m].k):'';
+}
+/* Brand is derived from the leading digits, then the number is dropped on the spot. */
+function cardBrand(num){
+  const d=String(num||'').replace(/\D/g,'');
+  if(/^4/.test(d))return 'Visa';
+  if(/^(5[1-5]|2[2-7])/.test(d))return 'Mastercard';
+  if(/^3[47]/.test(d))return 'American Express';
+  return 'Card';
+}
+function mkTxn(m){
+  const pre={card:'CRD',twint:'TWT',vnpay:'VNP',momo:'MOM',invoice:'BNK'}[m]||'TXN';
+  return pre+'-'+String(100000+Math.floor(Math.random()*899999));
+}
+function mkInvNo(){return payCfg.invPrefix+String(payCfg.invNext++).padStart(4,'0');}
+function bankFor(cur){return payCfg.bank[cur]||payCfg.bank.CHF;}
+function labelOf(v){return (v&&typeof v==='object')?tx(v):v;}
+function todayNum(){const d=new Date(),p=n=>String(n).padStart(2,'0');
+  const v=p(d.getDate())+'/'+p(d.getMonth()+1)+'/'+d.getFullYear();return {vi:v,en:v};}
+const psChip={succeeded:'green',failed:'red',awaiting:'gold',reported:'gold',refunding:'gold',refunded:''};
+function payChip(b){
+  const st=b&&b.pay?b.pay.state:null;
+  return st?`<span class="chip ${psChip[st]||''}">${tr('ps_'+st)}</span>`
+           :`<span class="chip">${tr('pay_none')}</span>`;
+}
+function copyText(t){
+  try{if(typeof navigator!=='undefined'&&navigator.clipboard&&navigator.clipboard.writeText)
+    navigator.clipboard.writeText(t);}catch(err){}
+  toast(tr('tr_t_copy'));
+}
+/* Same Blob download the .ics export uses: no library, no network. */
+function downloadBlob(name,mime,text){
+  try{
+    const url=URL.createObjectURL(new Blob([text],{type:mime}));
+    const a=document.createElement('a');
+    a.href=url;a.download=name;a.style.display='none';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1500);
+  }catch(err){}
+}
 function mkRef(){return 'SVEF-'+String(1000+Math.floor(Math.random()*8999));}
 function meAtt(){return {n:"Anh Trần",e:"anh.tran@zegoe.vn",co:"Zegoe Capital",
   t:{vi:"Giám đốc Đầu tư",en:"Investment Director"}};}
 function attTitle(a){return (a&&a.t&&typeof a.t==='object')?tx(a.t):((a&&a.t)||'');}
-const bsChip={confirmed:'green',pending:'gold',waitlisted:'gold',cancelled:'red'};
+const bsChip={confirmed:'green',pending:'gold',awaiting:'gold',waitlisted:'gold',cancelled:'red'};
 function stateChip(st){return `<span class="chip ${bsChip[st]||''}">${tr('bs_'+st)}</span>`;}
 /* Fills {tokens} in a dictionary string. Values may be plain or {vi,en}. */
 function fill(s,rep){return fillIn(lang,s,rep);}
@@ -2044,17 +2389,27 @@ function openSession(i){
 
 /* ===================== SHEETS ===================== */
 function openSheet(id){document.getElementById('scrim').classList.add('show');document.getElementById(id).classList.add('show');}
-function closeSheet(){document.getElementById('scrim').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));}
+function closeSheet(){
+  document.getElementById('scrim').classList.remove('show');
+  document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));
+  if(regStep==='done')regEvId=null;   // a finished flow is not re-rendered later
+}
 /* ===================== REGISTRATION FLOW =====================
    One sheet, a few steps: who is coming (personal or group), which ticket,
    an order summary, a clearly-labelled mock payment, then the confirmation. */
 let regStep='who', regMode='personal', regAtt=[], regTier=null, regWait=false;
+/* payment leg of the flow */
+let regMethod=null, regCard=savedCards[0].id, regNewCard=false, regGw=null, regBank='b1',
+    regFail=null, payDraft=null, regGwOrder=null;
+let billing={n:"",co:"",vat:"",addr:"",city:"",country:"vn"};
+const gwBanks=[{k:'b1',n:'Vietcombank'},{k:'b2',n:'Techcombank'},{k:'b3',n:'BIDV'},{k:'b4',n:'ACB'}];
 function blankAtt(){return {n:"",e:"",co:"",t:""};}
 function regEv(){return evById(regEvId)||curEv;}
 function regFlow(){const e=regEv();return (e&&e.paid&&e.tickets&&!regWait)?['who','tick','rev','pay']:['who','rev'];}
 function regQty(){return regAtt.length;}
 function regCurTier(){return tierById(regEv(),regTier);}
-function regTotal(){const t=regCurTier();return t?t.price*regQty():0;}
+function regOrder(){return orderCalc(regEv(),regCurTier(),regQty());}
+function regTotal(){const t=regCurTier();return t?regOrder().total:0;}
 
 function openRegister(id){
   const e=evById(id||(curEv&&curEv.id));if(!e)return;
@@ -2067,6 +2422,8 @@ function openRegister(id){
   if(w==='ext'){window.open(e.url,'_blank','noopener');return;}
   regEvId=e.id;regWait=(w==='full');regMode='personal';regAtt=[meAtt()];
   const t=tierFrom(e);regTier=t?t.id:null;
+  regMethod=null;regNewCard=false;regCard=savedCards[0].id;regFail=null;payDraft=null;regGw=null;
+  billing={n:"",co:"",vat:"",addr:"",city:"",country:"vn"};
   regStep='who';renderRegSheet();openSheet('sheetReg');
 }
 /* Values live in the DOM between renders, so they are read back before every move. */
@@ -2075,6 +2432,18 @@ function collectReg(){
     const i=+inp.getAttribute('data-att'),f=inp.getAttribute('data-f');
     if(regAtt[i])regAtt[i][f]=inp.value;
   });
+}
+function collectBilling(){
+  const b=byId('regBody');if(!b)return;
+  document.querySelectorAll('#regBody [data-bill]').forEach(inp=>{
+    billing[inp.getAttribute('data-bill')]=inp.value;
+  });
+}
+function billUseProfile(){
+  collectBilling();
+  billing={n:memberBilling.n,co:memberBilling.co,vat:memberBilling.vat,
+           addr:memberBilling.addr,city:memberBilling.city,country:memberBilling.country};
+  renderRegSheet();toast(tr('bl_t_used'));
 }
 function regSetMode(m){
   collectReg();regMode=m;
@@ -2115,19 +2484,110 @@ function regSetTier(id){
   renderRegSheet();
 }
 function regNext(){
-  collectReg();
+  collectReg();collectBilling();
   const f=regFlow(),i=f.indexOf(regStep);
   if(regStep==='who'&&!regAtt.every(a=>(a.n||'').trim()&&(a.e||'').trim())){
     toast(tr(regAtt.length>1?'rg_need_all':'reg_need'));return;
   }
+  // an invoice cannot be issued without a billing name and address
+  if(regStep==='rev'&&regCurTier()&&!regWait&&!((billing.n||'').trim()&&(billing.addr||'').trim())){
+    toast(tr('bl_need'));return;
+  }
   if(i>-1&&i<f.length-1){regStep=f[i+1];renderRegSheet();}
 }
 function regBack(){
-  collectReg();
+  collectReg();collectBilling();
   const f=regFlow(),i=f.indexOf(regStep);
   if(i>0){regStep=f[i-1];renderRegSheet();}
 }
-function regPay(){regStep='paying';renderRegSheet();setTimeout(finishReg,1000);}
+
+/* ===================== PAYMENT STATE MACHINE =====================
+   succeeded / failed / awaiting transfer / refunded, all reachable in the demo.
+   A failed payment never reaches finishReg, so it never takes a seat, never takes a
+   ticket out of stock and never creates a booking. */
+function regSetMethod(m){collectBilling();regMethod=m;regFail=null;renderRegSheet();}
+function regSetCard(id){regCard=id;regNewCard=false;renderRegSheet();}
+function regNewCardOn(){collectBilling();regNewCard=true;renderRegSheet();}
+function gwSetBank(k){regBank=k;renderRegSheet();}
+
+/* Reads the card form, keeps the brand and the last four, and wipes the field. The
+   full number is never written to state, to a booking, to an invoice or to a render. */
+function takeCardDetails(){
+  const inp=byId('pyNum'), raw=((inp&&inp.value)||'').replace(/\D/g,'');
+  if(raw.length<13||raw.length>19){toast(tr('cd_need'));return null;}
+  const exp=((byId('pyExp')&&byId('pyExp').value)||'').trim();
+  const cvc=((byId('pyCvc')&&byId('pyCvc').value)||'').trim();
+  if(!exp||!cvc){toast(tr('cd_exp_need'));return null;}
+  const d={method:'card',brand:cardBrand(raw),last4:raw.slice(-4),exp:exp};
+  if(inp)inp.value='';                       // the full number does not survive this line
+  const c=byId('pyCvc');if(c)c.value='';
+  return d;
+}
+function regStartPay(){
+  collectBilling();
+  const e=regEv();
+  if(!regMethod){toast(tr('pm_l'));return;}
+  if(regMethod==='card'){
+    let d;
+    if(regNewCard){d=takeCardDetails();if(!d)return;}
+    else{
+      const c=savedCards.find(x=>x.id===regCard);
+      if(!c){toast(tr('cd_need'));return;}
+      d={method:'card',brand:c.brand,last4:c.last4,exp:c.exp,ok:c.ok};
+    }
+    payDraft=d;regStep='processing';renderRegSheet();
+    setTimeout(function(){
+      if(regStep!=='processing')return;
+      // the demo declines one card so the failure path is reachable on purpose
+      if(payDraft.ok===false||payDraft.last4==='0002')payFail('fail_declined');
+      else paySucceed();
+    },1300);
+    return;
+  }
+  if(regMethod==='twint'){payDraft={method:'twint'};regStep='twint';renderRegSheet();return;}
+  if(regMethod==='vnpay'||regMethod==='momo'){
+    payDraft={method:regMethod};regGw=regMethod;regBank='b1';
+    regGwOrder='SVEF'+String(100000+Math.floor(Math.random()*899999));
+    regStep='gwout';renderRegSheet();
+    setTimeout(function(){if(regStep==='gwout'){regStep='gwpage';renderRegSheet();}},1200);
+    return;
+  }
+  if(regMethod==='invoice'){payDraft={method:'invoice'};payAwait();return;}
+}
+function twintConfirm(){
+  if(regStep!=='twint')return;
+  regStep='processing';renderRegSheet();
+  setTimeout(function(){if(regStep==='processing')paySucceed();},1100);
+}
+function twintCancel(){payFail('fail_twint');}
+function gwApprove(){
+  if(regStep!=='gwpage')return;
+  regStep='gwback';renderRegSheet();
+  setTimeout(function(){if(regStep==='gwback')paySucceed();},1100);
+}
+function gwDecline(){
+  if(regStep!=='gwpage')return;
+  regStep='gwback';renderRegSheet();
+  setTimeout(function(){if(regStep==='gwback')payFail('fail_cancelled');},900);
+}
+function paySucceed(){
+  finishReg({state:'succeeded',method:payDraft.method,brand:payDraft.brand,
+    last4:payDraft.last4,txn:mkTxn(payDraft.method)});
+}
+function payAwait(){
+  finishReg({state:'awaiting',method:'invoice',txn:mkTxn('invoice')});
+}
+function payFail(reasonKey){
+  const e=regEv();
+  regFail=reasonKey||'fail_declined';regStep='failed';payDraft=null;
+  renderRegSheet();
+  pushNotif('⚠️','var(--red)','nt_fail_t','nt_fail_p',{ev:e.n});
+  renderNotif();
+}
+function payRetry(){regFail=null;regStep='pay';renderRegSheet();}
+function payChangeMethod(){regFail=null;regMethod=null;regNewCard=false;regStep='pay';renderRegSheet();}
+/* kept as the entry point round 1 used, now it just starts the machine */
+function regPay(){regStartPay();}
 /* submitReg stays the entry point for a confirm without a payment step. */
 function submitReg(){
   collectReg();
@@ -2136,33 +2596,60 @@ function submitReg(){
   }
   finishReg();
 }
-function finishReg(){
+/* pay: null for a free registration, otherwise
+   {state:'succeeded'|'awaiting', method, brand, last4, txn}. Only ever called on a
+   result that should exist: a declined payment stops before it gets here. */
+function finishReg(pay){
   const e=regEv();if(!e)return;
   const t=regWait?null:regCurTier();
-  const st=regWait?'waitlisted':(e.approval?'pending':'confirmed');
+  const o=t?orderCalc(e,t,regAtt.length):null;
+  const st=regWait?'waitlisted'
+    :(pay&&pay.state==='awaiting')?'awaiting'
+    :(e.approval?'pending':'confirmed');
   const b={ref:mkRef(),ev:e.id,mode:regAtt.length>1?'group':'personal',state:st,
-    tier:t?t.id:null,cur:e.cur||'CHF',total:t?t.price*regAtt.length:0,paid:!!t,refund:null,
+    tier:t?t.id:null,cur:(e.cur||'CHF'),total:o?o.total:0,paid:!!t,refund:null,
+    order:o,pay:null,inv:null,bill:null,
     wpos:regWait?4:0,att:regAtt.map(a=>({n:a.n,e:a.e,co:a.co,t:a.t})),
     made:{vi:"Hôm nay",en:"Today"}};
+  if(pay){
+    b.pay={state:pay.state,method:pay.method,brand:pay.brand||null,
+           last4:pay.last4||null,exp:pay.exp||null,txn:pay.txn,at:nowHM()};
+    b.bill={n:billing.n,co:billing.co,vat:billing.vat,addr:billing.addr,
+            city:billing.city,country:billing.country};
+    if(pay.state==='awaiting')b.payRef=b.ref;
+  }
   bookings[e.id]=b;
+  // an awaiting transfer still holds the seat, for the stated number of days
   if(!regWait){
     if(e.cap)e.taken=Math.min(e.cap,(e.taken||0)+b.att.length);
     if(t)t.left=Math.max(0,t.left-b.att.length);
-    e.status='registered';
-  }else{e.status='registered';}
+  }
+  e.status='registered';
+  if(b.pay&&b.pay.state==='succeeded')b.inv=makeInvoice(b,e);
   const rep={ev:e.n,ref:b.ref,amt:money(b.total,b.cur)};
   if(st==='confirmed')pushNotif('✅','var(--green)','nt_ok_t','nt_ok_p',rep);
   else if(st==='pending')pushNotif('⏳','var(--gold)','nt_pend_t','nt_pend_p',rep);
+  else if(st==='awaiting')pushNotif('🏦','var(--gold)','nt_await_t','nt_await_p',rep);
   else pushNotif('🎟️','var(--gold)','nt_wait_t','nt_wait_p',rep);
-  if(b.paid)pushNotif('💳','var(--ink)','nt_pay_t','nt_pay_p',rep);
+  if(b.pay&&b.pay.state==='succeeded'){
+    pushNotif('💳','var(--ink)','nt_pay_t','nt_pay_p',rep);
+    pushNotif('🧾','var(--ink)','nt_inv_t','nt_inv_p',{ev:e.n,ref:b.inv.no});
+  }
   regStep='done';renderRegSheet();
   renderEvents();renderEventInfo();renderHome();renderNotif();updateSessionActions();
+}
+/* ===================== INVOICE ===================== */
+function makeInvoice(b,e){
+  return {no:mkInvNo(),date:todayNum(),cur:b.cur,
+    seller:payCfg.seller,
+    bill:b.bill?Object.assign({},b.bill):null};
 }
 
 /* ---- registration sheet markup ---- */
 function regRail(){
   const f=regFlow(),lbl={who:'rg_step_who',tick:'rg_step_tick',rev:'rg_step_rev',pay:'rg_step_pay'};
-  const cur=f.indexOf(regStep==='paying'?'pay':regStep);
+  const inPay=['pay','paying','processing','twint','gwout','gwpage','gwback','failed'];
+  const cur=f.indexOf(inPay.indexOf(regStep)>-1?'pay':regStep);
   return `<div class="steps">`+f.map((s,i)=>
     `<div class="${i===cur?'on':(i<cur?'done':'')}">${String(i+1).padStart(2,'0')} ${tr(lbl[s])}</div>`).join('')+`</div>`;
 }
@@ -2186,14 +2673,54 @@ function tierRow(e,t){
       <span class="kv">${out?tr('rg_soldout'):trf('rg_left',{n:t.left})}</span></div>
   </button>`;
 }
-function sumHTML(e){
-  const t=regCurTier();if(!t)return '';
-  return `<div class="sechead">${tr('rg_sum')}</div>
-    <div class="sum">
-      <div class="sr"><div>${tx(t.n)}<span>${money(t.price,e.cur)} × ${regQty()}</span></div>
-        <b>${money(t.price*regQty(),e.cur)}</b></div>
-      <div class="sr tot"><div>${tr('rg_total')}</div><b>${money(regTotal(),e.cur)}</b></div>
-    </div>`;
+/* One order summary shape, used on the ticket step, the review, the payment step,
+   the gateway and the invoice. VAT is always its own row and always labelled. */
+function sumBlock(o,headKey){
+  if(!o)return '';
+  let h=headKey?`<div class="sechead">${tr(headKey)}</div>`:'';
+  h+=`<div class="sum">
+    <div class="sr"><div>${tx(o.tierName)}<span>${money(o.price,o.cur)} × ${o.qty}</span></div>
+      <b>${money(o.gross,o.cur)}</b></div>`;
+  if(o.damt>0)h+=`<div class="sr"><div>${trf('sum_disc',{p:pctStr(o.dpct)})}</div>
+      <b>-${money(o.damt,o.cur)}</b></div>`;
+  h+=`<div class="sr"><div>${trf('sum_vat',{p:pctStr(o.rate)})}${o.prov?`<span>${tr('vat_prov')}</span>`:''}</div>
+      <b>${money(o.vat,o.cur)}</b></div>`;
+  h+=`<div class="sr tot"><div>${tr('rg_total')}</div><b>${money(o.total,o.cur)}</b></div></div>`;
+  if(o.prov)h+=`<div class="note mono">${tr('vat_note')}</div>`;
+  return h;
+}
+function sumHTML(e){return regCurTier()?sumBlock(regOrder(),'rg_sum'):'';}
+/* Billing details, needed before an invoice can be issued. */
+function billBlock(){
+  const c=Object.keys(countries);
+  return `<div class="sechead">${tr('bl_l')}</div>
+    <div style="padding:0 16px 10px"><button class="btn ghost sm" onclick="billUseProfile()">${tr('bl_use')}</button></div>
+    <div class="field"><label>${tr('bl_name')}</label><input data-bill="n" value="${esc(billing.n)}"></div>
+    <div class="field"><label>${tr('bl_co')}</label><input data-bill="co" value="${esc(billing.co)}"></div>
+    <div class="field"><label>${tr('bl_vat')}</label><input data-bill="vat" value="${esc(billing.vat)}"></div>
+    <div class="field"><label>${tr('bl_addr')}</label><input data-bill="addr" value="${esc(billing.addr)}"></div>
+    <div style="display:flex;margin:0 16px 11px">
+      <div class="field" style="margin:0;flex:1"><label>${tr('bl_city')}</label><input data-bill="city" value="${esc(billing.city)}"></div>
+      <div class="field" style="margin:0 0 0 -1px;flex:1"><label>${tr('bl_country')}</label>
+        <select data-bill="country">${c.map(k=>`<option value="${k}"${billing.country===k?' selected':''}>${tx(countries[k])}</option>`).join('')}</select></div>
+    </div>
+    <div class="note mono">${tr('bl_note')}</div>`;
+}
+/* Payment method rows. Each method behaves differently once chosen. */
+function pmRow(e,m){
+  const meta=pmMeta[m],on=regMethod===m;
+  return `<button class="pm${on?' on':''}" onclick="regSetMethod('${m}')">
+    <span class="pmi">${meta.i}</span>
+    <span class="pmb"><b>${tr(meta.k)}</b><span>${tr(meta.d)}</span></span>
+    <span class="pmk">${on?'✓ '+tr('pm_picked'):tr('pm_pick')}</span></button>`;
+}
+function cardRow(c){
+  const on=!regNewCard&&regCard===c.id;
+  return `<button class="pm${on?' on':''}" onclick="regSetCard('${c.id}')">
+    <span class="pmi">${esc(c.brand.slice(0,4).toUpperCase())}</span>
+    <span class="pmb"><b>${esc(c.brand)} ···· ${esc(c.last4)}</b>
+      <span>${tr('pay_exp')} ${esc(c.exp)} · ${tr(c.ok?'cd_demo_ok':'cd_demo_bad')}</span></span>
+    <span class="pmk">${on?'✓ '+tr('pm_picked'):tr('pm_pick')}</span></button>`;
 }
 function renderRegSheet(){
   const body=byId('regBody');if(!body||!regEvId)return;
@@ -2204,20 +2731,31 @@ function renderRegSheet(){
   let h='';
   if(regStep==='done'){
     const b=bookings[e.id];
-    const ic=b.state==='confirmed'?'✅':(b.state==='pending'?'⏳':'🎟️');
-    const tt=b.paid?'rg_ok_paid_t':(b.state==='pending'?'rg_pend_t':(b.state==='waitlisted'?'rg_wait_t':'reg_ok_t'));
-    const tp=b.paid?'rg_ok_paid_p':(b.state==='pending'?'rg_pend_p':(b.state==='waitlisted'?'rg_wait_p':'reg_ok_p'));
+    // the booking can be cancelled from the booking sheet while this is still open
+    if(!b){body.innerHTML='';return;}
+    const await_=b.state==='awaiting';
+    const ic=await_?'🏦':(b.state==='confirmed'?'✅':(b.state==='pending'?'⏳':'🎟️'));
+    const tt=await_?'tr_t':(b.paid?'rg_ok_paid_t':(b.state==='pending'?'rg_pend_t':(b.state==='waitlisted'?'rg_wait_t':'reg_ok_t')));
+    const tp=await_?null:(b.paid?'rg_ok_paid_p':(b.state==='pending'?'rg_pend_p':(b.state==='waitlisted'?'rg_wait_p':'reg_ok_p')));
     const t=tierById(e,b.tier);
     h+=`<div style="text-align:center;padding:6px 16px 0"><div style="font-size:44px;line-height:1">${ic}</div>
         <h3 style="text-align:center;margin:6px 16px 4px">${tr(tt)}</h3>
-        <p class="sub" style="text-align:center;margin:0 0 14px">${tr(tp)}</p></div>`;
+        <p class="sub" style="text-align:center;margin:0 0 14px">${await_?trf('tr_p',{n:payCfg.transferDays}):tr(tp)}</p></div>`;
     h+=`<div class="facts">`+factRaw(tr('rg_ref'),'<b style="font-family:var(--mono);letter-spacing:.06em">#'+b.ref+'</b>')
       +factRaw(tr('bk_state'),stateChip(b.state))
       +factRaw(tr('rg_passes'),b.att.length+' · '+tr(b.mode==='group'?'rg_group':'rg_personal'))
       +(t?factRaw(tr('bk_tier'),tx(t.n)):'')
-      +(b.paid?factRaw(tr('bk_amount'),money(b.total,b.cur)+' · '+tr('pay_ok')):'')
+      +(b.pay?factRaw(tr('bk_method'),methodLabel(b.pay.method,b.pay)):'')
+      +(b.pay?factRaw(tr('bk_pay_status'),payChip(b)):'')
+      +(b.paid?factRaw(tr('bk_amount'),money(b.total,b.cur)):'')
+      +(b.inv?factRaw(tr('bk_inv'),'<span style="font-family:var(--mono);letter-spacing:.05em">'+esc(b.inv.no)+'</span>'):'')
       +`</div>`;
-    h+=`<div style="padding:6px 16px 0">`
+    if(await_)h+=transferBlock(b,e);
+    if(b.order)h+=sumBlock(b.order,null);
+    if(b.inv)h+=`<div class="row" style="margin:6px 16px 0">
+      <button class="btn ghost" onclick="bkOpenInvoice('${e.id}')">${tr('iv_view')}</button>
+      <button class="btn dark" onclick="downloadInvoice('${e.id}')">${tr('iv_dl')}</button></div>`;
+    h+=`<div style="padding:${b.inv?'8px':'6px'} 16px 0">`
       +(b.state==='confirmed'?`<button class="btn" onclick="closeSheet();openTicket('${e.id}')">${tr('rg_view_ticket')}</button>`:'')
       +`</div><div style="padding:8px 16px 0"><button class="btn ghost" onclick="closeSheet();openMyRegs()">${tr('rg_view_regs')}</button></div>`;
     body.innerHTML=h;byId('sheetReg').scrollTop=0;return;
@@ -2247,6 +2785,7 @@ function renderRegSheet(){
       <div class="qty"><button onclick="regSetQty(${regQty()-1})">−</button><b>${regQty()}</b>
         <button onclick="regSetQty(${regQty()+1})">+</button></div></div>`;
     h+=`<div class="note mono">${tr('rg_qty_note')}</div>`;
+    if(e.groupDiscount)h+=`<div class="note">${trf('disc_note',{n:e.groupDiscount.min,p:pctStr(e.groupDiscount.pct)})}</div>`;
     h+=sumHTML(e);
     h+=`<div class="row" style="margin:6px 16px 0"><button class="btn ghost" onclick="regBack()">${tr('rg_back')}</button>
       <button class="btn" onclick="regNext()">${tr('rg_next')}</button></div>`;
@@ -2260,7 +2799,7 @@ function renderRegSheet(){
       +regAtt.map((a,i)=>factRaw(tr('rg_att_n')+' '+String(i+1).padStart(2,'0'),
         esc(a.n)+'<span class="muted" style="display:block;font-size:11.5px">'+esc(a.e)
         +(a.co?' · '+esc(a.co):'')+'</span>')).join('')+`</div>`;
-    if(!regWait&&regCurTier())h+=sumHTML(e);
+    if(!regWait&&regCurTier()){h+=sumHTML(e);h+=billBlock();}
     if(regWait)h+=`<div class="note">${tr('rg_wait_note')}</div>`;
     else if(e.approval)h+=`<div class="note">${tr('rg_appr_note')}</div>`;
     const act=regWait?`<button class="btn dark" onclick="submitReg()">${tr('rg_wait_join')}</button>`
@@ -2268,20 +2807,226 @@ function renderRegSheet(){
                     :`<button class="btn" onclick="submitReg()">${tr('rg_confirm')}</button>`);
     h+=`<div class="row" style="margin:6px 16px 0"><button class="btn ghost" onclick="regBack()">${tr('rg_back')}</button>${act}</div>`;
   }else if(regStep==='pay'){
-    h+=`<div class="note mono">${tr('pay_mock')}</div>`;
-    h+=`<div class="facts">`+factRaw(tr('pay_method'),tr('pay_method_card'))+`</div>`;
-    h+=`<div class="field"><label>${tr('pay_card')}</label><input id="pyNum" value="4242 4242 4242 4242" inputmode="numeric"></div>`;
-    h+=`<div style="display:flex;margin:0 16px 11px">
-      <div class="field" style="margin:0;flex:1"><label>${tr('pay_exp')}</label><input id="pyExp" value="09 / 28"></div>
-      <div class="field" style="margin:0 0 0 -1px;flex:1"><label>${tr('pay_cvc')}</label><input id="pyCvc" value="123"></div></div>`;
-    h+=`<div class="field"><label>${tr('pay_holder')}</label><input id="pyNm" value="${esc(regAtt[0]?regAtt[0].n:'')}"></div>`;
-    h+=sumHTML(e);
+    const o=regOrder(),bank=bankFor(o.cur);
+    h+=`<div class="note mono">${tr('pay_demo')}</div>`;
+    h+=`<div class="mlabel" style="margin:0 16px 8px">${tr('pm_l')}</div>`;
+    h+=payMethods(e).map(m=>pmRow(e,m)).join('');
+    h+=`<div style="height:14px"></div>`;
+    if(regMethod==='card'){
+      h+=`<div class="sechead">${tr('cd_l')}</div>`;
+      h+=savedCards.map(cardRow).join('');
+      h+=`<button class="pm${regNewCard?' on':''}" onclick="regNewCardOn()">
+        <span class="pmi">+</span><span class="pmb"><b>${tr('cd_new')}</b></span>
+        <span class="pmk">${regNewCard?'✓ '+tr('pm_picked'):tr('pm_pick')}</span></button>`;
+      if(regNewCard){
+        h+=`<div style="height:12px"></div>`;
+        h+=`<div class="field"><label>${tr('pay_card')}</label>
+          <input id="pyNum" inputmode="numeric" autocomplete="off" placeholder="${tr('cd_ph')}" value=""></div>`;
+        h+=`<div style="display:flex;margin:0 16px 11px">
+          <div class="field" style="margin:0;flex:1"><label>${tr('pay_exp')}</label><input id="pyExp" placeholder="09 / 28" value=""></div>
+          <div class="field" style="margin:0 0 0 -1px;flex:1"><label>${tr('pay_cvc')}</label>
+            <input id="pyCvc" inputmode="numeric" autocomplete="off" placeholder="•••" value=""></div></div>`;
+        h+=`<div class="field"><label>${tr('pay_holder')}</label><input id="pyNm" value="${esc(billing.n||(regAtt[0]?regAtt[0].n:''))}"></div>`;
+      }
+      h+=`<div class="note mono">${tr('cd_store')}</div>`;
+    }else if(regMethod==='invoice'){
+      h+=`<div class="sechead">${tr('pm_invoice')}</div>`;
+      h+=`<div class="note">${trf('tr_p',{n:payCfg.transferDays})}</div>`;
+      h+=`<div class="facts">`+factRaw(tr('tr_bank'),esc(bank.bank))
+        +factRaw(tr('tr_holder'),esc(bank.holder))
+        +factRaw(labelOf(bank.accL),'<span style="font-family:var(--mono);letter-spacing:.05em">'+esc(bank.acc)+'</span>')
+        +factRaw(labelOf(bank.codeL),'<span style="font-family:var(--mono);letter-spacing:.05em">'+esc(bank.code)+'</span>')
+        +`</div>`;
+    }else if(regMethod==='twint'){
+      h+=`<div class="note">${tr('pm_twint_d')}</div>`;
+    }else if(regMethod==='vnpay'||regMethod==='momo'){
+      h+=`<div class="note">${tr(pmMeta[regMethod].d)}</div>`;
+      h+=`<div class="note mono">${tr('gw_sim')}</div>`;
+    }
+    h+=sumBlock(o,'rg_sum');
+    // the button says what it will actually do, which depends on the method
+    const payLbl=!regMethod ? tr('pm_l')
+      : regMethod==='invoice' ? tr('rg_confirm')
+      : trf('pay_btn',{x:money(o.total,o.cur)},'rg_step_pay');
     h+=`<div class="row" style="margin:6px 16px 0"><button class="btn ghost" onclick="regBack()">${tr('rg_back')}</button>
-      <button class="btn" onclick="regPay()">${trf('pay_btn',{x:money(regTotal(),e.cur)},'rg_step_pay')}</button></div>`;
-  }else if(regStep==='paying'){
-    h+=`<div class="working"><div class="wk"></div><p>${tr('pay_working')}</p></div>`;
+      <button class="btn" onclick="regStartPay()">${payLbl}</button></div>`;
+  }else if(regStep==='processing'||regStep==='paying'){
+    h+=`<div class="working"><div class="wk"></div><p>${tr('pay_working')}</p>
+        <div class="wsub">${tr('pay_dont_close')}</div></div>`;
+  }else if(regStep==='twint'){
+    const o=regOrder();
+    h+=`<div class="working" style="padding:28px 24px 8px"><div class="wk"></div>
+        <p style="font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.025em">${tr('tw_t')}</p>
+        <div class="wsub">${tr('tw_wait')}</div></div>`;
+    h+=`<div class="note">${trf('tw_p',{x:money(o.total,o.cur),ph:'+41 79 ••• 42 18'})}</div>`;
+    h+=`<div class="note mono">${tr('tw_exp')}</div>`;
+    h+=`<div style="padding:6px 16px 0"><button class="btn" onclick="twintConfirm()">${tr('tw_done')}</button></div>`;
+    h+=`<div style="padding:8px 16px 0"><button class="btn ghost" onclick="twintCancel()">${tr('tw_cancel')}</button></div>`;
+  }else if(regStep==='gwout'||regStep==='gwback'){
+    const g=regGw?tr(pmMeta[regGw].k):'';
+    h+=`<div class="working"><div class="wk"></div>
+        <p>${regStep==='gwout'?trf('gw_out',{g:g}):tr('gw_back')}</p>
+        <div class="wsub">${tr('pay_dont_close')}</div></div>`;
+  }else if(regStep==='gwpage'){
+    const o=regOrder(),g=regGw?tr(pmMeta[regGw].k):'';
+    h+=`<div class="note mono">${tr('gw_leave')}</div>`;
+    h+=`<div class="gwbox">
+      <div class="gwh"><b>${g}</b><span>${tr('gw_ext')}</span></div>
+      <div class="gwc">
+        <div class="gwamt">${money(o.total,o.cur)}</div>
+        <div class="gwref">${tr('gw_order')} ${esc(regGwOrder||'')}</div>
+        <p>${tr(pmMeta[regGw]?pmMeta[regGw].d:'pm_vnpay_d')}</p>
+        <div class="mlabel" style="margin:0 0 7px">${tr('gw_bank')}</div>
+        <div class="gwbank">${gwBanks.map(b=>
+          `<button class="${regBank===b.k?'on':''}" onclick="gwSetBank('${b.k}')">${b.n}</button>`).join('')}</div>
+        <button class="btn" onclick="gwApprove()">${tr('gw_pay')}</button>
+        <div style="height:8px"></div>
+        <button class="btn ghost" onclick="gwDecline()">${tr('gw_cancel')}</button>
+      </div></div>`;
+    h+=`<div class="note mono">${tr('gw_sim')}</div>`;
+  }else if(regStep==='failed'){
+    h+=`<div style="text-align:center;padding:6px 16px 0"><div style="font-size:44px;line-height:1">⚠️</div>
+      <h3 style="text-align:center;margin:6px 16px 4px">${tr('fail_t')}</h3>
+      <p class="sub" style="text-align:center;margin:0 0 12px">${tr(regFail||'fail_declined')}</p></div>`;
+    h+=`<div class="note warn">${tr('fail_note')}</div>`;
+    h+=`<div style="padding:6px 16px 0"><button class="btn" onclick="payRetry()">${tr('fail_retry')}</button></div>`;
+    h+=`<div style="padding:8px 16px 0"><button class="btn ghost" onclick="payChangeMethod()">${tr('fail_other')}</button></div>`;
   }
   body.innerHTML=h;byId('sheetReg').scrollTop=0;
+}
+
+/* ===================== TRANSFER, INVOICE, REFUND ===================== */
+/* Bank details plus the reference the buyer must quote, so the organisers can match
+   the money to the booking. Shown until the transfer is reconciled. */
+function transferBlock(b,e){
+  const bank=bankFor(b.cur);
+  let h=`<div class="sechead">${tr('pm_invoice')}</div>`;
+  h+=`<div class="facts">`
+    +factRaw(tr('tr_amount'),'<b>'+money(b.total,b.cur)+'</b>')
+    +factRaw(tr('tr_bank'),esc(bank.bank))
+    +factRaw(tr('tr_holder'),esc(bank.holder))
+    +factRaw(labelOf(bank.accL),'<span style="font-family:var(--mono);letter-spacing:.05em">'+esc(bank.acc)+'</span>')
+    +factRaw(labelOf(bank.codeL),'<span style="font-family:var(--mono);letter-spacing:.05em">'+esc(bank.code)+'</span>')
+    +factRaw(tr('tr_ref'),'<b style="font-family:var(--mono);letter-spacing:.06em">'+esc(b.payRef||b.ref)+'</b>')
+    +`</div>`;
+  h+=`<div class="note">${tr('tr_ref_note')}</div>`;
+  h+=`<div class="row" style="margin:0 16px 10px">
+    <button class="btn ghost" onclick="copyText('${esc(b.payRef||b.ref)}')">${tr('tr_copy')}</button>
+    ${b.pay&&b.pay.state==='awaiting'?`<button class="btn dark" onclick="reportTransfer('${e.id}')">${tr('tr_done')}</button>`:''}
+  </div>`;
+  return h;
+}
+function reportTransfer(evId){
+  const b=bookings[evId],e=evById(evId);if(!b||!b.pay)return;
+  b.pay.state='reported';b.pay.reportedAt=nowHM();
+  pushNotif('🏦','var(--gold)','nt_transfer_t','nt_transfer_p',{ev:e.n,amt:money(b.total,b.cur)});
+  renderBookingSheet();renderRegSheet();renderEvents();renderNotif();
+  toast(tr('tr_t_done'));
+}
+
+/* The invoice, on screen and as the downloaded file. Line items per tier, discount,
+   VAT as its own row, total, and the payer's billing details. */
+function invLines(b){
+  const o=b.order;if(!o)return [];
+  const L=[[tx(o.tierName)+' × '+o.qty,money(o.price,o.cur)+' × '+o.qty,money(o.gross,o.cur)]];
+  if(o.damt>0)L.push([trf('sum_disc',{p:pctStr(o.dpct)}),'','-'+money(o.damt,o.cur)]);
+  L.push([trf('sum_vat',{p:pctStr(o.rate)}),o.prov?tr('vat_prov'):'',money(o.vat,o.cur)]);
+  return L;
+}
+function billLines(b){
+  const bl=b.bill;if(!bl)return [];
+  return [bl.n,bl.co,bl.vat?tr('bl_vat')+': '+bl.vat:'',bl.addr,
+    [bl.city,(countries[bl.country]?tx(countries[bl.country]):'')].filter(Boolean).join(', ')]
+    .filter(function(x){return x&&String(x).trim();});
+}
+function invoiceHTML(b,e){
+  if(!b.inv)return `<div class="note">${tr('iv_none')}</div>`;
+  const o=b.order;
+  let h=`<div class="inv">
+    <div class="ivh"><b>${tr('iv_l')} ${esc(b.inv.no)}</b>
+      <span>${tr('iv_date')} ${tx(b.inv.date)} · ${tr('rg_ref')} #${esc(b.ref)}</span></div>
+    <div class="ivp"><em>${tr('iv_from')}</em>${esc(payCfg.seller.n)}<br>${tx(payCfg.seller.addr)}<br>${tr('bl_vat')}: ${esc(payCfg.seller.uid)}</div>
+    <div class="ivp"><em>${tr('iv_to')}</em>${billLines(b).map(esc).join('<br>')}</div>
+    <div class="ivp" style="padding-bottom:0;border-bottom:none"><em>${tr('iv_items')}</em></div>`;
+  invLines(b).forEach(function(L){
+    h+=`<div class="ivr"><div>${L[0]}${L[1]?`<span>${L[1]}</span>`:''}</div><b>${L[2]}</b></div>`;
+  });
+  h+=`<div class="ivr tot"><div>${tr('rg_total')}</div><b>${money(o.total,o.cur)}</b></div>`;
+  h+=`<div class="ivp" style="border-top:1px solid var(--line);border-bottom:none"><em>${tr('iv_paid_by')}</em>
+    ${methodLabel(b.pay.method,b.pay)}<br>${tr('iv_txn')}: ${esc(b.pay.txn)}</div></div>`;
+  if(o.prov)h+=`<div class="note mono">${tr('vat_note')}</div>`;
+  h+=`<div class="note warn">${tr('iv_demo')}</div>`;
+  return h;
+}
+/* Standalone file, same content, no dependency on the app's stylesheet. */
+function invoiceFile(b,e){
+  const o=b.order,rows=invLines(b).map(function(L){
+    return '<tr><td>'+esc(L[0])+(L[1]?' <small>'+esc(L[1])+'</small>':'')+'</td><td class="r">'+esc(L[2])+'</td></tr>';
+  }).join('');
+  return '<!DOCTYPE html><html lang="'+lang+'"><head><meta charset="UTF-8">'
+    +'<title>'+esc(payCfg.seller.n)+' · '+esc(b.inv.no)+'</title><style>'
+    +'body{font-family:Helvetica,Arial,sans-serif;color:#0A0A0A;background:#F2F2EF;margin:0;padding:32px}'
+    +'.p{max-width:640px;margin:0 auto;background:#fff;border:1px solid #DDDDD8;padding:32px}'
+    +'h1{font-size:22px;margin:0 0 4px;letter-spacing:-.03em}'
+    +'.k{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#6F6F6B;margin:22px 0 6px}'
+    +'table{width:100%;border-collapse:collapse;margin-top:6px}'
+    +'td{padding:9px 0;border-bottom:1px solid #DDDDD8;font-size:13px;vertical-align:top}'
+    +'.r{text-align:right;white-space:nowrap}small{color:#6F6F6B;display:block;font-size:11px}'
+    +'tr.t td{border-bottom:none;font-weight:700;font-size:16px;padding-top:14px}'
+    +'.n{font-size:11px;color:#6F6F6B;line-height:1.6;margin-top:22px;border-left:3px solid #DA291C;padding-left:10px}'
+    +'</style></head><body><div class="p">'
+    +'<h1>'+esc(tr('iv_l'))+' '+esc(b.inv.no)+'</h1>'
+    +'<div style="font-size:12px;color:#6F6F6B">'+esc(tr('iv_date'))+' '+esc(tx(b.inv.date))
+    +' &middot; '+esc(tr('rg_ref'))+' #'+esc(b.ref)+'</div>'
+    +'<div class="k">'+esc(tr('iv_from'))+'</div><div style="font-size:13px;line-height:1.6">'
+    +esc(payCfg.seller.n)+'<br>'+esc(tx(payCfg.seller.addr))+'<br>'+esc(tr('bl_vat'))+': '+esc(payCfg.seller.uid)+'</div>'
+    +'<div class="k">'+esc(tr('iv_to'))+'</div><div style="font-size:13px;line-height:1.6">'
+    +billLines(b).map(esc).join('<br>')+'</div>'
+    +'<div class="k">'+esc(tr('iv_items'))+'</div><table>'+rows
+    +'<tr class="t"><td>'+esc(tr('rg_total'))+'</td><td class="r">'+esc(money(o.total,o.cur))+'</td></tr></table>'
+    +'<div class="k">'+esc(tr('iv_paid_by'))+'</div><div style="font-size:13px;line-height:1.6">'
+    +esc(methodLabel(b.pay.method,b.pay))+'<br>'+esc(tr('iv_txn'))+': '+esc(b.pay.txn)+'</div>'
+    +(o.prov?'<div class="n">'+esc(tr('vat_note'))+'</div>':'')
+    +'<div class="n">'+esc(tr('iv_demo'))+'</div>'
+    +'</div></body></html>';
+}
+function downloadInvoice(evId){
+  const b=bookings[evId],e=evById(evId);if(!b||!b.inv)return;
+  downloadBlob('SVEF-'+b.inv.no+'.html','text/html;charset=utf-8',invoiceFile(b,e));
+  toast(trf('iv_t_dl',{no:b.inv.no},'iv_dl'));
+}
+function bkOpenInvoice(evId){closeSheet();bkEvId=evId;bkView='invoice';renderBookingSheet();openSheet('sheetBooking');}
+
+/* Refunds progress rather than being announced once and forgotten. */
+const rfOrder=['requested','processing','refunded'];
+function startRefund(b,e){
+  b.refund={state:'requested',at:{requested:nowHM()}};
+  if(b.pay)b.pay.state='refunding';
+  setTimeout(function(){
+    if(!b.refund||b.refund.state!=='requested')return;
+    b.refund.state='processing';b.refund.at.processing=nowHM();
+    renderBookingSheet();renderEvents();
+  },1400);
+  setTimeout(function(){
+    if(!b.refund||b.refund.state!=='processing')return;
+    b.refund.state='refunded';b.refund.at.refunded=nowHM();
+    if(b.pay)b.pay.state='refunded';
+    pushNotif('💳','var(--green)','nt_refunded_t','nt_refunded_p',{ev:e.n,amt:money(b.total,b.cur)});
+    renderBookingSheet();renderEvents();renderNotif();
+  },3200);
+}
+function refundTrack(b){
+  const cur=b.refund?rfOrder.indexOf(b.refund.state):-1;
+  let h=`<div class="sechead">${tr('rf_l')}</div><div class="track">`;
+  rfOrder.forEach(function(k,i){
+    const cls=i<cur?'done':(i===cur?'now':'todo');
+    const at=b.refund&&b.refund.at?b.refund.at[k]:null;
+    h+=`<div class="tk ${cls}"><i></i><div class="tkb"><b>${tr('rf_'+k)}</b>`
+      +(at?`<time>${esc(at)}</time>`:'')+`</div></div>`;
+  });
+  h+=`</div>`;
+  if(b.pay)h+=`<div class="note mono">${trf('rf_to',{m:methodLabel(b.pay.method,b.pay)},'rf_l')} · ${money(b.total,b.cur)}</div>`;
+  return h;
 }
 
 /* ===================== BOOKING: VIEW / MODIFY / CANCEL ===================== */
@@ -2298,7 +3043,10 @@ function bkSetTier(tid){
   const old=tierById(e,b.tier);
   if(old)old.left+=b.att.length;
   t.left=Math.max(0,t.left-b.att.length);
-  b.tier=t.id;b.total=t.price*b.att.length;
+  b.tier=t.id;
+  // the whole order is recomputed, so discount and VAT follow the new tier
+  b.order=orderCalc(e,t,b.att.length);b.total=b.order.total;
+  if(b.inv){b.inv=makeInvoice(b,e);pushNotif('🧾','var(--ink)','nt_inv_t','nt_inv_p',{ev:e.n,ref:b.inv.no});renderNotif();}
   bkView='main';renderBookingSheet();renderEvents();renderEventInfo();
   toast(tr('bk_t_tier'));
 }
@@ -2322,11 +3070,14 @@ function cancelBooking(){
     if(t)t.left+=b.att.length;
   }
   b.state='cancelled';
-  if(b.paid)b.refund='processing';
   if(e.status!=='past')e.status='upcoming';
   const rep={ev:e.n,ref:b.ref,amt:money(b.total,b.cur)};
   pushNotif('🚫','var(--red)','nt_cancel_t','nt_cancel_p',rep);
-  if(b.paid)pushNotif('💳','var(--gold)','nt_refund_t','nt_refund_p',rep);
+  // only money that actually arrived can be refunded
+  if(b.pay&&b.pay.state==='succeeded'){
+    pushNotif('💳','var(--gold)','nt_refund_t','nt_refund_p',rep);
+    startRefund(b,e);
+  }else if(b.pay){b.pay.state='failed';b.refund=null;}
   bkView='cancelled';renderBookingSheet();
   renderEvents();renderEventInfo();renderHome();renderNotif();updateSessionActions();
 }
@@ -2341,8 +3092,19 @@ function renderBookingSheet(){
     h+=`<div style="text-align:center;padding:6px 16px 0"><div style="font-size:44px;line-height:1">🚫</div>
       <p class="sub" style="text-align:center;margin:10px 0 14px">${tr('bk_cancelled_p')}</p></div>`;
     h+=`<div class="facts">`+factRaw(tr('rg_ref'),'#'+b.ref)+factRaw(tr('bk_state'),stateChip('cancelled'))
-      +(b.paid?factRaw(tr('bk_refund_l'),money(b.total,b.cur)+' · '+tr('bk_refund_v')):'')+`</div>`;
+      +(b.pay?factRaw(tr('bk_pay_status'),payChip(b)):'')+`</div>`;
+    if(b.refund){h+=refundTrack(b);h+=`<div class="note mono">${tr('bk_refund_v')}</div>`;}
+    else if(!b.paid)h+=`<div class="note mono">${tr('rf_none')}</div>`;
     h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="closeSheet()">${tr('bk_close')}</button></div>`;
+    body.innerHTML=h;byId('sheetBooking').scrollTop=0;return;
+  }
+  if(bkView==='invoice'){
+    byId('bkTitle').textContent=tr('iv_l');
+    h+=invoiceHTML(b,e);
+    if(b.inv)h+=`<div class="row" style="margin:0 16px 0">
+      <button class="btn ghost" onclick="bkSetView('main')">${tr('rg_back')}</button>
+      <button class="btn dark" onclick="downloadInvoice('${e.id}')">${tr('iv_dl')}</button></div>`;
+    else h+=`<div style="padding:0 16px"><button class="btn ghost" onclick="bkSetView('main')">${tr('rg_back')}</button></div>`;
     body.innerHTML=h;byId('sheetBooking').scrollTop=0;return;
   }
   if(bkView==='tier'){
@@ -2390,9 +3152,19 @@ function renderBookingSheet(){
     +factRaw(tr('bk_mode'),tr(b.mode==='group'?'rg_group':'rg_personal')+' · '+b.att.length+' '+tr('rg_passes').toLowerCase())
     +(t?factRaw(tr('bk_tier'),tx(t.n)):'')
     +(b.paid?factRaw(tr('bk_amount'),money(b.total,b.cur)):'')
-    +(b.paid?factRaw(tr('bk_pay_status'),tr('pay_ok')):(b.state==='waitlisted'?'':factRaw(tr('bk_pay_status'),tr('pay_none'))))
+    +factRaw(tr('bk_pay_status'),b.paid?payChip(b):tr('pay_none'))
+    +(b.pay?factRaw(tr('bk_method'),methodLabel(b.pay.method,b.pay)):'')
+    +(b.pay?factRaw(tr('bk_txn'),'<span style="font-family:var(--mono);letter-spacing:.05em">'+esc(b.pay.txn)+'</span>'):'')
+    +(b.inv?factRaw(tr('bk_inv'),'<span style="font-family:var(--mono);letter-spacing:.05em">'+esc(b.inv.no)+'</span>'):'')
     +(b.state==='waitlisted'?factRaw(tr('bk_wpos'),'#'+b.wpos):'')
     +factRaw(tr('bk_made'),tx(b.made))+`</div>`;
+  if(b.order)h+=sumBlock(b.order,'rg_sum');
+  if(b.state==='awaiting')h+=transferBlock(b,e);
+  if(b.refund)h+=refundTrack(b);
+  if(b.inv)h+=`<div class="row" style="margin:0 16px 10px">
+    <button class="btn ghost" onclick="bkSetView('invoice')">${tr('iv_view')}</button>
+    <button class="btn dark" onclick="downloadInvoice('${e.id}')">${tr('iv_dl')}</button></div>`;
+  else if(b.paid&&b.state!=='cancelled')h+=`<div class="note mono">${tr('iv_none')}</div>`;
   h+=`<div class="sechead">${tr('bk_att')}</div><div class="facts">`
     +b.att.map((a,i)=>factRaw(tr('rg_att_n')+' '+String(i+1).padStart(2,'0'),
       esc(a.n)+'<span class="muted" style="display:block;font-size:11.5px">'+esc(a.e)
@@ -2439,7 +3211,9 @@ function renderTicketSheet(){
   const b=bookingFor(e.id);
   let h='';
   if(!b||b.state!=='confirmed'){
-    const msg=!b?tr('et_none'):(b.state==='pending'?tr('et_pending'):tr('et_wait'));
+    const msg=!b?tr('et_none')
+      :(b.state==='pending'?tr('et_pending')
+      :(b.state==='awaiting'?trf('tr_p',{n:payCfg.transferDays}):tr('et_wait')));
     h+=`<div class="empty" style="padding:34px 24px"><div class="e-ic">🎫</div><p style="font-size:12.5px">${msg}</p></div>`;
     h+=`<div class="facts">`+factRaw(tr('et_event'),tx(e.n))
       +(b?factRaw(tr('et_ref'),'#'+b.ref)+factRaw(tr('bk_state'),stateChip(b.state)):'')+`</div>`;
