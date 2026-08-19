@@ -114,6 +114,15 @@ a{text-decoration:none;color:inherit}
   letter-spacing:.1em;display:block;margin-top:4px}
 .snav{flex:1;padding:8px 0;overflow-y:auto}
 .snav .grp{font-size:8.5px;opacity:.42;margin:22px 20px 8px;font-weight:500;letter-spacing:.15em}
+.chiprow.pick{gap:6px;flex-wrap:wrap}
+.chip.pickable{cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--muted);
+  font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.chip.pickable:hover{border-color:var(--ink-2);color:var(--ink)}
+.chip.pickable.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.rowlink{cursor:pointer}
+.rowlink:hover td{background:var(--soft)}
+.crumb{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.crumb .sp{flex:1}
 .snav button{display:flex;align-items:center;gap:13px;width:100%;border:none;background:none;
   color:rgba(255,255,255,.76);padding:11px 20px;border-radius:0;font-family:var(--sans);font-size:13.5px;
   font-weight:500;cursor:pointer;text-align:left;letter-spacing:-.015em;
@@ -447,7 +456,7 @@ tr:hover .pic::before{filter:none}
     <button onclick="nav('partners',this)"><i class="ni">🏢</i><span data-i18n="n_partners">Partners</span></button>
     <button onclick="nav('members',this)"><i class="ni">👥</i><span data-i18n="n_members">Memberships</span></button>
     <div class="grp" data-i18n="g_events">Events</div>
-    <button onclick="nav('events',this)"><i class="ni">📅</i><span data-i18n="n_events">Event Management</span></button>
+    <button id="navEvents" onclick="nav('events',this)"><i class="ni">📅</i><span data-i18n="n_events">Event Management</span></button>
     <div class="grp" data-i18n="g_data">Data</div>
     <button onclick="nav('reports',this)"><i class="ni">📈</i><span data-i18n="n_reports">Reports &amp; Export</span></button>
   </nav>
@@ -461,7 +470,7 @@ tr:hover .pic::before{filter:none}
     <h1 id="viewTitle">Dashboard</h1>
     <span class="demo-tag">DEMO</span>
     <div class="sp"></div>
-    <div class="search"><span aria-hidden="true">🔎</span><input id="adSearch" aria-label="Search" placeholder="Search…"></div>
+    <div class="search"><span aria-hidden="true">🔎</span><input id="adSearch" aria-label="Search" placeholder="Search…" oninput="adminSearch(this.value)"></div>
     <div class="who"><div class="av">OA</div></div>
   </div>
 
@@ -475,16 +484,16 @@ tr:hover .pic::before{filter:none}
         <span class="chip green" data-i18n="d_active">Active</span>
       </div>
       <div class="stat-grid">
-        <div class="st"><div class="ic">🏢</div><b>124</b><span data-i18n="s_partners">Partners &amp; members</span><div class="up" data-i18n="s_partners_up">▲ 12 this quarter</div></div>
-        <div class="st"><div class="ic">📅</div><b id="stEvN">7</b><span data-i18n="s_events">Upcoming events</span><div class="up" id="stEvSub">2 pending approval</div></div>
-        <div class="st"><div class="ic">🎟</div><b id="stRegN">0</b><span data-i18n="s_regs">Event registrations</span><div class="up" id="stRegSub">0 confirmed</div></div>
-        <div class="st"><div class="ic">👥</div><b>1,842</b><span data-i18n="s_subs">Subscribers</span><div class="up" data-i18n="s_subs_up">▲ 214 this month</div></div>
-        <div class="st"><div class="ic">📈</div><b>68%</b><span data-i18n="s_growth">Member growth YoY</span><div class="up" data-i18n="s_growth_up">▲ steady</div></div>
+        <div class="st"><div class="ic">🏢</div><b id="stPartN">0</b><span data-i18n="s_partners">Partners</span><div class="up" id="stPartSub">—</div></div>
+        <div class="st"><div class="ic">👥</div><b id="stMemN">0</b><span data-i18n="s_members">Member accounts</span><div class="up" id="stMemSub">—</div></div>
+        <div class="st"><div class="ic">📅</div><b id="stEvN">0</b><span data-i18n="s_events">Events</span><div class="up" id="stEvSub">—</div></div>
+        <div class="st"><div class="ic">🎫</div><b id="stRegN">0</b><span data-i18n="s_regs">Event registrations</span><div class="up" id="stRegSub">0 confirmed</div></div>
+        <div class="st"><div class="ic">📈</div><b id="stCiN">0</b><span data-i18n="s_ci">Checked in</span><div class="up" id="stCiSub">—</div></div>
       </div>
 
       <div class="panel">
         <div class="phead"><h2 data-i18n="h_dashreg">Event registrations</h2><div class="sp"></div>
-          <button class="btn ghost sm" onclick="nav('events',document.querySelectorAll('.snav button')[5])" data-i18n="b_viewall">View all →</button></div>
+          <button class="btn ghost sm" onclick="backToEvents()" data-i18n="b_viewall">View all →</button></div>
         <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="dashRegTable"></tbody></table>
       </div>
 
@@ -580,32 +589,36 @@ tr:hover .pic::before{filter:none}
       </div>
     </div>
 
-    <!-- ===== EVENTS ===== -->
+    <!-- ===== EVENTS (list) ===== -->
     <div class="view" id="v-events">
       <div class="intro">
         <b data-i18n="ev_x_t">What Event Management does</b>
-        <p data-i18n="ev_x_p">Every SVEF event lives here as one record, created once and used by the website and the app alike.</p>
+        <p data-i18n="ev_x_p">One record per event, created once and used by the website and the app alike.</p>
         <ul>
-          <li data-i18n="ev_x_rec">The record holds the basics: name, dates, format, location and description. Publishing it puts the event on the website.</li>
-          <li data-i18n="ev_x_2">Each event also carries its app content: the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.</li>
+          <li data-i18n="ev_x_rec">Open an event to manage everything it holds: details, agenda, speakers, sponsors, registrants, check-in and notifications. Publishing it puts the event on the website and in the app.</li>
         </ul>
       </div>
       <div class="panel">
-        <div class="phead"><h2 data-i18n="h_pubev">Published events</h2><div class="sp"></div>
-          <button class="btn sm" onclick="openEvent(-1)" data-i18n="b_newev">＋ Create Event</button></div>
-        <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="c_date">Date</th><th data-i18n="c_status">Status</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="pubEvents"></tbody></table>
-        <div class="pbody"><div class="export-note" data-i18n="ev_note">📌 The website record holds the basics. Everything the mobile app shows, and everything to do with registration and check-in, is managed below under App content.</div></div>
+        <div class="phead"><h2 data-i18n="h_pubev">Events</h2><div class="sp"></div>
+          <button class="btn ghost sm" onclick="exportData('registrants')" data-i18n="b_export">⬇ Export CSV</button>
+          <button class="btn sm" onclick="createEvent()" data-i18n="b_newev">＋ Create Event</button></div>
+        <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="c_date">Date</th><th data-i18n="c_regs">Registrants</th><th data-i18n="c_status">Status</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="eventTable"></tbody></table>
       </div>
+    </div>
 
-      <!-- ---- app content for the selected event ---- -->
-      <div id="appSection">
-        <div class="panel">
-          <div class="phead"><h2 data-i18n="ap_h_sel">App content</h2></div>
-          <div class="pbody" id="appPicker"></div>
-          <div class="pbody" style="padding-top:0"><div class="langtab" id="appTabs"></div></div>
-        </div>
-        <div id="appPane"></div>
+    <!-- ===== ONE EVENT (detail) ===== -->
+    <div class="view" id="v-event">
+      <div class="crumb">
+        <button class="btn ghost sm" onclick="backToEvents()">‹ <span data-i18n="b_backev">Events</span></button>
+        <div class="sp"></div>
+        <span id="evdChips"></span>
       </div>
+      <div class="panel">
+        <div class="phead"><h2 id="evdTitle">—</h2><div class="sp"></div>
+          <button class="btn line sm" onclick="delEvent(evSel)" data-i18n="d_delete">Delete</button></div>
+        <div class="pbody" style="padding-top:0"><div class="langtab" id="evdTabs"></div></div>
+      </div>
+      <div id="evdPane"></div>
     </div>
 
     <!-- ===== REPORTS ===== -->
@@ -647,14 +660,6 @@ tr:hover .pic::before{filter:none}
   </div>
 </div>
 
-<!-- ===== EVENT EDITOR (website event record) ===== -->
-<div class="scrim" id="scrimEvent" onclick="if(event.target===this)closeModal()">
-  <div class="modal wide">
-    <div class="mhead"><h3 id="evTitle">Event</h3><button class="mx" onclick="closeModal()" aria-label="Close">✕</button></div>
-    <div class="mbody" id="evBody"></div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -688,8 +693,8 @@ const T={
   g_content:"Content",g_community:"Community",g_events:"Events",g_data:"Data",
   f_loggedas:"Logged in as",f_hub:"Demo hub",search_ph:"Search…",
   nda_t:"NDA signed · Admin access granted to IMT",nda_p:"Confidential-data access is enabled only after the NDA between SVEF and IMT is signed (BRD §7.5 / §11.2). Exports below never expose passwords or sensitive fields.",
-  s_partners:"Partners & members",s_partners_up:"▲ 12 this quarter",s_events:"Upcoming events",s_subs:"Subscribers",s_subs_up:"▲ 214 this month",s_growth:"Member growth YoY",s_growth_up:"▲ steady",
-  h_recent:"Recently joined partners",h_news:"News & Media",h_partner:"Partner management",h_members:"Memberships & roles",h_pubev:"Published events",h_reports:"Reports & data export",
+  s_partners:"Partners",s_members:"Member accounts",s_ci:"Checked in",s_partners_up:"▲ 12 this quarter",s_events:"Upcoming events",s_subs:"Subscribers",s_subs_up:"▲ 214 this month",s_growth:"Member growth YoY",s_growth_up:"▲ steady",
+  h_recent:"Recently joined partners",h_news:"News & Media",h_partner:"Partner management",h_members:"Memberships & roles",h_pubev:"Events",h_reports:"Reports & data export",
   cms_title:"Page title",cms_slug:"SEO slug",cms_body:"Body content",
   cms_body_src:"HTML",cms_body_prev:"Live preview",
   cms_body_h:"This field accepts HTML markup only. What you write in the HTML pane renders in the preview pane, exactly as it appears on the website.",
@@ -714,11 +719,26 @@ const T={
   c_pname:"Profile name",cr_t:"Change role",cr_save:"Update role",cr_sub:"The role controls what the member can see and do in the member area.",
   q_suspend:"Suspend access for this account? The member will not be able to sign in until the account is reactivated.",
   q_reactivate:"Restore access for this account?",
-  ev_note:"📌 The website record holds the basics. Everything the mobile app shows, and everything to do with registration and check-in, is managed below under App content.",
   ev_x_t:"What Event Management does",
-  ev_x_p:"Every SVEF event lives here as one record, created once and used by the website and the app alike.",
-  ev_x_rec:"The record holds the basics: name, dates, format, location and description. Publishing it puts the event on the website.",
-  ev_x_2:"Each event also carries its app content: the agenda and its sessions, speakers, sponsors, the registrant list, 1-to-1 meeting bookings and push notifications. Open it with the App content button on the event's row.",
+  ev_x_p:"One record per event, created once and used by the website and the app alike.",
+  ev_x_rec:"Open an event to manage everything it holds: details, agenda, speakers, sponsors, registrants, check-in and notifications. Publishing it puts the event on the website and in the app.",
+  /* --- single event page --- */
+  ev_theme:"Theme",ev_theme_h:"The line the public event page leads with, under the event name.",
+  ev_h_when:"When",ev_h_where:"Where",ev_h_who:"Who it is for",ev_h_content:"Public content",
+  ev_stime:"Start time",ev_etime:"End time",
+  ev_addr:"Street address",ev_addr_h:"Shown on the public event page and used for directions.",
+  ev_city:"City / country",ev_expect:"Expected attendance",ev_langs:"Languages",
+  ev_topics:"Topics",ev_audience:"Audience",
+  ev_about:"About this event",ev_desc_h:"One or two lines, used in event listings and cards.",
+  ev_s_speaker_h:"Tick everyone speaking. A speaker can be on several sessions.",
+  ev_s_splabel:"Or a label",ev_s_splabel_h:"For a line that is not a person: \u201cSVEF Board\u201d, \u201c12 startups pitching\u201d.",
+  ap_spk_nosess:"Not on any session yet",
+  c_regs:"Registrants",d_open:"Open",b_backev:"Events",
+  q_delsess:"Delete this session?",
+  q_delspk:"Delete this speaker?",
+  q_delspk_used:"This speaker is on {n} session{s}. Delete them and remove them from those sessions?",
+  q_delspo:"Remove this sponsor from the event?",
+  q_delpartner:"Remove this partner?",
   ev_add_t:"Create event",ev_edit_t:"Edit event",ev_name:"Event name",
   ev_start:"Start date",ev_end:"End date",ev_fmt:"Format",fmt_in:"In-person",fmt_on:"Online",fmt_hy:"Hybrid",
   ev_zoom:"Online joining link (Zoom / Teams)",
@@ -726,7 +746,7 @@ const T={
   ev_desc:"Description",ev_sess:"Agenda / sessions",ev_sess_none:"No sessions added yet. Use “Add session” to build the agenda.",
   ev_s_day:"Day",ev_s_start:"Start time",ev_s_end:"End time",ev_s_title:"Session title",ev_s_speaker:"Speaker",ev_s_room:"Room",
   ev_save:"💾 Save event",
-  ev_s_needtitle:"Please enter a session title.",q_delev:"Delete this event? It will be removed from the public website.",
+  ev_s_needtitle:"Please enter a session title.",q_delev:"Delete this event? This removes its agenda, speakers, sponsors and registrant list as well, from both the website and the app.",
   imp_t:"Import list",imp_p_partners:"Upload a partner list exported from the old platform or from Excel (CSV or XLSX).",
   imp_p_members:"Upload a member list exported from the old platform or from Excel (CSV or XLSX).",
   imp_drop:"⬆ Click to choose a CSV or XLSX file",imp_go:"Start import",
@@ -746,10 +766,8 @@ const T={
   t_rolechg:"Role updated",t_susp:"Account suspended",t_react:"Account reactivated",
   t_evadd:"Event created",t_evupd:"Event updated",t_evdel:"Event deleted",t_sessadd:"Session added",t_sessupd:"Session updated",t_sessdel:"Session deleted",
   /* ---- app content, inside Event Management ---- */
-  ap_h_sel:"App content",ap_pick:"Selected event",ap_sum:"At a glance",
-  ap_open:"App content",
   ap_empty:"No event yet. Create one above with Create Event.",
-  ap_tab_info:"Event info",ap_tab_agenda:"Agenda / sessions",ap_tab_speakers:"Speakers",ap_tab_sponsors:"Sponsors",
+  ap_tab_over:"Overview",ap_tab_info:"Details",ap_tab_agenda:"Agenda / sessions",ap_tab_speakers:"Speakers",ap_tab_sponsors:"Sponsors",
   ap_tab_reg:"Registrants",ap_tab_meet:"Meeting bookings",ap_tab_push:"Push notifications",
   ap_venue:"Venue",ap_tz:"Time zone",ap_tz_h:"Every session time in the app is shown in this time zone.",
   ap_save_info:"💾 Save event info",
@@ -851,6 +869,8 @@ const T={
    the EN / VI tabs in CMS & Pages and in News / Media edit what visitors read. */
 const lang='en';
 function tr(k){return T[lang][k]!==undefined?T[lang][k]:k}
+function fill(str,rep){return String(str).replace(/\{(\w+)\}/g,function(m,k){
+  return rep[k]!==undefined?rep[k]:m;});}
 
 /* ===== DATA ===== */
 const D=(n,t,s)=>({n:n,t:t,s:s});
@@ -882,19 +902,6 @@ let members=[
   profiles:[{n:"Marco Rossi",t:"Individual",st:"Active"}]},
 ];
 const FORMATS=["In-person","Online","Hybrid"];
-/* Website event records: the basics the public site shows. The agenda, speakers,
-   registrations and the registrant list hang off the matching entry in appEvents, reached
-   through App content on the event's row. The two arrays are kept in the same
-   order, so one index addresses both. */
-let pubEvents=[
- {id:"ev-hanoi",t:"SVEF Hanoi Economic Forum 2026",ds:"2026-10-14",de:"2026-10-15",loc:"Hanoi, Vietnam",fmt:"Hybrid",
-  zoom:"https://zoom.us/j/8412200261",
-  desc:"Two-day flagship forum bringing Swiss and Vietnamese business leaders together.",status:"Published"},
- {id:"ev-mission",t:"Swiss-Vietnam Trade Mission 2026",ds:"2026-11-22",de:"2026-11-24",loc:"Zurich, Switzerland",fmt:"In-person",
-  desc:"Delegation programme with company visits and matchmaking sessions.",status:"Published"},
- {id:"ev-startup",t:"SVEF Startup Bridge Day 2027",ds:"2027-03-05",de:"2027-03-05",loc:"Ho Chi Minh City, Vietnam",fmt:"In-person",
-  desc:"One-day matchmaking day between Swiss scale-ups and Vietnamese founders.",status:"Draft"},
-];
 /* SVEF does not run a blog and has no case studies, so the only content types are
    News and Media (June, review of 7 Aug 2026). */
 const NTYPES=["News","Media"];
@@ -909,26 +916,41 @@ let newsFilter="All";
 /* The real SVEF static pages, nothing else. */
 const cmsPages=["Home","About us","Activities","FAQ","Contact","Privacy / GDPR"];
 
-/* ===== SVEF APP EVENT MANAGEMENT — prototype state =====
-   SVEF's own events as the mobile app sees them: agenda, speakers, sponsors,
-   registrants, 1-to-1 meeting bookings and push notifications. */
+/* ===== EVENTS — prototype state =====
+   One record per event, created once and used by the website and the app alike.
+   It carries the published details, the agenda and its sessions, speakers,
+   sponsors, the registrant list, 1-to-1 meeting bookings and notifications.
+   There is no second copy of an event anywhere: the split between a "website
+   record" and separate "app content" is what let the two drift apart. */
 const APP_TZ=["(GMT+7) Hanoi","(GMT+1) Zurich","(GMT+0) UTC"];
 const TIERS=["Headline","Gold","Silver"];
 const AUDIENCES=["all","reg","spk"];
-let appEvents=[
- {id:"ev-hanoi",t:"SVEF Hanoi Economic Forum 2026",ds:"2026-10-14",de:"2026-10-15",venue:"National Convention Center, Hanoi",
-  tz:"(GMT+7) Hanoi",status:"Published",
-  desc:"Two-day flagship forum bringing Swiss and Vietnamese business leaders together.",
+let events=[
+ {id:"ev-hanoi",t:"SVEF Hanoi Economic Forum 2026",ds:"2026-10-14",de:"2026-10-16",
+  venue:"National Convention Center",
+  addr:"57 Pham Hung Street, Me Tri, Nam Tu Liem, Hanoi",
+  city:"Hanoi, Vietnam",
+  tz:"(GMT+7) Hanoi",status:"Published",fmt:"Hybrid",zoom:"https://zoom.us/j/8412200261",
+  theme:"Bridging Innovation and Opportunity: Switzerland and Vietnam in a Shifting Global Economy",
+  expect:"800+",langs:"English and Vietnamese, simultaneous interpretation",
+  topics:["Trade","Innovation","Sustainability","Finance","Manufacturing"],
+  audience:["Industry","Entrepreneurs","Investors","Academia","Government","Corporates"],
+  desc:"Three-day flagship forum bringing Swiss and Vietnamese business leaders together.",
+  about:"<p>The Swiss-Viet Economic Forum is the largest annual gathering of Swiss and Vietnamese business leaders, held alternately in the two countries. The 2026 edition returns to Hanoi over three days, one year after the free trade agreement between Vietnam and the EFTA states began to bite in real trade figures.</p>"
+   +"<p>Three days, one question: what does each side actually have that the other needs, and what is stopping the transaction. Day one is policy and macro. Day two is sector deep dives running in parallel. Day three is matchmaking, site visits and the closing dinner.</p>"
+   +"<p>Registration includes all plenary and breakout sessions, the documentation pack, lunches, the welcome reception and the gala dinner on the second evening.</p>",
   sessions:[
-   {day:"2026-10-14",s:"09:00",e:"09:30",t:"Opening ceremony and welcome address",sp:"SVEF President",room:"Grand Hall"},
-   {day:"2026-10-14",s:"09:45",e:"11:00",t:"Keynote: Swiss-Vietnam trade outlook 2027",sp:"Dr. Anna Keller",room:"Grand Hall"},
-   {day:"2026-10-14",s:"14:00",e:"15:30",t:"Panel: Financing the green transition",sp:"Nguyễn Minh Đức",room:"Room A"},
-   {day:"2026-10-15",s:"09:30",e:"11:00",t:"Workshop: Market entry for Swiss SMEs",sp:"Marco Rossi",room:"Room B"},
-   {day:"2026-10-15",s:"16:00",e:"16:30",t:"Closing remarks and networking",sp:"SVEF Board",room:"Grand Hall"}],
+   {day:"2026-10-14",s:"09:00",e:"09:30",t:"Opening ceremony and welcome address",spkIds:[],spLabel:"SVEF President",room:"Grand Hall"},
+   {day:"2026-10-14",s:"09:45",e:"11:00",t:"Keynote: Swiss-Vietnam trade outlook 2027",spkIds:["spk-keller"],room:"Grand Hall"},
+   {day:"2026-10-14",s:"14:00",e:"15:30",t:"Panel: Financing the green transition",spkIds:["spk-duc","spk-keller"],room:"Room A"},
+   {day:"2026-10-15",s:"09:30",e:"11:00",t:"Workshop: Market entry for Swiss SMEs",spkIds:["spk-rossi"],room:"Room B"},
+   {day:"2026-10-15",s:"14:00",e:"15:30",t:"Sector deep dive: precision manufacturing",spkIds:["spk-rossi","spk-duc"],room:"Room A"},
+   {day:"2026-10-16",s:"09:00",e:"12:00",t:"Business matchmaking floor",spkIds:[],spLabel:"SVEF Secretariat",room:"Exhibition Hall"},
+   {day:"2026-10-16",s:"16:00",e:"16:30",t:"Closing remarks and networking",spkIds:["spk-keller"],spLabel:"SVEF Board",room:"Grand Hall"}],
   speakers:[
-   {n:"Dr. Anna Keller",job:"Chief Economist",co:"Helvetia Fintech AG"},
-   {n:"Nguyễn Minh Đức",job:"Managing Director",co:"GreenTech Vietnam"},
-   {n:"Marco Rossi",job:"Partner",co:"Alpine Advisory"}],
+   {id:"spk-keller",n:"Dr. Anna Keller",job:"Chief Economist",co:"Helvetia Fintech AG"},
+   {id:"spk-duc",n:"Nguyễn Minh Đức",job:"Managing Director",co:"GreenTech Vietnam"},
+   {id:"spk-rossi",n:"Marco Rossi",job:"Partner",co:"Alpine Advisory"}],
   sponsors:[
    {n:"Zurich Ventures",tier:"Headline"},
    {n:"Helvetia Fintech AG",tier:"Gold"},
@@ -964,18 +986,23 @@ let appEvents=[
    {rq:"Nguyễn Thu Hà",rc:"Dr. Anna Keller",day:"2026-10-15",slot:"11:15 - 11:45",st:"Declined"},
    {rq:"Lea Weber",rc:"Nguyễn Minh Đức",day:"2026-10-15",slot:"14:00 - 14:30",st:"Canceled"}],
   pushes:[
-   {t:"Agenda published",b:"The full two-day agenda is now live in the app.",aud:"all",d:"2026-08-03",tm:"09:15",st:"Send now"},
+   {t:"Agenda published",b:"The full three-day agenda is now live in the app.",aud:"all",d:"2026-08-03",tm:"09:15",st:"Send now"},
    {t:"Book your 1-to-1 meetings",b:"Meeting slots for day one are open until 10 October.",aud:"reg",d:"2026-08-06",tm:"14:30",st:"Send now"}]},
- {id:"ev-mission",t:"Swiss-Vietnam Trade Mission 2026",ds:"2026-11-22",de:"2026-11-24",venue:"Zurich Business Centre, Zurich",
-  tz:"(GMT+1) Zurich",status:"Published",
+ {id:"ev-mission",t:"Swiss-Vietnam Trade Mission 2026",ds:"2026-11-22",de:"2026-11-24",
+  venue:"Zurich Business Centre",addr:"Loewenstrasse 32, 8001 Zurich",city:"Zurich, Switzerland",
+  tz:"(GMT+1) Zurich",status:"Published",fmt:"In-person",zoom:"",
+  theme:"Swiss industry meets Vietnamese manufacturing",
+  expect:"45",langs:"English",
+  topics:["Trade","Manufacturing"],audience:["Industry","Corporates"],
   desc:"Three-day delegation programme with company visits and B2B matchmaking.",
+  about:"<p>A working delegation rather than a conference. Three days of company visits, a briefing on Swiss market entry requirements and a structured B2B matchmaking session on the closing morning.</p>",
   sessions:[
-   {day:"2026-11-22",s:"10:00",e:"12:00",t:"Delegation briefing",sp:"Trade Office Zurich",room:"Meeting Room 1"},
-   {day:"2026-11-23",s:"09:00",e:"17:00",t:"Company visits",sp:"",room:"Off-site"},
-   {day:"2026-11-24",s:"09:00",e:"12:00",t:"B2B matchmaking",sp:"SVEF Secretariat",room:"Business Centre"}],
+   {day:"2026-11-22",s:"10:00",e:"12:00",t:"Delegation briefing",spkIds:["spk-meier"],spLabel:"Trade Office Zurich",room:"Meeting Room 1"},
+   {day:"2026-11-23",s:"09:00",e:"17:00",t:"Company visits",spkIds:[],spLabel:"",room:"Off-site"},
+   {day:"2026-11-24",s:"09:00",e:"12:00",t:"B2B matchmaking",spkIds:["spk-chau"],spLabel:"SVEF Secretariat",room:"Business Centre"}],
   speakers:[
-   {n:"Sandra Meier",job:"Trade Counsellor",co:"Trade Office Zurich"},
-   {n:"Lê Thị Minh Châu",job:"Export Director",co:"An Phát Logistics JSC"}],
+   {id:"spk-meier",n:"Sandra Meier",job:"Trade Counsellor",co:"Trade Office Zurich"},
+   {id:"spk-chau",n:"Lê Thị Minh Châu",job:"Export Director",co:"An Phát Logistics JSC"}],
   sponsors:[
    {n:"Swiss Precision Mfg",tier:"Headline"},
    {n:"Alpine Advisory",tier:"Silver"}],
@@ -990,14 +1017,20 @@ let appEvents=[
    {rq:"Marco Rossi",rc:"Sandra Meier",day:"2026-11-24",slot:"10:45 - 11:15",st:"Pending"}],
   pushes:[
    {t:"Delegation logistics",b:"Coach pick-up on 23 November is at 08:15 in front of the hotel.",aud:"reg",d:"2026-09-20",tm:"08:00",st:"Send now"}]},
- {id:"ev-startup",t:"SVEF Startup Bridge Day 2027",ds:"2027-03-05",de:"2027-03-05",venue:"Saigon Innovation Hub, Ho Chi Minh City",
-  tz:"(GMT+7) Hanoi",status:"Draft",
+ {id:"ev-startup",t:"SVEF Startup Bridge Day 2027",ds:"2027-03-05",de:"2027-03-05",
+  venue:"Saigon Innovation Hub",addr:"273 Dien Bien Phu, Vo Thi Sau Ward, District 3, Ho Chi Minh City",
+  city:"Ho Chi Minh City, Vietnam",
+  tz:"(GMT+7) Hanoi",status:"Draft",fmt:"In-person",zoom:"",
+  theme:"Where Swiss deep tech meets Vietnamese founders",
+  expect:"120",langs:"English and Vietnamese",
+  topics:["Innovation","Finance"],audience:["Entrepreneurs","Investors","Academia"],
   desc:"One-day pitch and mentoring day for Swiss and Vietnamese startups.",
+  about:"<p>A single day pairing Swiss deep-tech scale-ups with Vietnamese founders and investors: morning pitches, an afternoon of structured mentoring, and an open matchmaking floor.</p>",
   sessions:[
-   {day:"2027-03-05",s:"09:00",e:"09:20",t:"Welcome and programme overview",sp:"SVEF Secretariat",room:"Main Stage"},
-   {day:"2027-03-05",s:"09:30",e:"11:30",t:"Startup pitches",sp:"12 startups",room:"Main Stage"}],
+   {day:"2027-03-05",s:"09:00",e:"09:20",t:"Welcome and programme overview",spkIds:[],spLabel:"SVEF Secretariat",room:"Main Stage"},
+   {day:"2027-03-05",s:"09:30",e:"11:30",t:"Startup pitches",spkIds:["spk-yen"],spLabel:"12 startups pitching",room:"Main Stage"}],
   speakers:[
-   {n:"Đặng Hải Yến",job:"Investment Manager",co:"Zurich Ventures"}],
+   {id:"spk-yen",n:"Đặng Hải Yến",job:"Investment Manager",co:"Zurich Ventures"}],
   sponsors:[
    {n:"Zurich Ventures",tier:"Gold"}],
   reg:{personal:true,group:false,maxGroup:1,cap:120,open:"2026-11-01",close:"2027-03-01",approval:true,waitlist:false},
@@ -1008,7 +1041,7 @@ let appEvents=[
   meetings:[],
   pushes:[]},
 ];
-let appSel=0,appTab='info';
+let evSel=0,evTab='over';
 
 /* ===== NAV ===== */
 let currentView='dashboard';
@@ -1020,6 +1053,7 @@ function nav(v,btn){
   if(btn)btn.classList.add('on');
   document.getElementById('viewTitle').textContent=tr('n_'+(v==='dashboard'?'dash':v));
   document.getElementById('side').classList.remove('open');
+  const sb=document.getElementById('adSearch');if(sb)sb.value='';
   window.scrollTo(0,0);
 }
 
@@ -1028,8 +1062,8 @@ function av(x){return `<span class="tav" style="background:${x.c}">${x.i}</span>
 function ini(n){const p=n.replace(/[^A-Za-zÀ-ỹ ]/g,'').trim().split(/\s+/);return (p.map(x=>x[0]).slice(0,2).join('')||'?').toUpperCase();}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function stChip(s){
-  const map={Active:'green',Published:'green',Pending:'pend',Draft:'pend'};
-  const lbl={Active:tr('d_active'),Published:tr('d_published'),Pending:tr('d_pending'),Draft:tr('d_draft')}[s]||s;
+  const map={Active:'green',Published:'green',Draft:'pend'};
+  const lbl={Active:tr('d_active'),Published:tr('d_published'),Draft:tr('d_draft')}[s]||s;
   return `<span class="chip ${map[s]||''}">${lbl}</span>`;
 }
 const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -1068,31 +1102,40 @@ function memberRow(m,i){
 }
 function renderMembers(){document.getElementById('memberTable').innerHTML=members.map(memberRow).join('');}
 
-function pubEventRow(e,i){
-  return `<tr><td><b style="color:var(--navy)">${esc(e.t)}</b><div class="muted" style="font-size:12px">📍 ${esc(e.loc||'')} · ${esc(fmtLabel(e.fmt))}</div></td>`+
+/* One row per event, and the row carries the registrant count. Reaching the
+   registrant list used to mean knowing to look under a second picker further down
+   the page, which is why it read as a missing feature. */
+function eventRow(e,i){
+  regEnsure(e);
+  const st=regStats(e),cap=regCap(e);
+  const pctv=cap?Math.min(100,Math.round(st.conf/cap*100)):0;
+  const bar=cap?`<div class="rbar"><i style="width:${pctv}%"></i></div>`:'';
+  return `<tr class="rowlink" onclick="openEventDetail(${i})">`+
+   `<td><b style="color:var(--navy)">${esc(e.t)}</b>`+
+     `<div class="muted" style="font-size:12px">📍 ${esc(e.venue||'')}${e.city?', '+esc(e.city):''} · ${esc(fmtLabel(e.fmt))}</div></td>`+
    `<td>${evDates(e)}</td>`+
+   `<td><b>${st.conf}</b>${cap?`<span class="muted"> / ${cap}</span>`:''}${bar}`+
+     `<div class="muted" style="font-size:11px">${st.pend} ${tr('rs_pend')} · ${st.wait} ${tr('rs_wait')}</div></td>`+
    `<td>${stChip(e.status)}</td>`+
    `<td><div class="act-btns">`+
-   `<button class="btn line sm" onclick="openAppContent(${i})">📱 ${tr('ap_open')}</button>`+
-   `<button class="btn line sm" onclick="openEvent(${i})">${tr('d_edit')}</button>`+
-   `<button class="btn line sm" onclick="delEvent(${i})">${tr('d_delete')}</button></div></td></tr>`;
+   `<button class="btn sm" onclick="event.stopPropagation();openEventDetail(${i})">${tr('d_open')}</button>`+
+   `<button class="btn line sm" onclick="event.stopPropagation();openEventDetail(${i},'reg')">${tr('ap_tab_reg')}</button>`+
+   `</div></td></tr>`;
 }
-/* Every event carries app content, so the two arrays are created, updated and
-   deleted together and stay in the same order: pubEvents[i] and appEvents[i] are
-   the same event. */
-function openAppContent(i){
-  appSel=i;appTab='info';regResetView();renderApp();
-  document.getElementById('appSection').scrollIntoView({behavior:'smooth',block:'start'});
-}
-/* A newly created event starts with an empty app shell, so the organisers never
-   have to create the same event twice. */
-function addAppEvent(e){
-  appEvents.push(regEnsure({id:e.id,t:e.t,ds:e.ds,de:e.de||e.ds,venue:e.loc||'',tz:APP_TZ[0],status:e.status||'Draft',
-    desc:e.desc||'',sessions:[],speakers:[],sponsors:[],registrants:[],meetings:[],pushes:[]}));
-  return appEvents.length-1;
+/* Creating an event drops you straight into its Details tab as a draft, rather
+   than into a modal that can only fill in half the record. */
+function createEvent(){
+  events.push(regEnsure({id:newEventId(),t:'Untitled event',ds:todayISO(),de:todayISO(),
+    venue:'',addr:'',city:'',tz:APP_TZ[0],status:'Draft',fmt:'In-person',zoom:'',
+    theme:'',expect:'',langs:'',topics:[],audience:[],desc:'',about:'',
+    sessions:[],speakers:[],sponsors:[],registrants:[],meetings:[],pushes:[]}));
+  openEventDetail(events.length-1,'details');
+  toast(tr('t_evadd'));
 }
 function renderPubEvents(){
-  document.getElementById('pubEvents').innerHTML=pubEvents.map(pubEventRow).join('');
+  const t=document.getElementById('eventTable');if(!t)return;
+  t.innerHTML=events.length?events.map(eventRow).join('')
+    :`<tr><td colspan="5" class="muted">${tr('ap_empty')}</td></tr>`;
   renderRegSummaries();
 }
 
@@ -1216,7 +1259,7 @@ function savePartnerA(){
   closeModal();renderAll();
   toast(apEdit>=0?('Partner updated'):('Partner added'));
 }
-function delPartnerA(i){partners.splice(i,1);renderAll();toast('Partner removed');}
+function delPartnerA(i){if(!confirm(tr('q_delpartner')))return;partners.splice(i,1);renderAll();toast('Partner removed');}
 
 /* ===== GENERIC MODAL HELPERS ===== */
 function openGen(title,html){
@@ -1305,62 +1348,23 @@ function openImport(kind){
     `<button class="btn block" onclick="closeModal();toast(tr('t_import'))">${tr('imp_go')}</button>`);
 }
 
-/* ===== EVENT MANAGEMENT (website event record) =====
-   The record the public website reads. The agenda, sessions and registrations are
-   not part of it: they live in the App content section below. */
-let evEdit=-1;
-function openEvent(i){
-  evEdit=i;
-  const e=i>=0?pubEvents[i]:{t:'',ds:todayISO(),de:todayISO(),loc:'',fmt:'In-person',zoom:'',desc:'',status:'Published'};
-  document.getElementById('evTitle').textContent=i>=0?tr('ev_edit_t'):tr('ev_add_t');
-  document.getElementById('evBody').innerHTML=
-    `<div class="mrow"><label>${tr('ev_name')}</label><input id="evN" value="${esc(e.t)}"></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('ev_start')}</label><input id="evDs" type="date" value="${esc(e.ds||'')}"></div>`+
-     `<div class="mrow"><label>${tr('ev_end')}</label><input id="evDe" type="date" value="${esc(e.de||e.ds||'')}"></div></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('ev_fmt')}</label><select id="evFmt" onchange="toggleZoomField()">${FORMATS.map(f=>`<option value="${f}" ${f===e.fmt?'selected':''}>${fmtLabel(f)}</option>`).join('')}</select></div>`+
-     `<div class="mrow"><label>${tr('c_status')}</label><select id="evSt">${aopts(['Published','Draft'],e.status)}</select></div></div>`+
-    `<div class="mrow"><label>${tr('c_loc')}</label><input id="evLoc" value="${esc(e.loc||'')}"></div>`+
-    // online / hybrid events carry the joining link; the app surfaces it as "Join online"
-    `<div class="mrow" id="evZoomRow"><label>${tr('ev_zoom')}</label><input id="evZoom" type="url" placeholder="https://zoom.us/j/..." value="${esc(e.zoom||'')}">`+
-      `<div class="hint">${tr('ev_zoom_h')}</div></div>`+
-    `<div class="mrow"><label>${tr('ev_desc')}</label><textarea id="evDesc" rows="3">${esc(e.desc||'')}</textarea></div>`+
-    `<button class="btn block" style="margin-top:16px" onclick="saveEvent()">${tr('ev_save')}</button>`;
-  toggleZoomField();
-  openModal('scrimEvent');
-}
+/* ===== EVENT MANAGEMENT =====
+   One record per event, read by the public website and the app alike. Ids and
+   the joining-link rule live here; everything the record holds is edited on the
+   event's own page. */
+let evSeq=0;
+function newEventId(){return 'ev-n'+(++evSeq);}
 /* The joining link is only meaningful when part of the event happens online. */
 function toggleZoomField(){
-  const row=document.getElementById('evZoomRow'),f=document.getElementById('evFmt');
+  const row=document.getElementById('evZoomRow'),f=document.getElementById('aiFmt');
   if(!row||!f)return;
   row.style.display=(f.value==='Online'||f.value==='Hybrid')?'':'none';
 }
-function saveEvent(){
-  const ds=v('evDs'),de=v('evDe')||ds;
-  const fmt=v('evFmt');
-  const obj={t:v('evN').trim()||('Untitled event'),ds:ds,de:(de<ds?ds:de),
-    loc:v('evLoc').trim(),fmt:fmt,
-    zoom:(fmt==='Online'||fmt==='Hybrid')?v('evZoom').trim():'',
-    desc:v('evDesc').trim(),status:v('evSt')};
-  obj.id=evEdit>=0?pubEvents[evEdit].id:newEventId();
-  if(evEdit>=0){pubEvents[evEdit]=obj;syncAppEvent(obj,evEdit);}
-  else {pubEvents.push(obj);addAppEvent(obj);}
-  closeModal();renderPubEvents();renderApp();
-  toast(evEdit>=0?tr('t_evupd'):tr('t_evadd'));
-}
-let evSeq=0;
-function newEventId(){return 'ev-n'+(++evSeq);}
-/* The event record is the single source of truth: what the website shows is copied
-   into the app entry that sits at the same index. */
-function syncAppEvent(e,i){
-  const a=appEvents[i];
-  if(!a)return;
-  a.t=e.t;a.ds=e.ds;a.de=e.de||e.ds;a.venue=e.loc||a.venue;a.status=e.status;a.desc=e.desc||a.desc;
-}
 function delEvent(i){
   if(!confirm(tr('q_delev')))return;
-  pubEvents.splice(i,1);appEvents.splice(i,1);
-  if(appSel>=appEvents.length)appSel=0;
-  renderPubEvents();renderApp();toast(tr('t_evdel'));
+  events.splice(i,1);
+  if(evSel>=events.length)evSel=Math.max(0,events.length-1);
+  backToEvents();toast(tr('t_evdel'));
 }
 
 /* ==========================================================================
@@ -1370,12 +1374,58 @@ function delEvent(i){
    notifications. Prototype state only: the arrays are mutated and the view is
    re-rendered, exactly like partners, articles and website events.
    ========================================================================== */
-const APP_TABS=[['info','ap_tab_info'],['agenda','ap_tab_agenda'],['speakers','ap_tab_speakers'],
-  ['sponsors','ap_tab_sponsors'],['reg','ap_tab_reg'],['meet','ap_tab_meet'],['push','ap_tab_push']];
-function appEv(){return appEvents[appSel];}
-function appPick(i){appSel=i;appTab='info';regResetView();renderApp();}
-function appTabSet(k){appTab=k;renderApp();}
+/* Content authoring first, in the order the public page renders it, then the
+   operational tabs. Overview leads because "how is this event doing" is the
+   question the page is opened with. */
+const APP_TABS=[['over','ap_tab_over'],['details','ap_tab_info'],['agenda','ap_tab_agenda'],
+  ['speakers','ap_tab_speakers'],['sponsors','ap_tab_sponsors'],['reg','ap_tab_reg'],
+  ['meet','ap_tab_meet'],['push','ap_tab_push']];
+/* The detail page is a sibling view rather than a modal: it carries its own tab
+   bar, wide tables and a check-in mode, none of which fit in a dialog. The Event
+   Management sidebar entry stays lit, so the detail reads as a place inside it. */
+function openEventDetail(i,tab){
+  if(i<0||i>=events.length)return;
+  evSel=i;evTab=tab||'over';regResetView();
+  document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));
+  document.getElementById('v-event').classList.add('on');
+  document.querySelectorAll('.snav button').forEach(b=>b.classList.remove('on'));
+  const nb=document.getElementById('navEvents');if(nb)nb.classList.add('on');
+  currentView='event';
+  document.getElementById('viewTitle').textContent=events[i].t;
+  window.scrollTo(0,0);
+  renderApp();
+}
+function backToEvents(){
+  const nb=document.getElementById('navEvents');
+  nav('events',nb);
+  renderPubEvents();
+}
+function appEv(){return events[evSel];}
+function appTabSet(k){evTab=k;renderApp();}
 function nowHM(){const d=new Date(),p=n=>String(n).padStart(2,'0');return p(d.getHours())+':'+p(d.getMinutes());}
+/* --- agenda <-> speaker ------------------------------------------------------
+   A session points at speakers by id, not by a copy of their name. Renaming a
+   speaker used to leave every session showing the old name, because the two were
+   only ever matched on a string. spLabel stays for lines that are not a person:
+   "SVEF Board", "12 startups pitching". */
+function spkById(e,id){return (e.speakers||[]).find(x=>x.id===id);}
+function sessionSpeakers(e,sess){
+  return (sess.spkIds||[]).map(id=>spkById(e,id)).filter(Boolean);
+}
+function sessionSpeakerText(e,sess){
+  const names=sessionSpeakers(e,sess).map(x=>x.n);
+  if(sess.spLabel)names.push(sess.spLabel);
+  return names.join(', ');
+}
+function sessionsForSpeaker(e,id){
+  return (e.sessions||[]).filter(x=>(x.spkIds||[]).indexOf(id)>-1)
+    .slice().sort((a,b)=>(a.day+a.s).localeCompare(b.day+b.s));
+}
+function newSpeakerId(e){
+  let i=1,id;
+  do{id='spk-n'+(i++);}while(spkById(e,id));
+  return id;
+}
 function appHead(titleKey,btn){
   return `<div class="phead"><h2>${tr(titleKey)}</h2><div class="sp"></div>${btn||''}</div>`;
 }
@@ -1383,57 +1433,117 @@ function appHead(titleKey,btn){
    without opening the tab. Kept out of renderApp so a row action can refresh
    the label without rebuilding the whole pane. */
 function appTabsRender(){
-  const bar=document.getElementById('appTabs'),e=appEv();
+  const bar=document.getElementById('evdTabs'),e=appEv();
   if(!bar||!e)return;
   bar.innerHTML=APP_TABS.map(t=>{
     const n=t[0]==='reg'?' · '+regStats(e).seats:'';
-    return `<button class="${appTab===t[0]?'on':''}" onclick="appTabSet('${t[0]}')">${tr(t[1])}${n}</button>`;
+    return `<button class="${evTab===t[0]?'on':''}" onclick="appTabSet('${t[0]}')">${tr(t[1])}${n}</button>`;
   }).join('');
 }
 function renderApp(){
-  const pick=document.getElementById('appPicker');if(!pick)return;
-  if(appSel>=appEvents.length)appSel=0;
-  appEvents.forEach(regEnsure);
+  const pane=document.getElementById('evdPane');if(!pane)return;
+  if(evSel>=events.length)evSel=0;
+  events.forEach(regEnsure);
   const e=appEv();
   if(!e){
-    pick.innerHTML=`<p class="muted" style="margin:0">${tr('ap_empty')}</p>`;
-    document.getElementById('appTabs').innerHTML='';
-    document.getElementById('appPane').innerHTML='';
+    document.getElementById('evdTabs').innerHTML='';
+    pane.innerHTML=`<div class="panel"><div class="pbody muted">${tr('ap_empty')}</div></div>`;
     return;
   }
-  pick.innerHTML=
-    `<div class="g2"><div class="field" style="margin-bottom:0"><label>${tr('ap_pick')}</label>`+
-      `<select aria-label="${tr('ap_pick')}" onchange="appPick(this.selectedIndex)">`+
-      appEvents.map((x,i)=>`<option ${i===appSel?'selected':''}>${esc(x.t)}</option>`).join('')+`</select></div>`+
-    `<div class="field" style="margin-bottom:0"><label>${tr('ap_sum')}</label><div class="chiprow">`+
-      `<span class="chip navy">${esc(evDates(e))}</span><span class="chip">📍 ${esc(e.venue)}</span>`+
-      `<span class="chip">${esc(e.tz)}</span>${stChip(e.status)}</div></div></div>`;
+  document.getElementById('evdTitle').textContent=e.t;
+  document.getElementById('evdChips').innerHTML=
+    `<span class="chip navy">${esc(evDates(e))}</span> <span class="chip">📍 ${esc(e.venue||'—')}</span> `+
+    `<span class="chip">${esc(e.tz)}</span> ${stChip(e.status)}`;
   appTabsRender();
-  const pane={info:appInfoHtml,agenda:appAgendaHtml,speakers:appSpeakersHtml,sponsors:appSponsorsHtml,
-    reg:appRegHtml,meet:appMeetHtml,push:appPushHtml}[appTab]||appInfoHtml;
-  document.getElementById('appPane').innerHTML=pane(e);
-  if(appTab==='push')appPushWhen();
+  const body={over:appOverHtml,details:appInfoHtml,agenda:appAgendaHtml,speakers:appSpeakersHtml,
+    sponsors:appSponsorsHtml,reg:appRegHtml,meet:appMeetHtml,push:appPushHtml}[evTab]||appOverHtml;
+  pane.innerHTML=body(e);
+  if(evTab==='push')appPushWhen();
+  if(evTab==='details'){renderAboutPreview();toggleZoomField();}
 }
 
 /* ---- event info ---- */
+/* ---- Overview: how the event is doing, before anything is edited ---- */
+function appOverHtml(e){return regOverHtml(e);}
+
+/* ---- Details: the whole published record in one form -----------------------
+   This used to be split between a modal holding "the basics" and an App content
+   tab holding venue and timezone, with a one-way sync between them that quietly
+   overwrote the venue with the city. One form, one record, one save. */
+const EV_TOPICS=["Trade","Innovation","Sustainability","Finance","Manufacturing","Logistics","Public policy"];
+const EV_AUDIENCE=["Industry","Entrepreneurs","Investors","Academia","Government","Corporates"];
+function chipPick(name,all,sel){
+  const on=sel||[];
+  return `<div class="chiprow pick">`+all.map(function(x){
+    const isOn=on.indexOf(x)>-1;
+    return `<button type="button" class="chip pickable${isOn?' on':''}" data-pick="${name}" data-val="${esc(x)}" `
+      +`aria-pressed="${isOn}" onclick="this.classList.toggle('on');this.setAttribute('aria-pressed',this.classList.contains('on'))">${esc(x)}</button>`;
+  }).join('')+`</div>`;
+}
+function readPicks(name){
+  return [].map.call(document.querySelectorAll(`[data-pick="${name}"].on`),b=>b.dataset.val);
+}
 function appInfoHtml(e){
   return `<div class="panel">`+appHead('ap_tab_info')+`<div class="pbody">`+
     `<div class="mrow"><label>${tr('ev_name')}</label><input id="aiN" value="${esc(e.t)}"></div>`+
+    `<div class="mrow"><label>${tr('ev_theme')}</label><input id="aiTheme" value="${esc(e.theme||'')}">`+
+      `<div class="hint">${tr('ev_theme_h')}</div></div>`+
+
+    `<h4 class="seoh">${tr('ev_h_when')}</h4>`+
     `<div class="g2"><div class="mrow"><label>${tr('ev_start')}</label><input id="aiDs" type="date" value="${esc(e.ds)}"></div>`+
      `<div class="mrow"><label>${tr('ev_end')}</label><input id="aiDe" type="date" value="${esc(e.de||e.ds)}"></div></div>`+
-    `<div class="mrow"><label>${tr('ap_venue')}</label><input id="aiVenue" value="${esc(e.venue||'')}"></div>`+
-    `<div class="g2"><div class="mrow"><label>${tr('ap_tz')}</label><select id="aiTz">${aopts(APP_TZ,e.tz)}</select>`+
+    `<div class="g2"><div class="mrow"><label>${tr('ev_stime')}</label><input id="aiTs" type="time" value="${esc(e.ts||'09:00')}"></div>`+
+     `<div class="mrow"><label>${tr('ev_etime')}</label><input id="aiTe" type="time" value="${esc(e.te||'17:00')}"></div></div>`+
+    `<div class="mrow"><label>${tr('ap_tz')}</label><select id="aiTz">${aopts(APP_TZ,e.tz)}</select>`+
       `<div class="hint">${tr('ap_tz_h')}</div></div>`+
-     `<div class="mrow"><label>${tr('c_status')}</label><select id="aiSt">${aopts(['Published','Draft'],e.status)}</select></div></div>`+
-    `<div class="mrow"><label>${tr('ev_desc')}</label><textarea id="aiDesc" rows="3">${esc(e.desc||'')}</textarea></div>`+
+
+    `<h4 class="seoh">${tr('ev_h_where')}</h4>`+
+    `<div class="mrow"><label>${tr('ap_venue')}</label><input id="aiVenue" value="${esc(e.venue||'')}"></div>`+
+    `<div class="mrow"><label>${tr('ev_addr')}</label><input id="aiAddr" value="${esc(e.addr||'')}">`+
+      `<div class="hint">${tr('ev_addr_h')}</div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('ev_city')}</label><input id="aiCity" value="${esc(e.city||'')}"></div>`+
+     `<div class="mrow"><label>${tr('ev_fmt')}</label><select id="aiFmt" onchange="toggleZoomField()">${aopts(FORMATS,e.fmt)}</select></div></div>`+
+    `<div class="mrow" id="evZoomRow"><label>${tr('ev_zoom')}</label>`+
+      `<input id="aiZoom" type="url" placeholder="https://zoom.us/j/..." value="${esc(e.zoom||'')}">`+
+      `<div class="hint">${tr('ev_zoom_h')}</div></div>`+
+
+    `<h4 class="seoh">${tr('ev_h_who')}</h4>`+
+    `<div class="g2"><div class="mrow"><label>${tr('ev_expect')}</label><input id="aiExpect" value="${esc(e.expect||'')}"></div>`+
+     `<div class="mrow"><label>${tr('ev_langs')}</label><input id="aiLangs" value="${esc(e.langs||'')}"></div></div>`+
+    `<div class="mrow"><label>${tr('ev_topics')}</label>${chipPick('topic',EV_TOPICS,e.topics)}</div>`+
+    `<div class="mrow"><label>${tr('ev_audience')}</label>${chipPick('aud',EV_AUDIENCE,e.audience)}</div>`+
+
+    `<h4 class="seoh">${tr('ev_h_content')}</h4>`+
+    `<div class="mrow"><label>${tr('ev_desc')}</label><textarea id="aiDesc" rows="2">${esc(e.desc||'')}</textarea>`+
+      `<div class="hint">${tr('ev_desc_h')}</div></div>`+
+    `<div class="mrow"><label>${tr('ev_about')}</label>`+
+      `<div class="htmlgrid">`+
+        `<div class="htmlpane"><span class="paneh">${tr('cms_body_src')}</span>`+
+          `<textarea class="htmlsrc" id="aiAbout" rows="10" spellcheck="false" oninput="renderAboutPreview()" aria-label="HTML source">${esc(e.about||'')}</textarea></div>`+
+        `<div class="htmlpane"><span class="paneh">${tr('cms_body_prev')}</span>`+
+          `<div class="htmlprev" id="aiAboutPrev"></div></div>`+
+      `</div></div>`+
+
+    `<div class="mrow"><label>${tr('c_status')}</label><select id="aiSt">${aopts(['Published','Draft'],e.status)}</select></div>`+
     `<button class="btn" onclick="saveAppInfo()">${tr('ap_save_info')}</button>`+
   `</div></div>`;
 }
+function renderAboutPreview(){
+  const src=document.getElementById('aiAbout'),prev=document.getElementById('aiAboutPrev');
+  if(src&&prev)prev.innerHTML=src.value;
+}
 function saveAppInfo(){
   const e=appEv(),ds=v('aiDs'),de=v('aiDe')||ds;
-  e.t=v('aiN').trim()||e.t;e.ds=ds;e.de=(de<ds?ds:de);e.venue=v('aiVenue').trim();
-  e.tz=v('aiTz');e.status=v('aiSt');e.desc=v('aiDesc').trim();
-  renderApp();toast(tr('t_appinfo'));
+  e.t=v('aiN').trim()||e.t;e.theme=v('aiTheme').trim();
+  e.ds=ds;e.de=(de<ds?ds:de);e.ts=v('aiTs');e.te=v('aiTe');e.tz=v('aiTz');
+  e.venue=v('aiVenue').trim();e.addr=v('aiAddr').trim();e.city=v('aiCity').trim();
+  e.fmt=v('aiFmt');
+  e.zoom=(e.fmt==='Online'||e.fmt==='Hybrid')?v('aiZoom').trim():'';
+  e.expect=v('aiExpect').trim();e.langs=v('aiLangs').trim();
+  e.topics=readPicks('topic');e.audience=readPicks('aud');
+  e.desc=v('aiDesc').trim();e.about=document.getElementById('aiAbout').value;
+  e.status=v('aiSt');
+  renderApp();renderPubEvents();toast(tr('t_appinfo'));
 }
 
 /* ---- agenda / sessions (moved here out of the website event record) ---- */
@@ -1444,7 +1554,7 @@ function appAgendaHtml(e){
     ? days.map(d=>`<div class="dayh">${esc(fmtD(d))}</div><div class="filelist">`+
         ss.filter(s=>s.day===d).map(s=>{const i=e.sessions.indexOf(s);return `<div class="filerow">`+
           `<span class="chip">${esc(s.s||'')}${s.e?' - '+esc(s.e):''}</span>`+
-          `<span class="fn">${esc(s.t)}${s.sp?`<div class="fm" style="font-weight:400">🎤 ${esc(s.sp)}</div>`:''}</span>`+
+          `<span class="fn">${esc(s.t)}${sessionSpeakerText(e,s)?`<div class="fm" style="font-weight:400">🎤 ${esc(sessionSpeakerText(e,s))}</div>`:''}</span>`+
           `<span class="fm">${s.room?'📍 '+esc(s.room):''}</span>`+
           `<button class="btn ghost sm" onclick="openAppSession(${i})">${tr('d_edit')}</button>`+
           `<button class="btn line sm" onclick="delAppSession(${i})">${tr('d_delete')}</button>`+
@@ -1457,33 +1567,61 @@ function appAgendaHtml(e){
 let appSessEdit=-1;
 function openAppSession(i){
   appSessEdit=i;const e=appEv();
-  const s=i>=0?e.sessions[i]:{day:e.ds,s:'09:00',e:'10:00',t:'',sp:'',room:''};
+  const s=i>=0?e.sessions[i]:{day:e.ds,s:'09:00',e:'10:00',t:'',spkIds:[],spLabel:'',room:''};
   openGen(i>=0?tr('ap_sess_edit'):tr('ap_sess_new'),
     `<div class="g2"><div class="mrow"><label>${tr('ev_s_day')}</label><input id="asDay" type="date" value="${esc(s.day||'')}"></div>`+
      `<div class="mrow"><label>${tr('ev_s_room')}</label><input id="asRoom" value="${esc(s.room||'')}"></div></div>`+
     `<div class="g2"><div class="mrow"><label>${tr('ev_s_start')}</label><input id="asStart" type="time" value="${esc(s.s||'')}"></div>`+
      `<div class="mrow"><label>${tr('ev_s_end')}</label><input id="asEnd" type="time" value="${esc(s.e||'')}"></div></div>`+
     `<div class="mrow"><label>${tr('ev_s_title')}</label><input id="asTitle" value="${esc(s.t||'')}"></div>`+
-    `<div class="mrow"><label>${tr('ev_s_speaker')}</label><input id="asSpeaker" value="${esc(s.sp||'')}"></div>`+
+    `<div class="mrow"><label>${tr('ev_s_speaker')}</label>`+
+      (e.speakers.length
+        ? `<div class="chiprow pick">`+e.speakers.map(function(sp){
+            const on=(s.spkIds||[]).indexOf(sp.id)>-1;
+            return `<button type="button" class="chip pickable${on?' on':''}" data-pick="sess-spk" data-val="${esc(sp.id)}" `
+              +`aria-pressed="${on}" onclick="this.classList.toggle('on');this.setAttribute('aria-pressed',this.classList.contains('on'))">${esc(sp.n)}</button>`;
+          }).join('')+`</div>`
+        : `<div class="emptyline" style="margin-bottom:8px">${tr('ap_spk_none')}</div>`)+
+      `<button class="btn line sm" style="margin-top:8px" onclick="addSpeakerFromSession()">${tr('ap_spk_add')}</button>`+
+      `<div class="hint">${tr('ev_s_speaker_h')}</div></div>`+
+    `<div class="mrow"><label>${tr('ev_s_splabel')}</label><input id="asSpLabel" value="${esc(s.spLabel||'')}">`+
+      `<div class="hint">${tr('ev_s_splabel_h')}</div></div>`+
     `<div class="hint" style="margin-bottom:14px">${tr('ap_tz_h')}</div>`+
     `<button class="btn block" onclick="saveAppSession()">${i>=0?tr('ap_sess_save'):tr('ap_sess_add')}</button>`);
 }
 function saveAppSession(){
   const t=v('asTitle').trim();
   if(!t){toast(tr('ev_s_needtitle'));document.getElementById('asTitle').focus();return;}
-  const o={day:v('asDay'),s:v('asStart'),e:v('asEnd'),t:t,sp:v('asSpeaker').trim(),room:v('asRoom').trim()};
+  const o={day:v('asDay'),s:v('asStart'),e:v('asEnd'),t:t,
+    spkIds:readPicks('sess-spk'),spLabel:v('asSpLabel').trim(),room:v('asRoom').trim()};
   const e=appEv();
   if(appSessEdit>=0)e.sessions[appSessEdit]=o;else e.sessions.push(o);
   closeModal();renderApp();toast(appSessEdit>=0?tr('t_sessupd'):tr('t_sessadd'));
 }
-function delAppSession(i){appEv().sessions.splice(i,1);renderApp();toast(tr('t_sessdel'));}
+function delAppSession(i){
+  if(!confirm(tr('q_delsess')))return;
+  appEv().sessions.splice(i,1);renderApp();toast(tr('t_sessdel'));
+}
+/* Adding a speaker from inside the session editor keeps what has been typed so
+   far and comes back with the new speaker already ticked. */
+let pendingSession=null;
+function addSpeakerFromSession(){
+  pendingSession={day:v('asDay'),s:v('asStart'),e:v('asEnd'),t:v('asTitle'),
+    spkIds:readPicks('sess-spk'),spLabel:v('asSpLabel'),room:v('asRoom')};
+  openAppSpeaker(-1,true);
+}
 
 /* ---- speakers ---- */
 function appSpeakersHtml(e){
   const body=e.speakers.length
     ? `<div class="filelist">`+e.speakers.map((s,i)=>`<div class="filerow">`+
         `<span class="ph" title="${tr('ap_photo')}">${esc(ini(s.n))}</span>`+
-        `<span class="fn">${esc(s.n)}<div class="fm" style="font-weight:400">${esc(s.job||'')}${(s.job&&s.co)?' · ':''}${esc(s.co||'')}</div></span>`+
+        `<span class="fn">${esc(s.n)}<div class="fm" style="font-weight:400">${esc(s.job||'')}${(s.job&&s.co)?' · ':''}${esc(s.co||'')}</div>`+
+          (function(){const ss=sessionsForSpeaker(e,s.id);
+            return ss.length?`<div class="fm" style="font-weight:400;color:var(--muted)">📅 `
+              +ss.map(x=>esc(fmtD(x.day))+' '+esc(x.s)+' · '+esc(x.t)).join('<br>📅 ')+`</div>`
+              :`<div class="fm" style="font-weight:400;color:var(--muted)">${tr('ap_spk_nosess')}</div>`;})()+
+        `</span>`+
         `<button class="btn ghost sm" onclick="openAppSpeaker(${i})">${tr('d_edit')}</button>`+
         `<button class="btn line sm" onclick="delAppSpeaker(${i})">${tr('d_delete')}</button>`+
       `</div>`).join('')+`</div>`
@@ -1492,9 +1630,9 @@ function appSpeakersHtml(e){
     appHead('ap_tab_speakers',`<button class="btn sm" onclick="openAppSpeaker(-1)">${tr('ap_spk_add')}</button>`)+
     `<div class="pbody">${body}<div class="hint">${tr('ap_photo_h')}</div></div></div>`;
 }
-let appSpkEdit=-1;
-function openAppSpeaker(i){
-  appSpkEdit=i;const e=appEv();
+let appSpkEdit=-1,appSpkReturn=false;
+function openAppSpeaker(i,fromSession){
+  appSpkEdit=i;appSpkReturn=!!fromSession;const e=appEv();
   const s=i>=0?e.speakers[i]:{n:'',job:'',co:''};
   openGen(i>=0?tr('ap_spk_edit'):tr('ap_spk_new'),
     `<div class="mrow" style="display:flex;align-items:center;gap:14px">`+
@@ -1508,11 +1646,38 @@ function openAppSpeaker(i){
 function saveAppSpeaker(){
   const n=v('aspN').trim();
   if(!n){toast(tr('ap_needname'));document.getElementById('aspN').focus();return;}
-  const o={n:n,job:v('aspJob').trim(),co:v('aspCo').trim()},e=appEv();
+  const e=appEv();
+  const o={id:appSpkEdit>=0?e.speakers[appSpkEdit].id:newSpeakerId(e),
+    n:n,job:v('aspJob').trim(),co:v('aspCo').trim()};
   if(appSpkEdit>=0)e.speakers[appSpkEdit]=o;else e.speakers.push(o);
-  closeModal();renderApp();toast(appSpkEdit>=0?tr('t_spkupd'):tr('t_spkadd'));
+  const added=appSpkEdit<0, back=appSpkReturn;
+  closeModal();
+  toast(appSpkEdit>=0?tr('t_spkupd'):tr('t_spkadd'));
+  if(back&&pendingSession){
+    // hand the half-written session back with the new speaker already ticked
+    if(added)pendingSession.spkIds=(pendingSession.spkIds||[]).concat([o.id]);
+    const draft=pendingSession;pendingSession=null;appSpkReturn=false;
+    reopenSessionDraft(draft);
+    return;
+  }
+  renderApp();
 }
-function delAppSpeaker(i){appEv().speakers.splice(i,1);renderApp();toast(tr('t_spkdel'));}
+/* A speaker is referenced by id from the agenda, so deleting one has to scrub
+   those references. Never block the delete and never leave a session pointing at
+   somebody who is gone; just say how many sessions it touches first. */
+function delAppSpeaker(i){
+  const e=appEv(),sp=e.speakers[i];if(!sp)return;
+  const used=sessionsForSpeaker(e,sp.id);
+  const q=used.length
+    ? fill(tr('q_delspk_used'),{n:used.length,s:used.length===1?'':'s'})
+    : tr('q_delspk');
+  if(!confirm(q))return;
+  e.sessions.forEach(function(x){
+    if(x.spkIds)x.spkIds=x.spkIds.filter(id=>id!==sp.id);
+  });
+  e.speakers.splice(i,1);
+  renderApp();toast(tr('t_spkdel'));
+}
 
 /* ---- sponsors ---- */
 function appSponsorsHtml(e){
@@ -1536,6 +1701,18 @@ function openAppSponsor(i){
       TIERS.map(t=>`<option value="${t}" ${t===s.tier?'selected':''}>${tierLabel(t)}</option>`).join('')+`</select></div>`+
     `<button class="btn block" onclick="saveAppSponsor()">${i>=0?tr('ap_spo_save'):tr('ap_spo_add')}</button>`);
 }
+/* Re-opens the session editor with the values that were on screen when the user
+   stepped out to create a speaker. */
+function reopenSessionDraft(d){
+  openAppSession(appSessEdit);
+  const set=function(id,val){const el=document.getElementById(id);if(el)el.value=val;};
+  set('asDay',d.day);set('asStart',d.s);set('asEnd',d.e);
+  set('asTitle',d.t);set('asRoom',d.room);set('asSpLabel',d.spLabel);
+  document.querySelectorAll('[data-pick="sess-spk"]').forEach(function(b){
+    const on=(d.spkIds||[]).indexOf(b.dataset.val)>-1;
+    b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);
+  });
+}
 function saveAppSponsor(){
   const n=v('aspoN').trim();
   if(!n){toast(tr('ap_needname'));document.getElementById('aspoN').focus();return;}
@@ -1543,23 +1720,23 @@ function saveAppSponsor(){
   if(appSpoEdit>=0)e.sponsors[appSpoEdit]=o;else e.sponsors.push(o);
   closeModal();renderApp();toast(appSpoEdit>=0?tr('t_spoupd'):tr('t_spoadd'));
 }
-function delAppSponsor(i){appEv().sponsors.splice(i,1);renderApp();toast(tr('t_spodel'));}
+function delAppSponsor(i){if(!confirm(tr('q_delspo')))return;appEv().sponsors.splice(i,1);renderApp();toast(tr('t_spodel'));}
 
 /* ==========================================================================
    EVENT REGISTRATION MANAGEMENT (BRD 8.2)
    Everything that hangs off one SVEF event's registration: settings, the
    registrant list, door check-in and a small registration dashboard. It is one
-   tab of the App content panel, split into sub-tabs because a single table
-   cannot carry it. Prototype state only: the arrays are mutated in place and the
-   pane is re-rendered.
+   tab of the event page, split into sub-tabs because a single table cannot carry
+   it. Prototype state only: the arrays are mutated in place and the pane is
+   re-rendered.
    ========================================================================== */
 const REG_STATUS=['Confirmed','Pending','Waitlisted','Cancelled'];
-const REG_TABS=[['over','rg_tab_over'],['list','rg_tab_list'],['ci','rg_tab_ci'],['set','rg_tab_set']];
-let regTab='over',regQ='',regFSt='All',regCiQ='';
+const REG_TABS=[['list','rg_tab_list'],['ci','rg_tab_ci'],['set','rg_tab_set']];
+let regTab='list',regQ='',regFSt='All',regCiQ='';
 let regSel={},regOpen={},ciLog=[],regEditRef='',regSeq=100;
 
 function regResetView(){
-  regTab='over';regQ='';regFSt='All';regCiQ='';
+  regTab='list';regQ='';regFSt='All';regCiQ='';
   regSel={};regOpen={};ciLog=[];
 }
 /* Events created inside the demo start with a usable registration shell, so no
@@ -1641,7 +1818,7 @@ function regRoomLeft(e){const cap=regCap(e);return cap?cap-regStats(e).conf:Infi
 function appRegHtml(e){
   regEnsure(e);
   const s=regStats(e);
-  const body={over:regOverHtml,list:regListHtml,ci:regCiHtml,set:regSetHtml}[regTab]||regOverHtml;
+  const body={list:regListHtml,ci:regCiHtml,set:regSetHtml}[regTab]||regListHtml;
   return `<div class="panel"><div class="pbody">`+
     `<div class="langtab" style="margin-bottom:14px">`+
       REG_TABS.map(t=>`<button class="${regTab===t[0]?'on':''}" onclick="regSubTab('${t[0]}')">${tr(t[1])}</button>`).join('')+
@@ -2173,7 +2350,7 @@ function slug(s){return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').repla
 function regExport(scope){
   const rows=[];let name='registrants.csv';
   if(scope==='all'){
-    appEvents.forEach(function(e){regEnsure(e);e.registrants.forEach(r=>rows.push(regCsvRow(e,r)));});
+    events.forEach(function(e){regEnsure(e);e.registrants.forEach(r=>rows.push(regCsvRow(e,r)));});
     name='svef-registrants-all-events.csv';
   } else {
     const e=appEv();if(!e)return;
@@ -2187,7 +2364,7 @@ function regExport(scope){
 function ciExport(){
   const head=['Event','Booking reference','Attendee','Company','Pass code','Checked in at','On site'];
   const rows=[];
-  appEvents.forEach(function(e){
+  events.forEach(function(e){
     regEnsure(e);
     ciAttendees(e).forEach(function(x){
       if(!x.o.ci)return;
@@ -2201,7 +2378,7 @@ function ciExport(){
 /* ==================== ROLL-UP INTO DASHBOARD AND REPORTS ==================== */
 function regTotals(){
   const t={seats:0,conf:0,pend:0,wait:0,canc:0,ci:0,att:0};
-  appEvents.forEach(function(e){
+  events.forEach(function(e){
     regEnsure(e);
     const s=regStats(e);
     t.seats+=s.seats;t.conf+=s.conf;t.pend+=s.pend;t.wait+=s.wait;t.canc+=s.canc;
@@ -2224,19 +2401,30 @@ function regSummaryRow(e,i,withCi){
   `</tr>`;
 }
 function renderRegSummaries(){
-  appEvents.forEach(regEnsure);
+  events.forEach(regEnsure);
   const t=regTotals();
   const dash=document.getElementById('dashRegTable');
-  if(dash)dash.innerHTML=appEvents.map((e,i)=>regSummaryRow(e,i,false)).join('')
+  if(dash)dash.innerHTML=events.map((e,i)=>regSummaryRow(e,i,false)).join('')
     ||`<tr><td colspan="4" class="muted">${tr('ap_empty')}</td></tr>`;
   const rep=document.getElementById('repRegTable');
-  if(rep)rep.innerHTML=appEvents.map((e,i)=>regSummaryRow(e,i,true)).join('')
+  if(rep)rep.innerHTML=events.map((e,i)=>regSummaryRow(e,i,true)).join('')
     ||`<tr><td colspan="4" class="muted">${tr('ap_empty')}</td></tr>`;
-  const evN=document.getElementById('stEvN');if(evN)evN.textContent=pubEvents.length;
+  /* Every counter is derived, so the cards can never contradict the tables
+     directly underneath them. */
+  const set=function(id,val){const el=document.getElementById(id);if(el)el.textContent=val;};
+  set('stPartN',partners.length);
+  set('stPartSub',partners.length+' on record');
+  set('stMemN',members.length);
+  set('stMemSub',members.reduce((a,m)=>a+((m.profiles||[]).length),0)+' linked profiles');
+  let ciTot=0,attTot=0;
+  events.forEach(function(e){const st=regStats(e);ciTot+=st.ci;attTot+=st.att;});
+  set('stCiN',ciTot);
+  set('stCiSub',attTot?Math.round(ciTot/attTot*100)+'% of confirmed attendees':'—');
+  const evN=document.getElementById('stEvN');if(evN)evN.textContent=events.length;
   const evS=document.getElementById('stEvSub');
   if(evS){
-    const pub=pubEvents.filter(x=>x.status==='Published').length;
-    evS.textContent=pub+' published · '+(pubEvents.length-pub)+' draft';
+    const pub=events.filter(x=>x.status==='Published').length;
+    evS.textContent=pub+' published · '+(events.length-pub)+' draft';
   }
   const rgN=document.getElementById('stRegN');if(rgN)rgN.textContent=numG(t.seats,',');
   const rgS=document.getElementById('stRegSub');
@@ -2246,10 +2434,8 @@ function renderRegSummaries(){
 }
 /* Jump straight from a dashboard or report row into that event's registrations. */
 function openRegAt(i){
-  if(i<0||i>=appEvents.length)return;
-  nav('events',document.querySelectorAll('.snav button')[5]);
-  appSel=i;appTab='reg';regResetView();
-  renderApp();
+  if(i<0||i>=events.length)return;
+  openEventDetail(i,'reg');
   document.getElementById('appSection').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
@@ -2317,6 +2503,18 @@ function toast(m){const t=document.getElementById('toast');t.textContent=m;t.cla
 
 /* ===== A11Y / AUTH ===== */
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.getElementById('side').classList.remove('open');closeModal();}});
+/* The top-bar search used to be decorative. It filters the table in the view you
+   are looking at, which is the only thing it could honestly claim to do. */
+function adminSearch(q){
+  q=(q||'').trim().toLowerCase();
+  const map={events:'eventTable',partners:'partnerTable',members:'memberTable',news:'newsTable'};
+  const id=map[currentView];
+  if(!id){return;}
+  const body=document.getElementById(id);if(!body)return;
+  [].forEach.call(body.querySelectorAll('tr'),function(tr){
+    tr.style.display=(!q||tr.innerText.toLowerCase().indexOf(q)>-1)?'':'none';
+  });
+}
 function signIn(method){
   if(!document.getElementById('ndaChk').checked){toast(tr('t_nda'));return;}
   document.getElementById('authGate').classList.add('hide');

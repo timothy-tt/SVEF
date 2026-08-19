@@ -38,9 +38,10 @@ decision. This table now records where things actually stand.
 
 ## 8.2 Back office, organiser facing
 
-All of the following live in the Registrants area of an SVEF event, under
-Event Management, App content. Every event is organised by SVEF, so every event
-carries app content and a registration panel.
+All of the following live in the Registrants tab of an SVEF event, under
+Event Management. Every event is one record: opening it from the event list gives
+you its details, agenda, speakers, sponsors, registrants, check-in, meeting
+bookings and notifications on a single page.
 
 | BRD requirement | Status | Where |
 |---|---|---|
