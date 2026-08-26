@@ -35,7 +35,21 @@
   --ink:#0E273D; --ink-2:#224861;
   --navy:#0E273D; --navy-2:#224861; --navy-3:#3C6980;
   --muted:#3C6980; --line:#DAEDF0; --rule:#0E273D;
-  --bg:#F5F9FA; --card:#FFFFFF; --soft:#E9F4F5;
+  /* --- Hanoi 2026 event palette (25/08 meeting, 5.1) -----------------------
+     "Prototype hiện tại một số chỗ hơi tối, cần tươi sáng hơn. Dùng pattern màu
+     của event Hà Nội." Sampled from hanoi2026.svef.ch: a green-forward look on a
+     very pale green ground (#F6FBF2) with the SVEF red as the accent, which reads
+     considerably lighter than the blue-grey ramp the demo was using.
+
+     The spot colours from the brand guideline are untouched: red, green, gold,
+     cream, sky and steel are still exactly the Pantone values in palitra svef.pdf.
+     What changes is the NEUTRAL ground and the weight of the darkest surfaces, so
+     the prototype matches the event it is for without leaving the brand's colour
+     space. --ink stays the brand navy for type, because green or grey body text
+     against this ground drops below AA. See BRAND.md. */
+  --hanoi:#04723D; --hanoi-2:#3E7742; --wash:#F6FBF2; --wash-2:#EDF6EA;
+  --deep:#123A2A;
+  --bg:var(--wash); --card:#FFFFFF; --soft:var(--wash-2);
   --shadow:0 22px 60px rgba(14,39,61,.16); --shadow-sm:none;
   --r:0; --max:1300px;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,"Segoe UI",system-ui,sans-serif;
@@ -174,7 +188,7 @@ section.blk.tight{padding:48px 0}
 .ic.n,.ic.g,.ic.y{border-color:var(--ink);background:#fff}
 
 /* news thumbnail = flat colour field with a mono kicker */
-.thumb{height:172px;background:var(--ink);margin:-26px -26px 20px;border-radius:0;display:flex;
+.thumb{height:172px;background:linear-gradient(160deg,var(--deep),var(--ink));margin:-26px -26px 20px;border-radius:0;display:flex;
   align-items:flex-end;padding:14px;color:#fff;font-family:var(--mono);font-size:10px;
   text-transform:uppercase;letter-spacing:.13em;font-weight:500}
 
@@ -182,7 +196,7 @@ section.blk.tight{padding:48px 0}
 .ev-row{display:flex;gap:20px;align-items:center;padding:18px 20px;border:1px solid var(--line);border-radius:0;
   background:#fff;cursor:pointer;transition:border-color .12s linear;margin-top:-1px}
 .ev-row:hover{border-color:var(--ink);z-index:1;position:relative}
-.ev-row .date{flex:0 0 60px;text-align:center;background:var(--ink);color:#fff;border-radius:0;padding:10px 0}
+.ev-row .date{flex:0 0 60px;text-align:center;background:var(--hanoi);color:#fff;border-radius:0;padding:10px 0}
 .ev-row .date b{display:block;font-size:22px;line-height:1;font-weight:700;letter-spacing:-.04em}
 .ev-row .date span{font-family:var(--mono);font-size:9px;letter-spacing:.1em;opacity:.8}
 .ev-row .info{flex:1;min-width:0}
@@ -317,6 +331,64 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 .social svg{width:15px;height:15px;fill:#fff}
 
 /* ==================== UTILITY / OVERLAYS ==================== */
+/* ==================== 25/08 MEETING ADDITIONS ==================== */
+/* Partner listings sit in the same calendar as SVEF events, so they need to be
+   distinguishable at a glance without being demoted: a green rule and the
+   organiser's name, not a smaller card. */
+.ev-row.partner{border-left:3px solid var(--hanoi)}
+.ev-row .date.pt{background:var(--ink-2)}
+.ev-row .pdesc{margin:6px 0 0;font-size:13px;line-height:1.55;color:var(--muted);max-width:64ch}
+
+/* 1.5: the canonical path, shown on the event masthead so the slug structure is
+   reviewable in the demo before it is real routing. */
+.evurl{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.evurl span{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;opacity:.6}
+.evurl code{font-family:var(--mono);font-size:12px;background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.24);padding:5px 10px;letter-spacing:.02em}
+.evredirect{margin-top:12px;font-size:12.5px;line-height:1.6;background:rgba(255,255,255,.1);
+  border-left:3px solid var(--gold);padding:11px 14px;max-width:70ch}
+
+/* 3.1: the three content sections, and the gate on two of them. */
+.ctsec{border:1px solid var(--line);background:#fff;margin-bottom:14px}
+.cth{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line);
+  background:var(--soft)}
+.cth b{font-size:14px;letter-spacing:-.02em;flex:1}
+.ctrow{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line);
+  cursor:pointer;text-decoration:none;color:inherit}
+.ctrow:last-child{border-bottom:none}
+.ctrow:hover{background:var(--wash)}
+.ctkind,.ctsrc{flex:0 0 auto;min-width:56px;text-align:center;font-family:var(--mono);font-size:9px;
+  text-transform:uppercase;letter-spacing:.08em;padding:6px 8px;border:1px solid var(--line);color:var(--muted)}
+.ctt{flex:1;min-width:0;font-size:14px;letter-spacing:-.015em;line-height:1.4}
+.ctt small{display:block;margin-top:4px;font-size:12px;color:var(--muted);letter-spacing:0}
+.ctlock{display:flex;align-items:center;gap:16px;padding:20px 18px;background:var(--wash)}
+.ctlock .lk{font-size:20px;opacity:.55}
+.ctlock b{display:block;font-size:14px;letter-spacing:-.02em}
+.ctlock p{margin:4px 0 0;font-size:12.5px;color:var(--muted);line-height:1.55;max-width:52ch}
+.ctlock .btn{margin-left:auto;flex:0 0 auto}
+/* auto-FIT, not auto-fill: with two published shots and the rest behind the login,
+   auto-fill leaves empty tracks and the gap colour shows through as blank cells. */
+.ctgal{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,220px));gap:2px;background:none}
+.ctgal figure{margin:0;position:relative;aspect-ratio:4/3;background-size:cover;background-position:center;
+  background-image:var(--img)}
+.ctgal figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 11px 10px;color:#fff;font-size:12px;
+  line-height:1.35;background:linear-gradient(180deg,rgba(14,39,61,0),rgba(14,39,61,.88) 62%)}
+.gtag{display:block;margin-top:3px;font-family:var(--mono);font-size:8px;text-transform:uppercase;
+  letter-spacing:.1em;opacity:.82}
+
+/* 2.5: the organisation is a required field now, and says why. */
+.reqd{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--red);
+  margin-left:5px}
+.regnote{margin-top:16px;background:var(--wash);border-left:3px solid var(--hanoi);padding:13px 16px;
+  font-size:13px;line-height:1.65;color:var(--ink-2);max-width:70ch}
+
+/* 5.2: developer credit, a colophon line rather than an advert. */
+.devby{border-top:1px solid rgba(255,255,255,.14);margin-top:26px;padding-top:20px;
+  font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.13em;opacity:.55;
+  display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+.devby a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.devby a:hover{opacity:1}
+
 .toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(16px);background:var(--ink);
   color:#fff;padding:14px 22px;border-radius:0;font-size:13px;font-weight:500;opacity:0;transition:.24s;
   z-index:200;box-shadow:var(--shadow);pointer-events:none;border-left:5px solid var(--red);letter-spacing:-.01em}
@@ -441,7 +513,11 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 @media(max-width:640px){.ev-row .shot{display:none}}
 
 /* ==================== EVENT DETAIL PAGE ==================== */
-.evhero{background:var(--ink);color:#fff;position:relative;overflow:hidden;border-bottom:5px solid var(--red)}
+/* 5.1: the event masthead carried the most weight and drew the "hơi tối" comment.
+   Same ink at the foot for type contrast, lifted through the Hanoi green at the
+   top, which is the gradient the event site itself uses. */
+.evhero{background:linear-gradient(160deg,var(--deep) 0%,var(--ink) 62%);color:#fff;position:relative;
+  overflow:hidden;border-bottom:5px solid var(--red)}
 .evhero .bg{position:absolute;inset:0;background-image:var(--img);background-size:cover;background-position:center;
   filter:grayscale(1) contrast(1.04);opacity:.32}
 .evhero .wrap{position:relative;z-index:1;padding:30px 32px 44px}
@@ -1319,6 +1395,12 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
     </div>
     <div class="bot"><span>© 2026 Swiss-Viet Economic Forum · Demo by IMT Software</span><span data-i18n="foot_before">Target: live before the Hanoi Forum · October 2026</span></div>
   </div>
+  <!-- 25/08 meeting, 5.2: the developer credit Toàn offered, kept to one line at
+       the very foot so it reads as a colophon rather than an advert. -->
+  <div class="wrap"><div class="devby">
+    <span data-i18n="dev_by">Designed and developed by</span>
+    <a href="https://imt-soft.com" target="_blank" rel="noopener">IMT Software</a>
+  </div></div>
 </footer>
 
 <!-- ===== LOGIN MODAL ===== -->
@@ -1431,6 +1513,25 @@ footer .bot{border-top:1px solid rgba(255,255,255,.18);padding-top:22px;font-fam
 /* ================= I18N ================= */
 const T={
  en:{
+  /* ---- 25/08 meeting additions ---------------------------------------- */
+  ev_partner:"Partner event", ev_partner_go:"Opens the organiser's site",
+  ev_url:"Page address", 
+  ev_redirect:"You followed an old link ({old}). This event now lives at {new}, and the old address will keep redirecting here.",
+  rt_notfound:"That event link is no longer valid. Here is the full calendar.",
+  ct_h:"Event content", 
+  ctv_lede:"Presentations, photography and press coverage from this event.",
+  ct_library:"Library and resources", ct_gallery:"Gallery", ct_news:"In the news",
+  ct_public:"Public", ct_login:"Sign in required",
+  ct_dl:"Downloading…",
+  ct_lib_locked:"{n} presentations from this event",
+  ct_gal_locked:"{n} more photographs",
+  ct_locked_p:"Available to attendees who registered for this event. Sign in to open them.",
+  ct_pubshot:"Published", ct_privshot:"Attendees only",
+  rw_required:"required", 
+  rw_need_co:"Please give the organisation each attendee represents.",
+  rw_co_why:"SVEF events are for people attending on behalf of a business or an institution, so the organisation is required. It is what links you to your company profile in the delegate directory and the app.",
+  dev_by:"Designed and developed by",
+
   demo_banner:"🔎 DEMO / PROTOTYPE · SVEF Website &amp; Member Portal · IMT Software · not production data",
   ph_name:"Your name",ph_help:"How can we help?",
   nav_home:"Home",nav_about:"About us",nav_act:"Activities",nav_partners:"Partners & Members",nav_events:"Events",nav_news:"News",nav_res:"Resources",nav_media:"Media",nav_contact:"Contact",
@@ -1634,6 +1735,25 @@ const T={
   ct_org:"Organisation",ct_org_ph:"Company or institution",
  },
  vi:{
+  /* ---- 25/08 meeting additions ---------------------------------------- */
+  ev_partner:"Sự kiện đối tác", ev_partner_go:"Mở trang của đơn vị tổ chức",
+  ev_url:"Địa chỉ trang",
+  ev_redirect:"Bạn vừa truy cập bằng đường dẫn cũ ({old}). Sự kiện này hiện nằm tại {new}, đường dẫn cũ vẫn sẽ chuyển hướng về đây.",
+  rt_notfound:"Đường dẫn sự kiện này không còn hiệu lực. Đây là toàn bộ lịch sự kiện.",
+  ct_h:"Nội dung sự kiện",
+  ctv_lede:"Tài liệu trình bày, hình ảnh và báo chí về sự kiện này.",
+  ct_library:"Tài liệu", ct_gallery:"Thư viện ảnh", ct_news:"Trên báo chí",
+  ct_public:"Công khai", ct_login:"Cần đăng nhập",
+  ct_dl:"Đang tải xuống…",
+  ct_lib_locked:"{n} tài liệu trình bày từ sự kiện này",
+  ct_gal_locked:"{n} ảnh khác",
+  ct_locked_p:"Dành cho người đã đăng ký tham dự sự kiện. Đăng nhập để xem.",
+  ct_pubshot:"Đã công khai", ct_privshot:"Chỉ người tham dự",
+  rw_required:"bắt buộc",
+  rw_need_co:"Vui lòng điền tổ chức mà mỗi người tham dự đại diện.",
+  rw_co_why:"Sự kiện SVEF dành cho người tham dự với tư cách đại diện doanh nghiệp hoặc tổ chức, vì vậy thông tin tổ chức là bắt buộc. Đây cũng là thông tin liên kết bạn với hồ sơ doanh nghiệp trong danh bạ đại biểu và trong ứng dụng.",
+  dev_by:"Thiết kế và phát triển bởi",
+
   demo_banner:"🔎 BẢN DEMO / NGUYÊN MẪU · Website &amp; Cổng thành viên SVEF · IMT Software · không phải dữ liệu thật",
   ph_name:"Họ và tên",ph_help:"Chúng tôi có thể giúp gì?",
   nav_home:"Trang chủ",nav_about:"Giới thiệu",nav_act:"Hoạt động",nav_partners:"Đối tác & Thành viên",nav_events:"Sự kiện",nav_news:"Tin tức",nav_res:"Tài nguyên",nav_media:"Truyền thông",nav_contact:"Liên hệ",
@@ -1839,6 +1959,14 @@ const T={
 };
 let lang=localStorage.getItem('svef_web_lang')==='vi'?'vi':'en';
 function tr(k){return T[lang][k]!==undefined?T[lang][k]:k}
+/* Placeholder substitution for the few strings that carry values. Kept next to tr
+   so translated copy stays one string per language instead of being concatenated
+   in the renderers, which is how word order gets broken between EN and VI. */
+function fill(str,rep){
+  let out=String(str||'');
+  Object.keys(rep||{}).forEach(function(k){out=out.split('{'+k+'}').join(rep[k]);});
+  return out;
+}
 
 /* ================= DATA ================= */
 const COLORS=["#0E273D","#E42026","#3E7742","#754715","#224861","#800000","#3C6980","#517896"];
@@ -1886,6 +2014,29 @@ const SPO_MEKONG={n:"Mekong Digital",i:"MD",c:"#4A3B6B",d:{en:"Digital infrastru
 const SPO_SAIGON={n:"Saigon Logistics",i:"SL",c:"#1F3A5F",d:{en:"Freight & supply chain",vi:"Vận tải & chuỗi cung ứng"}};
 const TIER_L={headline:{en:"Headline",vi:"Đồng hành chính"},gold:{en:"Gold",vi:"Vàng"},silver:{en:"Silver",vi:"Bạc"}};
 
+/* --- Partner events (25/08 meeting, 1.1) --------------------------------------
+   Third-party events return to the calendar as LISTINGS. They carry only the four
+   fields the meeting insisted on so they sit next to an SVEF event without looking
+   broken (name, image, description, dates) plus the organiser and a link out.
+   There is no SVEF event page behind them, no agenda and no registration, because
+   SVEF has no admin rights over somebody else's event. `partner:true` is what every
+   renderer keys off. */
+const partnerEvents=[
+ {id:"swisscham-biotech-bridge-2026",partner:true,img:"seminar",day:"17",mon:{en:"SEP",vi:"TH9"},yr:"2026",
+  organiser:"SwissCham Asia",ext:"https://swisscham.example.ch/events/biotech-bridge-2026",
+  t:{en:"Swiss-Vietnam Biotech Bridge",vi:"Biotech Bridge Thụy Sĩ - Việt Nam"},
+  loc:{en:"Basel · Switzerland",vi:"Basel · Thụy Sĩ"},
+  start:"2026-09-17T09:00",
+  d:{en:"A matchmaking day for pharmaceutical and medical device businesses from Switzerland and Vietnam, organised by SwissCham Asia.",
+     vi:"Ngày kết nối doanh nghiệp dược phẩm và thiết bị y tế Thụy Sĩ - Việt Nam, do SwissCham Asia tổ chức."}},
+ {id:"vcci-logistics-forum-2026",partner:true,img:"manufacturing",day:"19",mon:{en:"NOV",vi:"TH11"},yr:"2026",
+  organiser:"VCCI Hai Phong",ext:"https://vcci.example.vn/su-kien/logistics-forum-2026",
+  t:{en:"Vietnam-Europe Logistics Forum",vi:"Diễn đàn Logistics Việt Nam - châu Âu"},
+  loc:{en:"Hai Phong · Vietnam",vi:"Hải Phòng · Việt Nam"},
+  start:"2026-11-19T08:30",
+  d:{en:"A conference on the Vietnam to Europe freight corridor after EFTA, organised by VCCI Hai Phong.",
+     vi:"Hội nghị về hành lang vận tải Việt Nam - châu Âu sau EFTA, do VCCI Hải Phòng tổ chức."}}
+];
 const events=[
  /* sold out, demonstrates the waitlist route */
  {id:"green-finance-basel-2026",img:"energy-solar",day:"18",mon:{en:"SEP",vi:"TH9"},yr:"2026",
@@ -2281,6 +2432,7 @@ let loggedIn=false;
 
 /* ================= NAV ================= */
 function show(p){
+  if(p!=='event')setHash('#/'+(p==='home'?'':p));
   document.querySelectorAll('.menu a').forEach(a=>a.classList.toggle('on',a.getAttribute('onclick')==="show('"+p+"')"));
   document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
   const el=document.getElementById('page-'+p); if(el)el.classList.add('active');
@@ -2296,6 +2448,15 @@ function mobileMenu(){const m=document.getElementById('menu');m.classList.toggle
 /* ================= RENDER PUBLIC ================= */
 function plogo(p,size){return `<div class="plogo" style="background:${p.c}${size?';width:'+size+'px;height:'+size+'px':''}">${p.i}</div>`}
 function evCard(e,i){
+  if(e.partner)return `<div class="ev-row partner" onclick="openEvent(${i})">
+    <div class="date pt"><b>${e.day}</b><span>${e.mon[lang]}</span></div>
+    <div class="shot pic" style="--img:url('assets/img/${e.img}.jpg')" aria-hidden="true"></div>
+    <div class="info"><h4>${e.t[lang]}</h4><p>${e.loc[lang]}</p>
+      <p class="pdesc">${e.d[lang]}</p>
+      <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">
+        <span class="chip">${tr('ev_partner')}</span>
+        <span class="chip navy">${e.organiser}</span></div></div>
+    <span class="muted" title="${tr('ev_partner_go')}">↗</span></div>`;
   const chip=evStateChip(e);
   return `<div class="ev-row" onclick="openEvent(${i})"><div class="date"><b>${e.day}</b><span>${e.mon[lang]}</span></div>
    <div class="shot pic" style="--img:url('assets/img/${e.img}.jpg')" aria-hidden="true"></div>
@@ -2485,8 +2646,13 @@ function doCreateAccount(){
   doLogin();
   toast(tr('t_account_created')+(nm?', '+nm:''));
 }
-function doLogin(){loggedIn=true;closeModal();document.getElementById('loginBtn').textContent=tr('pt_dash');document.getElementById('loginBtn').onclick=()=>{show('portal');renderPortal();};show('portal');renderPortal();renderEvents();toast(lang==='vi'?'Đăng nhập thành công':'Logged in');}
-function logout(){loggedIn=false;document.getElementById('loginBtn').textContent=tr('login');document.getElementById('loginBtn').onclick=openLogin;renderEvents();show('home');}
+function doLogin(){loggedIn=true;closeModal();document.getElementById('loginBtn').textContent=tr('pt_dash');document.getElementById('loginBtn').onclick=()=>{show('portal');renderPortal();};show('portal');renderPortal();renderEvents();
+  /* the event page's content gate reads loggedIn, so it has to be repainted */
+  if(events[curEvent])renderEventPage();
+  toast(lang==='vi'?'Đăng nhập thành công':'Logged in');}
+function logout(){loggedIn=false;document.getElementById('loginBtn').textContent=tr('login');document.getElementById('loginBtn').onclick=openLogin;renderEvents();
+  if(events[curEvent])renderEventPage();
+  show('home');}
 
 let pdTab='overview';
 function openPartner(i){
@@ -2565,6 +2731,55 @@ function evKicker(e){
   }
   return a.getDate()+' '+mo+' - '+b.getDate()+' '+MONTHS[lang][b.getMonth()].toUpperCase()+' '+b.getFullYear();
 }
+/* --- Event content: Library, Gallery, News (25/08 meeting, 3.1) ---------------
+   The access rules were settled in the meeting and they differ per section, which
+   is the whole reason this is three lists and not one:
+     library - speakers' slides. Login, so attendees stop emailing the secretariat.
+     gallery - event photography. Login. A public gallery was proposed and overruled
+               on privacy grounds; group shots already on social media are the
+               stated exception and are marked public individually.
+     news    - press coverage. Public, because reach is the point of it.
+   On the website the gate is real: a visitor who is not signed in sees that the
+   material exists and is told what to do, rather than being shown nothing. */
+const eventContent={
+ "svef-hanoi-forum-2026":{
+  library:[
+   {t:{en:"Swiss-Vietnam trade outlook 2027",vi:"Triển vọng thương mại Thụy Sĩ - Việt Nam 2027"},
+    by:"Dr. Anna Keller · Helvetia Fintech",kind:"PDF",size:"4.2 MB"},
+   {t:{en:"Financing the green transition",vi:"Tài chính cho chuyển dịch xanh"},
+    by:"Nguyễn Minh Đức · GreenTech Vietnam",kind:"PDF",size:"3.1 MB"},
+   {t:{en:"Market entry for Swiss SMEs",vi:"Gia nhập thị trường cho doanh nghiệp vừa và nhỏ Thụy Sĩ"},
+    by:"Marco Rossi · Alpine Advisory",kind:"PPTX",size:"12.4 MB"},
+   {t:{en:"Legal frameworks for foreign investors",vi:"Khung pháp lý cho nhà đầu tư nước ngoài"},
+    by:"Hoàng Yến · Yen & Partners",kind:"PDF",size:"2.6 MB"}],
+  gallery:[
+   {img:"forum-stage",cap:{en:"Opening plenary",vi:"Phiên khai mạc"},pub:true},
+   {img:"signing",cap:{en:"Memorandum signing",vi:"Lễ ký biên bản ghi nhớ"},pub:true},
+   {img:"seminar",cap:{en:"Fintech breakout",vi:"Hội thảo chuyên đề Fintech"},pub:false},
+   {img:"boardroom",cap:{en:"Investment roundtable",vi:"Bàn tròn đầu tư"},pub:false},
+   {img:"forum-audience",cap:{en:"Day 2 plenary",vi:"Phiên toàn thể ngày 2"},pub:false},
+   {img:"handshake",cap:{en:"Bilateral meetings",vi:"Các cuộc gặp song phương"},pub:false}],
+  news:[
+   {src:"VnExpress",d:{en:"20 Oct 2026",vi:"20/10/2026"},
+    t:{en:"Swiss businesses look to Vietnam after EFTA",vi:"Doanh nghiệp Thụy Sĩ tìm cơ hội tại Việt Nam sau EFTA"},
+    url:"https://vnexpress.example.net/svef-2026-efta"},
+   {src:"Neue Zürcher Zeitung",d:{en:"19 Oct 2026",vi:"19/10/2026"},
+    t:{en:"Hanoi hosts the largest Swiss delegation to date",vi:"Hà Nội đón đoàn doanh nghiệp Thụy Sĩ lớn nhất từ trước tới nay"},
+    url:"https://nzz.example.ch/svef-hanoi-2026"},
+   {src:"Báo Đầu tư",d:{en:"19 Oct 2026",vi:"19/10/2026"},
+    t:{en:"Three memorandums signed at the Swiss-Viet Economic Forum",vi:"Ba biên bản ghi nhớ được ký tại Diễn đàn Kinh tế Thụy Sĩ - Việt Nam"},
+    url:"https://baodautu.example.vn/svef-2026-mou"},
+   {src:"Handelszeitung",d:{en:"21 Oct 2026",vi:"21/10/2026"},
+    t:{en:"Why Switzerland is looking at northern Vietnam",vi:"Vì sao Thụy Sĩ nhìn về miền Bắc Việt Nam"},
+    url:"https://handelszeitung.example.ch/svef-precision"}]
+ }
+};
+function contentFor(e){return (e&&eventContent[e.id])||null;}
+
+/* Partner listings join the same calendar array, so sorting, filtering and the
+   "also on the calendar" strip all pick them up without a second code path. */
+partnerEvents.forEach(function(p){events.push(p);});
+events.sort(function(a,b){return String(a.start||'').localeCompare(String(b.start||''));});
 function evReg(e){return e.reg||{mode:'inhouse',state:'closed'};}
 function evSeatsLeft(e){const r=evReg(e);return Math.max(0,(r.cap||0)-(r.sold||0));}
 function evOrganiser(){return 'Swiss-Viet Economic Forum';}
@@ -2573,8 +2788,12 @@ function myRegFor(id){return myRegs.filter(function(r){
   return r.evId===id&&r.status!=='cancelled'&&(loggedIn||!r.seeded);})[0];}
 
 function openEvent(i){
+  const e=events[i];
+  /* A partner event is a listing, not a page we own. Clicking it leaves. */
+  if(e&&e.partner){if(e.ext)window.open(e.ext,'_blank','noopener');return;}
   curEvent=i;
   show('event');
+  if(e)setHash('#/events/'+eventSlug(e));
   renderEventPage();
 }
 function backToEvents(){show('events');renderEvents();}
@@ -2599,7 +2818,12 @@ function renderEventPage(){
        '<div><b>'+e.expect+'</b><span>'+tr('f_expect')+'</span></div>'+
        '<div><b>'+tr(e.etype)+'</b><span>'+tr('f_evtype')+'</span></div>'+
      '</div>'+
+     /* 1.5: show the canonical path, so the slug structure is reviewable and the
+        old subdomain link visibly resolves into it rather than 404ing. */
+     '<div class="evurl"><span>'+tr('ev_url')+'</span><code>'+eventPath(e)+'</code></div>'+
+     (cameFromLegacy?'<div class="evredirect">'+fill(tr('ev_redirect'),{old:cameFromLegacy,'new':eventPath(e)})+'</div>':'')+
    '</div>';
+  cameFromLegacy='';
 
   /* ---- left column: prose, focus, participants, agenda, speakers, co-organisers ---- */
   let m='<span class="evh first">'+tr('ev_about')+'</span>';
@@ -2656,6 +2880,7 @@ function renderEventPage(){
         (ci===0?tr('f_organiser'):tr('f_coorg'))+'</span></div></div>';
     }).join('')+'</div>';
   }
+  m+=evContentHtml(e);
   document.getElementById('evMain').innerHTML=m;
 
   /* ---- right column: registration call to action, then the fact panel ---- */
@@ -2810,6 +3035,13 @@ function regValidate(){
   if(key==='rst_details'){
     const bad=RW.attendees.some(function(a){return !a.name.trim()||!a.email.trim();});
     if(bad){toast(tr('rw_need_name'));return false;}
+    /* 25/08 meeting, 2.5: the organisation is now mandatory. SVEF only accepts
+       people attending on behalf of a business or an institution, and the whole
+       company side of connecting collapses without it: no company profile, no
+       "UBS met Vietcombank" line in the back office, and an unmatchable row when
+       the registration is imported. */
+    const noco=RW.attendees.some(function(a){return !String(a.company||'').trim();});
+    if(noco){toast(tr('rw_need_co'));return false;}
   }
   return true;
 }
@@ -2836,11 +3068,13 @@ function renderReg(){
           '<div class="grid g2" style="gap:14px">'+
           '<div class="mrow"><label>'+tr('rw_name')+'</label><input value="'+esc(a.name)+'" oninput="regAttSet('+i+',\'name\',this.value)"></div>'+
           '<div class="mrow"><label>'+tr('rw_email')+'</label><input value="'+esc(a.email)+'" oninput="regAttSet('+i+',\'email\',this.value)"></div>'+
-          '<div class="mrow"><label>'+tr('rw_company')+'</label><input value="'+esc(a.company)+'" oninput="regAttSet('+i+',\'company\',this.value)"></div>'+
+          '<div class="mrow"><label>'+tr('rw_company')+' <span class="reqd">'+tr('rw_required')+'</span></label>'+
+            '<input value="'+esc(a.company)+'" oninput="regAttSet('+i+',\'company\',this.value)"></div>'+
           '<div class="mrow"><label>'+tr('rw_title')+'</label><input value="'+esc(a.title)+'" oninput="regAttSet('+i+',\'title\',this.value)"></div>'+
           '</div></div>';
       }).join('')+
-      (RW.type==='group'?'<div style="margin-top:14px"><button class="btn ghost sm" onclick="regAddAtt()">'+tr('rw_att_add')+'</button></div>':'');
+      (RW.type==='group'?'<div style="margin-top:14px"><button class="btn ghost sm" onclick="regAddAtt()">'+tr('rw_att_add')+'</button></div>':'')+
+      '<div class="regnote">'+tr('rw_co_why')+'</div>';
   }else{
     b=regSummary(true);
   }
@@ -3363,6 +3597,125 @@ function applyI18n(){
 }
 function toggleLang(){lang=lang==='en'?'vi':'en';localStorage.setItem('svef_web_lang',lang);applyI18n();}
 
+
+/* ---- Library / Gallery / News on the public event page (3.1) --------------- */
+function evContentHtml(e){
+  const c=contentFor(e);
+  if(!c)return '';
+  let h='<span class="evh">'+tr('ct_h')+'</span>';
+  h+='<p class="muted" style="margin:-4px 0 18px;font-size:13.5px">'+tr('ctv_lede')+'</p>';
+
+  /* News first, because it is the only one an anonymous visitor can read, and
+     leading with two locked panels reads as a paywall. */
+  h+='<div class="ctsec"><div class="cth"><b>'+tr('ct_news')+'</b>'+
+     '<span class="chip green">'+tr('ct_public')+'</span></div>';
+  h+=c.news.map(function(a){
+    return '<a class="ctrow" href="'+a.url+'" target="_blank" rel="noopener">'+
+      '<span class="ctsrc">'+a.src+'</span>'+
+      '<span class="ctt">'+a.t[lang]+'<small>'+a.d[lang]+'</small></span>'+
+      '<span class="muted">↗</span></a>';
+  }).join('')+'</div>';
+
+  h+='<div class="ctsec"><div class="cth"><b>'+tr('ct_library')+'</b>'+
+     '<span class="chip">'+tr('ct_login')+'</span></div>';
+  h+=loggedIn
+    ? c.library.map(function(x){
+        return '<a class="ctrow" onclick="toast(tr(\'ct_dl\'))">'+
+          '<span class="ctkind">'+x.kind+'</span>'+
+          '<span class="ctt">'+x.t[lang]+'<small>'+x.by+' · '+x.size+'</small></span>'+
+          '<span class="muted">↓</span></a>';
+      }).join('')
+    : ctLocked(c.library.length,'ct_lib_locked');
+  h+='</div>';
+
+  h+='<div class="ctsec"><div class="cth"><b>'+tr('ct_gallery')+'</b>'+
+     '<span class="chip">'+tr('ct_login')+'</span></div>';
+  if(loggedIn){
+    h+='<div class="ctgal">'+c.gallery.map(function(g){
+      return '<figure class="pic" style="--img:url(\'assets/img/'+g.img+'.jpg\')">'+
+        '<figcaption>'+g.cap[lang]+
+        '<span class="gtag">'+tr(g.pub?'ct_pubshot':'ct_privshot')+'</span></figcaption></figure>';
+    }).join('')+'</div>';
+  }else{
+    /* The publicly published group shots stay visible while logged out, because
+       they are already on social media. Everything else is behind the login. */
+    const open=c.gallery.filter(function(g){return g.pub;});
+    h+='<div class="ctgal">'+open.map(function(g){
+      return '<figure class="pic" style="--img:url(\'assets/img/'+g.img+'.jpg\')">'+
+        '<figcaption>'+g.cap[lang]+'<span class="gtag">'+tr('ct_pubshot')+'</span></figcaption></figure>';
+    }).join('')+'</div>';
+    h+=ctLocked(c.gallery.length-open.length,'ct_gal_locked');
+  }
+  h+='</div>';
+  return h;
+}
+function ctLocked(n,key){
+  return '<div class="ctlock"><span class="lk">🔒</span>'+
+    '<div><b>'+fill(tr(key),{n:n})+'</b><p>'+tr('ct_locked_p')+'</p></div>'+
+    '<button class="btn ghost" onclick="openLogin()">'+tr('login')+'</button></div>';
+}
+
+/* ================= URL ROUTING BY SLUG (25/08 meeting, 1.5) =================
+   Toàn wanted svef.ch to carry the organisation plus a list of events, with the
+   existing hanoi2026.svef.ch pointing back at it. A separate subdomain per event
+   means a separate site per event: separate DNS, separate certificate, separate
+   deployment, and a member session that does not carry across. The agreed answer
+   was to distinguish events by PATH instead, which is what this does:
+
+       /events/svef-hanoi-forum-2026        one site, one session, one deployment
+
+   The demo is a single static file served from GitHub Pages, so it cannot own real
+   paths. It uses the hash equivalent (#/events/<slug>) and shows the canonical path
+   on the event page, so the shape of the URL is reviewable now and becomes a real
+   path the moment this runs on a server that can rewrite.
+
+   Legacy links keep working. Anything arriving on the old subdomain form is mapped
+   to the new slug and told so, which is the redirect Toàn asked for. */
+const LEGACY_SLUGS={
+  'hanoi2026':'svef-hanoi-forum-2026',
+  'hanoi-2026':'svef-hanoi-forum-2026',
+  'hanoi':'svef-hanoi-forum-2026',
+  'basel2026':'green-finance-basel-2026',
+  'zurich2026':'svef-gala-zurich-2026'
+};
+let cameFromLegacy='';
+function eventSlug(e){return e.id;}
+function eventPath(e){return '/events/'+eventSlug(e);}
+function eventUrl(e){return 'https://svef.ch'+eventPath(e);}
+function findEventBySlug(slug){
+  if(!slug)return -1;
+  const key=String(slug).toLowerCase();
+  let i=events.findIndex(e=>eventSlug(e).toLowerCase()===key);
+  if(i>-1)return i;
+  const mapped=LEGACY_SLUGS[key];
+  if(mapped){
+    i=events.findIndex(e=>eventSlug(e).toLowerCase()===mapped);
+    if(i>-1){cameFromLegacy=key;return i;}
+  }
+  return -1;
+}
+/* Writing the hash must not re-enter the router, or every click routes twice. */
+let suppressHash=false;
+function setHash(h){
+  if(location.hash===h)return;
+  suppressHash=true;location.hash=h;
+  setTimeout(function(){suppressHash=false;},0);
+}
+function routeFromHash(){
+  if(suppressHash)return;
+  const raw=(location.hash||'').replace(/^#\/?/,'');
+  if(!raw){show('home');return;}
+  const parts=raw.split('/').filter(Boolean);
+  if(parts[0]==='events'&&parts[1]){
+    const i=findEventBySlug(decodeURIComponent(parts[1]));
+    if(i>-1){openEvent(i);return;}
+    toast(tr('rt_notfound'));show('events');renderEvents();return;
+  }
+  if(document.getElementById('page-'+parts[0])){show(parts[0]);return;}
+  show('home');
+}
+window.addEventListener('hashchange',routeFromHash);
+
 /* ================= TOAST ================= */
 let toTimer;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toTimer);toTimer=setTimeout(()=>t.classList.remove('show'),2000);}
@@ -3381,6 +3734,7 @@ document.addEventListener('keydown',function(e){
 
 /* ================= INIT ================= */
 applyI18n();
+routeFromHash();
 if(!localStorage.getItem('svef_cookie'))document.getElementById('cookie').classList.add('show');
 </script>
 </body>

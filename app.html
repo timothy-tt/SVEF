@@ -33,7 +33,21 @@
   --ink:#0E273D; --ink-2:#224861;
   --navy:#0E273D; --navy-2:#224861;
   --muted:#3C6980; --line:#DAEDF0; --rule:#0E273D;
-  --bg:#F5F9FA; --card:#FFFFFF; --soft:#E9F4F5;
+  /* --- Hanoi 2026 event palette (25/08 meeting, 5.1) -----------------------
+     "Prototype hiện tại một số chỗ hơi tối, cần tươi sáng hơn. Dùng pattern màu
+     của event Hà Nội." Sampled from hanoi2026.svef.ch: a green-forward look on a
+     very pale green ground (#F6FBF2) with the SVEF red as the accent, which reads
+     considerably lighter than the blue-grey ramp the demo was using.
+
+     The spot colours from the brand guideline are untouched: red, green, gold,
+     cream, sky and steel are still exactly the Pantone values in palitra svef.pdf.
+     What changes is the NEUTRAL ground and the weight of the darkest surfaces, so
+     the prototype matches the event it is for without leaving the brand's colour
+     space. --ink stays the brand navy for type, because green or grey body text
+     against this ground drops below AA. See BRAND.md. */
+  --hanoi:#04723D; --hanoi-2:#3E7742; --wash:#F6FBF2; --wash-2:#EDF6EA;
+  --deep:#123A2A;
+  --bg:var(--wash); --card:#FFFFFF; --soft:var(--wash-2);
   --shadow:0 18px 44px rgba(14,39,61,.16); --shadow-sm:none;
   --r:0;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,"Segoe UI",system-ui,sans-serif;
@@ -292,6 +306,99 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   align-items:center}
 .mtg .mf .kv{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
 
+/* ==================== 25/08 MEETING: ORGS, MEMBERSHIP, CONTENT ==================== */
+/* Membership badge. Stars rather than a coloured pill, because it sits inline next
+   to a name and a pill there reads as a status (confirmed, pending) rather than a
+   standing. 2.4 asked specifically for "nhãn kiểu sao". */
+.memb{display:inline-flex;align-items:center;gap:4px;font-size:9px;letter-spacing:.04em;white-space:nowrap}
+.memb i{font-style:normal;font-size:8.5px;letter-spacing:-.5px}
+.memb.big{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.09em}
+.memline{font-size:12px;display:inline-flex;gap:6px;align-items:center}
+.note.reuse{border-left-color:var(--hanoi);font-size:12px;line-height:1.6}
+.memline i{font-style:normal}
+
+/* The company line under a person, on the directory row. */
+.orglink{display:flex;width:100%;align-items:center;gap:8px;margin:10px 0 0;padding:8px 9px;
+  background:var(--soft);border:1px solid var(--line);border-radius:0;cursor:pointer;
+  font:inherit;font-size:11.5px;color:var(--ink-2);text-align:left}
+.orglink:hover{border-color:var(--ink)}
+.orglink .av{flex:0 0 auto}
+.orglink .muted{margin-left:auto}
+.av.xs{width:22px;height:22px;font-size:9px;display:inline-flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700}
+
+.orgcard{display:flex;gap:13px;align-items:center;background:#fff;border:1px solid var(--line);
+  margin:0 16px -1px;padding:13px;cursor:pointer}
+.orgcard:hover{border-color:var(--ink)}
+.orgcard .meta{flex:1;min-width:0}
+.orgcard h4{margin:0;font-size:14px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:7px}
+.orgcard p{margin:3px 0 0;font-size:11.5px;color:var(--muted)}
+a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+/* A button that is present but refused, so the reason can be explained on tap
+   rather than the control vanishing and leaving the attendee guessing. */
+.btn.off{opacity:.45;border-style:dashed}
+
+/* Meeting card additions: the company on both sides (2.6), the message, and the
+   place the two attendees agreed themselves (2.2). */
+.mtg.act{border-color:var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
+.mtg .mp{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px}
+.mtg .mp b{font-size:13px}
+.mtg .mp span{width:100%}
+.mtg .mco{width:100%;color:var(--red-ink);font-size:11.5px;cursor:pointer;text-decoration:underline;
+  text-underline-offset:2px}
+.mtg .mmsg{margin:9px 0 0;padding:9px 11px;background:var(--soft);border-left:2px solid var(--steel);
+  font-size:12px;line-height:1.5;color:var(--ink-2)}
+.mtg .mplace{margin-top:9px;font-size:11.5px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:6px;
+  align-items:baseline}
+.mtg .mplace b{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--muted);font-weight:500}
+.mtg .mplace em{font-style:normal;color:var(--muted)}
+.lnkbtn{background:none;border:0;padding:0;margin-left:auto;font:inherit;font-size:11px;
+  color:var(--red-ink);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+
+/* A short speaker bio inline in the agenda's speaker list (3.2). */
+.spkbio{margin:5px 0 0!important;font-size:11px!important;line-height:1.5;color:var(--muted);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Event content tiles: Library, Gallery, News (3.1). */
+.ctgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:0 16px 4px}
+.cttile{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:#fff;
+  border:1px solid var(--line);margin-left:-1px;padding:13px 11px;cursor:pointer;text-align:left;font:inherit}
+.cttile:first-child{margin-left:0}
+.cttile:hover{border-color:var(--ink);position:relative;z-index:1}
+.cttile b{font-size:12.5px;letter-spacing:-.02em}
+.ctic{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.ctn{font-family:var(--mono);font-size:8.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.ctgate{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--green);margin-top:auto}
+.cttile.locked .ctgate{color:var(--gold-ink)}
+.cttile.locked .ctic{filter:grayscale(1);opacity:.55}
+.phead.sm{padding:22px 16px 20px}
+.phead.sm h3{margin:0;font-size:18px;letter-spacing:-.035em}
+.phead.sm p{margin:5px 0 0;font-size:12px;opacity:.85}
+
+.galgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);margin:0 16px}
+.gcell{margin:0;position:relative;aspect-ratio:4/3;background-color:var(--soft);
+  background-image:var(--img);background-size:cover;background-position:center}
+.gcell figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 9px 8px;color:#fff;font-size:10.5px;
+  line-height:1.35;background:linear-gradient(180deg,rgba(14,39,61,0) 0%,rgba(14,39,61,.86) 62%)}
+.gtag{display:block;margin-top:3px;font-family:var(--mono);font-size:7.5px;text-transform:uppercase;
+  letter-spacing:.09em;opacity:.8}
+
+/* A field held but never published (3.2). */
+.sw.lockrow{cursor:default;background:var(--soft);border-style:dashed}
+.sw.lockrow .swb b{color:var(--muted)}
+.lockic{font-size:13px;opacity:.55;flex:0 0 auto}
+
+.evcard.partner{border-left:3px solid var(--steel)}
+.evcard.partner .evthumb{filter:saturate(.75)}
+.evdesc{margin:0 0 11px!important;font-size:12px!important;line-height:1.55;color:var(--ink-2)!important}
+/* Partner events are link-outs, so their card says so before it is tapped (1.1). */
+.pchip{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:8px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.09em;padding:3px 6px;border:1px solid var(--steel);
+  color:var(--ink-2);background:var(--sky)}
+
 /* ==================== FILTER BAR ==================== */
 .filterbar{display:flex;margin:14px 16px 10px}
 .filterbar label{flex:1;min-width:0;display:block;background:#fff;border:1px solid var(--ink);padding:8px 10px;
@@ -324,7 +431,10 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .nf time{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.06em}
 
 /* ==================== PROFILE ==================== */
-.phead{background:var(--ink);color:#fff;padding:28px 16px 26px;text-align:center;position:relative;overflow:hidden}
+/* 5.1: profile and content headers were solid navy slabs. Lifting them through
+   the Hanoi green keeps the white type at full contrast while losing the weight. */
+.phead{background:linear-gradient(160deg,var(--deep) 0%,var(--ink) 68%);color:#fff;padding:28px 16px 26px;
+  text-align:center;position:relative;overflow:hidden}
 .phead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--red)}
 .stats{display:flex;margin:0 16px 8px;background:#fff;border:1px solid var(--line);border-radius:0;
   box-shadow:none;overflow:hidden}
@@ -660,6 +770,9 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 
       <h2 class="sec"><span data-i18n="headline_spon">Nhà tài trợ chính</span> <a onclick="go('explore');switchTab('sponsors')" data-i18n="all">Tất cả</a></h2>
       <div class="hscroll" id="sponStrip"></div>
+
+      <h2 class="sec"><span data-i18n="ct_h">Nội dung sự kiện</span></h2>
+      <div class="ctgrid" id="homeContent"></div>
       </div><!-- /homeEvent -->
 
     </section>
@@ -677,6 +790,20 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
       </div>
       <div style="height:6px"></div>
       <div id="exList"></div>
+    </section>
+
+    <!-- EVENT CONTENT: LIBRARY / GALLERY / NEWS (25/08 meeting, 3.1) -->
+    <section class="screen" data-screen="library">
+      <div class="phead sm"><h3 data-i18n="ct_library">Tài liệu</h3><p data-i18n="ct_library_d">Slide và tài liệu do diễn giả chia sẻ.</p></div>
+      <div id="libBody"></div><div style="height:18px"></div>
+    </section>
+    <section class="screen" data-screen="gallery">
+      <div class="phead sm"><h3 data-i18n="ct_gallery">Thư viện ảnh</h3><p data-i18n="ct_gallery_d">Ảnh sự kiện do ban tổ chức chụp.</p></div>
+      <div id="galBody"></div><div style="height:18px"></div>
+    </section>
+    <section class="screen" data-screen="news">
+      <div class="phead sm"><h3 data-i18n="ct_news">Báo chí</h3><p data-i18n="ct_news_d">Các bài báo viết về sự kiện.</p></div>
+      <div id="newsBody"></div><div style="height:18px"></div>
     </section>
 
     <!-- SCHEDULE (Agenda + Meetings) -->
@@ -734,10 +861,25 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
         <p style="margin:4px 0 0;opacity:.85;font-size:12.5px" id="ppRole">—</p>
       </div>
       <div class="note mono" id="ppSynced" style="margin-top:14px" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
+      <div class="note reuse" id="ppReuse" data-i18n="pp_reuse">Hồ sơ này dùng chung cho mọi sự kiện SVEF, không phải nhập lại từng lần.</div>
       <div class="facts" id="ppFacts"></div>
       <div id="ppSessions"></div>
       <div id="ppHandles"></div>
       <div class="row" style="margin:10px 16px 18px" id="ppActs"></div>
+    </section>
+
+    <!-- ORGANISATION (25/08 meeting, 2.5) -->
+    <section class="screen" data-screen="org">
+      <div class="phead">
+        <div class="av sm" id="ogAv" style="width:78px;height:78px;font-size:24px;margin:0 auto 10px">—</div>
+        <h3 style="margin:0;font-size:19px;letter-spacing:-.035em" id="ogName">—</h3>
+        <p style="margin:4px 0 0;opacity:.85;font-size:12.5px" id="ogRole">—</p>
+      </div>
+      <div class="facts" id="ogFacts"></div>
+      <div id="ogReps"></div>
+      <div id="ogHandles"></div>
+      <div class="note mono" data-i18n="og_note">Tổ chức được phép công khai thông tin liên hệ. Hồ sơ cá nhân thì không.</div>
+      <div class="row" style="margin:10px 16px 18px" id="ogActs"></div>
     </section>
 
     <!-- PROFILE -->
@@ -878,6 +1020,8 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
     <div class="mlabel" style="margin:8px 16px 0" data-i18n="mr_time">Chọn khung giờ</div>
     <div class="pillrow" id="mrSlots"></div>
     <div class="field" style="margin-top:10px"><label data-i18n="mr_note">Lời nhắn (không bắt buộc)</label><textarea id="mrMsg"></textarea></div>
+    <div class="note" data-i18n="mr_noplace">Hệ thống không giữ chỗ hay xếp bàn. Sau khi cả hai xác nhận, hai bên tự hẹn địa điểm qua tin nhắn.</div>
+    <div class="note mono" data-i18n="mr_channels">Yêu cầu sẽ được gửi trong ứng dụng và qua email.</div>
     <div style="padding:0 16px"><button class="btn" onclick="sendMeetingReq()" data-i18n="mr_send">Gửi yêu cầu</button></div>
   </div>
 
@@ -1089,7 +1233,51 @@ const T={
          ["🤝","var(--gold)","Yêu cầu gặp mới","Lara Weber muốn gặp bạn lúc 15:30 (GMT+7). Chấp nhận?","12 phút"],
          ["🎟️","var(--green)","Đã có chỗ từ danh sách chờ","Phiên “Sản xuất chính xác & chuỗi cung ứng” vừa có chỗ trống. Đăng ký của bạn đã được xác nhận.","3 giờ"],
          ["🔔","var(--navy)","Thay đổi lịch trình","Phiên “Fintech” chuyển sang Phòng B1.","1 giờ"],
-         ["✅","var(--green)","Đăng ký thành công","Đăng ký tham dự SVEF 2026 đã được xác nhận. Mã đặt chỗ #SVEF-2041.","1 ngày"]]
+         ["✅","var(--green)","Đăng ký thành công","Đăng ký tham dự SVEF 2026 đã được xác nhận. Mã đặt chỗ #SVEF-2041.","1 ngày"]],
+
+  /* --- 25/08 meeting additions ------------------------------------------- */
+  pp_view_org:"Xem hồ sơ doanh nghiệp", pp_member:"Hạng thành viên", pp_org_h:"Doanh nghiệp",
+  pp_nocontact:"Hồ sơ cá nhân không hiển thị email hay số điện thoại. Dùng “Muốn kết nối” để liên hệ.",
+  pp_reuse:"Hồ sơ này dùng chung cho mọi sự kiện SVEF, không phải nhập lại từng lần.",
+  btn_want:"Muốn kết nối",
+  cn_blocked:"Người này chưa phải thành viên SVEF và chưa đăng ký nhu cầu kết nối. Liên hệ ban thư ký nếu bạn vẫn muốn gặp.",
+  og_type:"Loại hình", og_hq:"Trụ sở", og_size:"Quy mô nhân sự", og_about:"Giới thiệu",
+  og_looking:"Đang tìm kiếm", og_reps:"Người đại diện", og_noreps:"Chưa có người đại diện nào tham dự sự kiện này.",
+  og_request:"Đề nghị kết nối với doanh nghiệp",
+  og_note:"Tổ chức được phép công khai thông tin liên hệ. Hồ sơ cá nhân thì không.",
+  t_orgreq:"Đã gửi đề nghị kết nối tới {o}", t_want:"Đã gửi email đề nghị kết nối tới {n}",
+  nt_orgreq_t:"Đã gửi đề nghị kết nối", nt_orgreq_b:"Ban thư ký SVEF sẽ chuyển đề nghị của bạn tới {o} và phản hồi qua email.",
+  nt_want_t:"Đã gửi lời mời kết nối", nt_want_b:"Email đã được gửi tới {n}. Địa chỉ email của hai bên không được hiển thị cho nhau.",
+  mt_accept:"Chấp nhận", mt_reject:"Từ chối", mt_place:"Địa điểm:",
+  mt_place_none:"Hai bên tự thống nhất", mt_agree:"Hẹn địa điểm",
+  mt_waiting:"Bạn có {n} yêu cầu gặp đang chờ trả lời.",
+  mt_channels:"Yêu cầu gặp được gửi trong ứng dụng và qua email. Khi cả hai bên xác nhận, cả hai cùng nhận thông báo.",
+  mr_noplace:"Hệ thống không giữ chỗ hay xếp bàn. Sau khi cả hai xác nhận, hai bên tự hẹn địa điểm qua tin nhắn.",
+  mr_channels:"Yêu cầu sẽ được gửi trong ứng dụng và qua email.",
+  t_mtg_ok:"Đã xác nhận gặp {n}", t_mtg_no:"Đã từ chối yêu cầu gặp của {n}",
+  nt_mtgok_t:"Đã xác nhận lịch gặp", nt_mtgok_b:"Bạn sẽ gặp {n} · {d} · {t} · {e}. Cả hai bên đã nhận thông báo và email xác nhận.",
+  nt_mtgno_t:"Đã từ chối lịch gặp", nt_mtgno_b:"Bạn đã từ chối yêu cầu gặp của {n} ({d} · {t}). {n} đã nhận thông báo.",
+  nt_mtgsent_t:"Đã gửi yêu cầu gặp", nt_mtgsent_b:"Yêu cầu gặp {n} vào {d} · {t} đã được gửi trong ứng dụng và qua email.",
+  ct_h:"Nội dung sự kiện", ct_library:"Tài liệu", ct_gallery:"Thư viện ảnh", ct_news:"Báo chí",
+  ct_library_d:"Slide và tài liệu do diễn giả chia sẻ.", ct_gallery_d:"Ảnh sự kiện do ban tổ chức chụp.",
+  ct_news_d:"Các bài báo viết về sự kiện.",
+  ct_items:"mục", ct_open:"Đã mở", ct_locked:"Cần đăng ký",
+  ct_need_reg:"Mục này chỉ dành cho người đã đăng ký tham dự sự kiện.",
+  ct_none:"Chưa có nội dung nào cho sự kiện này.", ct_dl:"Đang tải xuống: ",
+  ct_library_note:"Tải trực tiếp, không cần liên hệ ban tổ chức.",
+  ct_gallery_note:"Ảnh sự kiện chỉ hiển thị cho người đã đăng ký, nhằm bảo vệ thông tin người tham dự. Ảnh tập thể đã đăng trên mạng xã hội và website được đánh dấu công khai.",
+  ct_news_note:"Mục này công khai, không cần đăng nhập.",
+  ct_pub:"Công khai", ct_priv:"Nội bộ",
+  nf_auto_h:"Nhắc lịch tự động", nf_auto:"Tự động nhắc phiên đã lưu",
+  nf_auto_d:"Ứng dụng tự nhắc trước giờ phiên bắt đầu.",
+  nf_lead:"Nhắc trước", nf_min:"phút",
+  nf_auto_note:"Ban tổ chức vẫn có thể gửi thông báo thủ công bất cứ lúc nào.",
+  t_auto_on:"Đã bật nhắc lịch tự động", t_auto_off:"Đã tắt nhắc lịch tự động", t_lead:"Nhắc trước {n} phút",
+  nt_auto_t:"Sắp tới giờ phiên đã lưu", nt_auto_b:"“{s}” bắt đầu sau {m} phút tại {r} ({d}).",
+  pv_never_h:"Không bao giờ hiển thị công khai",
+  pv_never_note:"SVEF lưu các thông tin này để liên hệ với bạn khi cần, nhưng không hiển thị trên hồ sơ cá nhân cho người tham dự khác.",
+  ev_partner:"Sự kiện đối tác", ev_partner_note:"Sự kiện do đối tác tổ chức. Đăng ký và thông tin chi tiết nằm trên trang của đơn vị tổ chức.",
+  ev_partner_go:"Mở trang của đơn vị tổ chức", ev_svef:"Sự kiện SVEF",
  },
  en:{
   greet:"Good morning", greet_pm:"Good afternoon", greet_eve:"Good evening", checkedin:"Checked in", ev_ended:"Ended",
@@ -1269,8 +1457,53 @@ const T={
          ["🤝","var(--gold)","New meeting request","Lara Weber wants to meet you at 15:30 (GMT+7). Accept?","12 min"],
          ["🎟️","var(--green)","Moved up from the waitlist","A seat opened in “Precision Manufacturing & Supply Chains”. Your booking is now confirmed.","3 hr"],
          ["🔔","var(--navy)","Schedule change","The “Fintech” session moved to Room B1.","1 hr"],
-         ["✅","var(--green)","Registration confirmed","Your registration for SVEF 2026 is confirmed. Booking #SVEF-2041.","1 day"]]
+         ["✅","var(--green)","Registration confirmed","Your registration for SVEF 2026 is confirmed. Booking #SVEF-2041.","1 day"]],
+
+  /* --- 25/08 meeting additions ------------------------------------------- */
+  pp_view_org:"View company profile", pp_member:"Membership", pp_org_h:"Organisation",
+  pp_nocontact:"A personal profile never shows an email address or a telephone number. Use \u201cWant to connect\u201d to get in touch.",
+  pp_reuse:"This profile is used for every SVEF event, so it is never filled in twice.",
+  btn_want:"Want to connect",
+  cn_blocked:"This attendee is not an SVEF member and did not ask to be connected. Contact the secretariat if you still want to meet.",
+  og_type:"Type", og_hq:"Head office", og_size:"Employees", og_about:"About",
+  og_looking:"Looking for", og_reps:"Representatives", og_noreps:"Nobody from this organisation is attending this event yet.",
+  og_request:"Request contact with this organisation",
+  og_note:"An organisation may publish its contact details. A personal profile may not.",
+  t_orgreq:"Contact request sent to {o}", t_want:"Connection email sent to {n}",
+  nt_orgreq_t:"Contact request sent", nt_orgreq_b:"The SVEF secretariat will pass your request to {o} and reply by email.",
+  nt_want_t:"Connection request sent", nt_want_b:"An email has gone to {n}. Neither side sees the other\u2019s address.",
+  mt_accept:"Accept", mt_reject:"Decline", mt_place:"Where:",
+  mt_place_none:"To be agreed between you", mt_agree:"Agree a spot",
+  mt_waiting:"You have {n} meeting requests waiting for an answer.",
+  mt_channels:"Meeting requests arrive both in the app and by email. Once both sides confirm, both sides are notified.",
+  mr_noplace:"The platform does not reserve a table or allocate a room. Once you both confirm, the two of you agree a spot in chat.",
+  mr_channels:"The request will be delivered in the app and by email.",
+  t_mtg_ok:"Meeting with {n} confirmed", t_mtg_no:"Declined the request from {n}",
+  nt_mtgok_t:"Meeting confirmed", nt_mtgok_b:"You are meeting {n} \u00b7 {d} \u00b7 {t} \u00b7 {e}. Both sides have had the notification and the confirmation email.",
+  nt_mtgno_t:"Meeting declined", nt_mtgno_b:"You declined the request from {n} ({d} \u00b7 {t}). {n} has been notified.",
+  nt_mtgsent_t:"Meeting request sent", nt_mtgsent_b:"Your request to meet {n} on {d} \u00b7 {t} went out in the app and by email.",
+  ct_h:"Event content", ct_library:"Library", ct_gallery:"Gallery", ct_news:"News",
+  ct_library_d:"Slides and papers shared by the speakers.", ct_gallery_d:"Event photography by the organisers.",
+  ct_news_d:"Press coverage of the event.",
+  ct_items:"items", ct_open:"Open", ct_locked:"Registration needed",
+  ct_need_reg:"This section is for attendees who registered for the event.",
+  ct_none:"Nothing published for this event yet.", ct_dl:"Downloading: ",
+  ct_library_note:"Download directly. There is no need to ask the secretariat.",
+  ct_gallery_note:"Photographs are shown to registered attendees only, to protect the identity of the people in them. Group shots already published on social media and the website are marked public.",
+  ct_news_note:"This section is public and needs no login.",
+  ct_pub:"Public", ct_priv:"Attendees only",
+  nf_auto_h:"Automatic reminders", nf_auto:"Remind me about saved sessions",
+  nf_auto_d:"The app reminds you before a saved session starts.",
+  nf_lead:"Remind me", nf_min:"min before",
+  nf_auto_note:"The organisers can still send a manual notification at any time.",
+  t_auto_on:"Automatic reminders on", t_auto_off:"Automatic reminders off", t_lead:"Reminding you {n} minutes ahead",
+  nt_auto_t:"A saved session is starting", nt_auto_b:"\u201c{s}\u201d starts in {m} minutes in {r} ({d}).",
+  pv_never_h:"Never shown publicly",
+  pv_never_note:"SVEF holds these so it can reach you, but they are never shown on your profile to other attendees.",
+  ev_partner:"Partner event", ev_partner_note:"Organised by a partner. Registration and full details live on the organiser\u2019s own site.",
+  ev_partner_go:"Open the organiser\u2019s site", ev_svef:"SVEF event",
  }
+
 };
 
 /* ===================== DATA (language-keyed) ===================== */
@@ -1403,6 +1636,37 @@ const events=stampEvents([
    desc:{vi:"Ngày hội công nghệ một ngày giới thiệu giải pháp công nghiệp và deep tech của Thụy Sĩ tới đối tác Việt Nam.",
          en:"A one-day showcase of Swiss industrial and deep-tech solutions for Vietnamese partners."},
    days:[{n:1,lbl:{vi:"Ngày 1",en:"Day 1"},d:{vi:"5/3",en:"5 Mar"}}]},
+  /* --- Partner events (25/08 meeting, 1.1) ---------------------------------
+     Third-party events came back, but deliberately thin. A partner event is a
+     LISTING, not a product: it carries the four fields the meeting insisted on
+     for a consistent look and feel (name, image, description, dates) plus the
+     organiser and the link to their own site. There is no agenda, no speakers,
+     no registration and no back office for the partner, because SVEF has no
+     admin rights over somebody else's event. Toàn asked for the partner's own
+     space and self-service maintenance to be proposed separately, so it is not
+     built here. */
+  {id:"chvn-biotech", partner:true, img:"seminar", ds:"2026-09-17", de:"2026-09-17", tz:"GMT+1",
+   ext:"https://swisscham.example.ch/events/biotech-bridge-2026",
+   n:{vi:"Biotech Bridge Thụy Sĩ - Việt Nam",en:"Swiss-Vietnam Biotech Bridge"},
+   short:{vi:"Biotech Bridge · Basel",en:"Biotech Bridge · Basel"},
+   dnum:"17", dmon:{vi:"THG 9",en:"SEP"},
+   dates:{vi:"17 tháng 9, 2026",en:"17 September 2026"},
+   venue:{vi:"Congress Center · Basel",en:"Congress Center · Basel"},
+   org:{vi:"SwissCham Asia",en:"SwissCham Asia"},
+   desc:{vi:"Ngày kết nối ngành dược phẩm và thiết bị y tế giữa doanh nghiệp Thụy Sĩ và Việt Nam, do SwissCham Asia tổ chức.",
+         en:"A matchmaking day for pharmaceutical and medical device businesses from Switzerland and Vietnam, run by SwissCham Asia."},
+   days:[]},
+  {id:"vcci-logistics", partner:true, img:"boardroom", ds:"2026-11-19", de:"2026-11-19", tz:"GMT+7",
+   ext:"https://vcci.example.vn/su-kien/logistics-forum-2026",
+   n:{vi:"Diễn đàn Logistics Việt Nam - châu Âu",en:"Vietnam-Europe Logistics Forum"},
+   short:{vi:"Logistics · Hải Phòng",en:"Logistics · Hai Phong"},
+   dnum:"19", dmon:{vi:"THG 11",en:"NOV"},
+   dates:{vi:"19 tháng 11, 2026",en:"19 November 2026"},
+   venue:{vi:"Hải Phòng",en:"Hai Phong"},
+   org:{vi:"VCCI Hải Phòng",en:"VCCI Hai Phong"},
+   desc:{vi:"Hội nghị về hành lang vận tải Việt Nam - châu Âu sau EFTA, do VCCI Hải Phòng tổ chức.",
+         en:"A conference on the Vietnam to Europe freight corridor after EFTA, run by VCCI Hai Phong."},
+   days:[]},
 ]);
 
 /* --- Sponsors -------------------------------------------------------------- */
@@ -1415,6 +1679,145 @@ const sponsors=[
   {n:"Saigon Logistics",i:"SL",c:"#1F3A5F",tier:"silver",d:{vi:"Vận tải & chuỗi cung ứng",en:"Freight & supply chain"}},
   {n:"Swiss Trade Association",i:"ST",c:"#E42026",tier:"silver",d:{vi:"Xúc tiến thương mại",en:"Trade promotion"}},
 ];
+
+/* --- Organisations ----------------------------------------------------------
+   25/08 meeting, 2.5: connecting is no longer only person to person. Every
+   attendee belongs to an organisation, an organisation has a profile of its own,
+   and the two point at each other. Unlike a person, an organisation IS allowed to
+   publish contact details (3.2), because that is the front door its staff want
+   people to use instead of their personal number. */
+const orgTypes={
+  corp:{vi:"Doanh nghiệp",en:"Company"},
+  fund:{vi:"Quỹ đầu tư",en:"Investment fund"},
+  assoc:{vi:"Hiệp hội",en:"Association"},
+  gov:{vi:"Cơ quan nhà nước",en:"Government body"},
+  ngo:{vi:"Tổ chức phi lợi nhuận",en:"Non-profit"}
+};
+/* Membership tier. 25/08 meeting, 2.4: SVEF wants the tier visible on the connect
+   list so that being a member or a sponsor visibly buys you something. The `rank`
+   drives the gate in `canConnect` below. */
+const memTiers={
+  headline:{vi:"Nhà tài trợ chính",en:"Headline sponsor", star:"★★★", c:"var(--gold-ink)", rank:4},
+  sponsor :{vi:"Nhà tài trợ",     en:"Sponsor",          star:"★★",  c:"var(--gold-ink)", rank:3},
+  corp    :{vi:"Thành viên doanh nghiệp",en:"Corporate member", star:"★★", c:"var(--red-ink)", rank:3},
+  indiv   :{vi:"Thành viên cá nhân",     en:"Individual member",star:"★",  c:"var(--red-ink)", rank:2},
+  guest   :{vi:"Khách tham dự",   en:"Guest",             star:"",   c:"var(--muted)",   rank:1}
+};
+const orgs=[
+  {id:"helvetia", n:"Helvetia Fintech", i:"HF", c:"#7A5C00", type:"corp", mem:"headline",
+   hq:{vi:"Zürich, Thụy Sĩ",en:"Zurich, Switzerland"}, ind:"fin", size:"180",
+   about:{vi:"Nền tảng thanh toán xuyên biên giới cho doanh nghiệp vừa và nhỏ giữa châu Âu và Đông Nam Á. Có giấy phép tổ chức tài chính tại Thụy Sĩ và văn phòng đại diện tại Singapore.",
+          en:"A cross-border payments platform for SMEs trading between Europe and South East Asia. Licensed as a financial institution in Switzerland, with a representative office in Singapore."},
+   looking:{vi:"Đối tác ngân hàng và ví điện tử tại Việt Nam",en:"Banking and e-wallet partners in Vietnam"},
+   web:"https://helvetiafintech.example.ch", email:"partnerships@helvetiafintech.example.ch", tel:"+41 44 500 21 00"},
+  {id:"zurichvc", n:"Zurich Ventures", i:"ZV", c:"#0A0A0A", type:"fund", mem:"headline",
+   hq:{vi:"Zürich, Thụy Sĩ",en:"Zurich, Switzerland"}, ind:"inv", size:"24",
+   about:{vi:"Quỹ đầu tư mạo hiểm giai đoạn sớm, tập trung vào công nghệ tài chính và công nghiệp. Quy mô quỹ hiện tại 240 triệu CHF.",
+          en:"An early-stage venture fund focused on financial and industrial technology. Current fund size CHF 240m."},
+   looking:{vi:"Vòng Series A tại Việt Nam và ASEAN",en:"Series A rounds in Vietnam and ASEAN"},
+   web:"https://zurichventures.example.ch", email:"deals@zurichventures.example.ch", tel:"+41 44 218 90 40"},
+  {id:"alpine", n:"Alpine Precision AG", i:"AP", c:"#0F5A4A", type:"corp", mem:"sponsor",
+   hq:{vi:"Biel, Thụy Sĩ",en:"Biel, Switzerland"}, ind:"mfg", size:"420",
+   about:{vi:"Nhà sản xuất linh kiện cơ khí chính xác cho ngành y tế và thiết bị công nghiệp, đang tìm cơ sở gia công tại Việt Nam.",
+          en:"A manufacturer of precision mechanical components for medical and industrial equipment, looking for machining capacity in Vietnam."},
+   looking:{vi:"Nhà cung ứng gia công cơ khí tại miền Bắc Việt Nam",en:"Machining suppliers in northern Vietnam"},
+   web:"https://alpineprecision.example.ch", email:"sourcing@alpineprecision.example.ch", tel:"+41 32 344 12 80"},
+  {id:"greentech", n:"GreenTech VN", i:"GT", c:"#3E7742", type:"corp", mem:"sponsor",
+   hq:{vi:"Hà Nội, Việt Nam",en:"Hanoi, Vietnam"}, ind:"eng", size:"95",
+   about:{vi:"Doanh nghiệp phát triển điện mặt trời áp mái và giải pháp lưu trữ năng lượng cho khu công nghiệp.",
+          en:"A developer of rooftop solar and energy-storage solutions for industrial parks."},
+   looking:{vi:"Công nghệ lưu trữ và vốn dự án từ Thụy Sĩ",en:"Storage technology and project capital from Switzerland"},
+   web:"https://greentech.example.vn", email:"hello@greentech.example.vn", tel:"+84 24 3736 5500"},
+  {id:"saigonlog", n:"Saigon Logistics", i:"SL", c:"#1F3A5F", type:"corp", mem:"corp",
+   hq:{vi:"TP. Hồ Chí Minh, Việt Nam",en:"Ho Chi Minh City, Vietnam"}, ind:"log", size:"1,200",
+   about:{vi:"Đơn vị giao nhận và kho vận phục vụ tuyến thương mại Việt Nam - châu Âu, khai thác kho tại Hải Phòng và Cát Lái.",
+          en:"A freight forwarding and warehousing operator serving the Vietnam to Europe trade lane, with warehouses at Hai Phong and Cat Lai."},
+   looking:{vi:"Đại lý giao nhận tại Thụy Sĩ và Nam Đức",en:"Forwarding agents in Switzerland and southern Germany"},
+   web:"https://saigonlogistics.example.vn", email:"sales@saigonlogistics.example.vn", tel:"+84 28 3822 9100"},
+  {id:"swisstrade", n:"Swiss Trade Association", i:"ST", c:"#E42026", type:"assoc", mem:"corp",
+   hq:{vi:"Bern, Thụy Sĩ",en:"Bern, Switzerland"}, ind:"pub", size:"60",
+   about:{vi:"Hiệp hội xúc tiến thương mại hỗ trợ doanh nghiệp Thụy Sĩ mở rộng sang thị trường ASEAN.",
+          en:"A trade promotion body helping Swiss companies expand into ASEAN markets."},
+   looking:{vi:"Đối tác tổ chức đoàn doanh nghiệp",en:"Partners for trade delegations"},
+   web:"https://swisstrade.example.ch", email:"asean@swisstrade.example.ch", tel:"+41 31 240 55 12"},
+  {id:"credithelvetia", n:"Credit Helvetia", i:"CH", c:"#0A0A0A", type:"corp", mem:"corp",
+   hq:{vi:"Genève, Thụy Sĩ",en:"Geneva, Switzerland"}, ind:"fin", size:"3,400",
+   about:{vi:"Ngân hàng doanh nghiệp Thụy Sĩ với mảng tư vấn mua bán và sáp nhập tại châu Á.",
+          en:"A Swiss corporate bank with an advisory practice covering mergers and acquisitions in Asia."},
+   looking:{vi:"Thương vụ M&A quy mô trung tại Việt Nam",en:"Mid-market M&A mandates in Vietnam"},
+   web:"https://credithelvetia.example.ch", email:"asia.ib@credithelvetia.example.ch", tel:"+41 22 707 40 00"},
+  {id:"vngrowth", n:"VN Growth Fund", i:"VG", c:"#E42026", type:"fund", mem:"corp",
+   hq:{vi:"TP. Hồ Chí Minh, Việt Nam",en:"Ho Chi Minh City, Vietnam"}, ind:"inv", size:"31",
+   about:{vi:"Quỹ tăng trưởng đầu tư vào doanh nghiệp tiêu dùng và sản xuất quy mô vừa tại Việt Nam.",
+          en:"A growth fund investing in mid-sized Vietnamese consumer and manufacturing businesses."},
+   looking:{vi:"Đồng đầu tư với quỹ châu Âu",en:"Co-investors from Europe"},
+   web:"https://vngrowth.example.vn", email:"ir@vngrowth.example.vn", tel:"+84 28 3910 4477"},
+  {id:"delta", n:"Delta Manufacturing", i:"DM", c:"#3E7742", type:"corp", mem:"indiv",
+   hq:{vi:"Bình Dương, Việt Nam",en:"Binh Duong, Vietnam"}, ind:"mfg", size:"640",
+   about:{vi:"Nhà máy gia công cơ khí và lắp ráp thiết bị điện tử tại Bình Dương, chứng nhận ISO 9001 và IATF 16949.",
+          en:"A metalworking and electronics assembly plant in Binh Duong, certified to ISO 9001 and IATF 16949."},
+   looking:{vi:"Hợp đồng gia công cho khách hàng châu Âu",en:"Contract manufacturing for European customers"},
+   web:"https://delta-mfg.example.vn", email:"info@delta-mfg.example.vn", tel:"+84 274 388 2200"},
+  {id:"svef", n:"SVEF", i:"SV", c:"#0A0A0A", type:"ngo", mem:"headline",
+   hq:{vi:"Zürich và Hà Nội",en:"Zurich and Hanoi"}, ind:"pub", size:"18",
+   about:{vi:"Tổ chức phi lợi nhuận thúc đẩy quan hệ kinh tế giữa Thụy Sĩ và Việt Nam.",
+          en:"A non-profit foundation promoting economic ties between Switzerland and Vietnam."},
+   looking:{vi:"Thành viên và nhà tài trợ cho mùa 2026",en:"Members and sponsors for the 2026 season"},
+   web:"https://svef.example.org", email:"secretariat@svef.example.org", tel:"+41 44 000 00 00"},
+  {id:"moit", n:"Bộ Công Thương", i:"BCT", c:"#E42026", type:"gov", mem:"guest",
+   hq:{vi:"Hà Nội, Việt Nam",en:"Hanoi, Vietnam"}, ind:"pub", size:"—",
+   about:{vi:"Cơ quan quản lý nhà nước về thương mại, công nghiệp và hội nhập kinh tế quốc tế.",
+          en:"The government body responsible for trade, industry and international economic integration."},
+   looking:{vi:"",en:""},
+   web:"https://moit.example.vn", email:"quocte@moit.example.vn", tel:"+84 24 2220 2222"},
+  {id:"zegoe", n:"Zegoe Capital", i:"ZC", c:"#E42026", type:"fund", mem:"indiv",
+   hq:{vi:"Hà Nội, Việt Nam",en:"Hanoi, Vietnam"}, ind:"inv", size:"12",
+   about:{vi:"Công ty đầu tư tập trung vào sản xuất, logistics và hạ tầng tại Việt Nam.",
+          en:"An investment firm focused on manufacturing, logistics and infrastructure in Vietnam."},
+   looking:{vi:"Đối tác công nghệ Thụy Sĩ cho danh mục hiện tại",en:"Swiss technology partners for the current portfolio"},
+   web:"https://zegoe.example.vn", email:"contact@zegoe.example.vn", tel:"+84 24 3200 1188"},
+];
+/* People carry a company name as free text, which is how the Wix export arrives too.
+   Rather than restate the link on every record, resolve it once by name. Anything
+   that does not resolve stays a plain string, exactly like an unmatched import row. */
+const orgByName={};
+orgs.forEach(function(o){orgByName[o.n.toLowerCase()]=o;});
+function orgOf(p){
+  if(!p)return null;
+  if(p.oid)return orgs.find(o=>o.id===p.oid)||null;
+  return orgByName[String(p.co||'').toLowerCase()]||null;
+}
+function orgById(id){return orgs.find(o=>o.id===id)||null;}
+function repsOf(o){
+  if(!o)return [];
+  return people.filter(p=>orgOf(p)&&orgOf(p).id===o.id);
+}
+/* An attendee inherits their organisation's tier unless they carry their own. */
+function memOf(p){
+  if(!p)return 'guest';
+  if(p.mem)return p.mem;
+  const o=orgOf(p);
+  return (o&&o.mem)||'guest';
+}
+function memBadge(p,big){
+  const k=memOf(p),t=memTiers[k];
+  if(!t||k==='guest')return '';
+  return `<span class="memb${big?' big':''}" style="color:${t.c}" title="${tx(t)}">`
+    +(t.star?`<i>${t.star}</i>`:'')+(big?esc(tx(t)):'')+`</span>`;
+}
+/* 2.4 is explicitly unresolved: SVEF has to decide whether only members may book a
+   meeting. Rather than guess, the rule is a switch the secretariat sets per event,
+   defaulting to what SVEF does today, and the app explains the refusal instead of
+   hiding the button. `connectPolicy` is mirrored in the back office. */
+let connectPolicy='opt-in';   /* 'all' | 'members' | 'opt-in' */
+function canConnect(p){
+  if(!p||p.self)return {ok:false,why:''};
+  if(connectPolicy==='all')return {ok:true,why:''};
+  const rank=(memTiers[memOf(p)]||{}).rank||1;
+  if(rank>=2)return {ok:true,why:''};
+  if(connectPolicy==='opt-in'&&p.netOptIn)return {ok:true,why:''};
+  return {ok:false,why:tr('cn_blocked')};
+}
 
 /* --- Participants (as synced from the admin dashboard) --------------------- */
 const industries={
@@ -1434,18 +1837,24 @@ const people=[
    t:{vi:"Tổng giám đốc",en:"Chief Executive Officer"},
    cod:{vi:"Nền tảng thanh toán xuyên biên giới cho doanh nghiệp vừa và nhỏ giữa châu Âu và Đông Nam Á.",
         en:"A cross-border payments platform for SMEs trading between Europe and South East Asia."},
+   bio:{vi:"Điều hành Helvetia Fintech từ 2021, trước đó phụ trách mảng thanh toán doanh nghiệp tại một ngân hàng Thụy Sĩ. Tập trung vào hành lang thanh toán châu Âu - Đông Nam Á.",
+        en:"Chief executive of Helvetia Fintech since 2021, previously head of corporate payments at a Swiss bank. Focused on the Europe to South East Asia payment corridor."},
    li:"https://www.linkedin.com/in/svef-demo-lara-weber",
    h:{x:"@laraweber_ch",web:"https://helvetiafintech.example.ch",wa:"+41 79 412 88 20"}},
   {id:2,n:"Marco Rossi",i:"MR",c:"#0F5A4A",co:"Zurich Ventures",ind:"inv",mkts:["ch","eu","asean"],acted:true,
    t:{vi:"Thành viên điều hành",en:"Partner"},
    cod:{vi:"Quỹ đầu tư mạo hiểm giai đoạn sớm, tập trung vào công nghệ tài chính và công nghiệp.",
         en:"An early-stage venture fund focused on financial and industrial technology."},
+   bio:{vi:"Đầu tư giai đoạn sớm vào fintech và công nghệ công nghiệp, đã dẫn dắt hơn 30 thương vụ tại châu Âu. Quan tâm tới vòng Series A ở Việt Nam.",
+        en:"Early-stage investor in fintech and industrial technology, having led more than 30 deals across Europe. Interested in Series A rounds in Vietnam."},
    li:"https://www.linkedin.com/in/svef-demo-marco-rossi",
    h:{x:"@mrossi_vc",web:"https://zurichventures.example.ch"}},
   {id:3,n:"Phạm Hà",i:"PH",c:"#1F3A5F",co:"GreenTech VN",ind:"eng",mkts:["vn","asean"],acted:true,
    t:{vi:"Nhà sáng lập",en:"Founder"},
    cod:{vi:"Doanh nghiệp phát triển điện mặt trời áp mái và giải pháp lưu trữ năng lượng cho khu công nghiệp.",
         en:"A developer of rooftop solar and energy-storage solutions for industrial parks."},
+   bio:{vi:"Sáng lập GreenTech VN năm 2018, phát triển hơn 120 MW điện mặt trời áp mái cho khu công nghiệp phía Bắc.",
+        en:"Founded GreenTech VN in 2018 and has developed more than 120 MW of rooftop solar for industrial parks in northern Vietnam."},
    li:"https://www.linkedin.com/in/svef-demo-pham-ha",
    h:{web:"https://greentech.example.vn",wa:"+84 90 214 7788"}},
   {id:4,n:"Daniel Frei",i:"DF",c:"#0A0A0A",co:"Credit Helvetia",ind:"fin",mkts:["ch","eu"],match:"92%",
@@ -1469,17 +1878,23 @@ const people=[
    t:{vi:"Chủ tịch",en:"Chairman"},
    cod:{vi:"Tổ chức phi lợi nhuận thúc đẩy quan hệ kinh tế giữa Thụy Sĩ và Việt Nam.",
         en:"A non-profit foundation promoting economic ties between Switzerland and Vietnam."},
+   bio:{vi:"Chủ tịch SVEF, hai mươi năm làm việc trong lĩnh vực xúc tiến thương mại và ngoại giao kinh tế giữa hai nước.",
+        en:"Chairman of SVEF, with twenty years in trade promotion and economic diplomacy between the two countries."},
    li:"https://www.linkedin.com/in/svef-demo-nguyen-minh",
    h:{web:"https://svef.example.org"}},
   {id:8,n:"Trần Bảo",i:"TB",c:"#E42026",co:"Bộ Công Thương",ind:"pub",mkts:["vn"],
    t:{vi:"Thứ trưởng",en:"Deputy Minister"},
    cod:{vi:"Cơ quan quản lý nhà nước về thương mại, công nghiệp và hội nhập kinh tế quốc tế.",
         en:"The government body responsible for trade, industry and international economic integration."},
+   bio:{vi:"Thứ trưởng phụ trách hội nhập kinh tế quốc tế, tham gia đàm phán các hiệp định thương mại tự do của Việt Nam.",
+        en:"Deputy Minister responsible for international economic integration, involved in negotiating Vietnam\u2019s free trade agreements."},
    li:"https://www.linkedin.com/in/svef-demo-tran-bao"},
   {id:9,n:"Andreas Küng",i:"AK",c:"#0F5A4A",co:"Alpine Precision AG",ind:"mfg",mkts:["ch","eu","vn"],acted:true,
    t:{vi:"Giám đốc vận hành",en:"Chief Operating Officer"},
    cod:{vi:"Nhà sản xuất linh kiện cơ khí chính xác cho ngành y tế và thiết bị công nghiệp.",
         en:"A manufacturer of precision mechanical components for medical and industrial equipment."},
+   bio:{vi:"Giám đốc vận hành Alpine Precision AG, phụ trách mạng lưới nhà cung ứng châu Á và chương trình chuyển giao công nghệ.",
+        en:"Chief operating officer of Alpine Precision AG, responsible for the Asian supplier network and the technology transfer programme."},
    li:"https://www.linkedin.com/in/svef-demo-andreas-kueng",
    h:{web:"https://alpineprecision.example.ch",wa:"+41 76 908 33 41"}},
   {id:10,n:"Đỗ Quang",i:"DQ",c:"#1F3A5F",co:"Saigon Logistics",ind:"log",mkts:["vn","asean"],acted:true,
@@ -1500,6 +1915,19 @@ const people=[
         en:"A metalworking and electronics assembly plant based in Binh Duong."},
    li:"https://www.linkedin.com/in/svef-demo-vu-hai",
    h:{web:"https://delta-mfg.example.vn",wa:"+84 98 550 3311"}, hid:{wa:true}},
+  /* Two guests, to make the 2.4 connect gate observable. Neither belongs to a member
+     organisation; one ticked "I would like to be connected" on the registration form
+     and one did not, which is the only thing that separates them. */
+  {id:13,n:"Hoàng Yến",i:"HY",c:"#800000",co:"Yen & Partners",ind:"pub",mkts:["vn"],netOptIn:true,
+   t:{vi:"Luật sư điều hành",en:"Managing Partner"},
+   cod:{vi:"Văn phòng luật tư vấn đầu tư nước ngoài và gia nhập thị trường Việt Nam.",
+        en:"A law firm advising on foreign investment and market entry in Vietnam."},
+   li:"https://www.linkedin.com/in/svef-demo-hoang-yen"},
+  {id:14,n:"Stefan Brun",i:"SB",c:"#224861",co:"Brun Immobilien",ind:"pub",mkts:["ch"],
+   t:{vi:"Chủ sở hữu",en:"Owner"},
+   cod:{vi:"Doanh nghiệp bất động sản gia đình tại Lucerne, tham dự với tư cách khách mời.",
+        en:"A family property business in Lucerne, attending as a guest."},
+   li:"https://www.linkedin.com/in/svef-demo-stefan-brun"},
 ];
 
 /* --- The attendee's own profile ------------------------------------------------
@@ -1524,9 +1952,19 @@ const hKinds={
   li :{ic:"IN",  lbl:"LinkedIn", act:"open", pre:""},
   x  :{ic:"X",   lbl:"X",        act:"open", pre:"https://x.com/"},
   web:{ic:"WWW", lbl:{vi:"Website",en:"Website"}, act:"open", pre:""},
-  wa :{ic:"WA",  lbl:"WhatsApp", act:"copy", pre:""}
+  wa :{ic:"WA",  lbl:"WhatsApp", act:"copy", pre:""},
+  tel:{ic:"TEL", lbl:{vi:"Điện thoại",en:"Telephone"}, act:"copy", pre:""},
+  mail:{ic:"@", lbl:{vi:"Email",en:"Email"}, act:"copy", pre:""}
 };
 const hOrder=["li","x","web","wa"];
+/* 25/08 meeting, 3.2: "Tuyệt đối KHÔNG hiển thị contact information" on a personal
+   profile. So a person is a whitelist, not a blacklist: LinkedIn and their own
+   website, and nothing else, no matter what is stored on the record. Reaching them
+   goes through "Want to connect", which sends the mail without disclosing the
+   address. An ORGANISATION is the opposite: its switchboard and its info@ address
+   are published on purpose, so it keeps the full set. */
+const hOrderPerson=["li","web"];
+const hOrderOrg=["web","mail","tel"];
 
 /* --- Connection history --------------------------------------------------------
    Seeded from the people the attendee has already dealt with, and appended to
@@ -1540,20 +1978,38 @@ let connections=[
 ];
 /* Which notification categories the attendee wants. This really filters the list. */
 let notifPrefs={session:true, meeting:true, reg:true, chat:true};
+/* 25/08 meeting, 1.3: manual push from the back office stays exactly as it was,
+   and on top of it the agenda now reminds you by itself. Lead time is the
+   attendee's choice; whether a session reminds at all is the organiser's, set
+   per session in the back office. */
+let autoRemind=true, remindLead=15;
+const leadChoices=[5,15,30,60];
 
 /* --- 1:1 meetings, per event ------------------------------------------------
    A meeting is an appointment at one event; carrying the same four across every
    event made the Zurich gala show the Hanoi forum's diary. */
+/* 25/08 meeting, 2.2: SVEF explicitly does not want the system allocating a place.
+   No tables are reserved and no room is assigned; the two attendees agree a spot
+   between themselves, in chat, and whatever they agree is stored as free text on
+   the meeting. `place` is therefore something the pair wrote, not something the
+   platform handed out, and it is empty until they settle it. */
 const meetingsByEv={
  svef26:[
   {pid:1,status:"confirmed",dir:"received",day:1,time:"15:30 – 16:00",
-   created:{vi:"4 tháng 10, 2026",en:"4th October 2026"},place:{vi:"Khu Networking",en:"Networking Lounge"}},
+   created:{vi:"4 tháng 10, 2026",en:"4th October 2026"},
+   place:{vi:"Quán cà phê tầng 2 (hai bên tự hẹn)",en:"Second-floor cafe (agreed between us)"}},
   {pid:3,status:"pending",dir:"sent",day:2,time:"10:00 – 10:30",
-   created:{vi:"6 tháng 10, 2026",en:"6th October 2026"},place:{vi:"Bàn gặp 3",en:"Meeting table 3"}},
+   created:{vi:"6 tháng 10, 2026",en:"6th October 2026"},place:null},
+  /* One pending request that arrived TO the attendee, so accept and reject are
+     reachable in the demo without inventing state first. */
+  {pid:5,status:"pending",dir:"received",day:1,time:"16:30 – 17:00",
+   created:{vi:"7 tháng 10, 2026",en:"7th October 2026"},place:null,
+   msg:{vi:"Chào anh, em muốn trao đổi về danh mục sản xuất tại miền Bắc.",
+        en:"Hello, I would like to talk about your manufacturing portfolio in the north."}},
   {pid:9,status:"canceled",dir:"sent",day:1,time:"11:15 – 11:45",
-   created:{vi:"2 tháng 10, 2026",en:"2nd October 2026"},place:{vi:"Bàn gặp 1",en:"Meeting table 1"}},
+   created:{vi:"2 tháng 10, 2026",en:"2nd October 2026"},place:null},
   {pid:10,status:"declined",dir:"received",day:2,time:"14:00 – 14:30",
-   created:{vi:"5 tháng 10, 2026",en:"5th October 2026"},place:{vi:"Sảnh chính",en:"Main lobby"}},
+   created:{vi:"5 tháng 10, 2026",en:"5th October 2026"},place:null},
  ]
 };
 let meetings=meetingsByEv.svef26||[];
@@ -1633,6 +2089,65 @@ const sessionsByEv={
  ]
 };
 let sessions=sessionsByEv.svef26||[];
+/* --- Event content: Library, Gallery, News (25/08 meeting, 3.1) --------------
+   Three sections, three different access rules, decided in the meeting:
+     Library  - speakers' slides, so attendees stop emailing the secretariat. Login.
+     Gallery  - the photographer's shots. Login, and Toàn overruled the suggestion to
+                make it public: protect the identity of who was in the room first.
+                Group shots already published on social media are the exception.
+     News     - press coverage, whose entire point is reach. Public.
+   June's question, minuted here rather than silently resolved: inside the APP you
+   are logged in by definition, so the gate only really bites on the website. What
+   the gate does do in the app is scope by REGISTRATION - a logged-in user who never
+   registered for this event still cannot open its library or its gallery. */
+const contentAccess={
+  library:{gate:"registered", ic:"📑", c:"var(--navy)"},
+  gallery:{gate:"registered", ic:"📷", c:"var(--gold-ink)"},
+  news   :{gate:"public",     ic:"📰", c:"var(--red-ink)"}
+};
+const libraryByEv={
+ svef26:[
+  {t:{vi:"Toàn cảnh thương mại Thụy Sĩ - Việt Nam 2026",en:"Swiss-Vietnam trade outlook 2026"},
+   by:"Nguyễn Minh · SVEF", kind:"PDF", size:"4.2 MB", day:1},
+  {t:{vi:"Thanh toán xuyên biên giới cho doanh nghiệp vừa và nhỏ",en:"Cross-border payments for SMEs"},
+   by:"Lara Weber · Helvetia Fintech", kind:"PDF", size:"7.8 MB", day:1},
+  {t:{vi:"Tài chính xanh và tín dụng dự án",en:"Green finance and project credit"},
+   by:"Phạm Hà · GreenTech VN", kind:"PDF", size:"3.1 MB", day:2},
+  {t:{vi:"Chuỗi cung ứng chính xác: bài học từ Biel",en:"Precision supply chains: lessons from Biel"},
+   by:"Andreas Küng · Alpine Precision AG", kind:"PPTX", size:"12.4 MB", day:2},
+  {t:{vi:"Khung pháp lý cho nhà đầu tư nước ngoài",en:"Legal frameworks for foreign investors"},
+   by:"Hoàng Yến · Yen & Partners", kind:"PDF", size:"2.6 MB", day:3}
+ ]
+};
+const galleryByEv={
+ svef26:[
+  {img:"forum-stage", cap:{vi:"Phiên khai mạc, Ngày 1",en:"Opening plenary, Day 1"}, day:1, pub:true},
+  {img:"signing",     cap:{vi:"Lễ ký biên bản ghi nhớ",en:"Memorandum signing"}, day:1, pub:true},
+  {img:"seminar",     cap:{vi:"Hội thảo chuyên đề Fintech",en:"Fintech breakout"}, day:2, pub:false},
+  {img:"boardroom",   cap:{vi:"Bàn tròn đầu tư",en:"Investment roundtable"}, day:2, pub:false},
+  {img:"energy-wind", cap:{vi:"Chuyến thăm dự án điện gió",en:"Wind project site visit"}, day:3, pub:false}
+ ]
+};
+const newsByEv={
+ svef26:[
+  {src:"VnExpress", d:{vi:"20/10/2026",en:"20 Oct 2026"},
+   t:{vi:"Doanh nghiệp Thụy Sĩ tìm cơ hội tại Việt Nam sau EFTA",en:"Swiss businesses look to Vietnam after EFTA"},
+   url:"https://vnexpress.example.net/svef-2026-efta"},
+  {src:"Neue Zürcher Zeitung", d:{vi:"19/10/2026",en:"19 Oct 2026"},
+   t:{vi:"Hà Nội đón đoàn doanh nghiệp Thụy Sĩ lớn nhất từ trước tới nay",en:"Hanoi hosts the largest Swiss delegation to date"},
+   url:"https://nzz.example.ch/svef-hanoi-2026"},
+  {src:"Báo Đầu tư", d:{vi:"19/10/2026",en:"19 Oct 2026"},
+   t:{vi:"Ba biên bản ghi nhớ được ký tại Diễn đàn Kinh tế Thụy Sĩ - Việt Nam",en:"Three memorandums signed at the Swiss-Viet Economic Forum"},
+   url:"https://baodautu.example.vn/svef-2026-mou"},
+  {src:"Handelszeitung", d:{vi:"21/10/2026",en:"21 Oct 2026"},
+   t:{vi:"Sản xuất chính xác: vì sao Thụy Sĩ nhìn về miền Bắc Việt Nam",en:"Precision manufacturing: why Switzerland is looking at northern Vietnam"},
+   url:"https://handelszeitung.example.ch/svef-precision"}
+ ]
+};
+let library=libraryByEv.svef26||[];
+let gallery=galleryByEv.svef26||[];
+let news=newsByEv.svef26||[];
+
 const exhibitors=[
   {n:"Helvetia Fintech",i:"HF",d:{vi:"Gian S1 · Fintech & Thanh toán",en:"Booth S1 · Fintech & Payments"}},
   {n:"GreenTech VN",i:"GT",d:{vi:"Gian S2 · Năng lượng tái tạo",en:"Booth S2 · Renewable energy"}},
@@ -1687,6 +2202,9 @@ const bookings={
     made:{vi:"2 tháng 7, 2026",en:"2 July 2026"}}
 };
 function bookingFor(id){const b=bookings[id];return (b&&b.state!=='cancelled')?b:null;}
+/* Everything that treats an event as something you can be INSIDE has to skip the
+   partner listings, which are link-outs with no agenda, no people and no booking. */
+function ownEvents(){return events.filter(e=>!e.partner);}
 function evById(id){return events.find(x=>x.id===id);}
 function seatsFree(e){return (e&&e.cap)?Math.max(0,e.cap-(e.taken||0)):null;}
 /* The state of the registration WINDOW itself, independent of whether the attendee
@@ -1780,7 +2298,7 @@ function enterApp(){
      other time Home shows what is coming up and you choose. */
   const live=mine.find(e=>e.live)||events.find(e=>e.live&&bookingFor(e.id));
   const focus=live||null;
-  curEv=focus||mine.find(e=>e.status!=='past')||events.find(e=>e.status!=='past')||curEv;
+  curEv=focus||mine.find(e=>e.status!=='past')||ownEvents().find(e=>e.status!=='past')||curEv;
   curDay=curEv.days[0].n;
   loadEventData();
   inEvent=!!focus;
@@ -1808,7 +2326,8 @@ const noNavScreens=["chat"];
    person never leaves the tab bar with nothing lit. */
 const navOwner={home:"home",events:"home",schedule:"schedule",participants:"participants",
   explore:"explore",profile:"profile",session:"schedule",person:"participants",
-  messages:"participants",chat:"participants",map:"explore",
+  messages:"participants",chat:"participants",map:"explore",org:"participants",
+  library:"explore",gallery:"explore",news:"explore",
   notifications:"home",eventinfo:"home"};
 /* Whether an event is currently open. This changes what Home shows; it never
    changes whether the app shell is on screen. The tab bar is always there. */
@@ -1905,6 +2424,21 @@ function evNoteHTML(e){
   return '';
 }
 function eventCard(e){
+  /* A partner card stops at the link. No capacity, no registration, no "open in
+     app": there is nothing of theirs inside the app to open. */
+  if(e.partner)return `<div class="evcard partner">
+    <div class="pic evthumb" style="--img:url('assets/img/${e.img}.jpg')"></div>
+    <div class="evb">
+      <div class="mlabel">${tx(e.dates)} · ${e.tz}</div>
+      <h4>${tx(e.n)}</h4>
+      <p>${tx(e.venue)}</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px">
+        <span class="pchip">${tr('ev_partner')}</span>
+        <span class="chip">${esc(tx(e.org))}</span></div>
+      <p class="evdesc">${esc(tx(e.desc))}</p>
+      <div class="note mono">${tr('ev_partner_note')}</div>
+      <div class="row"><a class="btn ghost" href="${esc(e.ext)}" target="_blank" rel="noopener">${tr('ev_partner_go')} ↗</a></div>
+    </div></div>`;
   const b=bookingFor(e.id);
   // a card can have nothing to say here, so the row
   // only exists when something fills it
@@ -1943,6 +2477,9 @@ function remindMe(id){const e=evById(id);if(!e)return;toast(tr('t_remind'));}
    have to be rebuilt rather than carried across. */
 function loadEventData(){
   sessions=sessionsByEv[curEv.id]||[];
+  library=libraryByEv[curEv.id]||[];
+  gallery=galleryByEv[curEv.id]||[];
+  news=newsByEv[curEv.id]||[];
   meetings=meetingsByEv[curEv.id]||[];
   chats=chatsByEv[curEv.id]||{};
   saved=new Set(savedByEv[curEv.id]||[]);
@@ -1950,6 +2487,8 @@ function loadEventData(){
   chatWith=null;
 }
 function openEvent(id){
+  const pe=evById(id);
+  if(pe&&pe.partner){if(pe.ext)window.open(pe.ext,'_blank','noopener');return;}
   const e=events.find(x=>x.id===id);if(e)curEv=e;
   curDay=curEv.days[0].n;curPerson=null;
   loadEventData();
@@ -2032,7 +2571,7 @@ function renderHome(){
    that is coming up, so the first screen is never a dead end. */
 function renderHomeList(){
   const mine=myEvents().filter(e=>e.status!=='past');
-  const next=mine[0]||events.filter(e=>e.status!=='past')[0];
+  const next=mine[0]||ownEvents().filter(e=>e.status!=='past')[0];
   byId('homeHero').innerHTML=
     `<div class="hi">${greeting()}</div><div class="nm">${esc(me.n)}</div>`
     +(next
@@ -2066,11 +2605,81 @@ function renderSpeakers(){
   el.innerHTML=speakers.map(s=>
     `<div class="spk"><div class="av" style="background:${s.c}">${s.i}</div><b>${s.n}</b><span>${tx(s.r)}</span></div>`).join('');
 }
+/* 3.3: clicking a sponsor opens that organisation's profile rather than doing
+   nothing, because the sponsor and the company in the directory are one record. */
+function sponsorOrg(sp){return orgByName[String(sp.n||'').toLowerCase()]||null;}
 function renderSponsorStrip(){
   const el=byId('sponStrip');if(!el)return;
-  el.innerHTML=sponsors.filter(s=>s.tier==='headline').map(s=>
-    `<div class="spk"><div class="av" style="background:${s.c}">${s.i}</div><b>${s.n}</b><span class="tier">${tx(tiers[s.tier])}</span></div>`).join('');
+  el.innerHTML=sponsors.filter(s=>s.tier==='headline').map(function(s){
+    const o=sponsorOrg(s);
+    return `<div class="spk"${o?` onclick="openOrg('${o.id}')" style="cursor:pointer"`:''}>`
+      +`<div class="av" style="background:${s.c}">${s.i}</div><b>${esc(s.n)}</b>`
+      +`<span class="tier">${tx(tiers[s.tier])}</span></div>`;
+  }).join('');
 }
+/* Access: News is open to anyone signed in; Library and Gallery need a
+   registration for THIS event. The app never hides the tile, it explains it,
+   because "why can I not see the slides" is a support ticket either way. */
+function contentOpen(kind){
+  if(contentAccess[kind].gate==='public')return true;
+  const b=bookingFor(curEv.id);
+  return !!(b&&(b.state==='confirmed'||b.state==='pending'));
+}
+function contentCount(kind){
+  return kind==='library'?library.length:(kind==='gallery'?gallery.length:news.length);
+}
+function renderHomeContent(){
+  const el=byId('homeContent');if(!el)return;
+  el.innerHTML=['library','gallery','news'].map(function(k){
+    const a=contentAccess[k],ok=contentOpen(k),n=contentCount(k);
+    return `<button class="cttile${ok?'':' locked'}" onclick="openContent('${k}')">
+      <span class="ctic" style="background:${a.c}">${a.ic}</span>
+      <b>${tr('ct_'+k)}</b>
+      <span class="ctn">${n} ${tr('ct_items')}</span>
+      <span class="ctgate">${ok?tr('ct_open'):tr('ct_locked')}</span></button>`;
+  }).join('');
+}
+function openContent(k){
+  if(!contentOpen(k)){toast(tr('ct_need_reg'));return;}
+  if(k==='library')renderLibrary();
+  else if(k==='gallery')renderGallery();
+  else renderNews();
+  go(k);
+}
+function renderLibrary(){
+  const el=byId('libBody');if(!el)return;
+  el.innerHTML=`<div class="note mono">${tr('ct_library_note')}</div>`
+    +(library.length?library.map(function(x){
+      return `<div class="li" onclick="toast(tr('ct_dl')+'${esc(tx(x.t)).replace(/'/g,"")}')">`
+        +`<div class="thumb" style="background:var(--navy);font-size:11px">${x.kind}</div>`
+        +`<div class="meta"><h4>${esc(tx(x.t))}</h4><p>${esc(x.by)} · ${x.size}</p></div>`
+        +`<span class="muted">↓</span></div>`;
+    }).join('')
+    :`<div class="empty"><div class="e-ic">📑</div><p>${tr('ct_none')}</p></div>`);
+}
+function renderGallery(){
+  const el=byId('galBody');if(!el)return;
+  /* The public/private split is the photographer's reality: group shots already on
+     social media are marked public, everything else stays behind the login. */
+  el.innerHTML=`<div class="note">${tr('ct_gallery_note')}</div>`
+    +(gallery.length?`<div class="galgrid">`+gallery.map(function(g){
+      return `<figure class="gcell pic" style="--img:url('assets/img/${g.img}.jpg')">`
+        +`<figcaption>${esc(tx(g.cap))}<span class="gtag">${g.pub?tr('ct_pub'):tr('ct_priv')}</span></figcaption></figure>`;
+    }).join('')+`</div>`
+    :`<div class="empty"><div class="e-ic">📷</div><p>${tr('ct_none')}</p></div>`);
+}
+function renderNews(){
+  const el=byId('newsBody');if(!el)return;
+  el.innerHTML=`<div class="note mono">${tr('ct_news_note')}</div>`
+    +(news.length?news.map(function(a){
+      return `<a class="li" href="${esc(a.url)}" target="_blank" rel="noopener">`
+        +`<div class="thumb" style="background:var(--red);font-size:10px">${esc(a.src.slice(0,3).toUpperCase())}</div>`
+        +`<div class="meta"><h4>${esc(tx(a.t))}</h4><p>${esc(a.src)} · ${esc(tx(a.d))}</p></div>`
+        +`<span class="muted">↗</span></a>`;
+    }).join('')
+    :`<div class="empty"><div class="e-ic">📰</div><p>${tr('ct_none')}</p></div>`);
+}
+
 function renderHomeAgenda(){
   const el=byId('homeAgenda');if(!el)return;
   const d=curEv.days[0].n;
@@ -2117,8 +2726,14 @@ function renderExplore(q){
         +`<div class="meta"><h4>${s.n}</h4><p>${sub}</p></div>${act}</div>`;
     }).join('')||emptyHTML();
   }else if(exTab==='sponsors'){
-    el.innerHTML=sponsors.map(s=>s.n.toLowerCase().includes(q)?
-      `<div class="li" onclick="toast(tr('t_profile')+'${s.n}')"><div class="thumb" style="background:${s.c}">${s.i}</div><div class="meta"><h4>${s.n}</h4><p>${tx(s.d)}</p></div><span class="chip ${s.tier==='headline'?'red':(s.tier==='gold'?'gold':'')}">${tx(tiers[s.tier])}</span></div>`:'').join('')||emptyHTML();
+    el.innerHTML=sponsors.map(function(s){
+      if(!s.n.toLowerCase().includes(q))return '';
+      const o=sponsorOrg(s);
+      return `<div class="li"${o?` onclick="openOrg('${o.id}')"`:''}>`
+        +`<div class="thumb" style="background:${s.c}">${s.i}</div>`
+        +`<div class="meta"><h4>${esc(s.n)}</h4><p>${tx(s.d)}</p></div>`
+        +`<span class="chip ${s.tier==='headline'?'red':(s.tier==='gold'?'gold':'')}">${tx(tiers[s.tier])}</span></div>`;
+    }).join('')||emptyHTML();
   }else{
     el.innerHTML=exhibitors.map(x=>x.n.toLowerCase().includes(q)?
       `<div class="li" onclick="toast(tr('t_booth')+'${x.n}')"><div class="thumb">${x.i}</div><div class="meta"><h4>${x.n}</h4><p>${tx(x.d)}</p></div><span class="muted">›</span></div>`:'').join('')||emptyHTML();
@@ -2128,7 +2743,8 @@ function filterExplore(v){renderExplore(v)}
 function toggleSave(i){
   if(isPast()){toast(tr('t_ended'));return;}
   if(saved.has(i)){saved.delete(i);toast(tr('t_unsaved'));}else{saved.add(i);toast(tr('t_saved'));}
-  renderExplore();renderSchedule();updateSaveBtn();
+  seedAgendaReminders();
+  renderExplore();renderSchedule();updateSaveBtn();renderNotif();
 }
 function updateSaveBtn(){
   const b=byId('sDsave');if(!b)return;const sv=saved.has(curSession);
@@ -2180,13 +2796,46 @@ function openMeetings(){go('schedule');switchScTab('meetings');}
 function openAgendaAll(){go('schedule');switchScTab('all');}
 function mtgCard(m){
   const p=personById(m.pid),d=curEv.days.find(x=>x.n===m.day)||curEv.days[0];
-  return `<div class="mtg">
+  const og=orgOf(p);
+  /* 2.1: a request that came TO you and is still pending is the only thing in the
+     app that needs a decision, so it is the only thing that carries buttons. */
+  const needsAnswer=(m.dir==='received'&&m.status==='pending'&&!isPast());
+  return `<div class="mtg${needsAnswer?' act':''}">
     <div class="mh"><div class="mt">${m.time}<small>${curEv.tz} · ${tx(d.lbl)} · ${tx(d.d)}</small></div>
       <span class="chip ${msChip[m.status]}">${tr(msKey[m.status])}</span></div>
-    <div class="mp"><b>${p.n}</b><span>${tx(p.t)} · ${p.co}</span></div>
+    <div class="mp"><b>${esc(p.n)}</b>${memBadge(p)}<span>${esc(tx(p.t))}</span>
+      ${og?`<a class="mco" onclick="openOrg('${og.id}')">${esc(og.n)} ›</a>`:`<span>${esc(p.co)}</span>`}</div>
+    ${m.msg?`<div class="mmsg">“${esc(tx(m.msg))}”</div>`:''}
     <div class="mf"><span class="chip">${tr('dir_'+m.dir)}</span>
-      <span class="kv">${tr('mt_created')}: ${tx(m.created)}</span><span class="kv">· ${tx(m.place)}</span></div>
+      <span class="kv">${tr('mt_created')}: ${tx(m.created)}</span></div>
+    <div class="mplace">${m.place
+      ? `<b>${tr('mt_place')}</b> ${esc(tx(m.place))}`
+      : `<b>${tr('mt_place')}</b> <em>${tr('mt_place_none')}</em>`}
+      ${(m.status==='confirmed'&&!isPast())
+        ? `<button class="lnkbtn" onclick="openChat(${p.id})">${tr('mt_agree')}</button>`:''}</div>
+    ${needsAnswer?`<div class="row" style="margin:10px 0 0">
+      <button class="btn ghost" onclick="answerMeeting(${m.pid},'declined')">${tr('mt_reject')}</button>
+      <button class="btn" onclick="answerMeeting(${m.pid},'confirmed')">${tr('mt_accept')}</button></div>`:''}
   </div>`;
+}
+/* 2.1: "khi confirm, CẢ HAI BÊN đều nhận thông báo xác nhận (gặp ai, ngày nào,
+   sự kiện nào)". The demo can only show one side's inbox, so it writes the
+   attendee's own confirmation into the notification list and states on screen
+   that the same notice and the same email went to the other party. */
+function answerMeeting(pid,status){
+  const m=meetings.find(x=>x.pid===pid);if(!m)return;
+  const p=personById(pid);if(!p)return;
+  m.status=status;
+  const d=curEv.days.find(x=>x.n===m.day)||curEv.days[0];
+  const rep={n:p.n,d:tx(d.lbl)+' · '+tx(d.d),t:m.time,e:tx(curEv.short)};
+  if(status==='confirmed'){
+    pushNotif('🤝','var(--green)','nt_mtgok_t','nt_mtgok_b',rep,'meeting');
+    toast(trf('t_mtg_ok',{n:p.n},'mt_accept'));
+  }else{
+    pushNotif('🚫','var(--muted)','nt_mtgno_t','nt_mtgno_b',rep,'meeting');
+    toast(trf('t_mtg_no',{n:p.n},'mt_reject'));
+  }
+  renderSchedule();renderParticipants();renderNetwork();renderNotif();
 }
 function renderSchedule(){
   const el=byId('scBody');if(!el)return;
@@ -2208,6 +2857,11 @@ function renderSchedule(){
   }else{
     let h=`<h2 class="sec"><span>${tr('sc_tab_meet')}</span> <span class="chip">${curEv.tz}</span></h2>`;
     h+=`<div class="note mono">${tr('tz_note')} ${curEv.tz}</div>`;
+    /* 2.1: requests arrive in the app AND by email, so the app has to say so
+       rather than quietly assuming the attendee is looking at their phone. */
+    const waiting=meetings.filter(m=>m.dir==='received'&&m.status==='pending').length;
+    if(waiting&&!isPast())h+=`<div class="note warn">${trf('mt_waiting',{n:waiting},'sc_tab_meet')}</div>`;
+    h+=`<div class="note">${tr('mt_channels')}</div>`;
     h+=meetings.length?meetings.map(mtgCard).join('')
       :`<div class="empty"><div class="e-ic">📅</div><p>${tr('meet_none')}</p></div>`;
     el.innerHTML=h;
@@ -2223,14 +2877,18 @@ function personRow(p,showMatch){
     <div class="row"><button class="btn ghost" onclick="openMe('privacy')">${tr('m_privacy')}</button>
       <button class="btn dark" onclick="openMe('edit')">${tr('m_edit')}</button></div>
   </div>`;
-  const m=meetingFor(p.id);
+  const m=meetingFor(p.id),cc=canConnect(p);
   // past events keep the record of what happened, but no new meeting requests
   const left=m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
-    :(isPast()?'':`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`);
+    :(isPast()?''
+      :cc.ok?`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`
+            :`<button class="btn ghost off" onclick="explainGate()">${tr('btn_meet')}</button>`);
+  const og=orgOf(p);
   return `<div class="prow">
     <div class="ptop" onclick="openPerson(${p.id})">${avHTML(p,'sm')}
-      <div class="meta"><h4>${p.n}${(showMatch&&p.match)?` <span class="chip gold">${p.match}</span>`:''}</h4>
-        <p>${tx(p.t)} · ${p.co}</p></div><span class="muted">›</span></div>
+      <div class="meta"><h4>${esc(p.n)}${memBadge(p)}${(showMatch&&p.match)?` <span class="chip gold">${p.match}</span>`:''}</h4>
+        <p>${tx(p.t)} · ${esc(p.co)}</p></div><span class="muted">›</span></div>
+    ${og?`<button class="orglink" onclick="openOrg('${og.id}')"><span class="av xs" style="background:${og.c}">${og.i}</span>${tr('pp_view_org')}<span class="muted">›</span></button>`:''}
     <div class="row">${left}<button class="btn dark" onclick="openChat(${p.id})">${tr('btn_chat')}</button></div>
   </div>`;
 }
@@ -2282,11 +2940,23 @@ function renderPerson(){
   const showCoHead=p.self?me.vis.co:true;
   byId('ppRole').textContent=tx(p.t)+(showCoHead?' · '+p.co:'');
   const sy=byId('ppSynced');if(sy)sy.textContent=p.self?tr('me_self_note'):tr('synced');
-  const bio=p.self?(me.vis.bio?meBio():''):'';
-  const showCo=p.self?me.vis.co:true, showMail=p.self?me.vis.email:false;
+  /* 1.2: say once, in sentence case rather than in the uppercase mono note above,
+     that this profile is not per event. It is the whole point of the change. */
+  const ru=byId('ppReuse');if(ru)ru.textContent=tr('pp_reuse');
+  /* 3.2: "Click vào tên speaker trong agenda -> hiện bio ngay. Bio chính là profile
+     chung của user." So a bio belongs to the person, not to the speaking slot, and
+     every attendee sees it. Only your own bio is behind a visibility switch. */
+  const bio=p.self?(me.vis.bio?meBio():''):(p.bio?tx(p.bio):'');
+  const showCo=p.self?me.vis.co:true;
+  const og=orgOf(p);
+  /* 3.2: no email and no telephone here, on anybody, including yourself. The
+     personal profile carries who you are and where you work; reaching you is a
+     separate, consented act through "Want to connect". */
   byId('ppFacts').innerHTML=fact('pp_title',tx(p.t))
-    +(showCo?fact('pp_company',esc(p.co)):'')
-    +(showMail?fact('f_email',esc(p.e||'')):'')
+    +(showCo?fact('pp_company',og
+        ? `<a class="lnk" onclick="openOrg('${og.id}')">${esc(p.co)}</a>`
+        : esc(p.co)):'')
+    +factRaw(tr('pp_member'),memTierLine(p))
     +(bio?fact('pp_bio',esc(bio)):'')
     +fact('pp_industry',tx(industries[p.ind]))
     +(p.cod?fact('pp_about_co',tx(p.cod)):'')
@@ -2297,16 +2967,84 @@ function renderPerson(){
     ? `<h2 class="sec"><span>${tr('pp_sessions')}</span> <span class="chip red">${spk.length}</span></h2>`
       +spk.map(i=>sessRow(i)).join('')
     : '';
-  byId('ppHandles').innerHTML=`<div class="sechead">${tr('h_l')}</div>`+handlesHTML(p);
+  byId('ppHandles').innerHTML=`<div class="sechead">${tr('h_l')}</div>`+handlesHTML(p)
+    +`<div class="note mono">${tr('pp_nocontact')}</div>`
+    +(og?`<div class="sechead">${tr('pp_org_h')}</div>`+orgCard(og):'');
   const m=meetingFor(p.id);
   // your own card is a preview of what others see, not somebody to meet or message
   byId('ppActs').innerHTML=p.self
     ? `<button class="btn ghost" onclick="closeSheet();openMe('privacy')">${tr('m_privacy')}</button>`
       +`<button class="btn dark" onclick="closeSheet();openMe('edit')">${tr('m_edit')}</button>`
     : (m?`<div class="mstatus ${msCls[m.status]}">${tr(mtgKey[m.status])}</div>`
-        :(isPast()?'':`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`))
+        :(isPast()?''
+          :canConnect(p).ok?`<button class="btn ghost" onclick="openMeetReq(${p.id})">${tr('btn_meet')}</button>`
+                           :`<button class="btn ghost off" onclick="explainGate()">${tr('btn_meet')}</button>`))
+      +`<button class="btn ghost" onclick="wantToConnect(${p.id})">${tr('btn_want')}</button>`
       +`<button class="btn dark" onclick="openChat(${p.id})">${tr('btn_chat')}</button>`;
 }
+
+/* ===================== ORGANISATIONS (25/08 meeting, 2.5, 2.6, 3.3) =====================
+   A company is a first-class profile, not a string under somebody's name. From a
+   person you reach their organisation; from an organisation you reach the people
+   who represent it. Sponsors and speakers land in the same place, so there is one
+   company record rather than three lookalikes. */
+function memTierLine(p){
+  const k=memOf(p),t=memTiers[k];
+  return `<span class="memline" style="color:${t.c}">${t.star?`<i>${t.star}</i> `:''}${esc(tx(t))}</span>`;
+}
+function orgCard(o){
+  return `<div class="orgcard" onclick="openOrg('${o.id}')">
+    <div class="av sm" style="background:${o.c}">${o.i}</div>
+    <div class="meta"><h4>${esc(o.n)} ${memBadge({mem:o.mem})}</h4>
+      <p>${esc(tx(orgTypes[o.type]))} · ${esc(tx(o.hq))}</p></div>
+    <span class="muted">›</span></div>`;
+}
+function openOrg(id){curOrg=id;renderOrg();go('org');}
+let curOrg=null;
+function orgAsHandleHolder(o){
+  return {isOrg:true,h:{web:o.web,mail:o.email,tel:o.tel}};
+}
+function renderOrg(){
+  const o=orgById(curOrg);if(!o||!byId('ogFacts'))return;
+  const av=byId('ogAv');av.textContent=o.i;av.style.background=o.c;
+  byId('ogName').textContent=o.n;
+  byId('ogRole').textContent=tx(orgTypes[o.type])+' · '+tx(o.hq);
+  byId('ogFacts').innerHTML=factRaw(tr('pp_member'),memTierLine({mem:o.mem}))
+    +fact('og_type',tx(orgTypes[o.type]))
+    +fact('og_hq',esc(tx(o.hq)))
+    +fact('pp_industry',tx(industries[o.ind]))
+    +(o.size&&o.size!=='—'?fact('og_size',esc(o.size)):'')
+    +fact('og_about',esc(tx(o.about)))
+    +(tx(o.looking)?fact('og_looking',esc(tx(o.looking))):'');
+  const reps=repsOf(o);
+  byId('ogReps').innerHTML=reps.length
+    ? `<h2 class="sec"><span>${tr('og_reps')}</span> <span class="chip red">${reps.length}</span></h2>`
+      +reps.map(function(p){
+        return `<div class="conn" onclick="openPerson(${p.id})" style="cursor:pointer">`
+          +`<div class="av sm" style="background:${p.c}">${p.i}</div>`
+          +`<div class="meta"><h4>${esc(p.n)}</h4><p>${esc(tx(p.t))}</p></div>`
+          +`<span class="muted">\u203a</span></div>`;
+      }).join('')
+    : `<div class="note mono">${tr('og_noreps')}</div>`;
+  byId('ogHandles').innerHTML=`<div class="sechead">${tr('h_l')}</div>`
+    +handlesHTML(orgAsHandleHolder(o));
+  byId('ogActs').innerHTML=isPast()?''
+    :`<button class="btn dark" onclick="requestOrgContact('${o.id}')">${tr('og_request')}</button>`;
+}
+/* Requesting contact with a company, rather than a person, is 2.5's other half:
+   you may not know who the right counterpart is, so SVEF routes it. */
+function requestOrgContact(id){
+  const o=orgById(id);if(!o)return;
+  pushNotif('🏢','var(--navy)','nt_orgreq_t','nt_orgreq_b',{o:o.n},'meeting');
+  toast(trf('t_orgreq',{o:o.n},'og_request'));
+}
+/* 3.2: the mail goes out, the address never appears on screen. */
+function wantToConnect(pid){
+  const p=personById(pid);if(!p||p.self)return;
+  pushNotif('✉️','var(--green)','nt_want_t','nt_want_b',{n:p.n},'meeting');
+  toast(trf('t_want',{n:p.n},'btn_want'));
+}
+function explainGate(){toast(tr('cn_blocked'));}
 
 /* ===================== MESSAGES / CHAT ===================== */
 function chatPreview(pid){
@@ -2380,6 +3118,29 @@ function pushNotif(ic,c,tk,pk,rep,cat){
   notifLog.unshift({ic:ic,c:c,cat:cat||'reg',
     t:{vi:trIn('vi',tk),en:trIn('en',tk)},
     p:{vi:fillIn('vi',trIn('vi',pk),rep),en:fillIn('en',trIn('en',pk),rep)}});
+}
+function toggleAutoRemind(){
+  autoRemind=!autoRemind;
+  if(autoRemind)seedAgendaReminders();else clearAgendaReminders();
+  renderMeSheet();renderNotif();
+  toast(tr(autoRemind?'t_auto_on':'t_auto_off'));
+}
+function setLead(n){remindLead=n;seedAgendaReminders();renderMeSheet();renderNotif();toast(trf('t_lead',{n:n},'nf_lead'));}
+function clearAgendaReminders(){notifLog=notifLog.filter(n=>!n.auto);}
+/* The reminders the schedule would generate on its own, for the sessions this
+   attendee actually saved. Marked `auto` so switching the preference off takes
+   them back out again instead of leaving orphans in the list. */
+function seedAgendaReminders(){
+  clearAgendaReminders();
+  if(!autoRemind)return;
+  const idx=Array.from(saved).sort((a,b)=>a-b).filter(i=>sessions[i]);
+  idx.slice(0,3).forEach(function(i){
+    const ss=sessions[i],d=curEv.days.find(x=>x.n===ss.day)||curEv.days[0];
+    notifLog.push({ic:'⏰',c:'var(--navy)',cat:'session',auto:true,
+      t:{vi:trIn('vi','nt_auto_t'),en:trIn('en','nt_auto_t')},
+      p:{vi:fillIn('vi',trIn('vi','nt_auto_b'),{s:tx(ss.t),m:remindLead,r:tx(ss.room),d:tx(d.lbl)}),
+         en:fillIn('en',trIn('en','nt_auto_b'),{s:tx(ss.t),m:remindLead,r:tx(ss.room),d:tx(d.lbl)})}});
+  });
 }
 function renderNotif(){
   const el=byId('notifList');if(!el)return;
@@ -2477,7 +3238,8 @@ function handlesOf(p){
 function handleHidden(p,k){return p.self?!me.vis[k]:!!(p.hid&&p.hid[k]);}
 function visibleHandles(p){
   const h=handlesOf(p);
-  return hOrder.filter(k=>h[k]&&!handleHidden(p,k)).map(k=>({k:k,v:h[k]}));
+  const order=(p&&p.isOrg)?hOrderOrg:hOrderPerson;
+  return order.filter(k=>h[k]&&!handleHidden(p,k)).map(k=>({k:k,v:h[k]}));
 }
 function handleHref(k,v){
   const kind=hKinds[k];
@@ -2824,8 +3586,25 @@ function renderMR(){
 function mrSetDay(n){mrDay=n;renderMR();}
 function mrSetSlot(i){mrSlot=i;renderMR();}
 function sendMeetingReq(){
-  const p=personById(mrPid);closeSheet();
-  if(p){addConnection(mrPid,'meeting');renderNetwork();renderParticipants();toast(tr('t_meet_sent')+p.n);}
+  const p=personById(mrPid);
+  if(!p){closeSheet();return;}
+  const gate=canConnect(p);
+  if(!gate.ok){closeSheet();toast(gate.why);return;}
+  const d=curEv.days.find(x=>x.n===mrDay)||curEv.days[0];
+  const msgEl=byId('mrMsg'),msg=(msgEl&&msgEl.value||'').trim();
+  /* The request becomes a real pending meeting, so it shows up in the diary and
+     can later be cancelled, rather than only firing a toast. */
+  if(!meetingFor(p.id)){
+    const now=todayNum();
+    meetings.push({pid:p.id,status:'pending',dir:'sent',day:mrDay,time:slots[mrSlot],
+      created:{vi:now.vi,en:now.en},place:null,
+      msg:msg?{vi:msg,en:msg}:null});
+  }
+  closeSheet();
+  addConnection(mrPid,'meeting');
+  pushNotif('🤝','var(--gold)','nt_mtgsent_t','nt_mtgsent_b',{n:p.n,d:tx(d.lbl)+' · '+tx(d.d),t:slots[mrSlot]},'meeting');
+  renderNetwork();renderParticipants();renderSchedule();renderNotif();
+  toast(tr('t_meet_sent')+p.n);
 }
 /* --- QR connect / pass ---
    The identifiers here still read "ticket" from an earlier naming; the artefact
@@ -2905,6 +3684,13 @@ function swRow(on,title,desc,fn){
   return `<button class="sw${on?' on':''}" onclick="${fn}">
     <span class="swb"><b>${title}</b>${desc?`<span>${desc}</span>`:''}</span><i></i></button>`;
 }
+/* A field that is on your record but can never appear on your public profile.
+   Shown, rather than omitted, so the attendee can see SVEF holds it and knows it
+   is not leaking. */
+function lockRow(label,val){
+  return `<div class="sw lockrow"><span class="swb"><b>${label}</b><span>${val}</span></span>
+    <span class="lockic">🔒</span></div>`;
+}
 function renderMeSheet(){
   const body=byId('meBody');if(!body)return;
   collectMe();   // keep anything typed when the sheet re-renders (language switch)
@@ -2933,14 +3719,22 @@ function renderMeSheet(){
     sub.textContent='';
     h+=`<div class="note">${tr('pv_note')}</div>`;
     h+=swRow(me.vis.dir,tr('pv_dir'),tr('pv_dir_d'),'meToggle(\'dir\')');
-    h+=swRow(me.vis.email,tr('pv_email'),esc(me.e),'meToggle(\'email\')');
     h+=swRow(me.vis.co,tr('pv_co'),esc(me.co),'meToggle(\'co\')');
     h+=swRow(me.vis.bio,tr('pv_bio'),esc(meBio()).slice(0,70)+'…','meToggle(\'bio\')');
-    // only handles the attendee has actually filled in get a switch
-    hOrder.forEach(function(k){
+    /* 3.2: only the two whitelisted handles get a switch. Everything else on the
+       record is not "hidden by default", it is not publishable at all, so it gets
+       a locked row that says why rather than a switch that implies a choice. */
+    hOrderPerson.forEach(function(k){
       if(!me.h[k])return;
       h+=swRow(me.vis[k],trf('pv_h',{k:labelOf(hKinds[k].lbl)},'m_privacy'),esc(me.h[k]),'meToggle(\''+k+'\')');
     });
+    h+=`<div class="sechead">${tr('pv_never_h')}</div>`;
+    h+=lockRow(tr('f_email'),esc(me.e));
+    hOrder.filter(k=>hOrderPerson.indexOf(k)<0).forEach(function(k){
+      if(!me.h[k])return;
+      h+=lockRow(labelOf(hKinds[k].lbl),esc(me.h[k]));
+    });
+    h+=`<div class="note mono">${tr('pv_never_note')}</div>`;
     h+=`<div class="note mono" style="margin-top:14px">${tr('pv_gdpr')}</div>`;
     h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="closeSheet();openPerson(0)">${tr('me_preview')}</button></div>`;
   }else if(meView==='history'){
@@ -2953,6 +3747,16 @@ function renderMeSheet(){
     ['session','meeting','reg','chat'].forEach(function(k){
       h+=swRow(notifPrefs[k],tr('nf_'+k),'','notifToggle(\''+k+'\')');
     });
+    /* 1.3: the automatic agenda reminder, and how far ahead it fires. */
+    h+=`<div class="sechead">${tr('nf_auto_h')}</div>`;
+    h+=swRow(autoRemind,tr('nf_auto'),tr('nf_auto_d'),'toggleAutoRemind()');
+    if(autoRemind){
+      h+=`<div class="mlabel" style="margin:2px 16px 6px">${tr('nf_lead')}</div>`;
+      h+=`<div class="pillrow">`+leadChoices.map(function(n){
+        return `<button class="${remindLead===n?'on':''}" onclick="setLead(${n})">${n} ${tr('nf_min')}</button>`;
+      }).join('')+`</div>`;
+      h+=`<div class="note mono">${tr('nf_auto_note')}</div>`;
+    }
     if(!Object.keys(notifPrefs).some(k=>notifPrefs[k]))
       h+=`<div class="note warn" style="margin-top:12px">${tr('nf_off_all')}</div>`;
     h+=`<div style="padding:14px 16px 0"><button class="btn ghost" onclick="closeSheet();go('notifications')">${tr('ab_notifications')}</button></div>`;
@@ -3031,6 +3835,8 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 /* ===================== I18N APPLY & SWITCH ===================== */
 function renderAll(){
   renderEvents();renderEventInfo();renderHome();renderHomeAgenda();renderSpeakers();renderSponsorStrip();
+  renderHomeContent();renderLibrary();renderGallery();renderNews();
+  if(!notifLog.some(n=>n.auto))seedAgendaReminders();
   renderExplore();renderSchedule();renderNetwork();renderFilters();renderParticipants();
   renderBooths();renderNotif();renderMR();renderConvos();
   if(chatWith!=null)renderChat();
@@ -3081,9 +3887,11 @@ function renderSessionSpeakers(s){
   const list=sessionSpeakers(s);
   el.innerHTML=list.length?list.map(function(p){
     const role=tx(p.t)+(p.co?' \u00b7 '+esc(p.co):'');
+    const short=p.bio?tx(p.bio):'';
     return `<div class="conn"${p.noLink?'':` onclick="openPerson(${p.id})" style="cursor:pointer"`}>`
       +`<div class="av sm" style="background:${p.c}">${p.i}</div>`
-      +`<div class="meta"><h4>${esc(p.n)}</h4><p>${role}</p></div>`
+      +`<div class="meta"><h4>${esc(p.n)}${p.noLink?'':memBadge(p)}</h4><p>${role}</p>`
+      +(short?`<p class="spkbio">${esc(short)}</p>`:'')+`</div>`
       +(p.noLink?'':`<span class="muted">\u203a</span>`)+`</div>`;
   }).join(''):`<div class="note mono">${tr('spk_none')}</div>`;
 }

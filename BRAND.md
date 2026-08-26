@@ -32,6 +32,34 @@ Neutrals from the `Color_guide.pdf` blue ramps:
 `--ink #0E273D`, `--ink-2 #224861`, `--muted #3C6980`, `--line #DAEDF0`,
 `--soft #E9F4F5`, `--bg #F5F9FA`, `--card #FFFFFF`.
 
+### Hanoi 2026 event palette (25/08/2026)
+
+The 25/08 client meeting asked for the prototype to be brighter and to follow the
+colour pattern of the Hanoi event site. Colours sampled from `hanoi2026.svef.ch`:
+`#3E7742` and `#04723D` green, `#F6FBF2` as the page ground, `#DD1A2A` red,
+`#B6D4DD` pale blue. That is a green-forward look on a very pale green ground, which
+reads considerably lighter than the blue-grey ramp the demo was using.
+
+What changed:
+
+| Token | Was | Now | Why |
+|---|---|---|---|
+| `--bg` | `#F5F9FA` | `--wash` `#F6FBF2` | the event site's page ground |
+| `--soft` | `#E9F4F5` | `--wash-2` `#EDF6EA` | matching tint |
+| `--hanoi` | — | `#04723D` | event accent, used on date blocks |
+| `--deep` | — | `#123A2A` | top stop of the masthead gradient |
+
+The heaviest solid `--ink` surfaces (the event masthead, the app's profile and
+content headers, card thumbnails) became a `--deep` → `--ink` gradient rather than a
+flat navy slab. That is what the "hơi tối" comment was about, and a gradient keeps
+white type at full contrast where a lighter flat fill would not.
+
+**What did not change.** Every spot colour is still the Pantone value in
+`palitra svef.pdf`: red, green, maroon, gold, cream, sky, steel. Body type stays on
+`--ink` `#0E273D`. Setting body text in the Hanoi green or a warm grey on this
+ground drops below WCAG AA at small sizes, so the ground got brighter and the type
+did not move.
+
 ### `-ink` variants
 `--red-ink #B31018` and `--gold-ink #754715` exist because the spot red and
 spot gold do not reach WCAG AA against white at small text sizes. Use the spot

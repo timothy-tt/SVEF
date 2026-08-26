@@ -33,7 +33,11 @@
   --ink:#0E273D; --ink-2:#224861;
   --navy:#0E273D; --navy-2:#224861; --navy-3:#3C6980;
   --muted:#3C6980; --line:#DAEDF0; --rule:#0E273D;
-  --bg:#F5F9FA; --card:#FFFFFF; --soft:#E9F4F5;
+  /* Hanoi 2026 event palette (25/08 meeting, 5.1). The back office gets the same
+     lift as the public surfaces so screenshots of the three do not clash, but it
+     keeps the darker sidebar: a back office wants its chrome to recede. */
+  --hanoi:#04723D; --hanoi-2:#3E7742; --wash:#F6FBF2; --wash-2:#EDF6EA;
+  --bg:var(--wash); --card:#FFFFFF; --soft:var(--wash-2);
   --shadow:0 22px 60px rgba(14,39,61,.16); --shadow-sm:none;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,"Segoe UI",system-ui,sans-serif;
   /* TT Days Sans Black is SVEF's display face (Typetype, commercial licence).
@@ -224,6 +228,77 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
 .nda p{margin:3px 0 0;font-size:13px;color:var(--muted)}
 .export-note{font-size:9.5px;color:var(--muted);background:#fff;border:1px solid var(--line);
   border-left:3px solid var(--ink);border-radius:0;padding:14px 16px;margin-top:16px;line-height:1.8}
+
+/* ==================== 25/08 MEETING ADDITIONS ==================== */
+/* A compact stat strip inside a panel, for the numbers a dry run or a meeting
+   report produces. Distinct from .stat-grid, which is the dashboard's full-width
+   card row. */
+.statrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:0;margin-top:16px}
+.stat{background:#fff;border:1px solid var(--line);margin-left:-1px;padding:16px 18px}
+.stat:first-child{margin-left:0}
+.stat b{display:block;font-size:26px;line-height:1;letter-spacing:-.05em;color:var(--ink);font-weight:700}
+.stat span{display:block;margin-top:8px;font-family:var(--mono);font-size:9px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--muted)}
+.stat.bad b{color:var(--red)}
+
+.okbox{background:var(--soft);border:1px solid var(--line);border-left:3px solid var(--green);
+  padding:14px 16px;margin-top:16px;font-size:13px;line-height:1.65}
+.okbox b{color:var(--ink)}
+
+.sechead{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--muted);margin:22px 0 0;font-weight:500}
+.req{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--red);
+  font-weight:500}
+.badrow{background:#FEF6F6}
+.badrow td{border-bottom-color:#F3D9D9}
+.offrow{opacity:.5}
+.mono{font-family:var(--mono);font-size:11.5px}
+td .muted.mono,.mono .muted{font-family:var(--mono);font-size:10.5px}
+
+/* Column-mapping table: dense, and the selects carry long question text. */
+.maptbl{margin-top:12px}
+.maptbl td{vertical-align:middle}
+.maptbl select{max-width:340px;width:100%}
+.maptbl td:first-child{width:180px}
+
+/* A small inline control that lives in a table cell. */
+.mini{border:1px solid var(--line);background:#fff;padding:5px 10px;font:inherit;font-size:12px;
+  cursor:pointer;border-radius:0;color:var(--ink)}
+.mini:hover{border-color:var(--ink)}
+.mini.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+select.mini{padding:5px 6px}
+.right{text-align:right}
+
+/* Mutually exclusive choices where each option needs a paragraph of consequence,
+   which is too much for a radio and too little for a modal. */
+.pickrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0;margin-top:14px}
+.pickcard{text-align:left;background:#fff;border:1px solid var(--line);margin-left:-1px;padding:15px 16px;
+  cursor:pointer;font:inherit;display:block}
+.pickcard:first-child{margin-left:0}
+.pickcard:hover{border-color:var(--ink);position:relative;z-index:1}
+.pickcard.on{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--red);position:relative;z-index:1}
+.pickcard b{display:block;font-size:13.5px;letter-spacing:-.02em;color:var(--ink);margin-bottom:6px}
+.pickcard span{display:block;font-size:12px;line-height:1.6;color:var(--muted)}
+
+.pickline{display:flex;gap:10px;align-items:flex-end;margin-top:16px;flex-wrap:wrap}
+.pickline label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--muted);display:block;margin-bottom:6px}
+.pickline select{min-width:280px}
+.btnrow{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+
+/* The shared-library view's own header, since it is not an event tab. */
+.phead2{display:flex;align-items:center;gap:14px;padding:20px 22px;border-bottom:1px solid var(--rule)}
+.phead2 h3{margin:0;font-size:17px;letter-spacing:-.03em;flex:1}
+.tabs2{display:flex;gap:0;margin-bottom:18px}
+.tabs2 button{border:1px solid var(--line);background:#fff;padding:10px 20px;font:inherit;font-size:13px;
+  cursor:pointer;margin-left:-1px;color:var(--muted)}
+.tabs2 button:first-child{margin-left:0}
+.tabs2 button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tierlab{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--gold-ink,#754715)}
+.partnerrow td:first-child{box-shadow:inset 3px 0 0 var(--line)}
+.imgslot{width:76px;height:52px;display:grid;place-items:center;border:1px dashed var(--line);
+  background:var(--soft);font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:4px}
 
 .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(16px);background:var(--ink);
   color:#fff;padding:14px 22px;border-radius:0;font-size:13px;font-weight:500;opacity:0;transition:.24s;
@@ -455,6 +530,7 @@ tr:hover .pic::before{filter:none}
     <div class="grp" data-i18n="g_community">Community</div>
     <button onclick="nav('partners',this)"><i class="ni">🏢</i><span data-i18n="n_partners">Partners</span></button>
     <button onclick="nav('members',this)"><i class="ni">👥</i><span data-i18n="n_members">Memberships</span></button>
+    <button onclick="nav('library',this);renderLibrary()"><i class="ni">🗂️</i><span data-i18n="n_library">Speakers &amp; Organisations</span></button>
     <div class="grp" data-i18n="g_events">Events</div>
     <button id="navEvents" onclick="nav('events',this)"><i class="ni">📅</i><span data-i18n="n_events">Event Management</span></button>
     <div class="grp" data-i18n="g_data">Data</div>
@@ -590,6 +666,15 @@ tr:hover .pic::before{filter:none}
     </div>
 
     <!-- ===== EVENTS (list) ===== -->
+    <!-- SHARED LIBRARY: speakers and organisations reused across every event -->
+    <div class="view" id="v-library">
+      <div class="tabs2" id="libTabs">
+        <button class="on" data-libtab="people" onclick="setLibTab('people')" data-i18n="lib_tab_p">Speakers</button>
+        <button data-libtab="orgs" onclick="setLibTab('orgs')" data-i18n="lib_tab_o">Organisations</button>
+      </div>
+      <div id="libPane"></div>
+    </div>
+
     <div class="view" id="v-events">
       <div class="intro">
         <b data-i18n="ev_x_t">What Event Management does</b>
@@ -684,6 +769,71 @@ function applyOutLinks(){
 /* ===== I18N ===== */
 const T={
  en:{
+  /* ---- 25/08 meeting additions ---------------------------------------- */
+  n_library:"Speakers & Organisations",
+  c_ref:"Reference",c_city:"City",c_regs2:"Registrants",
+  ap_tab_content:"Content",ap_tab_import:"Import",
+  ap_meet_place:"Where",
+  ap_meet_note:"🤝 Attendees book 1-to-1 meetings with each other in the app. SVEF watches the bookings here, there is nothing to approve. No table or room is allocated by the platform: the two attendees agree a spot between themselves, which is why the Where column is usually their own words or blank.",
+  ap_conn_h:"Who may request a meeting",
+  ap_conn_note:"This rule decides who can start a 1-to-1 meeting request in the app. Attendees who cannot are told why rather than finding the button missing.",
+  ap_conn_open:"⚠️ Not settled on 25/08. The meeting asked whether connecting should be a member benefit or open to everyone, and left it with SVEF to decide alongside the membership package. Whatever is set here is what the app enforces, so the decision can be made without another release.",
+  ap_rem_h:"Automatic agenda reminders",
+  ap_rem_note:"Generated from the agenda, so nobody has to remember to send them. Manual notifications below are unchanged and can still go out at any time.",
+  ap_rem_on:"Automatic reminders",ap_rem_lead:"How far ahead",
+  ap_rem_lead_h:"Attendees can shorten or lengthen this for themselves in the app; this is the default.",
+  ap_rem_aud:"Who gets reminded",
+  ap_rem_aud_h:"Reminding everybody about every session is how an event teaches people to mute its app. The narrower option only reminds attendees who bookmarked that session.",
+  ap_rem_sess:"Session",ap_rem_fires:"Reminder fires",ap_rem_nosess:"No sessions on the agenda yet.",
+  ap_push_h_manual:"Manual notification",
+  ap_spk_lib:"Add from the library",ap_spk_addlib:"Add to this event",
+  ap_spk_liball:"Everyone in the speaker library is already on this event.",
+  ap_spk_libnote:"Speakers are maintained once in Speakers & Organisations and reused across events. Editing somebody there updates them on every event they speak at.",
+  ct_intro:"Three sections were agreed on 25/08: the speakers' slides, the event photography and the press coverage. The access column is the part that matters, and it is per item.",
+  ct_lib_h:"Library / Resources",ct_gal_h:"Gallery",ct_news_h:"News coverage",
+  ct_lib_note:"Slides and papers the speakers agreed to share, so attendees download them here instead of emailing the secretariat.",
+  ct_gal_note:"Photographs stay behind the login by default. A public gallery was proposed and overruled on 25/08 on privacy grounds: protect the identity of who was in the room first. Group shots already published on social media and the website are the stated exception, so Public is a per-album choice.",
+  ct_news_note:"Press coverage is public. Reach is the entire point of it.",
+  ct_by:"Shared by",ct_kind:"File",ct_access:"Who can see it",ct_album:"Album",ct_photos:"Photos",
+  ct_why:"Why",ct_src:"Publication",ct_none:"Nothing published yet.",
+  imp_intro:"Registrations taken on the existing Wix page are brought in here. Wix exposes no API for this data, so the agreed route is an Excel export from Wix and an import into the platform. Nothing is written until the dry run below has been reviewed.",
+  imp_file:"Registration export",imp_sample:"Load the sample SVEF sent",
+  imp_format:"Accepts CSV and tab-separated files. Excel's \"Unicode Text\" export is UTF-16 with tab separators even when it is named .csv, which is what the sample export from SVEF is, and it is read correctly.",
+  imp_map_h:"Column mapping",
+  imp_map_note:"The Wix export uses the full question text as its header, so mapping is guessed by matching wording, not by column position. Check every guess before importing. Required fields must be mapped.",
+  imp_field:"Field",imp_col:"Column in the file",imp_first:"First row",
+  imp_dry_h:"Dry run",imp_verdict:"Verdict",
+  imp_claim_h:"How imported registrants get into the app",
+  imp_claim_note:"The registration already exists after the import. This setting only decides how the person takes over the account.",
+  imp_claim_open:"⚠️ Not settled on 25/08. Matching on the email address alone risks a second profile when somebody signs up with a different address, which was the concern raised in the meeting; asking everybody to re-key a minimal profile avoids that but adds friction. The action recorded was to look into the import before choosing, so all three routes are here and none is the default in the product.",
+  imp_claim_st_h:"Imported registrants",imp_claim_c:"Account",
+  lib_tab_p:"Speakers",lib_tab_o:"Organisations",
+  lib_people_h:"Speaker library",lib_orgs_h:"Organisation library",
+  lib_people_note:"A speaker is created once and reused on every event they appear at, rather than retyped per event. Their bio here is the bio the app shows when somebody taps their name in the agenda.",
+  lib_orgs_note:"An organisation is a profile in its own right: attendees reach it from a person's card, and sponsors and speakers resolve to the same record. Unlike a personal profile, an organisation may publish contact details.",
+  lib_none:"Nothing in the library yet.",
+  lib_add_p:"Add speaker",lib_add_o:"Add organisation",lib_edit_p:"Edit speaker",lib_edit_o:"Edit organisation",
+  lib_used:"Used on",lib_type:"Type",lib_tier:"Membership tier",lib_contact:"Contact",lib_people:"People",
+  lib_bio:"Short biography",
+  lib_bio_h:"Shown in the app when an attendee taps this speaker's name in the agenda.",
+  lib_tier_h:"Drives the badge shown next to anybody from this organisation in the app's connect list.",
+  lib_hq:"Head office",lib_sector:"Sector",lib_about:"About",lib_tel:"Telephone",
+  lib_contact_h:"An organisation may publish contact details. A personal profile never does.",
+  lib_needname:"Please enter a name.",lib_saved_p:"Speaker saved",lib_saved_o:"Organisation saved",
+  ev_partner:"Partner event",ev_org_by:"Organised by",
+  ev_partner_reg:"Registration on the organiser's site",
+  ev_partner_site:"Organiser's site",
+  ev_partner_url:"Link to the organiser's page",
+  ev_partner_desc:"Short description",
+  ev_partner_desc_h:"Two or three sentences. This is all the app and the website show before the visitor is sent to the organiser.",
+  ev_partner_img:"Cover image",
+  ev_partner_img_h:"Required so partner events sit alongside SVEF events without looking broken. Name, image, description and dates are the minimum agreed on 25/08.",
+  ev_partner_admin:"SVEF lists this event so the calendar is complete. It does not administer it: registration, agenda and attendee data all live with the organiser.",
+  ev_partner_absent_h:"Not available for partner events",
+  ev_partner_absent:"No agenda, speakers, registrants, check-in, meeting bookings, content or notifications. Those need admin rights over the event, which SVEF does not have here. A partner-facing space where organisers maintain their own listing was raised on 25/08 and deferred to a separate proposal.",
+  ev_partner_need:"Name, organiser, link and description are all required.",
+  ev_partner_saved:"Partner listing saved",
+
   password:"Password",
   ag_h:"SVEF Admin Back-office",ag_desc:"Restricted area. Role-gated access. Admin-tool access is granted to IMT only after the NDA between SVEF and IMT has been signed (BRD §7.5 / §11.2).",
   ag_nda:"🔐 I confirm the NDA between SVEF and IMT has been signed and admin access is authorised.",ag_signin:"Sign in as Ops Admin",ag_back:"← Back to public website",
@@ -778,7 +928,6 @@ const T={
   ap_spo_save:"💾 Save sponsor",tier_head:"Headline",tier_gold:"Gold",tier_silver:"Silver",
   ap_reg_none:"Nobody has registered for this event yet.",
   ap_meet_req:"Requester",ap_meet_rec:"Recipient",ap_meet_none:"No meeting requests for this event yet.",
-  ap_meet_note:"🤝 Attendees book 1-to-1 meetings with each other in the app. SVEF only watches the bookings here, there is nothing to approve.",
   ap_push_t:"Notification title",ap_push_b:"Message",ap_push_aud:"Audience",ap_push_when:"When to send",
   ap_push_at:"Scheduled for",ap_push_send:"🔔 Send notification",ap_push_sent_h:"Notifications already sent",
   ap_push_none:"No notifications sent for this event yet.",ap_push_needtitle:"Please enter a notification title.",
@@ -901,6 +1050,88 @@ let members=[
  {e:"m.rossi@example.ch",role:"Strategic Partner",access:"Full partner access",susp:false,
   profiles:[{n:"Marco Rossi",t:"Individual",st:"Active"}]},
 ];
+/* ===== Shared libraries (25/08 meeting, 1.2) =================================
+   "Tạo profile 1 lần, dùng lại cho mọi event." Speakers and organisations used to
+   be typed into each event, which is why the same person appeared three times with
+   three different job titles. They are now records of their own, and an event holds
+   a REFERENCE plus whatever is specific to that appearance. Editing Anna Keller once
+   fixes her everywhere she speaks. */
+let speakerLib=[
+ {id:"sl-keller", n:"Dr. Anna Keller", job:"Chief Economist", orgId:"og-helvetia",
+  bio:"Chief economist at Helvetia Fintech, previously at the Swiss National Bank. Publishes on capital flows between Europe and South East Asia.",
+  li:"https://www.linkedin.com/in/svef-demo-anna-keller", photo:"AK"},
+ {id:"sl-duc", n:"Nguyễn Minh Đức", job:"Managing Director", orgId:"og-greentech",
+  bio:"Runs GreenTech Vietnam, which has built more than 120 MW of rooftop solar for industrial parks in the north.",
+  li:"https://www.linkedin.com/in/svef-demo-nguyen-minh-duc", photo:"NĐ"},
+ {id:"sl-rossi", n:"Marco Rossi", job:"Partner", orgId:"og-alpine",
+  bio:"Partner at Alpine Advisory, advising Swiss manufacturers on Asian supply chains.",
+  li:"https://www.linkedin.com/in/svef-demo-marco-rossi", photo:"MR"},
+ {id:"sl-meier", n:"Sandra Meier", job:"Trade Counsellor", orgId:"og-tradeoffice",
+  bio:"Trade counsellor at the Trade Office Zurich, covering ASEAN market access.",
+  li:"https://www.linkedin.com/in/svef-demo-sandra-meier", photo:"SM"}
+];
+/* Organisations carry the membership tier the app shows as a badge (2.4) and the
+   contact details a company IS allowed to publish (3.2). */
+const ORG_TIERS=["Headline sponsor","Sponsor","Corporate member","Individual member","Guest"];
+const ORG_TYPES=["Company","Investment fund","Association","Government body","Non-profit","University"];
+let orgLib=[
+ {id:"og-helvetia", n:"Helvetia Fintech AG", type:"Company", tier:"Headline sponsor",
+  hq:"Zurich, Switzerland", sector:"Financial services", staff:"180",
+  about:"Cross-border payments platform for SMEs trading between Europe and South East Asia.",
+  web:"https://helvetiafintech.example.ch", em:"partnerships@helvetiafintech.example.ch", tel:"+41 44 500 21 00"},
+ {id:"og-zurichvc", n:"Zurich Ventures", type:"Investment fund", tier:"Headline sponsor",
+  hq:"Zurich, Switzerland", sector:"Venture capital", staff:"24",
+  about:"Early-stage venture fund focused on financial and industrial technology.",
+  web:"https://zurichventures.example.ch", em:"deals@zurichventures.example.ch", tel:"+41 44 218 90 40"},
+ {id:"og-greentech", n:"GreenTech Vietnam", type:"Company", tier:"Sponsor",
+  hq:"Hanoi, Vietnam", sector:"Renewable energy", staff:"95",
+  about:"Rooftop solar and energy storage for industrial parks.",
+  web:"https://greentech.example.vn", em:"hello@greentech.example.vn", tel:"+84 24 3736 5500"},
+ {id:"og-alpine", n:"Alpine Advisory", type:"Company", tier:"Corporate member",
+  hq:"Biel, Switzerland", sector:"Advisory", staff:"40",
+  about:"Advises Swiss manufacturers on Asian supply chains and market entry.",
+  web:"https://alpineadvisory.example.ch", em:"contact@alpineadvisory.example.ch", tel:"+41 32 344 12 80"},
+ {id:"og-mekong", n:"Mekong Digital", type:"Company", tier:"Corporate member",
+  hq:"Ho Chi Minh City, Vietnam", sector:"Software", staff:"310",
+  about:"Software engineering and data services for regional enterprises.",
+  web:"https://mekongdigital.example.vn", em:"sales@mekongdigital.example.vn", tel:"+84 28 3910 2200"},
+ {id:"og-anphat", n:"An Phát Logistics JSC", type:"Company", tier:"Corporate member",
+  hq:"Hai Phong, Vietnam", sector:"Logistics", staff:"1,200",
+  about:"Freight forwarding and warehousing on the Vietnam to Europe lane.",
+  web:"https://anphat.example.vn", em:"sales@anphat.example.vn", tel:"+84 225 384 7700"},
+ {id:"og-tradeoffice", n:"Trade Office Zurich", type:"Government body", tier:"Guest",
+  hq:"Zurich, Switzerland", sector:"Trade promotion", staff:"—",
+  about:"Cantonal trade promotion office supporting Swiss exporters.",
+  web:"https://tradeoffice.example.ch", em:"asean@tradeoffice.example.ch", tel:"+41 43 259 00 00"},
+ {id:"og-swissprec", n:"Swiss Precision Mfg", type:"Company", tier:"Individual member",
+  hq:"Biel, Switzerland", sector:"Precision manufacturing", staff:"420",
+  about:"Precision components for medical and industrial equipment.",
+  web:"https://swissprecision.example.ch", em:"sourcing@swissprecision.example.ch", tel:"+41 32 344 90 10"},
+ {id:"og-ubs", n:"UBS", type:"Company", tier:"Headline sponsor",
+  hq:"Zurich, Switzerland", sector:"Banking", staff:"72,000",
+  about:"Swiss global bank. Leading the Swiss delegation to the Hanoi forum.",
+  web:"https://ubs.example.ch", em:"delegation@ubs.example.ch", tel:"+41 44 234 11 11"},
+ {id:"og-svef", n:"Swiss-Viet Economic Forum", type:"Non-profit", tier:"Headline sponsor",
+  hq:"Zurich and Hanoi", sector:"Trade promotion", staff:"18",
+  about:"The organising foundation. Its own staff register through the same form as everybody else.",
+  web:"https://svef.example.org", em:"secretariat@svef.example.org", tel:"+41 44 000 00 00"},
+ {id:"og-vnu", n:"Vietnam National University", type:"University", tier:"Guest",
+  hq:"Hanoi, Vietnam", sector:"Higher education", staff:"—",
+  about:"Research partner on the innovation and skills track.",
+  web:"https://vnu.example.vn", em:"international@vnu.example.vn", tel:"+84 24 3754 7670"}
+];
+function orgLibById(id){return orgLib.find(o=>o.id===id)||null;}
+function speakerLibById(id){return speakerLib.find(x=>x.id===id)||null;}
+/* An organisation is matched to a free-text company name the same way the importer
+   does it, so the back office and the import agree on what counts as a match. */
+function normCo(x){return String(x||'').toLowerCase().replace(/[.,]/g,'')
+  .replace(/\b(ag|jsc|ltd|llc|inc|gmbh|co|corp|company|plc|sa|nv|bv)\b/g,'').replace(/\s+/g,' ').trim();}
+function orgByCoName(co){
+  const k=normCo(co);if(!k)return null;
+  return orgLib.find(o=>normCo(o.n)===k)||null;
+}
+function orgTierOf(co){const o=orgByCoName(co);return o?o.tier:"Guest";}
+
 const FORMATS=["In-person","Online","Hybrid"];
 /* SVEF does not run a blog and has no case studies, so the only content types are
    News and Media (June, review of 7 Aug 2026). */
@@ -988,6 +1219,28 @@ let events=[
   pushes:[
    {t:"Agenda published",b:"The full three-day agenda is now live in the app.",aud:"all",d:"2026-08-03",tm:"09:15",st:"Send now"},
    {t:"Book your 1-to-1 meetings",b:"Meeting slots for day one are open until 10 October.",aud:"reg",d:"2026-08-06",tm:"14:30",st:"Send now"}]},
+  /* --- Partner events (25/08 meeting, 1.1) ---------------------------------
+     A partner event is a LISTING that SVEF keys in so the calendar is complete,
+     not a product SVEF operates. It carries the four fields agreed for a
+     consistent look and feel plus a link out, and it has no agenda, no
+     registration, no check-in and no back office of its own, because SVEF has no
+     admin rights over somebody else's event. Toàn asked for the partner's own
+     space and self-service maintenance to be proposed separately, so the
+     partner-facing side is deliberately absent here. */
+ {id:"ev-biotech",t:"Swiss-Vietnam Biotech Bridge",partner:true,
+  organiser:"SwissCham Asia",ext:"https://swisscham.example.ch/events/biotech-bridge-2026",
+  ds:"2026-09-17",de:"2026-09-17",venue:"Congress Center",addr:"",city:"Basel, Switzerland",
+  tz:"(GMT+1) Zurich",status:"Published",fmt:"In-person",zoom:"",theme:"",expect:"",langs:"",
+  topics:["Innovation"],audience:["Industry"],
+  desc:"Matchmaking day for pharmaceutical and medical device businesses from Switzerland and Vietnam, run by SwissCham Asia.",
+  about:"",sessions:[],speakers:[],sponsors:[],registrants:[],meetings:[],pushes:[]},
+ {id:"ev-logistics",t:"Vietnam-Europe Logistics Forum",partner:true,
+  organiser:"VCCI Hai Phong",ext:"https://vcci.example.vn/su-kien/logistics-forum-2026",
+  ds:"2026-11-19",de:"2026-11-19",venue:"Hai Phong Convention Centre",addr:"",city:"Hai Phong, Vietnam",
+  tz:"(GMT+7) Hanoi",status:"Published",fmt:"In-person",zoom:"",theme:"",expect:"",langs:"",
+  topics:["Logistics","Trade"],audience:["Industry","Corporates"],
+  desc:"Conference on the Vietnam to Europe freight corridor after EFTA, run by VCCI Hai Phong.",
+  about:"",sessions:[],speakers:[],sponsors:[],registrants:[],meetings:[],pushes:[]},
  {id:"ev-mission",t:"Swiss-Vietnam Trade Mission 2026",ds:"2026-11-22",de:"2026-11-24",
   venue:"Zurich Business Centre",addr:"Loewenstrasse 32, 8001 Zurich",city:"Zurich, Switzerland",
   tz:"(GMT+1) Zurich",status:"Published",fmt:"In-person",zoom:"",
@@ -1110,6 +1363,16 @@ function eventRow(e,i){
   const st=regStats(e),cap=regCap(e);
   const pctv=cap?Math.min(100,Math.round(st.conf/cap*100)):0;
   const bar=cap?`<div class="rbar"><i style="width:${pctv}%"></i></div>`:'';
+  if(e.partner)return `<tr class="rowlink partnerrow" onclick="openEventDetail(${i},'details')">`+
+   `<td><b style="color:var(--navy)">${esc(e.t)}</b> <span class="chip">${tr('ev_partner')}</span>`+
+     `<div class="muted" style="font-size:12px">📍 ${esc(e.venue||'')}${e.city?', '+esc(e.city):''} · ${tr('ev_org_by')} ${esc(e.organiser||'')}</div></td>`+
+   `<td>${evDates(e)}</td>`+
+   `<td class="muted">${tr('ev_partner_reg')}</td>`+
+   `<td>${stChip(e.status)}</td>`+
+   `<td><div class="act-btns">`+
+   `<button class="btn sm" onclick="event.stopPropagation();openEventDetail(${i},'details')">${tr('d_open')}</button>`+
+   `<a class="btn line sm" href="${esc(e.ext||'#')}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${tr('ev_partner_site')} ↗</a>`+
+   `</div></td></tr>`;
   return `<tr class="rowlink" onclick="openEventDetail(${i})">`+
    `<td><b style="color:var(--navy)">${esc(e.t)}</b>`+
      `<div class="muted" style="font-size:12px">📍 ${esc(e.venue||'')}${e.city?', '+esc(e.city):''} · ${esc(fmtLabel(e.fmt))}</div></td>`+
@@ -1262,6 +1525,7 @@ function savePartnerA(){
 function delPartnerA(i){if(!confirm(tr('q_delpartner')))return;partners.splice(i,1);renderAll();toast('Partner removed');}
 
 /* ===== GENERIC MODAL HELPERS ===== */
+function closeGen(){closeModal();}
 function openGen(title,html){
   document.getElementById('genTitle').textContent=title;
   document.getElementById('genBody').innerHTML=html;
@@ -1378,14 +1642,20 @@ function delEvent(i){
    operational tabs. Overview leads because "how is this event doing" is the
    question the page is opened with. */
 const APP_TABS=[['over','ap_tab_over'],['details','ap_tab_info'],['agenda','ap_tab_agenda'],
-  ['speakers','ap_tab_speakers'],['sponsors','ap_tab_sponsors'],['reg','ap_tab_reg'],
-  ['meet','ap_tab_meet'],['push','ap_tab_push']];
+  ['speakers','ap_tab_speakers'],['sponsors','ap_tab_sponsors'],['content','ap_tab_content'],
+  ['reg','ap_tab_reg'],['import','ap_tab_import'],['meet','ap_tab_meet'],['push','ap_tab_push']];
+/* A partner event has no agenda, no registrants and nothing to push to, so it
+   shows only the listing itself. Hiding the tabs is the honest version of
+   "SVEF does not administer this event". */
+const PARTNER_TABS=[['details','ap_tab_info']];
+function tabsFor(e){return (e&&e.partner)?PARTNER_TABS:APP_TABS;}
 /* The detail page is a sibling view rather than a modal: it carries its own tab
    bar, wide tables and a check-in mode, none of which fit in a dialog. The Event
    Management sidebar entry stays lit, so the detail reads as a place inside it. */
 function openEventDetail(i,tab){
   if(i<0||i>=events.length)return;
   evSel=i;evTab=tab||'over';regResetView();
+  if(events[i].partner)evTab='details';
   document.querySelectorAll('.view').forEach(e=>e.classList.remove('on'));
   document.getElementById('v-event').classList.add('on');
   document.querySelectorAll('.snav button').forEach(b=>b.classList.remove('on'));
@@ -1435,7 +1705,7 @@ function appHead(titleKey,btn){
 function appTabsRender(){
   const bar=document.getElementById('evdTabs'),e=appEv();
   if(!bar||!e)return;
-  bar.innerHTML=APP_TABS.map(t=>{
+  bar.innerHTML=tabsFor(e).map(t=>{
     const n=t[0]==='reg'?' · '+regStats(e).seats:'';
     return `<button class="${evTab===t[0]?'on':''}" onclick="appTabSet('${t[0]}')">${tr(t[1])}${n}</button>`;
   }).join('');
@@ -1455,8 +1725,10 @@ function renderApp(){
     `<span class="chip navy">${esc(evDates(e))}</span> <span class="chip">📍 ${esc(e.venue||'—')}</span> `+
     `<span class="chip">${esc(e.tz)}</span> ${stChip(e.status)}`;
   appTabsRender();
+  if(e.partner){pane.innerHTML=appPartnerHtml(e);return;}
   const body={over:appOverHtml,details:appInfoHtml,agenda:appAgendaHtml,speakers:appSpeakersHtml,
-    sponsors:appSponsorsHtml,reg:appRegHtml,meet:appMeetHtml,push:appPushHtml}[evTab]||appOverHtml;
+    sponsors:appSponsorsHtml,content:appContentHtml,reg:appRegHtml,import:appImportHtml,
+    meet:appMeetHtml,push:appPushHtml}[evTab]||appOverHtml;
   pane.innerHTML=body(e);
   if(evTab==='push')appPushWhen();
   if(evTab==='details'){renderAboutPreview();toggleZoomField();}
@@ -1626,9 +1898,30 @@ function appSpeakersHtml(e){
         `<button class="btn line sm" onclick="delAppSpeaker(${i})">${tr('d_delete')}</button>`+
       `</div>`).join('')+`</div>`
     : `<div class="emptyline">${tr('ap_spk_none')}</div>`;
+  /* 1.2: the speaker list for an event is now assembled from the shared library,
+     so the same person is not re-typed (and re-mistyped) for each event they speak
+     at. Adding somebody new still works; it writes them into the library too. */
+  const used={};e.speakers.forEach(x=>{if(x.libId)used[x.libId]=1;});
+  const avail=speakerLib.filter(x=>!used[x.id]);
+  const pick=avail.length
+    ? `<div class="pickline"><label>${tr('ap_spk_lib')}</label>
+        <select id="spkLibSel">`+avail.map(x=>{
+          const o=orgLibById(x.orgId);
+          return `<option value="${x.id}">${esc(x.n)} — ${esc(x.job)}${o?', '+esc(o.n):''}</option>`;
+        }).join('')+`</select>
+        <button class="btn sm" onclick="addSpeakerFromLib()">${tr('ap_spk_addlib')}</button></div>`
+    : `<div class="hint">${tr('ap_spk_liball')}</div>`;
   return `<div class="panel">`+
     appHead('ap_tab_speakers',`<button class="btn sm" onclick="openAppSpeaker(-1)">${tr('ap_spk_add')}</button>`)+
-    `<div class="pbody">${body}<div class="hint">${tr('ap_photo_h')}</div></div></div>`;
+    `<div class="pbody"><div class="export-note">${tr('ap_spk_libnote')}</div>${pick}${body}`+
+    `<div class="hint">${tr('ap_photo_h')}</div></div></div>`;
+}
+function addSpeakerFromLib(){
+  const e=appEv(),sel=document.getElementById('spkLibSel');if(!e||!sel)return;
+  const lib=speakerLibById(sel.value);if(!lib)return;
+  const o=orgLibById(lib.orgId);
+  e.speakers.push({id:'spk-'+lib.id+'-'+(++evSeq),libId:lib.id,n:lib.n,job:lib.job,co:o?o.n:''});
+  renderApp();toast(lib.n+' added from the library');
 }
 let appSpkEdit=-1,appSpkReturn=false;
 function openAppSpeaker(i,fromSession){
@@ -2440,14 +2733,697 @@ function openRegAt(i){
 
 /* ---- 1-to-1 meeting bookings (read-only, possibly not needed) ---- */
 function appMeetHtml(e){
-  const rows=e.meetings.map(m=>`<tr><td><b style="color:var(--navy)">${esc(m.rq)}</b></td>`+
-    `<td>${esc(m.rc)}</td><td>${fmtD(m.day)}</td><td>${esc(m.slot)}</td><td>${mtChip(m.st)}</td></tr>`).join('')
-    ||`<tr><td colspan="5" class="muted">${tr('ap_meet_none')}</td></tr>`;
+  /* 2.6: "hiển thị tên công ty bên dưới tên cá nhân ở cả hai bên", so an admin can
+     read "UBS meeting Vietcombank" off the row rather than recognising two names.
+     The company comes from the registrant record, and where that resolves to an
+     organisation in the library the tier comes with it. */
+  function side(name){
+    const r=(e.registrants||[]).find(x=>x.n===name);
+    const co=r?r.co:'';
+    const og=orgByCoName(co);
+    return `<b style="color:var(--navy)">${esc(name)}</b>`+
+      (co?`<div class="muted" style="font-size:12px">${esc(co)}`+
+        (og?` · <span class="tierlab">${esc(og.tier)}</span>`:'')+`</div>`
+         :`<div class="muted" style="font-size:12px">no organisation on record</div>`);
+  }
+  const rows=e.meetings.map(function(m,i){
+    return `<tr><td>${side(m.rq)}</td><td>${side(m.rc)}</td><td>${fmtD(m.day)}</td>`+
+      `<td>${esc(m.slot)}</td><td>${esc(m.place||'')||'<span class="muted">agreed between them</span>'}</td>`+
+      `<td>${mtChip(m.st)}</td>`+
+      `<td class="right"><select class="mini" onchange="mtSetSt(${i},this)">`+
+        ['Pending','Confirmed','Held','Declined','Canceled','No-show'].map(x=>
+          `<option${x===m.st?' selected':''}>${x}</option>`).join('')+
+      `</select></td></tr>`;
+  }).join('')||`<tr><td colspan="7" class="muted">${tr('ap_meet_none')}</td></tr>`;
+
+  /* 2.2: the numbers SVEF actually asked for at the end of the event. */
+  const n=e.meetings.length;
+  const by=st=>e.meetings.filter(m=>m.st===st).length;
+  const held=by('Held'), conf=by('Confirmed'), pend=by('Pending');
+  const rate=n?Math.round(((held+conf)/n)*100):0;
+
   return `<div class="panel">`+
-    appHead('ap_tab_meet',`<span class="chip navy">${e.meetings.length}</span>`)+
+    appHead('ap_tab_meet',`<span class="chip navy">${n}</span>`)+
+    `<div class="pbody"><div class="statrow">
+      <div class="stat"><b>${n}</b><span>requests made</span></div>
+      <div class="stat"><b>${conf}</b><span>confirmed by both</span></div>
+      <div class="stat"><b>${held}</b><span>actually held</span></div>
+      <div class="stat"><b>${pend}</b><span>awaiting an answer</span></div>
+      <div class="stat"><b>${rate}%</b><span>acceptance rate</span></div>
+    </div></div>`+
     `<table><thead><tr><th>${tr('ap_meet_req')}</th><th>${tr('ap_meet_rec')}</th><th>${tr('c_date')}</th>`+
-    `<th>${tr('c_slot')}</th><th>${tr('c_status')}</th></tr></thead><tbody>${rows}</tbody></table>`+
-    `<div class="pbody"><div class="export-note">${tr('ap_meet_note')}</div></div></div>`;
+    `<th>${tr('c_slot')}</th><th>${tr('ap_meet_place')}</th><th>${tr('c_status')}</th><th></th></tr></thead>`+
+    `<tbody>${rows}</tbody></table>`+
+    `<div class="pbody"><div class="export-note">${tr('ap_meet_note')}</div></div></div>`+
+    appConnectPolicyHtml(e);
+}
+function mtSetSt(i,sel){
+  const e=appEv();if(!e)return;
+  e.meetings[i].st=sel.value;renderApp();toast('Meeting marked '+sel.value);
+}
+/* 2.4 was left open in the meeting: does everybody get to book a meeting, or only
+   members and sponsors? Rather than pick for SVEF, the rule is a setting here, and
+   the app enforces whatever is set. The wording states that it is unresolved. */
+function appConnectPolicyHtml(e){
+  if(!e.connectPolicy)e.connectPolicy='opt-in';
+  const opts=[
+    ['all','Anyone attending','Every registrant can request a meeting with anyone else.'],
+    ['members','Members and sponsors only','Only SVEF members and sponsors can request a meeting. Guests can be requested, but cannot initiate.'],
+    ['opt-in','Members, sponsors, and guests who asked to be connected','Guests can take part only if they ticked the networking question on the registration form. This is what the current Hanoi form collects.']];
+  return `<div class="panel">`+appHead('ap_conn_h')+
+    `<div class="pbody"><div class="export-note">${tr('ap_conn_note')}</div>
+    <div class="pickrow">`+opts.map(function(o){
+      return `<button class="pickcard${e.connectPolicy===o[0]?' on':''}" onclick="setConnPolicy('${o[0]}')">
+        <b>${o[1]}</b><span>${o[2]}</span></button>`;
+    }).join('')+`</div>
+    <div class="export-note">${tr('ap_conn_open')}</div></div></div>`;
+}
+function setConnPolicy(v){
+  const e=appEv();if(!e)return;
+  e.connectPolicy=v;renderApp();toast('Connection rule updated');
+}
+
+
+
+
+/* A partner event is a listing SVEF keys in for calendar completeness. The form is
+   deliberately the minimum the 25/08 meeting agreed on for a consistent look and
+   feel, and nothing more: SVEF has no admin rights over the partner's event, so
+   there is nothing else here to administer. */
+function appPartnerHtml(e){
+  return `<div class="panel">`+appHead('ap_tab_info',`<span class="chip">${tr('ev_partner')}</span>`)+
+    `<div class="pbody"><div class="export-note">${tr('ev_partner_admin')}</div>
+      <div class="mrow"><label>${tr('c_title')} <span class="req">required</span></label>
+        <input id="pxT" value="${esc(e.t)}"></div>
+      <div class="g2">
+        <div class="mrow"><label>${tr('ev_org_by')} <span class="req">required</span></label>
+          <input id="pxO" value="${esc(e.organiser||'')}"></div>
+        <div class="mrow"><label>${tr('ev_partner_url')} <span class="req">required</span></label>
+          <input id="pxU" value="${esc(e.ext||'')}"></div></div>
+      <div class="g2">
+        <div class="mrow"><label>${tr('c_date')} <span class="req">required</span></label>
+          <input id="pxD" type="date" value="${esc(e.ds)}"></div>
+        <div class="mrow"><label>${tr('c_city')}</label><input id="pxC" value="${esc(e.city||'')}"></div></div>
+      <div class="mrow"><label>${tr('ev_partner_desc')} <span class="req">required</span></label>
+        <textarea id="pxDesc" rows="3">${esc(e.desc||'')}</textarea>
+        <div class="hint">${tr('ev_partner_desc_h')}</div></div>
+      <div class="mrow"><label>${tr('ev_partner_img')}</label>
+        <div class="imgslot">${esc(e.t.slice(0,2).toUpperCase())}</div>
+        <div class="hint">${tr('ev_partner_img_h')}</div></div>
+      <button class="btn" onclick="savePartnerEvent()">${tr('d_save')}</button>
+    </div></div>
+    <div class="panel">`+appHead('ev_partner_absent_h')+
+    `<div class="pbody"><div class="export-note">${tr('ev_partner_absent')}</div></div></div>`;
+}
+function savePartnerEvent(){
+  const e=appEv();if(!e)return;
+  const t=v('pxT').trim(),o=v('pxO').trim(),u=v('pxU').trim(),d=v('pxDesc').trim();
+  if(!t||!o||!u||!d){toast(tr('ev_partner_need'));return;}
+  e.t=t;e.organiser=o;e.ext=u;e.desc=d;e.ds=v('pxD');e.de=v('pxD');e.city=v('pxC').trim();
+  document.getElementById('evdTitle').textContent=e.t;
+  document.getElementById('viewTitle').textContent=e.t;
+  renderApp();renderPubEvents();toast(tr('ev_partner_saved'));
+}
+
+/* ===== SHARED LIBRARY VIEW (25/08 meeting, 1.2 and 2.5) =====================
+   One place where a speaker and an organisation are maintained, and every event
+   that uses them picks up the edit. This is also where the membership tier the app
+   badges people with (2.4) is actually set. */
+let libTab='people';
+function setLibTab(t){libTab=t;renderLibrary();}
+function renderLibrary(){
+  const el=document.getElementById('libPane');if(!el)return;
+  el.innerHTML=libTab==='people'?libPeopleHtml():libOrgsHtml();
+  document.querySelectorAll('#libTabs button').forEach(b=>b.classList.toggle('on',b.dataset.libtab===libTab));
+}
+function speakerEventCount(id){
+  return events.filter(e=>(e.speakers||[]).some(x=>x.libId===id)).length;
+}
+function libPeopleHtml(){
+  const rows=speakerLib.map(function(x,i){
+    const o=orgLibById(x.orgId),n=speakerEventCount(x.id);
+    return `<tr><td><b style="color:var(--navy)">${esc(x.n)}</b>
+        <div class="muted" style="font-size:12px">${esc(x.bio||'').slice(0,110)}${(x.bio||'').length>110?'…':''}</div></td>
+      <td>${esc(x.job||'—')}</td>
+      <td>${o?esc(o.n)+`<div class="muted" style="font-size:12px">${esc(o.tier)}</div>`:'<span class="muted">—</span>'}</td>
+      <td class="mono">${n} event${n===1?'':'s'}</td>
+      <td class="right"><button class="mini" onclick="editLibSpeaker(${i})">Edit</button></td></tr>`;
+  }).join('')||`<tr><td colspan="5" class="muted">${tr('lib_none')}</td></tr>`;
+  return `<div class="panel">`+
+    panelHead(tr('lib_people_h'),`<button class="btn sm" onclick="editLibSpeaker(-1)">${tr('lib_add_p')}</button>`)+
+    `<div class="pbody"><div class="export-note">${tr('lib_people_note')}</div></div>
+    <table><thead><tr><th>${tr('c_name')}</th><th>${tr('c_job')}</th><th>${tr('c_company')}</th>
+      <th>${tr('lib_used')}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function libOrgsHtml(){
+  const rows=orgLib.map(function(o,i){
+    const people=speakerLib.filter(x=>x.orgId===o.id).length;
+    return `<tr><td><b style="color:var(--navy)">${esc(o.n)}</b>
+        <div class="muted" style="font-size:12px">${esc(o.about||'').slice(0,110)}${(o.about||'').length>110?'…':''}</div></td>
+      <td>${esc(o.type)}<div class="muted" style="font-size:12px">${esc(o.hq)}</div></td>
+      <td><span class="chip ${o.tier.indexOf('sponsor')>-1||o.tier.indexOf('Sponsor')>-1?'gold':(o.tier==='Guest'?'':'navy')}">${esc(o.tier)}</span></td>
+      <td class="mono">${esc(o.em)}<div class="muted">${esc(o.tel)}</div></td>
+      <td class="mono">${people}</td>
+      <td class="right"><button class="mini" onclick="editLibOrg(${i})">Edit</button></td></tr>`;
+  }).join('')||`<tr><td colspan="6" class="muted">${tr('lib_none')}</td></tr>`;
+  return `<div class="panel">`+
+    panelHead(tr('lib_orgs_h'),`<button class="btn sm" onclick="editLibOrg(-1)">${tr('lib_add_o')}</button>`)+
+    `<div class="pbody"><div class="export-note">${tr('lib_orgs_note')}</div></div>
+    <table><thead><tr><th>${tr('c_name')}</th><th>${tr('lib_type')}</th><th>${tr('lib_tier')}</th>
+      <th>${tr('lib_contact')}</th><th>${tr('lib_people')}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function panelHead(title,right){
+  return `<div class="phead2"><h3>${title}</h3><div>${right||''}</div></div>`;
+}
+function editLibSpeaker(i){
+  const x=i>=0?speakerLib[i]:{n:'',job:'',orgId:'',bio:'',li:''};
+  openGen(i>=0?tr('lib_edit_p'):tr('lib_add_p'),
+    `<div class="mrow"><label>${tr('c_name')}</label><input id="lsN" value="${esc(x.n)}"></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('c_job')}</label><input id="lsJ" value="${esc(x.job||'')}"></div>`+
+     `<div class="mrow"><label>${tr('c_company')}</label><select id="lsO">`+
+       `<option value="">— none —</option>`+
+       orgLib.map(o=>`<option value="${o.id}"${o.id===x.orgId?' selected':''}>${esc(o.n)}</option>`).join('')+
+     `</select></div></div>`+
+    `<div class="mrow"><label>${tr('lib_bio')}</label><textarea id="lsB" rows="3">${esc(x.bio||'')}</textarea>
+      <div class="hint">${tr('lib_bio_h')}</div></div>`+
+    `<div class="mrow"><label>LinkedIn</label><input id="lsL" value="${esc(x.li||'')}"></div>`+
+    `<button class="btn block" onclick="saveLibSpeaker(${i})">${tr('d_save')}</button>`);
+}
+function saveLibSpeaker(i){
+  const n=v('lsN').trim();if(!n){toast(tr('lib_needname'));return;}
+  const rec={id:i>=0?speakerLib[i].id:'sl-'+(++evSeq),n:n,job:v('lsJ').trim(),
+    orgId:v('lsO'),bio:v('lsB').trim(),li:v('lsL').trim(),photo:ini(n)};
+  if(i>=0)speakerLib[i]=rec;else speakerLib.push(rec);
+  /* An edit here has to reach the events that already reference this person,
+     otherwise the "one profile" promise is only true for new events. */
+  const o=orgLibById(rec.orgId);
+  events.forEach(function(e){(e.speakers||[]).forEach(function(sp){
+    if(sp.libId===rec.id){sp.n=rec.n;sp.job=rec.job;sp.co=o?o.n:'';}
+  });});
+  closeGen();renderLibrary();renderAll();toast(tr('lib_saved_p'));
+}
+function editLibOrg(i){
+  const o=i>=0?orgLib[i]:{n:'',type:'Company',tier:'Guest',hq:'',sector:'',staff:'',about:'',web:'',em:'',tel:''};
+  openGen(i>=0?tr('lib_edit_o'):tr('lib_add_o'),
+    `<div class="mrow"><label>${tr('c_name')}</label><input id="loN" value="${esc(o.n)}"></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('lib_type')}</label><select id="loT">`+
+       ORG_TYPES.map(t=>`<option${t===o.type?' selected':''}>${t}</option>`).join('')+`</select></div>`+
+     `<div class="mrow"><label>${tr('lib_tier')}</label><select id="loTier">`+
+       ORG_TIERS.map(t=>`<option${t===o.tier?' selected':''}>${t}</option>`).join('')+`</select>
+       <div class="hint">${tr('lib_tier_h')}</div></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('lib_hq')}</label><input id="loH" value="${esc(o.hq||'')}"></div>`+
+     `<div class="mrow"><label>${tr('lib_sector')}</label><input id="loS" value="${esc(o.sector||'')}"></div></div>`+
+    `<div class="mrow"><label>${tr('lib_about')}</label><textarea id="loA" rows="3">${esc(o.about||'')}</textarea></div>`+
+    `<div class="g2"><div class="mrow"><label>Website</label><input id="loW" value="${esc(o.web||'')}"></div>`+
+     `<div class="mrow"><label>${tr('c_email')}</label><input id="loE" value="${esc(o.em||'')}"></div></div>`+
+    `<div class="mrow"><label>${tr('lib_tel')}</label><input id="loP" value="${esc(o.tel||'')}">
+      <div class="hint">${tr('lib_contact_h')}</div></div>`+
+    `<button class="btn block" onclick="saveLibOrg(${i})">${tr('d_save')}</button>`);
+}
+function saveLibOrg(i){
+  const n=v('loN').trim();if(!n){toast(tr('lib_needname'));return;}
+  const rec={id:i>=0?orgLib[i].id:'og-'+(++evSeq),n:n,type:v('loT'),tier:v('loTier'),
+    hq:v('loH').trim(),sector:v('loS').trim(),staff:i>=0?orgLib[i].staff:'',
+    about:v('loA').trim(),web:v('loW').trim(),em:v('loE').trim(),tel:v('loP').trim()};
+  if(i>=0)orgLib[i]=rec;else orgLib.push(rec);
+  closeGen();renderLibrary();renderAll();toast(tr('lib_saved_o'));
+}
+
+/* ===== EVENT CONTENT: LIBRARY / GALLERY / NEWS (25/08 meeting, 3.1) ==========
+   The access column is the whole point of this tab. Toàn settled it in the meeting:
+   the library and the gallery sit behind a login, news is public. Rachel argued for
+   a public gallery and was overruled on privacy grounds, with group shots already
+   published on social media as the stated exception, so "Public" is a per-item
+   switch on photographs rather than a section-wide setting. */
+const CT_ACCESS=["Registered attendees","Anyone signed in","Public"];
+function ctEnsure(e){
+  if(!e.content)e.content={
+    library:[
+      {t:"Swiss-Vietnam trade outlook 2027",by:"Dr. Anna Keller",kind:"PDF",size:"4.2 MB",acc:"Registered attendees"},
+      {t:"Financing the green transition",by:"Nguyễn Minh Đức",kind:"PDF",size:"3.1 MB",acc:"Registered attendees"},
+      {t:"Market entry for Swiss SMEs",by:"Marco Rossi",kind:"PPTX",size:"12.4 MB",acc:"Registered attendees"}],
+    gallery:[
+      {t:"Opening plenary",n:24,acc:"Public",note:"Group shots, already on social media"},
+      {t:"Day 1 breakouts",n:56,acc:"Registered attendees",note:"Faces of individual attendees"},
+      {t:"Gala dinner",n:83,acc:"Registered attendees",note:"Faces of individual attendees"}],
+    news:[
+      {t:"Swiss businesses look to Vietnam after EFTA",src:"VnExpress",d:"2026-10-20",acc:"Public"},
+      {t:"Hanoi hosts the largest Swiss delegation to date",src:"Neue Zürcher Zeitung",d:"2026-10-19",acc:"Public"}]
+  };
+  return e.content;
+}
+function ctAccChip(a){
+  const c=a==='Public'?'green':(a==='Anyone signed in'?'navy':'pend');
+  return `<span class="chip ${c}">${esc(a)}</span>`;
+}
+function ctSetAcc(kind,i,sel){
+  const e=appEv();if(!e)return;
+  ctEnsure(e)[kind][i].acc=sel.value;renderApp();toast('Access updated');
+}
+function ctAccSelect(kind,i,cur){
+  return `<select onchange="ctSetAcc('${kind}',${i},this)">`+
+    CT_ACCESS.map(a=>`<option${a===cur?' selected':''}>${a}</option>`).join('')+`</select>`;
+}
+function appContentHtml(e){
+  const c=ctEnsure(e);
+  let h=`<div class="panel">`+appHead('ap_tab_content')+
+    `<div class="pbody"><div class="export-note">${tr('ct_intro')}</div></div></div>`;
+
+  h+=`<div class="panel">`+appHead('ct_lib_h',`<span class="chip navy">${c.library.length}</span>`)+
+    `<div class="pbody"><div class="export-note">${tr('ct_lib_note')}</div></div>
+    <table><thead><tr><th>${tr('c_title')}</th><th>${tr('ct_by')}</th><th>${tr('ct_kind')}</th>
+      <th>${tr('ct_access')}</th></tr></thead><tbody>`+
+    (c.library.map(function(x,i){
+      return `<tr><td><b style="color:var(--navy)">${esc(x.t)}</b></td><td>${esc(x.by)}</td>
+        <td class="mono">${esc(x.kind)} · ${esc(x.size)}</td><td>${ctAccSelect('library',i,x.acc)}</td></tr>`;
+    }).join('')||`<tr><td colspan="4" class="muted">${tr('ct_none')}</td></tr>`)+
+    `</tbody></table></div>`;
+
+  h+=`<div class="panel">`+appHead('ct_gal_h',`<span class="chip navy">${c.gallery.reduce((a,x)=>a+x.n,0)} photos</span>`)+
+    `<div class="pbody"><div class="export-note">${tr('ct_gal_note')}</div></div>
+    <table><thead><tr><th>${tr('ct_album')}</th><th>${tr('ct_photos')}</th><th>${tr('ct_why')}</th>
+      <th>${tr('ct_access')}</th></tr></thead><tbody>`+
+    (c.gallery.map(function(x,i){
+      return `<tr><td><b style="color:var(--navy)">${esc(x.t)}</b></td><td class="mono">${x.n}</td>
+        <td class="muted">${esc(x.note||'')}</td><td>${ctAccSelect('gallery',i,x.acc)}</td></tr>`;
+    }).join('')||`<tr><td colspan="4" class="muted">${tr('ct_none')}</td></tr>`)+
+    `</tbody></table></div>`;
+
+  h+=`<div class="panel">`+appHead('ct_news_h',`<span class="chip navy">${c.news.length}</span>`)+
+    `<div class="pbody"><div class="export-note">${tr('ct_news_note')}</div></div>
+    <table><thead><tr><th>${tr('c_title')}</th><th>${tr('ct_src')}</th><th>${tr('c_date')}</th>
+      <th>${tr('ct_access')}</th></tr></thead><tbody>`+
+    (c.news.map(function(x,i){
+      return `<tr><td><b style="color:var(--navy)">${esc(x.t)}</b></td><td>${esc(x.src)}</td>
+        <td>${fmtD(x.d)}</td><td>${ctAccChip(x.acc)}</td></tr>`;
+    }).join('')||`<tr><td colspan="4" class="muted">${tr('ct_none')}</td></tr>`)+
+    `</tbody></table></div>`;
+  return h;
+}
+
+/* ===== REGISTRATION IMPORT (25/08 meeting, 4.1 and 4.2) ======================
+   The Hanoi event already sells itself through a Wix page, and people have already
+   registered there. Wix exposes no usable API, so the agreed route is: export from
+   Wix, import here. Rachel sent the sample export on 26/08; everything below is
+   built against that file rather than against a guess.
+
+   Three things about that file drove the code:
+     - it is named .csv but is UTF-16LE with a BOM and TAB separators, which is what
+       Excel produces on "Save as Unicode Text". Assuming utf-8 and commas throws.
+     - the header is the full question text, not a field name ("Phone Number: with
+       country code, WhatsApp/Zalo if applicable"), so mapping cannot be positional.
+     - one row is a delegation, i.e. several people behind one email.
+
+   4.2 is NOT settled: Toàn wants a magic link that silently claims the account off
+   the email address, Rachel would rather people re-key a minimal profile, and the
+   meeting closed with Tiến to "look into cái importation". So the import does not
+   pick a side. It IMPORTS, then shows exactly how many rows would auto-claim, how
+   many collide, and lets the operator choose the claim mode. Nothing is sent until
+   the operator presses the button. */
+
+const IMP_FIELDS=[
+  {k:"first", l:"First name",   req:true,  hints:["first name","given name","tên"]},
+  {k:"last",  l:"Last name",    req:true,  hints:["last name","surname","family name","họ"]},
+  {k:"em",    l:"Email",        req:true,  hints:["email","e-mail"]},
+  {k:"tel",   l:"Phone",        req:false, hints:["phone","mobile","whatsapp","zalo"]},
+  /* Deliberately NOT the bare word "organization": the Wix form also asks
+     "Country/Location of Organization", and a substring match on that word puts a
+     city into the company column, which then never matches an organisation in the
+     library. Company hints have to name the company field, not merely mention it. */
+  {k:"co",    l:"Organisation", req:true,  hints:["organization / company name","organisation / company name",
+                                                  "company name","organisation name","organization name",
+                                                  "company","employer"]},
+  {k:"job",   l:"Job title",    req:false, hints:["job title","position","role"]},
+  {k:"country",l:"Country",     req:false, hints:["country/location","country of organization","country","location"]},
+  {k:"sector",l:"Industry",     req:false, hints:["industry sector","sector","industry"]},
+  {k:"deleg", l:"Delegation",   req:false, hints:["delegation"]},
+  {k:"s1",    l:"Session round 1",req:false,hints:["round 1","parallel session round 1"]},
+  {k:"s2",    l:"Session round 2",req:false,hints:["round 2","parallel session round 2"]},
+  {k:"day3",  l:"Day 3 field visit",req:false,hints:["day 3","field visit"]},
+  {k:"mem",   l:"Membership status",req:false,hints:["membership status","svef membership"]},
+  {k:"support",l:"Support package",req:false,hints:["support package","delegation support"]},
+  {k:"dir",   l:"Directory opt-in",req:false,hints:["directory"]},
+  {k:"spon",  l:"Sponsor interest",req:false,hints:["sponsor"]},
+  {k:"diet",  l:"Dietary / access",req:false,hints:["dietary","accessibility"]},
+  {k:"notes", l:"Other requirements",req:false,hints:["other requirements","questions"]}
+];
+/* The sample export, verbatim from Rachel's file, so the demo shows the real
+   header wording and the real answer strings rather than tidied-up placeholders. */
+const IMP_SAMPLE_HEAD=["First name","Last name","Email",
+  "Phone Number: with country code, WhatsApp/Zalo if applicable",
+  "Country/Location of Organization","Job Title","Organization / Company Name",
+  "Industry Sector","Other - Industry (please specify below)",
+  "If attending as a delegation, please provide each delegate’s name and job title",
+  "From 15:00 to 16:00 - Parallel Session Round 1 (please only select 1)",
+  "From 16:15 to 17:15 - Parallel Session Round 2 (please only select 1)",
+  "Would you like to attend Day 3: Field Visits & Cultural Discovery (additional support fee is required)",
+  "SVEF Membership Status",
+  "Are you interested in the optional Delegation Support Package (airport pickup, hotel, ground transport, exclusive excursion in Hai Phong, and curated B2B meetings)?",
+  "Would you like to be featured in the SVEF 2026 Delegates Directory?",
+  "Would your organization be interested in becoming a sponsor of SVEF 2026?",
+  "Dietary requirements or special accessibility needs",
+  "Do you have any other requirements or questions?"];
+const IMP_SAMPLE_ROWS=[
+ ["Marco","Förster","marco.foerster@svef.ch","'+84968602495","Hanoi, Vietnam","Hanoi Representative",
+  "Swiss-Viet Economic Forum","Consulting & Advisory Services, Non-profit / Development Organisation","","",
+  "Session A: Mobility & Trade Connectivity","Session D: Pharma Market Access & Life Sciences",
+  "Yes - Please send me more details","SVEF Individual Member","Yes - Please send me further details",
+  "Yes - Include my organisation/company name","We are already a confirmed sponsor/partner","",""],
+ ["Linh ","Nguyen","plinhnguyen.livia@gmail.com","+41783424434","Switzerland","Freelance","Freelance",
+  "Consulting & Advisory Services","","","Session B: Energy Transition & Green Finance",
+  "Session F: Legal Frameworks & Market Entry","Yes - Please send me more details",
+  "I would like to receive more information about SVEF Membership","Yes - Please send me further details",
+  "Yes - Include my organisation/company name","No - Not at this time","",""],
+ ["Huong","Nguyen","camilleth.ng@gmail.com","+84912345678","Vietnam","Freelance","Freelance",
+  "Consulting & Advisory Services","","","Session A: Mobility & Trade Connectivity",
+  "Session E: Skills, Training & Vocational Education","No - I will not attend Day 3",
+  "I would like to receive more information about SVEF Membership","No - Not at this time",
+  "Yes - Include my organisation/company name","No - Not at this time","Vegetarian",""],
+ ["Toan","Luu","toan.luu@svef.ch","+41791112233","Switzerland","Head of Delegation","UBS",
+  "Banking & Financial Services","","Anna Meier - Director; Peter Frei - Analyst",
+  "Session C: Precision Manufacturing & Supply Chains","Session D: Pharma Market Access & Life Sciences",
+  "Yes - Please send me more details","I am not interested about SVEF Membership",
+  "Yes - Please send me further details","Yes - Include my organisation/company name",
+  "Maybe - Please send the sponsorship deck","",""],
+ ["Rachel","Ischensmid","rachel.isenschmid@gmail.com","+41794445566","Switzerland","Partner","IAP Investment",
+  "Investment & Asset Management","","","Session B: Energy Transition & Green Finance",
+  "Session F: Legal Frameworks & Market Entry","Yes - Please send me more details","SVEF Individual Member",
+  "No - Not at this time","No - Do not include me","No - Not at this time","Gluten free",
+  "Could you confirm the dress code for the gala?"]
+];
+
+let impHead=[], impRows=[], impMap={}, impFile='', impClaim='invite', impDone=null;
+
+/* Excel's "Unicode Text" export is UTF-16LE with a BOM and tab separators, even
+   when the file is called .csv. Sniff the BOM, decode accordingly, then sniff the
+   delimiter from the header line rather than trusting the extension. */
+function impDecode(buf){
+  const b=new Uint8Array(buf);
+  let enc='utf-8';
+  if(b.length>1&&b[0]===0xFF&&b[1]===0xFE)enc='utf-16le';
+  else if(b.length>1&&b[0]===0xFE&&b[1]===0xFF)enc='utf-16be';
+  let text=new TextDecoder(enc).decode(buf);
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  return text;
+}
+function impSniff(line){
+  const t=(line.match(/\t/g)||[]).length, c=(line.match(/,/g)||[]).length, sc=(line.match(/;/g)||[]).length;
+  if(t>=c&&t>=sc&&t>0)return '\t';
+  if(sc>c)return ';';
+  return ',';
+}
+/* A small RFC4180 reader: quoted fields, doubled quotes, newlines inside quotes.
+   Written out rather than pulled in, because the whole demo is three static files
+   with no build step and no dependencies. */
+function impParse(text){
+  const d=impSniff(text.split(/\r?\n/)[0]||'');
+  const rows=[];let row=[],cell='',q=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(q){
+      if(ch==='"'){ if(text[i+1]==='"'){cell+='"';i++;} else q=false; }
+      else cell+=ch;
+    }else if(ch==='"'){q=true;}
+    else if(ch===d){row.push(cell);cell='';}
+    else if(ch==='\n'){row.push(cell);cell='';rows.push(row);row=[];}
+    else if(ch!=='\r'){cell+=ch;}
+  }
+  if(cell.length||row.length){row.push(cell);rows.push(row);}
+  return rows.filter(r=>r.some(c=>String(c).trim().length));
+}
+/* Map by matching the question text against known hints. Wix headers are whole
+   sentences, so this is substring matching, not equality.
+
+   Naive first-match-wins does the wrong thing here, because several questions
+   mention the same word: "Phone Number: with country code…" contains "country",
+   and "Are you interested in the optional Delegation Support Package…" contains
+   "delegation". So every field/column pair is SCORED and the strongest pairings
+   are assigned first: a longer hint is more specific than a short one, and a hint
+   near the start of the question is more likely to be its subject. The operator
+   can still override every guess before anything is written. */
+function impScore(header,hints){
+  const h=String(header||'').toLowerCase();
+  let best=null;
+  hints.forEach(function(x){
+    const i=h.indexOf(x);
+    if(i<0)return;
+    const sc=x.length*3-i;
+    if(best===null||sc>best)best=sc;
+  });
+  return best;
+}
+function impAutoMap(head){
+  const pairs=[];
+  IMP_FIELDS.forEach(function(f){
+    head.forEach(function(h,i){
+      const sc=impScore(h,f.hints);
+      if(sc!==null)pairs.push({k:f.k,i:i,sc:sc});
+    });
+  });
+  pairs.sort((a,b)=>b.sc-a.sc);
+  const m={},usedCol={};
+  pairs.forEach(function(p){
+    if(m[p.k]!==undefined||usedCol[p.i])return;
+    m[p.k]=p.i;usedCol[p.i]=1;
+  });
+  return m;
+}
+function impVal(row,k){
+  const i=impMap[k];
+  if(i===undefined||i===null||i<0)return '';
+  return String(row[i]===undefined?'':row[i]).trim();
+}
+/* Phones exported from Excel keep a leading apostrophe that stopped Excel eating
+   the plus sign. It is a spreadsheet artefact, not part of the number. */
+function impTel(v){return String(v||'').replace(/^'+/,'').trim();}
+function impName(row){
+  const n=(impVal(row,'first')+' '+impVal(row,'last')).replace(/\s+/g,' ').trim();
+  return n;
+}
+/* Delegations: one paid row, several human beings. "Anna Meier - Director; Peter
+   Frei - Analyst" becomes party members, which is exactly how a group booking is
+   already stored, so imported delegations behave like any other group. */
+function impParty(row){
+  const raw=impVal(row,'deleg');
+  if(!raw)return [];
+  return raw.split(/[;\n]+/).map(function(x){
+    const p=x.split(/\s+[-–]\s+/);
+    return {n:(p[0]||'').trim(), job:(p[1]||'').trim()};
+  }).filter(x=>x.n);
+}
+function impEmailOk(e){return /^[^@\s]+@[^@\s.]+\.[^@\s]+$/.test(e);}
+
+/* The dry run. Every row gets a verdict and a reason; nothing is written. */
+function impAnalyse(e){
+  const seen={}, out=[];
+  const existing={};
+  (e.registrants||[]).forEach(function(r){existing[String(r.em||'').toLowerCase()]=r;});
+  impRows.forEach(function(row,i){
+    const em=impVal(row,'em').toLowerCase();
+    const rec={i:i, n:impName(row), em:em, co:impVal(row,'co'), job:impVal(row,'job'),
+      tel:impTel(impVal(row,'tel')), country:impVal(row,'country'), mem:impVal(row,'mem'),
+      party:impParty(row), notes:impVal(row,'notes'), diet:impVal(row,'diet')};
+    rec.org=orgByCoName(rec.co);
+    const miss=IMP_FIELDS.filter(f=>f.req&&!impVal(row,f.k)).map(f=>f.l);
+    if(miss.length){rec.v='error';rec.why='Missing required: '+miss.join(', ');}
+    else if(!impEmailOk(em)){rec.v='error';rec.why='Email is not a valid address';}
+    else if(seen[em]!==undefined){rec.v='dupe';rec.why='Duplicate of row '+(seen[em]+1)+' in this file';}
+    else if(existing[em]){rec.v='match';rec.why='Already registered as '+existing[em].ref;}
+    else {rec.v='new';rec.why=rec.org?('New · organisation matched to '+rec.org.n)
+                                     :'New · organisation not in the library yet';}
+    if(rec.v!=='error'&&rec.v!=='dupe')seen[em]=i;
+    out.push(rec);
+  });
+  return out;
+}
+function impCounts(list){
+  const c={new:0,match:0,dupe:0,error:0,people:0,orgnew:0};
+  list.forEach(function(r){
+    c[r.v]++;
+    if(r.v==='new'){c.people+=1+r.party.length;if(!r.org)c.orgnew++;}
+  });
+  return c;
+}
+function impLoadSample(){
+  impHead=IMP_SAMPLE_HEAD.slice();
+  impRows=IMP_SAMPLE_ROWS.map(r=>r.slice());
+  impFile='Test_SVEFHN_Registration.csv (UTF-16LE, tab separated)';
+  impMap=impAutoMap(impHead);impDone=null;
+  renderApp();toast('Loaded the sample export from SVEF');
+}
+function impPickFile(inp){
+  const f=inp.files&&inp.files[0];if(!f)return;
+  const fr=new FileReader();
+  fr.onload=function(){
+    try{
+      const rows=impParse(impDecode(fr.result));
+      if(!rows.length){toast('That file has no rows');return;}
+      impHead=rows[0];impRows=rows.slice(1);
+      impFile=f.name+' · '+impRows.length+' rows';
+      impMap=impAutoMap(impHead);impDone=null;
+      renderApp();toast('Read '+impRows.length+' rows from '+f.name);
+    }catch(err){toast('Could not read that file: '+err.message);}
+  };
+  fr.readAsArrayBuffer(f);
+}
+function impSetMap(k,sel){impMap[k]=sel.value===''?-1:+sel.value;renderApp();}
+function impSetClaim(v){impClaim=v;renderApp();}
+function impReset(){impHead=[];impRows=[];impMap={};impFile='';impDone=null;renderApp();}
+/* Commit. Imported people become ordinary registrants carrying a provenance flag
+   and a claim state, so the registrant table can always answer "where did this
+   person come from and have they taken over their account yet". */
+function impCommit(){
+  const e=appEv();if(!e)return;
+  const list=impAnalyse(e).filter(r=>r.v==='new');
+  if(!list.length){toast('Nothing to import');return;}
+  list.forEach(function(r){
+    regSeq++;
+    const ref='SVEF-HAN-'+String(regSeq).padStart(4,'0');
+    const rec={n:r.n,em:r.em,co:r.co,job:r.job,d:todayISO(),
+      kind:r.party.length?'group':'personal',ref:ref,st:'Confirmed',
+      qr:'HAN-'+(7000+regSeq),ci:false,ciAt:'',out:false,
+      src:'wix', claim:(impClaim==='none'?'manual':'sent'), tel:r.tel, notes:r.notes};
+    if(r.party.length){
+      rec.party=[{n:r.n,em:r.em,job:r.job,qr:'HAN-'+(7000+regSeq)+'-1',ci:false,ciAt:'',out:false}]
+        .concat(r.party.map(function(p,i){
+          return {n:p.n,em:'',job:p.job,qr:'HAN-'+(7000+regSeq)+'-'+(i+2),ci:false,ciAt:'',out:false};
+        }));
+    }
+    e.registrants.push(rec);
+  });
+  impDone={n:list.length,claim:impClaim,at:new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})};
+  impRows=[];impHead=[];impMap={};
+  renderApp();
+  toast('Imported '+list.length+' registrations');
+}
+function todayISO(){const d=new Date(),p=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+
+function impVerdictChip(v){
+  const m={new:['green','New'],match:['navy','Already registered'],
+    dupe:['pend','Duplicate in file'],error:['red','Cannot import']};
+  return `<span class="chip ${m[v][0]}">${m[v][1]}</span>`;
+}
+function appImportHtml(e){
+  let h=`<div class="panel">`+appHead('ap_tab_import',
+    impRows.length?`<span class="chip navy">${impRows.length} rows</span>`:'')+
+    `<div class="pbody">
+      <div class="export-note">${tr('imp_intro')}</div>`;
+
+  if(impDone){
+    h+=`<div class="okbox"><b>Imported ${impDone.n} registrations at ${impDone.at}.</b>
+      <div class="muted" style="margin-top:6px">${impDone.claim==='none'
+        ? 'No invitations were sent. These registrants will have to create an account themselves and will be matched on their email address when they do.'
+        : (impDone.claim==='invite'
+          ? 'A claim invitation has gone to each imported address. Following the link sets a password on the account that already holds their details; it never creates a second profile.'
+          : 'A claim invitation has gone to each imported address asking the registrant to confirm their own details before the account is activated.')}</div></div>`;
+  }
+
+  if(!impRows.length){
+    h+=`<div class="g2" style="margin-top:14px">
+      <div class="mrow"><label>${tr('imp_file')}</label>
+        <input type="file" id="impFile" accept=".csv,.tsv,.txt" onchange="impPickFile(this)"></div>
+      <div class="mrow"><label>&nbsp;</label>
+        <button class="btn ghost" onclick="impLoadSample()">${tr('imp_sample')}</button></div></div>
+      <div class="export-note">${tr('imp_format')}</div>`;
+    h+=`</div></div>`;
+    return h+appClaimHtml(e);
+  }
+
+  h+=`<div class="okbox"><b>${esc(impFile)}</b></div></div>`;
+
+  /* --- mapping ------------------------------------------------------------ */
+  h+=`<div class="pbody"><div class="sechead">${tr('imp_map_h')}</div>
+    <div class="export-note">${tr('imp_map_note')}</div>
+    <table class="maptbl"><thead><tr><th>${tr('imp_field')}</th><th>${tr('imp_col')}</th>
+      <th>${tr('imp_first')}</th></tr></thead><tbody>`;
+  IMP_FIELDS.forEach(function(f){
+    const cur=(impMap[f.k]===undefined||impMap[f.k]<0)?'':impMap[f.k];
+    const sample=cur===''?'':String(impRows[0][cur]||'').slice(0,54);
+    const bad=f.req&&cur==='';
+    h+=`<tr class="${bad?'badrow':''}"><td><b>${f.l}</b>${f.req?' <span class="req">required</span>':''}</td>
+      <td><select onchange="impSetMap('${f.k}',this)">
+        <option value=""${cur===''?' selected':''}>— not mapped —</option>`+
+        impHead.map((c,i)=>`<option value="${i}"${cur===i?' selected':''}>${esc(String(c).slice(0,72))}</option>`).join('')+
+      `</select></td><td class="muted">${esc(sample)}</td></tr>`;
+  });
+  h+=`</tbody></table></div></div>`;
+
+  /* --- dry run ------------------------------------------------------------ */
+  const list=impAnalyse(e),c=impCounts(list);
+  h+=`<div class="panel">`+appHead('imp_dry_h')+
+    `<div class="pbody"><div class="statrow">
+      <div class="stat"><b>${c.new}</b><span>to import</span></div>
+      <div class="stat"><b>${c.people}</b><span>people incl. delegates</span></div>
+      <div class="stat"><b>${c.match}</b><span>already registered</span></div>
+      <div class="stat"><b>${c.dupe}</b><span>duplicate rows</span></div>
+      <div class="stat ${c.error?'bad':''}"><b>${c.error}</b><span>cannot import</span></div>
+      <div class="stat"><b>${c.orgnew}</b><span>new organisations</span></div>
+    </div></div>
+    <table><thead><tr><th>#</th><th>${tr('c_name')}</th><th>${tr('c_email')}</th>
+      <th>${tr('c_company')}</th><th>${tr('imp_verdict')}</th></tr></thead><tbody>`;
+  h+=list.map(function(r){
+    return `<tr class="${r.v==='error'?'badrow':''}"><td class="muted">${r.i+1}</td>
+      <td><b style="color:var(--navy)">${esc(r.n||'—')}</b>`+
+      (r.party.length?`<div class="muted" style="font-size:12px">+ ${r.party.length} delegates: ${esc(r.party.map(p=>p.n).join(', '))}</div>`:'')+
+      (r.mem?`<div class="muted" style="font-size:12px">${esc(r.mem)}</div>`:'')+`</td>
+      <td class="mono">${esc(r.em||'—')}</td>
+      <td>${esc(r.co||'—')}`+
+      (r.org?`<div class="muted" style="font-size:12px">→ ${esc(r.org.n)} · ${esc(r.org.tier)}</div>`
+            :(r.co?`<div class="muted" style="font-size:12px">not in the organisation library</div>`:''))+`</td>
+      <td>${impVerdictChip(r.v)}<div class="muted" style="font-size:12px;margin-top:4px">${esc(r.why)}</div></td></tr>`;
+  }).join('');
+  h+=`</tbody></table>`;
+
+  /* --- claim mode: the open 4.2 question, left open ----------------------- */
+  h+=`<div class="pbody"><div class="sechead">${tr('imp_claim_h')}</div>
+    <div class="export-note">${tr('imp_claim_note')}</div>
+    <div class="pickrow">`+
+    [['invite','Send a claim link','Toàn’s proposal. The account already holds their details; the link only sets a password. Matching is on the email address alone.'],
+     ['confirm','Send a link and ask them to confirm','Middle route. Same link, but the registrant reviews name, company and job title before the account activates, so a wrong row is caught by the person it belongs to.'],
+     ['none','Import only, send nothing','Rachel’s preference. The data lands here for the secretariat, and anybody who signs up later is matched on their email at that point.']]
+    .map(function(x){
+      return `<button class="pickcard${impClaim===x[0]?' on':''}" onclick="impSetClaim('${x[0]}')">
+        <b>${x[1]}</b><span>${x[2]}</span></button>`;
+    }).join('')+`</div>
+    <div class="export-note">${tr('imp_claim_open')}</div>
+    <div class="btnrow">
+      <button class="btn" onclick="impCommit()" ${c.new?'':'disabled'}>Import ${c.new} registration${c.new===1?'':'s'}</button>
+      <button class="btn ghost" onclick="impReset()">Discard this file</button></div>
+  </div></div>`;
+  return h+appClaimHtml(e);
+}
+/* Who has actually taken over their imported account. This is the number that
+   tells SVEF whether the migration worked, so it is on screen, not in a log. */
+function appClaimHtml(e){
+  const imported=(e.registrants||[]).filter(r=>r.src==='wix');
+  if(!imported.length)return '';
+  const claimed=imported.filter(r=>r.claim==='claimed').length;
+  const sent=imported.filter(r=>r.claim==='sent').length;
+  const manual=imported.filter(r=>r.claim==='manual').length;
+  return `<div class="panel">`+appHead('imp_claim_st_h',`<span class="chip navy">${imported.length}</span>`)+
+    `<div class="pbody"><div class="statrow">
+      <div class="stat"><b>${imported.length}</b><span>imported</span></div>
+      <div class="stat"><b>${claimed}</b><span>account claimed</span></div>
+      <div class="stat"><b>${sent}</b><span>invitation sent</span></div>
+      <div class="stat"><b>${manual}</b><span>no invitation</span></div>
+    </div></div>
+    <table><thead><tr><th>${tr('c_name')}</th><th>${tr('c_email')}</th><th>${tr('c_company')}</th>
+      <th>${tr('c_ref')}</th><th>${tr('imp_claim_c')}</th><th></th></tr></thead><tbody>`+
+    imported.map(function(r){
+      const chip={claimed:['green','Claimed'],sent:['pend','Invitation sent'],manual:['','No invitation']}[r.claim||'manual'];
+      return `<tr><td><b style="color:var(--navy)">${esc(r.n)}</b></td><td class="mono">${esc(r.em)}</td>
+        <td>${esc(r.co||'—')}</td><td class="mono">${esc(r.ref)}</td>
+        <td><span class="chip ${chip[0]}">${chip[1]}</span></td>
+        <td class="right">`+
+        (r.claim==='claimed'?'':`<button class="mini" onclick="impResend('${esc(r.ref)}')">${r.claim==='sent'?'Resend':'Send link'}</button>`)+
+        `</td></tr>`;
+    }).join('')+`</tbody></table></div>`;
+}
+function impResend(ref){
+  const e=appEv();if(!e)return;
+  const r=(e.registrants||[]).find(x=>x.ref===ref);if(!r)return;
+  r.claim='sent';renderApp();toast('Claim link sent to '+r.em);
 }
 
 /* ---- push notifications ---- */
@@ -2457,7 +3433,7 @@ function appPushHtml(e){
     `<td>${audLabel(p.aud)}</td><td>${fmtD(p.d)} · ${esc(p.tm)}</td>`+
     `<td><span class="chip ${p.st==='Schedule'?'pend':'green'}">${p.st==='Schedule'?tr('ap_st_sched'):tr('ap_st_sent')}</span></td></tr>`).join('')
     ||`<tr><td colspan="4" class="muted">${tr('ap_push_none')}</td></tr>`;
-  return `<div class="panel">`+appHead('ap_tab_push')+`<div class="pbody">`+
+  return appRemindHtml(e)+`<div class="panel">`+appHead('ap_push_h_manual')+`<div class="pbody">`+
       `<div class="mrow"><label>${tr('ap_push_t')}</label><input id="apPT" placeholder="${tr('ap_push_t')}"></div>`+
       `<div class="mrow"><label>${tr('ap_push_b')}</label><textarea id="apPB" rows="3"></textarea></div>`+
       `<div class="g2"><div class="mrow"><label>${tr('ap_push_aud')}</label><select id="apPAud">`+
@@ -2471,6 +3447,61 @@ function appPushHtml(e){
     `<table><thead><tr><th>${tr('c_message')}</th><th>${tr('c_audience')}</th><th>${tr('c_sent')}</th>`+
     `<th>${tr('c_status')}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
+/* 25/08 meeting, 1.3: "Hiện tại chỉ có manual push. Yêu cầu thêm: reminder push
+   notification tự động cho agenda." The manual push below is untouched, exactly as
+   the meeting asked; what is new is the automatic layer on top. Reminders are
+   generated from the agenda, so nobody has to remember to send them, and any single
+   session can be excluded when a reminder would be noise. */
+const REMIND_LEADS=[5,10,15,30,60];
+function remEnsure(e){
+  if(!e.remind)e.remind={on:true,lead:15,aud:'reg',skip:{}};
+  return e.remind;
+}
+function appRemindHtml(e){
+  const r=remEnsure(e);
+  const sess=(e.sessions||[]);
+  const rows=sess.map(function(x,i){
+    const off=!!r.skip[i];
+    return `<tr class="${off?'offrow':''}"><td>${fmtD(x.day)} · <b>${esc(x.s)}</b></td>
+      <td><b style="color:var(--navy)">${esc(x.t)}</b><div class="muted" style="font-size:12px">${esc(x.room||'')}</div></td>
+      <td class="mono">${off?'—':remAt(x.s,r.lead)}</td>
+      <td class="right"><button class="mini${off?'':' on'}" onclick="remToggle(${i})">${off?'Off':'On'}</button></td></tr>`;
+  }).join('')||`<tr><td colspan="4" class="muted">${tr('ap_rem_nosess')}</td></tr>`;
+  const live=sess.length-Object.keys(r.skip).filter(k=>r.skip[k]).length;
+  return `<div class="panel">`+appHead('ap_rem_h',
+      `<span class="chip ${r.on?'green':''}">${r.on?live+' scheduled':'Off'}</span>`)+
+    `<div class="pbody"><div class="export-note">${tr('ap_rem_note')}</div>
+      <div class="g2">
+        <div class="mrow"><label>${tr('ap_rem_on')}</label>
+          <select onchange="remSetOn(this)">
+            <option value="1"${r.on?' selected':''}>On - remind attendees automatically</option>
+            <option value="0"${r.on?'':' selected'}>Off - manual notifications only</option>
+          </select></div>
+        <div class="mrow"><label>${tr('ap_rem_lead')}</label>
+          <select onchange="remSetLead(this)" ${r.on?'':'disabled'}>`+
+            REMIND_LEADS.map(n=>`<option value="${n}"${r.lead===n?' selected':''}>${n} minutes before</option>`).join('')+
+          `</select><div class="hint">${tr('ap_rem_lead_h')}</div></div></div>
+      <div class="mrow"><label>${tr('ap_rem_aud')}</label>
+        <select onchange="remSetAud(this)" ${r.on?'':'disabled'}>
+          <option value="reg"${r.aud==='reg'?' selected':''}>Everyone registered for the event</option>
+          <option value="saved"${r.aud==='saved'?' selected':''}>Only attendees who saved the session</option>
+        </select><div class="hint">${tr('ap_rem_aud_h')}</div></div>
+    </div>
+    <table><thead><tr><th>${tr('c_slot')}</th><th>${tr('ap_rem_sess')}</th>
+      <th>${tr('ap_rem_fires')}</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function remAt(hhmm,lead){
+  const p=String(hhmm||'00:00').split(':');
+  let m=(+p[0])*60+(+p[1])-lead;if(m<0)m+=1440;
+  return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+}
+function remSetOn(sel){const e=appEv();remEnsure(e).on=sel.value==='1';renderApp();
+  toast(sel.value==='1'?'Automatic reminders on':'Automatic reminders off');}
+function remSetLead(sel){const e=appEv();remEnsure(e).lead=+sel.value;renderApp();
+  toast('Reminders will fire '+sel.value+' minutes ahead');}
+function remSetAud(sel){const e=appEv();remEnsure(e).aud=sel.value;renderApp();toast('Reminder audience updated');}
+function remToggle(i){const e=appEv(),r=remEnsure(e);r.skip[i]=!r.skip[i];renderApp();}
+
 /* The scheduled-time field only means something when the admin is not sending now. */
 function appPushWhen(){
   const row=document.getElementById('apPAtRow'),sel=document.getElementById('apPWhen');

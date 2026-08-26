@@ -1,186 +1,197 @@
-# SVEF demo: registration scope coverage
+# SVEF demo: scope coverage
 
-Status of the BRD "Event Registration" requirements against the prototypes, after the
-August 2026 registration sweep. Reference documents: `SVEF_BRD_Website_App.pdf`
-sections 7.4, 8.1 and 8.2, and the internal scope chốt of 14/08/2026.
+Where the three prototypes stand against the BRD, the internal scope chốt of
+14/08/2026, and the client meeting of 25/08/2026. Reference documents:
+`SVEF_BRD_Website_App.pdf`, and `SVEF - Meeting Note - 25.08.docx` as circulated by
+June on 26/08.
 
 Legend: **Built** = demoable click-through prototype with mock data.
 **Simulated** = the flow is fully present and behaves correctly, but there is no
-external integration behind it and it says so on screen. No money moves.
-**Not built** = deliberately out of the prototype.
+external integration behind it and it says so on screen.
+**Not built** = deliberately out of the prototype, with the reason recorded.
 
-## Why this document exists
+---
 
-Before the sweep, the only registration feature in the demo was a read-only registrant
-list with a CSV export in the back office. The BRD asks for a full Event Registration
-Management module on the organiser side and personal plus group registration with
-ticketing on the attendee side. The 14/08 chốt recorded only "danh sách đăng ký có xuất
-CSV", which is narrower than the BRD, and the difference was never written down as a
-decision. This table now records where things actually stand.
+## 1. What the 25/08 meeting changed
 
-## 8.1 Front office, attendee facing
+The meeting set a clear order of priority, and this sweep follows it:
+
+> Highest priority: the **app**, focused on event and agenda interaction. The
+> website only needs the basics for now. Partner and partner-event management
+> comes later.
+
+### 1.1 Events
+
+| Ask | Status | Where |
+|---|---|---|
+| Partner events return to the calendar | Built | Website events list, app event chooser, back-office event list |
+| Partner events are link-outs with a minimum field set | Built | Name, cover image, description, dates, organiser, external URL. Nothing else. |
+| No admin surface for partners | Not built, deliberate | See "Deferred" below |
+| Profile created once, reused for every event | Built | Back office → Speakers & Organisations; the app says so on every profile |
+| Automatic agenda reminders on top of manual push | Built | Back office → event → Push; app → profile → notifications |
+| Event listing search and filter | Deferred | Kept basic to make October. Recorded as next step in the meeting. |
+| Slug paths rather than subdomains | Built | `/events/svef-hanoi-forum-2026`, with `hanoi2026` redirecting |
+
+On the URL structure: a subdomain per event means a separate site per event, with
+its own DNS, certificate, deployment and member session. Distinguishing events by
+path keeps one site, one session and one deployment. The demo is a static file on
+GitHub Pages so it uses the hash equivalent (`#/events/<slug>`) and prints the
+canonical path on the page; it becomes a real path the moment it runs on a server
+that can rewrite. Old subdomain-style links are mapped to the new slug and the page
+says so, which is the redirect that was asked for.
+
+### 1.2 Connections and B2B meetings
+
+| Ask | Status | Where |
+|---|---|---|
+| Meeting requests arrive in the app **and** by email | Simulated | Stated on the request sheet and in the diary; no mail is sent |
+| Accept and reject on a received request | Built | App → Schedule → Meetings |
+| Both parties notified on confirmation, with who/when/which event | Built | The demo shows one side's inbox and states the other side got the same |
+| No seat or table allocation | Built | The platform allocates nothing; the pair agree a place in chat, stored as free text |
+| Back office sees every meeting and its status | Built | Back office → event → Meeting bookings |
+| End-of-event meeting statistics | Built | Requests made, confirmed by both, actually held, awaiting answer, acceptance rate |
+| Membership tier badges in the connect list | Built | Star badges from the organisation's tier, set in the library |
+| Connect with an **organisation**, not just a person | Built | Organisation profiles, person ⇄ company both ways, request contact |
+| Company shown under each name on both sides of a meeting | Built | Back office meeting table |
+| Meeting topic | Not built | June's note: not needed now. Deferred. |
+
+### 1.3 Content
+
+Three sections, three access rules, exactly as settled in the meeting:
+
+| Section | Access | Note |
+|---|---|---|
+| Library / Resources | Login | Speakers' slides, downloaded directly rather than requested from the secretariat |
+| Gallery | Login | A public gallery was proposed and overruled on privacy grounds. Group shots already published on social media are the stated exception, so **Public** is a per-album switch, not a section-wide setting. |
+| News | Public | Reach is the point of it |
+
+Also built: speaker bio opens from the agenda (the bio is the person's own profile,
+not a per-event field), sponsors and speakers resolve to the same organisation
+record, and personal profiles no longer show contact details.
+
+**On privacy (3.2).** "Tuyệt đối KHÔNG hiển thị contact information" is implemented
+as a whitelist, not a blacklist: a personal profile shows LinkedIn and a personal
+website and nothing else, whatever the record happens to hold. Reaching somebody
+goes through **Want to connect**, which sends the mail without either side seeing
+the other's address. The privacy sheet lists the fields SVEF holds but will never
+publish, so the attendee can see they are held and are not leaking. An
+**organisation** is the opposite and keeps its switchboard and its info@ address,
+because that is the front door it wants people to use.
+
+### 1.4 Data and migration
+
+| Ask | Status | Where |
+|---|---|---|
+| Import registrations exported from Wix | Built | Back office → event → Import |
+| Handle the real export format | Built | See below |
+| Match against existing registrants | Built | Dry run marks new / already registered / duplicate / cannot import |
+| Match company names to organisations | Built | Normalised match, ignoring AG/JSC/Ltd and punctuation |
+| Delegations | Built | One row with several delegates becomes a group booking |
+| Magic-link account claim | **Not decided** | All three routes are offered; see below |
+| Test with internal profiles only | Followed | The sample file is the one SVEF sent, with SVEF's own staff in it |
+
+Three things about the sample export drove the implementation, and each would have
+broken a naive importer:
+
+1. It is named `.csv` but is **UTF-16LE with a BOM and tab separators**, which is
+   what Excel produces on "Save as Unicode Text". Assuming UTF-8 and commas throws.
+   The importer sniffs the byte-order mark and the delimiter.
+2. The header row is the **full question text**, not field names, so mapping cannot
+   be positional. Columns are matched by scoring the question wording against known
+   hints. Scoring rather than first-match matters: "Phone Number: with country
+   code…" contains "country", and "Delegation Support Package" contains
+   "delegation", so a naive substring match puts a city in the company column.
+3. Phone numbers carry Excel's leading apostrophe, which is a spreadsheet artefact
+   and is stripped.
+
+**4.2 is deliberately left open.** The meeting ended with the action to "look into
+cái importation" and no decision, because matching on the email address alone risks
+a second profile when somebody later signs up with a different address, which was
+Toàn's concern, while asking everybody to re-key a minimal profile avoids that but
+adds friction, which was Rachel's point. The back office therefore offers all three
+routes as a setting, with the consequence of each written next to it, and none is
+baked into the product. Whichever SVEF picks needs no code change.
+
+### 1.5 Branding
+
+The palette is lifted towards the Hanoi event site: the neutral ground moves to the
+pale green wash sampled from `hanoi2026.svef.ch`, and the heaviest solid-navy
+surfaces become a green-to-navy gradient, which is what the "hơi tối" comment was
+about. The spot colours from the brand guideline are untouched. Body type stays on
+the brand navy, because green or grey text on this ground drops below WCAG AA. See
+`BRAND.md`.
+
+The developer credit (5.2) is a one-line colophon at the foot of the website.
+
+---
+
+## 2. Open questions for SVEF
+
+These are on screen in the product, not buried here, so they can be answered in a
+demo rather than in a document.
+
+1. **Who may request a meeting?** (2.4) Members and sponsors only, everybody, or
+   everybody who ticked the networking question on the registration form. Set per
+   event in the back office; the app enforces whatever is set and explains the
+   refusal rather than hiding the button. The meeting left this with SVEF to settle
+   alongside the membership package. The demo defaults to the third option, because
+   that is what the current Hanoi form actually collects.
+2. **How do imported registrants get into the app?** (4.2) See above. Three routes,
+   no default.
+3. **Membership tiers.** The tiers in the demo are read off the SVEF package page
+   June linked on 19/08. The real names, and which of them are sold rather than
+   granted, need confirming.
+4. **Partner event minimum fields.** The demo asks for name, organiser, link,
+   description, dates and a cover image. If SVEF wants more, that is a change to one
+   form.
+5. **Whether the business directory joins the app.** Linh's directory
+   (`svefzurich2026-delegatory.netlify.app`) overlaps with the organisation profiles
+   built here. Raised on 25/08 and not resolved; the two should not both exist.
+
+## 3. Deferred, with the reason
+
+| Item | Reason |
+|---|---|
+| Partner self-service space: partners creating and maintaining their own events | Toàn asked for this to be proposed separately, together with partner registration. Not in the October scope. |
+| Event listing search, sort and filter | Kept basic to make October. Revisit when partner events make the list long enough to need it. |
+| Meeting topics | June's note: not needed at this stage. |
+| Payment and ticketing | Removed 19/08, "cut payment out, all events are free at this moment". June confirmed on 19/08 that payment is not needed for this phase. The reference implementation is in git history at commit `4e703cb`. |
+| Membership applications in the product | Removed 19/08. Arranged with the secretariat off the platform. Partner packages work by direct communication with SVEF, not self-checkout. |
+
+## 4. Still outstanding in the BRD
+
+- **BR-W-19**, importing data from the legacy system, is now **built** for event
+  registrations. Other record types still have no importer.
+- Map and navigation, and the exhibitor and sponsor booth directory, remain listed
+  in BRD 8.4 as having no existing UI. The app has a venue map screen but no booth
+  directory.
+- **BR-W-13 / BR-W-14** (partners proposing events, and admin approving them) are
+  partially back: partner events exist again, but SVEF keys them in. Nothing in the
+  product collects a request from the partner.
+
+## 5. Registration module, as built
+
+Unchanged from the August sweep except where the 25/08 meeting touched it. The
+organisation field on the registration form is now **mandatory** (2.5): SVEF only
+accepts people attending on behalf of a business or an institution, and the whole
+company side of connecting collapses without it.
 
 | BRD requirement | Website | App | Status |
 |---|---|---|---|
-| Personal registration | Wizard, step 1 | Registration sheet | Built |
-| Group registration | Add and remove attendee rows, one booking, many passes | Same | Built |
-| Registration, all events | Confirmation with booking reference and pass | Same | Built |
-| Ticket booking, paid events | Removed from scope, all events are free | Removed | Removed |
-| Payment | Removed from scope | Removed | Removed |
-| Registration confirmation and passes | Booking reference, per-attendee pass codes, add to calendar (.ics), confirmation-email note | Booking reference, one pass per attendee | Built |
-| View registration | Member portal, My registrations | Registered tab and booking sheet | Built |
-| Modify registration | Change tier, edit attendee details | Same | Built |
-| Cancel registration | Confirm step, seats released | Confirm step, mock refund status | Built |
-| Discount and early-bird codes | Removed from scope | Removed | Removed |
-| Waitlist when full | Join the waitlist, position shown | Same | Built |
-| Registration window | Not yet open, open, closed states | Same | Built |
-| Approval workflow | Registering yields Pending approval | Same | Built |
+| Personal registration | Wizard | Registration sheet | Built |
+| Group registration | Many attendees, one booking | Same | Built |
+| Organisation required | Enforced | Enforced | Built |
+| Confirmation and passes | Booking reference, per-attendee pass, .ics | Same | Built |
+| View, modify, cancel | Member portal | Registered tab | Built |
+| Waitlist, capacity, registration window, approval | Built | Built | Built |
+| Ticketing, pricing, payment, refunds | Removed 19/08 | Removed | Removed |
+| Back office: dashboard, export, check-in, waitlist | Built | — | Built |
+| Back office: import from Wix | Built | — | Built |
+| Confirmation emails | Simulated | — | Toast only |
 
-## 8.2 Back office, organiser facing
+## 6. Card and personal data
 
-All of the following live in the Registrants tab of an SVEF event, under
-Event Management. Every event is one record: opening it from the event list gives
-you its details, agenda, speakers, sponsors, registrants, check-in, meeting
-bookings and notifications on a single page.
-
-| BRD requirement | Status | Where |
-|---|---|---|
-| Create and configure events, free or paid | Built | Settings sub-tab |
-| Registration types, personal and group, max group size | Built | Settings |
-| Pricing tiers | Removed from scope | |
-| Registration capacity limits | Built | Settings, enforced on confirm and promote |
-| Early-bird and discount codes | Removed from scope | |
-| Approval workflows | Built | Settings toggle, approve and reject row actions |
-| Attendee registration dashboard | Built | Overview sub-tab |
-| Export data and reports | Built | CSV export, extended columns, no passwords or sensitive fields |
-| Send confirmation emails | Simulated | Resend action and bulk email, toast only |
-| Manage waitlists | Built | Waitlisted status, promote respects capacity |
-| Track payment status | Removed from scope | |
-| Process refunds | Removed from scope | |
-| Payment reconciliation | Removed from scope | |
-| QR check-in | Built | Check-in sub-tab, mock scan plus pass-code entry, per-attendee, undo |
-
-## Open decisions for SVEF
-
-1. **Payment provider.** In-app payment is now built and demoable end to end, but
-   nothing is integrated. Going live needs a chosen provider for cards and TWINT, and
-   a domestic Vietnam gateway for VND. BRD 8.4 records that the Vietnam gateway has no
-   existing UI, so the screens in the app and on the website are a design proposal for
-   SVEF to approve. The commercial terms, the provider fee that drives the net column,
-   and settlement timing all remain open.
-2. **VAT position.** Every total carries VAT as its own line, driven by a per-event
-   rate set in the back office and labelled on screen as a placeholder. The rates in
-   the demo are illustrative only and are not a statement of Swiss or Vietnamese tax
-   law. SVEF's accountants need to confirm the real treatment, including whether VAT
-   differs between the Swiss and Vietnamese events.
-3. **Invoicing.** Invoice numbering, the prefix and sequence, and credit note handling
-   are prototyped in the back office. Whether these invoices need to satisfy Swiss or
-   Vietnamese statutory invoice requirements is an open question, and the prototype
-   invoice carries a footer saying it is not a valid invoice.
-4. **Bank transfer holds the seat** for a stated period rather than releasing it, and
-   **refund policy and window** are placeholder wording. Both need SVEF's rules.
-5. **Confirmation email content** is a placeholder, including the wording and sender.
-6. **Currency.** Paid tiers carry CHF with a VND equivalent. Whether VND is a display
-   conversion or a real second price is a pricing and tax decision.
-7. **Capacity numbers, tier prices, codes and all ledger figures** are mock values
-   pending real numbers from SVEF.
-
-## Card data
-
-No full card number exists anywhere in the three files. Only the brand and the last
-four digits are ever stored or displayed, the capture field is wiped on submit, and
-the exports carry no card, password or token fields.
-
-## Scope removed on 19/08/2026: third-party events
-
-Partners and other third parties can no longer propose or host events. Every event
-in the product is organised by SVEF. Removed from all three prototypes: the partner
-"Propose your event" form and the member portal's event-requests view, the admin
-approval queue for partner-proposed events, the SVEF against partner distinction on
-the events list and event pages, and the external registration and ticketing route
-that sent visitors to an organiser's own website.
-
-This deliberately drops two BRD requirements, both marked High priority:
-
-| BRD | Requirement | Status |
-|---|---|---|
-| BR-W-13 | A request form allowing partners to self-register or propose their events to be published on the forum | Removed from scope |
-| BR-W-14 | Admin approves or rejects partner-proposed events before they are publicly displayed | Removed from scope |
-
-BR-W-15 (display both forum and partner events on the homepage) is also narrowed,
-since there are no partner events left to display.
-
-The consequence worth flagging to SVEF: the site no longer has any route for a member
-or partner organisation to get an event onto the SVEF calendar. If SVEF still wants
-partner events listed, that becomes a manual back-office task for the secretariat,
-who would create the event themselves. Nothing in the product collects the request.
-
-## Scope removed on 19/08/2026: membership applications
-
-Applying for SVEF membership is no longer done in the product. It is arranged
-directly with the secretariat, off the platform.
-
-What stays: **accounts**, which remain self-serve through Continue with Google,
-Continue with Microsoft, or email and password; and **members**, meaning existing
-members, partners, tiers, the directory, gated profiles and the member portal, all
-provisioned by SVEF in the back office. What goes is only the self-serve route from
-"interested" to "member", and the back-office queue that reviewed it.
-
-Removed: the join and add-profile wizard on the website, the "+ Add profile" control
-in the member portal (the profile switcher stays, listing profiles the secretariat has
-set up), and the Membership applications queue in the back office. The Become a
-Partner page keeps its packages and now points at the secretariat instead of a form.
-
-This deliberately drops or narrows two more BRD requirements, both marked High:
-
-| BRD | Requirement | Status |
-|---|---|---|
-| BR-W-07 | Define the onboarding and approval workflow when a user registers a new account or profile | Narrowed to account creation only, no membership approval in software |
-| BR-W-08 | Improve the partner-registration form: attractive, easy to use, clearly structured step by step | Removed from scope, there is no partner-registration form |
-
-The consequence worth flagging to SVEF: nothing in the product now captures an
-enquiry from someone who wants to join. The Become a Partner page ends at the
-secretariat's contact details, and whatever arrives by email or phone is keyed into
-the back office by hand. There is also no record in the system of applications that
-were declined, since they never enter it.
-
-## Scope removed on 19/08/2026: payment and ticketing
-
-"Cut payment out, all events are free at this moment", and on ticketing, "no ticketing
-anymore, just full conference registration."
-
-Money has left the product entirely. Removed from all three prototypes: every price
-and currency, ticket tiers including early bird, discount and promo codes, all four
-payment methods with their screens, billing details, VAT, invoices and credit notes,
-refunds, the payments ledger and reconciliation, payment status, and revenue wherever
-it was reported. There are no tiers, no named pass types and no access levels: one
-registration admits you to the whole event.
-
-What stays is the whole of registration: personal and group, capacity, seats
-remaining, sold out, the waitlist and its position, the registration window, organiser
-approval, modify and cancel, the pass and its QR, back-office check-in, and the
-registrant table with its filters and exports. The admission artefact is called a
-**pass** throughout, not a ticket, since nothing is bought.
-
-This drops the commercial half of the BRD's event module:
-
-| BRD | Requirement | Status |
-|---|---|---|
-| 8.1 | Ticket booking and payment, paid and free events | Removed, registration only |
-| 8.2 | Pricing tiers and payment options | Removed |
-| 8.2 | Early-bird and discount codes | Removed |
-| 8.2 | Track payment status and reconciliation | Removed |
-| 8.2 | Process refunds | Removed |
-| 8.4 | Domestic Vietnam payment gateway | Removed, was already ranked low priority |
-
-Note the wording "at this moment". Payment is expected to be revisited. It was removed
-cleanly rather than disabled, with no dormant flags or commented-out code, so the
-reference implementation lives in git history at commit 4e703cb and the two commits
-around it, which is where to look if it returns.
-
-## Still outstanding elsewhere in the BRD
-
-- **BR-W-19**, importing or declaring data exported from the legacy system for the
-  migration phase, has no prototype.
-- Map and navigate, and exhibitors and sponsors booths, are listed in BRD 8.4 as having
-  no existing UI. The app has a venue map screen but no booth or exhibitor directory.
+No payment data exists anywhere in the product; payment was removed on 19/08.
+Exports carry no passwords or tokens. Personal telephone numbers and email
+addresses are held on registrant records, are visible to the secretariat in the
+back office, and are never rendered on a public or attendee-facing profile.
