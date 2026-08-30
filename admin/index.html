@@ -527,12 +527,14 @@ tr:hover .pic::before{filter:none}
     <div class="grp" data-i18n="g_content">Content</div>
     <button onclick="nav('cms',this)"><i class="ni">📝</i><span data-i18n="n_cms">CMS &amp; Pages</span></button>
     <button onclick="nav('news',this)"><i class="ni">📰</i><span data-i18n="n_news">News / Media</span></button>
+    <button onclick="nav('wlib',this);renderWlib()"><i class="ni">📚</i><span data-i18n="n_wlib">Website Library</span></button>
     <div class="grp" data-i18n="g_community">Community</div>
     <button onclick="nav('partners',this)"><i class="ni">🏢</i><span data-i18n="n_partners">Partners</span></button>
     <button onclick="nav('members',this)"><i class="ni">👥</i><span data-i18n="n_members">Memberships</span></button>
     <button onclick="nav('library',this);renderLibrary()"><i class="ni">🗂️</i><span data-i18n="n_library">Speakers &amp; Organisations</span></button>
     <div class="grp" data-i18n="g_events">Events</div>
     <button id="navEvents" onclick="nav('events',this)"><i class="ni">📅</i><span data-i18n="n_events">Event Management</span></button>
+    <button onclick="nav('subs',this);renderSubs()"><i class="ni">📥</i><span data-i18n="n_subs">Submissions</span></button>
     <div class="grp" data-i18n="g_data">Data</div>
     <button onclick="nav('reports',this)"><i class="ni">📈</i><span data-i18n="n_reports">Reports &amp; Export</span></button>
   </nav>
@@ -724,6 +726,40 @@ tr:hover .pic::before{filter:none}
           <div class="export-note" data-i18n="rep_lists">⬆ Uploading a list is done where the data lives: use the “Import list” button in the Partners section or in the Memberships section. Reports is for exporting only.</div>
         </div>
       </div>
+    </div>
+
+
+    <!-- ===== WEBSITE LIBRARY (28/08, June) =====
+         The website's own Resources & Documents and Media & Press lists. See the
+         comment above renderWlib() for why this is its own sidebar entry rather
+         than a tab folded into CMS & Pages or News / Media. -->
+    <div class="view" id="v-wlib">
+      <div class="intro">
+        <b data-i18n="wl_x_t">What Website Library does</b>
+        <p data-i18n="wl_x_p">The standing material on the public website: the Resources &amp; Documents page and the Media &amp; Press page. CMS &amp; Pages edits the words around these lists. This edits the lists themselves.</p>
+        <ul>
+          <li data-i18n="wl_x_1">Document library: the reports, market briefs and templates on Resources &amp; Documents. Each one carries a category, a file, a publish state and an access tier.</li>
+          <li data-i18n="wl_x_2">Media &amp; Press: the press mentions table, and the galleries and video grid on the same page.</li>
+          <li data-i18n="wl_x_3">Material belonging to one forum is not here. Slides, event photography and coverage of a single event live with that event: open it under Event Management and use its Content tab.</li>
+        </ul>
+      </div>
+      <div id="wlibPane"></div>
+    </div>
+
+    <!-- ===== SUBMISSION INTAKE (28/08, June) =====
+         A link, an inbox and a publish button. Deliberately not the partner
+         self-service space deferred on 25/08. See the comment above renderSubs(). -->
+    <div class="view" id="v-subs">
+      <div class="intro">
+        <b data-i18n="sb_x_t">What Submissions does</b>
+        <p data-i18n="sb_x_p">SVEF chases speakers for their slides and journalists for their coverage. This is where that material arrives without a secretariat member retyping it.</p>
+        <ul>
+          <li data-i18n="sb_x_1">Issue a link scoped to one event and one contributor, with an expiry date. Copy it into the email you were writing anyway. Revoke it whenever you like.</li>
+          <li data-i18n="sb_x_2">Whatever they send lands in the queue below. Reviewing it files it into that event's Library, Gallery or News coverage in the shape the Content tab already stores, or rejects it with a reason.</li>
+          <li data-i18n="sb_x_3">This is a link, an inbox and a publish button. It is not a partner space and not an account: the contributor never signs in, holds one link that expires, and nothing they send appears anywhere until somebody here has approved it.</li>
+        </ul>
+      </div>
+      <div id="subsPane"></div>
     </div>
 
   </div>
@@ -1038,6 +1074,96 @@ const T={
   t_nosel:"Select at least one registration first.",
   q_regcanc:"Cancel this registration? The seat is released back to the event.",
   q_regrej:"Reject this registration? The applicant is notified by email.",
+  /* ---- 28/08, June: "mình có chỗ nào trong admin dashboard để đăng tài liệu,
+     hình ảnh, đính kèm news trong các mục library/resource, gallery, news
+     coverage chưa ạ". Strings for the two halves of that question the per-event
+     Content tab does not answer: the website's own standing library, and the
+     route by which speakers and media send material in. ---------------------- */
+  n_wlib:"Website Library",
+  wl_x_t:"What Website Library does",
+  wl_x_p:"The standing material on the public website: the Resources & Documents page and the Media & Press page. CMS & Pages edits the words around these lists. This edits the lists themselves.",
+  wl_x_1:"Document library: the reports, market briefs and templates on Resources & Documents. Each one carries a category, a file, a publish state and an access tier.",
+  wl_x_2:"Media & Press: the press mentions table, and the galleries and video grid on the same page.",
+  wl_x_3:"Material belonging to one forum is not here. Slides, event photography and coverage of a single event live with that event: open it under Event Management and use its Content tab.",
+  wl_docs_h:"Document library",
+  wl_docs_note:"Feeds the Resources & Documents page. Reports and market briefs are the public shopfront and are how people find SVEF at all. Templates are for members preparing a submission. That is why Public is a tier here and is deliberately not one on an event's library.",
+  wl_press_h:"In the press",
+  wl_press_note:"The press mentions listed on the Media & Press page. Public and ungated: reach is the entire point of it.",
+  wl_gal_h:"Galleries & video",
+  wl_gal_note:"The gallery and video grid on the Media & Press page. This is the public face SVEF chooses to show, not the per-event photography, which stays behind the login with its event.",
+  wl_cat:"Category",wl_acc:"Who can see it",wl_state:"Publish state",
+  wl_t_en:"Title (English)",wl_t_vi:"Title (Vietnamese)",
+  wl_h_en:"Headline (English)",wl_h_vi:"Headline (Vietnamese)",
+  wl_t_h:"The website is bilingual and shows whichever language the visitor picked, so both are required. The labels around them are back-office wording and stay in English.",
+  wl_file:"File",wl_nofile:"No file attached yet.",
+  wl_file_drop:"⬆ Click to attach a file (PDF, PPTX, DOCX, XLSX)",
+  wl_photo_drop:"⬆ Click to add photos (JPG, PNG)",
+  wl_photos:"Photos",wl_photos_in:"photos in this gallery.",wl_nophotos:"No photos in this gallery yet.",
+  wl_gkind:"Kind",wl_dur:"Length",wl_dur_ph:"3:12",
+  wl_src:"Publication",wl_src_ph:"VnExpress, NZZ, Handelszeitung…",
+  wl_url:"Link to the article",
+  wl_add_doc:"＋ Add document",wl_add_press:"＋ Add press mention",wl_add_gal:"＋ Add gallery",
+  wl_new_doc:"Add document",wl_new_press:"Add press mention",wl_new_gal:"Add gallery or video",
+  wl_edit_doc:"Edit document",wl_edit_press:"Edit press mention",wl_edit_gal:"Edit gallery or video",
+  wl_save:"💾 Save",
+  wl_none:"Nothing published yet.",
+  wl_acc_h:"Public means an anonymous visitor may download it. Members only asks them to sign in first. This is the website, where a visitor is a stranger until they say otherwise, which is the opposite of an event's library and is why the two lists of tiers are not the same.",
+  wl_press_acc_h:"A press mention is public and is not gated. The publish state decides whether it appears on the page at all, and nothing more.",
+  wl_sim_note:"⬆ Attaching a file is simulated, as everywhere else in this prototype: a click attaches a plausible file named after the title rather than reading one off the disk. Everything else here, the category, the tier, the publish state, the edit and the removal, behaves as it will in the product.",
+  wl_needtitle:"Please enter the English title.",
+  wl_needvi:"Please enter the Vietnamese title. The website publishes both languages on the same day.",
+  wl_needfile:"Attach a file before saving.",
+  wl_needphotos:"Add at least one photo before saving.",
+  wl_needdur:"Enter the length of the video, for example 3:12.",
+  t_wlsaved:"Saved",t_wldel:"Removed",t_wlup:"Uploaded (demo)",
+  q_wldel:"Remove this from the website? It disappears from the public page straight away.",
+  n_subs:"Submissions",
+  sb_x_t:"What Submissions does",
+  sb_x_p:"SVEF chases speakers for their slides and journalists for their coverage. This is where that material arrives without a secretariat member retyping it.",
+  sb_x_1:"Issue a link scoped to one event and one contributor, with an expiry date. Copy it into the email you were writing anyway. Revoke it whenever you like.",
+  sb_x_2:"Whatever they send lands in the queue below. Reviewing it files it into that event's Library, Gallery or News coverage in the shape the Content tab already stores, or rejects it with a reason.",
+  sb_x_3:"This is a link, an inbox and a publish button. It is not a partner space and not an account: the contributor never signs in, holds one link that expires, and nothing they send appears anywhere until somebody here has approved it.",
+  sb_links_h:"Submission links",
+  sb_links_note:"One link, one event, one contributor, one expiry date. It carries no password because it grants nothing beyond the right to send material in: it cannot read the event, the agenda or the registrant list.",
+  sb_queue_h:"Review queue",
+  sb_queue_note:"Nothing here is on the website or in the app yet. Publishing files it into the event; rejecting tells the contributor why.",
+  sb_new:"＋ Generate a link",
+  sb_sim:"⚡ Simulate an inbound submission",
+  sb_sim_note:"⚡ The prototype has no inbound channel: no mailbox, no upload endpoint, and no page behind the link above. This button is the honest way to show a submission arriving. It uses one of the active links, so what appears is what that contributor would have sent.",
+  sb_sim_nolink:"Generate an active submission link first. A submission can only arrive against one.",
+  sb_who:"Contributor",sb_role:"They are",sb_link:"Link",sb_exp:"Expires",
+  sb_kind:"Kind",sb_arrived:"Arrived",sb_note:"Their note",
+  sb_k_slides:"Slides / document",sb_k_photos:"Photos",sb_k_link:"Press link",
+  sb_dest:"Goes to",sb_sent:"What they sent",
+  sb_new_t:"Generate a submission link",
+  sb_new_h:"The secretariat emails the link to the contributor outside the product. Nothing is sent from this screen.",
+  sb_ev:"Event",
+  sb_ev_h:"Partner events are not offered: they are a link out to somebody else's programme and have no content of their own to fill.",
+  sb_em:"Email",
+  sb_gen:"💾 Generate the link",
+  sb_needwho:"Enter the contributor's name.",
+  sb_needev:"There is no event to attach a link to.",
+  sb_rev_t:"Review submission",
+  sb_pub:"✓ Publish to the event",
+  sb_rej:"✕ Reject",
+  sb_rej_t:"Reject this submission",
+  sb_rej_h:"The reason goes back to the contributor so they can send a corrected version, and it stays on the record here.",
+  sb_rej_ph:"e.g. the deck still carries the client names you asked us to take out",
+  sb_rej_save:"✕ Reject and tell them why",
+  sb_needreason:"Write a reason. Rejecting somebody's work without one is how they stop sending it.",
+  sb_none:"Nothing has arrived yet.",
+  sb_nolinks:"No submission links yet.",
+  sb_st_wait:"Waiting",sb_st_pub:"Published",sb_st_rej:"Rejected",
+  sb_st_active:"Active",sb_st_exp:"Expired",sb_st_rev:"Revoked",
+  sb_copy:"Copy",sb_revoke:"Revoke",sb_review:"Review",
+  sb_copied:"Submission link copied",
+  sb_gone:"Event no longer exists",
+  t_sblink:"Submission link generated",
+  t_sbrevoked:"Submission link revoked",
+  t_sbin:"Inbound submission received (simulated)",
+  t_sbpub:"Published to the event",
+  t_sbrej:"Rejected, and the contributor has been told (simulated)",
+  q_sbrevoke:"Revoke this link? Anything the contributor sends after this is refused.",
  }
 };
 /* The back-office interface is English only. Website content stays bilingual:
@@ -3704,6 +3830,562 @@ function sendPush(){
   if(when==='Schedule'&&at){d=at.slice(0,10);tm=at.slice(11,16);}
   appEv().pushes.unshift({t:t,b:v('apPB').trim(),aud:v('apPAud'),d:d,tm:tm,st:when});
   renderApp();toast(when==='Schedule'?tr('t_pushsched'):tr('t_pushsent'));
+}
+
+/* ===== WEBSITE LIBRARY: RESOURCES, PRESS, GALLERIES (28/08, June) ============
+   June, 28/08: "mình có chỗ nào trong admin dashboard để đăng tài liệu, hình ảnh,
+   đính kèm news trong các mục library/resource, gallery, news coverage chưa ạ".
+   The per-event half of that question is answered by the Content tab above. The
+   other half is the website's own standing material: the Resources & Documents
+   page (reports, market briefs, templates) and the Media & Press page (press
+   mentions, galleries, video). Those lists were hard-coded in website.html and
+   editable by nobody, so every correction was a release.
+
+   Why this is its own sidebar entry and not a tab inside something existing.
+   CMS & Pages edits one page at a time: a title, a body and its SEO fields. These
+   are repeating records, not page copy, and there is no page body to hang them
+   off. News / Media is the article list, and a report, a press mention and a photo
+   album are not articles: they have a file, a category and an access tier that an
+   article has not. Folding them into either would have put two unrelated shapes in
+   one table. So a third entry under Content, sitting beside the two pages it
+   fills, and the intro says plainly which page each panel feeds. */
+
+/* The access tier here is NOT the per-event CT_ACCESS list, and the two must not
+   be unified. On the website a visitor is anonymous by default: this library is
+   SVEF's shopfront, the reports and market briefs are genuinely public and are how
+   most people meet SVEF at all, while the submission templates are for members
+   preparing a paper. Public therefore has to exist here. Inside the app the
+   attendee is signed in by definition, which is precisely why June asked on 28/08
+   for Public to come off the per-event library: there it decided nothing. Same
+   word, two different audiences, two different lists. Merging them would either
+   lock the public reports behind a login or put a meaningless Public back into the
+   app, so please do not tidy these into one constant. */
+const WRES_ACCESS=["Public","Members only"];
+/* Read off website.html rather than invented: the Resources page filters on
+   exactly these three, and the short key is what the public page stores, so a row
+   edited here round-trips into that filter without a translation layer. */
+const WRES_CATS=[{k:"report",l:"Reports"},{k:"brief",l:"Market briefs"},{k:"tmpl",l:"Templates"}];
+function wresCatLabel(k){const c=WRES_CATS.find(x=>x.k===k);return c?c.l:k;}
+const WRES_STATES=["Published","Draft"];
+const WGAL_KINDS=["Gallery","Video"];
+
+/* Mock state mirroring what website.html publishes today, the same way newsRows
+   and cmsPages mirror their pages. Titles carry both languages because the public
+   site renders t[lang]; the back-office labels around them stay English. */
+let wresDocs=[
+ {t:{en:"Swiss-Vietnam Market Report 2026",vi:"Báo cáo Thị trường Thụy Sĩ-Việt Nam 2026"},
+  cat:"report",file:"swiss-vietnam-market-report-2026.pdf",kind:"PDF",size:"4.2 MB",acc:"Public",st:"Published"},
+ {t:{en:"Trade Mission Handbook 2026",vi:"Sổ tay Phái đoàn Thương mại 2026"},
+  cat:"report",file:"trade-mission-handbook-2026.pdf",kind:"PDF",size:"2.6 MB",acc:"Public",st:"Published"},
+ {t:{en:"Partnership Tiers & Benefits",vi:"Các hạng đối tác & quyền lợi"},
+  cat:"brief",file:"partnership-tiers-and-benefits.pdf",kind:"PDF",size:"1.1 MB",acc:"Public",st:"Published"},
+ {t:{en:"Hanoi Forum Sponsorship Deck",vi:"Hồ sơ tài trợ Diễn đàn Hà Nội"},
+  cat:"brief",file:"hanoi-forum-sponsorship-deck.pptx",kind:"PPTX",size:"8.7 MB",acc:"Public",st:"Published"},
+ {t:{en:"Company Profile Template",vi:"Mẫu hồ sơ công ty"},
+  cat:"tmpl",file:"company-profile-template.docx",kind:"DOCX",size:"240 KB",acc:"Members only",st:"Published"},
+ {t:{en:"Delegate Registration Form",vi:"Biểu mẫu đăng ký đại biểu"},
+  cat:"tmpl",file:"delegate-registration-form.docx",kind:"DOCX",size:"180 KB",acc:"Members only",st:"Published"}
+];
+let wresPress=[
+ {t:{en:"Swiss firms deepen Vietnam ties at SVEF forum",vi:"Doanh nghiệp Thụy Sĩ tăng cường quan hệ Việt Nam tại SVEF"},
+  src:"Neue Zürcher Zeitung",d:"2026-06-12",url:"https://nzz.example.ch/svef-forum-ties",st:"Published"},
+ {t:{en:"Vietnam-Switzerland trade hits a new record",vi:"Thương mại Việt Nam-Thụy Sĩ lập kỷ lục mới"},
+  src:"VnExpress",d:"2026-05-03",url:"https://vnexpress.example.net/thuong-mai-viet-thuy-si",st:"Published"},
+ {t:{en:"How SVEF connects two innovation ecosystems",vi:"SVEF kết nối hai hệ sinh thái đổi mới thế nào"},
+  src:"Handelszeitung",d:"2026-04-21",url:"https://handelszeitung.example.ch/svef-innovation",st:"Published"}
+];
+let wresGal=[
+ {t:{en:"SVEF 2025 Forum · Highlights",vi:"Diễn đàn SVEF 2025 · Điểm nhấn"},
+  gkind:"Gallery",n:48,dur:"",acc:"Public",st:"Published"},
+ {t:{en:"Signing ceremony · Zurich",vi:"Lễ ký kết · Zurich"},
+  gkind:"Gallery",n:22,dur:"",acc:"Public",st:"Published"},
+ {t:{en:"Trade Mission to Hanoi",vi:"Phái đoàn tới Hà Nội"},
+  gkind:"Video",n:0,dur:"3:12",acc:"Public",st:"Published"}
+];
+function wresList(kind){return kind==='doc'?wresDocs:(kind==='press'?wresPress:wresGal);}
+
+/* Uploading is simulated here for the same reason it is simulated in the event
+   Content tab: there is no storage behind the prototype. A click attaches a
+   plausible file named after the title, so the list does not fill up with
+   document-1.pdf. Vietnamese titles lose their diacritics in the filename only. */
+let wlKind=null,wlIx=-1,wlFile=null,wlPhotos=0,wlFileSeq=0;
+function wlSlug(raw){
+  return String(raw||'document').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\u0111/g,'d').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48)||'document';
+}
+function wlFileLine(){
+  const el=document.getElementById('wlFileBox');if(!el)return;
+  el.innerHTML=wlFile
+    ? `<div class="filelist"><div class="filerow"><span class="chip">${esc(wlFile.kind)}</span>`+
+      `<span class="fn">${esc(wlFile.name)}</span><span class="fm">${esc(wlFile.size)}</span>`+
+      `<button class="btn line sm" onclick="wlDropFile()">${tr('d_delete')}</button></div></div>`
+    : `<div class="emptyline">${tr('wl_nofile')}</div>`;
+}
+function wlAddFile(){
+  const pick=CT_DEMO_FILES[wlFileSeq++%CT_DEMO_FILES.length];
+  const slug=wlSlug((document.getElementById('wlT')||{value:''}).value);
+  wlFile={name:slug+'.'+pick.kind.toLowerCase(),kind:pick.kind,size:pick.size};
+  wlFileLine();toast(tr('t_wlup'));
+}
+function wlDropFile(){wlFile=null;wlFileLine();}
+function wlPhotoLine(){
+  const el=document.getElementById('wlPhotoBox');if(!el)return;
+  el.innerHTML=wlPhotos
+    ? `<div class="emptyline"><b>${wlPhotos}</b> ${tr('wl_photos_in')} `+
+      `<button class="btn line sm" onclick="wlClearPhotos()">${tr('d_delete')}</button></div>`
+    : `<div class="emptyline">${tr('wl_nophotos')}</div>`;
+}
+function wlAddPhotos(){wlPhotos+=CT_PHOTO_BATCH;wlPhotoLine();toast(tr('t_wlup'));}
+function wlClearPhotos(){wlPhotos=0;wlPhotoLine();}
+/* Gallery and video share one form, so the field that means nothing for the kind
+   chosen is hidden rather than left there to be filled in and ignored. */
+function wlGalKind(){
+  const k=(document.getElementById('wlGk')||{value:'Gallery'}).value;
+  const p=document.getElementById('wlPhotoRow'),d=document.getElementById('wlDurRow');
+  if(p)p.style.display=k==='Gallery'?'':'none';
+  if(d)d.style.display=k==='Video'?'':'none';
+}
+function wlRowActs(kind,i){
+  return `<button class="btn ghost sm" onclick="wlOpen('${kind}',${i})">${tr('d_edit')}</button>`+
+         `<button class="btn line sm" onclick="wlDel('${kind}',${i})">${tr('d_delete')}</button>`;
+}
+function wlDel(kind,i){
+  if(!confirm(tr('q_wldel')))return;
+  wresList(kind).splice(i,1);renderWlib();toast(tr('t_wldel'));
+}
+function wlTitleRows(x){
+  return `<div class="mrow"><label>${tr(wlKind==='press'?'wl_h_en':'wl_t_en')}</label>`+
+    `<input id="wlT" value="${esc(x?x.t.en:'')}"></div>`+
+    `<div class="mrow"><label>${tr(wlKind==='press'?'wl_h_vi':'wl_t_vi')}</label>`+
+    `<input id="wlTv" value="${esc(x?x.t.vi:'')}">`+
+    `<div class="hint">${tr('wl_t_h')}</div></div>`;
+}
+function wlStateRow(x){
+  return `<div class="mrow"><label>${tr('wl_state')}</label>`+
+    `<select id="wlSt">${aopts(WRES_STATES,x?x.st:WRES_STATES[0])}</select></div>`;
+}
+function wlOpen(kind,i){
+  wlKind=kind;wlIx=i;
+  const x=i>=0?wresList(kind)[i]:null;
+  wlFile=(kind==='doc'&&x)?{name:x.file,kind:x.kind,size:x.size}:null;
+  wlPhotos=(kind==='gal'&&x)?(x.n||0):0;
+  const title=tr(i>=0?({doc:'wl_edit_doc',press:'wl_edit_press',gal:'wl_edit_gal'}[kind])
+                     :({doc:'wl_new_doc', press:'wl_new_press', gal:'wl_new_gal'}[kind]));
+  let body=wlTitleRows(x);
+  if(kind==='doc'){
+    body+=`<div class="g2"><div class="mrow"><label>${tr('wl_cat')}</label><select id="wlCat">`+
+      WRES_CATS.map(c=>`<option value="${c.k}"${x&&x.cat===c.k?' selected':''}>${c.l}</option>`).join('')+
+      `</select></div>`+
+      `<div class="mrow"><label>${tr('wl_acc')}</label>`+
+      `<select id="wlAcc">${aopts(WRES_ACCESS,x?x.acc:WRES_ACCESS[0])}</select></div></div>`+
+      `<div class="mrow"><label>${tr('wl_file')}</label><div id="wlFileBox"></div>`+
+      `<div class="dropzone" role="button" tabindex="0" onclick="wlAddFile()" `+
+      `onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();wlAddFile()}">${tr('wl_file_drop')}</div></div>`+
+      wlStateRow(x);
+  }else if(kind==='press'){
+    body+=`<div class="g2"><div class="mrow"><label>${tr('wl_src')}</label>`+
+      `<input id="wlSrc" value="${esc(x?x.src:'')}" placeholder="${tr('wl_src_ph')}"></div>`+
+      `<div class="mrow"><label>${tr('c_date')}</label>`+
+      `<input id="wlD" type="date" value="${esc(x?x.d:todayISO())}"></div></div>`+
+      `<div class="mrow"><label>${tr('wl_url')}</label>`+
+      `<input id="wlUrl" value="${esc(x?(x.url||''):'')}" placeholder="https://"></div>`+
+      wlStateRow(x)+
+      `<div class="export-note" style="margin:0 0 14px">${tr('wl_press_acc_h')}</div>`;
+  }else{
+    body+=`<div class="g2"><div class="mrow"><label>${tr('wl_gkind')}</label>`+
+      `<select id="wlGk" onchange="wlGalKind()">${aopts(WGAL_KINDS,x?x.gkind:WGAL_KINDS[0])}</select></div>`+
+      `<div class="mrow"><label>${tr('wl_acc')}</label>`+
+      `<select id="wlAcc">${aopts(WRES_ACCESS,x?x.acc:WRES_ACCESS[0])}</select></div></div>`+
+      `<div class="mrow" id="wlPhotoRow"><label>${tr('wl_photos')}</label><div id="wlPhotoBox"></div>`+
+      `<div class="dropzone" role="button" tabindex="0" onclick="wlAddPhotos()" `+
+      `onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();wlAddPhotos()}">${tr('wl_photo_drop')}</div></div>`+
+      `<div class="mrow" id="wlDurRow"><label>${tr('wl_dur')}</label>`+
+      `<input id="wlDur" value="${esc(x?(x.dur||''):'')}" placeholder="${tr('wl_dur_ph')}"></div>`+
+      wlStateRow(x);
+  }
+  body+=`<button class="btn block" onclick="wlSave()">${tr('wl_save')}</button>`;
+  openGen(title,body);
+  if(kind==='doc')wlFileLine();
+  if(kind==='gal'){wlPhotoLine();wlGalKind();}
+}
+function wlSave(){
+  const en=v('wlT').trim();
+  if(!en){alert(tr('wl_needtitle'));return;}
+  const vi=v('wlTv').trim();
+  if(!vi){alert(tr('wl_needvi'));return;}
+  const kind=wlKind;let obj;
+  if(kind==='doc'){
+    if(!wlFile){alert(tr('wl_needfile'));return;}
+    obj={t:{en:en,vi:vi},cat:v('wlCat'),file:wlFile.name,kind:wlFile.kind,size:wlFile.size,
+      acc:v('wlAcc'),st:v('wlSt')};
+  }else if(kind==='press'){
+    obj={t:{en:en,vi:vi},src:v('wlSrc').trim()||'—',d:v('wlD'),url:v('wlUrl').trim(),st:v('wlSt')};
+  }else{
+    const gk=v('wlGk');
+    if(gk==='Gallery'&&!wlPhotos){alert(tr('wl_needphotos'));return;}
+    if(gk==='Video'&&!v('wlDur').trim()){alert(tr('wl_needdur'));return;}
+    obj={t:{en:en,vi:vi},gkind:gk,n:gk==='Gallery'?wlPhotos:0,dur:gk==='Video'?v('wlDur').trim():'',
+      acc:v('wlAcc'),st:v('wlSt')};
+  }
+  const list=wresList(kind);
+  if(wlIx>=0)list[wlIx]=obj;else list.push(obj);
+  closeModal();renderWlib();toast(tr('t_wlsaved'));
+}
+function wlAccChip(a){return `<span class="chip ${a==='Public'?'green':'navy'}">${esc(a)}</span>`;}
+function wlTitleCell(x,sub){
+  return `<td><b style="color:var(--navy)">${esc(x.t.en)}</b>`+
+    `<div class="muted" style="font-size:12px">${esc(x.t.vi)}</div>`+
+    (sub?`<div class="fm" style="font-weight:400;color:var(--muted)">${esc(sub)}</div>`:'')+`</td>`;
+}
+function renderWlib(){
+  const el=document.getElementById('wlibPane');if(!el)return;
+  let h=`<div class="panel">`+appHead('wl_docs_h',
+      `<span class="chip navy">${wresDocs.length}</span> `+
+      `<button class="btn sm" onclick="wlOpen('doc',-1)">${tr('wl_add_doc')}</button>`)+
+    `<div class="pbody"><div class="export-note">${tr('wl_docs_note')}</div></div>
+    <table><thead><tr><th>${tr('c_title')}</th><th>${tr('wl_cat')}</th><th>${tr('wl_file')}</th>
+      <th>${tr('wl_acc')}</th><th>${tr('c_status')}</th><th>${tr('c_actions')}</th></tr></thead><tbody>`+
+    (wresDocs.map(function(x,i){
+      return `<tr>`+wlTitleCell(x,x.file)+
+        `<td>${esc(wresCatLabel(x.cat))}</td>
+        <td class="mono">${esc(x.kind)} · ${esc(x.size)}</td>
+        <td>${wlAccChip(x.acc)}</td><td>${stChip(x.st)}</td>
+        <td>${wlRowActs('doc',i)}</td></tr>`;
+    }).join('')||`<tr><td colspan="6" class="muted">${tr('wl_none')}</td></tr>`)+
+    `</tbody></table>
+    <div class="pbody"><div class="hint">${tr('wl_acc_h')}</div>
+    <div class="export-note">${tr('wl_sim_note')}</div></div></div>`;
+
+  h+=`<div class="panel">`+appHead('wl_press_h',
+      `<span class="chip navy">${wresPress.length}</span> `+
+      `<button class="btn sm" onclick="wlOpen('press',-1)">${tr('wl_add_press')}</button>`)+
+    `<div class="pbody"><div class="export-note">${tr('wl_press_note')}</div></div>
+    <table><thead><tr><th>${tr('c_title')}</th><th>${tr('wl_src')}</th><th>${tr('c_date')}</th>
+      <th>${tr('c_status')}</th><th>${tr('c_actions')}</th></tr></thead><tbody>`+
+    (wresPress.map(function(x,i){
+      return `<tr>`+wlTitleCell(x,x.url)+
+        `<td>${esc(x.src)}</td><td>${fmtD(x.d)}</td><td>${stChip(x.st)}</td>
+        <td>${wlRowActs('press',i)}</td></tr>`;
+    }).join('')||`<tr><td colspan="5" class="muted">${tr('wl_none')}</td></tr>`)+
+    `</tbody></table></div>`;
+
+  h+=`<div class="panel">`+appHead('wl_gal_h',
+      `<span class="chip navy">${wresGal.length}</span> `+
+      `<button class="btn sm" onclick="wlOpen('gal',-1)">${tr('wl_add_gal')}</button>`)+
+    `<div class="pbody"><div class="export-note">${tr('wl_gal_note')}</div></div>
+    <table><thead><tr><th>${tr('c_title')}</th><th>${tr('wl_gkind')}</th>
+      <th>${tr('wl_acc')}</th><th>${tr('c_status')}</th><th>${tr('c_actions')}</th></tr></thead><tbody>`+
+    (wresGal.map(function(x,i){
+      return `<tr>`+wlTitleCell(x,'')+
+        `<td class="mono">${esc(x.gkind)}${x.gkind==='Gallery'?' · '+x.n:(x.dur?' · '+esc(x.dur):'')}</td>
+        <td>${wlAccChip(x.acc)}</td><td>${stChip(x.st)}</td>
+        <td>${wlRowActs('gal',i)}</td></tr>`;
+    }).join('')||`<tr><td colspan="5" class="muted">${tr('wl_none')}</td></tr>`)+
+    `</tbody></table></div>`;
+  el.innerHTML=h;
+}
+
+/* ===== SUBMISSION INTAKE (28/08, June) ======================================
+   June, 28/08: "em đang suy nghĩ bên svef sẽ liên hệ các speaker, media, track
+   news coverage để lấy materials rồi mình / họ sẽ đăng lên app thông qua admin
+   dashboard". The "mình" half is the Content tab. The "họ" half had no home:
+   today a speaker mails a deck to the secretariat and somebody retypes the title,
+   the file and the access level by hand, which is where the delay and the typos
+   come from.
+
+   What this is: a link, an inbox and a publish button. SVEF issues a link scoped
+   to one event and one contributor with an expiry, whatever arrives lands in a
+   queue, and one click files it into that event's Library, Gallery or News
+   coverage in the exact shape ctEnsure() already stores, or rejects it with a
+   reason that goes back to the sender.
+
+   What this deliberately is NOT: the partner self-service space Toàn deferred on
+   25/08 and asked to be proposed separately. There is no account here, no login,
+   no password and no profile the contributor maintains. They hold one expiring
+   link, see nothing else, and nothing they send is published until a person in the
+   secretariat has looked at it. If SVEF wants speakers or partners to manage their
+   own material over time, that is the deferred proposal and it is a different
+   piece of work. */
+const SUB_ROLES=["Speaker","Press contact"];
+const SUB_KINDS=[
+  {k:"slides",sec:"library",lk:"ct_lib_h"},
+  {k:"photos",sec:"gallery",lk:"ct_gal_h"},
+  {k:"link",  sec:"news",   lk:"ct_news_h"}
+];
+function subKindOf(k){return SUB_KINDS.find(x=>x.k===k)||SUB_KINDS[0];}
+function subEvById(id){return events.find(e=>e.id===id);}
+function subEvName(id){const e=subEvById(id);return e?e.t:tr('sb_gone');}
+function subUrl(code){return 'https://svef.ch/submit/'+code;}
+/* A code, not a guessable id: the link is the credential, so it has to be
+   unpredictable and it has to expire. */
+function subCode(){
+  const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';
+  for(let i=0;i<8;i++)s+=a.charAt(Math.floor(Math.random()*a.length));
+  return 'SVEF-'+s;
+}
+let subLinks=[
+ {code:"SVEF-9K4TQ2XB",ev:"ev-hanoi",who:"Dr. Anna Keller",role:"Speaker",
+  em:"a.keller@example.ch",made:"2026-08-26",exp:"2026-10-10",st:"Active"},
+ {code:"SVEF-3P8MRDCF",ev:"ev-hanoi",who:"Lan Phương, VnExpress",role:"Press contact",
+  em:"lan.phuong@vnexpress.example.vn",made:"2026-08-27",exp:"2026-11-15",st:"Active"},
+ /* Seeded past its expiry rather than revoked: revoking is one click away in the
+    demo, an expiry is not, so the seed shows the state you cannot reach by hand. */
+ {code:"SVEF-6X1WBNQH",ev:"ev-mission",who:"Sandra Meier",role:"Speaker",
+  em:"s.meier@example.ch",made:"2026-07-02",exp:"2026-08-15",st:"Active"}
+];
+function subLinkState(l){
+  if(l.st==='Revoked')return 'Revoked';
+  return (l.exp&&l.exp<todayISO())?'Expired':'Active';
+}
+function subLinkChip(l){
+  const s=subLinkState(l);
+  const c={Active:'green',Expired:'pend',Revoked:'red'}[s];
+  return `<span class="chip ${c}">${tr({Active:'sb_st_active',Expired:'sb_st_exp',Revoked:'sb_st_rev'}[s])}</span>`;
+}
+let subQueue=[
+ {id:1,ev:"ev-hanoi",who:"Dr. Anna Keller",role:"Speaker",kind:"slides",
+  t:"Keynote: Swiss-Vietnam trade outlook 2027",
+  file:"keynote-swiss-vietnam-trade-outlook-2027.pdf",fkind:"PDF",size:"6.5 MB",n:0,url:"",src:"",
+  note:"Final version. The two slides naming clients are taken out, please use this one and not the draft I sent in July.",
+  at:"2026-08-29 09:14",st:"Waiting",reason:"",where:""},
+ {id:2,ev:"ev-hanoi",who:"Lan Phương, VnExpress",role:"Press contact",kind:"link",
+  t:"Swiss businesses look to Vietnam after EFTA",
+  file:"",fkind:"",size:"",n:0,url:"https://vnexpress.example.net/svef-2026-efta-follow-up",src:"VnExpress",
+  note:"Bản tiếng Việt đã đăng sáng nay, bản tiếng Anh sẽ có vào chiều mai.",
+  at:"2026-08-29 15:02",st:"Waiting",reason:"",where:""},
+ {id:3,ev:"ev-hanoi",who:"Marco Rossi",role:"Speaker",kind:"photos",
+  t:"Workshop room, day 2",
+  file:"",fkind:"",size:"",n:12,url:"",src:"",
+  note:"Ảnh chụp trong phòng hội thảo, có mặt người tham dự nên các anh chị cân nhắc mức hiển thị.",
+  at:"2026-08-30 08:41",st:"Waiting",reason:"",where:""}
+];
+let subSeq=3;
+function subKindChip(k){
+  const c={slides:'navy',photos:'',link:'green'}[k];
+  return `<span class="chip ${c}">${tr('sb_k_'+k)}</span>`;
+}
+function subStChip(s){
+  const c={Waiting:'pend',Published:'green',Rejected:'red'}[s];
+  return `<span class="chip ${c}">${tr({Waiting:'sb_st_wait',Published:'sb_st_pub',Rejected:'sb_st_rej'}[s])}</span>`;
+}
+function subWhat(x){
+  if(x.kind==='link')return esc(x.url||'—');
+  if(x.kind==='photos')return x.n+' '+tr('wl_photos').toLowerCase();
+  return esc(x.file)+' · '+esc(x.fkind)+' '+esc(x.size);
+}
+
+/* ---- links ---- */
+function subOpenLink(){
+  const evs=events.filter(e=>!e.partner);
+  if(!evs.length){alert(tr('sb_needev'));return;}
+  const d=new Date();d.setDate(d.getDate()+30);
+  const p=n=>String(n).padStart(2,'0');
+  const exp=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+  openGen(tr('sb_new_t'),
+    `<p class="muted" style="margin-top:0;font-size:13px">${tr('sb_new_h')}</p>`+
+    `<div class="mrow"><label>${tr('sb_ev')}</label><select id="slEv">`+
+      evs.map(e=>`<option value="${esc(e.id)}">${esc(e.t)}</option>`).join('')+
+    `</select><div class="hint">${tr('sb_ev_h')}</div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('sb_who')}</label><input id="slWho" placeholder="Dr. Anna Keller"></div>`+
+    `<div class="mrow"><label>${tr('sb_role')}</label><select id="slRole">${aopts(SUB_ROLES,SUB_ROLES[0])}</select></div></div>`+
+    `<div class="g2"><div class="mrow"><label>${tr('sb_em')}</label><input id="slEm" type="email" placeholder="name@example.com"></div>`+
+    `<div class="mrow"><label>${tr('sb_exp')}</label><input id="slExp" type="date" value="${exp}"></div></div>`+
+    `<div class="export-note" style="margin:0 0 14px">${tr('sb_links_note')}</div>`+
+    `<button class="btn block" onclick="subSaveLink()">${tr('sb_gen')}</button>`);
+}
+function subSaveLink(){
+  const who=v('slWho').trim();
+  if(!who){alert(tr('sb_needwho'));return;}
+  subLinks.unshift({code:subCode(),ev:v('slEv'),who:who,role:v('slRole'),
+    em:v('slEm').trim(),made:todayISO(),exp:v('slExp'),st:'Active'});
+  closeModal();renderSubs();toast(tr('t_sblink'));
+}
+function subRevoke(i){
+  if(!confirm(tr('q_sbrevoke')))return;
+  subLinks[i].st='Revoked';renderSubs();toast(tr('t_sbrevoked'));
+}
+/* file:// is not a secure context, so the clipboard API is refused there and the
+   textarea fallback is the one that actually runs in the demo. */
+function subCopy(code){
+  const url=subUrl(code),done=function(){toast(tr('sb_copied'));};
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done,function(){subCopyFallback(url,done);});
+      return;
+    }
+  }catch(err){}
+  subCopyFallback(url,done);
+}
+function subCopyFallback(text,done){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.setAttribute('readonly','');
+  ta.style.position='fixed';ta.style.top='-1000px';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(err){}
+  document.body.removeChild(ta);done();
+}
+
+/* ---- simulated inbound ------------------------------------------------------
+   The prototype has no mailbox and no upload endpoint, and pretending otherwise
+   would be the one dishonest thing in a demo that is otherwise clear about what
+   it simulates. So the arrival is a button, it says so on screen, and it fires
+   against a real active link rather than inventing a stranger. */
+const SUB_DEMO={
+ "Speaker":[
+  {kind:"slides",t:"Panel notes: financing the green transition",
+   note:"Slides plus the two charts I promised in the panel. Happy for attendees to download them."},
+  {kind:"photos",t:"Backstage and panel, day 1",n:14,
+   note:"Ảnh hậu trường và toạ đàm, có mặt diễn giả. Nếu cần che mặt khách tham dự thì các anh chị cứ bỏ bớt."}
+ ],
+ "Press contact":[
+  {kind:"link",t:"Hanoi hosts the largest Swiss delegation to date",
+   url:"https://nzz.example.ch/svef-hanoi-delegation",
+   note:"Published this morning, paywall lifted for the first week."},
+  {kind:"link",t:"Thụy Sĩ mở rộng đầu tư vào công nghiệp chính xác tại Việt Nam",
+   url:"https://vnexpress.example.net/thuy-si-cong-nghiep-chinh-xac",
+   note:"Bài này có phỏng vấn hai diễn giả của diễn đàn, nhờ ban thư ký kiểm tra lại tên chức danh giúp em."}
+ ]
+};
+let subSimSeq=0,subSimFile=0;
+function subSimulate(){
+  const act=subLinks.filter(l=>subLinkState(l)==='Active');
+  if(!act.length){toast(tr('sb_sim_nolink'));return;}
+  const l=act[subSimSeq%act.length];
+  const bank=SUB_DEMO[l.role]||SUB_DEMO.Speaker;
+  const tpl=bank[Math.floor(subSimSeq/act.length)%bank.length];
+  subSimSeq++;
+  const rec={id:++subSeq,ev:l.ev,who:l.who,role:l.role,kind:tpl.kind,t:tpl.t,
+    file:'',fkind:'',size:'',n:tpl.n||0,url:tpl.url||'',src:'',
+    note:tpl.note,at:todayISO()+' '+nowHM(),st:'Waiting',reason:'',where:''};
+  if(tpl.kind==='slides'){
+    const pick=CT_DEMO_FILES[subSimFile++%CT_DEMO_FILES.length];
+    rec.file=wlSlug(tpl.t)+'.'+pick.kind.toLowerCase();rec.fkind=pick.kind;rec.size=pick.size;
+  }
+  if(tpl.kind==='link')rec.src=l.who.split(',').pop().trim();
+  subQueue.unshift(rec);renderSubs();toast(tr('t_sbin'));
+}
+
+/* ---- review: publish into the event, or reject with a reason ---- */
+function subById(id){return subQueue.find(x=>x.id===id);}
+function subReview(id){
+  const x=subById(id);if(!x)return;
+  const sec=subKindOf(x.kind).sec;
+  let head=`<div class="filelist"><div class="filerow"><span class="chip navy">${esc(x.who)}</span>`+
+    `<span class="fn">${esc(subEvName(x.ev))}</span>`+
+    `<span class="fm">${esc(x.at)}</span></div>`+
+    `<div class="filerow">${subKindChip(x.kind)}<span class="fn">${subWhat(x)}</span></div></div>`+
+    `<div class="mrow"><label>${tr('sb_note')}</label>`+
+    `<div class="emptyline" style="padding-bottom:0">${esc(x.note||'—')}</div></div>`;
+  let body=head+
+    `<div class="mrow"><label>${tr('c_title')}</label><input id="srT" value="${esc(x.t)}"></div>`;
+  if(x.kind==='slides'){
+    body+=`<div class="g2"><div class="mrow"><label>${tr('ct_by')}</label>`+
+      `<input id="srBy" value="${esc(x.who)}"></div>`+
+      `<div class="mrow"><label>${tr('ct_access')}</label>`+
+      `<select id="srAcc">${aopts(CT_ACCESS.library,CT_ACCESS.library[0])}</select></div></div>`+
+      `<div class="hint" style="margin-bottom:14px">${tr('ct_lib_acc_h')}</div>`;
+  }else if(x.kind==='photos'){
+    body+=`<div class="mrow"><label>${tr('ct_access')}</label>`+
+      `<select id="srAcc">${aopts(CT_ACCESS.gallery,CT_ACCESS.gallery[0])}</select></div>`+
+      `<div class="mrow"><label>${tr('ct_why')}</label>`+
+      `<input id="srNote" placeholder="${tr('ct_why_ph')}">`+
+      `<div class="hint">${tr('ct_why_h')}</div></div>`;
+  }else{
+    body+=`<div class="g2"><div class="mrow"><label>${tr('ct_src')}</label>`+
+      `<input id="srSrc" value="${esc(x.src||'')}" placeholder="${tr('ct_src_ph')}"></div>`+
+      `<div class="mrow"><label>${tr('c_date')}</label>`+
+      `<input id="srD" type="date" value="${todayISO()}"></div></div>`+
+      `<div class="mrow"><label>${tr('ct_url')}</label><input id="srUrl" value="${esc(x.url||'')}"></div>`+
+      `<div class="export-note" style="margin:0 0 14px">${tr('ct_news_acc_h')}</div>`;
+  }
+  body+=`<div class="export-note" style="margin:0 0 14px">${tr('sb_dest')}: `+
+    `<b>${esc(subEvName(x.ev))}</b> · ${tr(subKindOf(x.kind).lk)}</div>`+
+    `<button class="btn block" onclick="subPublish(${x.id})">${tr('sb_pub')}</button>`+
+    `<button class="btn line block" style="margin-top:10px" onclick="subRejectOpen(${x.id})">${tr('sb_rej')}</button>`;
+  openGen(tr('sb_rev_t'),body);
+}
+/* The whole point of the queue: the object pushed here is the same shape ctSave()
+   writes, so the item lands in the event's Content tab as though the secretariat
+   had typed it, and the app picks it up with no second data path. */
+function subPublish(id){
+  const x=subById(id);if(!x)return;
+  const e=subEvById(x.ev);
+  if(!e){alert(tr('sb_gone'));return;}
+  const c=ctEnsure(e),t=v('srT').trim()||x.t;
+  if(x.kind==='slides'){
+    c.library.push({t:t,by:v('srBy').trim()||x.who,file:x.file,kind:x.fkind,size:x.size,acc:v('srAcc')});
+  }else if(x.kind==='photos'){
+    c.gallery.push({t:t,n:x.n,acc:v('srAcc'),note:v('srNote').trim()});
+  }else{
+    c.news.push({t:t,src:v('srSrc').trim()||'—',d:v('srD'),url:v('srUrl').trim(),acc:'Public'});
+  }
+  x.st='Published';x.where=e.t+' · '+tr(subKindOf(x.kind).lk);
+  closeModal();renderSubs();renderApp();toast(tr('t_sbpub'));
+}
+function subRejectOpen(id){
+  const x=subById(id);if(!x)return;
+  openGen(tr('sb_rej_t'),
+    `<p class="muted" style="margin-top:0;font-size:13px">${tr('sb_rej_h')}</p>`+
+    `<p style="font-size:13px;margin:0 0 12px"><b style="color:var(--navy)">${esc(x.t)}</b> · ${esc(x.who)}</p>`+
+    `<div class="mrow"><label>${tr('sb_rej')}</label>`+
+    `<textarea id="srR" rows="3" placeholder="${tr('sb_rej_ph')}"></textarea></div>`+
+    `<button class="btn block" onclick="subReject(${x.id})">${tr('sb_rej_save')}</button>`);
+}
+function subReject(id){
+  const x=subById(id);if(!x)return;
+  const r=v('srR').trim();
+  if(!r){alert(tr('sb_needreason'));return;}
+  x.st='Rejected';x.reason=r;
+  closeModal();renderSubs();toast(tr('t_sbrej'));
+}
+
+function renderSubs(){
+  const el=document.getElementById('subsPane');if(!el)return;
+  const waiting=subQueue.filter(x=>x.st==='Waiting').length;
+  let h=`<div class="panel">`+appHead('sb_links_h',
+      `<span class="chip navy">${subLinks.filter(l=>subLinkState(l)==='Active').length} ${tr('sb_st_active').toLowerCase()}</span> `+
+      `<button class="btn sm" onclick="subOpenLink()">${tr('sb_new')}</button>`)+
+    `<div class="pbody"><div class="export-note">${tr('sb_links_note')}</div></div>
+    <table><thead><tr><th>${tr('sb_who')}</th><th>${tr('c_event')}</th><th>${tr('sb_link')}</th>
+      <th>${tr('sb_exp')}</th><th>${tr('c_status')}</th><th>${tr('c_actions')}</th></tr></thead><tbody>`+
+    (subLinks.map(function(l,i){
+      const live=subLinkState(l)==='Active';
+      return `<tr><td><b style="color:var(--navy)">${esc(l.who)}</b>
+        <div class="muted" style="font-size:12px">${esc(l.role)}${l.em?' · '+esc(l.em):''}</div></td>
+        <td>${esc(subEvName(l.ev))}</td>
+        <td class="mono" style="word-break:break-all">${esc(subUrl(l.code))}</td>
+        <td class="mono">${fmtD(l.exp)}</td><td>${subLinkChip(l)}</td>
+        <td><button class="btn ghost sm" onclick="subCopy('${esc(l.code)}')">${tr('sb_copy')}</button>`+
+        (live?`<button class="btn line sm" onclick="subRevoke(${i})">${tr('sb_revoke')}</button>`:'')+
+        `</td></tr>`;
+    }).join('')||`<tr><td colspan="6" class="muted">${tr('sb_nolinks')}</td></tr>`)+
+    `</tbody></table></div>`;
+
+  h+=`<div class="panel">`+appHead('sb_queue_h',
+      `<span class="chip pend">${waiting} ${tr('sb_st_wait').toLowerCase()}</span> `+
+      `<button class="btn line sm" onclick="subSimulate()">${tr('sb_sim')}</button>`)+
+    `<div class="pbody"><div class="export-note">${tr('sb_queue_note')}</div></div>
+    <table><thead><tr><th>${tr('sb_who')}</th><th>${tr('c_event')}</th><th>${tr('sb_kind')}</th>
+      <th>${tr('sb_sent')}</th><th>${tr('sb_arrived')}</th><th>${tr('c_status')}</th>
+      <th>${tr('c_actions')}</th></tr></thead><tbody>`+
+    (subQueue.map(function(x){
+      const extra=x.st==='Published'?`<div class="muted" style="font-size:12px">${esc(x.where)}</div>`
+        :(x.st==='Rejected'?`<div class="muted" style="font-size:12px">${esc(x.reason)}</div>`:'');
+      return `<tr><td><b style="color:var(--navy)">${esc(x.who)}</b>
+        <div class="muted" style="font-size:12px">${esc(x.role)}</div></td>
+        <td>${esc(subEvName(x.ev))}</td>
+        <td>${subKindChip(x.kind)}</td>
+        <td><b style="font-weight:600;color:var(--ink)">${esc(x.t)}</b>
+          <div class="fm" style="font-weight:400;color:var(--muted)">${subWhat(x)}</div></td>
+        <td class="mono">${esc(x.at)}</td>
+        <td>${subStChip(x.st)}${extra}</td>
+        <td>`+(x.st==='Waiting'
+          ?`<button class="btn ghost sm" onclick="subReview(${x.id})">${tr('sb_review')}</button>`
+          :`<span class="muted">—</span>`)+`</td></tr>`;
+    }).join('')||`<tr><td colspan="7" class="muted">${tr('sb_none')}</td></tr>`)+
+    `</tbody></table>
+    <div class="pbody"><div class="export-note">${tr('sb_sim_note')}</div></div></div>`;
+  el.innerHTML=h;
 }
 
 /* ===== I18N APPLY ===== */
