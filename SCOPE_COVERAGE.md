@@ -54,6 +54,7 @@ says so, which is the redirect that was asked for.
 | Connect with an **organisation**, not just a person | Built | Organisation profiles, person ⇄ company both ways, request contact |
 | Company shown under each name on both sides of a meeting | Built | Back office meeting table |
 | Meeting topic | Not built | June's note: not needed now. Deferred. |
+| Where the pair will meet | Built, and queried | Free text the two attendees agree between themselves, empty until they settle it. The system allocates nothing, per 25/08 item 2.2. June asked on 28/08 whether it should be shown at all; awaiting SVEF. |
 
 ### 1.3 Content
 
@@ -64,6 +65,37 @@ Three sections, three access rules, exactly as settled in the meeting:
 | Library / Resources | Login | Speakers' slides, downloaded directly rather than requested from the secretariat |
 | Gallery | Login | A public gallery was proposed and overruled on privacy grounds. Group shots already published on social media are the stated exception, so **Public** is a per-album switch, not a section-wide setting. |
 | News | Public | Reach is the point of it |
+
+**Updated 31/08 after June's note of 28/08.** Two things changed.
+
+*The three sections can now be filled, not only re-graded.* Until now the Content
+tab listed what was there and let the operator change who could see it, but had no
+way to put anything there in the first place, which left SVEF collecting slides
+from speakers and links from media with nowhere to file them. Back office → event →
+Content now carries **＋ Add document**, **＋ Add album** and **＋ Add coverage**,
+with edit and remove on every row. A document takes a title, who shared it, a file
+and an access level; an album takes a title, photos, an access level and a written
+reason for that level, so the privacy call is recorded rather than re-argued; a
+press item takes a title, the publication, a date and the link. Attaching a file is
+simulated, as everything else in the prototype is, and the attached file is named
+after the title so the list does not fill up with `document-1.pdf`.
+
+*Public is gone from the library.* June's point: inside the app you are signed in by
+definition, so a "public" document only ever means something on the website, and
+the choice that decides anything is between anybody signed in and the people
+registered to this event. The library selector now offers those two. A row saved
+earlier carrying Public is pulled back to Registered attendees rather than left
+showing a value the control cannot offer. The gallery keeps all three, because the
+per-album Public was Toàn's explicit 25/08 exception for group shots, and news stays
+public and ungated.
+
+Two things this deliberately did not touch. The **website's own document library**
+(`Resources & Documents`: reports and market briefs open to all, templates for
+members) is a different thing from per-event content and keeps its public tier; it
+also still has no admin surface, which is the next gap of this shape. And the app
+gates the library section-wide at `registered`, so a library item set to *Anyone
+signed in* is currently shown to registered attendees only. The stricter of the two
+wins, which is safe but not yet exact.
 
 Also built: speaker bio opens from the agenda (the bio is the person's own profile,
 not a per-event field), sponsors and speakers resolve to the same organisation
@@ -144,7 +176,17 @@ demo rather than in a document.
 4. **Partner event minimum fields.** The demo asks for name, organiser, link,
    description, dates and a cover image. If SVEF wants more, that is a change to one
    form.
-5. **Whether the business directory joins the app.** Linh's directory
+5. **May an attendee claim their organisation themselves?** (28/08) An account can
+   already hold a personal and a company profile side by side in the back office
+   (BR-W-04), and a registrant is matched to an organisation automatically by
+   company name, normalised, both in the app and in the Wix import. What does not
+   exist is a self-service "this is my company" action in the app: an attendee
+   cannot attach themselves to an organisation profile, and an unmatched company
+   stays as the free text they typed. Whether that stays a secretariat job or
+   becomes a request the attendee raises is undecided, and it sits next to question
+   2 above.
+6. **Should the meeting place line be shown at all?** (28/08) See 1.2.
+7. **Whether the business directory joins the app.** Linh's directory
    (`svefzurich2026-delegatory.netlify.app`) overlaps with the organisation profiles
    built here. Raised on 25/08 and not resolved; the two should not both exist.
 

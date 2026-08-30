@@ -789,13 +789,39 @@ const T={
   ap_spk_lib:"Add from the library",ap_spk_addlib:"Add to this event",
   ap_spk_liball:"Everyone in the speaker library is already on this event.",
   ap_spk_libnote:"Speakers are maintained once in Speakers & Organisations and reused across events. Editing somebody there updates them on every event they speak at.",
-  ct_intro:"Three sections were agreed on 25/08: the speakers' slides, the event photography and the press coverage. The access column is the part that matters, and it is per item.",
+  ct_intro:"Three sections were agreed on 25/08: the speakers' slides, the event photography and the press coverage. Each is filled here - add, edit and remove - and each item carries its own access level, which is the part that matters.",
   ct_lib_h:"Library / Resources",ct_gal_h:"Gallery",ct_news_h:"News coverage",
   ct_lib_note:"Slides and papers the speakers agreed to share, so attendees download them here instead of emailing the secretariat.",
   ct_gal_note:"Photographs stay behind the login by default. A public gallery was proposed and overruled on 25/08 on privacy grounds: protect the identity of who was in the room first. Group shots already published on social media and the website are the stated exception, so Public is a per-album choice.",
   ct_news_note:"Press coverage is public. Reach is the entire point of it.",
   ct_by:"Shared by",ct_kind:"File",ct_access:"Who can see it",ct_album:"Album",ct_photos:"Photos",
   ct_why:"Why",ct_src:"Publication",ct_none:"Nothing published yet.",
+  /* 28/08, June: the three sections could be re-graded but not filled. These are
+     the strings for the add / edit / remove surface that closes that gap. */
+  ct_add_lib:"＋ Add document",ct_add_gal:"＋ Add album",ct_add_news:"＋ Add coverage",
+  ct_new_lib:"Add document",ct_new_gal:"Add album",ct_new_news:"Add press coverage",
+  ct_edit_lib:"Edit document",ct_edit_gal:"Edit album",ct_edit_news:"Edit press coverage",
+  ct_save:"💾 Save",
+  ct_title_ph_library:"Name attendees will see, e.g. Financing the green transition",
+  ct_title_ph_gallery:"Album name, e.g. Gala dinner",
+  ct_title_ph_news:"Headline as published",
+  ct_by_ph:"Speaker, or SVEF",
+  ct_by_h:"Who shared it. Start typing to pick a speaker already on this event, or write anybody else.",
+  ct_src_ph:"VnExpress, NZZ, Handelszeitung…",
+  ct_file:"File",ct_nofile:"No file attached yet.",
+  ct_file_drop:"⬆ Click to attach a file (PDF, PPTX, DOCX, XLSX)",
+  ct_photo_drop:"⬆ Click to add photos (JPG, PNG)",
+  ct_photos_in:"photos in this album.",ct_nophotos:"No photos in this album yet.",
+  ct_why_ph:"Group shots, already on social media",
+  ct_why_h:"Why this album may or may not be shown more widely. Written down so the privacy call is not re-argued later.",
+  ct_url:"Link to the article",
+  ct_lib_acc_h:"Public was removed here on 28/08. Inside the app the attendee is signed in by definition, so the choice that decides anything is between anybody signed in and the people registered to this event.",
+  ct_news_acc_h:"Press coverage is public and is not gated. Reach is the entire point of it.",
+  ct_needtitle:"Please enter a title.",
+  ct_needfile:"Attach a file before saving.",
+  ct_needphotos:"Add at least one photo before saving.",
+  t_ctsaved:"Saved",t_ctdel:"Removed",t_ctup:"Uploaded (demo)",t_ctacc:"Access updated",
+  q_ctdel:"Remove this from the event? It disappears from the app straight away.",
   imp_intro:"Registrations taken on the existing Wix page are brought in here. Wix exposes no API for this data, so the agreed route is an Excel export from Wix and an import into the platform. Nothing is written until the dry run below has been reviewed.",
   imp_file:"Registration export",imp_sample:"Load the sample SVEF sent",
   imp_format:"Accepts CSV and tab-separated files. Excel's \"Unicode Text\" export is UTF-16 with tab separators even when it is named .csv, which is what the sample export from SVEF is, and it is read correctly.",
@@ -2955,7 +2981,28 @@ function saveLibOrg(i){
    a public gallery and was overruled on privacy grounds, with group shots already
    published on social media as the stated exception, so "Public" is a per-item
    switch on photographs rather than a section-wide setting. */
-const CT_ACCESS=["Registered attendees","Anyone signed in","Public"];
+/* Access levels differ per section, and the difference is the whole point.
+   28/08, June: take Public off the library. Inside the app you are signed in by
+   definition, so a "public" document only ever means something on the website,
+   and the two levels that actually decide anything are "anybody signed in" and
+   "registered to this event". The gallery keeps Public because Toàn's 25/08
+   exception is per album, not per section: group shots already on social media
+   may be shown, individual faces may not. News is public and nothing else. */
+const CT_ACCESS={
+  library:["Registered attendees","Anyone signed in"],
+  gallery:["Registered attendees","Anyone signed in","Public"],
+  news   :["Public"]
+};
+/* Uploading is simulated: the prototype has no storage behind it, so a click
+   attaches a plausible file rather than reading one off the disk. Everything
+   else about the flow - naming it, saying who shared it, choosing who may see
+   it, editing it later, deleting it - is real, because that is the part SVEF
+   needs to sign off before October. */
+const CT_DEMO_FILES=[
+  {kind:"PDF", size:"2.8 MB"},{kind:"PPTX",size:"14.1 MB"},{kind:"PDF", size:"960 KB"},
+  {kind:"DOCX",size:"420 KB"},{kind:"XLSX",size:"1.3 MB"},{kind:"PDF", size:"6.5 MB"}
+];
+const CT_PHOTO_BATCH=8;
 function ctEnsure(e){
   if(!e.content)e.content={
     library:[
@@ -2967,9 +3014,17 @@ function ctEnsure(e){
       {t:"Day 1 breakouts",n:56,acc:"Registered attendees",note:"Faces of individual attendees"},
       {t:"Gala dinner",n:83,acc:"Registered attendees",note:"Faces of individual attendees"}],
     news:[
-      {t:"Swiss businesses look to Vietnam after EFTA",src:"VnExpress",d:"2026-10-20",acc:"Public"},
-      {t:"Hanoi hosts the largest Swiss delegation to date",src:"Neue Zürcher Zeitung",d:"2026-10-19",acc:"Public"}]
+      {t:"Swiss businesses look to Vietnam after EFTA",src:"VnExpress",d:"2026-10-20",acc:"Public",
+       url:"https://vnexpress.example.net/svef-2026-efta"},
+      {t:"Hanoi hosts the largest Swiss delegation to date",src:"Neue Zürcher Zeitung",d:"2026-10-19",acc:"Public",
+       url:"https://nzz.example.ch/svef-hanoi-2026"}]
   };
+  /* A library row saved before 28/08 can still be carrying "Public", which is no
+     longer an option. Pull it back to the stricter of the two that remain rather
+     than leaving a select showing a value it cannot offer. */
+  e.content.library.forEach(function(x){
+    if(CT_ACCESS.library.indexOf(x.acc)<0)x.acc=CT_ACCESS.library[0];
+  });
   return e.content;
 }
 function ctAccChip(a){
@@ -2978,45 +3033,178 @@ function ctAccChip(a){
 }
 function ctSetAcc(kind,i,sel){
   const e=appEv();if(!e)return;
-  ctEnsure(e)[kind][i].acc=sel.value;renderApp();toast('Access updated');
+  ctEnsure(e)[kind][i].acc=sel.value;renderApp();toast(tr('t_ctacc'));
 }
 function ctAccSelect(kind,i,cur){
   return `<select onchange="ctSetAcc('${kind}',${i},this)">`+
-    CT_ACCESS.map(a=>`<option${a===cur?' selected':''}>${a}</option>`).join('')+`</select>`;
+    CT_ACCESS[kind].map(a=>`<option${a===cur?' selected':''}>${a}</option>`).join('')+`</select>`;
 }
+
+/* ---- add / edit / remove -----------------------------------------------------
+   28/08, June: "mình có chỗ nào trong admin dashboard để đăng tài liệu, hình ảnh,
+   đính kèm news chưa ạ". There was not. The three sections could be re-graded but
+   not filled, which left SVEF collecting slides and press links from speakers and
+   media with nowhere to put them. This is that surface. */
+let ctEditKind=null,ctEditIx=-1,ctFile=null,ctPhotos=0;
+
+function ctRowActs(kind,i){
+  return `<button class="btn ghost sm" onclick="ctOpen('${kind}',${i})">${tr('d_edit')}</button>`+
+         `<button class="btn line sm" onclick="ctDel('${kind}',${i})">${tr('d_delete')}</button>`;
+}
+function ctDel(kind,i){
+  const e=appEv();if(!e)return;
+  if(!confirm(tr('q_ctdel')))return;
+  ctEnsure(e)[kind].splice(i,1);renderApp();toast(tr('t_ctdel'));
+}
+/* The speakers already on this event, offered as suggestions on "Shared by".
+   A datalist rather than a select: most slides come from a speaker, but the
+   secretariat and the odd partner also share things, and a closed list would
+   force those in under somebody else's name. */
+function ctSharedByList(e){
+  const names=(e.speakers||[]).map(s=>s.n).filter(Boolean);
+  return `<datalist id="ctByList">`+names.map(n=>`<option value="${esc(n)}"></option>`).join('')+`</datalist>`;
+}
+function ctFileLine(){
+  const el=document.getElementById('ctFileBox');if(!el)return;
+  el.innerHTML=ctFile
+    ? `<div class="filelist"><div class="filerow"><span class="chip">${esc(ctFile.kind)}</span>`+
+      `<span class="fn">${esc(ctFile.name)}</span><span class="fm">${esc(ctFile.size)}</span>`+
+      `<button class="btn line sm" onclick="ctDropFile()">${tr('d_delete')}</button></div></div>`
+    : `<div class="emptyline">${tr('ct_nofile')}</div>`;
+}
+/* The attached file is named after the title that has been typed, so the list
+   does not fill up with document-1.pdf. Vietnamese titles are stripped of their
+   diacritics for the filename only; the title itself keeps them. */
+let ctFileSeq=0;
+function ctAddFile(){
+  const pick=CT_DEMO_FILES[ctFileSeq++%CT_DEMO_FILES.length];
+  const raw=(document.getElementById('ctT')||{value:''}).value||'document';
+  const slug=raw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\u0111/g,'d').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48)||'document';
+  ctFile={name:slug+'.'+pick.kind.toLowerCase(),kind:pick.kind,size:pick.size};
+  ctFileLine();toast(tr('t_ctup'));
+}
+function ctDropFile(){ctFile=null;ctFileLine();}
+function ctPhotoLine(){
+  const el=document.getElementById('ctPhotoBox');if(!el)return;
+  el.innerHTML=ctPhotos
+    ? `<div class="emptyline"><b>${ctPhotos}</b> ${tr('ct_photos_in')} `+
+      `<button class="btn line sm" onclick="ctClearPhotos()">${tr('d_delete')}</button></div>`
+    : `<div class="emptyline">${tr('ct_nophotos')}</div>`;
+}
+function ctAddPhotos(){ctPhotos+=CT_PHOTO_BATCH;ctPhotoLine();toast(tr('t_ctup'));}
+function ctClearPhotos(){ctPhotos=0;ctPhotoLine();}
+
+function ctOpen(kind,i){
+  const e=appEv();if(!e)return;
+  const c=ctEnsure(e);
+  ctEditKind=kind;ctEditIx=i;
+  const x=i>=0?c[kind][i]:null;
+  ctFile=(kind==='library'&&x)?{name:x.file||'document.'+String(x.kind||'pdf').toLowerCase(),kind:x.kind,size:x.size}:null;
+  ctPhotos=(kind==='gallery'&&x)?(x.n||0):0;
+  const title=tr(i>=0?({library:'ct_edit_lib',gallery:'ct_edit_gal',news:'ct_edit_news'}[kind])
+                     :({library:'ct_new_lib', gallery:'ct_new_gal', news:'ct_new_news'}[kind]));
+  let body=`<div class="mrow"><label>${tr('c_title')}</label>`+
+           `<input id="ctT" value="${esc(x?x.t:'')}" placeholder="${tr('ct_title_ph_'+kind)}"></div>`;
+
+  if(kind==='library'){
+    body+=`<div class="mrow"><label>${tr('ct_by')}</label>`+
+      `<input id="ctBy" list="ctByList" value="${esc(x?x.by:'')}" placeholder="${tr('ct_by_ph')}">`+
+      ctSharedByList(e)+`<div class="hint">${tr('ct_by_h')}</div></div>`+
+      `<div class="mrow"><label>${tr('ct_file')}</label><div id="ctFileBox"></div>`+
+      `<div class="dropzone" role="button" tabindex="0" onclick="ctAddFile()" `+
+      `onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();ctAddFile()}">${tr('ct_file_drop')}</div></div>`+
+      `<div class="mrow"><label>${tr('ct_access')}</label>`+
+      `<select id="ctAcc">${aopts(CT_ACCESS.library,x?x.acc:CT_ACCESS.library[0])}</select></div>`;
+  }else if(kind==='gallery'){
+    body+=`<div class="mrow"><label>${tr('ct_photos')}</label><div id="ctPhotoBox"></div>`+
+      `<div class="dropzone" role="button" tabindex="0" onclick="ctAddPhotos()" `+
+      `onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();ctAddPhotos()}">${tr('ct_photo_drop')}</div></div>`+
+      `<div class="mrow"><label>${tr('ct_access')}</label>`+
+      `<select id="ctAcc">${aopts(CT_ACCESS.gallery,x?x.acc:CT_ACCESS.gallery[0])}</select></div>`+
+      `<div class="mrow"><label>${tr('ct_why')}</label>`+
+      `<input id="ctNote" value="${esc(x?(x.note||''):'')}" placeholder="${tr('ct_why_ph')}">`+
+      `<div class="hint">${tr('ct_why_h')}</div></div>`;
+  }else{
+    body+=`<div class="g2"><div class="mrow"><label>${tr('ct_src')}</label>`+
+      `<input id="ctSrc" value="${esc(x?x.src:'')}" placeholder="${tr('ct_src_ph')}"></div>`+
+      `<div class="mrow"><label>${tr('c_date')}</label>`+
+      `<input id="ctD" type="date" value="${esc(x?x.d:todayISO())}"></div></div>`+
+      `<div class="mrow"><label>${tr('ct_url')}</label>`+
+      `<input id="ctUrl" value="${esc(x?(x.url||''):'')}" placeholder="https://"></div>`+
+      `<div class="export-note" style="margin:0 0 14px">${tr('ct_news_acc_h')}</div>`;
+  }
+  body+=`<button class="btn block" onclick="ctSave()">${tr('ct_save')}</button>`;
+  openGen(title,body);
+  if(kind==='library')ctFileLine();
+  if(kind==='gallery')ctPhotoLine();
+}
+function ctSave(){
+  const e=appEv();if(!e)return;
+  const c=ctEnsure(e),kind=ctEditKind;
+  const t=v('ctT').trim();
+  if(!t){alert(tr('ct_needtitle'));return;}
+  let obj;
+  if(kind==='library'){
+    if(!ctFile){alert(tr('ct_needfile'));return;}
+    obj={t:t,by:v('ctBy').trim()||'SVEF',file:ctFile.name,kind:ctFile.kind,size:ctFile.size,acc:v('ctAcc')};
+  }else if(kind==='gallery'){
+    if(!ctPhotos){alert(tr('ct_needphotos'));return;}
+    obj={t:t,n:ctPhotos,acc:v('ctAcc'),note:v('ctNote').trim()};
+  }else{
+    obj={t:t,src:v('ctSrc').trim()||'—',d:v('ctD'),url:v('ctUrl').trim(),acc:'Public'};
+  }
+  if(ctEditIx>=0)c[kind][ctEditIx]=obj;else c[kind].push(obj);
+  closeModal();renderApp();toast(tr('t_ctsaved'));
+}
+
 function appContentHtml(e){
   const c=ctEnsure(e);
   let h=`<div class="panel">`+appHead('ap_tab_content')+
     `<div class="pbody"><div class="export-note">${tr('ct_intro')}</div></div></div>`;
 
-  h+=`<div class="panel">`+appHead('ct_lib_h',`<span class="chip navy">${c.library.length}</span>`)+
+  h+=`<div class="panel">`+appHead('ct_lib_h',
+      `<span class="chip navy">${c.library.length}</span> `+
+      `<button class="btn sm" onclick="ctOpen('library',-1)">${tr('ct_add_lib')}</button>`)+
     `<div class="pbody"><div class="export-note">${tr('ct_lib_note')}</div></div>
     <table><thead><tr><th>${tr('c_title')}</th><th>${tr('ct_by')}</th><th>${tr('ct_kind')}</th>
-      <th>${tr('ct_access')}</th></tr></thead><tbody>`+
+      <th>${tr('ct_access')}</th><th>${tr('c_actions')}</th></tr></thead><tbody>`+
     (c.library.map(function(x,i){
-      return `<tr><td><b style="color:var(--navy)">${esc(x.t)}</b></td><td>${esc(x.by)}</td>
-        <td class="mono">${esc(x.kind)} · ${esc(x.size)}</td><td>${ctAccSelect('library',i,x.acc)}</td></tr>`;
-    }).join('')||`<tr><td colspan="4" class="muted">${tr('ct_none')}</td></tr>`)+
-    `</tbody></table></div>`;
+      return `<tr><td><b style="color:var(--navy)">${esc(x.t)}</b>`+
+        (x.file?`<div class="fm" style="font-weight:400;color:var(--muted)">${esc(x.file)}</div>`:'')+`</td>
+        <td>${esc(x.by)}</td>
+        <td class="mono">${esc(x.kind)} · ${esc(x.size)}</td><td>${ctAccSelect('library',i,x.acc)}</td>
+        <td>${ctRowActs('library',i)}</td></tr>`;
+    }).join('')||`<tr><td colspan="5" class="muted">${tr('ct_none')}</td></tr>`)+
+    `</tbody></table>
+    <div class="pbody"><div class="hint">${tr('ct_lib_acc_h')}</div></div></div>`;
 
-  h+=`<div class="panel">`+appHead('ct_gal_h',`<span class="chip navy">${c.gallery.reduce((a,x)=>a+x.n,0)} photos</span>`)+
+  h+=`<div class="panel">`+appHead('ct_gal_h',
+      `<span class="chip navy">${c.gallery.reduce((a,x)=>a+x.n,0)} photos</span> `+
+      `<button class="btn sm" onclick="ctOpen('gallery',-1)">${tr('ct_add_gal')}</button>`)+
     `<div class="pbody"><div class="export-note">${tr('ct_gal_note')}</div></div>
     <table><thead><tr><th>${tr('ct_album')}</th><th>${tr('ct_photos')}</th><th>${tr('ct_why')}</th>
-      <th>${tr('ct_access')}</th></tr></thead><tbody>`+
+      <th>${tr('ct_access')}</th><th>${tr('c_actions')}</th></tr></thead><tbody>`+
     (c.gallery.map(function(x,i){
       return `<tr><td><b style="color:var(--navy)">${esc(x.t)}</b></td><td class="mono">${x.n}</td>
-        <td class="muted">${esc(x.note||'')}</td><td>${ctAccSelect('gallery',i,x.acc)}</td></tr>`;
-    }).join('')||`<tr><td colspan="4" class="muted">${tr('ct_none')}</td></tr>`)+
+        <td class="muted">${esc(x.note||'')}</td><td>${ctAccSelect('gallery',i,x.acc)}</td>
+        <td>${ctRowActs('gallery',i)}</td></tr>`;
+    }).join('')||`<tr><td colspan="5" class="muted">${tr('ct_none')}</td></tr>`)+
     `</tbody></table></div>`;
 
-  h+=`<div class="panel">`+appHead('ct_news_h',`<span class="chip navy">${c.news.length}</span>`)+
+  h+=`<div class="panel">`+appHead('ct_news_h',
+      `<span class="chip navy">${c.news.length}</span> `+
+      `<button class="btn sm" onclick="ctOpen('news',-1)">${tr('ct_add_news')}</button>`)+
     `<div class="pbody"><div class="export-note">${tr('ct_news_note')}</div></div>
     <table><thead><tr><th>${tr('c_title')}</th><th>${tr('ct_src')}</th><th>${tr('c_date')}</th>
-      <th>${tr('ct_access')}</th></tr></thead><tbody>`+
+      <th>${tr('ct_access')}</th><th>${tr('c_actions')}</th></tr></thead><tbody>`+
     (c.news.map(function(x,i){
-      return `<tr><td><b style="color:var(--navy)">${esc(x.t)}</b></td><td>${esc(x.src)}</td>
-        <td>${fmtD(x.d)}</td><td>${ctAccChip(x.acc)}</td></tr>`;
-    }).join('')||`<tr><td colspan="4" class="muted">${tr('ct_none')}</td></tr>`)+
+      return `<tr><td><b style="color:var(--navy)">${esc(x.t)}</b>`+
+        (x.url?`<div class="fm" style="font-weight:400;color:var(--muted)">${esc(x.url)}</div>`:'')+`</td>
+        <td>${esc(x.src)}</td>
+        <td>${fmtD(x.d)}</td><td>${ctAccChip(x.acc)}</td>
+        <td>${ctRowActs('news',i)}</td></tr>`;
+    }).join('')||`<tr><td colspan="5" class="muted">${tr('ct_none')}</td></tr>`)+
     `</tbody></table></div>`;
   return h;
 }
