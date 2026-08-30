@@ -896,6 +896,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
         <button onclick="openTicket()"><span class="mi" data-ic="ticket" data-ic-size="19"></span><span data-i18n="m_eticket">Thẻ tham dự</span><span class="ch">›</span></button>
         <button onclick="openMyRegs()"><span class="mi" data-ic="receipt" data-ic-size="19"></span><span data-i18n="m_regs">Đăng ký của tôi</span><span class="ch">›</span></button>
         <button onclick="openMe('edit')"><span class="mi" data-ic="edit" data-ic-size="19"></span><span data-i18n="m_edit">Chỉnh sửa hồ sơ</span><span class="ch">›</span></button>
+        <button onclick="openMe('org')"><span class="mi" data-ic="org" data-ic-size="19"></span><span data-i18n="m_org">Doanh nghiệp của tôi</span><span class="ch">›</span></button>
         <button onclick="openMe('history')"><span class="mi" data-ic="clock" data-ic-size="19"></span><span data-i18n="m_history">Lịch sử kết nối</span><span class="ch">›</span></button>
         <button onclick="openMe('privacy')"><span class="mi" data-ic="lock" data-ic-size="19"></span><span data-i18n="m_privacy">Quyền riêng tư & hiển thị</span><span class="ch">›</span></button>
       </div>
@@ -1278,6 +1279,49 @@ const T={
   pv_never_note:"SVEF lưu các thông tin này để liên hệ với bạn khi cần, nhưng không hiển thị trên hồ sơ cá nhân cho người tham dự khác.",
   ev_partner:"Sự kiện đối tác", ev_partner_note:"Sự kiện do đối tác tổ chức. Đăng ký và thông tin chi tiết nằm trên trang của đơn vị tổ chức.",
   ev_partner_go:"Mở trang của đơn vị tổ chức", ev_svef:"Sự kiện SVEF",
+  /* --- 28/08 (June): người tham dự tự nhận doanh nghiệp ------------------- */
+  m_org:"Doanh nghiệp của tôi",
+  oc_sub:"Hồ sơ doanh nghiệp gắn với tên bạn trong ứng dụng.",
+  oc_cur_h:"Doanh nghiệp hiện tại",
+  oc_auto:"Được ghép tự động từ tên công ty trên hồ sơ đăng ký của bạn.",
+  oc_manual:"Do ban thư ký SVEF liên kết theo yêu cầu của bạn.",
+  oc_wrong:"Không phải doanh nghiệp của tôi",
+  oc_none_h:"Chưa liên kết doanh nghiệp nào.",
+  oc_none_b:"Tên công ty trên hồ sơ của bạn ({co}) chưa trùng với hồ sơ doanh nghiệp nào SVEF đang có.",
+  oc_none_plain:"Tên công ty trên hồ sơ của bạn chưa trùng với hồ sơ doanh nghiệp nào SVEF đang có.",
+  oc_link:"Liên kết doanh nghiệp của tôi",
+  oc_pick_h:"Chọn doanh nghiệp",
+  oc_search_ph:"Tìm theo tên doanh nghiệp…",
+  oc_nores:"Không có doanh nghiệp nào khớp với từ khoá này.",
+  oc_notlisted:"Không có trong danh sách",
+  oc_new_h:"Đề nghị SVEF tạo hồ sơ mới",
+  oc_new_l:"Tên doanh nghiệp",
+  oc_new_note:"Ứng dụng không tự tạo hồ sơ doanh nghiệp. Ban thư ký SVEF kiểm tra rồi mới tạo.",
+  oc_back:"Chọn từ danh sách",
+  oc_note_l:"Ghi chú cho ban thư ký (không bắt buộc)",
+  oc_note_ph:"Ví dụ: tôi phụ trách văn phòng đại diện tại Hà Nội.",
+  oc_note_h:"Ghi chú của bạn",
+  oc_send:"Gửi yêu cầu", oc_cancel:"Huỷ",
+  oc_need_pick:"Vui lòng chọn một doanh nghiệp trước khi gửi.",
+  oc_need_name:"Vui lòng nhập tên doanh nghiệp.",
+  oc_st_pending:"Đang chờ SVEF duyệt", oc_st_linked:"Đã được duyệt", oc_st_rejected:"Không được duyệt",
+  oc_pending_b:"Ban thư ký SVEF kiểm tra từng yêu cầu rồi trả lời trong ứng dụng và qua email. Hồ sơ của bạn giữ nguyên cho tới khi được duyệt.",
+  oc_req_h:"Yêu cầu của bạn",
+  oc_asked:"Doanh nghiệp đề nghị", oc_asked_new:"Đề nghị tạo hồ sơ mới",
+  oc_sent_at:"Đã gửi lúc",
+  oc_withdraw:"Rút lại yêu cầu",
+  oc_linked_b:"SVEF đã liên kết bạn với doanh nghiệp này. Hồ sơ của bạn hiển thị doanh nghiệp này ở mọi sự kiện SVEF.",
+  oc_rej_why:"Lý do từ SVEF",
+  oc_rej_b:"Bạn có thể gửi một yêu cầu khác hoặc liên hệ ban thư ký nếu chưa rõ lý do.",
+  oc_again:"Gửi yêu cầu khác",
+  oc_sim:"Ban thư ký duyệt trong hệ thống quản trị. Bản demo này không tự duyệt bất kỳ yêu cầu nào.",
+  oc_edit_on:"Đang liên kết với {o}.",
+  t_oc_sent:"Đã gửi yêu cầu tới ban thư ký SVEF",
+  t_oc_withdrawn:"Đã rút lại yêu cầu liên kết doanh nghiệp",
+  nt_ocsent_t:"Đã gửi yêu cầu liên kết doanh nghiệp",
+  nt_ocsent_b:"Ban thư ký SVEF sẽ kiểm tra yêu cầu liên kết với {o} rồi phản hồi trong ứng dụng và qua email.",
+  nt_ocok_t:"Yêu cầu liên kết đã được duyệt", nt_ocok_b:"Hồ sơ của bạn đã được liên kết với {o}.",
+  nt_ocno_t:"Yêu cầu liên kết không được duyệt", nt_ocno_b:"SVEF chưa duyệt yêu cầu liên kết với {o}. Lý do được ghi trong mục Doanh nghiệp của tôi.",
  },
  en:{
   greet:"Good morning", greet_pm:"Good afternoon", greet_eve:"Good evening", checkedin:"Checked in", ev_ended:"Ended",
@@ -1502,6 +1546,49 @@ const T={
   pv_never_note:"SVEF holds these so it can reach you, but they are never shown on your profile to other attendees.",
   ev_partner:"Partner event", ev_partner_note:"Organised by a partner. Registration and full details live on the organiser\u2019s own site.",
   ev_partner_go:"Open the organiser\u2019s site", ev_svef:"SVEF event",
+  /* --- 28/08 (June): an attendee claiming their own organisation ---------- */
+  m_org:"My organisation",
+  oc_sub:"The organisation profile your name is attached to in the app.",
+  oc_cur_h:"Current organisation",
+  oc_auto:"Matched automatically from the company name on your registration.",
+  oc_manual:"Linked by the SVEF secretariat at your request.",
+  oc_wrong:"This is not my organisation",
+  oc_none_h:"No organisation linked yet.",
+  oc_none_b:"The company name on your record ({co}) does not match any organisation profile SVEF holds.",
+  oc_none_plain:"The company name on your record does not match any organisation profile SVEF holds.",
+  oc_link:"Link my organisation",
+  oc_pick_h:"Pick your organisation",
+  oc_search_ph:"Search by company name…",
+  oc_nores:"No organisation matches that.",
+  oc_notlisted:"Not on the list",
+  oc_new_h:"Ask SVEF to create a profile",
+  oc_new_l:"Organisation name",
+  oc_new_note:"The app never creates an organisation profile by itself. The SVEF secretariat checks the name first.",
+  oc_back:"Pick from the list",
+  oc_note_l:"Note for the secretariat (optional)",
+  oc_note_ph:"For example: I run the Hanoi representative office.",
+  oc_note_h:"Your note",
+  oc_send:"Send request", oc_cancel:"Cancel",
+  oc_need_pick:"Pick an organisation before sending.",
+  oc_need_name:"Please enter the organisation name.",
+  oc_st_pending:"Waiting for SVEF", oc_st_linked:"Approved", oc_st_rejected:"Not approved",
+  oc_pending_b:"The SVEF secretariat checks every request and answers in the app and by email. Nothing on your profile changes until it is approved.",
+  oc_req_h:"Your request",
+  oc_asked:"Organisation requested", oc_asked_new:"New profile proposed",
+  oc_sent_at:"Sent",
+  oc_withdraw:"Withdraw the request",
+  oc_linked_b:"SVEF has linked you to this organisation. Your profile shows it at every SVEF event.",
+  oc_rej_why:"Reason from SVEF",
+  oc_rej_b:"You can send another request, or contact the secretariat if the reason is not clear.",
+  oc_again:"Send another request",
+  oc_sim:"The secretariat approves in the back office. This prototype never approves a request by itself.",
+  oc_edit_on:"Linked to {o}.",
+  t_oc_sent:"Request sent to the SVEF secretariat",
+  t_oc_withdrawn:"Organisation request withdrawn",
+  nt_ocsent_t:"Organisation request sent",
+  nt_ocsent_b:"The SVEF secretariat will check your request to be linked to {o} and answer in the app and by email.",
+  nt_ocok_t:"Organisation request approved", nt_ocok_b:"Your profile is now linked to {o}.",
+  nt_ocno_t:"Organisation request not approved", nt_ocno_b:"SVEF did not approve the link to {o}. The reason is under My organisation.",
  }
 
 };
@@ -1805,6 +1892,29 @@ function memBadge(p,big){
   return `<span class="memb${big?' big':''}" style="color:${t.c}" title="${tx(t)}">`
     +(t.star?`<i>${t.star}</i>`:'')+(big?esc(tx(t)):'')+`</span>`;
 }
+/* 28/08, June: "may an attendee claim their organisation themselves?" The matching
+   above answers the ordinary case and stays the default: nothing here runs unless
+   the attendee asks. What matching cannot do is correct itself. A company typed a
+   little differently never resolves, and a company matched to the wrong record has
+   no way back, and today both are a mail to the secretariat. So the attendee may
+   ASK, and SVEF answers in the back office. Nothing self-approves: an attendee who
+   could link themselves could attach their name to any sponsor on the list, which
+   is exactly what the secretariat is there to prevent.
+   none -> pending -> linked | rejected. A refused request keeps SVEF's reason on
+   screen instead of quietly reverting to none, so the attendee is not left
+   wondering whether it was ever sent. */
+let orgClaim={state:'none', oid:null, newName:'', note:'', at:null, why:null};
+/* Picker state sits outside the record, so an abandoned search leaves nothing behind. */
+let ocMode='', ocPick=null, ocQuery='';
+/* The organisation the app resolves for the attendee right now: the approved link
+   if there is one, otherwise the name match, exactly as for anybody else. */
+function myOrg(){return orgOf(selfPerson());}
+function ocOrg(){return orgClaim.oid?orgById(orgClaim.oid):null;}
+function ocAskedName(){const o=ocOrg();return o?o.n:(orgClaim.newName||'');}
+/* 28/08: once SVEF has approved a link, the organisation record is what the card
+   says, not the free text the person typed months ago. For everybody matched by
+   name the two read the same, so this only shows where a link was granted. */
+function coLabel(p){const o=orgOf(p);return o?o.n:((p&&p.co)||'');}
 /* 2.4 is explicitly unresolved: SVEF has to decide whether only members may book a
    meeting. Rather than guess, the rule is a switch the secretariat sets per event,
    defaulting to what SVEF does today, and the app explains the refusal instead of
@@ -2938,7 +3048,7 @@ function renderPerson(){
   const av=byId('ppAv');av.textContent=p.i;av.style.background=p.c;
   byId('ppName').textContent=p.n;
   const showCoHead=p.self?me.vis.co:true;
-  byId('ppRole').textContent=tx(p.t)+(showCoHead?' · '+p.co:'');
+  byId('ppRole').textContent=tx(p.t)+(showCoHead?' · '+coLabel(p):'');
   const sy=byId('ppSynced');if(sy)sy.textContent=p.self?tr('me_self_note'):tr('synced');
   /* 1.2: say once, in sentence case rather than in the uppercase mono note above,
      that this profile is not per event. It is the whole point of the change. */
@@ -2954,7 +3064,7 @@ function renderPerson(){
      separate, consented act through "Want to connect". */
   byId('ppFacts').innerHTML=fact('pp_title',tx(p.t))
     +(showCo?fact('pp_company',og
-        ? `<a class="lnk" onclick="openOrg('${og.id}')">${esc(p.co)}</a>`
+        ? `<a class="lnk" onclick="openOrg('${og.id}')">${esc(og.n)}</a>`
         : esc(p.co)):'')
     +factRaw(tr('pp_member'),memTierLine(p))
     +(bio?fact('pp_bio',esc(bio)):'')
@@ -3045,6 +3155,129 @@ function wantToConnect(pid){
   toast(trf('t_want',{n:p.n},'btn_want'));
 }
 function explainGate(){toast(tr('cn_blocked'));}
+
+/* --- Claiming an organisation (28/08, June) ----------------------------------
+   Three ways in, one queue out: the automatic match is wrong, the automatic match
+   found nothing, or the company is genuinely not on SVEF's list. The first two end
+   as a request against an existing profile, the third as a proposed name. Both are
+   requests, neither is a change, and the sheet says so on every screen. */
+function ocStart(mode){ocKeepNote();ocMode=mode||'pick';ocPick=null;ocQuery='';renderMeSheet();}
+function ocCancel(){ocMode='';ocPick=null;ocQuery='';renderMeSheet();}
+/* Anything typed survives switching between the list and the proposed name, the
+   same way collectMe() keeps the edit fields across a re-render. */
+function ocKeepNote(){const el=byId('ocNote');if(el)orgClaim.note=el.value.trim();
+  const nm=byId('ocName');if(nm)orgClaim.newName=nm.value.trim();}
+function ocSelect(id){ocPick=id;renderOcList();}
+function ocFilter(q){ocQuery=q;renderOcList();}
+function ocMatches(){
+  const q=ocQuery.trim().toLowerCase();
+  return orgs.filter(o=>!q||o.n.toLowerCase().indexOf(q)>-1||tx(o.hq).toLowerCase().indexOf(q)>-1);
+}
+/* Only the list is redrawn while searching, so the field keeps focus and caret. */
+function renderOcList(){
+  const el=byId('ocList');if(!el)return;
+  const list=ocMatches();
+  el.innerHTML=list.length?list.map(function(o){
+    const on=o.id===ocPick;
+    return `<div class="orgcard" onclick="ocSelect('${o.id}')"${on?' style="border-color:var(--ink)"':''}>`
+      +`<div class="av sm" style="background:${o.c}">${o.i}</div>`
+      +`<div class="meta"><h4>${esc(o.n)} ${memBadge({mem:o.mem})}</h4>`
+      +`<p>${esc(tx(orgTypes[o.type]))} · ${esc(tx(o.hq))}</p></div>`
+      +`<span class="muted">${on?'✓':'\u203a'}</span></div>`;
+  }).join(''):`<div class="note mono">${tr('oc_nores')}</div>`;
+}
+function ocSubmit(){
+  ocKeepNote();
+  let oid=null,nm='';
+  if(ocMode==='new'){
+    nm=orgClaim.newName||'';
+    if(!nm){toast(tr('oc_need_name'));return;}
+  }else{
+    if(!ocPick){toast(tr('oc_need_pick'));return;}
+    oid=ocPick;
+  }
+  const d=todayNum(),t=nowHM();
+  orgClaim={state:'pending',oid:oid,newName:oid?'':nm,note:orgClaim.note||'',
+    at:{vi:d.vi+' · '+t,en:d.en+' · '+t},why:null};
+  ocMode='';ocPick=null;ocQuery='';
+  pushNotif('🏢','var(--gold)','nt_ocsent_t','nt_ocsent_b',{o:ocAskedName()},'reg');
+  renderMeSheet();renderNotif();
+  toast(tr('t_oc_sent'));
+}
+function ocWithdraw(){
+  orgClaim={state:'none',oid:null,newName:'',note:'',at:null,why:null};
+  me.oid=null;renderAll();toast(tr('t_oc_withdrawn'));
+}
+/* What SVEF's answer does when it arrives. The two prototypes are separate files
+   with no server between them, so nothing calls this by itself: this is the one
+   place an approval turns into a link, and a refusal into a reason the attendee
+   can read. In the product it is the push the back office already sends. */
+function ocAnswer(ok,oid,why){
+  if(orgClaim.state!=='pending')return;
+  if(ok){
+    orgClaim.state='linked';orgClaim.oid=oid||orgClaim.oid;orgClaim.why=null;
+    me.oid=orgClaim.oid;
+    pushNotif('🏢','var(--green)','nt_ocok_t','nt_ocok_b',{o:ocAskedName()},'reg');
+  }else{
+    orgClaim.state='rejected';orgClaim.why=why?{vi:why,en:why}:null;
+    pushNotif('🏢','var(--red)','nt_ocno_t','nt_ocno_b',{o:ocAskedName()},'reg');
+  }
+  renderAll();
+}
+/* The "My organisation" view of the profile sheet. */
+function meOrgHtml(){
+  const cur=myOrg(),st=orgClaim.state;
+  let h='';
+  if(ocMode==='pick'||ocMode==='new'){
+    h+=`<div class="sechead">${ocMode==='new'?tr('oc_new_h'):tr('oc_pick_h')}</div>`;
+    if(ocMode==='new'){
+      h+=`<div class="field"><label>${tr('oc_new_l')}</label>`
+        +`<input id="ocName" value="${esc(orgClaim.newName||me.co||'')}"></div>`;
+      h+=`<div class="note">${tr('oc_new_note')}</div>`;
+    }else{
+      h+=`<div class="field"><input id="ocQ" value="${esc(ocQuery)}" `
+        +`placeholder="${tr('oc_search_ph')}" oninput="ocFilter(this.value)"></div>`;
+      h+=`<div id="ocList"></div>`;
+    }
+    h+=`<div class="field" style="margin-top:12px"><label>${tr('oc_note_l')}</label>`
+      +`<textarea id="ocNote" placeholder="${tr('oc_note_ph')}">${esc(orgClaim.note||'')}</textarea></div>`;
+    h+=`<div class="note mono">${tr('oc_sim')}</div>`;
+    h+=`<div class="row" style="margin:6px 16px 0">`
+      +(ocMode==='new'?`<button class="btn ghost" onclick="ocStart('pick')">${tr('oc_back')}</button>`
+                      :`<button class="btn ghost" onclick="ocStart('new')">${tr('oc_notlisted')}</button>`)
+      +`<button class="btn" onclick="ocSubmit()">${tr('oc_send')}</button></div>`;
+    h+=`<div style="padding:8px 16px 0"><button class="btn ghost" onclick="ocCancel()">${tr('oc_cancel')}</button></div>`;
+    return h;
+  }
+  /* What the app resolves today, which a pending request does not change. */
+  h+=`<div class="sechead">${tr('oc_cur_h')}</div>`;
+  h+=cur?orgCard(cur)+`<div class="note mono">${me.oid?tr('oc_manual'):tr('oc_auto')}</div>`
+        :`<div class="note"><b>${tr('oc_none_h')}</b><br>${trf('oc_none_b',{co:me.co},'oc_none_plain')}</div>`;
+  if(st==='pending'||st==='linked'||st==='rejected'){
+    const asked=ocOrg();
+    h+=`<div class="sechead">${tr('oc_req_h')}</div>`;
+    h+=`<div class="mstatus ${st==='linked'?'ok':(st==='rejected'?'bad':'wait')}">${tr('oc_st_'+st)}</div>`;
+    h+=`<div class="facts">`
+      +factRaw(asked?tr('oc_asked'):tr('oc_asked_new'),esc(asked?asked.n:orgClaim.newName))
+      +(orgClaim.note?factRaw(tr('oc_note_h'),esc(orgClaim.note)):'')
+      +(orgClaim.why?factRaw(tr('oc_rej_why'),esc(tx(orgClaim.why))):'')
+      +factRaw(tr('oc_sent_at'),esc(tx(orgClaim.at)))+`</div>`;
+  }
+  if(st==='pending'){
+    h+=`<div class="note">${tr('oc_pending_b')}</div>`;
+    h+=`<div class="note mono">${tr('oc_sim')}</div>`;
+    h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="ocWithdraw()">${tr('oc_withdraw')}</button></div>`;
+  }else if(st==='rejected'){
+    h+=`<div class="note">${tr('oc_rej_b')}</div>`;
+    h+=`<div style="padding:6px 16px 0"><button class="btn" onclick="ocStart('pick')">${tr('oc_again')}</button></div>`;
+  }else if(st==='linked'){
+    h+=`<div class="note">${tr('oc_linked_b')}</div>`;
+    h+=`<div style="padding:6px 16px 0"><button class="btn ghost" onclick="ocStart('pick')">${tr('oc_wrong')}</button></div>`;
+  }else{
+    h+=`<div style="padding:6px 16px 0"><button class="btn${cur?' ghost':''}" onclick="ocStart('pick')">${cur?tr('oc_wrong'):tr('oc_link')}</button></div>`;
+  }
+  return h;
+}
 
 /* ===================== MESSAGES / CHAT ===================== */
 function chatPreview(pid){
@@ -3280,7 +3513,7 @@ function meTitle(){return (me.t&&typeof me.t==='object')?tx(me.t):(me.t||'');}
 function meBio(){return (me.bio&&typeof me.bio==='object')?tx(me.bio):(me.bio||'');}
 function selfPerson(){
   return {id:0,self:true,n:me.n,i:me.i,c:me.c,co:me.co,e:me.e,ind:me.ind,mkts:me.mkts,
-          t:me.t,cod:me.cod,bio:me.bio,h:me.h};
+          oid:me.oid,t:me.t,cod:me.cod,bio:me.bio,h:me.h};
 }
 
 /* ===================== CONNECTION HISTORY ===================== */
@@ -3694,7 +3927,7 @@ function lockRow(label,val){
 function renderMeSheet(){
   const body=byId('meBody');if(!body)return;
   collectMe();   // keep anything typed when the sheet re-renders (language switch)
-  const T2={edit:'m_edit',privacy:'m_privacy',history:'m_history',notif:'m_notif',help:'m_help'};
+  const T2={edit:'m_edit',org:'m_org',privacy:'m_privacy',history:'m_history',notif:'m_notif',help:'m_help'};
   byId('meTitle').textContent=tr(T2[meView]||'m_edit');
   const sub=byId('meSub');
   let h='';
@@ -3703,6 +3936,12 @@ function renderMeSheet(){
     h+=`<div class="field"><label>${tr('f_name')}</label><input data-me="n" value="${esc(me.n)}"></div>`;
     h+=`<div class="field"><label>${tr('f_title')}</label><input data-me="t" value="${esc(meTitle())}"></div>`;
     h+=`<div class="field"><label>${tr('f_company')}</label><input data-me="co" value="${esc(me.co)}"></div>`;
+    /* 28/08, June: the company field is free text, so say what it currently resolves
+       to and give the attendee the one route to argue with it. */
+    const myO=myOrg();
+    h+=`<div class="note mono">${myO?trf('oc_edit_on',{o:myO.n},'oc_cur_h'):tr('oc_none_plain')}</div>`;
+    h+=`<div style="padding:0 16px 12px"><button class="btn ghost" onclick="openMe('org')">${tr('m_org')}`
+      +(orgClaim.state==='pending'?' · '+tr('oc_st_pending'):'')+`</button></div>`;
     h+=`<div class="field"><label>${tr('f_email')}</label><input data-me="e" type="email" value="${esc(me.e)}"></div>`;
     h+=`<div class="field"><label>${tr('me_bio')}</label><textarea data-me="bio">${esc(meBio())}</textarea></div>`;
     h+=`<div class="sechead">${tr('me_handles_l')}</div>`;
@@ -3715,6 +3954,10 @@ function renderMeSheet(){
     h+=`<div class="row" style="margin:6px 16px 0">
       <button class="btn ghost" onclick="closeSheet();openPerson(0)">${tr('me_preview')}</button>
       <button class="btn" onclick="meSave()">${tr('bk_save')}</button></div>`;
+  }else if(meView==='org'){
+    sub.textContent=tr('oc_sub');
+    ocKeepNote();   // same reason as collectMe above: a language switch re-renders
+    h+=meOrgHtml();
   }else if(meView==='privacy'){
     sub.textContent='';
     h+=`<div class="note">${tr('pv_note')}</div>`;
@@ -3774,6 +4017,7 @@ function renderMeSheet(){
       <button class="btn dark" onclick="closeSheet();openMe('notif')">${tr('m_notif')}</button></div>`;
   }
   body.innerHTML=h;byId('sheetMe').scrollTop=0;
+  if(meView==='org'&&ocMode==='pick')renderOcList();
 }
 
 /* ===================== QR CONNECT =====================
@@ -3852,7 +4096,7 @@ function renderAll(){
 function renderProfileHead(){
   const av=byId('pfAv');if(av){av.textContent=me.i;av.style.background=me.c;}
   const nm=byId('pfName');if(nm)nm.textContent=me.n;
-  const rl=byId('pfRole');if(rl)rl.textContent=meTitle()+(me.vis.co?' · '+me.co:'');
+  const rl=byId('pfRole');if(rl)rl.textContent=meTitle()+(me.vis.co?' · '+coLabel(selfPerson()):'');
   const st=byId('pfStats');
   if(st)st.innerHTML=`<div><b>${connections.length}</b><span>${tr('st_conn')}</span></div>`
     +`<div><b>${saved.size}</b><span>${tr('st_sess')}</span></div>`
@@ -3952,6 +4196,7 @@ const ICON_PATHS={
   exit:'<path d="M14.5 4.5H6a1.5 1.5 0 0 0-1.5 1.5v12A1.5 1.5 0 0 0 6 19.5h8.5"/><path d="M17 8.5 20.5 12 17 15.5M20.5 12h-9"/>',
   receipt:'<path d="M6 3.5h12v17l-2.4-1.6-2.4 1.6-2.4-1.6-2.4 1.6L6 20.5z"/><path d="M9.2 8.5h5.6M9.2 12.5h5.6"/>',
   search:'<circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.4 15.4 4.1 4.1"/>',
+  org:'<path d="M4 20.5V6.4L12 3.6v16.9"/><path d="M12 10h7.5v10.5"/><path d="M7 8.6h2M7 12h2M7 15.4h2M15 13.4h2M15 16.8h2"/><path d="M2.5 20.5h19"/>',
   grid:'<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9h17M3.5 13h17M3.5 17h17"/>',
   signal:'<path d="M4 20v-4M9.3 20v-8M14.7 20v-12M20 20V4"/>',
   battery:'<rect x="2.5" y="8" width="16" height="8" rx="2"/><path d="M21 11v2"/><rect x="4.8" y="10.3" width="10" height="3.4" fill="currentColor" stroke="none"/>'

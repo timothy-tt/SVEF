@@ -55,6 +55,54 @@ says so, which is the redirect that was asked for.
 | Company shown under each name on both sides of a meeting | Built | Back office meeting table |
 | Meeting topic | Not built | June's note: not needed now. Deferred. |
 | Where the pair will meet | Built, and queried | Free text the two attendees agree between themselves, empty until they settle it. The system allocates nothing, per 25/08 item 2.2. June asked on 28/08 whether it should be shown at all; awaiting SVEF. |
+| An attendee claims their own organisation | Built | App → Profile → My organisation; back office → Memberships → Organisation claims |
+
+**Claiming an organisation. Built 31/08, answering June's question of 28/08.**
+An attendee may now ask to be attached to an organisation profile, and SVEF answers
+in the back office. The automatic match is untouched and stays the default: a
+registrant is still resolved to an organisation by their company name, normalised
+the way the Wix import normalises it, and the common case needs nobody to do
+anything. What the attendee gained is the two things matching cannot do for itself.
+If the match is wrong, App → Profile → **My organisation** shows which organisation
+they are attached to, says it was matched from what they typed, and offers a quiet
+"this is not my organisation". If nothing matched, the same screen says so, names
+the company text that failed to match, and offers to pick the right one from the
+list. A company SVEF holds no profile for at all can be submitted as a proposed
+name, and nothing is created from it: SVEF creates the profile when it approves.
+
+Submitting sets a **pending** state and changes nothing else. The states are none,
+pending, linked and rejected, all four are on screen, and a refused request keeps
+SVEF's written reason rather than reverting to none and leaving the attendee to
+guess. The attendee can withdraw a request while it is waiting, and can ask again
+after a refusal.
+
+The queue is in the back office under **Memberships**, not under Speakers &
+Organisations, because a claim does not change what an organisation record says, it
+changes what an account holds: approving one gives the account a company profile
+beside the personal one, which is BR-W-04 and the Profiles column of that table.
+The queue shows who asked, their email, the company text on their record, what they
+asked for or the name they proposed, their note and when it arrived. Approving lets
+the operator confirm or correct the organisation before linking, and creates the
+profile when the request was for a new one. Rejecting requires a reason, because
+that reason is what the attendee reads. Handled claims stay listed with their
+outcome. The manual link and unlink stays as well, on every row of the memberships
+table: hand-fixing an attendee whose typed company never matched is what the
+secretariat does today, it is faster than waiting for the attendee to notice, and
+taking it away would have been a step backwards. A link set by hand overrides the
+name match; clearing it hands the account back to the automatic one.
+
+Four things this deliberately did not do. There is no **evidence** attached to a
+claim, no work-email domain rule and no uploaded business card: SVEF checks by
+hand, as it does now, and a domain rule would misfire on the free webmail addresses
+in the current registration list. Approving does **not** rewrite the company text
+the attendee typed on their registration, so exports still show what they actually
+wrote. A claim from an email with no membership account is linked on the claim
+record and the back office says plainly that no account exists on that address yet,
+which is the one seam where registrants and accounts still fail to meet, and it
+sits next to open question 2. And the two prototypes are separate files with no
+server between them, so an approval does not travel from the back office into the
+app by itself; both sides carry the whole state machine and the app has one entry
+point that the real push would call.
 
 ### 1.3 Content
 
@@ -176,17 +224,8 @@ demo rather than in a document.
 4. **Partner event minimum fields.** The demo asks for name, organiser, link,
    description, dates and a cover image. If SVEF wants more, that is a change to one
    form.
-5. **May an attendee claim their organisation themselves?** (28/08) An account can
-   already hold a personal and a company profile side by side in the back office
-   (BR-W-04), and a registrant is matched to an organisation automatically by
-   company name, normalised, both in the app and in the Wix import. What does not
-   exist is a self-service "this is my company" action in the app: an attendee
-   cannot attach themselves to an organisation profile, and an unmatched company
-   stays as the free text they typed. Whether that stays a secretariat job or
-   becomes a request the attendee raises is undecided, and it sits next to question
-   2 above.
-6. **Should the meeting place line be shown at all?** (28/08) See 1.2.
-7. **Whether the business directory joins the app.** Linh's directory
+5. **Should the meeting place line be shown at all?** (28/08) See 1.2.
+6. **Whether the business directory joins the app.** Linh's directory
    (`svefzurich2026-delegatory.netlify.app`) overlaps with the organisation profiles
    built here. Raised on 25/08 and not resolved; the two should not both exist.
 

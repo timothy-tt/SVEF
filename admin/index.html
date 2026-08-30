@@ -654,13 +654,19 @@ tr:hover .pic::before{filter:none}
     </div>
 
     <!-- ===== MEMBERS ===== -->
+    <!-- Organisation claims sit here rather than under Speakers & Organisations:
+         what a claim changes is what an ACCOUNT holds, not what an organisation
+         record says. Approving one gives the account a company profile beside the
+         personal one, which is the "Profiles" column of the table below and
+         BR-W-04 itself. See the module comment next to renderOrgClaims(). -->
     <div class="view" id="v-members">
+      <div id="ocPane"></div>
       <div class="panel">
         <div class="phead"><h2 data-i18n="h_members">Memberships &amp; roles</h2><div class="sp"></div>
           <button class="btn line sm" onclick="openImport('members')" data-i18n="b_import">⬆ Import list</button>
           <button class="btn ghost sm" onclick="exportData('members')" data-i18n="b_export">⬇ Export CSV</button>
           <button class="btn sm" onclick="openMemberA()" data-i18n="b_addmember">＋ Add member</button></div>
-        <table><thead><tr><th data-i18n="c_account">Account (email)</th><th data-i18n="c_profiles">Profiles</th><th data-i18n="c_role">Role</th><th data-i18n="c_access">Access</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="memberTable"></tbody></table>
+        <table><thead><tr><th data-i18n="c_account">Account (email)</th><th data-i18n="c_profiles">Profiles</th><th data-i18n="c_org">Organisation</th><th data-i18n="c_role">Role</th><th data-i18n="c_access">Access</th><th data-i18n="c_actions">Actions</th></tr></thead><tbody id="memberTable"></tbody></table>
         <div class="pbody"><div class="export-note" data-i18n="mem_note">🔑 One account can hold multiple profiles (personal + company). The “Profiles” column shows how many are linked to a single email (BRD BR-W-04).</div></div>
       </div>
     </div>
@@ -929,6 +935,39 @@ const T={
   imp_note:"Existing records are matched by email or organisation name and updated rather than duplicated (BRD BR-W-19).",
   rep_lists:"⬆ Uploading a list is done where the data lives: use the “Import list” button in the Partners section or in the Memberships section. Reports is for exporting only.",
   mem_note:"🔑 One account can hold multiple profiles (personal + company). The “Profiles” column shows how many are linked to a single email (BRD BR-W-04).",
+  /* ---- organisation claims (28/08, June) ---- */
+  oc_h:"Organisation claims",
+  oc_note:"🏢 An attendee whose company name did not match, or matched the wrong record, asks in the app to be attached to an organisation profile. Nothing is linked until it is approved here. Approving adds a company profile to that account beside the personal one (BRD BR-W-04).",
+  oc_none:"No organisation claims waiting.",
+  oc_done_h:"Decisions already made",
+  oc_c_who:"Requested by",oc_c_asks:"Asks to be linked to",oc_c_note:"Note to the secretariat",oc_c_when:"Requested",
+  oc_c_org:"Organisation",oc_c_reason:"Reason",
+  oc_typed:"Typed on their record",oc_newprof:"New profile proposed",
+  oc_appr:"Approve",oc_rej:"Reject",
+  oc_appr_t:"Approve organisation claim",
+  oc_appr_h:"The attendee asked for the organisation shown. Change it if they picked the wrong record.",
+  oc_appr_note:"⚠ Check the person really represents this organisation before approving. A membership tier and the organisation's contact details ride on the link.",
+  oc_appr_go:"Approve and link",
+  oc_create:"＋ Create a new organisation profile",
+  oc_rej_t:"Reject organisation claim",
+  oc_rej_h:"The attendee sees this reason in the app, so write it for them rather than for the file.",
+  oc_rej_ph:"For example: the organisation confirmed you are not on its delegation.",
+  oc_rej_go:"Reject with this reason",
+  oc_needreason:"Please write a reason. The attendee is shown it.",
+  oc_st_Pending:"Waiting",oc_st_Linked:"Linked",oc_st_Rejected:"Rejected",
+  t_ocappr:"Attendee linked to the organisation",
+  t_ocnew:"Organisation profile created and linked. Complete it under Speakers & Organisations.",
+  t_ocrej:"Claim rejected. The attendee sees the reason in the app.",
+  t_ocnoacct:"Claim approved, but no membership account exists on that email yet.",
+  /* ---- manual link / unlink, the fallback that stays ---- */
+  mo_t:"Organisation link",
+  mo_sub:"Which organisation profile this account belongs to. Left alone, the account is matched on its company name, normalised the same way the Wix import matches.",
+  mo_none:"No organisation linked",
+  mo_auto:"matched on name",mo_manual:"linked by hand",mo_unmatched:"no match",
+  mo_h:"Setting an organisation here overrides the name match. Clearing it hands the account back to the automatic match.",
+  mo_save:"Save link",mo_unlink:"Unlink",
+  mo_btn:"Organisation",
+  t_molink:"Account linked to the organisation",t_mounlink:"Organisation link removed",
   rep_intro:"Export to Excel/CSV for reporting. Confidential fields such as passwords are always excluded (BRD BR-W-18 / §11.2).",
   rep_note:"🔒 Data-protection note: Exports comply with GDPR handling between Switzerland/Europe and Vietnam. No passwords or sensitive personal identifiers are included in any export file.",
   b_viewall:"View all →",b_save:"💾 Save & publish",b_preview:"👁 Preview",b_newart:"＋ New article",b_export:"⬇ Export CSV",b_addpartner:"＋ Add partner",b_addmember:"＋ Add member",b_import:"⬆ Import list",b_newev:"＋ Create Event",
@@ -1075,6 +1114,28 @@ let members=[
   profiles:[{n:"Newsletter subscriber",t:"Individual",st:"Active"}]},
  {e:"m.rossi@example.ch",role:"Strategic Partner",access:"Full partner access",susp:false,
   profiles:[{n:"Marco Rossi",t:"Individual",st:"Active"}]},
+ {e:"khoi.do@example.vn",role:"Subscriber",access:"Information only",susp:false,
+  profiles:[{n:"Đỗ Minh Khôi",t:"Individual",st:"Active"},{n:"Nam Long Textiles",t:"Company",st:"Pending"}]},
+];
+/* Organisation claims raised from the app (28/08, June). Seeded with the three
+   shapes the queue actually receives: a company name that never matched, a name
+   that matched the wrong record, and a company SVEF holds no profile for at all.
+   The handled one is kept so the decision, and the reason the attendee was given,
+   stay readable after the fact. Handled by the module below, next to Memberships. */
+let orgClaims=[
+ {id:"oc-1", who:"Marco Rossi", em:"m.rossi@example.ch", typed:"Alpine Advisory Zürich",
+  orgId:"og-alpine", newName:"", at:"28 Aug 2026 14:21", st:"Pending", why:"", done:"",
+  note:"I am a partner at Alpine Advisory. The Zurich office is the same firm as the Biel one on your list."},
+ {id:"oc-2", who:"Nguyễn Thu Hà", em:"info@example.vn", typed:"GreenTech Vietnam",
+  orgId:"og-mekong", newName:"", at:"29 Aug 2026 08:47", st:"Pending", why:"", done:"",
+  note:"I moved to Mekong Digital in July. My registration still carries my old employer."},
+ {id:"oc-3", who:"Đỗ Minh Khôi", em:"khoi.do@example.vn", typed:"Nam Long Textiles",
+  orgId:"", newName:"Nam Long Textiles JSC", at:"29 Aug 2026 16:03", st:"Pending", why:"", done:"",
+  note:"First time at an SVEF event, so there is no profile for us yet."},
+ {id:"oc-0", who:"Phạm Văn Sơn", em:"son.pham@example.vn", typed:"UBS Vietnam desk",
+  orgId:"og-ubs", newName:"", at:"27 Aug 2026 11:05", st:"Rejected", done:"27 Aug 2026 15:40",
+  why:"UBS confirmed its Hanoi delegation list does not include this attendee. Please register under your own employer.",
+  note:"I work with the UBS desk in Hanoi."},
 ];
 /* ===== Shared libraries (25/08 meeting, 1.2) =================================
    "Tạo profile 1 lần, dùng lại cho mọi event." Speakers and organisations used to
@@ -1370,12 +1431,15 @@ function partnerRow(p,i){return `<tr><td><div class="namecell">${av(p)}<b>${esc(
   <td><div class="act-btns"><button class="btn ghost sm" onclick="openPartnerA(${i},true)">${tr('d_view')}</button><button class="btn line sm" onclick="openPartnerA(${i})">${tr('d_edit')}</button><button class="btn line sm" onclick="delPartnerA(${i})" aria-label="Remove">🗑</button></div></td></tr>`}
 
 function memberRow(m,i){
-  const np=(m.profiles||[]).length;
+  const np=(m.profiles||[]).length,o=memberOrg(m);
   return `<tr><td><b style="color:var(--navy)">${esc(m.e)}</b></td>`+
    `<td><span class="chip ${np>1?'navy':''}">${np} ${profWord(np)}</span></td>`+
+   `<td>${o?`${esc(o.n)}<div class="muted" style="font-size:12px">${m.orgId?tr('mo_manual'):tr('mo_auto')}</div>`
+          :`<span class="muted">${tr('mo_unmatched')}</span>`}</td>`+
    `<td>${esc(m.role)}</td>`+
    `<td class="${m.susp?'':'muted'}">${m.susp?`<span class="chip red">${tr('d_suspended')}</span>`:esc(m.access)}</td>`+
    `<td><div class="act-btns wrap"><button class="btn ghost sm" onclick="openProfiles(${i})">${tr('d_viewprof')}</button>`+
+   `<button class="btn line sm" onclick="openMemberOrg(${i})">${tr('mo_btn')}</button>`+
    `<button class="btn line sm" onclick="openRole(${i})">${tr('d_chrole')}</button>`+
    `<button class="btn line sm" onclick="toggleSuspend(${i})">${m.susp?tr('d_reactivate'):tr('d_suspend')}</button></div></td></tr>`;
 }
@@ -1446,6 +1510,7 @@ function renderAll(){
   document.getElementById('dashPartners').innerHTML=partners.slice(0,4).map(p=>
     `<tr><td><div class="namecell">${av(p)}<b>${esc(p.n)}</b></div></td><td>${esc(p.type)}</td><td>${esc(p.market)}</td><td>${esc(p.joined)}</td><td>${stChip(p.status)}</td></tr>`).join('');
   renderMembers();
+  renderOrgClaims();
   renderPubEvents();
   renderNews();
   document.getElementById('cmsList').innerHTML=cmsPages.map((p,i)=>`<button class="${i===1?'on':''}" onclick="pickCms(this,'${esc(p).replace(/'/g,'&#39;')}')">${esc(p)}</button>`).join('');
@@ -1627,6 +1692,174 @@ function toggleSuspend(i){
   const m=members[i];
   if(!confirm(m.susp?tr('q_reactivate'):tr('q_suspend')))return;
   m.susp=!m.susp;renderMembers();toast(m.susp?tr('t_susp'):tr('t_react'));
+}
+
+/* ===== ORGANISATION CLAIMS AND THE ORGANISATION LINK (28/08, June) ==========
+   June's question was whether an attendee may claim their own organisation. The
+   answer built here is: they may ASK, SVEF answers. The app never links anybody,
+   because an attendee who could link themselves could put their name under any
+   sponsor on the list.
+   Why this module lives in Memberships and not in Speakers & Organisations: a
+   claim does not change the organisation record, it changes what an ACCOUNT holds.
+   Approving one gives the account a company profile next to the personal one,
+   which is BR-W-04 and the "Profiles" column of the table above. The organisation
+   library stays the place where the organisation itself is written.
+   The manual link stays too. Hand-fixing an attendee whose typed company never
+   matched is what the secretariat does today, it is faster than waiting for the
+   attendee to notice, and taking it away would be a step backwards. */
+function orgClaimById(id){return orgClaims.find(c=>c.id===id)||null;}
+/* Automatic first, exactly like the app and the Wix importer: an account resolves
+   on its company profile name unless somebody has linked it by hand. */
+function memberOrg(m){
+  if(!m)return null;
+  if(m.orgId)return orgLibById(m.orgId);
+  const c=(m.profiles||[]).find(p=>p.t==='Company');
+  return c?orgByCoName(c.n):null;
+}
+function memberByEmail(em){
+  return members.find(m=>m.e.toLowerCase()===String(em||'').toLowerCase())||null;
+}
+function nowLabel(){
+  const d=new Date(),p=n=>String(n).padStart(2,'0');
+  return fmtD(todayISO())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function ocStChip(st){
+  const cls={Pending:'pend',Linked:'green',Rejected:'red'}[st]||'';
+  return `<span class="chip ${cls}">${tr('oc_st_'+st)}</span>`;
+}
+function ocWhoCell(c){
+  return `<b style="color:var(--navy)">${esc(c.who)}</b>
+    <div class="muted" style="font-size:12px">${esc(c.em)}</div>
+    <div class="muted" style="font-size:12px">${tr('oc_typed')}: ${esc(c.typed||'')}</div>`;
+}
+function ocAsksCell(c){
+  const o=c.orgId?orgLibById(c.orgId):null;
+  if(o)return `${esc(o.n)}<div class="muted" style="font-size:12px">${esc(o.tier)}</div>`;
+  return `<span class="chip pend">${tr('oc_newprof')}</span>
+    <div style="margin-top:4px">${esc(c.newName||'')}</div>`;
+}
+function renderOrgClaims(){
+  const el=document.getElementById('ocPane');if(!el)return;
+  const open=orgClaims.filter(c=>c.st==='Pending'),done=orgClaims.filter(c=>c.st!=='Pending');
+  const rows=open.map(function(c){
+    return `<tr><td>${ocWhoCell(c)}</td>`+
+      `<td>${ocAsksCell(c)}</td>`+
+      `<td class="muted" style="font-size:12px">${esc(c.note||'')}</td>`+
+      `<td class="mono">${esc(c.at)}</td>`+
+      `<td class="right"><div class="act-btns"><button class="btn sm" onclick="approveOrgClaim('${c.id}')">${tr('oc_appr')}</button>`+
+      `<button class="btn line sm" onclick="rejectOrgClaim('${c.id}')">${tr('oc_rej')}</button></div></td></tr>`;
+  }).join('');
+  let h=`<div class="panel">`+
+    panelHead(tr('oc_h'),`<span class="chip ${open.length?'pend':''}">${open.length}</span>`)+
+    `<div class="pbody"><div class="export-note">${tr('oc_note')}</div></div>`;
+  h+=rows
+    ? `<table><thead><tr><th>${tr('oc_c_who')}</th><th>${tr('oc_c_asks')}</th><th>${tr('oc_c_note')}</th>
+        <th>${tr('oc_c_when')}</th><th></th></tr></thead><tbody>${rows}</tbody></table>`
+    : `<div class="pbody" style="padding-top:0"><div class="emptyline">${tr('oc_none')}</div></div>`;
+  h+=`</div>`;
+  /* A refused claim keeps its reason on screen, because that reason is what the
+     attendee is reading in the app and the secretariat is asked about it. */
+  if(done.length){
+    const drows=done.map(function(c){
+      const o=c.orgId?orgLibById(c.orgId):null;
+      return `<tr><td>${ocWhoCell(c)}</td>`+
+        `<td>${o?esc(o.n):esc(c.newName||'')}</td>`+
+        `<td>${ocStChip(c.st)}</td>`+
+        `<td class="muted" style="font-size:12px">${esc(c.why||'')}</td>`+
+        `<td class="mono">${esc(c.done||c.at)}</td></tr>`;
+    }).join('');
+    h+=`<div class="panel">`+panelHead(tr('oc_done_h'),'')+
+      `<table><thead><tr><th>${tr('oc_c_who')}</th><th>${tr('oc_c_org')}</th><th>${tr('c_status')}</th>
+        <th>${tr('oc_c_reason')}</th><th>${tr('oc_c_when')}</th></tr></thead><tbody>${drows}</tbody></table></div>`;
+  }
+  el.innerHTML=h;
+}
+function ocSummary(c){
+  return `<p class="muted" style="margin-top:0;font-size:13px">${esc(c.who)} · ${esc(c.em)}</p>`+
+    `<div class="mrow"><label>${tr('oc_typed')}</label><input value="${esc(c.typed||'')}" disabled></div>`+
+    (c.note?`<div class="mrow"><label>${tr('oc_c_note')}</label><textarea rows="2" disabled>${esc(c.note)}</textarea></div>`:'');
+}
+function approveOrgClaim(id){
+  const c=orgClaimById(id);if(!c)return;
+  openGen(tr('oc_appr_t'),
+    ocSummary(c)+
+    `<div class="mrow"><label>${tr('oc_c_org')}</label><select id="ocSel">`+
+      (c.newName?`<option value="__new__"${c.orgId?'':' selected'}>${tr('oc_create')}: ${esc(c.newName)}</option>`:'')+
+      orgLib.map(o=>`<option value="${o.id}"${o.id===c.orgId?' selected':''}>${esc(o.n)}</option>`).join('')+
+    `</select><div class="hint">${tr('oc_appr_h')}</div></div>`+
+    `<div class="export-note" style="margin:0 0 14px">${tr('oc_appr_note')}</div>`+
+    `<button class="btn block" onclick="confirmOrgClaim('${c.id}')">${tr('oc_appr_go')}</button>`);
+}
+function confirmOrgClaim(id){
+  const c=orgClaimById(id);if(!c)return;
+  let oid=v('ocSel'),made=false;
+  /* A proposed name is created here and nowhere else: the attendee asked for a
+     profile, SVEF is the one that makes it, and it lands in the same library the
+     rest of the organisations live in, empty enough to be obviously unfinished. */
+  if(oid==='__new__'){
+    const rec={id:'og-'+(++evSeq),n:c.newName,type:'Company',tier:'Guest',hq:'',sector:'',
+      staff:'',about:'',web:'',em:'',tel:''};
+    orgLib.push(rec);oid=rec.id;made=true;
+  }
+  c.orgId=oid;c.st='Linked';c.why='';c.done=nowLabel();
+  const linked=linkMemberOrg(c.em,oid);
+  closeGen();renderOrgClaims();renderMembers();renderLibrary();
+  toast(made?tr('t_ocnew'):(linked?tr('t_ocappr'):tr('t_ocnoacct')));
+}
+function rejectOrgClaim(id){
+  const c=orgClaimById(id);if(!c)return;
+  openGen(tr('oc_rej_t'),
+    ocSummary(c)+
+    `<div class="mrow"><label>${tr('oc_c_reason')}</label>`+
+    `<textarea id="ocWhy" rows="3" placeholder="${tr('oc_rej_ph')}"></textarea>`+
+    `<div class="hint">${tr('oc_rej_h')}</div></div>`+
+    `<button class="btn block" onclick="confirmRejectOrgClaim('${c.id}')">${tr('oc_rej_go')}</button>`);
+}
+function confirmRejectOrgClaim(id){
+  const c=orgClaimById(id);if(!c)return;
+  const why=v('ocWhy').trim();
+  if(!why){toast(tr('oc_needreason'));document.getElementById('ocWhy').focus();return;}
+  c.st='Rejected';c.why=why;c.done=nowLabel();
+  closeGen();renderOrgClaims();toast(tr('t_ocrej'));
+}
+/* BR-W-04: the link is what gives an account a company profile beside the personal
+   one, so approving a claim and linking by hand end in the same place. The profile
+   added this way is marked, so unlinking can take back exactly what linking added
+   and leave a profile the member registered with alone. */
+function linkMemberOrg(em,oid){
+  const m=memberByEmail(em),o=orgLibById(oid);
+  if(!m||!o)return false;
+  m.orgId=oid;
+  if(!(m.profiles||[]).some(p=>p.t==='Company'&&normCo(p.n)===normCo(o.n)))
+    (m.profiles=m.profiles||[]).push({n:o.n,t:'Company',st:'Active',via:'link'});
+  return true;
+}
+function openMemberOrg(i){
+  const m=members[i],cur=memberOrg(m);
+  openGen(tr('mo_t'),
+    `<p class="muted" style="margin-top:0;font-size:13px">${tr('mo_sub')}</p>`+
+    `<p style="font-size:13px;margin:0 0 12px"><b style="color:var(--navy)">${esc(m.e)}</b></p>`+
+    `<div class="mrow"><label>${tr('c_org')}</label><select id="moSel">`+
+      `<option value="">${tr('mo_none')}</option>`+
+      orgLib.map(o=>`<option value="${o.id}"${cur&&o.id===cur.id?' selected':''}>${esc(o.n)}</option>`).join('')+
+    `</select><div class="hint">${tr('mo_h')}</div></div>`+
+    `<button class="btn block" onclick="saveMemberOrg(${i})">${tr('mo_save')}</button>`+
+    (m.orgId?`<button class="btn ghost block" style="margin-top:8px" onclick="unlinkMemberOrg(${i})">${tr('mo_unlink')}</button>`:''));
+}
+function saveMemberOrg(i){
+  const id=v('moSel');
+  if(!id){unlinkMemberOrg(i);return;}
+  linkMemberOrg(members[i].e,id);
+  closeGen();renderMembers();toast(tr('t_molink'));
+}
+/* Unlinking removes the override and the profile the link added, and hands the
+   account back to the name match. Decisions already taken stay in the queue's
+   history: this undoes the link, not the fact that SVEF once agreed to it. */
+function unlinkMemberOrg(i){
+  const m=members[i];
+  m.orgId=null;
+  m.profiles=(m.profiles||[]).filter(p=>p.via!=='link');
+  closeGen();renderMembers();toast(tr('t_mounlink'));
 }
 
 /* ===== IMPORT LIST (partners / memberships) ===== */
