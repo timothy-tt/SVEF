@@ -54,7 +54,7 @@ says so, which is the redirect that was asked for.
 | Connect with an **organisation**, not just a person | Built | Organisation profiles, person ⇄ company both ways, request contact |
 | Company shown under each name on both sides of a meeting | Built | Back office meeting table |
 | Meeting topic | Not built | June's note: not needed now. Deferred. |
-| Where the pair will meet | Built, and queried | Free text the two attendees agree between themselves, empty until they settle it. The system allocates nothing, per 25/08 item 2.2. June asked on 28/08 whether it should be shown at all; awaiting SVEF. |
+| Where the pair will meet | Built, unchanged | Free text the two attendees agree between themselves, empty until they settle it. The system allocates nothing and states nothing, per 25/08 item 2.2. June asked on 28/08 whether it needs showing at all; answered 31/08 and left as it stands, since the app only ever echoes what the pair wrote. |
 | An attendee claims their own organisation | Built | App → Profile → My organisation; back office → Memberships → Organisation claims |
 
 **Claiming an organisation. Built 31/08, answering June's question of 28/08.**
@@ -137,13 +137,64 @@ showing a value the control cannot offer. The gallery keeps all three, because t
 per-album Public was Toàn's explicit 25/08 exception for group shots, and news stays
 public and ungated.
 
-Two things this deliberately did not touch. The **website's own document library**
-(`Resources & Documents`: reports and market briefs open to all, templates for
-members) is a different thing from per-event content and keeps its public tier; it
-also still has no admin surface, which is the next gap of this shape. And the app
-gates the library section-wide at `registered`, so a library item set to *Anyone
-signed in* is currently shown to registered attendees only. The stricter of the two
-wins, which is safe but not yet exact.
+One thing this deliberately did not touch, and it is still true. The app gates the
+library section-wide at `registered`, so a library item set to *Anyone signed in* is
+currently shown to registered attendees only. The stricter of the two wins, which is
+safe but not yet exact.
+
+**Also 31/08: the website's own library now has a back office.** June's note named
+`library/resource, gallery, news coverage` without saying which of the two places
+they live in, and there are two. The per-event half is the Content tab above. The
+other half is what the public website publishes whether or not there is a forum on:
+the `Resources & Documents` page (reports, market briefs, templates) and the
+`Media & Press` page (press mentions, galleries, video). Those lists were hard-coded
+in `website.html`, so every correction to a report title was a release. They are now
+a back-office section of their own, **Website Library**, sitting under Content
+beside the two pages it fills, with add, edit and remove on all three lists, a
+category, a publish state and an access tier per row, and both languages on every
+title because the public page renders whichever one the visitor picked.
+
+It is its own sidebar entry rather than a tab folded into an existing one. CMS &
+Pages edits one page at a time, a title, a body and its SEO fields, and these are
+repeating records with no page body to hang off. News / Media is the article list,
+and a report, a press mention and a photo album are not articles: they carry a file,
+a category and an access tier that an article has not. Either merge would have put
+two unrelated shapes in one table.
+
+*The website library keeps Public, and that is not an inconsistency.* On the website
+a visitor is anonymous until they say otherwise, the reports and the market briefs
+are the shopfront and are how most people meet SVEF at all, and the templates are
+for members preparing a submission. So the tiers here are **Public** and **Members
+only**. Inside the app the attendee is signed in by definition, which is exactly the
+reason June asked for Public to come off the per-event library on 28/08. Same word,
+two audiences, two lists, and the code says so at both ends so that a later reader
+does not unify them and break both.
+
+**Also 31/08: an intake route for material from speakers and media.** The other
+half of June's note was `mình / họ sẽ đăng lên app`, and the `họ` had nowhere to
+land: a speaker mails a deck to the secretariat and somebody retypes the title, the
+file and the access level by hand, which is where the delay and the typos come from.
+Back office → **Submissions**, under Events, is now that route.
+
+| Piece | What it does |
+|---|---|
+| The link | SVEF issues a link scoped to one event and one contributor, a speaker or a press contact, with an expiry date. It is shown, copied and revoked from the table. Partner events are not offered, because they are a link out to somebody else's programme and have no content to fill. |
+| The inbox | What arrives is listed with who sent it, which event, what kind (slides, photos or a press link), the file or the URL, their note and when it came in. Nothing is on the website or in the app at this point. |
+| The publish button | Reviewing an item writes it into that event's Library, Gallery or News coverage in the same shape the Content tab stores, with the same per-section access levels, so nothing is retyped and there is no second data path into the app. Rejecting it takes a written reason, which is required. |
+
+Two honest limits. The prototype has no inbound channel, no mailbox and no upload
+endpoint, and there is no page behind the link, so an arriving submission is
+demonstrated with a clearly labelled **Simulate an inbound submission** button that
+fires against one of the live links. And the link is emailed by the secretariat from
+their own mail, outside the product; nothing is sent from the screen.
+
+This is a link, an inbox and a publish button, and it is deliberately not the
+partner self-service space Toàn deferred on 25/08. There is no account here, no
+login, no password and no profile the contributor maintains. They hold one expiring
+link, see nothing else of the event, and nothing they send appears anywhere until
+somebody in the secretariat has approved it. If SVEF wants speakers or partners to
+maintain their own material over time, that is the separate proposal Toàn asked for,
+not this.
 
 Also built: speaker bio opens from the agenda (the bio is the person's own profile,
 not a per-event field), sponsors and speakers resolve to the same organisation
@@ -224,8 +275,17 @@ demo rather than in a document.
 4. **Partner event minimum fields.** The demo asks for name, organiser, link,
    description, dates and a cover image. If SVEF wants more, that is a change to one
    form.
-5. **Should the meeting place line be shown at all?** (28/08) See 1.2.
-6. **Whether the business directory joins the app.** Linh's directory
+5. **Who is a "member" for the website library?** (31/08) The public library has
+   two tiers, Public and Members only, and templates sit behind the second. Whether
+   that means any signed-in account or only a paid membership tier is the same
+   unanswered question as 3 above, and the demo treats it as "signed in" until SVEF
+   settles the packages.
+6. **Does the submission link go out from the platform or from a person?** (31/08)
+   The back office generates and shows the link; the secretariat currently copies it
+   into an email they were writing anyway, which keeps the chase personal and is how
+   SVEF describes doing it today. Sending it from the platform, and mailing the
+   rejection reason automatically, are both a small addition and neither is built.
+7. **Whether the business directory joins the app.** Linh's directory
    (`svefzurich2026-delegatory.netlify.app`) overlaps with the organisation profiles
    built here. Raised on 25/08 and not resolved; the two should not both exist.
 
@@ -234,6 +294,7 @@ demo rather than in a document.
 | Item | Reason |
 |---|---|
 | Partner self-service space: partners creating and maintaining their own events | Toàn asked for this to be proposed separately, together with partner registration. Not in the October scope. |
+| Partner self-service, again: the 31/08 submission intake is not it | The intake is a link, an inbox and a publish button for material on an event SVEF already runs. No account, no login, no profile the partner maintains, nothing published without a person approving it. The self-service space stays where Toàn put it on 25/08: a separate proposal. |
 | Event listing search, sort and filter | Kept basic to make October. Revisit when partner events make the list long enough to need it. |
 | Meeting topics | June's note: not needed at this stage. |
 | Payment and ticketing | Removed 19/08, "cut payment out, all events are free at this moment". June confirmed on 19/08 that payment is not needed for this phase. The reference implementation is in git history at commit `4e703cb`. |
@@ -247,8 +308,18 @@ demo rather than in a document.
   in BRD 8.4 as having no existing UI. The app has a venue map screen but no booth
   directory.
 - **BR-W-13 / BR-W-14** (partners proposing events, and admin approving them) are
-  partially back: partner events exist again, but SVEF keys them in. Nothing in the
-  product collects a request from the partner.
+  still not built, and the submission intake of 31/08 does not change that. What the
+  intake collects is **material for an event that already exists**: slides, photos
+  and coverage links. It collects no event proposal, and a contributor cannot create
+  anything. Partner events still exist only because SVEF keys them in.
+
+  What has changed is smaller and worth stating precisely: the **approval half** of
+  BR-W-14 now exists as a working pattern. An outsider with no account sends
+  something in through an expiring scoped link, it queues, and a person in the back
+  office publishes it or rejects it with a reason. If BR-W-13 is ever built, that is
+  the shape it should reuse rather than a second one being invented. The half that
+  is missing is the one that matters for BR-W-13: a form that collects a proposed
+  event from a partner.
 
 ## 5. Registration module, as built
 
