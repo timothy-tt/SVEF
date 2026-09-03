@@ -163,8 +163,10 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .hero .ev .d small{display:block;font-family:var(--mono);font-size:8px;font-weight:500;opacity:.9;letter-spacing:.08em}
 
 /* ==================== QUICK ACTIONS ==================== */
-.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:16px 16px 14px}
-.qa button{background:var(--card);border:1px solid var(--line);border-radius:0;padding:14px 4px 11px;
+/* flex, not a fixed four-column grid: the row carries three tiles on a live
+   event and four on a finished one, and should divide the width either way */
+.qa{display:flex;gap:0;margin:16px 16px 14px}
+.qa button{flex:1 1 0;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:0;padding:14px 4px 11px;
   display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;box-shadow:none;
   font-family:var(--mono);font-size:8px;font-weight:500;color:var(--ink);text-align:center;
   text-transform:uppercase;letter-spacing:.06em;line-height:1.3;margin-left:-1px}
@@ -202,10 +204,14 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   padding:12px 14px;box-shadow:none;border:1px solid var(--ink)}
 .search input{border:none;outline:none;flex:1;font-family:var(--sans);font-size:14px;background:transparent;
   color:var(--ink);letter-spacing:-.01em}
-.tabs{display:flex;gap:0;padding:0 16px;overflow-x:auto}
+/* The tab row is a segmented control across the width, not a huddle of
+   content-width buttons leaving ragged space on the right: it lines up with the
+   search field and the full-width rows below it. */
+.tabs{display:flex;gap:0;padding:0 16px}
 .tabs::-webkit-scrollbar{height:0}
-.tabs button{border:1px solid var(--line);background:#fff;color:var(--muted);font-family:var(--mono);
-  font-weight:500;font-size:9.5px;padding:8px 14px;border-radius:0;cursor:pointer;white-space:nowrap;
+.tabs button{flex:1 1 0;min-width:0;border:1px solid var(--line);background:#fff;color:var(--muted);
+  font-family:var(--mono);font-weight:500;font-size:9.5px;padding:9px 6px;border-radius:0;cursor:pointer;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   text-transform:uppercase;letter-spacing:.1em;margin-left:-1px}
 .tabs button:first-child{margin-left:0}
 .tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink);position:relative;z-index:1}
@@ -443,10 +449,6 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 /* ==================== QR / MAP ==================== */
 .qrbox{margin:14px auto;width:200px;height:200px;background:#fff;display:grid;place-items:center;
   border-radius:0;border:8px solid #fff;box-shadow:0 0 0 1px var(--ink)}
-.mapwrap{margin:16px 16px;background:#fff;border:1px solid var(--ink);border-radius:0;box-shadow:none;overflow:hidden}
-.legend{display:flex;gap:14px;flex-wrap:wrap;padding:12px 16px;font-family:var(--mono);font-size:9px;
-  color:var(--muted);text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line)}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:0;margin-right:6px;vertical-align:middle}
 
 /* ==================== NOTIFICATIONS ==================== */
 .nf{display:flex;gap:13px;background:#fff;border:1px solid var(--line);padding:14px;margin:0 16px -1px;
@@ -629,7 +631,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
   font-size:8.5px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
 .refline b{color:var(--ink);letter-spacing:.08em}
 .nf.fresh{border-left:3px solid var(--red)}
-.sheet .sechead{font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;
+.sechead,.sheet .sechead{font-family:var(--mono);font-size:8.5px;font-weight:500;text-transform:uppercase;
   letter-spacing:.12em;color:var(--muted);margin:16px 16px 8px;padding-bottom:7px;border-bottom:1px solid var(--ink)}
 /* ==================== ATTENDING EVENTS (round 5) ====================
    The strip that tells the attendee which events they hold a booking for and lets
@@ -655,16 +657,22 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
 
 /* ==================== SOCIAL HANDLES ==================== */
-.hnd{display:flex;flex-wrap:wrap;gap:0;margin:0 16px 10px}
-.hnd a,.hnd button{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);
-  padding:8px 11px;margin:0 0 -1px -1px;cursor:pointer;font-family:var(--sans);font-size:12.5px;
-  font-weight:500;color:var(--ink);letter-spacing:-.015em;max-width:100%}
-.hnd a:first-child,.hnd button:first-child{margin-left:0}
+/* Contacts were variable-width chips that wrapped into a ragged block, each with
+   a boxed two-letter tag and a truncated value — the one place in the app that
+   did not use its full-width row. They are rows now, like the profile menu and
+   the privacy switches: kind on the left, value reading straight across, and the
+   verb the row performs on the right. */
+.hnd{display:block;margin:0 16px 10px}
+.hnd a,.hnd button{display:flex;width:100%;align-items:center;gap:12px;background:#fff;
+  border:1px solid var(--line);padding:12px 13px;margin:0 0 -1px;cursor:pointer;text-align:left;
+  font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:-.022em}
 .hnd a:active,.hnd button:active{background:var(--soft)}
-.hnd a i,.hnd button i{font-family:var(--mono);font-size:7.5px;font-weight:600;font-style:normal;letter-spacing:.04em;
-  border:1px solid var(--line);padding:2px 4px;color:var(--muted);flex:0 0 auto}
-.hnd a u,.hnd button u{text-decoration:none;color:var(--muted);font-size:11.5px;overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap;min-width:0;max-width:205px}
+.hnd a i,.hnd button i{font-family:var(--mono);font-size:8.5px;font-weight:600;font-style:normal;
+  letter-spacing:.08em;color:var(--muted);flex:0 0 34px;text-align:left}
+.hnd a u,.hnd button u{text-decoration:none;color:var(--ink);font-size:13.5px;font-weight:600;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.hnd a s,.hnd button s{text-decoration:none;font-family:var(--mono);font-size:8.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);flex:0 0 auto}
 
 /* ==================== SWITCH ROWS (privacy, notifications) ==================== */
 .sw{display:flex;align-items:center;gap:12px;width:calc(100% - 32px);background:#fff;
@@ -806,9 +814,6 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
         <button data-tab="sponsors" onclick="switchTab('sponsors')" data-i18n="tab_sponsors">Tài trợ</button>
         <button data-tab="exhibitors" onclick="switchTab('exhibitors')" data-i18n="tab_booths">Gian hàng</button>
       </div>
-      <div class="row" style="margin:10px 16px 0">
-        <button class="btn ghost" onclick="go(\'map\')"><span data-ic="map" data-ic-size="17"></span><span data-i18n="ex_map">Sơ đồ địa điểm</span></button>
-      </div>
       <div style="height:6px"></div>
       <div id="exList"></div>
     </section>
@@ -931,36 +936,6 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
       <p class="muted" style="text-align:center;font-size:11px;margin:0 0 16px">SVEF App · Prototype v0.1</p>
     </section>
 
-    <!-- MAP -->
-    <section class="screen" data-screen="map">
-      <div class="mapwrap">
-        <svg viewBox="0 0 360 260" width="100%" style="display:block">
-          <rect x="0" y="0" width="360" height="260" fill="#eef2f8"/>
-          <rect x="14" y="14" width="150" height="70" rx="8" fill="#dfe6f0"/>
-          <text id="svgHall" x="89" y="54" font-size="11" text-anchor="middle" fill="#5b6b82">Hội trường A</text>
-          <rect x="178" y="14" width="80" height="70" rx="8" fill="#dfe6f0"/>
-          <text id="svgB1" x="218" y="54" font-size="10" text-anchor="middle" fill="#5b6b82">Phòng B1</text>
-          <rect x="270" y="14" width="76" height="70" rx="8" fill="#dfe6f0"/>
-          <text id="svgB2" x="308" y="54" font-size="10" text-anchor="middle" fill="#5b6b82">Phòng B2</text>
-          <rect x="14" y="120" width="60" height="50" fill="#E42026"/><text x="44" y="149" font-size="11" text-anchor="middle" fill="#fff">S1</text>
-          <rect x="86" y="120" width="60" height="50" fill="#7A5C00"/><text x="116" y="149" font-size="11" text-anchor="middle" fill="#fff">S2</text>
-          <rect x="158" y="120" width="60" height="50" fill="#0A0A0A"/><text x="188" y="149" font-size="11" text-anchor="middle" fill="#fff">S3</text>
-          <rect x="230" y="120" width="116" height="50" fill="#0F5A4A"/><text id="svgLounge" x="288" y="149" font-size="10" text-anchor="middle" fill="#fff">Networking</text>
-          <rect x="14" y="186" width="332" height="40" fill="#cfd9e6"/>
-          <text id="svgLobby" x="180" y="211" font-size="11" text-anchor="middle" fill="#5b6b82">Sảnh chính · Check-in · Cà phê</text>
-          <circle cx="44" cy="205" r="7" fill="#E42026" stroke="#fff" stroke-width="3"/>
-        </svg>
-      </div>
-      <div class="legend">
-        <span><i style="background:#E42026"></i><span data-i18n="leg_booth">Gian hàng nổi bật</span></span>
-        <span><i style="background:#0A0A0A"></i><span data-i18n="leg_session">Phiên / phòng</span></span>
-        <span><i style="background:#0F5A4A"></i><span data-i18n="leg_net">Networking</span></span>
-        <span><i style="background:#E42026;border-radius:50%"></i><span data-i18n="leg_you">Vị trí của bạn</span></span>
-      </div>
-      <h2 class="sec"><span data-i18n="booths_near">Gian hàng gần bạn</span></h2>
-      <div id="mapBooths"></div>
-    </section>
-
     <!-- MESSAGES (conversation list) -->
     <section class="screen" data-screen="messages">
       <div class="note mono" style="margin-top:16px" data-i18n="msg_note">Tin nhắn trong phạm vi sự kiện này. Vẫn xem lại được sau khi sự kiện kết thúc.</div>
@@ -1080,7 +1055,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 const T={
  vi:{
   greet:"Chào buổi sáng", greet_pm:"Chào buổi chiều", greet_eve:"Chào buổi tối", checkedin:"Đã check-in", ev_ended:"Đã kết thúc",
-  qa_qrconnect:"QR kết nối", qa_eticket:"Thẻ tham dự", qa_map:"Bản đồ", qa_connect:"Kết nối",
+  qa_qrconnect:"QR kết nối", qa_eticket:"Thẻ tham dự", qa_connect:"Kết nối",
   qa_agenda:"Chương trình", qa_meetings:"Lịch gặp", qa_people:"Tham dự", qa_messages:"Tin nhắn",
   today:"Chương trình", sched_none_day:"Chưa có phiên nào cho ngày này.", seeall:"Xem tất cả", featured:"Diễn giả nổi bật", all:"Tất cả", headline_spon:"Nhà tài trợ chính",
   search_ph:"Tìm phiên, diễn giả, nhà tài trợ…", tab_agenda:"Chương trình", tab_speakers:"Diễn giả",
@@ -1105,8 +1080,6 @@ const T={
   li_sync_t:"Không phải nhập lại thông tin.",
   li_sync_p:"Nếu bạn đã là thành viên trên website SVEF, hồ sơ của bạn được đồng bộ sang app: tên, chức danh, công ty và ngành nghề đã có sẵn.",
   t_signed_sso:"Đã đăng nhập bằng ", t_signed_svef:"Đã đăng nhập bằng tài khoản SVEF", t_signedout:"Đã đăng xuất",
-  leg_booth:"Gian hàng nổi bật", leg_session:"Phiên / phòng", leg_net:"Networking", leg_you:"Vị trí của bạn", booths_near:"Gian hàng gần bạn",
-  svgHall:"Hội trường A", svgB1:"Phòng B1", svgB2:"Phòng B2", svgLounge:"Networking", svgLobby:"Sảnh chính · Check-in · Cà phê", directions:"Chỉ đường",
   time_l:"Thời gian", loc_l:"Địa điểm", speaker_l:"Diễn giả",
   add_sched:"➕ Lưu vào chương trình của tôi", added_sched:"✓ Đã lưu vào chương trình của tôi",
   sh_close:"Đóng",
@@ -1116,7 +1089,7 @@ const T={
   h_next_yours:"Bạn đã đăng ký", h_next_open:"Đang mở đăng ký",
   h_open:"Mở", h_open_events:"Sự kiện đang mở đăng ký", h_all_events:"Xem tất cả sự kiện",
   ev_live_now:"Đang diễn ra", pp_tab_dir:"Danh bạ", pp_tab_match:"Gợi ý", pp_tab_conns:"Kết nối",
-  pp_sessions:"Phiên trình bày", spk_none:"Chưa công bố diễn giả cho phiên này.", agenda_all_h:"Toàn bộ chương trình", ex_map:"Sơ đồ địa điểm",
+  pp_sessions:"Phiên trình bày", spk_none:"Chưa công bố diễn giả cho phiên này.", agenda_all_h:"Toàn bộ chương trình",
   ev_kicker:"Diễn đàn Kinh tế Thụy Sĩ - Việt Nam", ev_title:"SVEF Events", ev_sub:"Tất cả sự kiện SVEF trong một ứng dụng.",
   ev_tab_up:"Sắp diễn ra", ev_tab_past:"Đã qua", ev_tab_reg:"Đã đăng ký",
   ev_register:"Đăng ký", ev_info:"Thông tin", ev_open:"Mở sự kiện", ev_readonly:"Chỉ đọc",
@@ -1197,7 +1170,7 @@ const T={
   at_none_t:"Bạn chưa tham dự sự kiện nào",
   at_none_p:"Khi bạn đăng ký một sự kiện, sự kiện đó sẽ hiện ở đây và toàn bộ ứng dụng sẽ chuyển sang sự kiện đó.",
   at_browse:"Xem sự kiện SVEF",
-  h_l:"Liên hệ & mạng xã hội", h_copy:"Sao chép", h_copied:"Đã sao chép {v}",
+  h_l:"Liên hệ & mạng xã hội", h_open:"Mở ↗", h_copy:"Sao chép", h_copied:"Đã sao chép {v}",
   h_none:"Người này chưa chia sẻ kênh liên hệ nào.",
   me_you:"Bạn", me_self_note:"Đây là hồ sơ của bạn, đúng như người tham dự khác đang nhìn thấy.",
   me_bio:"Giới thiệu ngắn", me_handles_l:"Kênh liên hệ",
@@ -1240,17 +1213,17 @@ const T={
   pp_title:"Chức danh", pp_company:"Công ty", pp_industry:"Ngành", pp_about_co:"Về công ty", pp_markets:"Thị trường",
   past_recap_l:"Ghi chú từ ban tổ chức", past_recap_t:"Cảm ơn bạn đã tham dự",
   past_recap_p:"Ban tổ chức SVEF xin cảm ơn hơn 600 đại biểu đã đồng hành. Tài liệu và bản ghi các phiên sẽ được gửi qua email trong tuần này.",
-  follow:"+ Theo dõi", directions_btn:"Chỉ đường",
+  follow:"+ Theo dõi",
   ab_explore:"Khám phá", ab_schedule:"Chương trình", ab_network:"Kết nối", ab_participants:"Mọi người",
-  ab_profile:"Hồ sơ", ab_map:"Bản đồ", ab_notifications:"Thông báo", ab_session:"Chi tiết phiên",
-  ab_person:"Hồ sơ", ab_events:"Sự kiện SVEF", ab_eventinfo:"Thông tin sự kiện", ab_toevents:"Danh sách sự kiện", ab_back:"Quay lại",
+  ab_profile:"Hồ sơ", ab_notifications:"Thông báo", ab_session:"Chi tiết phiên",
+  ab_person:"Hồ sơ", ab_org:"Doanh nghiệp", ab_events:"Sự kiện SVEF", ab_eventinfo:"Thông tin sự kiện", ab_toevents:"Danh sách sự kiện", ab_back:"Quay lại",
   ab_messages:"Tin nhắn", ab_chat:"Nhắn tin",
   msg_note:"Tin nhắn trong phạm vi sự kiện này. Vẫn xem lại được sau khi sự kiện kết thúc.",
   msg_none:"Chưa có cuộc trò chuyện nào. Nhấn “Nhắn tin” trên hồ sơ một người tham dự để bắt đầu.",
   chat_ph:"Nhập tin nhắn…", chat_send:"Gửi", chat_you:"Bạn", chat_profile:"Hồ sơ",
   chat_start:"Chưa có tin nhắn nào. Gửi lời chào để bắt đầu.",
   t_msgs:"Demo: Tin nhắn sự kiện",
-  t_followed:"Đã theo dõi ", t_profile:"Hồ sơ: ", t_booth:"Gian hàng: ", t_chat:"Mở chat với ", t_dir:"Chỉ đường tới ",
+  t_followed:"Đã theo dõi ", t_profile:"Hồ sơ: ", t_booth:"Gian hàng: ", t_chat:"Mở chat với ",
   t_meet_sent:"Đã gửi yêu cầu gặp tới ", t_saved:"Đã lưu phiên vào chương trình của tôi", t_unsaved:"Đã bỏ lưu phiên",
   t_readonly:"Sự kiện đã kết thúc - chế độ chỉ đọc", t_ended:"Sự kiện đã kết thúc, không thể thao tác.",
   lang_switched:"Đã chuyển sang Tiếng Việt", empty_search:"Không tìm thấy kết quả phù hợp.",
@@ -1349,7 +1322,7 @@ const T={
  },
  en:{
   greet:"Good morning", greet_pm:"Good afternoon", greet_eve:"Good evening", checkedin:"Checked in", ev_ended:"Ended",
-  qa_qrconnect:"QR Connect", qa_eticket:"Pass", qa_map:"Map", qa_connect:"Connect",
+  qa_qrconnect:"QR Connect", qa_eticket:"Pass", qa_connect:"Connect",
   qa_agenda:"Agenda", qa_meetings:"Meetings", qa_people:"People", qa_messages:"Messages",
   today:"Programme", sched_none_day:"No sessions scheduled for this day yet.", seeall:"See all", featured:"Featured speakers", all:"All", headline_spon:"Headline sponsors",
   search_ph:"Search sessions, speakers, sponsors…", tab_agenda:"Agenda", tab_speakers:"Speakers",
@@ -1374,8 +1347,6 @@ const T={
   li_sync_t:"No need to type it all again.",
   li_sync_p:"If you are already a member on the SVEF website, your profile syncs into the app: name, job title, company and industry are filled in for you.",
   t_signed_sso:"Signed in with ", t_signed_svef:"Signed in with your SVEF account", t_signedout:"Signed out",
-  leg_booth:"Featured booths", leg_session:"Sessions / rooms", leg_net:"Networking", leg_you:"Your location", booths_near:"Booths near you",
-  svgHall:"Hall A", svgB1:"Room B1", svgB2:"Room B2", svgLounge:"Networking", svgLobby:"Main lobby · Check-in · Coffee", directions:"Directions",
   time_l:"Time", loc_l:"Location", speaker_l:"Speaker",
   add_sched:"➕ Save to my agenda", added_sched:"✓ Saved to my agenda",
   sh_close:"Close",
@@ -1385,7 +1356,7 @@ const T={
   h_next_yours:"You are registered", h_next_open:"Registration open",
   h_open:"Open", h_open_events:"Open for registration", h_all_events:"See all events",
   ev_live_now:"Happening now", pp_tab_dir:"Directory", pp_tab_match:"Suggested", pp_tab_conns:"Connections",
-  pp_sessions:"Speaking at", spk_none:"No speaker announced for this session yet.", agenda_all_h:"Full programme", ex_map:"Venue map",
+  pp_sessions:"Speaking at", spk_none:"No speaker announced for this session yet.", agenda_all_h:"Full programme",
   ev_kicker:"Swiss - Vietnam Economic Forum", ev_title:"SVEF Events", ev_sub:"Every SVEF event in one app.",
   ev_tab_up:"Upcoming", ev_tab_past:"Past", ev_tab_reg:"Registered",
   ev_register:"Register", ev_info:"Event Info", ev_open:"Open event", ev_readonly:"Read-only",
@@ -1466,7 +1437,7 @@ const T={
   at_none_t:"You are not attending anything yet",
   at_none_p:"Once you register for an event it shows up here, and the whole app switches across to it.",
   at_browse:"Browse SVEF events",
-  h_l:"Contact and social", h_copy:"Copy", h_copied:"Copied {v}",
+  h_l:"Contact and social", h_open:"Open ↗", h_copy:"Copy", h_copied:"Copied {v}",
   h_none:"This attendee has not shared any contact channels.",
   me_you:"You", me_self_note:"This is your profile, exactly as other attendees see it right now.",
   me_bio:"Short bio", me_handles_l:"Contact channels",
@@ -1509,17 +1480,17 @@ const T={
   pp_title:"Job title", pp_company:"Company", pp_industry:"Industry", pp_about_co:"About the company", pp_markets:"Markets",
   past_recap_l:"Note from the organisers", past_recap_t:"Thank you for joining us",
   past_recap_p:"The SVEF organising team thanks the 600+ delegates who joined us. Session materials and recordings will be emailed to you this week.",
-  follow:"+ Follow", directions_btn:"Directions",
+  follow:"+ Follow",
   ab_explore:"Explore", ab_schedule:"Agenda", ab_network:"Connect", ab_participants:"People",
-  ab_profile:"Profile", ab_map:"Event map", ab_notifications:"Notifications", ab_session:"Session",
-  ab_person:"Attendee", ab_events:"SVEF Events", ab_eventinfo:"Event information", ab_toevents:"Event list", ab_back:"Back",
+  ab_profile:"Profile", ab_notifications:"Notifications", ab_session:"Session",
+  ab_person:"Attendee", ab_org:"Organisation", ab_events:"SVEF Events", ab_eventinfo:"Event information", ab_toevents:"Event list", ab_back:"Back",
   ab_messages:"Messages", ab_chat:"Chat",
   msg_note:"Messages stay within this event. They remain readable after the event has ended.",
   msg_none:"No conversations yet. Tap “Chat” on an attendee profile to start one.",
   chat_ph:"Write a message…", chat_send:"Send", chat_you:"You", chat_profile:"Profile",
   chat_start:"No messages yet. Say hello to get started.",
   t_msgs:"Demo: Event messages",
-  t_followed:"Following ", t_profile:"Profile: ", t_booth:"Booth: ", t_chat:"Open chat with ", t_dir:"Directions to ",
+  t_followed:"Following ", t_profile:"Profile: ", t_booth:"Booth: ", t_chat:"Open chat with ",
   t_meet_sent:"Meeting request sent to ", t_saved:"Session saved to my agenda", t_unsaved:"Session removed from my agenda",
   t_readonly:"This event has ended - read-only mode", t_ended:"This event has ended, actions are disabled.",
   lang_switched:"Switched to English", empty_search:"No matching results found.",
@@ -2502,7 +2473,7 @@ function setAppbarTitle(s){
     ab.classList.remove('brand');
     // event-scoped screens name the event they belong to, so an agenda or a
     // participant list can never be read against the wrong one
-    const scoped=['explore','schedule','participants','map','messages','chat','session','person'];
+    const scoped=['explore','schedule','participants','messages','chat','session','person'];
     t.innerHTML=tr('ab_'+s)+((scoped.indexOf(s)>-1&&curEv)?'<small>'+tx(curEv.short)+'</small>':'');
     setLeading(tabsScreens.includes(s)?null:'back');
   }
@@ -2713,7 +2684,7 @@ function renderHome(){
     ? qaBtn('clipboard','qa_agenda','openAgendaAll()')+qaBtn('chat','qa_messages',"openMessages()")
       +qaBtn('calendar','qa_meetings','openMeetings()')+qaBtn('people','qa_people',"go('participants')")
     : qaBtn('qr','qa_qrconnect','openQR()')+qaBtn('ticket','qa_eticket','openTicket()')
-      +qaBtn('map','qa_map',"go('map')")+qaBtn('handshake','qa_connect','openSuggestions()');
+      +qaBtn('handshake','qa_connect','openSuggestions()');
   byId('homeRecap').innerHTML = past
     ? `<h2 class="sec"><span>${tr('past_recap_l')}</span></h2>
        <div class="card" style="padding:0">
@@ -3375,11 +3346,6 @@ function sendChat(){
 }
 
 /* ===================== MAP / NOTIFICATIONS / SESSION ===================== */
-function renderBooths(){
-  const el=byId('mapBooths');if(!el)return;
-  el.innerHTML=exhibitors.slice(0,3).map(x=>
-    `<div class="li" onclick="toast(tr('t_dir')+'${x.n}')"><div class="thumb">${x.i}</div><div class="meta"><h4>${x.n}</h4><p>${tx(x.d)}</p></div><button class="btn sm ghost" onclick="event.stopPropagation();toast(tr('t_dir')+'${x.n}')">${tr('directions_btn')}</button></div>`).join('');
-}
 /* Notifications the demo generates from real actions. Both languages are built at
    push time so switching language keeps the log readable. */
 let notifLog=[];
@@ -3539,7 +3505,9 @@ function handleLabel(k,v){
 }
 function handleChip(k,v){
   const kind=hKinds[k],lbl=labelOf(kind.lbl);
-  const inner=`<i>${kind.ic}</i><u>${esc(handleLabel(k,v))}</u>`;
+  // the row says what tapping it will do, rather than leaving it to be guessed
+  const verb=kind.act==='copy'?tr('h_copy'):tr('h_open');
+  const inner=`<i>${kind.ic}</i><u>${esc(handleLabel(k,v))}</u><s>${esc(verb)}</s>`;
   return kind.act==='copy'
     ? `<button onclick="copyHandle('${k}','${esc(v)}')" title="${esc(lbl)}">${inner}</button>`
     : `<a href="${esc(handleHref(k,v))}" target="_blank" rel="noopener" title="${esc(lbl)}">${inner}</a>`;
@@ -4134,7 +4102,7 @@ function renderAll(){
   renderHomeContent();renderLibrary();renderGallery();renderNews();
   if(!notifLog.some(n=>n.auto))seedAgendaReminders();
   renderExplore();renderSchedule();renderNetwork();renderFilters();renderParticipants();
-  renderBooths();renderNotif();renderMR();renderConvos();
+  renderNotif();renderMR();renderConvos();
   if(chatWith!=null)renderChat();
   if(curPerson)renderPerson();
   if(regEvId)renderRegSheet();
@@ -4167,8 +4135,6 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(T[lang][k]!==undefined)el.setAttribute('placeholder',T[lang][k]);});
   document.querySelectorAll('[data-i18n-title]').forEach(el=>{const k=el.getAttribute('data-i18n-title');if(T[lang][k]!==undefined)el.setAttribute('title',T[lang][k]);});
   document.querySelectorAll('[data-i18n-aria]').forEach(el=>{const k=el.getAttribute('data-i18n-aria');if(T[lang][k]!==undefined)el.setAttribute('aria-label',T[lang][k]);});
-  // SVG map labels
-  [['svgHall','svgHall'],['svgB1','svgB1'],['svgB2','svgB2'],['svgLounge','svgLounge'],['svgLobby','svgLobby']].forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k);});
   // dynamic blocks
   renderAll();
   if(current==='session')openSessionRefresh();
@@ -4236,7 +4202,6 @@ const ICON_PATHS={
   person:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c0-4 3.4-6.5 7.5-6.5s7.5 2.5 7.5 6.5"/>',
   qr:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 21h3M21 14v3"/>',
   ticket:'<path d="M3 8.5V6.5a1.5 1.5 0 0 1 1.5-1.5h15A1.5 1.5 0 0 1 21 6.5v2a2.5 2.5 0 0 0 0 7v2a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-2a2.5 2.5 0 0 0 0-7z"/><path d="M13 5v14" stroke-dasharray="2 2.5"/>',
-  map:'<path d="m3 6.5 6-2.5 6 2.5 6-2.5v13.5l-6 2.5-6-2.5-6 2.5z"/><path d="M9 4v13M15 6.5v13"/>',
   handshake:'<path d="m3 12.5 3.5-3.5 3 1 3-1.5 3 1.5 3-1 3 3.5"/><path d="m8 14 2.5 2.5a1.6 1.6 0 0 0 2.3 0L18 11.5"/><path d="m6.5 9 3.5 3.5"/>',
   clipboard:'<rect x="5" y="4.5" width="14" height="16.5" rx="2"/><path d="M9 4.5a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 4.5v1.5H9z"/><path d="M9 11h6M9 15h4"/>',
   chat:'<path d="M20.5 12.2c0 4-3.8 7.2-8.5 7.2a10 10 0 0 1-2.7-.36L4 21l1.3-3.6A6.8 6.8 0 0 1 3.5 12.2C3.5 8.2 7.3 5 12 5s8.5 3.2 8.5 7.2z"/>',
