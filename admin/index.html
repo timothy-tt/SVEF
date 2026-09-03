@@ -39,6 +39,7 @@
   --hanoi:#04723D; --hanoi-2:#3E7742; --wash:#F6FBF2; --wash-2:#EDF6EA;
   --bg:var(--wash); --card:#FFFFFF; --soft:var(--wash-2);
   --shadow:0 22px 60px rgba(14,39,61,.16); --shadow-sm:none;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,"Segoe UI",system-ui,sans-serif;
   /* TT Days Sans Black is SVEF's display face (Typetype, commercial licence).
      It is NOT shipped as a webfont: the desktop licence in the brand kit does
@@ -53,6 +54,7 @@
   --brand:"TT Days Sans Black","Days Sans Black","Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 *{box-sizing:border-box}
+.ico-svg{display:block}
 body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--bg);display:flex;min-height:100vh;
   -webkit-font-smoothing:antialiased;letter-spacing:-.006em;line-height:1.5}
 a{text-decoration:none;color:inherit}
@@ -98,7 +100,8 @@ a{text-decoration:none;color:inherit}
   font-size:13px;flex-wrap:wrap}
 .filerow:last-child{border-bottom:none}
 .filerow .fn{flex:1;min-width:120px;font-weight:600;color:var(--ink);word-break:break-word;letter-spacing:-.02em}
-.filerow .fm{font-family:var(--mono);color:var(--muted);font-size:10px;white-space:nowrap;letter-spacing:.06em}
+.fm{font-family:var(--mono);color:var(--muted);font-size:10px;letter-spacing:.06em}
+.filerow .fm{white-space:nowrap}
 .dropzone{border:1px dashed var(--ink);border-radius:0;padding:20px 14px;text-align:center;color:var(--muted);
   font-size:13px;font-weight:500;cursor:pointer;margin-bottom:14px}
 .dropzone:hover{border-color:var(--red);color:var(--red);background:var(--red-t)}

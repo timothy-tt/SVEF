@@ -50,6 +50,7 @@
   --bg:var(--wash); --card:#FFFFFF; --soft:var(--wash-2);
   --shadow:0 18px 44px rgba(14,39,61,.16); --shadow-sm:none;
   --r:0;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,"Segoe UI",system-ui,sans-serif;
   /* TT Days Sans Black is SVEF's display face (Typetype, commercial licence).
      It is NOT shipped as a webfont: the desktop licence in the brand kit does
@@ -113,7 +114,7 @@ body::after{content:"";position:fixed;left:-140px;top:-140px;width:460px;height:
   cursor:pointer;flex:0 0 auto;max-width:46%}
 .back:active{background:rgba(255,255,255,.14)}
 .back .chev{font-size:17px;line-height:1;margin-top:-2px}
-.back .lbl{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.1em;
+.back .lbl{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.04em;
   text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .back .lbl:empty{display:none}
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:88px}
@@ -273,12 +274,21 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   padding:11px 13px;font-size:11.5px;line-height:1.5;color:var(--ink-2)}
 .note.mono{font-family:var(--mono);font-size:9px;line-height:1.6;text-transform:uppercase;letter-spacing:.09em;
   color:var(--muted);border-left-color:var(--ink)}
+/* .note.warn had no rule at all, so the two places that raise it — meeting
+   requests waiting on you, and every notification switched off — read as
+   ordinary prose. A note that wants attention has to look unlike one that
+   does not. */
+.note.warn{border-color:var(--gold);border-left-color:var(--gold);background:#FFFDF3;color:var(--gold-ink);
+  font-weight:500}
 
 /* ==================== PILL ROWS (days / time slots) ==================== */
 .pillrow{display:flex;align-items:center;gap:8px;padding:12px 16px 6px;overflow-x:auto}
-.pillrow .sp{flex:1 1 auto;min-width:4px}
-.pillrow .pillcount{flex:0 0 auto;font-family:var(--mono);font-size:9px;font-weight:500;
-  text-transform:uppercase;letter-spacing:.1em;color:var(--muted);white-space:nowrap}
+/* The count is pinned outside the scroller. Inside it, it scrolled away with the
+   day pills the moment they were wider than the row. */
+.dayrow{display:flex;align-items:center;gap:10px;padding-right:16px}
+.dayrow .pillrow{flex:1 1 auto;min-width:0}
+.dayrow .pillcount{flex:0 0 auto;font-family:var(--mono);font-size:9px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);white-space:nowrap}
 .pillrow::-webkit-scrollbar{height:0}
 .pillrow button{font-family:var(--mono);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;
   padding:7px 11px;border:1px solid var(--line);border-radius:0;background:#fff;color:var(--ink-2);cursor:pointer;
@@ -2825,11 +2835,12 @@ function setDay(n){curDay=n;renderExplore();renderSchedule();}
    repeated the tab you had just tapped. */
 function dayPills(fn,count){
   const tail=count?`<span class="pillcount">${count}</span>`:'';
-  if(!curEv.days||curEv.days.length<2)
-    return tail?`<div class="pillrow"><div class="sp"></div>${tail}</div>`:'';
-  return `<div class="pillrow">`+curEv.days.map(d=>
+  const many=curEv.days&&curEv.days.length>1;
+  if(!many&&!tail)return '';
+  const pills=many?`<div class="pillrow">`+curEv.days.map(d=>
     `<button class="${curDay===d.n?'on':''}" onclick="${fn}(${d.n})">${tx(d.lbl)} · ${tx(d.d)}</button>`).join('')
-    +`<div class="sp"></div>${tail}</div>`;
+    +`</div>`:'<div class="pillrow"></div>';
+  return `<div class="dayrow">${pills}${tail}</div>`;
 }
 function agendaRow(i){
   const s=sessions[i],sv=saved.has(i);
