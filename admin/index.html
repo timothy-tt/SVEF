@@ -133,8 +133,10 @@ a{text-decoration:none;color:inherit}
   border-left:3px solid transparent;transition:color .12s linear,background .12s linear}
 .snav button:hover{background:rgba(255,255,255,.07);color:#fff}
 .snav button.on{background:rgba(255,255,255,.06);color:#fff;border-left-color:var(--red)}
-.snav .ni{font-style:normal;filter:grayscale(1) brightness(1.75);font-size:15px;width:19px;
-  display:inline-block;text-align:center;flex:0 0 19px}
+.snav .ni{font-style:normal;width:19px;flex:0 0 19px;display:grid;place-items:center;
+  color:rgba(255,255,255,.5);transition:color .12s linear}
+.snav button:hover .ni{color:#fff}
+.snav button.on .ni{color:var(--red)}
 .side .foot{padding:16px 20px;border-top:1px solid rgba(255,255,255,.16);font-family:var(--mono);
   font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.1em;line-height:1.7}
 .side .foot a{color:#fff;opacity:.9;display:block;margin-top:6px}
@@ -169,8 +171,8 @@ main{flex:1;min-width:0;display:flex;flex-direction:column}
 .stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-bottom:32px}
 .st{background:#fff;border:1px solid var(--line);border-radius:0;padding:24px;box-shadow:none;margin-left:-1px}
 .st:first-child{margin-left:0}
-.st .ic{width:38px;height:38px;border-radius:0;display:grid;place-items:center;font-size:17px;
-  margin-bottom:20px;border:1px solid var(--ink);background:#fff;filter:grayscale(1)}
+.st .ic{width:38px;height:38px;border-radius:0;display:grid;place-items:center;
+  margin-bottom:20px;border:1px solid var(--ink);background:#fff;color:var(--ink)}
 .st b{font-size:34px;color:var(--ink);display:block;font-weight:700;line-height:1;letter-spacing:-.05em}
 .st span{font-size:9.5px;color:var(--muted);display:block;margin-top:10px}
 .st .up{font-family:var(--sans);font-size:12px;color:var(--green);font-weight:600;margin-top:8px;
@@ -212,6 +214,14 @@ tr:hover td{background:var(--bg)}
 .field label{display:block;font-size:9.5px;font-weight:500;color:var(--muted);margin-bottom:7px}
 input,select,textarea{font-family:var(--sans);font-size:14px;border:1px solid var(--line);border-radius:0;
   padding:11px 12px;width:100%;outline:none;background:#fff;color:var(--ink);letter-spacing:-.01em}
+/* A native select is two pixels taller than a text input at the same padding,
+   which left every filter bar with its two controls a hair out of line. One
+   declared height for both settles it, and the arrow is drawn rather than left
+   to the platform so the two surfaces look alike. */
+input:not([type=checkbox]):not([type=radio]),select{height:42px;line-height:1.2}
+select{-webkit-appearance:none;appearance:none;padding-right:34px;cursor:pointer;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%233C6980' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m1 1.6 5 4.8 5-4.8'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center}
 input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset 0 -2px 0 var(--red)}
 .langtab{display:flex;gap:0;margin-bottom:16px}
 .langtab button{border:1px solid var(--line);background:#fff;padding:8px 16px;border-radius:0;
@@ -223,7 +233,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:inset
 /* ==================== NDA / NOTICES ==================== */
 .nda{background:#fff;border:1px solid var(--red);border-left:5px solid var(--red);border-radius:0;
   padding:18px 20px;display:flex;gap:16px;align-items:center;margin-bottom:28px}
-.nda .i{font-size:22px;filter:grayscale(1)}
+.nda .i{display:grid;place-items:center;color:var(--red);flex:0 0 auto}
 .nda b{color:var(--ink);font-weight:600;letter-spacing:-.025em}
 .nda p{margin:3px 0 0;font-size:13px;color:var(--muted)}
 .export-note{font-size:9.5px;color:var(--muted);background:#fff;border:1px solid var(--line);
@@ -436,8 +446,34 @@ td .ref{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.0
 .nmline b{min-width:0;overflow-wrap:anywhere}
 /* The registrant row carries up to four actions; they form a block instead of a
    single long line, so the table never has to grow wider than its panel. */
-.act-btns.wrap{flex-wrap:wrap;max-width:200px}
-.act-btns.wrap .btn{margin-top:-1px}
+/* Row actions. A registrant row carries up to five verbs. They used to sit in a
+   200px-wide cell and wrap onto three lines while the columns to the left had
+   slack going spare, and because the set changes with status, no two rows put
+   the same verb in the same place. Now one verb — the decision the row is
+   actually waiting on — stays in the row at a fixed position, and the rest move
+   behind a kebab. The column is one button wide on every row and never wraps. */
+.rowact{display:flex;align-items:stretch;justify-content:flex-end;white-space:nowrap}
+.rowact .btn{min-width:84px}
+.rowact .btn+.kebab,.rowact .btn+.btn{margin-left:-1px}
+/* stretch, not a fixed height: it has to line up with .btn.sm exactly, and
+   .btn.sm is sized by its padding rather than by a number we could copy */
+.kebab{display:grid;place-items:center;width:32px;min-height:31px;padding:0;border:1px solid var(--line);
+  background:#fff;color:var(--ink-2);cursor:pointer;border-radius:0;flex:0 0 32px;
+  transition:background .12s linear,border-color .12s linear,color .12s linear}
+.kebab:hover,.kebab[aria-expanded="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+td.act,th.act{text-align:right;width:1%;white-space:nowrap;padding-left:14px}
+/* The menu is rendered into a fixed layer on the body: .panel scrolls
+   horizontally, so anything absolutely positioned inside a cell gets clipped. */
+.ovfmenu{position:fixed;z-index:600;min-width:176px;background:#fff;border:1px solid var(--ink);
+  box-shadow:var(--shadow);padding:4px 0}
+.ovfmenu button{display:block;width:100%;text-align:left;border:0;background:none;cursor:pointer;
+  font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:-.015em;color:var(--ink);
+  padding:9px 16px;line-height:1.3}
+.ovfmenu button:hover{background:var(--soft)}
+.ovfmenu button.danger{color:var(--red)}
+.ovfmenu button.danger:hover{background:var(--red-t)}
+.ovfmenu .sep{height:1px;background:var(--line);margin:4px 0}
+.act-btns.wrap{flex-wrap:wrap}
 td.ck,th.ck{width:34px;padding-right:0}
 td.ck input{width:auto}
 .exp{border:1px solid var(--line);background:#fff;width:22px;height:22px;line-height:1;border-radius:0;cursor:pointer;
@@ -451,7 +487,7 @@ tr.subatt td{background:var(--bg);padding-top:0;padding-bottom:0}
 .attrow .aj{flex:1 1 160px;color:var(--muted);font-size:12.5px}
 .scanbox{border:1px dashed var(--ink);border-radius:0;padding:26px 20px;text-align:center;margin-bottom:0}
 .scanbox .qz{width:74px;height:74px;margin:0 auto 14px;border:1px solid var(--ink);display:grid;place-items:center;
-  font-size:26px;filter:grayscale(1)}
+  color:var(--ink)}
 .scanbox p{margin:0 0 16px;font-size:13px;color:var(--muted)}
 .cirow{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px;flex-wrap:wrap}
 .cirow:last-child{border-bottom:none}
@@ -523,20 +559,20 @@ tr:hover .pic::before{filter:none}
     <div style="margin-top:9px"><b>Admin</b><small>Back-office · v0.1</small></div>
   </div>
   <nav class="snav">
-    <button class="on" onclick="nav('dashboard',this)"><i class="ni">📊</i><span data-i18n="n_dash">Dashboard</span></button>
+    <button class="on" onclick="nav('dashboard',this)"><i class="ni" data-ic="dashboard" data-ic-size="17"></i><span data-i18n="n_dash">Dashboard</span></button>
     <div class="grp" data-i18n="g_content">Content</div>
-    <button onclick="nav('cms',this)"><i class="ni">📝</i><span data-i18n="n_cms">CMS &amp; Pages</span></button>
-    <button onclick="nav('news',this)"><i class="ni">📰</i><span data-i18n="n_news">News / Media</span></button>
-    <button onclick="nav('wlib',this);renderWlib()"><i class="ni">📚</i><span data-i18n="n_wlib">Website Library</span></button>
+    <button onclick="nav('cms',this)"><i class="ni" data-ic="cms" data-ic-size="17"></i><span data-i18n="n_cms">CMS &amp; Pages</span></button>
+    <button onclick="nav('news',this)"><i class="ni" data-ic="news" data-ic-size="17"></i><span data-i18n="n_news">News / Media</span></button>
+    <button onclick="nav('wlib',this);renderWlib()"><i class="ni" data-ic="wlib" data-ic-size="17"></i><span data-i18n="n_wlib">Website Library</span></button>
     <div class="grp" data-i18n="g_community">Community</div>
-    <button onclick="nav('partners',this)"><i class="ni">🏢</i><span data-i18n="n_partners">Partners</span></button>
-    <button onclick="nav('members',this)"><i class="ni">👥</i><span data-i18n="n_members">Memberships</span></button>
-    <button onclick="nav('library',this);renderLibrary()"><i class="ni">🗂️</i><span data-i18n="n_library">Speakers &amp; Organisations</span></button>
+    <button onclick="nav('partners',this)"><i class="ni" data-ic="partners" data-ic-size="17"></i><span data-i18n="n_partners">Partners</span></button>
+    <button onclick="nav('members',this)"><i class="ni" data-ic="members" data-ic-size="17"></i><span data-i18n="n_members">Memberships</span></button>
+    <button onclick="nav('library',this);renderLibrary()"><i class="ni" data-ic="speakers" data-ic-size="17"></i><span data-i18n="n_library">Speakers &amp; Organisations</span></button>
     <div class="grp" data-i18n="g_events">Events</div>
-    <button id="navEvents" onclick="nav('events',this)"><i class="ni">📅</i><span data-i18n="n_events">Event Management</span></button>
-    <button onclick="nav('subs',this);renderSubs()"><i class="ni">📥</i><span data-i18n="n_subs">Submissions</span></button>
+    <button id="navEvents" onclick="nav('events',this)"><i class="ni" data-ic="events" data-ic-size="17"></i><span data-i18n="n_events">Event Management</span></button>
+    <button onclick="nav('subs',this);renderSubs()"><i class="ni" data-ic="subs" data-ic-size="17"></i><span data-i18n="n_subs">Submissions</span></button>
     <div class="grp" data-i18n="g_data">Data</div>
-    <button onclick="nav('reports',this)"><i class="ni">📈</i><span data-i18n="n_reports">Reports &amp; Export</span></button>
+    <button onclick="nav('reports',this)"><i class="ni" data-ic="reports" data-ic-size="17"></i><span data-i18n="n_reports">Reports &amp; Export</span></button>
   </nav>
   <div class="foot"><span data-i18n="f_loggedas">Logged in as</span> <b>Ops Admin</b><a class="outlink" data-out="site" data-i18n="ag_back">← Back to website</a><a class="outlink" data-out="hub" data-i18n="f_hub">Demo hub</a></div>
 </aside>
@@ -544,11 +580,11 @@ tr:hover .pic::before{filter:none}
 <!-- MAIN -->
 <main>
   <div class="top">
-    <button class="hamb" aria-label="Toggle navigation" aria-controls="side" onclick="document.getElementById('side').classList.toggle('open')">☰</button>
+    <button class="hamb" aria-label="Toggle navigation" aria-controls="side" onclick="document.getElementById('side').classList.toggle('open')"><span data-ic="menu" data-ic-size="19"></span></button>
     <h1 id="viewTitle">Dashboard</h1>
     <span class="demo-tag">DEMO</span>
     <div class="sp"></div>
-    <div class="search"><span aria-hidden="true">🔎</span><input id="adSearch" aria-label="Search" placeholder="Search…" oninput="adminSearch(this.value)"></div>
+    <div class="search"><span aria-hidden="true" data-ic="search" data-ic-size="16"></span><input id="adSearch" aria-label="Search" placeholder="Search…" oninput="adminSearch(this.value)"></div>
     <div class="who"><div class="av">OA</div></div>
   </div>
 
@@ -557,16 +593,16 @@ tr:hover .pic::before{filter:none}
     <!-- ===== DASHBOARD ===== -->
     <div class="view on" id="v-dashboard">
       <div class="nda">
-        <div class="i">🔐</div>
+        <div class="i" data-ic="lock" data-ic-size="22"></div>
         <div style="flex:1"><b data-i18n="nda_t">NDA signed · Admin access granted to IMT</b><p data-i18n="nda_p">Confidential-data access is enabled only after the NDA between SVEF and IMT is signed (BRD §7.5 / §11.2). Exports below never expose passwords or sensitive fields.</p></div>
         <span class="chip green" data-i18n="d_active">Active</span>
       </div>
       <div class="stat-grid">
-        <div class="st"><div class="ic">🏢</div><b id="stPartN">0</b><span data-i18n="s_partners">Partners</span><div class="up" id="stPartSub">—</div></div>
-        <div class="st"><div class="ic">👥</div><b id="stMemN">0</b><span data-i18n="s_members">Member accounts</span><div class="up" id="stMemSub">—</div></div>
-        <div class="st"><div class="ic">📅</div><b id="stEvN">0</b><span data-i18n="s_events">Events</span><div class="up" id="stEvSub">—</div></div>
-        <div class="st"><div class="ic">🎫</div><b id="stRegN">0</b><span data-i18n="s_regs">Event registrations</span><div class="up" id="stRegSub">0 confirmed</div></div>
-        <div class="st"><div class="ic">📈</div><b id="stCiN">0</b><span data-i18n="s_ci">Checked in</span><div class="up" id="stCiSub">—</div></div>
+        <div class="st"><div class="ic" data-ic="partners" data-ic-size="19"></div><b id="stPartN">0</b><span data-i18n="s_partners">Partners</span><div class="up" id="stPartSub">—</div></div>
+        <div class="st"><div class="ic" data-ic="members" data-ic-size="19"></div><b id="stMemN">0</b><span data-i18n="s_members">Member accounts</span><div class="up" id="stMemSub">—</div></div>
+        <div class="st"><div class="ic" data-ic="events" data-ic-size="19"></div><b id="stEvN">0</b><span data-i18n="s_events">Events</span><div class="up" id="stEvSub">—</div></div>
+        <div class="st"><div class="ic" data-ic="ticket" data-ic-size="19"></div><b id="stRegN">0</b><span data-i18n="s_regs">Event registrations</span><div class="up" id="stRegSub">0 confirmed</div></div>
+        <div class="st"><div class="ic" data-ic="checkin" data-ic-size="19"></div><b id="stCiN">0</b><span data-i18n="s_ci">Checked in</span><div class="up" id="stCiSub">—</div></div>
       </div>
 
       <div class="panel">
@@ -721,10 +757,10 @@ tr:hover .pic::before{filter:none}
         <div class="pbody">
           <p class="muted" style="margin-top:0" data-i18n="rep_intro">Export to Excel/CSV for reporting. Confidential fields such as passwords are always excluded (BRD BR-W-18 / §11.2).</p>
           <div class="stat-grid" style="grid-template-columns:repeat(2,1fr)">
-            <div class="st" style="cursor:pointer" onclick="exportData('partners')"><div class="ic">🏢</div><b style="font-size:17px" data-i18n="n_partners">Partners</b><span>124 · CSV / XLSX</span></div>
-            <div class="st" style="cursor:pointer" onclick="exportData('members')"><div class="ic">👥</div><b style="font-size:17px" data-i18n="n_members">Memberships</b><span>1,842 · CSV / XLSX</span></div>
-            <div class="st" style="cursor:pointer" onclick="exportData('registrants')"><div class="ic">🎟</div><b style="font-size:17px" data-i18n="rep_regs">Event registrations</b><span id="repRegMeta">0 · CSV</span></div>
-            <div class="st" style="cursor:pointer" onclick="exportData('checkin')"><div class="ic">✅</div><b style="font-size:17px" data-i18n="rep_ci">Check-in log</b><span id="repCiMeta">0 · CSV</span></div>
+            <div class="st" style="cursor:pointer" onclick="exportData('partners')"><div class="ic" data-ic="partners" data-ic-size="19"></div><b style="font-size:17px" data-i18n="n_partners">Partners</b><span>124 · CSV / XLSX</span></div>
+            <div class="st" style="cursor:pointer" onclick="exportData('members')"><div class="ic" data-ic="members" data-ic-size="19"></div><b style="font-size:17px" data-i18n="n_members">Memberships</b><span>1,842 · CSV / XLSX</span></div>
+            <div class="st" style="cursor:pointer" onclick="exportData('registrants')"><div class="ic" data-ic="ticket" data-ic-size="19"></div><b style="font-size:17px" data-i18n="rep_regs">Event registrations</b><span id="repRegMeta">0 · CSV</span></div>
+            <div class="st" style="cursor:pointer" onclick="exportData('checkin')"><div class="ic" data-ic="checkin" data-ic-size="19"></div><b style="font-size:17px" data-i18n="rep_ci">Check-in log</b><span id="repCiMeta">0 · CSV</span></div>
           </div>
           <h4 class="seoh" data-i18n="rep_regh">Registrations by event</h4>
           <table><thead><tr><th data-i18n="c_event">Event</th><th data-i18n="rg_c_seats">Registered / capacity</th><th data-i18n="rg_c_status">Status split</th><th data-i18n="rg_c_ci">Checked in</th></tr></thead><tbody id="repRegTable"></tbody></table>
@@ -811,6 +847,7 @@ function applyOutLinks(){
 /* ===== I18N ===== */
 const T={
  en:{
+  a_more:"More actions",
   /* ---- 25/08 meeting additions ---------------------------------------- */
   n_library:"Speakers & Organisations",
   c_ref:"Reference",c_city:"City",c_regs2:"Registrants",
@@ -1554,7 +1591,9 @@ function profWord(n){return 'profile'+(n>1?'s':'');}
 function fmtLabel(f){return {'In-person':tr('fmt_in'),'Online':tr('fmt_on'),'Hybrid':tr('fmt_hy')}[f]||f||'';}
 
 function partnerRow(p,i){return `<tr><td><div class="namecell">${av(p)}<b>${esc(p.n)}</b></div></td><td><span class="chip navy">${esc(p.type)}</span></td><td>${esc(p.ind)}</td><td>${esc(p.market)}</td><td>${(p.docs||[]).length}</td>
-  <td><div class="act-btns"><button class="btn ghost sm" onclick="openPartnerA(${i},true)">${tr('d_view')}</button><button class="btn line sm" onclick="openPartnerA(${i})">${tr('d_edit')}</button><button class="btn line sm" onclick="delPartnerA(${i})" aria-label="Remove">🗑</button></div></td></tr>`}
+  <td class="act"><div class="rowact"><button class="btn ghost sm" onclick="openPartnerA(${i},true)">${tr('d_view')}</button>`+
+  actMore([{l:tr('d_edit'),a:`openPartnerA(${i})`},{l:tr('d_delete'),a:`delPartnerA(${i})`,d:1}])+
+  `</div></td></tr>`}
 
 function memberRow(m,i){
   const np=(m.profiles||[]).length,o=memberOrg(m);
@@ -1564,10 +1603,12 @@ function memberRow(m,i){
           :`<span class="muted">${tr('mo_unmatched')}</span>`}</td>`+
    `<td>${esc(m.role)}</td>`+
    `<td class="${m.susp?'':'muted'}">${m.susp?`<span class="chip red">${tr('d_suspended')}</span>`:esc(m.access)}</td>`+
-   `<td><div class="act-btns wrap"><button class="btn ghost sm" onclick="openProfiles(${i})">${tr('d_viewprof')}</button>`+
-   `<button class="btn line sm" onclick="openMemberOrg(${i})">${tr('mo_btn')}</button>`+
-   `<button class="btn line sm" onclick="openRole(${i})">${tr('d_chrole')}</button>`+
-   `<button class="btn line sm" onclick="toggleSuspend(${i})">${m.susp?tr('d_reactivate'):tr('d_suspend')}</button></div></td></tr>`;
+   `<td class="act"><div class="rowact">`+
+   `<button class="btn ghost sm" onclick="openProfiles(${i})">${tr('d_viewprof')}</button>`+
+   actMore([{l:tr('mo_btn'),a:`openMemberOrg(${i})`},
+            {l:tr('d_chrole'),a:`openRole(${i})`},
+            {l:m.susp?tr('d_reactivate'):tr('d_suspend'),a:`toggleSuspend(${i})`,d:m.susp?0:1}])+
+   `</div></td></tr>`;
 }
 function renderMembers(){document.getElementById('memberTable').innerHTML=members.map(memberRow).join('');}
 
@@ -2592,19 +2633,28 @@ function regCiCell(r){
     (r.ciAt?`<span class="sub2">${esc(r.ciAt)}</span>`:'');
   return `<span class="chip">${tr('rg_ci_no')}</span>`;
 }
+/* One verb in the row: the decision this row is waiting on. A pending request
+   wants Approve, a waitlisted one wants Promote, a settled one has nothing
+   outstanding so it offers Edit. Everything else — including both destructive
+   verbs — sits behind the kebab. */
 function regActions(e,r,i){
-  const b=[];
+  const more=[];
+  let primary;
   if(r.st==='Pending'){
-    b.push(`<button class="btn green sm" onclick="regApprove(${i})">${tr('rg_a_appr')}</button>`);
-    b.push(`<button class="btn line sm" onclick="regReject(${i})">${tr('rg_a_rej')}</button>`);
+    primary=`<button class="btn green sm" onclick="regApprove(${i})">${tr('rg_a_appr')}</button>`;
+    more.push({l:tr('d_edit'),a:`regEditOpen(${i})`});
+    more.push({l:tr('rg_a_mail'),a:`regResend(${i})`});
+    more.push({l:tr('rg_a_rej'),a:`regReject(${i})`,d:1});
+  }else if(r.st==='Waitlisted'){
+    primary=`<button class="btn green sm" onclick="regPromote(${i})">${tr('rg_a_prom')}</button>`;
+    more.push({l:tr('d_edit'),a:`regEditOpen(${i})`});
+    more.push({l:tr('rg_a_mail'),a:`regResend(${i})`});
+  }else{
+    primary=`<button class="btn ghost sm" onclick="regEditOpen(${i})">${tr('d_edit')}</button>`;
+    more.push({l:tr('rg_a_mail'),a:`regResend(${i})`});
   }
-  if(r.st==='Waitlisted')
-    b.push(`<button class="btn green sm" onclick="regPromote(${i})">${tr('rg_a_prom')}</button>`);
-  if(r.st!=='Cancelled')
-    b.push(`<button class="btn line sm" onclick="regCancel(${i})">${tr('rg_a_canc')}</button>`);
-  b.push(`<button class="btn line sm" onclick="regResend(${i})">${tr('rg_a_mail')}</button>`);
-  b.push(`<button class="btn ghost sm" onclick="regEditOpen(${i})">${tr('d_edit')}</button>`);
-  return `<div class="act-btns wrap">${b.join('')}</div>`;
+  if(r.st!=='Cancelled')more.push({l:tr('rg_a_canc'),a:`regCancel(${i})`,d:1});
+  return `<div class="rowact">${primary}${actMore(more)}</div>`;
 }
 /* Stacked cells, not one column per field: name over email and company over job
    title, so the whole row fits the panel without sideways scrolling. */
@@ -2624,7 +2674,7 @@ function regRowHtml(e,r,i){
     `<td class="tight">${fmtD(r.d)}</td>`+
     `<td class="tight">${rsChipShort(r.st)}</td>`+
     `<td class="tight">${regCiCell(r)}</td>`+
-    `<td>${regActions(e,r,i)}</td></tr>`;
+    `<td class="act">${regActions(e,r,i)}</td></tr>`;
   if(grp&&open){
     html+=`<tr class="subatt"><td class="ck"></td><td colspan="7"><div class="attlist">`+
       attList(r).map(function(x){
@@ -2905,7 +2955,7 @@ function regCiHtml(e){
     appHead('rg_ci_h',`<button class="btn line sm" onclick="ciUndoLast()">${tr('rg_ci_undo')}</button>`)+
     `<div class="countrow" id="ciCounts">${ciCountsHtml(e)}</div>`+
     `<div class="pbody"><div class="g2">`+
-      `<div class="scanbox"><div class="qz" aria-hidden="true">▣</div>`+
+      `<div class="scanbox"><div class="qz" aria-hidden="true" data-ic="qr" data-ic-size="38"></div>`+
         `<p>${tr('rg_ci_scan_p')}</p>`+
         `<button class="btn" onclick="ciScan()">${tr('rg_ci_scan')}</button></div>`+
       `<div><div class="mrow"><label>${tr('rg_ci_code')}</label>`+
@@ -4630,12 +4680,57 @@ function applyI18n(){
   renderAll();
 }
 
+/* ===================== ROW ACTION OVERFLOW =====================
+   actMore([{l:label, a:'js to run', d:1 if destructive}]) renders the kebab.
+   The menu itself is built on open into a fixed layer, so a horizontally
+   scrolling panel can never clip it and a long list can flip above the button. */
+let ovfOpen=null;
+function actMore(items){
+  if(!items||!items.length)return '';
+  return '<button class="kebab" type="button" aria-haspopup="true" aria-expanded="false"'
+    +' aria-label="'+tr('a_more')+'" title="'+tr('a_more')+'"'
+    +' data-acts="'+esc(JSON.stringify(items))+'" onclick="ovfShow(this,event)">'
+    +'<span data-ic="more" data-ic-size="16"></span></button>';
+}
+function ovfHide(){
+  if(!ovfOpen)return;
+  ovfOpen.el.remove();
+  ovfOpen.owner.setAttribute('aria-expanded','false');
+  ovfOpen=null;
+}
+function ovfShow(btn,ev){
+  ev.stopPropagation();
+  const reopen=ovfOpen&&ovfOpen.owner===btn;
+  ovfHide();
+  if(reopen)return;
+  let items;try{items=JSON.parse(btn.dataset.acts);}catch(x){return;}
+  const m=document.createElement('div');
+  m.className='ovfmenu';m.setAttribute('role','menu');
+  m.innerHTML=items.map(it=>'<button type="button" role="menuitem" class="'+(it.d?'danger':'')+'">'
+    +esc(it.l)+'</button>').join('');
+  document.body.appendChild(m);
+  [].forEach.call(m.children,function(b,i){
+    b.onclick=function(e){e.stopPropagation();ovfHide();(new Function(items[i].a))();};
+  });
+  const r=btn.getBoundingClientRect(),w=m.offsetWidth,h=m.offsetHeight;
+  let left=r.right-w,top=r.bottom+4;
+  if(top+h>window.innerHeight-8)top=Math.max(8,r.top-h-4);
+  if(left<8)left=8;
+  m.style.left=left+'px';m.style.top=top+'px';
+  btn.setAttribute('aria-expanded','true');
+  m.querySelector('button').focus();
+  ovfOpen={owner:btn,el:m};
+}
+document.addEventListener('click',ovfHide);
+document.addEventListener('scroll',ovfHide,true);
+window.addEventListener('resize',ovfHide);
+
 /* ===== TOAST ===== */
 let toTimer;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toTimer);toTimer=setTimeout(()=>t.classList.remove('show'),2100);}
 
 /* ===== A11Y / AUTH ===== */
-document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.getElementById('side').classList.remove('open');closeModal();}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){ovfHide();document.getElementById('side').classList.remove('open');closeModal();}});
 /* The top-bar search used to be decorative. It filters the table in the view you
    are looking at, which is the only thing it could honestly claim to do. */
 function adminSearch(q){
@@ -4653,6 +4748,65 @@ function signIn(method){
   document.getElementById('authGate').classList.add('hide');
   toast(method==='m365'?tr('t_signed_m365'):tr('t_signed'));
 }
+
+/* ===================== ICONS =====================
+   The back office used emoji behind a grayscale filter, which desaturated them
+   into unreadable grey blobs — the sidebar and the stat cards were the worst of
+   it. These are the same one-stroke, one-grid, currentColor set the app uses, so
+   the two surfaces finally look like one product. */
+const ICON_PATHS={
+  dashboard:'<rect x="3" y="3" width="7.5" height="8.5" rx="1"/><rect x="13.5" y="3" width="7.5" height="5" rx="1"/><rect x="3" y="14.5" width="7.5" height="6.5" rx="1"/><rect x="13.5" y="11" width="7.5" height="10" rx="1"/>',
+  cms:'<path d="M6 3.5h8.5L19 8v12.5H6z"/><path d="M14 3.5V8h5"/><path d="M9 12.5h7M9 16h5"/>',
+  news:'<path d="M3.5 6h13v14h-13z"/><path d="M16.5 9.5H20a.5.5 0 0 1 .5.5v8.5a1.5 1.5 0 0 1-3 0V6"/><path d="M6.5 9h7M6.5 12.5h7M6.5 16h4"/>',
+  wlib:'<path d="m12 6.2 8.5-2.7v14L12 20.2 3.5 17.5v-14z"/><path d="M12 6.2v14"/>',
+  partners:'<path d="M4 20.5V6.4L12 3.6v16.9"/><path d="M12 10h7.5v10.5"/><path d="M7 8.6h2M7 12h2M7 15.4h2M15 13.4h2M15 16.8h2"/><path d="M2.5 20.5h19"/>',
+  members:'<circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16.5 5.6a3.2 3.2 0 0 1 0 6.3"/><path d="M18 14.4c2.1.7 3.5 2.5 3.5 5.1"/>',
+  library:'<path d="M9 15.5a4 4 0 1 1 4-4v6.7a2.8 2.8 0 1 1-2.8-2.8"/><path d="M13 11.5h3.2a3.3 3.3 0 0 1 0 6.6H13"/>',
+  speakers:'<rect x="9" y="3" width="6" height="10.5" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0"/><path d="M12 18v3M9 21h6"/>',
+  events:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  subs:'<path d="M3.5 13.5h4l1.5 3h6l1.5-3h4"/><path d="M3.5 13.5 6 5.5h12l2.5 8v5.5a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/>',
+  reports:'<path d="M3.5 20.5h17"/><path d="M4 16.5 9.5 11l3.5 3.4L20 7.5"/><path d="M15.5 7.5H20V12"/>',
+  ticket:'<path d="M3 8.5V6.5a1.5 1.5 0 0 1 1.5-1.5h15A1.5 1.5 0 0 1 21 6.5v2a2.5 2.5 0 0 0 0 7v2a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-2a2.5 2.5 0 0 0 0-7z"/><path d="M13 5v14" stroke-dasharray="2 2.5"/>',
+  checkin:'<circle cx="12" cy="12" r="9"/><path d="m8 12.2 2.8 2.8L16 9.8"/>',
+  lock:'<rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5"/>',
+  search:'<circle cx="10.8" cy="10.8" r="6.3"/><path d="m15.4 15.4 4.1 4.1"/>',
+  menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+  qr:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM14 21h3M21 14v3"/>',
+  pin:'<path d="M12 21.5s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10.3" r="2.6"/>',
+  trash:'<path d="M4.5 6.5h15"/><path d="M9.5 6.5V4.8A1.3 1.3 0 0 1 10.8 3.5h2.4a1.3 1.3 0 0 1 1.3 1.3v1.7"/><path d="M6.5 6.5 7.4 20a1.5 1.5 0 0 0 1.5 1.4h6.2a1.5 1.5 0 0 0 1.5-1.4l.9-13.5"/><path d="M10.3 10.5v7M13.7 10.5v7"/>',
+  download:'<path d="M12 3.5v12"/><path d="m7.5 11.5 4.5 4.5 4.5-4.5"/><path d="M4.5 20.5h15"/>',
+  upload:'<path d="M12 20.5v-12"/><path d="m7.5 12.5 4.5-4.5 4.5 4.5"/><path d="M4.5 3.5h15"/>',
+  save:'<path d="M4.5 5.5A2 2 0 0 1 6.5 3.5h9L20.5 8.5v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2z"/><path d="M8 3.5v5h7v-5"/><path d="M8 20.5V14h8v6.5"/>',
+  warn:'<path d="M12 4.2 21 19.5H3z"/><path d="M12 10v4.2M12 17.2h.01"/>',
+  eye:'<path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.9"/>',
+  tag:'<path d="M3.5 11.2V4.5a1 1 0 0 1 1-1h6.7L20.5 12.8 12.8 20.5z"/><circle cx="8" cy="8" r="1.5"/>',
+  key:'<circle cx="8.2" cy="12" r="4.2"/><path d="M12.4 12h8.1M17.5 12v3.2M20.5 12v2.4"/>',
+  mail:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.6 7 8.4 6 8.4-6"/>',
+  bell:'<path d="M6.5 10a5.5 5.5 0 0 1 11 0c0 4.2 1.5 5.8 1.5 5.8H5s1.5-1.6 1.5-5.8z"/><path d="M10.2 19.2a2 2 0 0 0 3.6 0"/>',
+  camera:'<path d="M3.5 8.5h3.4l1.6-2.4h7l1.6 2.4h3.4v10a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5z"/><circle cx="12" cy="13.5" r="3.4"/>',
+  cog:'<circle cx="12" cy="12" r="3.1"/><path d="M12 2.8v2.6M12 18.6v2.6M4.5 12H2M22 12h-2.5M6.7 6.7 4.9 4.9M19.1 19.1l-1.8-1.8M6.7 17.3l-1.8 1.8M19.1 4.9l-1.8 1.8"/>',
+  more:'<circle cx="5.5" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><circle cx="18.5" cy="12" r="1.4" fill="currentColor" stroke="none"/>',
+  handshake:'<path d="m3 12.5 3.5-3.5 3 1 3-1.5 3 1.5 3-1 3 3.5"/><path d="m8 14 2.5 2.5a1.6 1.6 0 0 0 2.3 0L18 11.5"/><path d="m6.5 9 3.5 3.5"/>',
+  chart:'<path d="M3.5 20.5h17"/><path d="M6.5 20.5v-7M11 20.5V6.5M15.5 20.5v-10M20 20.5V10"/>'
+};
+function ic(name,size){
+  const p=ICON_PATHS[name];if(!p)return '';
+  const w=size||18;
+  return '<svg class="ico-svg" viewBox="0 0 24 24" width="'+w+'" height="'+w+'" fill="none" '
+    +'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" '
+    +'aria-hidden="true">'+p+'</svg>';
+}
+function paintIcons(root){
+  (root||document).querySelectorAll('[data-ic]').forEach(function(el){
+    if(el.dataset.icPainted)return;
+    el.innerHTML=ic(el.dataset.ic,+el.dataset.icSize||18);
+    el.dataset.icPainted='1';
+  });
+}
+/* Views are rebuilt with innerHTML all over this file. Observing is cheaper than
+   remembering to repaint at 40 call sites. */
+new MutationObserver(function(){paintIcons();}).observe(document.documentElement,{childList:true,subtree:true});
+paintIcons();
 
 applyOutLinks();
 applyI18n();
