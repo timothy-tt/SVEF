@@ -295,6 +295,7 @@ demo rather than in a document.
 |---|---|
 | Partner self-service space: partners creating and maintaining their own events | Toàn asked for this to be proposed separately, together with partner registration. Not in the October scope. |
 | Partner self-service, again: the 31/08 submission intake is not it | The intake is a link, an inbox and a publish button for material on an event SVEF already runs. No account, no login, no profile the partner maintains, nothing published without a person approving it. The self-service space stays where Toàn put it on 25/08: a separate proposal. |
+| Venue map and navigation | Cut from the MVP on 03/09/2026. What existed was a hardcoded SVG floor plan of the Hanoi venue: it was not per-event, so a partner event in Zurich or Basel showed the Hanoi layout; the "your location" dot was a fixed circle with no positioning behind it; and "Chỉ đường" only raised a toast. Building it properly needs a floor plan per event, an editor for it in the back office, and booth coordinates — none of which exist. The screen and both its entry points (the Explore button and the Home quick action) are removed rather than left as an unbuilt feature in front of the client. Reference implementation is in git history at commit `eb989af`. |
 | Event listing search, sort and filter | Kept basic to make October. Revisit when partner events make the list long enough to need it. |
 | Meeting topics | June's note: not needed at this stage. |
 | Payment and ticketing | Removed 19/08, "cut payment out, all events are free at this moment". June confirmed on 19/08 that payment is not needed for this phase. The reference implementation is in git history at commit `4e703cb`. |
@@ -304,9 +305,11 @@ demo rather than in a document.
 
 - **BR-W-19**, importing data from the legacy system, is now **built** for event
   registrations. Other record types still have no importer.
-- Map and navigation, and the exhibitor and sponsor booth directory, remain listed
-  in BRD 8.4 as having no existing UI. The app has a venue map screen but no booth
-  directory.
+- **Map and navigation** is listed in BRD 8.4 as having no existing UI, and is now
+  deferred out of the MVP — see section 3 for what was there and why it went.
+- The **exhibitor and sponsor booth directory** is also BRD 8.4. The Explore tab
+  lists exhibitors, but every entry is a dead end: no booth detail, no booth number,
+  and nothing that places a booth anywhere. A list is not yet a directory.
 - **BR-W-13 / BR-W-14** (partners proposing events, and admin approving them) are
   still not built, and the submission intake of 31/08 does not change that. What the
   intake collects is **material for an event that already exists**: slides, photos
