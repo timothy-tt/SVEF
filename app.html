@@ -460,9 +460,33 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
   border-radius:0;border:8px solid #fff;box-shadow:0 0 0 1px var(--ink)}
 
 /* ==================== NOTIFICATIONS ==================== */
-.nf{display:flex;gap:13px;background:#fff;border:1px solid var(--line);padding:14px;margin:0 16px -1px;
-  border-radius:0;box-shadow:none}
-.nf .nfi{width:36px;height:36px;border-radius:0;display:grid;place-items:center;flex:0 0 36px;color:#fff;filter:grayscale(1)}
+/* A notification is either something you have dealt with or something you have
+   not, and the list was showing no difference between the two. Unread carries the
+   red rule, the tint and a dot; read recedes. Every row is a button now: several
+   of them ask a direct question ("Chấp nhận?") and used to leave you to find the
+   answer screen yourself. */
+.nf{display:flex;gap:13px;width:calc(100% - 32px);text-align:left;background:#fff;
+  border:1px solid var(--line);border-left:3px solid transparent;padding:14px;margin:0 16px -1px;
+  border-radius:0;box-shadow:none;font-family:var(--sans);color:var(--ink);cursor:pointer}
+.nf:active{background:var(--soft)}
+.nf.unread{background:var(--wash-2);border-left-color:var(--red)}
+.nf.unread b{font-weight:700}
+.nf .nfd{flex:0 0 7px;width:7px;height:7px;background:var(--red);margin-top:6px;align-self:flex-start}
+.nf.read .nfd{background:transparent}
+.nfbar{display:flex;align-items:center;gap:10px;margin:0 16px 10px}
+.nfbar .n{font-size:12px;color:var(--muted);flex:1}
+.nfbar .n b{color:var(--ink)}
+.nfbar button{border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;
+  font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:-.01em;padding:8px 12px;border-radius:0}
+.nfbar button:active{background:var(--ink);color:#fff}
+/* the bell carries the number, not a bare dot: "how many" is the thing you want
+   to know before deciding to open it */
+.badge-num{position:absolute;top:-7px;right:-7px;min-width:16px;height:16px;padding:0 4px;
+  background:var(--red);color:#fff;font-family:var(--sans);font-size:9px;font-weight:700;
+  display:grid;place-items:center;box-shadow:0 0 0 2px var(--ink)}
+/* These were emoji behind filter:grayscale(1), i.e. grey blobs — the same thing
+   the back-office sidebar was doing. One stroke set, one grid, currentColor. */
+.nf .nfi{width:36px;height:36px;border-radius:0;display:grid;place-items:center;flex:0 0 36px;color:#fff}
 .nf b{font-size:13.5px;font-weight:600;letter-spacing:-.02em}
 .nf p{margin:4px 0 0;font-size:12px;color:var(--muted)}
 .nf time{font-family:var(--sans);font-size:9px;color:var(--muted);letter-spacing:.06em}
@@ -751,7 +775,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
     <h1 id="abTitle">SVEF <small>Swiss-Viet Economic Forum</small></h1>
     <button class="ic-btn lang-btn" onclick="toggleLang()" title="Language / Ngôn ngữ"><span data-ic="globe" data-ic-size="16"></span><span id="globeLbl">VI</span></button>
     <button class="ic-btn" id="msgBtn" onclick="openMessages()" data-i18n-title="qa_messages" title="Tin nhắn"><span data-ic="chat" data-ic-size="17"></span><span class="badge-dot"></span></button>
-    <button class="ic-btn" id="notifBtn" onclick="go('notifications')" title="Notifications"><span data-ic="bell" data-ic-size="17"></span><span class="badge-dot"></span></button>
+    <button class="ic-btn" id="notifBtn" onclick="go('notifications')" title="Notifications"><span data-ic="bell" data-ic-size="17"></span><span class="badge-num" id="notifBadge">0</span></button>
   </div>
 
   <div class="content" id="content">
@@ -1171,7 +1195,7 @@ const T={
   nt_pend_t:"Đăng ký chờ duyệt", nt_pend_p:"Đăng ký tham dự {ev} đã được gửi tới ban tổ chức. Mã đặt chỗ #{ref}.",
   nt_wait_t:"Đã vào danh sách chờ", nt_wait_p:"Bạn đang ở danh sách chờ của {ev}. Mã đặt chỗ #{ref}.",
   nt_cancel_t:"Đã huỷ đăng ký", nt_cancel_p:"Đăng ký tham dự {ev} đã được huỷ. Mã đặt chỗ #{ref}.",
-  nt_now:"Vừa xong",
+  nt_now:"Vừa xong", nf_unread:"{n} thông báo chưa đọc", nf_readall:"Đánh dấu đã đọc",
   /* ===== Round 5: attending events, handles, own profile ===== */
   at_l:"Sự kiện bạn tham dự", at_now:"Đang diễn ra", at_current:"Đang xem",
   at_switch_hint:"Chạm vào một sự kiện để chuyển toàn bộ ứng dụng sang sự kiện đó.",
@@ -1438,7 +1462,7 @@ const T={
   nt_pend_t:"Registration pending approval", nt_pend_p:"Your registration for {ev} has gone to the organisers. Booking #{ref}.",
   nt_wait_t:"Added to the waitlist", nt_wait_p:"You are on the waitlist for {ev}. Booking #{ref}.",
   nt_cancel_t:"Registration cancelled", nt_cancel_p:"Your registration for {ev} has been cancelled. Booking #{ref}.",
-  nt_now:"Just now",
+  nt_now:"Just now", nf_unread:"{n} unread", nf_readall:"Mark all read",
   /* ===== Round 5: attending events, handles, own profile ===== */
   at_l:"Events you are attending", at_now:"Happening now", at_current:"Viewing",
   at_switch_hint:"Tap an event to switch the whole app across to it.",
@@ -2094,6 +2118,10 @@ let connections=[
 ];
 /* Which notification categories the attendee wants. This really filters the list. */
 let notifPrefs={session:true, meeting:true, reg:true, chat:true};
+/* Which notifications have been opened. The two oldest seeded ones start read so
+   the list demonstrates both states on first load rather than a wall of unread. */
+let notifRead={s3:true, s4:true};
+let notifSeq=0;
 /* 25/08 meeting, 1.3: manual push from the back office stays exactly as it was,
    and on top of it the agenda now reminds you by itself. Lead time is the
    attendee's choice; whether a session reminds at all is the organiser's, set
@@ -3373,7 +3401,7 @@ function fillIn(l,s,rep){
   return /\{[A-Za-z0-9_]+\}/.test(s)?'':s;
 }
 function pushNotif(ic,c,tk,pk,rep,cat){
-  notifLog.unshift({ic:ic,c:c,cat:cat||'reg',
+  notifLog.unshift({id:'n'+(++notifSeq),ic:ic,c:c,cat:cat||'reg',
     t:{vi:trIn('vi',tk),en:trIn('en',tk)},
     p:{vi:fillIn('vi',trIn('vi',pk),rep),en:fillIn('en',trIn('en',pk),rep)}});
 }
@@ -3400,16 +3428,51 @@ function seedAgendaReminders(){
          en:fillIn('en',trIn('en','nt_auto_b'),{s:tx(ss.t),m:remindLead,r:tx(ss.room),d:tx(d.lbl)})}});
   });
 }
+const NOTIF_IC={session:'calendar', meeting:'handshake', reg:'ticket', chat:'chat'};
+function notifList(){
+  const fresh=notifLog.map(n=>({id:n.id,ic:n.ic,c:n.c,t:tx(n.t),p:tx(n.p),time:tr('nt_now'),cat:n.cat}));
+  const seeded=tr('notif').map((n,i)=>({id:'s'+i,ic:n[0],c:n[1],t:n[2],p:n[3],time:n[4],cat:notifCats[i]||'reg'}));
+  return fresh.concat(seeded).filter(n=>notifPrefs[n.cat]!==false);
+}
+function notifUnread(){return notifList().filter(n=>!notifRead[n.id]).length;}
+/* Opening a notification takes you to the thing it is about. Several of them ask
+   a question, and the answer has always lived on another screen. */
+function notifOpen(id,cat){
+  notifRead[id]=true;
+  if(cat==='meeting'){go('schedule');switchScTab('meetings');}
+  else if(cat==='session'){go('schedule');switchScTab('all');}
+  else if(cat==='chat'){openMessages();}
+  else if(cat==='reg'){openMyRegs();}
+  renderNotif();paintBadges();
+}
+function notifReadAll(){notifList().forEach(n=>{notifRead[n.id]=true;});renderNotif();paintBadges();}
 function renderNotif(){
   const el=byId('notifList');if(!el)return;
-  const fresh=notifLog.map(n=>({ic:n.ic,c:n.c,t:tx(n.t),p:tx(n.p),time:tr('nt_now'),fresh:true,cat:n.cat}));
-  const seeded=tr('notif').map((n,i)=>({ic:n[0],c:n[1],t:n[2],p:n[3],time:n[4],fresh:false,cat:notifCats[i]||'reg'}));
-  const list=fresh.concat(seeded).filter(n=>notifPrefs[n.cat]!==false);
-  el.innerHTML=list.length
-    ? list.map(n=>`<div class="nf${n.fresh?' fresh':''}"><div class="nfi" style="background:${n.c}">${n.ic}</div>`
-        +`<div style="flex:1"><b>${n.t}</b><p>${n.p}</p></div><time>${n.time}</time></div>`).join('')
-    : `<div class="empty"><div class="e-ic">🔔</div><p>${tr('nf_off_all')}</p>`
+  const list=notifList(),un=notifUnread();
+  if(!list.length){
+    el.innerHTML=`<div class="empty"><div class="e-ic">🔔</div><p>${tr('nf_off_all')}</p>`
       +`<div style="padding:16px 8px 0"><button class="btn ghost" onclick="openMe('notif')">${tr('m_notif')}</button></div></div>`;
+    paintBadges();return;
+  }
+  el.innerHTML=(un?`<div class="nfbar"><span class="n">`
+      +trf('nf_unread',{n:un},'ab_notifications')+`</span>`
+      +`<button onclick="notifReadAll()">${tr('nf_readall')}</button></div>`:'')
+    +list.map(n=>{
+      const unread=!notifRead[n.id];
+      return `<button class="nf ${unread?'unread':'read'}" onclick="notifOpen('${n.id}','${n.cat}')">`
+        +`<span class="nfd"></span>`
+        +`<div class="nfi" style="background:${n.c}">${ic(NOTIF_IC[n.cat]||'bell',18)}</div>`
+        +`<div style="flex:1"><b>${n.t}</b><p>${n.p}</p></div><time>${n.time}</time></button>`;
+    }).join('');
+  paintBadges();
+}
+/* The bell says how many are waiting; the chat dot stays a dot because the
+   message list does not track counts in this prototype. */
+function paintBadges(){
+  const b=byId('notifBadge');if(!b)return;
+  const n=notifUnread();
+  b.textContent=n>9?'9+':String(n);
+  b.style.display=n?'grid':'none';
 }
 function openSession(i){
   curSession=i;const s=sessions[i];
@@ -3942,7 +4005,7 @@ function meToggle(k){
   renderAll();
   toast(tr('pv_saved'));
 }
-function notifToggle(k){notifPrefs[k]=!notifPrefs[k];renderNotif();renderMeSheet();}
+function notifToggle(k){notifPrefs[k]=!notifPrefs[k];renderNotif();paintBadges();renderMeSheet();}
 function swRow(on,title,desc,fn){
   return `<button class="sw${on?' on':''}" onclick="${fn}">
     <span class="swb"><b>${title}</b>${desc?`<span>${desc}</span>`:''}</span><i></i></button>`;
