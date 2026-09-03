@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SVEF App · Prototype</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap');
 /* ==========================================================================
    SVEF Event App — Swiss International Typographic Style
    Flat colour fields, hairline rules, neo-grotesque type, SVEF red #E42026.
@@ -50,7 +50,18 @@
   --bg:var(--wash); --card:#FFFFFF; --soft:var(--wash-2);
   --shadow:0 18px 44px rgba(14,39,61,.16); --shadow-sm:none;
   --r:0;
-  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  /* SF Mono cannot be shipped as a webfont: Apple licenses it for use on Apple
+     platforms and does not permit redistribution, and this is published on
+     GitHub Pages. It does not need shipping to be used — asking for it first
+     means every Mac and iPhone renders the real thing from the system, which
+     is what was wanted. It was already in this stack and never reached,
+     because IBM Plex Mono sat in front of it and always won.
+     Geist Mono is the fallback everywhere else: a neutral grotesque mono that
+     sits closer to SF Mono than IBM Plex did, pairs with Inter Tight, and — the
+     part that decided it — ships a Vietnamese subset. DM Mono and Fragment Mono
+     read better still and were both rejected for having none: the diacritics
+     would have fallen back glyph by glyph to a different face. */
+  --mono:"SF Mono",SFMono-Regular,"Geist Mono",ui-monospace,Menlo,Consolas,monospace;
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,"Segoe UI",system-ui,sans-serif;
   /* TT Days Sans Black is SVEF's display face (Typetype, commercial licence).
      It is NOT shipped as a webfont: the desktop licence in the brand kit does
@@ -285,7 +296,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .pillrow{display:flex;align-items:center;gap:8px;padding:12px 16px 6px;overflow-x:auto}
 /* The count is pinned outside the scroller. Inside it, it scrolled away with the
    day pills the moment they were wider than the row. */
-.dayrow{display:flex;align-items:center;gap:10px;padding-right:16px}
+.dayrow{display:flex;align-items:center;gap:14px;padding-right:16px}
 .dayrow .pillrow{flex:1 1 auto;min-width:0}
 .dayrow .pillcount{flex:0 0 auto;font-family:var(--mono);font-size:9px;font-weight:500;
   text-transform:uppercase;letter-spacing:.08em;color:var(--muted);white-space:nowrap}
