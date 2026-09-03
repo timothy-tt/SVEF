@@ -85,8 +85,12 @@ Instead, every brand string is delivered as **outlined SVG** (`assets/brand/*.sv
 Those files contain paths, not font data: no licence exposure, no missing
 glyphs, pixel-identical everywhere.
 
-UI and content type stay on **Inter Tight** (full Vietnamese support) with
-**IBM Plex Mono** for micro-labels, as before.
+UI and content type are set entirely in **Inter Tight** (full Vietnamese
+support). There is no second face and no monospace: micro-labels are marked as
+labels by case, size and letter-spacing, not by a change of family. A monospace
+was specified originally, but `--mono` was never declared in the app or the back
+office, so it never rendered — every demo built and reviewed to date has been
+this single-face setting, and it is the one being kept.
 
 The `--brand` token is kept for developers who have the font installed locally.
 Do not set it on any element that carries translated copy.
