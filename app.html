@@ -105,8 +105,17 @@ body::after{content:"";position:fixed;left:-140px;top:-140px;width:460px;height:
   font-weight:500;font-size:10px;letter-spacing:.08em;white-space:nowrap;padding:0 10px}
 .badge-dot{position:absolute;top:-4px;right:-4px;width:9px;height:9px;border-radius:0;background:var(--red);
   box-shadow:0 0 0 2px var(--ink)}
-.back{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;width:34px;height:34px;
-  border-radius:0;display:grid;place-items:center;cursor:pointer}
+/* The leading slot. Back lives top-left on every pushed screen, which is where a
+   thumb reaches for it; on Home inside an event it carries a label as well,
+   because "out of this event" is not the same promise as "one screen back". */
+.back{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;min-width:34px;height:34px;
+  border-radius:0;display:flex;align-items:center;justify-content:center;gap:5px;padding:0 8px;
+  cursor:pointer;flex:0 0 auto;max-width:46%}
+.back:active{background:rgba(255,255,255,.14)}
+.back .chev{font-size:17px;line-height:1;margin-top:-2px}
+.back .lbl{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.back .lbl:empty{display:none}
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:88px}
 .content::-webkit-scrollbar{width:0}
 .screen{display:none;animation:fade .2s ease}
@@ -231,7 +240,16 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   transform:translateY(102%);transition:transform .26s cubic-bezier(.2,.8,.2,1);z-index:50;max-height:88%;
   overflow-y:auto;border-top:5px solid var(--red)}
 .sheet.show{transform:none}
+/* A sheet whose only exit was a drag handle. There is nothing to drag in a
+   browser demo, and a scrim is not an affordance anyone reads as "tap to
+   close", so every sheet now carries a real close control. The bar is sticky:
+   the QR and pass sheets scroll, and the way out has to stay on screen. */
+.sheet .shbar{position:sticky;top:0;z-index:2;background:#fff;min-height:34px;padding:2px 0 0}
 .sheet .grab{width:38px;height:4px;border-radius:0;background:var(--line);margin:10px auto 8px}
+.sheet .shclose{position:absolute;right:10px;top:6px;width:32px;height:32px;padding:0;
+  border:1px solid var(--line);background:#fff;color:var(--ink-2);border-radius:0;
+  display:grid;place-items:center;cursor:pointer}
+.sheet .shclose:active{background:var(--ink);border-color:var(--ink);color:#fff}
 .sheet h3{margin:8px 16px 4px;font-size:19px;font-weight:700;letter-spacing:-.035em}
 .sheet .sub{margin:0 16px 16px;color:var(--muted);font-size:12.5px}
 
@@ -251,7 +269,10 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
   color:var(--muted);border-left-color:var(--ink)}
 
 /* ==================== PILL ROWS (days / time slots) ==================== */
-.pillrow{display:flex;gap:8px;padding:12px 16px 6px;overflow-x:auto}
+.pillrow{display:flex;align-items:center;gap:8px;padding:12px 16px 6px;overflow-x:auto}
+.pillrow .sp{flex:1 1 auto;min-width:4px}
+.pillrow .pillcount{flex:0 0 auto;font-family:var(--mono);font-size:9px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--muted);white-space:nowrap}
 .pillrow::-webkit-scrollbar{height:0}
 .pillrow button{font-family:var(--mono);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;
   padding:7px 11px;border:1px solid var(--line);border-radius:0;background:#fff;color:var(--ink-2);cursor:pointer;
@@ -410,9 +431,14 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
   font-size:12.5px;font-weight:600;color:var(--ink);letter-spacing:-.015em;padding:0;cursor:pointer}
 
 /* ==================== SAVE / BOOKMARK ==================== */
-.savebtn{border:1px solid var(--line);border-radius:0;background:#fff;width:34px;height:34px;flex:0 0 34px;
-  display:grid;place-items:center;cursor:pointer;font-size:13px;color:var(--muted);filter:grayscale(1)}
-.savebtn.on{border-color:var(--red);background:var(--red-t);color:var(--red);filter:none}
+/* Bookmarking is a secondary gesture on a row whose primary action is "open".
+   A bordered box on the right read as the row's button, so the border is gone
+   and the state is carried by the icon itself: outline off, solid red on. */
+.savebtn{border:0;border-radius:0;background:transparent;width:38px;height:38px;flex:0 0 38px;
+  display:grid;place-items:center;cursor:pointer;color:var(--muted);padding:0}
+.savebtn:active{background:var(--soft)}
+.savebtn.on{color:var(--red)}
+.savebtn svg{display:block}
 
 /* ==================== QR / MAP ==================== */
 .qrbox{margin:14px auto;width:200px;height:200px;background:#fff;display:grid;place-items:center;
@@ -624,10 +650,6 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 .livebar{display:inline-flex;align-items:center;gap:2px;margin:0 0 10px;font-family:var(--mono);
   text-transform:uppercase;letter-spacing:.12em;font-size:9.5px;color:#fff;
   border:1px solid rgba(255,255,255,.5);padding:4px 9px}
-.homeback{display:block;margin-top:12px;background:none;border:none;padding:0;cursor:pointer;
-  font-family:var(--mono);text-transform:uppercase;letter-spacing:.11em;font-size:9.5px;
-  color:rgba(255,255,255,.8)}
-.homeback:hover{color:#fff}
 .livedot{display:inline-block;width:6px;height:6px;background:var(--red);margin-right:5px;
   animation:pulse 1.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
@@ -708,9 +730,8 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
   </div>
 
   <div class="appbar brand" id="appbar">
-    <button class="back" id="backBtn" style="display:none" onclick="goBack()">‹</button>
+    <button class="back" id="backBtn" style="display:none" onclick="abLeading()"><span class="chev">‹</span><span class="lbl" id="backLbl"></span></button>
     <h1 id="abTitle">SVEF <small>Swiss-Viet Economic Forum</small></h1>
-    <button class="ic-btn" id="evSwitchBtn" onclick="exitEvent()" data-i18n-title="ab_toevents" title="Danh sách sự kiện"><span data-ic="grid" data-ic-size="17"></span></button>
     <button class="ic-btn lang-btn" onclick="toggleLang()" title="Language / Ngôn ngữ"><span data-ic="globe" data-ic-size="16"></span><span id="globeLbl">VI</span></button>
     <button class="ic-btn" id="msgBtn" onclick="openMessages()" data-i18n-title="qa_messages" title="Tin nhắn"><span data-ic="chat" data-ic-size="17"></span><span class="badge-dot"></span></button>
     <button class="ic-btn" id="notifBtn" onclick="go('notifications')" title="Notifications"><span data-ic="bell" data-ic-size="17"></span><span class="badge-dot"></span></button>
@@ -830,12 +851,13 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
       </div>
 
       <div id="ppPaneDir">
-        <div class="note mono" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
         <div class="filterbar">
           <label><span data-i18n="flt_industry">Ngành</span><select id="fltInd" onchange="renderParticipants()"></select></label>
           <label><span data-i18n="flt_market">Thị trường</span><select id="fltMkt" onchange="renderParticipants()"></select></label>
         </div>
         <div id="pList"></div>
+        <!-- provenance, not a heading: it belongs under the list it describes -->
+        <div class="note mono" data-i18n="synced">Dữ liệu đồng bộ từ bảng điều khiển quản trị SVEF</div>
       </div>
 
       <div id="ppPaneMatch" style="display:none">
@@ -996,7 +1018,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 
   <!-- REGISTRATION SHEET (personal / group) -->
   <div class="sheet" id="sheetReg">
-    <div class="grab"></div>
+    <div class="shbar"><div class="grab"></div><button class="shclose" onclick="closeSheet()" data-i18n-title="sh_close" data-i18n-aria="sh_close" aria-label="Đóng" title="Đóng"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <h3 id="regTitle" data-i18n="reg_title">Đăng ký tham dự</h3>
     <p class="sub" id="regSub">—</p>
     <div id="regBody"></div>
@@ -1004,7 +1026,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 
   <!-- BOOKING SHEET (view / modify / cancel a registration) -->
   <div class="sheet" id="sheetBooking">
-    <div class="grab"></div>
+    <div class="shbar"><div class="grab"></div><button class="shclose" onclick="closeSheet()" data-i18n-title="sh_close" data-i18n-aria="sh_close" aria-label="Đóng" title="Đóng"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <h3 id="bkTitle" data-i18n="bk_title">Đăng ký của bạn</h3>
     <p class="sub" id="bkSub"></p>
     <div id="bkBody"></div>
@@ -1012,7 +1034,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 
   <!-- MEETING REQUEST SHEET -->
   <div class="sheet" id="sheetMeet">
-    <div class="grab"></div>
+    <div class="shbar"><div class="grab"></div><button class="shclose" onclick="closeSheet()" data-i18n-title="sh_close" data-i18n-aria="sh_close" aria-label="Đóng" title="Đóng"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <h3 data-i18n="mr_title">Yêu cầu gặp</h3>
     <p class="sub" id="mrSub">—</p>
     <div class="note mono" data-i18n="tz_note">Tất cả thời gian theo giờ GMT+7 (Hà Nội).</div>
@@ -1028,7 +1050,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 
   <!-- QR CONNECT SHEET -->
   <div class="sheet" id="sheetQR">
-    <div class="grab"></div>
+    <div class="shbar"><div class="grab"></div><button class="shclose" onclick="closeSheet()" data-i18n-title="sh_close" data-i18n-aria="sh_close" aria-label="Đóng" title="Đóng"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <h3 data-i18n="qr_title">QR kết nối</h3>
     <p class="sub" data-i18n="qr_sub">Đưa mã này cho người tham dự khác quét để kết nối. Đây không phải mã vào cửa.</p>
     <div id="qrBody"></div>
@@ -1036,7 +1058,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 
   <!-- MY PROFILE SHEET (edit, privacy, connection history, notifications, help) -->
   <div class="sheet" id="sheetMe">
-    <div class="grab"></div>
+    <div class="shbar"><div class="grab"></div><button class="shclose" onclick="closeSheet()" data-i18n-title="sh_close" data-i18n-aria="sh_close" aria-label="Đóng" title="Đóng"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <h3 id="meTitle"></h3>
     <p class="sub" id="meSub"></p>
     <div id="meBody"></div>
@@ -1044,7 +1066,7 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 
   <!-- PASS SHEET (one pass per attendee on a group booking) -->
   <div class="sheet" id="sheetTicket">
-    <div class="grab"></div>
+    <div class="shbar"><div class="grab"></div><button class="shclose" onclick="closeSheet()" data-i18n-title="sh_close" data-i18n-aria="sh_close" aria-label="Đóng" title="Đóng"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <h3 data-i18n="et_title">Thẻ tham dự</h3>
     <p class="sub" data-i18n="et_sub">Xuất trình mã này tại quầy check-in.</p>
     <div id="etBody"></div>
@@ -1087,9 +1109,11 @@ const T={
   svgHall:"Hội trường A", svgB1:"Phòng B1", svgB2:"Phòng B2", svgLounge:"Networking", svgLobby:"Sảnh chính · Check-in · Cà phê", directions:"Chỉ đường",
   time_l:"Thời gian", loc_l:"Địa điểm", speaker_l:"Diễn giả",
   add_sched:"➕ Lưu vào chương trình của tôi", added_sched:"✓ Đã lưu vào chương trình của tôi",
+  sh_close:"Đóng",
+  sv_on:"Bỏ khỏi chương trình của tôi", sv_off:"Lưu vào chương trình của tôi",
   nav_home:"Trang chủ", nav_explore:"Khám phá", nav_schedule:"Chương trình", nav_network:"Kết nối", nav_people:"Mọi người", nav_profile:"Hồ sơ",
   sc_tab_all:"Toàn bộ", sc_tab_mine:"Của tôi", sess_unit_n:"phiên",
-  h_close_ev:"‹ Về trang chủ", h_next_yours:"Bạn đã đăng ký", h_next_open:"Đang mở đăng ký",
+  h_next_yours:"Bạn đã đăng ký", h_next_open:"Đang mở đăng ký",
   h_open:"Mở", h_open_events:"Sự kiện đang mở đăng ký", h_all_events:"Xem tất cả sự kiện",
   ev_live_now:"Đang diễn ra", pp_tab_dir:"Danh bạ", pp_tab_match:"Gợi ý", pp_tab_conns:"Kết nối",
   pp_sessions:"Phiên trình bày", spk_none:"Chưa công bố diễn giả cho phiên này.", agenda_all_h:"Toàn bộ chương trình", ex_map:"Sơ đồ địa điểm",
@@ -1219,7 +1243,7 @@ const T={
   follow:"+ Theo dõi", directions_btn:"Chỉ đường",
   ab_explore:"Khám phá", ab_schedule:"Chương trình", ab_network:"Kết nối", ab_participants:"Mọi người",
   ab_profile:"Hồ sơ", ab_map:"Bản đồ", ab_notifications:"Thông báo", ab_session:"Chi tiết phiên",
-  ab_person:"Hồ sơ", ab_events:"Sự kiện SVEF", ab_eventinfo:"Thông tin sự kiện", ab_toevents:"Danh sách sự kiện",
+  ab_person:"Hồ sơ", ab_events:"Sự kiện SVEF", ab_eventinfo:"Thông tin sự kiện", ab_toevents:"Danh sách sự kiện", ab_back:"Quay lại",
   ab_messages:"Tin nhắn", ab_chat:"Nhắn tin",
   msg_note:"Tin nhắn trong phạm vi sự kiện này. Vẫn xem lại được sau khi sự kiện kết thúc.",
   msg_none:"Chưa có cuộc trò chuyện nào. Nhấn “Nhắn tin” trên hồ sơ một người tham dự để bắt đầu.",
@@ -1354,9 +1378,11 @@ const T={
   svgHall:"Hall A", svgB1:"Room B1", svgB2:"Room B2", svgLounge:"Networking", svgLobby:"Main lobby · Check-in · Coffee", directions:"Directions",
   time_l:"Time", loc_l:"Location", speaker_l:"Speaker",
   add_sched:"➕ Save to my agenda", added_sched:"✓ Saved to my agenda",
+  sh_close:"Close",
+  sv_on:"Remove from my agenda", sv_off:"Save to my agenda",
   nav_home:"Home", nav_explore:"Explore", nav_schedule:"Agenda", nav_network:"Connect", nav_people:"People", nav_profile:"Profile",
   sc_tab_all:"All", sc_tab_mine:"Mine", sess_unit_n:"sessions",
-  h_close_ev:"‹ Back to home", h_next_yours:"You are registered", h_next_open:"Registration open",
+  h_next_yours:"You are registered", h_next_open:"Registration open",
   h_open:"Open", h_open_events:"Open for registration", h_all_events:"See all events",
   ev_live_now:"Happening now", pp_tab_dir:"Directory", pp_tab_match:"Suggested", pp_tab_conns:"Connections",
   pp_sessions:"Speaking at", spk_none:"No speaker announced for this session yet.", agenda_all_h:"Full programme", ex_map:"Venue map",
@@ -1486,7 +1512,7 @@ const T={
   follow:"+ Follow", directions_btn:"Directions",
   ab_explore:"Explore", ab_schedule:"Agenda", ab_network:"Connect", ab_participants:"People",
   ab_profile:"Profile", ab_map:"Event map", ab_notifications:"Notifications", ab_session:"Session",
-  ab_person:"Attendee", ab_events:"SVEF Events", ab_eventinfo:"Event information", ab_toevents:"Event list",
+  ab_person:"Attendee", ab_events:"SVEF Events", ab_eventinfo:"Event information", ab_toevents:"Event list", ab_back:"Back",
   ab_messages:"Messages", ab_chat:"Chat",
   msg_note:"Messages stay within this event. They remain readable after the event has ended.",
   msg_none:"No conversations yet. Tap “Chat” on an attendee profile to start one.",
@@ -2443,23 +2469,42 @@ const navOwner={home:"home",events:"home",schedule:"schedule",participants:"part
    changes whether the app shell is on screen. The tab bar is always there. */
 let inEvent=false;
 let current="events", navStack=["events"], curSession=0;
+/* What the leading slot does depends on where you are, and it is the only thing
+   in the app that goes backwards — the grid shortcut that used to sit top-right
+   and the link buried at the foot of the Home hero both did this same job from
+   places nobody looks for a way out. */
+let abLeadingAction=null;
+function abLeading(){if(abLeadingAction)abLeadingAction();}
+function setLeading(mode,label){
+  const back=byId('backBtn'),lbl=byId('backLbl');
+  if(!mode){back.style.display='none';abLeadingAction=null;return;}
+  back.style.display='flex';
+  lbl.textContent=label||'';
+  back.setAttribute('aria-label',label||tr('ab_back'));
+  back.title=label||tr('ab_back');
+  abLeadingAction=(mode==='exit')?exitEvent:goBack;
+}
 function setAppbarTitle(s){
-  const ab=byId('appbar'), back=byId('backBtn'), t=byId('abTitle'), ev=byId('evSwitchBtn');
-  /* An event is always selected, so messages and notifications always have a
-     subject. Only the "all events" shortcut is pointless, on the all-events list. */
-  const onList=(s==='events');
-  ev.style.display=onList?'none':'grid';
-  const mb=byId('msgBtn');if(mb)mb.style.display=onList?'grid':'grid';
+  const ab=byId('appbar'), t=byId('abTitle');
+  const mb=byId('msgBtn');if(mb)mb.style.display='grid';
   const nb=byId('notifBtn');if(nb)nb.style.display='grid';
-  if(s==='events'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tr('ab_events')+'</small>';back.style.display='grid';}
-  else if(s==='home'){ab.classList.add('brand');t.innerHTML='SVEF <small>'+tx(curEv.short)+'</small>';back.style.display='none';}
-  else{
+  if(s==='events'){
+    ab.classList.add('brand');t.innerHTML='SVEF <small>'+tr('ab_events')+'</small>';
+    // the all-events list is a root, unless you pushed it from somewhere
+    setLeading(navStack.length>1?'back':null);
+  }else if(s==='home'){
+    ab.classList.add('brand');t.innerHTML='SVEF <small>'+tx(curEv.short)+'</small>';
+    // inside an event Home is not the root: leaving the event is the way up
+    // leaving lands on Home-without-an-event, so the label names that, not the
+    // event list — the control has to promise where it actually goes
+    setLeading(inEvent?'exit':null, inEvent?tr('nav_home'):'');
+  }else{
     ab.classList.remove('brand');
     // event-scoped screens name the event they belong to, so an agenda or a
     // participant list can never be read against the wrong one
     const scoped=['explore','schedule','participants','map','messages','chat','session','person'];
     t.innerHTML=tr('ab_'+s)+((scoped.indexOf(s)>-1&&curEv)?'<small>'+tx(curEv.short)+'</small>':'');
-    back.style.display=(tabsScreens.includes(s)||s==='events')?'none':'grid';
+    setLeading(tabsScreens.includes(s)?null:'back');
   }
 }
 function go(s,isBack){
@@ -2663,7 +2708,7 @@ function renderHome(){
          <div style="font-size:11px;opacity:.85">${tx(e.venue)}</div></div>
        <span class="chip ${hcls}" ${hcls?'':'style="border-color:rgba(255,255,255,.45);color:#fff"'}>${hlbl}</span>
      </div>
-     <button class="homeback" onclick="exitEvent()">${tr('h_close_ev')}</button>`;
+`;
   byId('homeQA').innerHTML = past
     ? qaBtn('clipboard','qa_agenda','openAgendaAll()')+qaBtn('chat','qa_messages',"openMessages()")
       +qaBtn('calendar','qa_meetings','openMeetings()')+qaBtn('people','qa_people',"go('participants')")
@@ -2805,10 +2850,15 @@ function renderHomeAgenda(){
 let exTab='speakers';
 function switchTab(tab){exTab=tab;document.querySelectorAll('#exTabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));renderExplore();}
 function setDay(n){curDay=n;renderExplore();renderSchedule();}
-function dayPills(fn){
-  if(!curEv.days||curEv.days.length<2)return '';
+/* The day row carries the count. A separate section heading above it only ever
+   repeated the tab you had just tapped. */
+function dayPills(fn,count){
+  const tail=count?`<span class="pillcount">${count}</span>`:'';
+  if(!curEv.days||curEv.days.length<2)
+    return tail?`<div class="pillrow"><div class="sp"></div>${tail}</div>`:'';
   return `<div class="pillrow">`+curEv.days.map(d=>
-    `<button class="${curDay===d.n?'on':''}" onclick="${fn}(${d.n})">${tx(d.lbl)} · ${tx(d.d)}</button>`).join('')+`</div>`;
+    `<button class="${curDay===d.n?'on':''}" onclick="${fn}(${d.n})">${tx(d.lbl)} · ${tx(d.d)}</button>`).join('')
+    +`<div class="sp"></div>${tail}</div>`;
 }
 function agendaRow(i){
   const s=sessions[i],sv=saved.has(i);
@@ -2817,7 +2867,8 @@ function agendaRow(i){
   return `<div class="li" onclick="openSession(${i})"><div class="thumb pic" style="--img:url('assets/img/${s.img}.jpg')"></div>`
     +`<div class="meta"><h4>${tx(s.t)}</h4><p>${s.time} · ${tx(s.room)} · ${esc(speakerNames(s))}</p>${badge}</div>`
     +(isPast()?`<span class="muted">›</span>`
-      :`<button class="savebtn ${sv?'on':''}" onclick="event.stopPropagation();toggleSave(${i})">${sv?'★':'☆'}</button>`)
+      :`<button class="savebtn ${sv?'on':''}" aria-pressed="${sv}" title="${tr(sv?'sv_on':'sv_off')}"`
+        +` aria-label="${tr(sv?'sv_on':'sv_off')}" onclick="event.stopPropagation();toggleSave(${i})">${star(sv)}</button>`)
     +`</div>`;
 }
 function renderExplore(q){
@@ -2953,14 +3004,12 @@ function renderSchedule(){
     /* The full programme lives here, so Home's "see all" genuinely shows more
        rather than the saved-only subset it used to land on. */
     const idx=sessions.map((x,i)=>i).filter(i=>sessions[i].day===curDay);
-    let h=`<h2 class="sec"><span>${tr('agenda_all_h')}</span> <span class="chip">${idx.length} ${tr('sess_unit_n')}</span></h2>`;
-    h+=dayPills('setDay');
+    let h=dayPills('setDay',`${idx.length} ${tr('sess_unit_n')}`);
     h+=idx.length?idx.map(i=>agendaRow(i)).join(''):emptyHTML();
     el.innerHTML=h;
   }else if(scTab==='mine'){
     const idx=Array.from(saved).sort((a,b)=>a-b).filter(i=>sessions[i]&&sessions[i].day===curDay);
-    let h=`<h2 class="sec"><span>${tr('saved_h')}</span> <span class="chip red">${saved.size} ${tr('sess_unit')}</span></h2>`;
-    h+=dayPills('setDay');
+    let h=dayPills('setDay',`${saved.size} ${tr('sess_unit')}`);
     h+=idx.length?('<div class="card" style="margin-top:8px">'+idx.map(i=>sessRow(i)).join('')+'</div>')
       :`<div class="empty" style="padding:34px 24px"><div class="e-ic">☆</div><p style="font-size:12.5px">${tr('sched_empty')}</p></div>`;
     el.innerHTML=h;
@@ -3538,6 +3587,9 @@ function histRow(c){
 
 /* ===================== SHEETS ===================== */
 function openSheet(id){document.getElementById('scrim').classList.add('show');document.getElementById(id).classList.add('show');}
+/* The demo is driven with a keyboard as often as a thumb, and Escape is what a
+   reviewer on a laptop reaches for first. */
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet();});
 function closeSheet(){
   document.getElementById('scrim').classList.remove('show');
   document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));
@@ -4114,6 +4166,7 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(T[lang][k]!==undefined)el.textContent=T[lang][k];});
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const k=el.getAttribute('data-i18n-ph');if(T[lang][k]!==undefined)el.setAttribute('placeholder',T[lang][k]);});
   document.querySelectorAll('[data-i18n-title]').forEach(el=>{const k=el.getAttribute('data-i18n-title');if(T[lang][k]!==undefined)el.setAttribute('title',T[lang][k]);});
+  document.querySelectorAll('[data-i18n-aria]').forEach(el=>{const k=el.getAttribute('data-i18n-aria');if(T[lang][k]!==undefined)el.setAttribute('aria-label',T[lang][k]);});
   // SVG map labels
   [['svgHall','svgHall'],['svgB1','svgB1'],['svgB2','svgB2'],['svgLounge','svgLounge'],['svgLobby','svgLobby']].forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k);});
   // dynamic blocks
@@ -4201,6 +4254,11 @@ const ICON_PATHS={
   signal:'<path d="M4 20v-4M9.3 20v-8M14.7 20v-12M20 20V4"/>',
   battery:'<rect x="2.5" y="8" width="16" height="8" rx="2"/><path d="M21 11v2"/><rect x="4.8" y="10.3" width="10" height="3.4" fill="currentColor" stroke="none"/>'
 };
+function star(on){
+  return '<svg viewBox="0 0 24 24" width="20" height="20" fill="'+(on?'currentColor':'none')+'" '
+    +'stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true">'
+    +'<path d="m12 3.6 2.6 5.6 6 .8-4.4 4.2 1.1 6.1L12 17.4 6.7 20.3l1.1-6.1L3.4 10l6-.8z"/></svg>';
+}
 function ic(name,size){
   const p=ICON_PATHS[name];if(!p)return '';
   const w=size||22;
