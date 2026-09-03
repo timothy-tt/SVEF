@@ -296,7 +296,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .pillrow button b{display:block;font-weight:700;letter-spacing:.06em}
 
 /* ==================== EVENTS LIST ==================== */
-.evcard{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px -1px}
+.evcard{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px 8px}
 .evcard .evthumb{height:118px}
 .evcard .evb{padding:14px}
 .evcard .evb .note{margin:0 0 10px}
@@ -315,7 +315,7 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .facts .f .v{flex:1;min-width:0;font-size:13px;line-height:1.5;letter-spacing:-.012em}
 
 /* ==================== PEOPLE ROWS ==================== */
-.prow{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px -1px;padding:13px}
+.prow{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px 8px;padding:13px}
 .prow .ptop{display:flex;gap:13px;align-items:center;cursor:pointer}
 .prow .ptop .meta{flex:1;min-width:0}
 .prow .ptop h4{margin:0;font-size:14px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:6px}
@@ -331,15 +331,22 @@ h2.sec a{font-size:9.5px;color:var(--red);font-weight:500;text-decoration:none;c
 .mstatus.bad{border-color:var(--red);color:var(--red)}
 
 /* ==================== MEETINGS ==================== */
-.mtg{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px -1px;padding:14px}
+/* A meeting card ran to 255px for one meeting, four of those lines being the
+   person alone (name, then standing, then job, then company, each forced to its
+   own full-width row), with the meta split across two bordered blocks. And every
+   card shared a hairline with the next, so five of them read as one slab.
+   The person is two lines now, the meta is one, and tall cards get a real gap:
+   the hairline grid works for an 80px row and stops working at 250px. */
+.mtg{background:#fff;border:1px solid var(--line);border-radius:0;margin:0 16px 8px;padding:13px}
 .mtg .mh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .mtg .mt{font-size:15px;font-weight:700;letter-spacing:-.035em;line-height:1.1}
 .mtg .mt small{display:block;font-family:var(--sans);font-size:8.5px;font-weight:500;color:var(--muted);
   letter-spacing:.1em;margin-top:5px}
 .mtg .mp{margin:11px 0 0;font-size:12.5px;line-height:1.45;letter-spacing:-.012em}
 .mtg .mp span{color:var(--muted);font-size:11.5px;display:block;margin-top:2px}
-.mtg .mf{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);display:flex;gap:6px;flex-wrap:wrap;
-  align-items:center}
+.mtg .mf{margin-top:9px;display:flex;gap:5px 8px;flex-wrap:wrap;align-items:center}
+.mtg .mf .mpl{color:var(--ink-2)}
+.mtg .mf .mpl::before{content:"· "}
 .mtg .mf .kv{font-family:var(--sans);font-size:8.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
 
 /* ==================== 25/08 MEETING: ORGS, MEMBERSHIP, CONTENT ==================== */
@@ -378,18 +385,17 @@ a.lnk{color:var(--red-ink);cursor:pointer;text-decoration:underline;text-underli
 /* Meeting card additions: the company on both sides (2.6), the message, and the
    place the two attendees agreed themselves (2.2). */
 .mtg.act{border-color:var(--gold);box-shadow:inset 3px 0 0 var(--gold)}
-.mtg .mp{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px}
+.mtg .mp{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 7px;margin-top:9px}
 .mtg .mp b{font-size:13px}
-.mtg .mp span{width:100%}
-.mtg .mco{width:100%;color:var(--red-ink);font-size:11.5px;cursor:pointer;text-decoration:underline;
+/* role and company read as one clause, so they share a line and only wrap when
+   they genuinely have to */
+.mtg .mp .mrole{color:var(--muted);font-size:11.5px}
+.mtg .mp{width:100%}
+.mtg .mprow{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 6px;width:100%;margin-top:2px}
+.mtg .mco{color:var(--red-ink);font-size:11.5px;cursor:pointer;text-decoration:underline;
   text-underline-offset:2px}
-.mtg .mmsg{margin:9px 0 0;padding:9px 11px;background:var(--soft);border-left:2px solid var(--steel);
-  font-size:12px;line-height:1.5;color:var(--ink-2)}
-.mtg .mplace{margin-top:9px;font-size:11.5px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:6px;
-  align-items:baseline}
-.mtg .mplace b{font-family:var(--sans);font-size:8.5px;text-transform:uppercase;letter-spacing:.09em;
-  color:var(--muted);font-weight:500}
-.mtg .mplace em{font-style:normal;color:var(--muted)}
+.mtg .mmsg{margin:9px 0 0;padding:8px 10px;background:var(--soft);border-left:2px solid var(--steel);
+  font-size:12px;line-height:1.45;color:var(--ink-2)}
 .lnkbtn{background:none;border:0;padding:0;margin-left:auto;font:inherit;font-size:11px;
   color:var(--red-ink);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 
@@ -2973,14 +2979,13 @@ function mtgCard(m){
   return `<div class="mtg${needsAnswer?' act':''}">
     <div class="mh"><div class="mt">${m.time}<small>${curEv.tz} · ${tx(d.lbl)} · ${tx(d.d)}</small></div>
       <span class="chip ${msChip[m.status]}">${tr(msKey[m.status])}</span></div>
-    <div class="mp"><b>${esc(p.n)}</b>${memBadge(p)}<span>${esc(tx(p.t))}</span>
-      ${og?`<a class="mco" onclick="openOrg('${og.id}')">${esc(og.n)} ›</a>`:`<span>${esc(p.co)}</span>`}</div>
+    <div class="mp"><b>${esc(p.n)}</b>${memBadge(p)}
+      <span class="mprow"><span class="mrole">${esc(tx(p.t))}${og?'':' · '+esc(p.co)}</span>
+      ${og?`<a class="mco" onclick="openOrg('${og.id}')">${esc(og.n)} ›</a>`:''}</span></div>
     ${m.msg?`<div class="mmsg">“${esc(tx(m.msg))}”</div>`:''}
     <div class="mf"><span class="chip">${tr('dir_'+m.dir)}</span>
-      <span class="kv">${tr('mt_created')}: ${tx(m.created)}</span></div>
-    <div class="mplace">${m.place
-      ? `<b>${tr('mt_place')}</b> ${esc(tx(m.place))}`
-      : `<b>${tr('mt_place')}</b> <em>${tr('mt_place_none')}</em>`}
+      <span class="kv">${tx(m.created)}</span>
+      <span class="kv mpl">${m.place?esc(tx(m.place)):tr('mt_place_none')}</span>
       ${(m.status==='confirmed'&&!isPast())
         ? `<button class="lnkbtn" onclick="openChat(${p.id})">${tr('mt_agree')}</button>`:''}</div>
     ${needsAnswer?`<div class="row" style="margin:10px 0 0">
