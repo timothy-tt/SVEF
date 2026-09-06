@@ -5,6 +5,8 @@ Usage: mkdata.py [out.js] [--src path/to/event.json]
 """
 import argparse, json, os, re, sys, time
 
+import demo
+
 ap = argparse.ArgumentParser()
 ap.add_argument("out", nargs="?", default="data.js")
 ap.add_argument("--src", default=os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -75,6 +77,10 @@ data = {
     "days": [],
     "speakers": [],
     "info": {k: v for k, v in src["info"].items() if v},
+    "overview": src.get("overview") or {},
+    "press": src.get("press") or [],
+    "photos": src.get("photos") or [],
+    "social": src.get("social") or [],
     "links": src["links"],
 }
 
@@ -108,6 +114,159 @@ for s in src["speakers"]:
         "keynote": True,
     })
 
+
+# ---------------------------------------------------------------------------
+# Prefilled profile.
+#
+# The delegate answers 19 questions at registration. Asking them again inside the
+# app would be the single most irritating thing this build could do, so the profile
+# is derived from the RSVP answers instead. Field ids are matched by LABEL, not
+# hardcoded: Wix regenerates the custom-* ids whenever a question is edited, and a
+# stale id would silently produce an empty profile rather than an error.
+# ---------------------------------------------------------------------------
+PROFILE_MAP = [
+    ("firstName", r"^first name$"),
+    ("lastName", r"^last name$"),
+    ("email", r"^email"),
+    ("phone", r"phone number"),
+    ("country", r"country/?location"),
+    ("jobTitle", r"^job title$"),
+    ("org", r"organi[sz]ation ?/ ?company"),
+    ("sectors", r"^industry sector$"),
+    ("sectorOther", r"^other ?- ?industry"),
+    ("delegation", r"delegation.*delegate.s name"),
+    ("round1", r"parallel session round 1"),
+    ("round2", r"parallel session round 2"),
+    ("day3", r"day 3.*field visits"),
+    ("membership", r"svef membership status"),
+    ("support", r"delegation support package"),
+    ("directory", r"delegates directory"),
+    ("sponsor", r"becoming a sponsor"),
+    ("dietary", r"dietary requirements"),
+    ("questions", r"other requirements or questions"),
+]
+
+
+def profile_map(fields):
+    out, unmatched = {}, []
+    for key, pat in PROFILE_MAP:
+        hit = next((f for f in fields if re.search(pat, f["label"], re.I)), None)
+        if hit:
+            out[key] = hit["id"]
+        else:
+            unmatched.append(key)
+    return out, unmatched
+
+
+pmap, missing = profile_map(e["registrationForm"])
+if missing:
+    print("  ! profile fields not matched in the live form: " + ", ".join(missing))
+data["profileMap"] = pmap
+
+# Track letters (A-F) as published in the agenda, so a session pick made at
+# registration can be resolved back to the real parallel session.
+tracks = {}
+for d in data["days"]:
+    for s in d["sessions"]:
+        for tr in s["tracks"]:
+            tracks[tr["track"]] = {"track": tr["track"], "title": tr["title"],
+                                   "summary": tr["summary"], "sessionId": s["id"],
+                                   "day": d["day"], "start": s["start"], "end": s["end"]}
+data["tracks"] = tracks
+
+# ---------------------------------------------------------------------------
+# The networking layer. Everything below is demo data and says so; see demo.py.
+# ---------------------------------------------------------------------------
+data["taxonomy"] = {"industries": demo.INDUSTRIES, "markets": demo.MARKETS,
+                    "tiers": demo.TIERS}
+
+orgs = []
+for o in demo.ORGS:
+    rec = dict(o)
+    rec["demo"] = not o.get("real", False)
+    orgs.append(rec)
+# attach the real organiser logos scraped off the home page
+for i, logo in enumerate(src.get("overview", {}).get("organisers") or []):
+    if i < len(orgs):
+        orgs[i]["logo"] = logo["logo"]
+data["orgs"] = orgs
+
+people = []
+# The three keynote speakers are real people with real bios and photos, so they go
+# into the directory as themselves rather than being replaced by invented delegates.
+for i, s in enumerate(data["speakers"]):
+    people.append({
+        "id": 1 + i, "n": s["name"], "i": "".join(w[0] for w in re.findall(
+            r"[A-Za-zÀ-ỹ]+", s["name"]))[-2:].upper() or "SV",
+        "c": ["#04723D", "#E42026", "#7A5C00"][i % 3],
+        "photo": s["photo"], "oid": "svef", "ind": "pub", "mkts": ["ch", "vn"],
+        "dir": True, "tier": "headline", "speaker": True, "picks": [], "day3": False,
+        "t": {"en": s["role"], "vi": s["role"]},
+        "bio": {"en": s["bio"], "vi": s["bio"]},
+        "h": {"web": s["url"]}, "demo": False,
+    })
+for p in demo.PEOPLE:
+    rec = dict(p)
+    rec["demo"] = True
+    rec["speaker"] = False
+    people.append(rec)
+data["people"] = people
+
+data["meetings"] = [dict(m, demo=True) for m in demo.MEETINGS]
+data["chats"] = {str(k): v for k, v in demo.CHATS.items()}
+data["docs"] = [dict(d, id="doc%d" % (i + 1), demo=True) for i, d in enumerate(demo.DOCS)]
+data["slots"] = ["09:00 – 09:15", "11:00 – 11:15", "12:45 – 13:00", "16:00 – 16:15",
+                 "18:30 – 18:45"]
+
+# Notifications are generated from what is actually in the dataset, so they stay
+# true after a re-scrape instead of referring to sessions that no longer exist.
+notifs = []
+d2 = next((d for d in data["days"] if d["day"] == 2), None)
+if d2 and d2["sessions"]:
+    first = d2["sessions"][0]
+    notifs.append({"id": "n1", "kind": "session", "unread": True, "when": "2 h",
+                   "t": {"en": "Doors open at " + (first["start"] or ""),
+                         "vi": "Mở cửa lúc " + (first["start"] or "")},
+                   "b": {"en": first["title"] + " on Day 2.",
+                         "vi": first["title"] + " trong Ngày 2."},
+                   "go": "agenda"})
+    par = next((s for s in d2["sessions"] if s["tracks"]), None)
+    if par:
+        notifs.append({"id": "n2", "kind": "session", "unread": True, "when": "5 h",
+                       "t": {"en": "Confirm your parallel session",
+                             "vi": "Xác nhận phiên song song của bạn"},
+                       "b": {"en": par["title"] + ": " + str(len(par["tracks"])) + " tracks to choose from.",
+                             "vi": par["title"] + ": có " + str(len(par["tracks"])) + " phiên để chọn."},
+                       "go": "agenda"})
+notifs.append({"id": "n3", "kind": "meeting", "unread": True, "when": "1 d",
+               "t": {"en": "New meeting request", "vi": "Lời mời gặp mới"},
+               "b": {"en": "A delegate asked to meet during the Hai Phong field visit.",
+                     "vi": "Một đại biểu muốn gặp trong chuyến thực địa Hải Phòng."},
+               "go": "meetings", "demo": True})
+if data["press"]:
+    pr = data["press"][0]
+    notifs.append({"id": "n4", "kind": "press", "unread": False, "when": "2 d",
+                   "t": {"en": "New press coverage", "vi": "Có bài báo mới"},
+                   "b": {"en": pr["outlet"] + ": " + (pr["headline"] or ""),
+                         "vi": pr["outlet"] + ": " + (pr["headline"] or "")},
+                   "go": "press"})
+notifs.append({"id": "n5", "kind": "reg", "unread": False, "when": "3 d",
+               "t": {"en": "Registration received", "vi": "Đã nhận đăng ký"},
+               "b": {"en": (e["registration"]["rsvp"] or {}).get("confirmationMessages", {})
+                     .get("positiveConfirmation", {}).get("title", "Thank you for registering."),
+                     "vi": "Đăng ký của bạn đã được ghi nhận và đang chờ xác nhận."},
+               "go": "me"})
+data["notifications"] = notifs
+
+data["demoNotice"] = {
+    "en": "Delegates, connections, meetings, chat and documents are demo data: SVEF has "
+          "not published a guest list and Wix does not expose the RSVP roster. The "
+          "programme, speakers, press, gallery and registration form are live.",
+    "vi": "Danh sách đại biểu, kết nối, lịch gặp, tin nhắn và tài liệu là dữ liệu mẫu: "
+          "SVEF chưa công bố danh sách khách mời và Wix không mở API danh sách đăng ký. "
+          "Chương trình, diễn giả, báo chí, thư viện ảnh và biểu mẫu đăng ký là dữ liệu thật.",
+}
+
 body = json.dumps(data, ensure_ascii=False, indent=1)
 with open(out, "w") as f:
     f.write("/* SVEF Ha Noi 2026 — single-event dataset.\n"
@@ -118,3 +277,9 @@ with open(out, "w") as f:
 print(f"wrote {out}: {len(data['days'])} days, "
       f"{sum(len(d['sessions']) for d in data['days'])} sessions, "
       f"{len(data['speakers'])} speakers, {len(data['registration']['fields'])} form fields")
+print(f"  real : {len(data['press'])} press, {len(data['photos'])} photos, "
+      f"{len(data['overview'].get('pillars') or [])} pillars, {len(data['social'])} social")
+print(f"  demo : {len(data['people'])} people, {len(data['orgs'])} orgs, "
+      f"{len(data['meetings'])} meetings, {len(data['docs'])} docs, "
+      f"{len(data['notifications'])} notifications")
+print(f"  map  : {len(data['profileMap'])}/19 profile fields, {len(data['tracks'])} tracks")

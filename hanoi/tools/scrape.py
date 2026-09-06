@@ -12,6 +12,8 @@ Usage:  python3 scrape.py [--code HANOI2026] [--out .]
 """
 import argparse, json, os, re, socket, sys, time, urllib.request, urllib.error
 
+import pages
+
 socket.setdefaulttimeout(45)
 
 
@@ -361,6 +363,28 @@ def norm_speaker(s):
     }
 
 
+def scrape_pages(base_paths):
+    """Read the editor-built pages that no API covers: press, gallery, home."""
+    html = {}
+    for name, path in base_paths.items():
+        try:
+            html[name] = http(f"{SITE}{path}")
+            log(f"  page {path}: {len(html[name])} bytes")
+        except Exception as e:
+            log(f"  ! page {path}: {e}")
+            html[name] = ""
+    out = {"press": [], "photos": [], "overview": {}, "social": []}
+    if html.get("press"):
+        out["press"] = pages.parse_press(pages.rows_of(html["press"]))
+    if html.get("gallery"):
+        out["photos"] = pages.parse_gallery(pages.rows_of(html["gallery"]))
+    if html.get("home"):
+        rows = pages.rows_of(html["home"])
+        out["overview"] = pages.parse_home(rows)
+        out["social"] = pages.socials_of(html["home"])
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--code", default="HANOI2026", help="CMS event code")
@@ -434,6 +458,10 @@ def main():
             days.append({"day": i, "title": p["title"], "meta": p["meta"],
                          "intro": p["intro"], "sessions": p["sessions"], "markdown": md})
 
+    log("fetching editor-built pages ...")
+    pg = scrape_pages({"home": "/", "press": "/press", "gallery": "/gallery"})
+    json.dump(pg, open(f"{raw}/pages.json", "w"), indent=1, ensure_ascii=False)
+
     ds = (app_ev or {}).get("dateAndTimeSettings") or {}
     loc = (app_ev or {}).get("location") or {}
     reg = (app_ev or {}).get("registration") or {}
@@ -490,6 +518,10 @@ def main():
              "url": wix_media_url(g.get("slug") or g.get("src")), "type": g.get("type")}
             for g in (cms.get("mediagallery") or [])
         ],
+        "press": pg["press"],
+        "photos": pg["photos"],
+        "overview": pg["overview"],
+        "social": pg["social"],
         "links": {k: SITE + v for k, v in cms.items()
                   if k.startswith("link-") and isinstance(v, str)},
         "allSpeakersInCms": len(speakers_all),
@@ -514,7 +546,11 @@ def main():
     log(f"agenda days: {[d['day'] for d in days]}  sessions: {[len(d['sessions']) for d in days]}")
     log(f"speakers   : {len(speakers)} linked / {len(speakers_all)} in CMS")
     log(f"groups     : {[(g['code'], len(g['speakers'])) for g in groups]}")
-    log(f"gallery    : {len(bundle['gallery'])} media")
+    log(f"gallery    : {len(bundle['gallery'])} media (cms) / {len(pg['photos'])} photos (page)")
+    log(f"press      : {len(pg['press'])} items")
+    ov = pg["overview"]
+    log(f"overview   : {len(ov.get('pillars') or [])} pillars, {len(ov.get('expect') or [])} expect, "
+        f"{len(ov.get('objectives') or [])} objectives, {len(ov.get('organisers') or [])} organisers")
     log(f"reg form   : {len(bundle['event']['registrationForm'])} fields "
         f"({sum(1 for f in bundle['event']['registrationForm'] if f['required'])} required)")
     log(f"rsvp       : {(bundle['event']['registration'] or {}).get('status')} "
