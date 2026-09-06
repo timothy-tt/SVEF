@@ -1,11 +1,11 @@
 /* SVEF Ha Noi 2026 — single-event dataset.
-   Scraped from https://hanoi2026.svef.ch on 2026-09-06T16:22:19Z by scrape.py.
+   Scraped from https://hanoi2026.svef.ch on 2026-09-06T16:31:41Z by scrape.py.
    Regenerate: python3 scrape.py && python3 mkdata.py <path>/data.js
    Do not hand-edit: every value below comes from the live site. */
 window.HANOI2026 = {
  "meta": {
   "source": "https://hanoi2026.svef.ch",
-  "scrapedAt": "2026-09-06T16:22:19Z",
+  "scrapedAt": "2026-09-06T16:31:41Z",
   "generator": "imt/svef/hanoi2026/scrape.py + mkdata.py",
   "speakerPool": 104,
   "linkedSpeakers": 3
@@ -312,6 +312,7 @@ window.HANOI2026 = {
     "venue": "To be updated"
    },
    "intro": "",
+   "options": [],
    "sessions": [
     {
      "id": "d1s1",
@@ -338,6 +339,7 @@ window.HANOI2026 = {
     "expected_participation": "200 - 250 delegates"
    },
    "intro": "The Main Forum Day brings together high-level government representatives, leading businesses, academic institutions, and multilateral actors to advance the next chapter of Swiss and Vietnamese cooperation. Program Highlights",
+   "options": [],
    "sessions": [
     {
      "id": "d2s1",
@@ -488,6 +490,7 @@ window.HANOI2026 = {
    "title": "Hải Phòng Field Visit",
    "meta": {},
    "intro": "Port City, Industry & the French Heritage Coast Day 3 is an optional curated day combining on-the-ground industrial visits, meetings with provincial authorities, and cultural discovery. Two destination options are available — delegates choose one. Pre-registration and small contribution required for non-SVEF members/partners/sponsors.",
+   "options": [],
    "sessions": [
     {
      "id": "d3s1",
