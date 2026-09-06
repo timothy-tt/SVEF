@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SVEF Ha Noi 2026 — Event Back Office</title>
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* SVEF Ha Noi 2026 back office. One event, one file.
+   Deliberately NOT the multi-event back office: there is no event switcher, no
+   event list, no "which event" column anywhere. Every screen is scoped to
+   HANOI2026 and says so. English only, per the 14/08/2026 scope decision.
+   Palette and type follow ../BRAND.md. */
+:root{
+  --red:#E42026; --red-d:#B31018; --red-t:#FDECEC; --red-ink:#B31018;
+  --green:#3E7742; --green-d:#2C5730; --green-t:#EDF3EE;
+  --gold:#C3933A; --gold-ink:#754715; --gold-t:#FBF3E4;
+  --sky:#E2F4FD; --steel:#A8CED7;
+  --ink:#0E273D; --ink-2:#224861; --muted:#3C6980; --line:#DAEDF0;
+  --hanoi:#04723D; --wash:#F6FBF2; --wash-2:#EDF6EA; --deep:#123A2A;
+  --bg:var(--wash); --card:#fff; --soft:var(--wash-2);
+  --shadow:0 18px 44px rgba(14,39,61,.16);
+  --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  --rail:236px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:14px;
+  line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:var(--hanoi)}
+/* ---- sign in ---- */
+.signin{min-height:100vh;display:grid;place-items:center;padding:24px;
+  background:linear-gradient(160deg,var(--deep),var(--ink))}
+.signin .box{background:var(--card);width:380px;max-width:100%;padding:28px;box-shadow:var(--shadow)}
+.signin h1{margin:0 0 3px;font-size:20px;font-weight:800;letter-spacing:-.02em}
+.signin .ev{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--hanoi);margin-bottom:16px}
+.signin p{font-size:12.5px;color:var(--muted);margin:0 0 18px;line-height:1.5}
+/* ---- shell ---- */
+.app{display:none;min-height:100vh;grid-template-columns:var(--rail) 1fr}
+.app.on{display:grid}
+.rail{background:linear-gradient(180deg,var(--deep),var(--ink));color:#fff;padding:18px 0;
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.rail .brand{padding:0 18px 16px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:12px}
+.rail .brand b{display:block;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.rail .brand span{display:block;font-size:10.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);margin-top:3px}
+.rail .brand em{display:block;font-style:normal;font-size:11px;opacity:.62;margin-top:6px}
+.rail nav{flex:1;padding:0 10px}
+.rail button{width:100%;border:0;background:none;color:rgba(255,255,255,.76);font:inherit;
+  font-size:13.5px;font-weight:600;text-align:left;padding:9px 10px;cursor:pointer;
+  display:flex;align-items:center;gap:9px}
+.rail button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;flex:0 0 17px}
+.rail button:hover{color:#fff;background:rgba(255,255,255,.07)}
+.rail button[aria-current=true]{background:#fff;color:var(--deep);font-weight:700}
+.rail button .n{margin-left:auto;font-size:11px;font-weight:700;background:rgba(255,255,255,.16);
+  padding:1px 6px}
+.rail button[aria-current=true] .n{background:var(--soft);color:var(--ink-2)}
+.rail .foot{padding:12px 18px 0;border-top:1px solid rgba(255,255,255,.12);font-size:11px;
+  opacity:.6;line-height:1.5}
+.main{min-width:0;display:flex;flex-direction:column}
+.head{background:var(--card);border-bottom:1px solid var(--line);padding:16px 26px;
+  display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:9}
+.head h2{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.head p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+.head .sp{margin-left:auto;display:flex;gap:8px;align-items:center}
+.wrap{padding:22px 26px 60px;max-width:1180px}
+/* ---- bits ---- */
+.btn{border:0;background:var(--hanoi);color:#fff;font:inherit;font-weight:700;font-size:13px;
+  padding:9px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.btn:hover{background:var(--deep)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);font-weight:600}
+.btn.ghost:hover{background:var(--soft)}
+.btn.red{background:var(--red)} .btn.red:hover{background:var(--red-d)}
+.btn.sm{padding:6px 10px;font-size:12px}
+.btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.card{background:var(--card);border:1px solid var(--line);padding:18px}
+.card h3{margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.card h3 .sp{margin-left:auto}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:1fr 1fr}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);padding:16px 18px}
+.kpi b{display:block;font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.kpi span{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:6px;
+  letter-spacing:.02em}
+.kpi.warn b{color:var(--gold-ink)} .kpi.good b{color:var(--hanoi)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);padding:0 10px 8px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--soft)}
+.chip{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 7px;background:var(--soft);
+  border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+.chip.green{background:var(--green-t);border-color:#CFE0D2;color:var(--green-d)}
+.chip.gold{background:var(--gold-t);border-color:#EBD9B4;color:var(--gold-ink)}
+.chip.red{background:var(--red-t);border-color:#F3CFD1;color:var(--red-ink)}
+.chip.navy{background:var(--ink);border-color:var(--ink);color:#fff}
+.warn{background:var(--gold-t);border:1px solid #EBD9B4;padding:12px 14px;font-size:12.5px;
+  line-height:1.55;color:var(--gold-ink)}
+.warn b{display:block;margin-bottom:3px;color:var(--gold-ink)}
+.warn + .warn{margin-top:10px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:11.5px;font-weight:700;margin-bottom:5px;color:var(--ink-2)}
+.fld input,.fld textarea,.fld select{width:100%;border:1px solid var(--line);background:var(--card);
+  font:inherit;font-size:13.5px;padding:9px 11px;color:var(--ink)}
+.fld textarea{min-height:80px;resize:vertical}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:2px solid var(--hanoi);
+  outline-offset:-2px}
+.fld .hint{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45}
+.row{display:flex;gap:12px}.row > *{flex:1}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.tabs button{border:0;background:none;font:inherit;font-size:13px;font-weight:600;cursor:pointer;
+  padding:9px 14px;color:var(--muted);border-bottom:2px solid transparent}
+.tabs button[aria-selected=true]{color:var(--hanoi);border-bottom-color:var(--hanoi);font-weight:700}
+.sesrow{display:grid;grid-template-columns:92px 1fr auto;gap:14px;align-items:start;
+  padding:13px 0;border-bottom:1px solid var(--line)}
+.sesrow:last-child{border-bottom:0}
+.sesrow .t{font-size:13px;font-weight:700;color:var(--hanoi)}
+.sesrow .t small{display:block;font-weight:500;color:var(--muted)}
+.sesrow h4{margin:0;font-size:14px;font-weight:700;letter-spacing:-.01em}
+.sesrow p{margin:4px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+.sesrow ul{margin:5px 0 0;padding-left:17px;font-size:12.5px;color:var(--muted)}
+.trkline{margin-top:7px;display:flex;flex-wrap:wrap;gap:6px}
+.trkline span{font-size:11px;background:var(--soft);border:1px solid var(--line);padding:3px 7px}
+.drawer{position:fixed;inset:0;background:rgba(11,31,22,.45);display:none;z-index:60;
+  justify-content:flex-end}
+.drawer.on{display:flex}
+.drawer .in{background:var(--card);width:520px;max-width:100%;height:100%;overflow-y:auto;
+  padding:22px 24px 40px;box-shadow:var(--shadow)}
+.drawer h3{margin:0 0 2px;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.drawer .sub{font-size:12px;color:var(--muted);margin-bottom:18px}
+.drawer .bar{display:flex;gap:8px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.pv{display:flex;gap:12px;align-items:center}
+.pv img{width:46px;height:46px;object-fit:cover;background:var(--soft)}
+.mono{font-family:var(--sans);font-variant-numeric:tabular-nums}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);
+  color:#fff;font-size:13px;font-weight:600;padding:11px 18px;z-index:80;opacity:0;
+  pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.readonly{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:10px}
+.src{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;
+  color:var(--muted);line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="signin" id="signin">
+  <form class="box" id="loginform">
+    <div class="ev" id="lgev">SVEF Ha Noi 2026</div>
+    <h1>Event Back Office</h1>
+    <p>Single-event console. This build manages the Ha Noi 2026 edition only.
+       Any credentials are accepted in the demo.</p>
+    <div class="fld"><label for="u">Work email</label>
+      <input id="u" type="email" value="events@svef.ch" autocomplete="username"></div>
+    <div class="fld"><label for="p">Password</label>
+      <input id="p" type="password" value="demo" autocomplete="current-password"></div>
+    <button class="btn" type="submit" style="width:100%;justify-content:center">Sign in</button>
+  </form>
+</div>
+
+<div class="app" id="app">
+  <aside class="rail">
+    <div class="brand">
+      <img src="../assets/brand/svef-wordmark-dark.svg" alt="SVEF"
+           style="display:block;width:100%;height:auto;margin-bottom:8px">
+      <span id="brandcode">Ha Noi 2026</span>
+      <em id="branddates"></em>
+    </div>
+    <nav id="nav"></nav>
+    <div class="foot" id="railfoot"></div>
+  </aside>
+  <div class="main">
+    <header class="head">
+      <div><h2 id="vt"></h2><p id="vs"></p></div>
+      <div class="sp" id="vactions"></div>
+    </header>
+    <div class="wrap" id="wrap"></div>
+  </div>
+</div>
+
+<div class="drawer" id="drawer"><div class="in" id="drawerin"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+"use strict";
+var D = window.HANOI2026, E = D.event;
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function el(id){ return document.getElementById(id); }
+function ico(p){ return '<svg viewBox="0 0 24 24">'+p+'</svg>'; }
+var I={
+ dash:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',
+ cal:'<rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+ users:'<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3.2-6.5 7-6.5S16 17 16 21"/><path d="M17 11a3.5 3.5 0 1 0-1.5-6.6"/><path d="M18 21c0-2.6-.8-4.5-2-5.7"/>',
+ form:'<rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+ doc:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 13h6M9 17h4"/>',
+ gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/>',
+ alert:'<path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17v.01"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ edit:'<path d="M4 20h4l10-10-4-4L4 16v4z"/>',
+ down:'<path d="M12 4v12M7 12l5 5 5-5"/><path d="M4 20h16"/>',
+ check:'<path d="M4 12.5l5 5L20 6.5"/>',
+ eye:'<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/>',
+ ext:'<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5H5V5h5"/>'
+};
+
+/* ---------- local working copy.
+   The demo edits a copy in localStorage so changes survive a reload without
+   pretending there is a backend. "Revert to source" throws it away and goes
+   back to exactly what scrape.py pulled off hanoi2026.svef.ch. ---------- */
+var KEY = "svef.hanoi.admin";
+var S = JSON.parse(localStorage.getItem(KEY) || "null") || seed();
+function seed(){
+  return {
+    days: JSON.parse(JSON.stringify(D.days)),
+    speakers: JSON.parse(JSON.stringify(D.speakers)),
+    fields: JSON.parse(JSON.stringify(D.registration.fields)),
+    settings: {
+      displayDates: E.displayDates, start: E.start, end: E.end,
+      venue: E.venue || "", city: E.city, contact: E.contactEmail,
+      status: E.status, regStatus: D.registration.status,
+      closes: D.registration.closes
+    },
+    content: {
+      accommodation: D.info.accommodation || "",
+      visa: D.info.visa || "",
+      transportation: D.info.transportation || ""
+    },
+    rsvps: sampleRsvps()
+  };
+}
+function persist(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+function sampleRsvps(){
+  /* Wix does not expose the guest list to an anonymous token, so the roster below
+     is demo data. Everything else in this console is the real scraped record. */
+  var seedRows = [
+    ["Nguyễn Thu Hà","ha.nguyen@vcci.com.vn","Deputy Director","VCCI","Viet Nam","confirmed"],
+    ["Markus Bühler","m.buehler@swissmem.ch","Head of ASEAN Desk","Swissmem","Switzerland","confirmed"],
+    ["Trần Minh Quân","quan.tran@fpt.com.vn","Managing Director","FPT Software","Viet Nam","pending"],
+    ["Claire Dubois","c.dubois@seco.admin.ch","Trade Counsellor","SECO","Switzerland","confirmed"],
+    ["Lê Hoàng Anh","anh.le@vietcombank.com.vn","Senior Manager","Vietcombank","Viet Nam","pending"],
+    ["Andreas Keller","a.keller@zkb.ch","Regional Head APAC","Zürcher Kantonalbank","Switzerland","confirmed"],
+    ["Phạm Thị Lan","lan.pham@imt-soft.com","Business Analyst","IMT Solutions","Viet Nam","confirmed"],
+    ["Sophie Meier","s.meier@s-ge.com","Consultant SEA","Switzerland Global Enterprise","Switzerland","waitlist"]
+  ];
+  return seedRows.map(function(r,i){
+    return {id:"r"+(i+1), name:r[0], email:r[1], role:r[2], org:r[3], country:r[4],
+            status:r[5], at:new Date(Date.now()-(i+1)*7.2e6).toISOString()};
+  });
+}
+
+/* ---------- data-health checks against the live source ---------- */
+function issues(){
+  var out = [];
+  var appDates = E.start.slice(0,10)+" to "+E.end.slice(0,10);
+  out.push({
+    lvl:"warn", t:"Three sources disagree on the event dates",
+    b:"The Wix Events record says "+appDates+", its own tagline says “"+E.tagline+
+      "”, and the CMS Events row still says 2026-10-01 to 2026-10-03. This console "+
+      "and the delegate app use "+E.displayDates+". The programme has three days, which "+
+      "only fits an 18 to 20 October window. Confirm with SVEF and fix it at source."
+  });
+  var tbd = S.days.filter(function(d){
+    return !d.meta.venue || /updated|tbd/i.test(d.meta.venue); }).length;
+  if(tbd) out.push({lvl:"warn", t:"Venue not published for "+tbd+" of "+S.days.length+" days",
+    b:"Every day still reads “Venue: to be updated” on the event site. Delegates "+
+      "cannot book accommodation or transport against a city name alone."});
+  var geo = E && D.meta;
+  out.push({lvl:"warn", t:"Venue coordinates point at Zurich",
+    b:"The Wix Events location is named “Ha Noi” but carries the Zurich address and "+
+      "geocode 47.375, 8.549 left over from the Zurich edition. Any map pin drawn from "+
+      "that record lands in Switzerland."});
+  /* The RSVP form asks delegates to pick a parallel session by name. If those names
+     drift from the published agenda, a delegate books a session that does not exist
+     under that title, so the two lists are compared letter for letter. */
+  var agendaTracks = [];
+  S.days.forEach(function(d){ d.sessions.forEach(function(x){
+    (x.tracks||[]).forEach(function(tr){
+      agendaTracks.push("Session "+tr.track+": "+tr.title); }); }); });
+  var formTracks = [];
+  S.fields.forEach(function(f){
+    if(/parallel session/i.test(f.label))
+      (f.options||[]).forEach(function(o){ formTracks.push(o); });
+  });
+  var drift = formTracks.filter(function(o){ return agendaTracks.indexOf(o) === -1; });
+  if(formTracks.length && drift.length)
+    out.push({lvl:"warn", t:drift.length+" parallel sessions are named differently in the RSVP form",
+      b:"Delegates choose a session by name at registration, but these options do not "+
+        "match the published agenda: "+drift.join("; ")+". Align the two or the "+
+        "headcount per session will not reconcile."});
+
+  ["accommodation","visa","transportation"].forEach(function(k){
+    if(!S.content[k] || !S.content[k].trim())
+      out.push({lvl:"info", t:"No "+k+" content published",
+        b:"The /events-"+(k==="accommodation"?"accomodation":k)+"/hanoi2026 page resolves but "+
+          "the field is empty in the CMS, so the app shows a placeholder."});
+  });
+  if(S.speakers.length < 10)
+    out.push({lvl:"info", t:"Only "+S.speakers.length+" speakers linked to this event",
+      b:"The Speakers collection holds "+D.meta.speakerPool+" records site wide, but only "+
+        S.speakers.length+" are linked to HANOI2026. The Zurich 2026 edition has 42."});
+  return out;
+}
+
+/* ---------- views ---------- */
+var VIEWS = [
+  {id:"dash",     label:"Dashboard",     icon:I.dash,  title:"Dashboard",
+   sub:"Everything scoped to this one event"},
+  {id:"agenda",   label:"Programme",     icon:I.cal,   title:"Programme",
+   sub:"Three days, sessions and parallel tracks"},
+  {id:"speakers", label:"Speakers",      icon:I.mic,   title:"Speakers",
+   sub:"Linked to HANOI2026 only"},
+  {id:"rsvps",    label:"Registrations", icon:I.users, title:"Registrations",
+   sub:"RSVP responses for this event"},
+  {id:"form",     label:"RSVP form",     icon:I.form,  title:"RSVP form",
+   sub:"The live registration form, field by field"},
+  {id:"content",  label:"Delegate info", icon:I.doc,   title:"Delegate information",
+   sub:"Accommodation, visa and transport pages"},
+  {id:"health",   label:"Data health",   icon:I.alert, title:"Data health",
+   sub:"Where this event's record contradicts itself"},
+  {id:"settings", label:"Event settings",icon:I.gear,  title:"Event settings",
+   sub:"Dates, venue and registration window"}
+];
+var view = "dash";
+
+function counts(){
+  return {
+    sessions: S.days.reduce(function(a,d){return a+d.sessions.length;},0),
+    tracks: S.days.reduce(function(a,d){
+      return a+d.sessions.reduce(function(b,s){return b+(s.tracks?s.tracks.length:0);},0);},0),
+    speakers: S.speakers.length,
+    rsvps: S.rsvps.length,
+    confirmed: S.rsvps.filter(function(r){return r.status==="confirmed";}).length,
+    issues: issues().length
+  };
+}
+
+function dashHTML(){
+  var c = counts(), h = "";
+  h += '<div class="grid g4">';
+  h += kpi(c.sessions, "Programme sessions", "good");
+  h += kpi(c.speakers, "Speakers linked", c.speakers<10?"warn":"good");
+  h += kpi(c.rsvps, "Registrations", "good");
+  h += kpi(c.issues, "Data issues", c.issues?"warn":"good");
+  h += '</div>';
+
+  h += '<div class="grid g2" style="margin-top:14px">';
+  h += '<div class="card"><h3>This event</h3>';
+  h += kv("Name", E.title);
+  h += kv("Code", '<span class="chip navy">'+esc(E.code)+'</span>');
+  h += kv("Dates", esc(S.settings.displayDates)+' <span class="chip gold">disputed</span>');
+  h += kv("Venue", S.settings.venue ? esc(S.settings.venue)
+        : '<span class="chip gold">Not announced</span>');
+  h += kv("City", esc(S.settings.city)+", "+esc(E.country));
+  h += kv("Time zone", esc(E.timeZone));
+  h += kv("Status", '<span class="chip green">'+esc(S.settings.status)+'</span>');
+  h += '</div>';
+
+  h += '<div class="card"><h3>Registration</h3>';
+  h += kv("Mode", esc(D.registration.type)+" ("+esc(D.registration.responseType)+")");
+  h += kv("State", '<span class="chip green">'+esc(S.settings.regStatus)+'</span>');
+  h += kv("Opened", fdt(D.registration.opens));
+  h += kv("Closes", fdt(S.settings.closes));
+  h += kv("Waitlist", D.registration.waitlist ? "Enabled" : "Off");
+  h += kv("Form fields", S.fields.length+" ("+S.fields.filter(function(f){return f.required;}).length+" required)");
+  h += kv("Confirmed", c.confirmed+" of "+c.rsvps);
+  h += '</div></div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Programme at a glance'+
+       '<span class="sp"><button class="btn ghost sm" data-go="agenda">'+ico(I.edit)+'Edit programme</button></span></h3>';
+  h += '<table><thead><tr><th>Day</th><th>Date</th><th>Theme</th><th>Sessions</th>'+
+       '<th>Tracks</th><th>Venue</th></tr></thead><tbody>';
+  S.days.forEach(function(d){
+    var tr = d.sessions.reduce(function(a,s){return a+(s.tracks?s.tracks.length:0);},0);
+    h += '<tr><td><b>Day '+d.day+'</b></td><td class="mono">'+esc(d.date||"")+'</td>'+
+      '<td>'+esc(d.title)+'</td><td>'+d.sessions.length+'</td><td>'+(tr||"–")+'</td>'+
+      '<td>'+(d.meta.venue && !/updated/i.test(d.meta.venue)
+        ? esc(d.meta.venue) : '<span class="chip gold">To be updated</span>')+'</td></tr>';
+  });
+  h += '</tbody></table></div>';
+
+  var iss = issues();
+  if(iss.length){
+    h += '<div class="card" style="margin-top:14px"><h3>Needs attention'+
+      '<span class="sp"><button class="btn ghost sm" data-go="health">All '+iss.length+'</button></span></h3>';
+    iss.slice(0,3).forEach(function(x){
+      h += '<div class="warn"><b>'+esc(x.t)+'</b>'+esc(x.b)+'</div>';
+    });
+    h += '</div>';
+  }
+  return h + srcHTML();
+}
+function kpi(n,l,cls){ return '<div class="kpi '+(cls||"")+'"><b>'+n+'</b><span>'+esc(l)+'</span></div>'; }
+function kv(k,v){ return '<div style="display:flex;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)">'+
+  '<span style="flex:0 0 118px;font-size:12px;color:var(--muted);font-weight:600">'+esc(k)+
+  '</span><span style="flex:1;font-size:13.5px">'+v+'</span></div>'; }
+function fdt(iso){ if(!iso) return "–";
+  return new Date(iso).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+
+var aday = 2;
+function agendaHTML(){
+  var h = '<div class="tabs">';
+  S.days.forEach(function(d){
+    h += '<button data-aday="'+d.day+'" aria-selected="'+(d.day===aday)+'">Day '+d.day+
+      ' · '+esc(d.date||"")+'</button>';
+  });
+  h += '</div>';
+  var d = S.days.filter(function(x){return x.day===aday;})[0];
+  if(!d) return h;
+  h += '<div class="card"><h3>Day '+d.day+' header<span class="sp">'+
+    '<button class="btn ghost sm" data-editday="'+d.day+'">'+ico(I.edit)+'Edit</button></span></h3>';
+  h += kv("Theme", esc(d.title));
+  h += kv("Date", '<span class="mono">'+esc(d.date||"")+'</span>');
+  h += kv("Venue", d.meta.venue && !/updated/i.test(d.meta.venue)
+        ? esc(d.meta.venue) : '<span class="chip gold">To be updated</span>');
+  if(d.meta.format) h += kv("Format", esc(d.meta.format));
+  if(d.meta.expected_participation) h += kv("Delegates", esc(d.meta.expected_participation));
+  if(d.intro) h += kv("Intro", esc(d.intro));
+  h += '</div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Sessions ('+d.sessions.length+')'+
+    '<span class="sp"><button class="btn sm" data-newses="'+d.day+'">'+ico(I.plus)+'Add session</button></span></h3>';
+  d.sessions.forEach(function(s){
+    h += '<div class="sesrow"><div class="t">'+esc(s.start||"—")+
+      (s.end?'<small>to '+esc(s.end)+'</small>':'')+'</div><div>';
+    h += '<h4>'+esc(s.title)+'</h4>';
+    if(s.kind && s.kind!=="session") h += ' <span class="chip">'+esc(s.kind)+'</span>';
+    if(s.detail && s.detail.length)
+      h += '<ul>'+s.detail.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>';
+    if(s.tracks && s.tracks.length){
+      h += '<div class="trkline">'+s.tracks.map(function(t){
+        return '<span><b>'+esc(t.track)+'</b> '+esc(t.title)+'</span>'; }).join("")+'</div>';
+    }
+    h += '</div><div style="display:flex;gap:6px">'+
+      '<button class="btn ghost sm" data-editses="'+esc(s.id)+'">'+ico(I.edit)+'Edit</button>'+
+      '<button class="btn ghost sm" data-delses="'+esc(s.id)+'">Remove</button></div></div>';
+  });
+  h += '</div>';
+  return h + srcHTML();
+}
+
+function speakersHTML(){
+  var h = '<div class="card"><h3>Speakers linked to '+esc(E.code)+' ('+S.speakers.length+')'+
+    '<span class="sp"><button class="btn sm" data-newspk="1">'+ico(I.plus)+'Add speaker</button></span></h3>';
+  h += '<table><thead><tr><th style="width:44%">Speaker</th><th>Role</th><th>Billing</th>'+
+       '<th style="width:1%"></th></tr></thead><tbody>';
+  S.speakers.forEach(function(s){
+    h += '<tr><td><div class="pv">'+
+      (s.photo?'<img src="'+esc(s.photo)+'" alt="">':'<span style="width:46px;height:46px;background:var(--soft);display:block"></span>')+
+      '<div><b>'+esc(s.name)+'</b><div style="font-size:12px;color:var(--muted)">'+
+      esc((s.bio||"").slice(0,72))+((s.bio||"").length>72?"…":"")+'</div></div></div></td>';
+    h += '<td>'+esc(s.role)+(s.org?'<div style="font-size:12px;color:var(--muted)">'+esc(s.org)+'</div>':'')+'</td>';
+    h += '<td>'+(s.keynote?'<span class="chip gold">Keynote</span>':'<span class="chip">Panel</span>')+'</td>';
+    h += '<td><button class="btn ghost sm" data-editspk="'+esc(s.id)+'">'+ico(I.edit)+'Edit</button></td></tr>';
+  });
+  h += '</tbody></table>';
+  if(S.speakers.length < 10)
+    h += '<div class="warn" style="margin-top:14px"><b>Roster is still thin</b>'+
+      'Only '+S.speakers.length+' speakers are linked to this event on the live site. '+
+      'The Speakers collection holds '+D.meta.speakerPool+' records overall, and the Zurich 2026 '+
+      'edition links 42, so this list is expected to grow.</div>';
+  h += '</div>';
+  return h + srcHTML();
+}
+
+function rsvpsHTML(){
+  var c = counts();
+  var h = '<div class="grid g4">';
+  h += kpi(c.rsvps,"Total responses","");
+  h += kpi(c.confirmed,"Confirmed","good");
+  h += kpi(S.rsvps.filter(function(r){return r.status==="pending";}).length,"Pending review","warn");
+  h += kpi(S.rsvps.filter(function(r){return r.status==="waitlist";}).length,"Waitlist","");
+  h += '</div>';
+  h += '<div class="card" style="margin-top:14px"><h3>RSVP responses'+
+    '<span class="sp"><button class="btn ghost sm" id="csv">'+ico(I.down)+'Export CSV</button></span></h3>';
+  h += '<table><thead><tr><th>Name</th><th>Organisation</th><th>Role</th><th>Country</th>'+
+       '<th>Received</th><th>Status</th></tr></thead><tbody>';
+  S.rsvps.forEach(function(r){
+    var cls = r.status==="confirmed"?"green":(r.status==="waitlist"?"":"gold");
+    h += '<tr><td><b>'+esc(r.name)+'</b><div style="font-size:12px;color:var(--muted)">'+
+      esc(r.email)+'</div></td><td>'+esc(r.org)+'</td><td>'+esc(r.role)+'</td>'+
+      '<td>'+esc(r.country)+'</td><td class="mono">'+fdt(r.at)+'</td>'+
+      '<td><select data-rst="'+esc(r.id)+'" style="border:1px solid var(--line);font:inherit;'+
+      'font-size:12px;padding:4px 6px;background:var(--card)">'+
+      ["confirmed","pending","waitlist","declined"].map(function(o){
+        return '<option'+(o===r.status?" selected":"")+'>'+o+'</option>'; }).join("")+
+      '</select></td></tr>';
+  });
+  h += '</tbody></table>';
+  h += '<div class="readonly"><b>Note.</b> Wix does not expose an event guest list to an '+
+    'anonymous site token, so these rows are demo data. Every other screen in this console '+
+    'is the real record scraped from the live site.</div>';
+  h += '</div>';
+  return h + srcHTML();
+}
+
+function formHTML(){
+  var h = '<div class="card"><h3>Live RSVP form ('+S.fields.length+' fields)'+
+    '<span class="sp"><a class="btn ghost sm" href="'+esc(E.registerUrl)+'" target="_blank" rel="noopener">'+
+    ico(I.ext)+'Open on the live site</a></span></h3>';
+  h += '<table><thead><tr><th style="width:1%">#</th><th style="width:44%">Label</th>'+
+       '<th>Control</th><th>Max</th><th>Required</th><th>Source</th></tr></thead><tbody>';
+  S.fields.forEach(function(f,i){
+    h += '<tr><td class="mono">'+(i+1)+'</td><td><b>'+esc(f.label)+'</b>'+
+      '<div style="font-size:11.5px;color:var(--muted)" class="mono">'+esc(f.id)+'</div></td>'+
+      '<td>'+esc(f.control)+'</td><td class="mono">'+(f.maxLength||"–")+'</td>'+
+      '<td><label style="display:inline-flex;gap:6px;align-items:center;font-size:12.5px;cursor:pointer">'+
+      '<input type="checkbox" data-req="'+esc(f.id)+'"'+(f.required?" checked":"")+
+      ' style="accent-color:var(--hanoi)">'+(f.required?"Required":"Optional")+'</label></td>'+
+      '<td>'+(f.system?'<span class="chip">System</span>':'<span class="chip green">Custom</span>')+
+      '</td></tr>';
+  });
+  h += '</tbody></table>';
+  var conf = D.registration.confirmation||{};
+  if(conf.title){
+    h += '<h3 style="margin-top:22px">Confirmation message</h3>';
+    h += '<div class="fld"><label>Title</label><input value="'+esc(conf.title)+'"></div>';
+    h += '<div class="fld"><label>Body</label><textarea>'+esc(conf.message||"")+'</textarea>'+
+      '<div class="hint">This is the exact wording the live event sends today.</div></div>';
+  }
+  h += '</div>';
+  return h + srcHTML();
+}
+
+function contentHTML(){
+  var pages = [
+    ["accommodation","Accommodation","/events-accomodation/hanoi2026"],
+    ["visa","Visa and entry","/events-visa/hanoi2026"],
+    ["transportation","Transport","/events-transportation/hanoi2026"]
+  ];
+  var h = '';
+  pages.forEach(function(p){
+    var v = S.content[p[0]] || "";
+    h += '<div class="card" style="margin-bottom:14px"><h3>'+esc(p[1])+
+      '<span class="sp">'+(v.trim()
+        ? '<span class="chip green">Published</span>'
+        : '<span class="chip gold">Empty on the live site</span>')+'</span></h3>';
+    h += '<div class="fld"><textarea data-content="'+p[0]+'" placeholder="Nothing published yet. '+
+      'Type here to draft the delegate-facing copy.">'+esc(v)+'</textarea>'+
+      '<div class="hint">Live page: <a href="'+esc(E.siteUrl+p[2])+'" target="_blank" rel="noopener">'+
+      esc(p[2])+'</a>. The route resolves but the CMS field is empty, so the app shows a placeholder.</div></div>';
+    h += '</div>';
+  });
+  h += '<div class="card"><h3>Venue</h3>'+
+    '<div class="fld"><label>Venue name and address</label>'+
+    '<input data-set="venue" value="'+esc(S.settings.venue)+'" placeholder="Not announced">'+
+    '<div class="hint">All three programme days read “Venue: to be updated” on the live site. '+
+    'Filling this in here updates every screen in the delegate app.</div></div></div>';
+  return h + srcHTML();
+}
+
+function healthHTML(){
+  var iss = issues();
+  var h = '<div class="card"><h3>'+iss.length+' issues found in the live record</h3>';
+  if(!iss.length) h += '<p style="margin:0;color:var(--muted)">Nothing to flag.</p>';
+  iss.forEach(function(x){
+    h += '<div class="warn"><b>'+esc(x.t)+'</b>'+esc(x.b)+'</div>';
+  });
+  h += '<div class="readonly">These checks run against the scraped snapshot in '+
+    '<span class="mono">data.js</span>. Re-run <span class="mono">scrape.py</span> to refresh '+
+    'and they re-evaluate automatically.</div></div>';
+  return h + srcHTML();
+}
+
+function settingsHTML(){
+  var s = S.settings;
+  var h = '<div class="card"><h3>Dates</h3>';
+  h += '<div class="warn"><b>Sources disagree</b>Wix Events record: '+
+    esc(E.start.slice(0,10))+' to '+esc(E.end.slice(0,10))+
+    '. Event tagline: “'+esc(E.tagline)+'”. CMS Events row: 2026-10-01 to 2026-10-03. '+
+    'The value below is what this console and the delegate app show.</div>';
+  h += '<div class="row" style="margin-top:14px">'+
+    '<div class="fld"><label>Display dates</label><input data-set="displayDates" value="'+
+    esc(s.displayDates)+'"></div>'+
+    '<div class="fld"><label>Starts</label><input data-set="start" value="'+esc(s.start)+'"></div>'+
+    '<div class="fld"><label>Ends</label><input data-set="end" value="'+esc(s.end)+'"></div></div>';
+  h += '<div class="row"><div class="fld"><label>Time zone</label><input value="'+
+    esc(E.timeZone)+'" disabled></div>'+
+    '<div class="fld"><label>City</label><input data-set="city" value="'+esc(s.city)+'"></div></div>';
+  h += '</div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Registration window</h3>';
+  h += '<div class="row"><div class="fld"><label>State</label><select data-set="regStatus">'+
+    ["OPEN_RSVP","CLOSED_MANUALLY","CLOSED"].map(function(o){
+      return '<option'+(o===s.regStatus?" selected":"")+'>'+o+'</option>'; }).join("")+
+    '</select></div>'+
+    '<div class="fld"><label>Closes</label><input data-set="closes" value="'+esc(s.closes||"")+'"></div>'+
+    '<div class="fld"><label>Contact</label><input data-set="contact" value="'+esc(s.contact)+'"></div></div>';
+  h += '</div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Source snapshot</h3>';
+  h += kv("Scraped from", '<a href="'+esc(D.meta.source)+'" target="_blank" rel="noopener">'+
+    esc(D.meta.source)+'</a>');
+  h += kv("Snapshot taken", esc(D.meta.scrapedAt));
+  h += kv("Generated by", '<span class="mono">'+esc(D.meta.generator)+'</span>');
+  h += '<div class="bar" style="display:flex;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)">'+
+    '<button class="btn ghost" id="revert">Revert to scraped source</button></div>';
+  h += '</div>';
+  return h + srcHTML();
+}
+
+function srcHTML(){
+  return '<div class="src">Single-event console for <b>'+esc(E.code)+'</b>. '+
+    'Data scraped from <a href="'+esc(D.meta.source)+'" target="_blank" rel="noopener">'+
+    esc(D.meta.source.replace("https://",""))+'</a> on '+esc(D.meta.scrapedAt)+'. '+
+    'Edits are stored in this browser only.</div>';
+}
+
+/* ---------- shell ---------- */
+function render(){
+  el("nav").innerHTML = VIEWS.map(function(v){
+    var n = "";
+    if(v.id==="agenda")   n = counts().sessions;
+    if(v.id==="speakers") n = S.speakers.length;
+    if(v.id==="rsvps")    n = S.rsvps.length;
+    if(v.id==="form")     n = S.fields.length;
+    if(v.id==="health")   n = counts().issues;
+    return '<button data-go="'+v.id+'" aria-current="'+(view===v.id)+'">'+ico(v.icon)+
+      '<span>'+esc(v.label)+'</span>'+(n!==""?'<span class="n">'+n+'</span>':'')+'</button>';
+  }).join("");
+  var v = VIEWS.filter(function(x){return x.id===view;})[0] || VIEWS[0];
+  el("vt").textContent = v.title;
+  el("vs").textContent = v.sub;
+  el("vactions").innerHTML =
+    '<a class="btn ghost sm" href="index.html" target="_blank" rel="noopener">'+ico(I.eye)+
+    'Delegate app</a>'+
+    '<a class="btn ghost sm" href="'+esc(E.eventUrl)+'" target="_blank" rel="noopener">'+
+    ico(I.ext)+'Live site</a>';
+  el("branddates").textContent = S.settings.displayDates+" · "+S.settings.city;
+  el("railfoot").innerHTML = "Scoped to "+esc(E.code)+" only.<br>No event switcher by design.";
+  var body = {dash:dashHTML, agenda:agendaHTML, speakers:speakersHTML, rsvps:rsvpsHTML,
+              form:formHTML, content:contentHTML, health:healthHTML, settings:settingsHTML}[view];
+  el("wrap").innerHTML = body ? body() : "";
+  window.scrollTo(0,0);
+}
+
+function toast(m){ var t=el("toast"); t.textContent=m; t.classList.add("on");
+  clearTimeout(t._x); t._x=setTimeout(function(){t.classList.remove("on");},1700); }
+
+el("loginform").addEventListener("submit", function(e){
+  e.preventDefault();
+  el("signin").style.display = "none";
+  el("app").classList.add("on");
+  render();
+});
+
+document.addEventListener("click", function(ev){
+  var g = ev.target.closest("[data-go]");
+  if(g){ view = g.getAttribute("data-go"); render(); return; }
+  var ad = ev.target.closest("[data-aday]");
+  if(ad){ aday = +ad.getAttribute("data-aday"); render(); return; }
+  var es = ev.target.closest("[data-editses]");
+  if(es){ editSession(es.getAttribute("data-editses")); return; }
+  var ns = ev.target.closest("[data-newses]");
+  if(ns){ editSession(null, +ns.getAttribute("data-newses")); return; }
+  var ds = ev.target.closest("[data-delses]");
+  if(ds){ delSession(ds.getAttribute("data-delses")); return; }
+  var ed = ev.target.closest("[data-editday]");
+  if(ed){ editDay(+ed.getAttribute("data-editday")); return; }
+  var sp = ev.target.closest("[data-editspk]");
+  if(sp){ editSpeaker(sp.getAttribute("data-editspk")); return; }
+  if(ev.target.closest("[data-newspk]")){ editSpeaker(null); return; }
+  if(ev.target.id==="csv"){ exportCsv(); return; }
+  if(ev.target.id==="revert"){
+    localStorage.removeItem(KEY); S = seed(); render(); toast("Reverted to the scraped source");
+    return;
+  }
+  if(ev.target.closest(".drawer") && !ev.target.closest(".drawer .in")) closeDrawer();
+});
+
+document.addEventListener("change", function(ev){
+  var t = ev.target;
+  if(t.hasAttribute("data-set")){
+    S.settings[t.getAttribute("data-set")] = t.value; persist(); render();
+    toast("Saved"); return;
+  }
+  if(t.hasAttribute("data-content")){
+    S.content[t.getAttribute("data-content")] = t.value; persist(); toast("Saved"); return;
+  }
+  if(t.hasAttribute("data-req")){
+    var id = t.getAttribute("data-req");
+    S.fields.forEach(function(f){ if(f.id===id) f.required = t.checked; });
+    persist(); render(); toast("Field updated"); return;
+  }
+  if(t.hasAttribute("data-rst")){
+    var rid = t.getAttribute("data-rst");
+    S.rsvps.forEach(function(r){ if(r.id===rid) r.status = t.value; });
+    persist(); render(); toast("Status updated"); return;
+  }
+});
+
+/* ---------- drawers ---------- */
+function openDrawer(html){ el("drawerin").innerHTML = html; el("drawer").classList.add("on"); }
+function closeDrawer(){ el("drawer").classList.remove("on"); }
+
+function findSes(id){
+  for(var i=0;i<S.days.length;i++){
+    var d = S.days[i];
+    for(var j=0;j<d.sessions.length;j++) if(d.sessions[j].id===id) return {d:d,s:d.sessions[j],j:j};
+  }
+  return null;
+}
+
+function editSession(id, dayNo){
+  var f = id ? findSes(id) : null;
+  var s = f ? f.s : {id:"", start:"", end:"", title:"", kind:"session", detail:[], tracks:[]};
+  var day = f ? f.d.day : dayNo;
+  var h = '<h3>'+(id?"Edit session":"New session")+'</h3>'+
+    '<div class="sub">Day '+day+' · '+esc((S.days.filter(function(x){return x.day===day;})[0]||{}).title||"")+'</div>';
+  h += '<div class="row"><div class="fld"><label>Start</label><input id="e_start" value="'+esc(s.start||"")+'" placeholder="09:00"></div>'+
+    '<div class="fld"><label>End</label><input id="e_end" value="'+esc(s.end||"")+'" placeholder="10:00"></div>'+
+    '<div class="fld"><label>Kind</label><select id="e_kind">'+
+    ["session","business","culture","transfer"].map(function(o){
+      return '<option'+(o===(s.kind||"session")?" selected":"")+'>'+o+'</option>'; }).join("")+
+    '</select></div></div>';
+  h += '<div class="fld"><label>Title</label><input id="e_title" value="'+esc(s.title)+'"></div>';
+  h += '<div class="fld"><label>Detail (one line each)</label><textarea id="e_detail">'+
+    esc((s.detail||[]).join("\n"))+'</textarea></div>';
+  h += '<div class="fld"><label>Parallel tracks (one per line: <span class="mono">A | Title | Summary</span>)</label>'+
+    '<textarea id="e_tracks">'+esc((s.tracks||[]).map(function(t){
+      return [t.track,t.title,t.summary].join(" | "); }).join("\n"))+'</textarea>'+
+    '<div class="hint">Leave empty for a plenary session. Delegates pick one track in the app.</div></div>';
+  h += '<div class="bar"><button class="btn" id="e_save">Save session</button>'+
+    '<button class="btn ghost" id="e_cancel">Cancel</button></div>';
+  openDrawer(h);
+  el("e_cancel").onclick = closeDrawer;
+  el("e_save").onclick = function(){
+    var d = S.days.filter(function(x){return x.day===day;})[0];
+    var rec = {
+      id: s.id || ("d"+day+"s"+(Date.now()%100000)),
+      start: el("e_start").value.trim(), end: el("e_end").value.trim() || null,
+      title: el("e_title").value.trim(), kind: el("e_kind").value,
+      detail: el("e_detail").value.split("\n").map(function(x){return x.trim();}).filter(Boolean),
+      tracks: el("e_tracks").value.split("\n").map(function(l){return l.trim();}).filter(Boolean)
+        .map(function(l){ var p=l.split("|").map(function(x){return x.trim();});
+          return {track:p[0]||"", title:p[1]||"", summary:p[2]||""}; })
+    };
+    if(!rec.title){ toast("A title is required"); return; }
+    if(f) d.sessions[f.j] = rec; else d.sessions.push(rec);
+    d.sessions.sort(function(a,b){ return (a.start||"99")<(b.start||"99") ? -1 : 1; });
+    persist(); closeDrawer(); aday = day; render(); toast(id?"Session updated":"Session added");
+  };
+}
+
+function delSession(id){
+  var f = findSes(id); if(!f) return;
+  f.d.sessions.splice(f.j,1); persist(); render(); toast("Session removed");
+}
+
+function editDay(no){
+  var d = S.days.filter(function(x){return x.day===no;})[0]; if(!d) return;
+  var h = '<h3>Day '+no+'</h3><div class="sub">Programme day header</div>';
+  h += '<div class="fld"><label>Theme</label><input id="d_title" value="'+esc(d.title)+'"></div>';
+  h += '<div class="fld"><label>Date</label><input id="d_date" value="'+esc(d.date||"")+'"></div>';
+  h += '<div class="fld"><label>Venue</label><input id="d_venue" value="'+
+    esc(/updated/i.test(d.meta.venue||"")?"":(d.meta.venue||""))+'" placeholder="Not announced"></div>';
+  h += '<div class="fld"><label>Format</label><input id="d_format" value="'+esc(d.meta.format||"")+'"></div>';
+  h += '<div class="fld"><label>Expected participation</label><input id="d_part" value="'+
+    esc(d.meta.expected_participation||"")+'"></div>';
+  h += '<div class="fld"><label>Intro</label><textarea id="d_intro">'+esc(d.intro||"")+'</textarea></div>';
+  h += '<div class="bar"><button class="btn" id="d_save">Save</button>'+
+    '<button class="btn ghost" id="d_cancel">Cancel</button></div>';
+  openDrawer(h);
+  el("d_cancel").onclick = closeDrawer;
+  el("d_save").onclick = function(){
+    d.title = el("d_title").value.trim();
+    d.date = el("d_date").value.trim();
+    d.intro = el("d_intro").value.trim();
+    d.meta.venue = el("d_venue").value.trim();
+    d.meta.format = el("d_format").value.trim();
+    d.meta.expected_participation = el("d_part").value.trim();
+    persist(); closeDrawer(); render(); toast("Day updated");
+  };
+}
+
+function editSpeaker(id){
+  var s = id ? S.speakers.filter(function(x){return x.id===id;})[0]
+             : {id:"", name:"", role:"", org:"", photo:"", bio:"", keynote:false, url:""};
+  var isNew = !id;
+  var h = '<h3>'+(isNew?"New speaker":"Edit speaker")+'</h3>'+
+    '<div class="sub">Linked to '+esc(E.code)+'</div>';
+  if(s.photo) h += '<img src="'+esc(s.photo)+'" alt="" style="width:78px;height:78px;object-fit:cover;margin-bottom:14px">';
+  h += '<div class="fld"><label>Full name</label><input id="k_name" value="'+esc(s.name)+'"></div>';
+  h += '<div class="fld"><label>Role</label><input id="k_role" value="'+esc(s.role)+'"></div>';
+  h += '<div class="fld"><label>Organisation</label><input id="k_org" value="'+esc(s.org)+'"></div>';
+  h += '<div class="fld"><label>Photo URL</label><input id="k_photo" value="'+esc(s.photo||"")+'"></div>';
+  h += '<div class="fld"><label>Biography</label><textarea id="k_bio" style="min-height:150px">'+
+    esc(s.bio||"")+'</textarea></div>';
+  h += '<div class="fld"><label style="display:inline-flex;gap:8px;align-items:center;cursor:pointer">'+
+    '<input type="checkbox" id="k_key"'+(s.keynote?" checked":"")+' style="accent-color:var(--hanoi)">'+
+    'Billed as a keynote speaker</label></div>';
+  h += '<div class="bar"><button class="btn" id="k_save">Save</button>'+
+    '<button class="btn ghost" id="k_cancel">Cancel</button>'+
+    (isNew?"":'<button class="btn ghost" id="k_del" style="margin-left:auto">Unlink</button>')+'</div>';
+  openDrawer(h);
+  el("k_cancel").onclick = closeDrawer;
+  if(el("k_del")) el("k_del").onclick = function(){
+    S.speakers = S.speakers.filter(function(x){return x.id!==id;});
+    persist(); closeDrawer(); render(); toast("Speaker unlinked");
+  };
+  el("k_save").onclick = function(){
+    var rec = {
+      id: s.id || ("spk"+(Date.now()%100000)),
+      name: el("k_name").value.trim(), role: el("k_role").value.trim(),
+      org: el("k_org").value.trim(), photo: el("k_photo").value.trim(),
+      bio: el("k_bio").value.trim(), keynote: el("k_key").checked,
+      titleFull: [el("k_role").value.trim(), el("k_org").value.trim()].filter(Boolean).join(" · "),
+      url: s.url || E.siteUrl, slug: s.slug || ""
+    };
+    if(!rec.name){ toast("A name is required"); return; }
+    if(isNew) S.speakers.push(rec);
+    else S.speakers = S.speakers.map(function(x){ return x.id===id ? rec : x; });
+    persist(); closeDrawer(); render(); toast(isNew?"Speaker added":"Speaker updated");
+  };
+}
+
+function exportCsv(){
+  var head = ["Name","Email","Role","Organisation","Country","Status","Received"];
+  var rows = S.rsvps.map(function(r){
+    return [r.name,r.email,r.role,r.org,r.country,r.status,r.at]; });
+  var csv = [head].concat(rows).map(function(r){
+    return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(","); }).join("\n");
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+  a.download = E.code.toLowerCase()+"-registrations.csv";
+  a.click();
+  toast("Exported "+S.rsvps.length+" rows");
+}
+
+el("lgev").textContent = E.title;
+})();
+</script>
+</body>
+</html>
