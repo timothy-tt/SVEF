@@ -310,12 +310,28 @@ body{font-family:var(--sans);background:#0B1F16;color:var(--ink);font-size:15px;
 /* ---------- chat ---------- */
 .unreadb{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;
   background:var(--hanoi);color:#fff;font-size:10.5px;font-weight:800;margin-top:4px}
-.thread{padding:14px 16px 0;display:flex;flex-direction:column;gap:8px}
+.chatwrap{display:flex;flex-direction:column;min-height:100%}
+.mtgbar{flex:0 0 auto;position:sticky;top:0;z-index:4;background:var(--card);
+  border-bottom:1px solid var(--line);padding:10px 14px;display:flex;align-items:center;
+  gap:10px}
+.mtgbar.col{flex-direction:column;align-items:stretch;gap:8px}
+.mtgbar .mb-t{display:flex;align-items:center;gap:9px;flex:1;min-width:0;font-size:12.5px}
+.mtgbar .mb-t svg{width:16px;height:16px;stroke:var(--hanoi)}
+.mtgbar .mb-t b{display:block;font-size:13px;font-weight:700}
+.mtgbar .mb-t small{display:block;font-size:11.5px;color:var(--muted);margin-top:1px}
+.mtgbar .mb-m{margin:0;font-size:12.5px;color:var(--muted);line-height:1.45;
+  border-left:2px solid var(--line);padding-left:9px}
+.mtgbar .row2{margin:0}
+.chatempty{margin:auto 0 8px;text-align:center;font-size:12.5px;color:var(--muted);
+  padding:0 24px;line-height:1.5}
+.thread{flex:1;padding:14px 16px 4px;display:flex;flex-direction:column;gap:8px;
+  justify-content:flex-end}
 .msg{max-width:78%;padding:9px 12px;font-size:13.5px;line-height:1.45}
 .msg.them{background:var(--card);border:1px solid var(--line);align-self:flex-start}
 .msg.mine{background:var(--hanoi);color:#fff;align-self:flex-end}
 .msg .t{display:block;font-size:10px;opacity:.65;margin-top:4px}
-.composer{display:flex;gap:8px;padding:12px 16px}
+.composer{flex:0 0 auto;position:sticky;bottom:0;display:flex;gap:8px;padding:12px 16px;
+  background:var(--bg);border-top:1px solid var(--line)}
 .composer input{flex:1;border:1px solid var(--line);background:var(--card);font:inherit;
   font-size:14px;padding:11px 12px}
 .composer button{border:0;background:var(--hanoi);color:#fff;padding:0 14px;cursor:pointer}
@@ -381,6 +397,7 @@ body{font-family:var(--sans);background:#0B1F16;color:var(--ink);font-size:15px;
 @keyframes up{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
 .sheet .grab{width:38px;height:4px;background:var(--line);margin:0 auto 14px}
 .sheet h3{margin:0 0 4px;font-size:18px;font-weight:800;letter-spacing:-.015em;line-height:1.2}
+.frame.chatview .toast{bottom:calc(var(--nav) + 80px)}
 .toast{position:absolute;left:50%;bottom:calc(var(--nav) + 16px);transform:translateX(-50%);
   background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:10px 16px;z-index:70;
   opacity:0;pointer-events:none;transition:opacity .2s;max-width:88%;text-align:center}
@@ -477,6 +494,8 @@ var T = {
   yourPicks:"Your session picks",fromReg:"from your registration",
   nostar:"Nothing saved yet. Tap the star on a session to keep it here.",
   typing:"Write a message",send:"Send",startNew:"Start a conversation",
+  noMeetingYet:"No meeting arranged",mtgWants:"Wants to meet you",
+  noMsgYet:"You are connected. Say hello, or arrange a meeting above.",
   qrTitle:"Your delegate badge",
   qrHelp:"Show this at the registration desk, or to another delegate to exchange details.",
   signOut:"Reset the demo",
@@ -555,6 +574,8 @@ var T = {
   yourPicks:"Phiên bạn đã chọn",fromReg:"theo đăng ký của bạn",
   nostar:"Chưa lưu phiên nào. Chạm vào dấu sao ở một phiên để lưu vào đây.",
   typing:"Nhập tin nhắn",send:"Gửi",startNew:"Bắt đầu trò chuyện",
+  noMeetingYet:"Chưa có lịch gặp",mtgWants:"Muốn gặp bạn",
+  noMsgYet:"Hai bên đã kết nối. Hãy chào hỏi, hoặc đặt lịch gặp ở phía trên.",
   qrTitle:"Thẻ đại biểu của bạn",
   qrHelp:"Xuất trình tại quầy đăng ký, hoặc cho đại biểu khác để trao đổi thông tin.",
   signOut:"Đặt lại bản demo",
@@ -1464,18 +1485,49 @@ function messagesHTML(){
   }
   return h;
 }
+function meetingWith(pid){
+  return S.meetings.filter(function(m){ return m.pid===+pid; })[0] || null;
+}
+/* The meeting bar is the state of the arrangement between these two people, with
+   whatever action is actually available next. No meeting yet means one button. */
+function meetingBarHTML(p){
+  var m = meetingWith(p.id);
+  if(!m || m.status==="declined" || m.status==="canceled"){
+    var why = m ? (m.status==="declined" ? t("mtgDeclined") : t("mtgCanceled")) : "";
+    return '<div class="mtgbar"><div class="mb-t">'+ico(I.hand)+
+      '<span>'+(why ? esc(why) : t("noMeetingYet"))+'</span></div>'+
+      '<button class="btn green sm" data-book="'+p.id+'">'+t("bookMeeting")+'</button></div>';
+  }
+  var when = t("day")+' '+m.day+' · '+esc(m.time)+(m.place?' · '+esc(tx(m.place)):'');
+  if(m.status==="pending" && m.dir==="received"){
+    return '<div class="mtgbar col"><div class="mb-t">'+ico(I.hand)+
+      '<span><b>'+t("mtgWants")+'</b><small>'+when+'</small></span></div>'+
+      (m.msg?'<p class="mb-m">'+esc(tx(m.msg))+'</p>':'')+
+      '<div class="row2"><button class="btn green sm" data-mtg="accept|'+p.id+'">'+
+      ico(I.check)+t("accept")+'</button>'+
+      '<button class="btn ghost sm" data-mtg="decline|'+p.id+'">'+ico(I.x)+
+      t("decline")+'</button></div></div>';
+  }
+  var label = m.status==="confirmed" ? t("mtgConfirmed") : t("mtgPending");
+  return '<div class="mtgbar"><div class="mb-t">'+ico(m.status==="confirmed"?I.check:I.hand)+
+    '<span><b>'+esc(label)+'</b><small>'+when+'</small></span></div>'+
+    '<button class="btn ghost sm" data-mtg="cancel|'+p.id+'">'+t("cancelMtg")+'</button></div>';
+}
 function chatHTML(){
   var p = personById(chatWith);
   if(!p) return "";
   var msgs = S.chats[String(p.id)] || [];
-  var h = '<div class="thread">';
+  var h = '<div class="chatwrap">';
+  h += meetingBarHTML(p);
+  h += '<div class="thread">';
+  if(!msgs.length) h += '<div class="chatempty">'+t("noMsgYet")+'</div>';
   msgs.forEach(function(m){
     h += '<div class="msg '+(m.me?"mine":"them")+'">'+esc(tx(m.m))+
-      '<span class="t">'+esc(m.t)+'</span></div>';
+      (m.t?'<span class="t">'+esc(m.t)+'</span>':'')+'</div>';
   });
   h += '</div><form class="composer" id="cform"><input id="cmsg" type="text" placeholder="'+
     t("typing")+'" autocomplete="off"><button type="submit" aria-label="'+t("send")+'">'+
-    ico(I.send)+'</button></form>';
+    ico(I.send)+'</button></form></div>';
   return h;
 }
 
@@ -1689,6 +1741,7 @@ function render(){
   el("screens").innerHTML = (SCREENS[view] || homeHTML)();
   el("ttl").textContent = TITLES[view] ? TITLES[view]() : "";
   el("back").hidden = stack.length===0;
+  el("frame").classList.toggle("chatview", view==="chat");
   el("lang").textContent = lang==="en" ? "VI" : "EN";
   var un = unreadCount();
   el("bdot").hidden = !un; el("bdot").textContent = un;

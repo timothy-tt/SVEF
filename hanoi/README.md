@@ -70,6 +70,13 @@ Messaging has its own entry point in the header next to notifications, with unre
 counts per thread, and any accepted connection can be messaged whether or not a thread
 exists yet.
 
+The meeting between two people is handled **inside** their conversation rather than on
+a separate screen, because a conversation at an event is mostly about arranging to
+meet. A bar at the top of the thread shows whatever the state is and offers the one
+action available next: request a slot, accept or decline an incoming request (with the
+note the other person attached), or cancel a confirmed one. The thread itself fills the
+screen with messages anchored to the bottom and the composer pinned above the tab bar.
+
 ### Prefilled profile
 
 The one feature worth calling out. A delegate answers 19 questions to register on the
