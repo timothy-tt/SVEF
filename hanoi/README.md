@@ -26,9 +26,14 @@ Live: `https://timothy-tt.github.io/SVEF/hanoi/` and `/hanoi/admin.html`.
 
 ## Features
 
-**Delegate app.** The app is gated at login and everyone using it registered on the
+Everyone in this build is an **attendee**, which is SVEF's own word: their form asks
+about the "SVEF 2026 Delegates Directory" and the agenda counts "200 - 250 delegates",
+but the product term across both surfaces is attendee, and an attendee *is* a
+registration rather than a separate record joined to one.
+
+**Attendee app.** The app is gated at login and everyone using it registered on the
 website first, so there is no registration flow inside it: it opens on the signed-in
-delegate's own record. Home carries the delegate's badge, the countdown, the programme
+attendee's own record. Home carries the delegate's badge, the countdown, the programme
 summary and the event site's own home-page content (strategic vision with its programme
 diagram, what to expect, the eight thematic pillars, the three objectives) plus the
 gallery strip and the latest press. Then a three-day agenda with the six real parallel
@@ -39,12 +44,31 @@ Media (gallery, press, documents); notifications with an unread badge; and Me
 (prefilled profile, business profile with a claim request, my agenda, visibility
 controls, badge and QR). EN/VI throughout the chrome.
 
-**Back office.** Dashboard; programme editor with parallel tracks; speakers; delegates
-with the directory opt-in; organisations with a claim approval queue; registrations
-with a per-session headcount; the live RSVP form and where each answer lands; gallery
-and press publishing; the document library; delegate information pages; a notification
-composer; networking rules; data health; and event settings. English only, per the
-14/08/2026 scope decision.
+**Back office.** Dashboard; programme editor with parallel tracks; speakers;
+**Attendees** (the roster and the registration in one table: status, directory listing,
+session picks and the per-session headcount); organisations with a claim approval
+queue; **Connections** (who is trying to reach whom, with the message they wrote, plus
+every meeting request); gallery and press publishing; the document library; a
+notification composer; networking rules; data health; and event settings. English only,
+per the 14/08/2026 scope decision.
+
+There is no RSVP form section and no delegate-information section. The form is Wix's
+and is edited there; its field definitions still drive the data-health checks and the
+prefilled profile.
+
+### Connecting is a message
+
+A bare "connect" tells the other person nothing, and an event is exactly the setting
+where the reason matters. So the request **is** a message: you write why you want to
+connect, they read it and accept or decline, and on acceptance that message becomes the
+first line of the thread. Nothing else can be sent until they accept, which is what
+stops the directory becoming a broadcast list. Incoming requests sit above the threads
+on the Messages screen, and the back office sees the whole graph with every message on
+it, because "who is trying to reach whom" is usually answered by what they wrote.
+
+Messaging has its own entry point in the header next to notifications, with unread
+counts per thread, and any accepted connection can be messaged whether or not a thread
+exists yet.
 
 ### Prefilled profile
 

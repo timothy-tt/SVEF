@@ -1507,7 +1507,11 @@ window.HANOI2026 = {
    "h": {
     "web": "https://hanoi2026.svef.ch/speakers/ambassador-thomas-gass"
    },
-   "demo": false
+   "demo": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "h.e.amb.thomas.gass@svef.ch"
   },
   {
    "id": 2,
@@ -1537,7 +1541,11 @@ window.HANOI2026 = {
    "h": {
     "web": "https://hanoi2026.svef.ch/speakers/dr-philipp-rosler"
    },
-   "demo": false
+   "demo": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "dr.philipp.r.sler@svef.ch"
   },
   {
    "id": 3,
@@ -1567,7 +1575,11 @@ window.HANOI2026 = {
    "h": {
     "web": "https://hanoi2026.svef.ch/speakers/ivo-sieber"
    },
-   "demo": false
+   "demo": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "ivo.sieber@svef.ch"
   },
   {
    "id": 101,
@@ -1601,7 +1613,11 @@ window.HANOI2026 = {
     "web": "https://alpinecapital.example.ch"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Switzerland",
+   "received": "2026-08-18",
+   "email": "lara.weber@alpinecapital.example.ch"
   },
   {
    "id": 102,
@@ -1634,7 +1650,11 @@ window.HANOI2026 = {
     "wa": "+84 90 214 7788"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "pending",
+   "country": "Viet Nam",
+   "received": "2026-08-29",
+   "email": "tran.minh.quan@lachhuyen.example.vn"
   },
   {
    "id": 103,
@@ -1667,7 +1687,11 @@ window.HANOI2026 = {
     "li": "https://www.linkedin.com/in/svef-demo-claudia-berger"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Switzerland",
+   "received": "2026-08-19",
+   "email": "dr.claudia.berger@helvetiamedtech.example.ch"
   },
   {
    "id": 104,
@@ -1700,7 +1724,11 @@ window.HANOI2026 = {
     "wa": "+84 91 335 0142"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-20",
+   "email": "nguyen.thu.ha@northwind.example.vn"
   },
   {
    "id": 105,
@@ -1733,7 +1761,11 @@ window.HANOI2026 = {
     "web": "https://bnam.example.vn"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-22",
+   "email": "andreas.k.ng@bnam.example.vn"
   },
   {
    "id": 106,
@@ -1766,7 +1798,11 @@ window.HANOI2026 = {
     "x": "@sofiameier"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "pending",
+   "country": "Switzerland",
+   "received": "2026-09-01",
+   "email": "sofia.meier@lemanai.example.ch"
   },
   {
    "id": 107,
@@ -1798,7 +1834,11 @@ window.HANOI2026 = {
     "li": "https://www.linkedin.com/in/svef-demo-le-hoang-yen"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-25",
+   "email": "le.hoang.yen@mekonglegal.example.vn"
   },
   {
    "id": 108,
@@ -1830,7 +1870,11 @@ window.HANOI2026 = {
     "li": "https://www.linkedin.com/in/svef-demo-marc-steiner"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Switzerland",
+   "received": "2026-08-26",
+   "email": "marc.steiner@bernedual.example.ch"
   },
   {
    "id": 109,
@@ -1859,7 +1903,11 @@ window.HANOI2026 = {
    },
    "h": {},
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "waitlist",
+   "country": "Viet Nam",
+   "received": "2026-09-03",
+   "email": "pham.xuan.binh@redriverlog.example.vn"
   },
   {
    "id": 110,
@@ -1892,7 +1940,11 @@ window.HANOI2026 = {
     "web": "https://imt-soft.com"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-21",
+   "email": "mai.an@imt-soft.com"
   },
   {
    "id": 111,
@@ -1922,7 +1974,11 @@ window.HANOI2026 = {
    },
    "h": {},
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "declined",
+   "country": "Switzerland",
+   "received": "2026-08-28",
+   "email": "beatrice.fontana@alpinecapital.example.ch"
   },
   {
    "id": 112,
@@ -1954,7 +2010,11 @@ window.HANOI2026 = {
     "wa": "+84 93 887 2205"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-27",
+   "email": "do.quang.huy@northwind.example.vn"
   },
   {
    "id": 113,
@@ -1982,7 +2042,11 @@ window.HANOI2026 = {
    },
    "h": {},
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "waitlist",
+   "country": "Switzerland",
+   "received": "2026-09-02",
+   "email": "stefan.brun@helvetiamedtech.example.ch"
   },
   {
    "id": 114,
@@ -2014,7 +2078,11 @@ window.HANOI2026 = {
     "li": "https://www.linkedin.com/in/svef-demo-vu-thi-lan"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-30",
+   "email": "vu.thi.lan@mekonglegal.example.vn"
   },
   {
    "id": 201,
@@ -2045,7 +2113,11 @@ window.HANOI2026 = {
     "li": "https://www.linkedin.com/in/svef-demo-ngo-bao-chau"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "ngo.bao.chau@zegoe.example.vn"
   },
   {
    "id": 200,
@@ -2082,7 +2154,11 @@ window.HANOI2026 = {
     "wa": "+84 90 118 6420"
    },
    "demo": true,
-   "speaker": false
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "anh.tran@zegoe.example.vn"
   }
  ],
  "self": {
@@ -2110,11 +2186,695 @@ window.HANOI2026 = {
    "custom-a964ca70f0106070": ""
   }
  },
+ "attendees": [
+  {
+   "id": 1,
+   "n": "H.E. Amb. Thomas Gass",
+   "i": "TG",
+   "c": "#04723D",
+   "photo": "https://static.wixstatic.com/media/ce11ae_c11b8c095fd343b4a75c3417a379792f~mv2.jpg",
+   "oid": "svef",
+   "ind": "pub",
+   "mkts": [
+    "ch",
+    "vn"
+   ],
+   "dir": true,
+   "tier": "headline",
+   "speaker": true,
+   "picks": [],
+   "day3": false,
+   "t": {
+    "en": "Ambassador of Switzerland to Viet Nam",
+    "vi": "Ambassador of Switzerland to Viet Nam"
+   },
+   "bio": {
+    "en": "Thomas Gass is Ambassador of Switzerland to Viet Nam, where he arrived in January 2023. Before this appointment, Ambassador Gass was organizer and Special Envoy to the High Level Conference on Development Effectiveness (2022) and Co-Chair of the Global Partnership for Effective Development Cooperation (GPEDC). From 2018 to 2022 he served as Assistant Director General of the Swiss Agency for Development and Cooperation (SDC), and from 2013-2017, as Assistant Secretary General at the UN Department for Economic and Social Affairs in New York. From 2009 to 2013, he was Ambassador of Switzerland to Nepal.",
+    "vi": "Thomas Gass is Ambassador of Switzerland to Viet Nam, where he arrived in January 2023. Before this appointment, Ambassador Gass was organizer and Special Envoy to the High Level Conference on Development Effectiveness (2022) and Co-Chair of the Global Partnership for Effective Development Cooperation (GPEDC). From 2018 to 2022 he served as Assistant Director General of the Swiss Agency for Development and Cooperation (SDC), and from 2013-2017, as Assistant Secretary General at the UN Department for Economic and Social Affairs in New York. From 2009 to 2013, he was Ambassador of Switzerland to Nepal."
+   },
+   "h": {
+    "web": "https://hanoi2026.svef.ch/speakers/ambassador-thomas-gass"
+   },
+   "demo": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "h.e.amb.thomas.gass@svef.ch"
+  },
+  {
+   "id": 2,
+   "n": "Dr. Philipp Rösler",
+   "i": "PR",
+   "c": "#E42026",
+   "photo": "https://static.wixstatic.com/media/d028f2_ec5c76ffcde3429682e583bf85b143c7~mv2.jpg",
+   "oid": "svef",
+   "ind": "pub",
+   "mkts": [
+    "ch",
+    "vn"
+   ],
+   "dir": true,
+   "tier": "headline",
+   "speaker": true,
+   "picks": [],
+   "day3": false,
+   "t": {
+    "en": "Honorary Consul of Viet Nam in Switzerland",
+    "vi": "Honorary Consul of Viet Nam in Switzerland"
+   },
+   "bio": {
+    "en": "Dr. Philipp Rösler served as federal minister of health from 2009 to 2011 and federal minister of economics and technology as well as vice-chancellor of Germany from 2011 to 2013. Born in Vietnam, Dr. Philipp Rösler was the first cabinet minister and vice-chancellor of Asian background in Germany. Before entering politics, he was a cardiothoracic surgeon.",
+    "vi": "Dr. Philipp Rösler served as federal minister of health from 2009 to 2011 and federal minister of economics and technology as well as vice-chancellor of Germany from 2011 to 2013. Born in Vietnam, Dr. Philipp Rösler was the first cabinet minister and vice-chancellor of Asian background in Germany. Before entering politics, he was a cardiothoracic surgeon."
+   },
+   "h": {
+    "web": "https://hanoi2026.svef.ch/speakers/dr-philipp-rosler"
+   },
+   "demo": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "dr.philipp.r.sler@svef.ch"
+  },
+  {
+   "id": 3,
+   "n": "Ivo Sieber",
+   "i": "IS",
+   "c": "#7A5C00",
+   "photo": "https://static.wixstatic.com/media/ce11ae_c97b41b61f8745cab866e7f75cc1f76e~mv2.jpg",
+   "oid": "svef",
+   "ind": "pub",
+   "mkts": [
+    "ch",
+    "vn"
+   ],
+   "dir": true,
+   "tier": "headline",
+   "speaker": true,
+   "picks": [],
+   "day3": false,
+   "t": {
+    "en": "Former Ambassador of Switzerland to Viet Nam",
+    "vi": "Former Ambassador of Switzerland to Viet Nam"
+   },
+   "bio": {
+    "en": "Ivo Sieber, a law graduate from the University of Zurich and holder of a Master of Laws from the University of Sydney, began his diplomatic career in 1988 with the Swiss Federal Department of Foreign Affairs. Sieber's ambassadorial roles commenced in 2010 in Manila, covering multiple Pacific nations. His significant postings include serving in Zimbabwe, New York, Bangkok, and London. In 2015, he became Ambassador to Thailand, Laos, and Cambodia, and from 2019 to 2022, he served as the Ambassador to Vietnam",
+    "vi": "Ivo Sieber, a law graduate from the University of Zurich and holder of a Master of Laws from the University of Sydney, began his diplomatic career in 1988 with the Swiss Federal Department of Foreign Affairs. Sieber's ambassadorial roles commenced in 2010 in Manila, covering multiple Pacific nations. His significant postings include serving in Zimbabwe, New York, Bangkok, and London. In 2015, he became Ambassador to Thailand, Laos, and Cambodia, and from 2019 to 2022, he served as the Ambassador to Vietnam"
+   },
+   "h": {
+    "web": "https://hanoi2026.svef.ch/speakers/ivo-sieber"
+   },
+   "demo": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "ivo.sieber@svef.ch"
+  },
+  {
+   "id": 101,
+   "n": "Lara Weber",
+   "i": "LW",
+   "c": "#7A5C00",
+   "oid": "alpinecap",
+   "ind": "fin",
+   "mkts": [
+    "ch",
+    "eu",
+    "vn"
+   ],
+   "dir": true,
+   "tier": "sponsor",
+   "picks": [
+    "A",
+    "F"
+   ],
+   "day3": true,
+   "t": {
+    "en": "Head of Emerging Markets",
+    "vi": "Giám đốc Thị trường mới nổi"
+   },
+   "bio": {
+    "en": "Runs Alpine Capital's emerging-market desk and is building the firm's first Viet Nam mandate ahead of the market's reclassification.",
+    "vi": "Phụ trách mảng thị trường mới nổi của Alpine Capital, đang xây dựng danh mục Việt Nam đầu tiên trước thời điểm nâng hạng."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-lara-weber",
+    "web": "https://alpinecapital.example.ch"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Switzerland",
+   "received": "2026-08-18",
+   "email": "lara.weber@alpinecapital.example.ch"
+  },
+  {
+   "id": 102,
+   "n": "Trần Minh Quân",
+   "i": "TQ",
+   "c": "#1F3A5F",
+   "oid": "lachhuyen",
+   "ind": "inf",
+   "mkts": [
+    "vn",
+    "asean"
+   ],
+   "dir": true,
+   "tier": "inst",
+   "picks": [
+    "A",
+    "F"
+   ],
+   "day3": true,
+   "t": {
+    "en": "Commercial Director",
+    "vi": "Giám đốc Thương mại"
+   },
+   "bio": {
+    "en": "Runs commercial operations at Lach Huyen and will host part of the Day 3 field visit.",
+    "vi": "Phụ trách khai thác thương mại tại Lạch Huyện và sẽ tiếp đoàn trong chuyến thực địa Ngày 3."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-tran-minh-quan",
+    "wa": "+84 90 214 7788"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "pending",
+   "country": "Viet Nam",
+   "received": "2026-08-29",
+   "email": "tran.minh.quan@lachhuyen.example.vn"
+  },
+  {
+   "id": 103,
+   "n": "Dr. Claudia Berger",
+   "i": "CB",
+   "c": "#0F5A4A",
+   "oid": "helvetiamed",
+   "ind": "hea",
+   "mkts": [
+    "ch",
+    "eu",
+    "vn"
+   ],
+   "dir": true,
+   "tier": "sponsor",
+   "picks": [
+    "B",
+    "D"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Head of Regulatory Affairs, APAC",
+    "vi": "Giám đốc Pháp chế, châu Á - Thái Bình Dương"
+   },
+   "bio": {
+    "en": "Leads medical-device registration across APAC and is mapping Viet Nam's post-FTA approval route.",
+    "vi": "Phụ trách đăng ký thiết bị y tế toàn khu vực và đang nghiên cứu quy trình phê duyệt tại Việt Nam sau FTA."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-claudia-berger"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Switzerland",
+   "received": "2026-08-19",
+   "email": "dr.claudia.berger@helvetiamedtech.example.ch"
+  },
+  {
+   "id": 104,
+   "n": "Nguyễn Thu Hà",
+   "i": "TH",
+   "c": "#3E7742",
+   "oid": "northwind",
+   "ind": "eng",
+   "mkts": [
+    "vn",
+    "asean"
+   ],
+   "dir": true,
+   "tier": "inst",
+   "picks": [
+    "B",
+    "E"
+   ],
+   "day3": true,
+   "t": {
+    "en": "Director of Project Finance",
+    "vi": "Giám đốc Tài chính dự án"
+   },
+   "bio": {
+    "en": "Structures project finance for offshore wind in the north and is looking for Swiss climate capital.",
+    "vi": "Thu xếp tài chính dự án điện gió ngoài khơi miền Bắc và đang tìm nguồn vốn khí hậu từ Thụy Sĩ."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-nguyen-thu-ha",
+    "wa": "+84 91 335 0142"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-20",
+   "email": "nguyen.thu.ha@northwind.example.vn"
+  },
+  {
+   "id": 105,
+   "n": "Andreas Küng",
+   "i": "AK",
+   "c": "#800000",
+   "oid": "bachninh",
+   "ind": "ind",
+   "mkts": [
+    "ch",
+    "vn"
+   ],
+   "dir": true,
+   "tier": "inst",
+   "picks": [
+    "A",
+    "E"
+   ],
+   "day3": true,
+   "t": {
+    "en": "Chief Operating Officer",
+    "vi": "Giám đốc Vận hành"
+   },
+   "bio": {
+    "en": "Swiss-trained operations lead at a Bac Ninh electronics group, running the Industry 4.0 retooling programme.",
+    "vi": "Giám đốc vận hành đào tạo tại Thụy Sĩ của một tập đoàn điện tử Bắc Ninh, phụ trách chương trình tái trang bị Công nghiệp 4.0."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-andreas-kueng",
+    "web": "https://bnam.example.vn"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-22",
+   "email": "andreas.k.ng@bnam.example.vn"
+  },
+  {
+   "id": 106,
+   "n": "Sofia Meier",
+   "i": "SM",
+   "c": "#224861",
+   "oid": "lemanai",
+   "ind": "tec",
+   "mkts": [
+    "ch",
+    "eu"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "C",
+    "E"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Co-founder & CTO",
+    "vi": "Đồng sáng lập & Giám đốc Công nghệ"
+   },
+   "bio": {
+    "en": "Builds document-intelligence models for banks and regulators, and is hiring an engineering team in Viet Nam.",
+    "vi": "Xây dựng mô hình xử lý tài liệu cho ngân hàng và cơ quan quản lý, đang tuyển đội kỹ thuật tại Việt Nam."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-sofia-meier",
+    "x": "@sofiameier"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "pending",
+   "country": "Switzerland",
+   "received": "2026-09-01",
+   "email": "sofia.meier@lemanai.example.ch"
+  },
+  {
+   "id": 107,
+   "n": "Lê Hoàng Yến",
+   "i": "HY",
+   "c": "#754715",
+   "oid": "mekonglaw",
+   "ind": "leg",
+   "mkts": [
+    "vn",
+    "asean"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "C",
+    "F"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Managing Partner",
+    "vi": "Luật sư điều hành"
+   },
+   "bio": {
+    "en": "Advises foreign investors on market entry and has worked on several EFTA-related mandates.",
+    "vi": "Tư vấn nhà đầu tư nước ngoài về gia nhập thị trường, đã tham gia nhiều vụ việc liên quan tới EFTA."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-le-hoang-yen"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-25",
+   "email": "le.hoang.yen@mekonglegal.example.vn"
+  },
+  {
+   "id": 108,
+   "n": "Marc Steiner",
+   "i": "MS",
+   "c": "#0A0A0A",
+   "oid": "bernedual",
+   "ind": "edu",
+   "mkts": [
+    "ch",
+    "vn"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "C",
+    "E"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Programme Director",
+    "vi": "Giám đốc Chương trình"
+   },
+   "bio": {
+    "en": "Runs Swiss dual vocational programmes in South East Asia and is scoping the SVEF talent initiative.",
+    "vi": "Điều hành chương trình đào tạo kép Thụy Sĩ tại Đông Nam Á, đang xây dựng sáng kiến nhân lực SVEF."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-marc-steiner"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Switzerland",
+   "received": "2026-08-26",
+   "email": "marc.steiner@bernedual.example.ch"
+  },
+  {
+   "id": 109,
+   "n": "Phạm Xuân Bình",
+   "i": "XB",
+   "c": "#B31018",
+   "oid": "redriver",
+   "ind": "inf",
+   "mkts": [
+    "vn"
+   ],
+   "dir": false,
+   "tier": "guest",
+   "picks": [
+    "A",
+    "F"
+   ],
+   "day3": true,
+   "t": {
+    "en": "Managing Director",
+    "vi": "Tổng giám đốc"
+   },
+   "bio": {
+    "en": "Runs a Hai Phong forwarding business attending as a guest.",
+    "vi": "Điều hành doanh nghiệp giao nhận tại Hải Phòng, tham dự với tư cách khách mời."
+   },
+   "h": {},
+   "demo": true,
+   "speaker": false,
+   "status": "waitlist",
+   "country": "Viet Nam",
+   "received": "2026-09-03",
+   "email": "pham.xuan.binh@redriverlog.example.vn"
+  },
+  {
+   "id": 110,
+   "n": "Mai An",
+   "i": "MA",
+   "c": "#0E273D",
+   "oid": "imt",
+   "ind": "tec",
+   "mkts": [
+    "vn",
+    "eu"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "C",
+    "E"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Chief Executive Officer",
+    "vi": "Tổng giám đốc"
+   },
+   "bio": {
+    "en": "Leads the engineering partner behind this forum's website and delegate app.",
+    "vi": "Lãnh đạo đối tác kỹ thuật xây dựng website và ứng dụng đại biểu của diễn đàn."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-mai-an",
+    "web": "https://imt-soft.com"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-21",
+   "email": "mai.an@imt-soft.com"
+  },
+  {
+   "id": 111,
+   "n": "Beatrice Fontana",
+   "i": "BF",
+   "c": "#7A5C00",
+   "oid": "alpinecap",
+   "ind": "fin",
+   "mkts": [
+    "ch",
+    "eu"
+   ],
+   "dir": false,
+   "tier": "sponsor",
+   "picks": [
+    "B",
+    "D"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Investor Relations",
+    "vi": "Quan hệ Nhà đầu tư"
+   },
+   "bio": {
+    "en": "Handles institutional investor relations for the firm's Asia mandates.",
+    "vi": "Phụ trách quan hệ nhà đầu tư tổ chức cho các danh mục châu Á."
+   },
+   "h": {},
+   "demo": true,
+   "speaker": false,
+   "status": "declined",
+   "country": "Switzerland",
+   "received": "2026-08-28",
+   "email": "beatrice.fontana@alpinecapital.example.ch"
+  },
+  {
+   "id": 112,
+   "n": "Đỗ Quang Huy",
+   "i": "QH",
+   "c": "#3E7742",
+   "oid": "northwind",
+   "ind": "eng",
+   "mkts": [
+    "vn",
+    "asean"
+   ],
+   "dir": true,
+   "tier": "inst",
+   "picks": [
+    "B",
+    "D"
+   ],
+   "day3": true,
+   "t": {
+    "en": "Head of Grid Integration",
+    "vi": "Trưởng bộ phận Đấu nối lưới"
+   },
+   "bio": {
+    "en": "Works on grid connection and storage siting for northern renewable projects.",
+    "vi": "Phụ trách đấu nối lưới và bố trí lưu trữ cho các dự án năng lượng tái tạo miền Bắc."
+   },
+   "h": {
+    "wa": "+84 93 887 2205"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-27",
+   "email": "do.quang.huy@northwind.example.vn"
+  },
+  {
+   "id": 113,
+   "n": "Stefan Brun",
+   "i": "SB",
+   "c": "#0F5A4A",
+   "oid": "helvetiamed",
+   "ind": "hea",
+   "mkts": [
+    "ch"
+   ],
+   "dir": false,
+   "tier": "guest",
+   "picks": [
+    "D"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Regional Sales Manager",
+    "vi": "Quản lý Kinh doanh khu vực"
+   },
+   "bio": {
+    "en": "Attending as a guest of the sponsor delegation.",
+    "vi": "Tham dự với tư cách khách mời của đoàn nhà tài trợ."
+   },
+   "h": {},
+   "demo": true,
+   "speaker": false,
+   "status": "waitlist",
+   "country": "Switzerland",
+   "received": "2026-09-02",
+   "email": "stefan.brun@helvetiamedtech.example.ch"
+  },
+  {
+   "id": 114,
+   "n": "Vũ Thị Lan",
+   "i": "VL",
+   "c": "#754715",
+   "oid": "mekonglaw",
+   "ind": "leg",
+   "mkts": [
+    "vn",
+    "eu"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "A",
+    "F"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Senior Associate, IP",
+    "vi": "Luật sư cao cấp, Sở hữu trí tuệ"
+   },
+   "bio": {
+    "en": "Specialises in IP protection and trade compliance for European clients in Viet Nam.",
+    "vi": "Chuyên về bảo hộ sở hữu trí tuệ và tuân thủ thương mại cho khách hàng châu Âu tại Việt Nam."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-vu-thi-lan"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-30",
+   "email": "vu.thi.lan@mekonglegal.example.vn"
+  },
+  {
+   "id": 201,
+   "n": "Ngô Bảo Châu",
+   "i": "BC",
+   "c": "#B31018",
+   "oid": "zegoe",
+   "ind": "fin",
+   "mkts": [
+    "vn"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "B",
+    "D"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Principal",
+    "vi": "Giám đốc đầu tư"
+   },
+   "bio": {
+    "en": "Covers industrials and logistics for Zegoe Capital.",
+    "vi": "Phụ trách mảng công nghiệp và logistics tại Zegoe Capital."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-ngo-bao-chau"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "ngo.bao.chau@zegoe.example.vn"
+  },
+  {
+   "id": 200,
+   "self": true,
+   "n": "Anh Trần",
+   "i": "AT",
+   "c": "#E42026",
+   "oid": "zegoe",
+   "ind": "fin",
+   "mkts": [
+    "vn",
+    "ch",
+    "asean"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "A",
+    "F"
+   ],
+   "day3": true,
+   "t": {
+    "en": "Investment Director",
+    "vi": "Giám đốc Đầu tư"
+   },
+   "bio": {
+    "en": "Invests in mid-sized Vietnamese manufacturing and logistics businesses, and is at the forum looking for Swiss technology partners for the current portfolio.",
+    "vi": "Đầu tư vào doanh nghiệp sản xuất và logistics quy mô vừa tại Việt Nam, tham dự diễn đàn để tìm đối tác công nghệ Thụy Sĩ cho danh mục hiện tại."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-tran-quoc-anh",
+    "x": "@tqanh_vc",
+    "web": "https://zegoe.example.vn",
+    "wa": "+84 90 118 6420"
+   },
+   "demo": true,
+   "speaker": false,
+   "status": "confirmed",
+   "country": "Viet Nam",
+   "received": "2026-08-17",
+   "email": "anh.tran@zegoe.example.vn"
+  }
+ ],
  "meetings": [
   {
-   "pid": 101,
+   "id": "m1",
+   "a": 101,
+   "b": 200,
    "status": "confirmed",
-   "dir": "received",
    "day": 2,
    "time": "12:45 – 13:00",
    "place": {
@@ -2125,9 +2885,10 @@ window.HANOI2026 = {
    "demo": true
   },
   {
-   "pid": 104,
+   "id": "m2",
+   "a": 200,
+   "b": 104,
    "status": "pending",
-   "dir": "sent",
    "day": 2,
    "time": "16:00 – 16:15",
    "place": null,
@@ -2135,9 +2896,10 @@ window.HANOI2026 = {
    "demo": true
   },
   {
-   "pid": 102,
+   "id": "m3",
+   "a": 102,
+   "b": 200,
    "status": "pending",
-   "dir": "received",
    "day": 3,
    "time": "13:00 – 13:30",
    "place": null,
@@ -2149,13 +2911,166 @@ window.HANOI2026 = {
    "demo": true
   },
   {
-   "pid": 106,
+   "id": "m4",
+   "a": 200,
+   "b": 106,
    "status": "declined",
-   "dir": "sent",
    "day": 2,
    "time": "11:00 – 11:15",
    "place": null,
    "created": "2026-09-01",
+   "demo": true
+  },
+  {
+   "id": "m5",
+   "a": 103,
+   "b": 112,
+   "status": "confirmed",
+   "day": 2,
+   "time": "09:00 – 09:15",
+   "place": {
+    "en": "Exhibition area",
+    "vi": "Khu triển lãm"
+   },
+   "created": "2026-09-03",
+   "demo": true
+  },
+  {
+   "id": "m6",
+   "a": 105,
+   "b": 101,
+   "status": "pending",
+   "day": 2,
+   "time": "16:00 – 16:15",
+   "place": null,
+   "created": "2026-09-05",
+   "demo": true
+  },
+  {
+   "id": "m7",
+   "a": 107,
+   "b": 114,
+   "status": "confirmed",
+   "day": 2,
+   "time": "12:45 – 13:00",
+   "place": {
+    "en": "Business lunch tables",
+    "vi": "Khu tiệc trưa"
+   },
+   "created": "2026-09-04",
+   "demo": true
+  },
+  {
+   "id": "m8",
+   "a": 108,
+   "b": 110,
+   "status": "pending",
+   "day": 2,
+   "time": "11:00 – 11:15",
+   "place": null,
+   "created": "2026-09-06",
+   "demo": true
+  },
+  {
+   "id": "m9",
+   "a": 112,
+   "b": 104,
+   "status": "cancelled",
+   "day": 3,
+   "time": "13:00 – 13:30",
+   "place": null,
+   "created": "2026-08-31",
+   "demo": true
+  }
+ ],
+ "connections": [
+  {
+   "a": 101,
+   "b": 200,
+   "state": "linked",
+   "at": "2026-09-02",
+   "demo": true
+  },
+  {
+   "a": 200,
+   "b": 104,
+   "state": "linked",
+   "at": "2026-09-04",
+   "demo": true
+  },
+  {
+   "a": 102,
+   "b": 200,
+   "state": "pending",
+   "at": "2026-09-05",
+   "msg": "We are both on the Hai Phong field visit. I run the terminal you will be briefed at, and would like to talk about the logistics side beforehand.",
+   "demo": true
+  },
+  {
+   "a": 103,
+   "b": 112,
+   "state": "linked",
+   "at": "2026-09-01",
+   "demo": true
+  },
+  {
+   "a": 105,
+   "b": 101,
+   "state": "pending",
+   "at": "2026-09-05",
+   "msg": "We are both in Session A. I would like to understand your emerging-market mandate before we talk about the Bac Ninh retooling programme.",
+   "demo": true
+  },
+  {
+   "a": 107,
+   "b": 114,
+   "state": "linked",
+   "at": "2026-09-03",
+   "demo": true
+  },
+  {
+   "a": 108,
+   "b": 110,
+   "state": "linked",
+   "at": "2026-09-02",
+   "demo": true
+  },
+  {
+   "a": 112,
+   "b": 104,
+   "state": "declined",
+   "at": "2026-08-30",
+   "demo": true
+  },
+  {
+   "a": 114,
+   "b": 106,
+   "state": "pending",
+   "at": "2026-09-06",
+   "msg": "Your document-intelligence work overlaps with what our clients ask us about IP and compliance. Could we compare notes at the forum?",
+   "demo": true
+  },
+  {
+   "a": 110,
+   "b": 200,
+   "state": "linked",
+   "at": "2026-08-28",
+   "msg": "We build the app you are reading this in. Say hello at the forum.",
+   "demo": true
+  },
+  {
+   "a": 109,
+   "b": 102,
+   "state": "blocked",
+   "at": "2026-09-04",
+   "demo": true
+  },
+  {
+   "a": 113,
+   "b": 200,
+   "state": "pending",
+   "at": "2026-09-06",
+   "msg": "I am with the Helvetia MedTech delegation. You mentioned logistics investments; we are looking for cold-chain partners in the north.",
    "demo": true
   }
  ],

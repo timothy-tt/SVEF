@@ -285,17 +285,55 @@ SELF_REG = {
 }
 
 MEETINGS = [
-    dict(pid=101, status="confirmed", dir="received", day=2, time="12:45 – 13:00",
+    dict(id="m1", a=101, b=200, status="confirmed", day=2, time="12:45 – 13:00",
          place={"en": "Networking lounge, main forum floor", "vi": "Khu networking, sảnh chính"},
          created="2026-09-02"),
-    dict(pid=104, status="pending", dir="sent", day=2, time="16:00 – 16:15", place=None,
+    dict(id="m2", a=200, b=104, status="pending", day=2, time="16:00 – 16:15", place=None,
          created="2026-09-04"),
-    dict(pid=102, status="pending", dir="received", day=3, time="13:00 – 13:30", place=None,
+    dict(id="m3", a=102, b=200, status="pending", day=3, time="13:00 – 13:30", place=None,
          created="2026-09-05",
          msg={"en": "We are both on the Hai Phong visit. Shall we talk over lunch at KBC?",
               "vi": "Hai bên đều tham gia chuyến Hải Phòng. Mình trao đổi trong bữa trưa tại KBC nhé?"}),
-    dict(pid=106, status="declined", dir="sent", day=2, time="11:00 – 11:15", place=None,
+    dict(id="m4", a=200, b=106, status="declined", day=2, time="11:00 – 11:15", place=None,
          created="2026-09-01"),
+    # Requests that have nothing to do with the signed-in delegate, so the back
+    # office view is a picture of the whole event rather than of one person.
+    dict(id="m5", a=103, b=112, status="confirmed", day=2, time="09:00 – 09:15",
+         place={"en": "Exhibition area", "vi": "Khu triển lãm"}, created="2026-09-03"),
+    dict(id="m6", a=105, b=101, status="pending", day=2, time="16:00 – 16:15", place=None,
+         created="2026-09-05"),
+    dict(id="m7", a=107, b=114, status="confirmed", day=2, time="12:45 – 13:00",
+         place={"en": "Business lunch tables", "vi": "Khu tiệc trưa"}, created="2026-09-04"),
+    dict(id="m8", a=108, b=110, status="pending", day=2, time="11:00 – 11:15", place=None,
+         created="2026-09-06"),
+    dict(id="m9", a=112, b=104, status="cancelled", day=3, time="13:00 – 13:30", place=None,
+         created="2026-08-31"),
+]
+
+# Connection requests between attendees. The app shows a delegate only their own;
+# the back office needs the whole graph to answer "who is trying to reach whom".
+CONNECTIONS = [
+    dict(a=101, b=200, state="linked",   at="2026-09-02"),
+    dict(a=200, b=104, state="linked",   at="2026-09-04"),
+    dict(a=102, b=200, state="pending",  at="2026-09-05",
+         msg="We are both on the Hai Phong field visit. I run the terminal you will be "
+             "briefed at, and would like to talk about the logistics side beforehand."),
+    dict(a=103, b=112, state="linked",   at="2026-09-01"),
+    dict(a=105, b=101, state="pending",  at="2026-09-05",
+         msg="We are both in Session A. I would like to understand your emerging-market "
+             "mandate before we talk about the Bac Ninh retooling programme."),
+    dict(a=107, b=114, state="linked",   at="2026-09-03"),
+    dict(a=108, b=110, state="linked",   at="2026-09-02"),
+    dict(a=112, b=104, state="declined", at="2026-08-30"),
+    dict(a=114, b=106, state="pending",  at="2026-09-06",
+         msg="Your document-intelligence work overlaps with what our clients ask us "
+             "about IP and compliance. Could we compare notes at the forum?"),
+    dict(a=110, b=200, state="linked",   at="2026-08-28",
+         msg="We build the app you are reading this in. Say hello at the forum."),
+    dict(a=109, b=102, state="blocked",  at="2026-09-04"),
+    dict(a=113, b=200, state="pending",  at="2026-09-06",
+         msg="I am with the Helvetia MedTech delegation. You mentioned logistics "
+             "investments; we are looking for cold-chain partners in the north."),
 ]
 
 CHATS = {
@@ -338,3 +376,29 @@ DOCS = [
             "vi": "Gói hỗ trợ đoàn: đón sân bay và khách sạn"},
          by="SVEF Secretariat", kind="PDF", size="1.2 MB", day=0, tag="logistics"),
 ]
+
+
+# ---------------------------------------------------------------------------
+# An attendee IS a registration, so the two are one record rather than two lists
+# that have to be kept in step. Status and country are set here; the email is
+# derived from the organisation's own domain in mkdata.py so it stays consistent
+# when an organisation is renamed.
+# ---------------------------------------------------------------------------
+REGISTRATION = {
+    101: ("confirmed", "Switzerland", "2026-08-18"),
+    102: ("pending",   "Viet Nam",    "2026-08-29"),
+    103: ("confirmed", "Switzerland", "2026-08-19"),
+    104: ("confirmed", "Viet Nam",    "2026-08-20"),
+    105: ("confirmed", "Viet Nam",    "2026-08-22"),
+    106: ("pending",   "Switzerland", "2026-09-01"),
+    107: ("confirmed", "Viet Nam",    "2026-08-25"),
+    108: ("confirmed", "Switzerland", "2026-08-26"),
+    109: ("waitlist",  "Viet Nam",    "2026-09-03"),
+    110: ("confirmed", "Viet Nam",    "2026-08-21"),
+    111: ("declined",  "Switzerland", "2026-08-28"),
+    112: ("confirmed", "Viet Nam",    "2026-08-27"),
+    113: ("waitlist",  "Switzerland", "2026-09-02"),
+    114: ("confirmed", "Viet Nam",    "2026-08-30"),
+    200: ("confirmed", "Viet Nam",    "2026-08-17"),
+    201: ("confirmed", "Viet Nam",    "2026-08-17"),
+}
