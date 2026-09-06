@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* SVEF Ha Noi 2026 back office. One event, one file.
-   Deliberately NOT the multi-event back office: there is no event switcher, no
-   event list, no "which event" column anywhere. Every screen is scoped to
-   HANOI2026 and says so. English only, per the 14/08/2026 scope decision.
+   Deliberately NOT the multi-event back office: no event switcher, no event list,
+   no "which event" column anywhere. Every screen is scoped to HANOI2026 and says
+   so. English only, per the 14/08/2026 scope decision.
    Palette and type follow ../BRAND.md. */
 :root{
   --red:#E42026; --red-d:#B31018; --red-t:#FDECEC; --red-ink:#B31018;
@@ -24,9 +24,14 @@
   --bg:var(--wash); --card:#fff; --soft:var(--wash-2);
   --shadow:0 18px 44px rgba(14,39,61,.16);
   --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
-  --rail:236px;
+  --rail:240px;
 }
 *{box-sizing:border-box}
+/* Inline icons are emitted by ico() all over the app, including places with no
+   component rule of their own. Without a base size an SVG scales to fill its box
+   and, with no stroke set, paints as a solid black shape. Later rules override. */
+svg{width:18px;height:18px;flex:0 0 auto;stroke:currentColor;fill:none;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
 html,body{margin:0;padding:0;height:100%}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:14px;
   line-height:1.45;-webkit-font-smoothing:antialiased}
@@ -34,7 +39,8 @@ a{color:var(--hanoi)}
 /* ---- sign in ---- */
 .signin{min-height:100vh;display:grid;place-items:center;padding:24px;
   background:linear-gradient(160deg,var(--deep),var(--ink))}
-.signin .box{background:var(--card);width:380px;max-width:100%;padding:28px;box-shadow:var(--shadow)}
+.signin .box{background:var(--card);width:390px;max-width:100%;padding:28px;
+  box-shadow:var(--shadow)}
 .signin h1{margin:0 0 3px;font-size:20px;font-weight:800;letter-spacing:-.02em}
 .signin .ev{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--hanoi);margin-bottom:16px}
@@ -44,22 +50,26 @@ a{color:var(--hanoi)}
 .app.on{display:grid}
 .rail{background:linear-gradient(180deg,var(--deep),var(--ink));color:#fff;padding:18px 0;
   display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
-.rail .brand{padding:0 18px 16px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:12px}
-.rail .brand b{display:block;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.rail .brand{padding:0 18px 14px;border-bottom:1px solid rgba(255,255,255,.12);
+  margin-bottom:10px}
+.rail .brand img{display:block;width:100%;height:auto;margin-bottom:8px}
 .rail .brand span{display:block;font-size:10.5px;font-weight:700;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--gold);margin-top:3px}
+  text-transform:uppercase;color:var(--gold)}
 .rail .brand em{display:block;font-style:normal;font-size:11px;opacity:.62;margin-top:6px}
 .rail nav{flex:1;padding:0 10px}
+.rail .grp{font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  opacity:.45;padding:12px 10px 5px}
 .rail button{width:100%;border:0;background:none;color:rgba(255,255,255,.76);font:inherit;
-  font-size:13.5px;font-weight:600;text-align:left;padding:9px 10px;cursor:pointer;
+  font-size:13.5px;font-weight:600;text-align:left;padding:8px 10px;cursor:pointer;
   display:flex;align-items:center;gap:9px}
 .rail button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;
   stroke-linecap:round;stroke-linejoin:round;flex:0 0 17px}
 .rail button:hover{color:#fff;background:rgba(255,255,255,.07)}
 .rail button[aria-current=true]{background:#fff;color:var(--deep);font-weight:700}
-.rail button .n{margin-left:auto;font-size:11px;font-weight:700;background:rgba(255,255,255,.16);
-  padding:1px 6px}
+.rail button .n{margin-left:auto;font-size:11px;font-weight:700;
+  background:rgba(255,255,255,.16);padding:1px 6px}
 .rail button[aria-current=true] .n{background:var(--soft);color:var(--ink-2)}
+.rail button .n.alert{background:var(--red);color:#fff}
 .rail .foot{padding:12px 18px 0;border-top:1px solid rgba(255,255,255,.12);font-size:11px;
   opacity:.6;line-height:1.5}
 .main{min-width:0;display:flex;flex-direction:column}
@@ -68,7 +78,7 @@ a{color:var(--hanoi)}
 .head h2{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
 .head p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
 .head .sp{margin-left:auto;display:flex;gap:8px;align-items:center}
-.wrap{padding:22px 26px 60px;max-width:1180px}
+.wrap{padding:22px 26px 60px;max-width:1220px}
 /* ---- bits ---- */
 .btn{border:0;background:var(--hanoi);color:#fff;font:inherit;font-weight:700;font-size:13px;
   padding:9px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
@@ -78,20 +88,19 @@ a{color:var(--hanoi)}
 .btn.red{background:var(--red)} .btn.red:hover{background:var(--red-d)}
 .btn.sm{padding:6px 10px;font-size:12px}
 .btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;
-  stroke-linecap:round;stroke-linejoin:round}
+  stroke-linecap:round;stroke-linejoin:round;flex:0 0 15px}
 .card{background:var(--card);border:1px solid var(--line);padding:18px}
 .card h3{margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:.11em;
   text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
-.card h3 .sp{margin-left:auto}
+.card h3 .sp{margin-left:auto;display:flex;gap:8px}
 .grid{display:grid;gap:14px}
 .g4{grid-template-columns:repeat(4,1fr)}
 .g3{grid-template-columns:repeat(3,1fr)}
 .g2{grid-template-columns:1fr 1fr}
-@media (max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}}
+@media (max-width:1040px){.g4{grid-template-columns:repeat(2,1fr)}.g3,.g2{grid-template-columns:1fr}}
 .kpi{background:var(--card);border:1px solid var(--line);padding:16px 18px}
 .kpi b{display:block;font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1}
-.kpi span{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:6px;
-  letter-spacing:.02em}
+.kpi span{display:block;font-size:11.5px;font-weight:600;color:var(--muted);margin-top:6px}
 .kpi.warn b{color:var(--gold-ink)} .kpi.good b{color:var(--hanoi)}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
@@ -107,7 +116,7 @@ tbody tr:hover{background:var(--soft)}
 .chip.navy{background:var(--ink);border-color:var(--ink);color:#fff}
 .warn{background:var(--gold-t);border:1px solid #EBD9B4;padding:12px 14px;font-size:12.5px;
   line-height:1.55;color:var(--gold-ink)}
-.warn b{display:block;margin-bottom:3px;color:var(--gold-ink)}
+.warn b{display:block;margin-bottom:3px}
 .warn + .warn{margin-top:10px}
 .fld{margin-bottom:14px}
 .fld label{display:block;font-size:11.5px;font-weight:700;margin-bottom:5px;color:var(--ink-2)}
@@ -117,32 +126,42 @@ tbody tr:hover{background:var(--soft)}
 .fld input:focus,.fld textarea:focus,.fld select:focus{outline:2px solid var(--hanoi);
   outline-offset:-2px}
 .fld .hint{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45}
-.row{display:flex;gap:12px}.row > *{flex:1}
+.row{display:flex;gap:12px}.row > *{flex:1;min-width:0}
 .tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:18px}
 .tabs button{border:0;background:none;font:inherit;font-size:13px;font-weight:600;cursor:pointer;
   padding:9px 14px;color:var(--muted);border-bottom:2px solid transparent}
-.tabs button[aria-selected=true]{color:var(--hanoi);border-bottom-color:var(--hanoi);font-weight:700}
+.tabs button[aria-selected=true]{color:var(--hanoi);border-bottom-color:var(--hanoi);
+  font-weight:700}
 .sesrow{display:grid;grid-template-columns:92px 1fr auto;gap:14px;align-items:start;
   padding:13px 0;border-bottom:1px solid var(--line)}
 .sesrow:last-child{border-bottom:0}
 .sesrow .t{font-size:13px;font-weight:700;color:var(--hanoi)}
 .sesrow .t small{display:block;font-weight:500;color:var(--muted)}
 .sesrow h4{margin:0;font-size:14px;font-weight:700;letter-spacing:-.01em}
-.sesrow p{margin:4px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
 .sesrow ul{margin:5px 0 0;padding-left:17px;font-size:12.5px;color:var(--muted)}
 .trkline{margin-top:7px;display:flex;flex-wrap:wrap;gap:6px}
 .trkline span{font-size:11px;background:var(--soft);border:1px solid var(--line);padding:3px 7px}
+.av{width:34px;height:34px;display:grid;place-items:center;color:#fff;font-weight:800;
+  font-size:12px;flex:0 0 34px;background-size:cover;background-position:center}
+.pv{display:flex;gap:11px;align-items:center}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.thumb{border:1px solid var(--line);background:var(--card);padding:0;position:relative}
+.thumb img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.thumb .bar{display:flex;align-items:center;gap:6px;padding:7px 8px;font-size:11.5px}
+.thumb .bar label{display:flex;align-items:center;gap:5px;cursor:pointer;font-weight:600}
+.thumb input{accent-color:var(--hanoi);width:14px;height:14px}
+.thumb .no{opacity:.4}
+.prs{display:flex;gap:11px;align-items:center}
+.prs img{width:72px;height:48px;object-fit:cover;background:var(--soft);flex:0 0 72px}
 .drawer{position:fixed;inset:0;background:rgba(11,31,22,.45);display:none;z-index:60;
   justify-content:flex-end}
 .drawer.on{display:flex}
-.drawer .in{background:var(--card);width:520px;max-width:100%;height:100%;overflow-y:auto;
+.drawer .in{background:var(--card);width:540px;max-width:100%;height:100%;overflow-y:auto;
   padding:22px 24px 40px;box-shadow:var(--shadow)}
 .drawer h3{margin:0 0 2px;font-size:18px;font-weight:800;letter-spacing:-.02em}
 .drawer .sub{font-size:12px;color:var(--muted);margin-bottom:18px}
-.drawer .bar{display:flex;gap:8px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
-.pv{display:flex;gap:12px;align-items:center}
-.pv img{width:46px;height:46px;object-fit:cover;background:var(--soft)}
-.mono{font-family:var(--sans);font-variant-numeric:tabular-nums}
+.bar2{display:flex;gap:8px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.mono{font-variant-numeric:tabular-nums}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--ink);
   color:#fff;font-size:13px;font-weight:600;padding:11px 18px;z-index:80;opacity:0;
   pointer-events:none;transition:opacity .2s}
@@ -150,6 +169,13 @@ tbody tr:hover{background:var(--soft)}
 .readonly{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:10px}
 .src{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;
   color:var(--muted);line-height:1.6}
+.sw{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.sw:last-child{border-bottom:0}
+.sw .lb{flex:1;font-size:13px}
+.sw .lb small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.sw input{width:17px;height:17px;accent-color:var(--hanoi)}
+.pv .demo{font-size:9.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--gold-ink);background:var(--gold-t);border:1px solid #EBD9B4;padding:1px 5px}
 </style>
 </head>
 <body>
@@ -171,8 +197,7 @@ tbody tr:hover{background:var(--soft)}
 <div class="app" id="app">
   <aside class="rail">
     <div class="brand">
-      <img src="../assets/brand/svef-wordmark-dark.svg" alt="SVEF"
-           style="display:block;width:100%;height:auto;margin-bottom:8px">
+      <img src="../assets/brand/svef-wordmark-dark.svg" alt="SVEF">
       <span id="brandcode">Ha Noi 2026</span>
       <em id="branddates"></em>
     </div>
@@ -201,39 +226,60 @@ function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 function el(id){ return document.getElementById(id); }
 function ico(p){ return '<svg viewBox="0 0 24 24">'+p+'</svg>'; }
+function tx(o){ if(!o) return ""; if(typeof o==="string") return o; return o.en || ""; }
 var I={
  dash:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',
  cal:'<rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/>',
  mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
  users:'<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3.2-6.5 7-6.5S16 17 16 21"/><path d="M17 11a3.5 3.5 0 1 0-1.5-6.6"/><path d="M18 21c0-2.6-.8-4.5-2-5.7"/>',
+ bldg:'<rect x="4" y="3" width="16" height="18"/><path d="M8 7h3M13 7h3M8 11h3M13 11h3M8 15h3M13 15h3"/>',
  form:'<rect x="4" y="3" width="16" height="18"/><path d="M8 8h8M8 12h8M8 16h5"/>',
  doc:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 13h6M9 17h4"/>',
+ img:'<rect x="3" y="5" width="18" height="14"/><circle cx="8.5" cy="10" r="1.6"/><path d="M4 17l5-4 4 3 3-2 4 3"/>',
+ bell:'<path d="M18 16V11a6 6 0 1 0-12 0v5l-2 3h16z"/><path d="M10 21h4"/>',
  gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8L6 18M18 6l1.8-1.8"/>',
  alert:'<path d="M12 3l9 16H3z"/><path d="M12 9v5M12 17v.01"/>',
+ net:'<circle cx="6" cy="7" r="3"/><circle cx="18" cy="7" r="3"/><circle cx="12" cy="18" r="3"/><path d="M8.6 8.7l2.6 6.8M15.4 8.7l-2.6 6.8M9 7h6"/>',
  plus:'<path d="M12 5v14M5 12h14"/>',
  edit:'<path d="M4 20h4l10-10-4-4L4 16v4z"/>',
  down:'<path d="M12 4v12M7 12l5 5 5-5"/><path d="M4 20h16"/>',
  check:'<path d="M4 12.5l5 5L20 6.5"/>',
+ x:'<path d="M6 6l12 12M18 6L6 18"/>',
  eye:'<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/>',
- ext:'<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5H5V5h5"/>'
+ ext:'<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5H5V5h5"/>',
+ send:'<path d="M4 12l16-8-6 16-2.5-6.5z"/>'
 };
 
-/* ---------- local working copy.
-   The demo edits a copy in localStorage so changes survive a reload without
-   pretending there is a backend. "Revert to source" throws it away and goes
-   back to exactly what scrape.py pulled off hanoi2026.svef.ch. ---------- */
+/* ---------------------------------------------------------------------------
+   Local working copy. The console edits a copy in localStorage so changes survive
+   a reload without pretending there is a backend. "Revert to scraped source"
+   throws it away and goes back to exactly what scrape.py pulled off the site.
+   --------------------------------------------------------------------------- */
 var KEY = "svef.hanoi.admin";
 var S = JSON.parse(localStorage.getItem(KEY) || "null") || seed();
 function seed(){
   return {
     days: JSON.parse(JSON.stringify(D.days)),
     speakers: JSON.parse(JSON.stringify(D.speakers)),
+    people: JSON.parse(JSON.stringify(D.people)),
+    orgs: JSON.parse(JSON.stringify(D.orgs)),
     fields: JSON.parse(JSON.stringify(D.registration.fields)),
+    docs: JSON.parse(JSON.stringify(D.docs)),
+    press: JSON.parse(JSON.stringify(D.press)).map(function(p,i){
+      return Object.assign({id:"pr"+(i+1), pub:true}, p); }),
+    photos: JSON.parse(JSON.stringify(D.photos)).map(function(g,i){
+      return Object.assign({id:"ph"+(i+1), pub:i<9}, g); }),
+    notifs: JSON.parse(JSON.stringify(D.notifications)).map(function(n){
+      return Object.assign({sent:true}, n); }),
+    claims: seedClaims(),
     settings: {
       displayDates: E.displayDates, start: E.start, end: E.end,
       venue: E.venue || "", city: E.city, contact: E.contactEmail,
-      status: E.status, regStatus: D.registration.status,
-      closes: D.registration.closes
+      status: E.status, regStatus: D.registration.status, closes: D.registration.closes,
+      /* 2.4 in the BRD is explicitly unresolved: whether only members may connect.
+         Rather than guess, it is a switch the secretariat sets, defaulting to what
+         the registration form already asks. */
+      connectPolicy: "opt-in"
     },
     content: {
       accommodation: D.info.accommodation || "",
@@ -246,44 +292,98 @@ function seed(){
 function persist(){ localStorage.setItem(KEY, JSON.stringify(S)); }
 function sampleRsvps(){
   /* Wix does not expose the guest list to an anonymous token, so the roster below
-     is demo data. Everything else in this console is the real scraped record. */
-  var seedRows = [
-    ["Nguyễn Thu Hà","ha.nguyen@vcci.com.vn","Deputy Director","VCCI","Viet Nam","confirmed"],
-    ["Markus Bühler","m.buehler@swissmem.ch","Head of ASEAN Desk","Swissmem","Switzerland","confirmed"],
-    ["Trần Minh Quân","quan.tran@fpt.com.vn","Managing Director","FPT Software","Viet Nam","pending"],
-    ["Claire Dubois","c.dubois@seco.admin.ch","Trade Counsellor","SECO","Switzerland","confirmed"],
-    ["Lê Hoàng Anh","anh.le@vietcombank.com.vn","Senior Manager","Vietcombank","Viet Nam","pending"],
-    ["Andreas Keller","a.keller@zkb.ch","Regional Head APAC","Zürcher Kantonalbank","Switzerland","confirmed"],
-    ["Phạm Thị Lan","lan.pham@imt-soft.com","Business Analyst","IMT Solutions","Viet Nam","confirmed"],
-    ["Sophie Meier","s.meier@s-ge.com","Consultant SEA","Switzerland Global Enterprise","Switzerland","waitlist"]
+     is demo data. Everything scraped is marked as real throughout the console. */
+  var rows = [
+    ["Nguyễn Thu Hà","ha.nguyen@northwind.example.vn","Director of Project Finance",
+     "Northwind Energy VN","Viet Nam","confirmed","B","E",true],
+    ["Lara Weber","l.weber@alpinecapital.example.ch","Head of Emerging Markets",
+     "Alpine Capital Partners","Switzerland","confirmed","A","F",true],
+    ["Trần Minh Quân","quan.tran@lachhuyen.example.vn","Commercial Director",
+     "Lach Huyen Port Services","Viet Nam","pending","A","F",true],
+    ["Dr. Claudia Berger","c.berger@helvetiamedtech.example.ch","Head of Regulatory Affairs",
+     "Helvetia MedTech","Switzerland","confirmed","B","D",false],
+    ["Andreas Küng","a.kueng@bnam.example.vn","Chief Operating Officer",
+     "Bac Ninh Advanced Manufacturing","Viet Nam","confirmed","A","E",true],
+    ["Sofia Meier","s.meier@lemanai.example.ch","Co-founder & CTO",
+     "Léman AI","Switzerland","pending","C","E",false],
+    ["Lê Hoàng Yến","yen.le@mekonglegal.example.vn","Managing Partner",
+     "Mekong Legal Partners","Viet Nam","confirmed","C","F",false],
+    ["Phạm Xuân Bình","binh.pham@redriverlog.example.vn","Managing Director",
+     "Red River Logistics","Viet Nam","waitlist","A","F",true]
   ];
-  return seedRows.map(function(r,i){
+  return rows.map(function(r,i){
     return {id:"r"+(i+1), name:r[0], email:r[1], role:r[2], org:r[3], country:r[4],
-            status:r[5], at:new Date(Date.now()-(i+1)*7.2e6).toISOString()};
+            status:r[5], r1:r[6], r2:r[7], day3:r[8],
+            at:new Date(Date.now()-(i+1)*7.2e6).toISOString()};
   });
+}
+function seedClaims(){
+  /* Nothing self-approves. An attendee who could link themselves could attach their
+     name to any sponsor on the list, which is exactly what the secretariat is for. */
+  return [
+    {id:"c1", who:"Beatrice Fontana", email:"b.fontana@alpinecapital.example.ch",
+     typed:"Alpine Capital", oid:"alpinecap", state:"pending", at:"2026-09-04"},
+    {id:"c2", who:"Đỗ Quang Huy", email:"huy.do@northwind.example.vn",
+     typed:"Northwind Energy", oid:"northwind", state:"pending", at:"2026-09-05"},
+    {id:"c3", who:"Stefan Brun", email:"s.brun@helvetiamedtech.example.ch",
+     typed:"Helvetia Med", oid:"helvetiamed", state:"linked", at:"2026-09-01"}
+  ];
+}
+
+/* ---------- helpers ---------- */
+function orgById(id){ return S.orgs.filter(function(o){ return o.id===id; })[0] || null; }
+function repsOf(id){ return S.people.filter(function(p){ return p.oid===id; }); }
+function counts(){
+  return {
+    sessions: S.days.reduce(function(a,d){ return a+d.sessions.length; },0),
+    tracks: S.days.reduce(function(a,d){
+      return a+d.sessions.reduce(function(b,s){ return b+(s.tracks?s.tracks.length:0); },0); },0),
+    speakers: S.people.filter(function(p){ return p.speaker; }).length,
+    delegates: S.people.filter(function(p){ return !p.speaker; }).length,
+    inDir: S.people.filter(function(p){ return p.dir; }).length,
+    orgs: S.orgs.length,
+    rsvps: S.rsvps.length,
+    confirmed: S.rsvps.filter(function(r){ return r.status==="confirmed"; }).length,
+    claims: S.claims.filter(function(c){ return c.state==="pending"; }).length,
+    press: S.press.length, pressPub: S.press.filter(function(p){ return p.pub; }).length,
+    photos: S.photos.length, photosPub: S.photos.filter(function(p){ return p.pub; }).length,
+    docs: S.docs.length,
+    notifs: S.notifs.length,
+    issues: issues().length
+  };
+}
+function fdt(iso){ if(!iso) return "–";
+  return new Date(iso).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+function kv(k,v){ return '<div style="display:flex;gap:12px;padding:7px 0;'+
+  'border-bottom:1px solid var(--line)"><span style="flex:0 0 122px;font-size:12px;'+
+  'color:var(--muted);font-weight:600">'+esc(k)+'</span>'+
+  '<span style="flex:1;font-size:13.5px;min-width:0">'+v+'</span></div>'; }
+function kpi(n,l,cls){ return '<div class="kpi '+(cls||"")+'"><b>'+n+'</b><span>'+
+  esc(l)+'</span></div>'; }
+function avatar(p){
+  if(p.photo) return '<span class="av" style="background-image:url('+esc(p.photo)+')"></span>';
+  return '<span class="av" style="background:'+esc(p.c||"#04723D")+'">'+esc(p.i||"?")+'</span>';
 }
 
 /* ---------- data-health checks against the live source ---------- */
 function issues(){
   var out = [];
-  var appDates = E.start.slice(0,10)+" to "+E.end.slice(0,10);
-  out.push({
-    lvl:"warn", t:"Three sources disagree on the event dates",
-    b:"The Wix Events record says "+appDates+", its own tagline says “"+E.tagline+
-      "”, and the CMS Events row still says 2026-10-01 to 2026-10-03. This console "+
-      "and the delegate app use "+E.displayDates+". The programme has three days, which "+
-      "only fits an 18 to 20 October window. Confirm with SVEF and fix it at source."
-  });
+  out.push({t:"Three sources disagree on the event dates",
+    b:"The Wix Events record says "+E.start.slice(0,10)+" to "+E.end.slice(0,10)+
+      ", its own tagline says “"+E.tagline+"”, and the CMS Events row still says "+
+      "2026-10-01 to 2026-10-03. This console and the delegate app use "+
+      S.settings.displayDates+". The programme has three days, which only fits an "+
+      "18 to 20 October window. Confirm with SVEF and fix it at source."});
   var tbd = S.days.filter(function(d){
     return !d.meta.venue || /updated|tbd/i.test(d.meta.venue); }).length;
-  if(tbd) out.push({lvl:"warn", t:"Venue not published for "+tbd+" of "+S.days.length+" days",
+  if(tbd) out.push({t:"Venue not published for "+tbd+" of "+S.days.length+" days",
     b:"Every day still reads “Venue: to be updated” on the event site. Delegates "+
       "cannot book accommodation or transport against a city name alone."});
-  var geo = E && D.meta;
-  out.push({lvl:"warn", t:"Venue coordinates point at Zurich",
+  out.push({t:"Venue coordinates point at Zurich",
     b:"The Wix Events location is named “Ha Noi” but carries the Zurich address and "+
-      "geocode 47.375, 8.549 left over from the Zurich edition. Any map pin drawn from "+
-      "that record lands in Switzerland."});
+      "geocode 47.375, 8.549 left over from the Zurich edition. Any map pin drawn "+
+      "from that record lands in Switzerland."});
+
   /* The RSVP form asks delegates to pick a parallel session by name. If those names
      drift from the published agenda, a delegate books a session that does not exist
      under that title, so the two lists are compared letter for letter. */
@@ -296,71 +396,103 @@ function issues(){
     if(/parallel session/i.test(f.label))
       (f.options||[]).forEach(function(o){ formTracks.push(o); });
   });
-  var drift = formTracks.filter(function(o){ return agendaTracks.indexOf(o) === -1; });
+  var drift = formTracks.filter(function(o){ return agendaTracks.indexOf(o)===-1; });
   if(formTracks.length && drift.length)
-    out.push({lvl:"warn", t:drift.length+" parallel sessions are named differently in the RSVP form",
+    out.push({t:drift.length+" parallel sessions are named differently in the RSVP form",
       b:"Delegates choose a session by name at registration, but these options do not "+
         "match the published agenda: "+drift.join("; ")+". Align the two or the "+
         "headcount per session will not reconcile."});
 
+  /* Option text from the live form is shown to delegates verbatim, in the app and
+     on their profile, so a typo in an option is a typo on every delegate's screen. */
+  var typos = [];
+  S.fields.forEach(function(f){
+    (f.options||[]).forEach(function(o){
+      if(/\b(Insititutional|Recieve|Occured|Seperate|Adress|Buisness)\b/i.test(o) ||
+         /\bInda\b/.test(o))
+        typos.push('"'+o+'" ('+f.label.trim()+')');
+    });
+  });
+  if(typos.length)
+    out.push({t:typos.length+" misspelled option"+(typos.length>1?"s":"")+" on the live RSVP form",
+      b:"Delegates pick these by name and the app shows the answer back on their profile, "+
+        "so the misspelling ends up on every affected delegate's screen: "+typos.join("; ")+
+        ". Fix it in the Wix form, not here."});
+
   ["accommodation","visa","transportation"].forEach(function(k){
     if(!S.content[k] || !S.content[k].trim())
-      out.push({lvl:"info", t:"No "+k+" content published",
-        b:"The /events-"+(k==="accommodation"?"accomodation":k)+"/hanoi2026 page resolves but "+
-          "the field is empty in the CMS, so the app shows a placeholder."});
+      out.push({t:"No "+k+" content published",
+        b:"The /events-"+(k==="accommodation"?"accomodation":k)+"/hanoi2026 page "+
+          "resolves but the field is empty in the CMS, so the app shows a placeholder."});
   });
-  if(S.speakers.length < 10)
-    out.push({lvl:"info", t:"Only "+S.speakers.length+" speakers linked to this event",
-      b:"The Speakers collection holds "+D.meta.speakerPool+" records site wide, but only "+
-        S.speakers.length+" are linked to HANOI2026. The Zurich 2026 edition has 42."});
+  var spk = S.people.filter(function(p){ return p.speaker; }).length;
+  if(spk < 10) out.push({t:"Only "+spk+" speakers linked to this event",
+    b:"The Speakers collection holds "+D.meta.speakerPool+" records site wide, but only "+
+      spk+" are linked to HANOI2026. The Zurich 2026 edition links 42."});
+  var noDir = S.people.filter(function(p){ return !p.speaker && !p.dir; }).length;
+  if(noDir) out.push({t:noDir+" delegates opted out of the directory",
+    b:"They answered “No, please keep my details private” on the registration form, "+
+      "so they appear in this console but are not contactable in the app. That is "+
+      "the delegate's choice, not a data fault; it is listed so the headcount adds up."});
   return out;
 }
 
 /* ---------- views ---------- */
 var VIEWS = [
-  {id:"dash",     label:"Dashboard",     icon:I.dash,  title:"Dashboard",
+  {g:"Event"},
+  {id:"dash", label:"Dashboard", icon:I.dash, title:"Dashboard",
    sub:"Everything scoped to this one event"},
-  {id:"agenda",   label:"Programme",     icon:I.cal,   title:"Programme",
+  {id:"agenda", label:"Programme", icon:I.cal, title:"Programme",
    sub:"Three days, sessions and parallel tracks"},
-  {id:"speakers", label:"Speakers",      icon:I.mic,   title:"Speakers",
+  {id:"speakers", label:"Speakers", icon:I.mic, title:"Speakers",
    sub:"Linked to HANOI2026 only"},
-  {id:"rsvps",    label:"Registrations", icon:I.users, title:"Registrations",
+  {g:"People"},
+  {id:"delegates", label:"Delegates", icon:I.users, title:"Delegates",
+   sub:"The directory the app reads, and who opted into it"},
+  {id:"orgs", label:"Organisations", icon:I.bldg, title:"Organisations",
+   sub:"Business profiles and the claims waiting on you"},
+  {id:"rsvps", label:"Registrations", icon:I.form, title:"Registrations",
    sub:"RSVP responses for this event"},
-  {id:"form",     label:"RSVP form",     icon:I.form,  title:"RSVP form",
+  {id:"form", label:"RSVP form", icon:I.form, title:"RSVP form",
    sub:"The live registration form, field by field"},
-  {id:"content",  label:"Delegate info", icon:I.doc,   title:"Delegate information",
+  {g:"Content"},
+  {id:"media", label:"Gallery & press", icon:I.img, title:"Gallery and press",
+   sub:"What the app's Media tab shows"},
+  {id:"docs", label:"Documents", icon:I.doc, title:"Documents",
+   sub:"The delegate document library"},
+  {id:"content", label:"Delegate info", icon:I.doc, title:"Delegate information",
    sub:"Accommodation, visa and transport pages"},
-  {id:"health",   label:"Data health",   icon:I.alert, title:"Data health",
+  {id:"notify", label:"Notifications", icon:I.bell, title:"Notifications",
+   sub:"What lands on a delegate's phone"},
+  {g:"Setup"},
+  {id:"network", label:"Networking", icon:I.net, title:"Networking rules",
+   sub:"Who may connect with whom, and how"},
+  {id:"health", label:"Data health", icon:I.alert, title:"Data health",
    sub:"Where this event's record contradicts itself"},
-  {id:"settings", label:"Event settings",icon:I.gear,  title:"Event settings",
+  {id:"settings", label:"Event settings", icon:I.gear, title:"Event settings",
    sub:"Dates, venue and registration window"}
 ];
-var view = "dash";
+var view = "dash", aday = 2, mediaTab = "gallery";
 
-function counts(){
-  return {
-    sessions: S.days.reduce(function(a,d){return a+d.sessions.length;},0),
-    tracks: S.days.reduce(function(a,d){
-      return a+d.sessions.reduce(function(b,s){return b+(s.tracks?s.tracks.length:0);},0);},0),
-    speakers: S.speakers.length,
-    rsvps: S.rsvps.length,
-    confirmed: S.rsvps.filter(function(r){return r.status==="confirmed";}).length,
-    issues: issues().length
-  };
-}
-
+/* ---- dashboard ---- */
 function dashHTML(){
   var c = counts(), h = "";
   h += '<div class="grid g4">';
-  h += kpi(c.sessions, "Programme sessions", "good");
-  h += kpi(c.speakers, "Speakers linked", c.speakers<10?"warn":"good");
-  h += kpi(c.rsvps, "Registrations", "good");
-  h += kpi(c.issues, "Data issues", c.issues?"warn":"good");
+  h += kpi(c.sessions,"Programme sessions","good");
+  h += kpi(c.speakers,"Speakers linked", c.speakers<10?"warn":"good");
+  h += kpi(c.rsvps,"Registrations","good");
+  h += kpi(c.issues,"Data issues", c.issues?"warn":"good");
+  h += '</div>';
+  h += '<div class="grid g4" style="margin-top:14px">';
+  h += kpi(c.delegates,"Delegates in the app","");
+  h += kpi(c.inDir,"Opted into the directory", c.inDir<c.delegates?"warn":"good");
+  h += kpi(c.orgs,"Organisations","");
+  h += kpi(c.claims,"Claims awaiting review", c.claims?"warn":"good");
   h += '</div>';
 
   h += '<div class="grid g2" style="margin-top:14px">';
   h += '<div class="card"><h3>This event</h3>';
-  h += kv("Name", E.title);
+  h += kv("Name", esc(E.title));
   h += kv("Code", '<span class="chip navy">'+esc(E.code)+'</span>');
   h += kv("Dates", esc(S.settings.displayDates)+' <span class="chip gold">disputed</span>');
   h += kv("Venue", S.settings.venue ? esc(S.settings.venue)
@@ -369,49 +501,49 @@ function dashHTML(){
   h += kv("Time zone", esc(E.timeZone));
   h += kv("Status", '<span class="chip green">'+esc(S.settings.status)+'</span>');
   h += '</div>';
-
   h += '<div class="card"><h3>Registration</h3>';
   h += kv("Mode", esc(D.registration.type)+" ("+esc(D.registration.responseType)+")");
   h += kv("State", '<span class="chip green">'+esc(S.settings.regStatus)+'</span>');
   h += kv("Opened", fdt(D.registration.opens));
   h += kv("Closes", fdt(S.settings.closes));
-  h += kv("Waitlist", D.registration.waitlist ? "Enabled" : "Off");
-  h += kv("Form fields", S.fields.length+" ("+S.fields.filter(function(f){return f.required;}).length+" required)");
+  h += kv("Form fields", S.fields.length+" ("+
+       S.fields.filter(function(f){ return f.required; }).length+" required)");
   h += kv("Confirmed", c.confirmed+" of "+c.rsvps);
+  h += kv("Networking", '<span class="chip">'+esc(S.settings.connectPolicy)+'</span>');
   h += '</div></div>';
 
   h += '<div class="card" style="margin-top:14px"><h3>Programme at a glance'+
-       '<span class="sp"><button class="btn ghost sm" data-go="agenda">'+ico(I.edit)+'Edit programme</button></span></h3>';
+    '<span class="sp"><button class="btn ghost sm" data-go="agenda">'+ico(I.edit)+
+    'Edit programme</button></span></h3>';
   h += '<table><thead><tr><th>Day</th><th>Date</th><th>Theme</th><th>Sessions</th>'+
        '<th>Tracks</th><th>Venue</th></tr></thead><tbody>';
   S.days.forEach(function(d){
-    var tr = d.sessions.reduce(function(a,s){return a+(s.tracks?s.tracks.length:0);},0);
+    var tr = d.sessions.reduce(function(a,s){ return a+(s.tracks?s.tracks.length:0); },0);
     h += '<tr><td><b>Day '+d.day+'</b></td><td class="mono">'+esc(d.date||"")+'</td>'+
       '<td>'+esc(d.title)+'</td><td>'+d.sessions.length+'</td><td>'+(tr||"–")+'</td>'+
-      '<td>'+(d.meta.venue && !/updated/i.test(d.meta.venue)
-        ? esc(d.meta.venue) : '<span class="chip gold">To be updated</span>')+'</td></tr>';
+      '<td>'+(d.meta.venue && !/updated/i.test(d.meta.venue) ? esc(d.meta.venue)
+        : '<span class="chip gold">To be updated</span>')+'</td></tr>';
   });
   h += '</tbody></table></div>';
 
+  h += '<div class="grid g2" style="margin-top:14px">';
+  h += '<div class="card"><h3>Content the app is showing'+
+    '<span class="sp"><button class="btn ghost sm" data-go="media">Manage</button></span></h3>';
+  h += kv("Gallery photos", c.photosPub+" of "+c.photos+" published");
+  h += kv("Press items", c.pressPub+" of "+c.press+" published");
+  h += kv("Documents", c.docs+" in the library");
+  h += kv("Notifications", c.notifs+" sent");
+  h += '</div>';
   var iss = issues();
-  if(iss.length){
-    h += '<div class="card" style="margin-top:14px"><h3>Needs attention'+
-      '<span class="sp"><button class="btn ghost sm" data-go="health">All '+iss.length+'</button></span></h3>';
-    iss.slice(0,3).forEach(function(x){
-      h += '<div class="warn"><b>'+esc(x.t)+'</b>'+esc(x.b)+'</div>';
-    });
-    h += '</div>';
-  }
+  h += '<div class="card"><h3>Needs attention<span class="sp">'+
+    '<button class="btn ghost sm" data-go="health">All '+iss.length+'</button></span></h3>';
+  iss.slice(0,2).forEach(function(x){
+    h += '<div class="warn"><b>'+esc(x.t)+'</b>'+esc(x.b)+'</div>'; });
+  h += '</div></div>';
   return h + srcHTML();
 }
-function kpi(n,l,cls){ return '<div class="kpi '+(cls||"")+'"><b>'+n+'</b><span>'+esc(l)+'</span></div>'; }
-function kv(k,v){ return '<div style="display:flex;gap:12px;padding:7px 0;border-bottom:1px solid var(--line)">'+
-  '<span style="flex:0 0 118px;font-size:12px;color:var(--muted);font-weight:600">'+esc(k)+
-  '</span><span style="flex:1;font-size:13.5px">'+v+'</span></div>'; }
-function fdt(iso){ if(!iso) return "–";
-  return new Date(iso).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
 
-var aday = 2;
+/* ---- programme ---- */
 function agendaHTML(){
   var h = '<div class="tabs">';
   S.days.forEach(function(d){
@@ -419,81 +551,208 @@ function agendaHTML(){
       ' · '+esc(d.date||"")+'</button>';
   });
   h += '</div>';
-  var d = S.days.filter(function(x){return x.day===aday;})[0];
+  var d = S.days.filter(function(x){ return x.day===aday; })[0];
   if(!d) return h;
   h += '<div class="card"><h3>Day '+d.day+' header<span class="sp">'+
-    '<button class="btn ghost sm" data-editday="'+d.day+'">'+ico(I.edit)+'Edit</button></span></h3>';
+    '<button class="btn ghost sm" data-editday="'+d.day+'">'+ico(I.edit)+
+    'Edit</button></span></h3>';
   h += kv("Theme", esc(d.title));
   h += kv("Date", '<span class="mono">'+esc(d.date||"")+'</span>');
-  h += kv("Venue", d.meta.venue && !/updated/i.test(d.meta.venue)
-        ? esc(d.meta.venue) : '<span class="chip gold">To be updated</span>');
+  h += kv("Venue", d.meta.venue && !/updated/i.test(d.meta.venue) ? esc(d.meta.venue)
+        : '<span class="chip gold">To be updated</span>');
   if(d.meta.format) h += kv("Format", esc(d.meta.format));
   if(d.meta.expected_participation) h += kv("Delegates", esc(d.meta.expected_participation));
   if(d.intro) h += kv("Intro", esc(d.intro));
   h += '</div>';
 
   h += '<div class="card" style="margin-top:14px"><h3>Sessions ('+d.sessions.length+')'+
-    '<span class="sp"><button class="btn sm" data-newses="'+d.day+'">'+ico(I.plus)+'Add session</button></span></h3>';
+    '<span class="sp"><button class="btn sm" data-newses="'+d.day+'">'+ico(I.plus)+
+    'Add session</button></span></h3>';
   d.sessions.forEach(function(s){
     h += '<div class="sesrow"><div class="t">'+esc(s.start||"—")+
-      (s.end?'<small>to '+esc(s.end)+'</small>':'')+'</div><div>';
-    h += '<h4>'+esc(s.title)+'</h4>';
+      (s.end?'<small>to '+esc(s.end)+'</small>':'')+'</div><div><h4>'+esc(s.title)+'</h4>';
     if(s.kind && s.kind!=="session") h += ' <span class="chip">'+esc(s.kind)+'</span>';
     if(s.detail && s.detail.length)
-      h += '<ul>'+s.detail.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>';
-    if(s.tracks && s.tracks.length){
+      h += '<ul>'+s.detail.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>';
+    if(s.tracks && s.tracks.length)
       h += '<div class="trkline">'+s.tracks.map(function(t){
         return '<span><b>'+esc(t.track)+'</b> '+esc(t.title)+'</span>'; }).join("")+'</div>';
-    }
     h += '</div><div style="display:flex;gap:6px">'+
       '<button class="btn ghost sm" data-editses="'+esc(s.id)+'">'+ico(I.edit)+'Edit</button>'+
       '<button class="btn ghost sm" data-delses="'+esc(s.id)+'">Remove</button></div></div>';
   });
-  h += '</div>';
-  return h + srcHTML();
+  return h + '</div>' + srcHTML();
 }
 
+/* ---- speakers ---- */
 function speakersHTML(){
-  var h = '<div class="card"><h3>Speakers linked to '+esc(E.code)+' ('+S.speakers.length+')'+
-    '<span class="sp"><button class="btn sm" data-newspk="1">'+ico(I.plus)+'Add speaker</button></span></h3>';
+  var spk = S.people.filter(function(p){ return p.speaker; });
+  var h = '<div class="card"><h3>Speakers linked to '+esc(E.code)+' ('+spk.length+')'+
+    '<span class="sp"><button class="btn sm" data-newspk="1">'+ico(I.plus)+
+    'Add speaker</button></span></h3>';
   h += '<table><thead><tr><th style="width:44%">Speaker</th><th>Role</th><th>Billing</th>'+
        '<th style="width:1%"></th></tr></thead><tbody>';
-  S.speakers.forEach(function(s){
-    h += '<tr><td><div class="pv">'+
-      (s.photo?'<img src="'+esc(s.photo)+'" alt="">':'<span style="width:46px;height:46px;background:var(--soft);display:block"></span>')+
-      '<div><b>'+esc(s.name)+'</b><div style="font-size:12px;color:var(--muted)">'+
-      esc((s.bio||"").slice(0,72))+((s.bio||"").length>72?"…":"")+'</div></div></div></td>';
-    h += '<td>'+esc(s.role)+(s.org?'<div style="font-size:12px;color:var(--muted)">'+esc(s.org)+'</div>':'')+'</td>';
-    h += '<td>'+(s.keynote?'<span class="chip gold">Keynote</span>':'<span class="chip">Panel</span>')+'</td>';
-    h += '<td><button class="btn ghost sm" data-editspk="'+esc(s.id)+'">'+ico(I.edit)+'Edit</button></td></tr>';
+  spk.forEach(function(s){
+    h += '<tr><td><div class="pv">'+avatar(s)+'<div><b>'+esc(s.n)+'</b>'+
+      '<div style="font-size:12px;color:var(--muted)">'+esc(tx(s.bio).slice(0,70))+
+      (tx(s.bio).length>70?"…":"")+'</div></div></div></td>';
+    h += '<td>'+esc(tx(s.t))+'</td>';
+    h += '<td><span class="chip gold">Keynote</span></td>';
+    h += '<td><button class="btn ghost sm" data-editperson="'+s.id+'">'+ico(I.edit)+
+      'Edit</button></td></tr>';
   });
   h += '</tbody></table>';
-  if(S.speakers.length < 10)
+  if(spk.length < 10)
     h += '<div class="warn" style="margin-top:14px"><b>Roster is still thin</b>'+
-      'Only '+S.speakers.length+' speakers are linked to this event on the live site. '+
-      'The Speakers collection holds '+D.meta.speakerPool+' records overall, and the Zurich 2026 '+
-      'edition links 42, so this list is expected to grow.</div>';
-  h += '</div>';
-  return h + srcHTML();
+      'Only '+spk.length+' speakers are linked to this event on the live site. The '+
+      'Speakers collection holds '+D.meta.speakerPool+' records overall, and the Zurich '+
+      '2026 edition links 42, so this list is expected to grow.</div>';
+  return h + '</div>' + srcHTML();
 }
 
+/* ---- delegates ---- */
+function delegatesHTML(){
+  var c = counts();
+  var del = S.people.filter(function(p){ return !p.speaker; });
+  var h = '<div class="grid g4">';
+  h += kpi(del.length,"Delegates","");
+  h += kpi(del.filter(function(p){ return p.dir; }).length,"In the directory","good");
+  h += kpi(del.filter(function(p){ return !p.dir; }).length,"Opted out",
+       del.some(function(p){ return !p.dir; })?"warn":"");
+  h += kpi(new Set(del.map(function(p){ return p.oid; })).size,"Organisations represented","");
+  h += '</div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Delegate directory ('+del.length+')'+
+    '<span class="sp"><button class="btn ghost sm" id="csvdel">'+ico(I.down)+
+    'Export CSV</button><button class="btn sm" data-newperson="1">'+ico(I.plus)+
+    'Add delegate</button></span></h3>';
+  h += '<table><thead><tr><th style="width:30%">Delegate</th><th>Organisation</th>'+
+       '<th>Focus</th><th>Session picks</th><th>Tier</th><th>Directory</th>'+
+       '<th style="width:1%"></th></tr></thead><tbody>';
+  del.forEach(function(p){
+    var o = orgById(p.oid);
+    h += '<tr><td><div class="pv">'+avatar(p)+'<div><b>'+esc(p.n)+'</b>'+
+      (p.demo?' <span class="demo">demo</span>':'')+
+      '<div style="font-size:12px;color:var(--muted)">'+esc(tx(p.t))+'</div></div></div></td>';
+    h += '<td>'+(o?esc(o.n):"—")+'</td>';
+    h += '<td>'+esc(tx(D.taxonomy.industries[p.ind]))+'</td>';
+    h += '<td class="mono">'+((p.picks||[]).join(", ")||"—")+
+      (p.day3?' <span class="chip">Day 3</span>':'')+'</td>';
+    h += '<td><span class="chip'+(((D.taxonomy.tiers[p.tier]||{}).rank||1)>=3?" gold":"")+'">'+
+      esc(tx(D.taxonomy.tiers[p.tier]))+'</span></td>';
+    h += '<td><label style="display:inline-flex;gap:6px;align-items:center;cursor:pointer;'+
+      'font-size:12.5px"><input type="checkbox" data-dir="'+p.id+'"'+(p.dir?" checked":"")+
+      ' style="accent-color:var(--hanoi)">'+(p.dir?"Listed":"Hidden")+'</label></td>';
+    h += '<td><button class="btn ghost sm" data-editperson="'+p.id+'">'+ico(I.edit)+
+      'Edit</button></td></tr>';
+  });
+  h += '</tbody></table>';
+  h += '<div class="readonly"><b>Directory opt-in is the delegate\'s answer, not a '+
+    'setting you own.</b> It comes from “Would you like to be featured in the SVEF 2026 '+
+    'Delegates Directory?” on the registration form. Overriding it here changes what the '+
+    'app shows, so only do it when a delegate has asked you to.</div>';
+  return h + '</div>' + srcHTML();
+}
+
+/* ---- organisations ---- */
+function orgsHTML(){
+  var pend = S.claims.filter(function(c){ return c.state==="pending"; });
+  var h = "";
+  if(pend.length){
+    h += '<div class="card" style="margin-bottom:14px"><h3>Organisation claims awaiting '+
+      'review ('+pend.length+')</h3>';
+    h += '<div class="readonly" style="margin:0 0 12px"><b>Nothing self-approves.</b> '+
+      'A delegate who could link themselves could attach their name to any sponsor on '+
+      'the list, which is exactly what the secretariat is there to prevent.</div>';
+    h += '<table><thead><tr><th>Delegate</th><th>Typed at registration</th>'+
+         '<th>Matched to</th><th>Received</th><th style="width:1%"></th></tr></thead><tbody>';
+    pend.forEach(function(c){
+      var o = orgById(c.oid);
+      h += '<tr><td><b>'+esc(c.who)+'</b><div style="font-size:12px;color:var(--muted)">'+
+        esc(c.email)+'</div></td><td>'+esc(c.typed)+'</td>'+
+        '<td>'+(o?esc(o.n):'<span class="chip gold">no match</span>')+'</td>'+
+        '<td class="mono">'+esc(c.at)+'</td>'+
+        '<td><div style="display:flex;gap:6px"><button class="btn sm" data-claim="approve|'+
+        esc(c.id)+'">'+ico(I.check)+'Approve</button>'+
+        '<button class="btn ghost sm" data-claim="reject|'+esc(c.id)+'">'+ico(I.x)+
+        'Reject</button></div></td></tr>';
+    });
+    h += '</tbody></table></div>';
+  }
+  h += '<div class="card"><h3>Organisations ('+S.orgs.length+')'+
+    '<span class="sp"><button class="btn sm" data-neworg="1">'+ico(I.plus)+
+    'Add organisation</button></span></h3>';
+  h += '<table><thead><tr><th style="width:32%">Organisation</th><th>Focus</th>'+
+       '<th>Headquarters</th><th>People</th><th>Tier</th><th>Source</th>'+
+       '<th style="width:1%"></th></tr></thead><tbody>';
+  S.orgs.slice().sort(function(a,b){
+    return ((D.taxonomy.tiers[b.tier]||{}).rank||1)-((D.taxonomy.tiers[a.tier]||{}).rank||1);
+  }).forEach(function(o){
+    h += '<tr><td><div class="pv">'+
+      (o.logo?'<span class="av" style="background:#fff;background-image:url('+esc(o.logo)+
+        ');background-size:contain;background-repeat:no-repeat;border:1px solid var(--line)"></span>'
+        :'<span class="av" style="background:'+esc(o.c)+'">'+esc(o.i)+'</span>')+
+      '<div><b>'+esc(o.n)+'</b>'+
+      '<div style="font-size:12px;color:var(--muted)">'+esc(tx(o.about).slice(0,64))+
+      (tx(o.about).length>64?"…":"")+'</div></div></div></td>';
+    h += '<td>'+esc(tx(D.taxonomy.industries[o.ind]))+'</td>';
+    h += '<td>'+esc(tx(o.hq))+'</td>';
+    h += '<td>'+repsOf(o.id).length+'</td>';
+    h += '<td><span class="chip'+(((D.taxonomy.tiers[o.tier]||{}).rank||1)>=3?" gold":"")+'">'+
+      esc(tx(D.taxonomy.tiers[o.tier]))+'</span></td>';
+    h += '<td>'+(o.demo?'<span class="chip">demo</span>'
+      :'<span class="chip green">scraped</span>')+'</td>';
+    h += '<td><button class="btn ghost sm" data-editorg="'+esc(o.id)+'">'+ico(I.edit)+
+      'Edit</button></td></tr>';
+  });
+  h += '</tbody></table>';
+  h += '<div class="readonly">Only the two organisers carry a logo scraped from the event '+
+    'site. The rest are demo records, because the live site publishes no partner or '+
+    'exhibitor list for the Ha Noi edition yet.</div>';
+  return h + '</div>' + srcHTML();
+}
+
+/* ---- registrations ---- */
 function rsvpsHTML(){
   var c = counts();
   var h = '<div class="grid g4">';
   h += kpi(c.rsvps,"Total responses","");
   h += kpi(c.confirmed,"Confirmed","good");
-  h += kpi(S.rsvps.filter(function(r){return r.status==="pending";}).length,"Pending review","warn");
-  h += kpi(S.rsvps.filter(function(r){return r.status==="waitlist";}).length,"Waitlist","");
+  h += kpi(S.rsvps.filter(function(r){ return r.status==="pending"; }).length,
+       "Pending review","warn");
+  h += kpi(S.rsvps.filter(function(r){ return r.day3; }).length,"Joining Day 3","");
   h += '</div>';
-  h += '<div class="card" style="margin-top:14px"><h3>RSVP responses'+
-    '<span class="sp"><button class="btn ghost sm" id="csv">'+ico(I.down)+'Export CSV</button></span></h3>';
-  h += '<table><thead><tr><th>Name</th><th>Organisation</th><th>Role</th><th>Country</th>'+
-       '<th>Received</th><th>Status</th></tr></thead><tbody>';
+
+  /* Headcount per parallel session is the number the venue actually needs. */
+  var tally = {};
   S.rsvps.forEach(function(r){
-    var cls = r.status==="confirmed"?"green":(r.status==="waitlist"?"":"gold");
+    [r.r1,r.r2].forEach(function(L){ if(L) tally[L] = (tally[L]||0)+1; });
+  });
+  h += '<div class="card" style="margin-top:14px"><h3>Parallel session headcount</h3>';
+  h += '<table><thead><tr><th style="width:1%">Track</th><th>Session</th><th>Round</th>'+
+       '<th style="width:1%">Delegates</th></tr></thead><tbody>';
+  Object.keys(D.tracks).sort().forEach(function(L){
+    var tr = D.tracks[L];
+    h += '<tr><td><span class="chip navy">'+esc(L)+'</span></td><td>'+esc(tr.title)+'</td>'+
+      '<td class="mono">'+esc(tr.start||"")+(tr.end?" – "+esc(tr.end):"")+'</td>'+
+      '<td class="mono"><b>'+(tally[L]||0)+'</b></td></tr>';
+  });
+  h += '</tbody></table>'+
+    '<div class="readonly">Picks come from the two “Parallel Session Round” questions on '+
+    'the live RSVP form. See Data health: the form and the agenda do not name every '+
+    'session identically, which will skew this table until they match.</div></div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>RSVP responses'+
+    '<span class="sp"><button class="btn ghost sm" id="csv">'+ico(I.down)+
+    'Export CSV</button></span></h3>';
+  h += '<table><thead><tr><th>Name</th><th>Organisation</th><th>Country</th>'+
+       '<th>Picks</th><th>Day 3</th><th>Received</th><th>Status</th></tr></thead><tbody>';
+  S.rsvps.forEach(function(r){
     h += '<tr><td><b>'+esc(r.name)+'</b><div style="font-size:12px;color:var(--muted)">'+
-      esc(r.email)+'</div></td><td>'+esc(r.org)+'</td><td>'+esc(r.role)+'</td>'+
-      '<td>'+esc(r.country)+'</td><td class="mono">'+fdt(r.at)+'</td>'+
+      esc(r.email)+'</div></td><td>'+esc(r.org)+'</td><td>'+esc(r.country)+'</td>'+
+      '<td class="mono">'+esc([r.r1,r.r2].filter(Boolean).join(", "))+'</td>'+
+      '<td>'+(r.day3?'<span class="chip green">Yes</span>':'<span class="chip">No</span>')+'</td>'+
+      '<td class="mono">'+fdt(r.at)+'</td>'+
       '<td><select data-rst="'+esc(r.id)+'" style="border:1px solid var(--line);font:inherit;'+
       'font-size:12px;padding:4px 6px;background:var(--card)">'+
       ["confirmed","pending","waitlist","declined"].map(function(o){
@@ -502,154 +761,342 @@ function rsvpsHTML(){
   });
   h += '</tbody></table>';
   h += '<div class="readonly"><b>Note.</b> Wix does not expose an event guest list to an '+
-    'anonymous site token, so these rows are demo data. Every other screen in this console '+
-    'is the real record scraped from the live site.</div>';
-  h += '</div>';
+    'anonymous site token, so these rows are demo data. The form they answer, and the '+
+    'sessions they pick, are the real ones.</div></div>';
   return h + srcHTML();
 }
 
+/* ---- RSVP form ---- */
 function formHTML(){
   var h = '<div class="card"><h3>Live RSVP form ('+S.fields.length+' fields)'+
-    '<span class="sp"><a class="btn ghost sm" href="'+esc(E.registerUrl)+'" target="_blank" rel="noopener">'+
-    ico(I.ext)+'Open on the live site</a></span></h3>';
-  h += '<table><thead><tr><th style="width:1%">#</th><th style="width:44%">Label</th>'+
-       '<th>Control</th><th>Max</th><th>Required</th><th>Source</th></tr></thead><tbody>';
+    '<span class="sp"><a class="btn ghost sm" href="'+esc(E.registerUrl)+
+    '" target="_blank" rel="noopener">'+ico(I.ext)+'Open on the live site</a></span></h3>';
+  h += '<table><thead><tr><th style="width:1%">#</th><th style="width:38%">Label</th>'+
+       '<th>Control</th><th>Options</th><th>Required</th><th>Feeds</th>'+
+       '</tr></thead><tbody>';
+  var feeds = {};
+  Object.keys(D.profileMap||{}).forEach(function(k){ feeds[D.profileMap[k]] = k; });
+  var LABELS = {firstName:"Profile name", lastName:"Profile name", email:"Profile email",
+    phone:"Profile phone", country:"Profile country", jobTitle:"Profile role",
+    org:"Business profile", sectors:"Profile focus", round1:"My agenda",
+    round2:"My agenda", day3:"My agenda", membership:"Tier", directory:"Directory opt-in",
+    support:"Ops", sponsor:"Sales", dietary:"Ops", questions:"Ops",
+    delegation:"Ops", sectorOther:"Profile focus"};
   S.fields.forEach(function(f,i){
     h += '<tr><td class="mono">'+(i+1)+'</td><td><b>'+esc(f.label)+'</b>'+
       '<div style="font-size:11.5px;color:var(--muted)" class="mono">'+esc(f.id)+'</div></td>'+
-      '<td>'+esc(f.control)+'</td><td class="mono">'+(f.maxLength||"–")+'</td>'+
-      '<td><label style="display:inline-flex;gap:6px;align-items:center;font-size:12.5px;cursor:pointer">'+
-      '<input type="checkbox" data-req="'+esc(f.id)+'"'+(f.required?" checked":"")+
-      ' style="accent-color:var(--hanoi)">'+(f.required?"Required":"Optional")+'</label></td>'+
-      '<td>'+(f.system?'<span class="chip">System</span>':'<span class="chip green">Custom</span>')+
-      '</td></tr>';
+      '<td>'+esc(f.control)+'</td>'+
+      '<td>'+((f.options||[]).length?(f.options.length+" options"):"–")+'</td>'+
+      '<td><label style="display:inline-flex;gap:6px;align-items:center;font-size:12.5px;'+
+      'cursor:pointer"><input type="checkbox" data-req="'+esc(f.id)+'"'+
+      (f.required?" checked":"")+' style="accent-color:var(--hanoi)">'+
+      (f.required?"Required":"Optional")+'</label></td>'+
+      '<td>'+(feeds[f.id]
+        ? '<span class="chip green">'+esc(LABELS[feeds[f.id]]||feeds[f.id])+'</span>'
+        : '<span class="chip">unused</span>')+'</td></tr>';
   });
   h += '</tbody></table>';
-  var conf = D.registration.confirmation||{};
+  h += '<div class="readonly"><b>Feeds</b> shows where each answer lands in the delegate '+
+    'app. The mapping is resolved by field LABEL when the site is scraped, not by the '+
+    'custom-* id, because Wix regenerates those ids whenever a question is edited and a '+
+    'stale id would silently produce an empty profile.</div>';
+  var conf = D.registration.confirmation || {};
   if(conf.title){
     h += '<h3 style="margin-top:22px">Confirmation message</h3>';
     h += '<div class="fld"><label>Title</label><input value="'+esc(conf.title)+'"></div>';
     h += '<div class="fld"><label>Body</label><textarea>'+esc(conf.message||"")+'</textarea>'+
       '<div class="hint">This is the exact wording the live event sends today.</div></div>';
   }
-  h += '</div>';
-  return h + srcHTML();
+  return h + '</div>' + srcHTML();
 }
 
+/* ---- media: gallery + press ---- */
+function mediaHTML(){
+  var h = '<div class="tabs">'+
+    '<button data-mtab="gallery" aria-selected="'+(mediaTab==="gallery")+'">Gallery ('+
+    S.photos.length+')</button>'+
+    '<button data-mtab="press" aria-selected="'+(mediaTab==="press")+'">Press ('+
+    S.press.length+')</button></div>';
+
+  if(mediaTab==="gallery"){
+    h += '<div class="card"><h3>Gallery ('+
+      S.photos.filter(function(p){ return p.pub; }).length+' of '+S.photos.length+
+      ' published)<span class="sp"><button class="btn ghost sm" id="pubAll">Publish all'+
+      '</button></span></h3>';
+    h += '<div class="thumbs">';
+    S.photos.forEach(function(g){
+      h += '<div class="thumb"><img loading="lazy" src="'+esc(g.image)+'" alt=""'+
+        (g.pub?'':' class="no"')+'><div class="bar"><label>'+
+        '<input type="checkbox" data-pub="'+esc(g.id)+'"'+(g.pub?" checked":"")+'>'+
+        (g.pub?"Published":"Hidden")+'</label></div></div>';
+    });
+    h += '</div><div class="readonly">Scraped from the gallery page on the SVEF website. '+
+      'The Ha Noi 2026 edition has not happened yet, so these are photos of past editions; '+
+      'unpublishing them hides them from the delegate app.</div></div>';
+    return h + srcHTML();
+  }
+
+  h += '<div class="card"><h3>Press coverage ('+
+    S.press.filter(function(p){ return p.pub; }).length+' of '+S.press.length+
+    ' published)</h3>';
+  h += '<table><thead><tr><th style="width:1%"></th><th>Outlet</th><th style="width:44%">'+
+       'Headline</th><th>Link</th><th>Published</th></tr></thead><tbody>';
+  S.press.forEach(function(p){
+    h += '<tr><td>'+(p.image?'<img src="'+esc(p.image)+'" alt="" style="width:64px;'+
+      'height:42px;object-fit:cover;background:var(--soft)">':'')+'</td>'+
+      '<td><b>'+esc(p.outlet)+'</b></td><td>'+esc(p.headline||"—")+'</td>'+
+      '<td>'+(p.url?'<a href="'+esc(p.url)+'" target="_blank" rel="noopener">'+ico(I.ext)+
+        '</a>':'<span class="chip gold">no link</span>')+'</td>'+
+      '<td><label style="display:inline-flex;gap:6px;align-items:center;cursor:pointer;'+
+      'font-size:12.5px"><input type="checkbox" data-pubp="'+esc(p.id)+'"'+
+      (p.pub?" checked":"")+' style="accent-color:var(--hanoi)">'+
+      (p.pub?"Published":"Hidden")+'</label></td></tr>';
+  });
+  h += '</tbody></table>';
+  var noLink = S.press.filter(function(p){ return !p.url; }).length;
+  if(noLink) h += '<div class="warn" style="margin-top:14px"><b>'+noLink+' of '+
+    S.press.length+' press items have no link</b>The press page on the live site shows '+
+    'the outlet, the headline and a thumbnail, but only one entry actually links to the '+
+    'article. Delegates can read the headline and go no further.</div>';
+  return h + '</div>' + srcHTML();
+}
+
+/* ---- documents ---- */
+function docsHTML(){
+  var h = '<div class="card"><h3>Delegate documents ('+S.docs.length+')'+
+    '<span class="sp"><button class="btn sm" data-newdoc="1">'+ico(I.plus)+
+    'Add document</button></span></h3>';
+  h += '<table><thead><tr><th style="width:44%">Title</th><th>Provided by</th><th>Type</th>'+
+       '<th>Size</th><th>Day</th><th style="width:1%"></th></tr></thead><tbody>';
+  S.docs.forEach(function(d){
+    h += '<tr><td><b>'+esc(tx(d.t))+'</b></td><td>'+esc(d.by)+'</td>'+
+      '<td><span class="chip">'+esc(d.kind)+'</span></td><td class="mono">'+esc(d.size)+'</td>'+
+      '<td>'+(d.day?("Day "+d.day):"Any")+'</td>'+
+      '<td><div style="display:flex;gap:6px">'+
+      '<button class="btn ghost sm" data-editdoc="'+esc(d.id)+'">'+ico(I.edit)+'Edit</button>'+
+      '<button class="btn ghost sm" data-deldoc="'+esc(d.id)+'">Remove</button></div></td></tr>';
+  });
+  h += '</tbody></table>';
+  h += '<div class="readonly"><b>Demo data.</b> SVEF has not published any delegate '+
+    'documents on the website, so there is nothing to scrape. The list shows what the '+
+    'library screen looks like once real files are uploaded.</div>';
+  return h + '</div>' + srcHTML();
+}
+
+/* ---- delegate info ---- */
 function contentHTML(){
   var pages = [
     ["accommodation","Accommodation","/events-accomodation/hanoi2026"],
     ["visa","Visa and entry","/events-visa/hanoi2026"],
     ["transportation","Transport","/events-transportation/hanoi2026"]
   ];
-  var h = '';
+  var h = "";
   pages.forEach(function(p){
     var v = S.content[p[0]] || "";
-    h += '<div class="card" style="margin-bottom:14px"><h3>'+esc(p[1])+
-      '<span class="sp">'+(v.trim()
-        ? '<span class="chip green">Published</span>'
-        : '<span class="chip gold">Empty on the live site</span>')+'</span></h3>';
-    h += '<div class="fld"><textarea data-content="'+p[0]+'" placeholder="Nothing published yet. '+
-      'Type here to draft the delegate-facing copy.">'+esc(v)+'</textarea>'+
-      '<div class="hint">Live page: <a href="'+esc(E.siteUrl+p[2])+'" target="_blank" rel="noopener">'+
-      esc(p[2])+'</a>. The route resolves but the CMS field is empty, so the app shows a placeholder.</div></div>';
-    h += '</div>';
+    h += '<div class="card" style="margin-bottom:14px"><h3>'+esc(p[1])+'<span class="sp">'+
+      (v.trim()?'<span class="chip green">Published</span>'
+        :'<span class="chip gold">Empty on the live site</span>')+'</span></h3>';
+    h += '<div class="fld"><textarea data-content="'+p[0]+'" placeholder="Nothing '+
+      'published yet. Type here to draft the delegate-facing copy.">'+esc(v)+'</textarea>'+
+      '<div class="hint">Live page: <a href="'+esc(E.siteUrl+p[2])+'" target="_blank" '+
+      'rel="noopener">'+esc(p[2])+'</a>. The route resolves but the CMS field is empty, '+
+      'so the app shows a placeholder.</div></div></div>';
   });
-  h += '<div class="card"><h3>Venue</h3>'+
-    '<div class="fld"><label>Venue name and address</label>'+
-    '<input data-set="venue" value="'+esc(S.settings.venue)+'" placeholder="Not announced">'+
-    '<div class="hint">All three programme days read “Venue: to be updated” on the live site. '+
-    'Filling this in here updates every screen in the delegate app.</div></div></div>';
+  var ov = D.overview || {};
+  h += '<div class="card"><h3>Scraped from the event home page</h3>';
+  h += kv("Strategic vision", ov.vision ? (esc(ov.vision.slice(0,120))+"…") : "—");
+  h += kv("What to expect", (ov.expect||[]).length+" blocks");
+  h += kv("Thematic pillars", (ov.pillars||[]).length+" pillars");
+  h += kv("Objectives", (ov.objectives||[]).length+" objectives");
+  h += kv("Venue copy", ov.venue ? (esc(ov.venue.slice(0,100))+"…") : "—");
+  h += kv("Contacts", ((ov.contact||{}).offices||[]).length+" offices, "+
+       ((ov.contact||{}).email||"no email"));
+  h += kv("Social", (D.social||[]).map(function(s){ return esc(s.net); }).join(", ")||"—");
+  h += '<div class="readonly">These blocks are read straight off the home page markup, '+
+    'because they are laid out in the Wix editor rather than held in the CMS. They '+
+    'refresh on the next scrape; editing them here would be overwritten.</div></div>';
   return h + srcHTML();
 }
 
+/* ---- notifications ---- */
+function notifyHTML(){
+  var h = '<div class="card"><h3>Send a notification</h3>';
+  h += '<div class="row"><div class="fld"><label>Type</label><select id="n_kind">'+
+    ["session","meeting","press","reg"].map(function(k){
+      return '<option value="'+k+'">'+k+'</option>'; }).join("")+'</select></div>'+
+    '<div class="fld"><label>Opens</label><select id="n_go">'+
+    ["agenda","connect","media","me","meetings"].map(function(k){
+      return '<option value="'+k+'">'+k+'</option>'; }).join("")+'</select></div></div>';
+  h += '<div class="fld"><label>Title</label><input id="n_title" '+
+    'placeholder="Doors open at 08:00"></div>';
+  h += '<div class="fld"><label>Body</label><textarea id="n_body" '+
+    'placeholder="Registration and exhibition open on the main forum floor."></textarea>'+
+    '<div class="hint">Delegates see this on the notifications screen and as a badge on '+
+    'the bell. The demo does not send a push; it adds the row the app reads.</div></div>';
+  h += '<button class="btn" id="n_send">'+ico(I.send)+'Send to all delegates</button></div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Sent ('+S.notifs.length+')</h3>';
+  h += '<table><thead><tr><th style="width:1%">Type</th><th style="width:34%">Title</th>'+
+       '<th>Body</th><th>Opens</th><th>When</th><th style="width:1%"></th>'+
+       '</tr></thead><tbody>';
+  S.notifs.forEach(function(n){
+    h += '<tr><td><span class="chip">'+esc(n.kind)+'</span></td>'+
+      '<td><b>'+esc(tx(n.t))+'</b></td><td>'+esc(tx(n.b))+'</td>'+
+      '<td class="mono">'+esc(n.go||"—")+'</td><td class="mono">'+esc(n.when||"now")+'</td>'+
+      '<td><button class="btn ghost sm" data-delnotif="'+esc(n.id)+'">Remove</button></td></tr>';
+  });
+  h += '</tbody></table>';
+  h += '<div class="readonly">The first rows are generated from the event\'s own data '+
+    '(the first session of Day 2, the parallel-session choice, the most recent press '+
+    'item), so they stay true after a re-scrape instead of naming sessions that no '+
+    'longer exist.</div>';
+  return h + '</div>' + srcHTML();
+}
+
+/* ---- networking ---- */
+function networkHTML(){
+  var c = counts();
+  var h = '<div class="card"><h3>Who may connect</h3>';
+  h += '<div class="readonly" style="margin:0 0 14px"><b>BRD 2.4 is unresolved.</b> '+
+    'Whether only members may book a meeting was never decided, so rather than guess '+
+    'it is a switch you set here. The default follows what the registration form '+
+    'already asks each delegate.</div>';
+  [["all","Everyone","Any registered delegate can connect with any other."],
+   ["members","Members and sponsors only",
+    "Guests can browse the directory but cannot send a request."],
+   ["opt-in","Whoever opted into the directory",
+    "Uses the delegate's own answer to “Would you like to be featured in the SVEF 2026 "+
+    "Delegates Directory?”. This is the default."]].forEach(function(o){
+    h += '<label class="sw"><span class="lb"><b>'+esc(o[1])+'</b><small>'+esc(o[2])+
+      '</small></span><input type="radio" name="cp" data-cp="'+o[0]+'"'+
+      (S.settings.connectPolicy===o[0]?" checked":"")+'></label>';
+  });
+  h += '</div>';
+
+  h += '<div class="grid g4" style="margin-top:14px">';
+  h += kpi(c.inDir,"Contactable in the app","good");
+  h += kpi(c.delegates+c.speakers-c.inDir,"Listed but not contactable","warn");
+  h += kpi(D.slots.length,"Meeting slots per day","");
+  h += kpi(D.meetings.length,"Meetings in the demo","");
+  h += '</div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Meeting slots</h3>';
+  h += '<div class="readonly" style="margin:0 0 12px">Slots are the gaps in the real '+
+    'Day 2 programme: the breaks between sessions, not invented times.</div>';
+  h += '<table><thead><tr><th style="width:1%">#</th><th>Slot</th><th>Sits between</th>'+
+       '</tr></thead><tbody>';
+  var d2 = S.days.filter(function(d){ return d.day===2; })[0] || {sessions:[]};
+  D.slots.forEach(function(s,i){
+    var start = s.split(/[–-]/)[0].trim();
+    var before = d2.sessions.filter(function(x){ return x.start && x.start <= start; }).pop();
+    var after = d2.sessions.filter(function(x){ return x.start && x.start > start; })[0];
+    h += '<tr><td class="mono">'+(i+1)+'</td><td class="mono"><b>'+esc(s)+'</b></td>'+
+      '<td>'+(before?esc(before.title):"—")+' &rarr; '+(after?esc(after.title):"—")+
+      '</td></tr>';
+  });
+  h += '</tbody></table></div>';
+  return h + srcHTML();
+}
+
+/* ---- data health ---- */
 function healthHTML(){
   var iss = issues();
   var h = '<div class="card"><h3>'+iss.length+' issues found in the live record</h3>';
   if(!iss.length) h += '<p style="margin:0;color:var(--muted)">Nothing to flag.</p>';
-  iss.forEach(function(x){
-    h += '<div class="warn"><b>'+esc(x.t)+'</b>'+esc(x.b)+'</div>';
-  });
+  iss.forEach(function(x){ h += '<div class="warn"><b>'+esc(x.t)+'</b>'+esc(x.b)+'</div>'; });
   h += '<div class="readonly">These checks run against the scraped snapshot in '+
-    '<span class="mono">data.js</span>. Re-run <span class="mono">scrape.py</span> to refresh '+
-    'and they re-evaluate automatically.</div></div>';
+    '<span class="mono">data.js</span>. Re-run <span class="mono">scrape.py</span> to '+
+    'refresh and they re-evaluate automatically.</div></div>';
   return h + srcHTML();
 }
 
+/* ---- settings ---- */
 function settingsHTML(){
   var s = S.settings;
   var h = '<div class="card"><h3>Dates</h3>';
   h += '<div class="warn"><b>Sources disagree</b>Wix Events record: '+
-    esc(E.start.slice(0,10))+' to '+esc(E.end.slice(0,10))+
-    '. Event tagline: “'+esc(E.tagline)+'”. CMS Events row: 2026-10-01 to 2026-10-03. '+
-    'The value below is what this console and the delegate app show.</div>';
+    esc(E.start.slice(0,10))+' to '+esc(E.end.slice(0,10))+'. Event tagline: “'+
+    esc(E.tagline)+'”. CMS Events row: 2026-10-01 to 2026-10-03. The value below is '+
+    'what this console and the delegate app show.</div>';
   h += '<div class="row" style="margin-top:14px">'+
     '<div class="fld"><label>Display dates</label><input data-set="displayDates" value="'+
-    esc(s.displayDates)+'"></div>'+
-    '<div class="fld"><label>Starts</label><input data-set="start" value="'+esc(s.start)+'"></div>'+
-    '<div class="fld"><label>Ends</label><input data-set="end" value="'+esc(s.end)+'"></div></div>';
+    esc(s.displayDates)+'"></div><div class="fld"><label>Starts</label>'+
+    '<input data-set="start" value="'+esc(s.start)+'"></div>'+
+    '<div class="fld"><label>Ends</label><input data-set="end" value="'+esc(s.end)+
+    '"></div></div>';
   h += '<div class="row"><div class="fld"><label>Time zone</label><input value="'+
-    esc(E.timeZone)+'" disabled></div>'+
-    '<div class="fld"><label>City</label><input data-set="city" value="'+esc(s.city)+'"></div></div>';
-  h += '</div>';
+    esc(E.timeZone)+'" disabled></div><div class="fld"><label>City</label>'+
+    '<input data-set="city" value="'+esc(s.city)+'"></div>'+
+    '<div class="fld"><label>Venue</label><input data-set="venue" value="'+esc(s.venue)+
+    '" placeholder="Not announced"></div></div></div>';
 
   h += '<div class="card" style="margin-top:14px"><h3>Registration window</h3>';
   h += '<div class="row"><div class="fld"><label>State</label><select data-set="regStatus">'+
     ["OPEN_RSVP","CLOSED_MANUALLY","CLOSED"].map(function(o){
       return '<option'+(o===s.regStatus?" selected":"")+'>'+o+'</option>'; }).join("")+
-    '</select></div>'+
-    '<div class="fld"><label>Closes</label><input data-set="closes" value="'+esc(s.closes||"")+'"></div>'+
-    '<div class="fld"><label>Contact</label><input data-set="contact" value="'+esc(s.contact)+'"></div></div>';
-  h += '</div>';
+    '</select></div><div class="fld"><label>Closes</label><input data-set="closes" value="'+
+    esc(s.closes||"")+'"></div><div class="fld"><label>Contact</label>'+
+    '<input data-set="contact" value="'+esc(s.contact)+'"></div></div></div>';
 
   h += '<div class="card" style="margin-top:14px"><h3>Source snapshot</h3>';
   h += kv("Scraped from", '<a href="'+esc(D.meta.source)+'" target="_blank" rel="noopener">'+
     esc(D.meta.source)+'</a>');
   h += kv("Snapshot taken", esc(D.meta.scrapedAt));
   h += kv("Generated by", '<span class="mono">'+esc(D.meta.generator)+'</span>');
-  h += '<div class="bar" style="display:flex;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)">'+
-    '<button class="btn ghost" id="revert">Revert to scraped source</button></div>';
-  h += '</div>';
+  h += kv("Real records", D.press.length+" press, "+D.photos.length+" photos, "+
+    (D.overview.pillars||[]).length+" pillars, "+D.speakers.length+" speakers, "+
+    D.registration.fields.length+" form fields");
+  h += kv("Demo records", D.people.filter(function(p){ return p.demo; }).length+
+    " delegates, "+D.orgs.filter(function(o){ return o.demo; }).length+" organisations, "+
+    D.docs.length+" documents, "+S.rsvps.length+" registrations");
+  h += '<div class="bar2"><button class="btn ghost" id="revert">Revert to scraped source'+
+    '</button></div></div>';
   return h + srcHTML();
 }
 
 function srcHTML(){
-  return '<div class="src">Single-event console for <b>'+esc(E.code)+'</b>. '+
-    'Data scraped from <a href="'+esc(D.meta.source)+'" target="_blank" rel="noopener">'+
-    esc(D.meta.source.replace("https://",""))+'</a> on '+esc(D.meta.scrapedAt)+'. '+
-    'Edits are stored in this browser only.</div>';
+  return '<div class="src">Single-event console for <b>'+esc(E.code)+'</b>. Data scraped '+
+    'from <a href="'+esc(D.meta.source)+'" target="_blank" rel="noopener">'+
+    esc(D.meta.source.replace("https://",""))+'</a> on '+esc(D.meta.scrapedAt)+
+    '. Edits are stored in this browser only.</div>';
 }
 
-/* ---------- shell ---------- */
+/* =========================================================================
+   Shell
+   ========================================================================= */
 function render(){
+  var c = counts();
+  var nums = {agenda:c.sessions, speakers:c.speakers, delegates:c.delegates,
+    orgs:c.claims ? c.claims : c.orgs, rsvps:c.rsvps, form:S.fields.length,
+    media:c.photos+c.press, docs:c.docs, notify:c.notifs, health:c.issues};
   el("nav").innerHTML = VIEWS.map(function(v){
-    var n = "";
-    if(v.id==="agenda")   n = counts().sessions;
-    if(v.id==="speakers") n = S.speakers.length;
-    if(v.id==="rsvps")    n = S.rsvps.length;
-    if(v.id==="form")     n = S.fields.length;
-    if(v.id==="health")   n = counts().issues;
+    if(v.g) return '<div class="grp">'+esc(v.g)+'</div>';
+    var n = nums[v.id];
+    var alert = (v.id==="orgs" && c.claims) || (v.id==="health" && c.issues);
     return '<button data-go="'+v.id+'" aria-current="'+(view===v.id)+'">'+ico(v.icon)+
-      '<span>'+esc(v.label)+'</span>'+(n!==""?'<span class="n">'+n+'</span>':'')+'</button>';
+      '<span>'+esc(v.label)+'</span>'+
+      (n!==undefined ? '<span class="n'+(alert?" alert":"")+'">'+n+'</span>' : '')+'</button>';
   }).join("");
-  var v = VIEWS.filter(function(x){return x.id===view;})[0] || VIEWS[0];
+  var v = VIEWS.filter(function(x){ return x.id===view; })[0] || VIEWS[1];
   el("vt").textContent = v.title;
   el("vs").textContent = v.sub;
   el("vactions").innerHTML =
     '<a class="btn ghost sm" href="index.html" target="_blank" rel="noopener">'+ico(I.eye)+
-    'Delegate app</a>'+
-    '<a class="btn ghost sm" href="'+esc(E.eventUrl)+'" target="_blank" rel="noopener">'+
-    ico(I.ext)+'Live site</a>';
+    'Delegate app</a><a class="btn ghost sm" href="'+esc(E.eventUrl)+
+    '" target="_blank" rel="noopener">'+ico(I.ext)+'Live site</a>';
   el("branddates").textContent = S.settings.displayDates+" · "+S.settings.city;
   el("railfoot").innerHTML = "Scoped to "+esc(E.code)+" only.<br>No event switcher by design.";
-  var body = {dash:dashHTML, agenda:agendaHTML, speakers:speakersHTML, rsvps:rsvpsHTML,
-              form:formHTML, content:contentHTML, health:healthHTML, settings:settingsHTML}[view];
+  var body = {dash:dashHTML, agenda:agendaHTML, speakers:speakersHTML,
+    delegates:delegatesHTML, orgs:orgsHTML, rsvps:rsvpsHTML, form:formHTML,
+    media:mediaHTML, docs:docsHTML, content:contentHTML, notify:notifyHTML,
+    network:networkHTML, health:healthHTML, settings:settingsHTML}[view];
   el("wrap").innerHTML = body ? body() : "";
   window.scrollTo(0,0);
 }
-
-function toast(m){ var t=el("toast"); t.textContent=m; t.classList.add("on");
-  clearTimeout(t._x); t._x=setTimeout(function(){t.classList.remove("on");},1700); }
+function toast(m){
+  var x = el("toast"); x.textContent = m; x.classList.add("on");
+  clearTimeout(x._t); x._t = setTimeout(function(){ x.classList.remove("on"); }, 1700);
+}
 
 el("loginform").addEventListener("submit", function(e){
   e.preventDefault();
@@ -659,48 +1106,84 @@ el("loginform").addEventListener("submit", function(e){
 });
 
 document.addEventListener("click", function(ev){
-  var g = ev.target.closest("[data-go]");
-  if(g){ view = g.getAttribute("data-go"); render(); return; }
-  var ad = ev.target.closest("[data-aday]");
-  if(ad){ aday = +ad.getAttribute("data-aday"); render(); return; }
-  var es = ev.target.closest("[data-editses]");
-  if(es){ editSession(es.getAttribute("data-editses")); return; }
-  var ns = ev.target.closest("[data-newses]");
-  if(ns){ editSession(null, +ns.getAttribute("data-newses")); return; }
-  var ds = ev.target.closest("[data-delses]");
-  if(ds){ delSession(ds.getAttribute("data-delses")); return; }
-  var ed = ev.target.closest("[data-editday]");
-  if(ed){ editDay(+ed.getAttribute("data-editday")); return; }
-  var sp = ev.target.closest("[data-editspk]");
-  if(sp){ editSpeaker(sp.getAttribute("data-editspk")); return; }
-  if(ev.target.closest("[data-newspk]")){ editSpeaker(null); return; }
-  if(ev.target.id==="csv"){ exportCsv(); return; }
+  var n;
+  if((n = ev.target.closest("[data-go]"))){ view = n.getAttribute("data-go"); render(); return; }
+  if((n = ev.target.closest("[data-aday]"))){ aday = +n.getAttribute("data-aday");
+    render(); return; }
+  if((n = ev.target.closest("[data-mtab]"))){ mediaTab = n.getAttribute("data-mtab");
+    render(); return; }
+  if((n = ev.target.closest("[data-editses]"))){ editSession(n.getAttribute("data-editses"));
+    return; }
+  if((n = ev.target.closest("[data-newses]"))){ editSession(null,+n.getAttribute("data-newses"));
+    return; }
+  if((n = ev.target.closest("[data-delses]"))){ delSession(n.getAttribute("data-delses"));
+    return; }
+  if((n = ev.target.closest("[data-editday]"))){ editDay(+n.getAttribute("data-editday"));
+    return; }
+  if((n = ev.target.closest("[data-editperson]"))){
+    editPerson(+n.getAttribute("data-editperson")); return; }
+  if(ev.target.closest("[data-newperson]")){ editPerson(null,false); return; }
+  if(ev.target.closest("[data-newspk]")){ editPerson(null,true); return; }
+  if((n = ev.target.closest("[data-editorg]"))){ editOrg(n.getAttribute("data-editorg"));
+    return; }
+  if(ev.target.closest("[data-neworg]")){ editOrg(null); return; }
+  if((n = ev.target.closest("[data-editdoc]"))){ editDoc(n.getAttribute("data-editdoc"));
+    return; }
+  if(ev.target.closest("[data-newdoc]")){ editDoc(null); return; }
+  if((n = ev.target.closest("[data-deldoc]"))){
+    var did = n.getAttribute("data-deldoc");
+    S.docs = S.docs.filter(function(d){ return d.id!==did; });
+    persist(); render(); toast("Document removed"); return;
+  }
+  if((n = ev.target.closest("[data-delnotif]"))){
+    var nid = n.getAttribute("data-delnotif");
+    S.notifs = S.notifs.filter(function(x){ return x.id!==nid; });
+    persist(); render(); toast("Notification removed"); return;
+  }
+  if((n = ev.target.closest("[data-claim]"))){
+    var a = n.getAttribute("data-claim").split("|");
+    S.claims.forEach(function(c){
+      if(c.id===a[1]) c.state = a[0]==="approve" ? "linked" : "rejected"; });
+    persist(); render();
+    toast(a[0]==="approve" ? "Claim approved" : "Claim rejected"); return;
+  }
+  if(ev.target.id==="pubAll"){
+    S.photos.forEach(function(p){ p.pub = true; });
+    persist(); render(); toast("All photos published"); return;
+  }
+  if(ev.target.id==="n_send"){ sendNotif(); return; }
+  if(ev.target.id==="csv"){ exportCsv("rsvps"); return; }
+  if(ev.target.id==="csvdel"){ exportCsv("delegates"); return; }
   if(ev.target.id==="revert"){
-    localStorage.removeItem(KEY); S = seed(); render(); toast("Reverted to the scraped source");
-    return;
+    localStorage.removeItem(KEY); S = seed(); render();
+    toast("Reverted to the scraped source"); return;
   }
   if(ev.target.closest(".drawer") && !ev.target.closest(".drawer .in")) closeDrawer();
 });
 
 document.addEventListener("change", function(ev){
-  var t = ev.target;
-  if(t.hasAttribute("data-set")){
-    S.settings[t.getAttribute("data-set")] = t.value; persist(); render();
-    toast("Saved"); return;
-  }
-  if(t.hasAttribute("data-content")){
-    S.content[t.getAttribute("data-content")] = t.value; persist(); toast("Saved"); return;
-  }
-  if(t.hasAttribute("data-req")){
-    var id = t.getAttribute("data-req");
-    S.fields.forEach(function(f){ if(f.id===id) f.required = t.checked; });
-    persist(); render(); toast("Field updated"); return;
-  }
-  if(t.hasAttribute("data-rst")){
-    var rid = t.getAttribute("data-rst");
-    S.rsvps.forEach(function(r){ if(r.id===rid) r.status = t.value; });
-    persist(); render(); toast("Status updated"); return;
-  }
+  var tg = ev.target, k;
+  if((k = tg.getAttribute && tg.getAttribute("data-set"))){
+    S.settings[k] = tg.value; persist(); render(); toast("Saved"); return; }
+  if((k = tg.getAttribute && tg.getAttribute("data-content"))){
+    S.content[k] = tg.value; persist(); toast("Saved"); return; }
+  if((k = tg.getAttribute && tg.getAttribute("data-req"))){
+    S.fields.forEach(function(f){ if(f.id===k) f.required = tg.checked; });
+    persist(); render(); toast("Field updated"); return; }
+  if((k = tg.getAttribute && tg.getAttribute("data-rst"))){
+    S.rsvps.forEach(function(r){ if(r.id===k) r.status = tg.value; });
+    persist(); render(); toast("Status updated"); return; }
+  if((k = tg.getAttribute && tg.getAttribute("data-dir"))){
+    S.people.forEach(function(p){ if(p.id===+k) p.dir = tg.checked; });
+    persist(); render(); toast("Directory listing updated"); return; }
+  if((k = tg.getAttribute && tg.getAttribute("data-pub"))){
+    S.photos.forEach(function(p){ if(p.id===k) p.pub = tg.checked; });
+    persist(); render(); return; }
+  if((k = tg.getAttribute && tg.getAttribute("data-pubp"))){
+    S.press.forEach(function(p){ if(p.id===k) p.pub = tg.checked; });
+    persist(); render(); return; }
+  if((k = tg.getAttribute && tg.getAttribute("data-cp"))){
+    S.settings.connectPolicy = k; persist(); render(); toast("Networking rule saved"); return; }
 });
 
 /* ---------- drawers ---------- */
@@ -710,69 +1193,79 @@ function closeDrawer(){ el("drawer").classList.remove("on"); }
 function findSes(id){
   for(var i=0;i<S.days.length;i++){
     var d = S.days[i];
-    for(var j=0;j<d.sessions.length;j++) if(d.sessions[j].id===id) return {d:d,s:d.sessions[j],j:j};
+    for(var j=0;j<d.sessions.length;j++)
+      if(d.sessions[j].id===id) return {d:d, s:d.sessions[j], j:j};
   }
   return null;
 }
-
 function editSession(id, dayNo){
   var f = id ? findSes(id) : null;
   var s = f ? f.s : {id:"", start:"", end:"", title:"", kind:"session", detail:[], tracks:[]};
   var day = f ? f.d.day : dayNo;
-  var h = '<h3>'+(id?"Edit session":"New session")+'</h3>'+
-    '<div class="sub">Day '+day+' · '+esc((S.days.filter(function(x){return x.day===day;})[0]||{}).title||"")+'</div>';
-  h += '<div class="row"><div class="fld"><label>Start</label><input id="e_start" value="'+esc(s.start||"")+'" placeholder="09:00"></div>'+
-    '<div class="fld"><label>End</label><input id="e_end" value="'+esc(s.end||"")+'" placeholder="10:00"></div>'+
+  var h = '<h3>'+(id?"Edit session":"New session")+'</h3><div class="sub">Day '+day+' · '+
+    esc((S.days.filter(function(x){ return x.day===day; })[0]||{}).title||"")+'</div>';
+  h += '<div class="row"><div class="fld"><label>Start</label><input id="e_start" value="'+
+    esc(s.start||"")+'" placeholder="09:00"></div><div class="fld"><label>End</label>'+
+    '<input id="e_end" value="'+esc(s.end||"")+'" placeholder="10:00"></div>'+
     '<div class="fld"><label>Kind</label><select id="e_kind">'+
     ["session","business","culture","transfer"].map(function(o){
       return '<option'+(o===(s.kind||"session")?" selected":"")+'>'+o+'</option>'; }).join("")+
     '</select></div></div>';
-  h += '<div class="fld"><label>Title</label><input id="e_title" value="'+esc(s.title)+'"></div>';
+  h += '<div class="fld"><label>Title</label><input id="e_title" value="'+esc(s.title)+
+    '"></div>';
   h += '<div class="fld"><label>Detail (one line each)</label><textarea id="e_detail">'+
     esc((s.detail||[]).join("\n"))+'</textarea></div>';
-  h += '<div class="fld"><label>Parallel tracks (one per line: <span class="mono">A | Title | Summary</span>)</label>'+
-    '<textarea id="e_tracks">'+esc((s.tracks||[]).map(function(t){
+  h += '<div class="fld"><label>Parallel tracks (one per line: '+
+    '<span class="mono">A | Title | Summary</span>)</label><textarea id="e_tracks">'+
+    esc((s.tracks||[]).map(function(t){
       return [t.track,t.title,t.summary].join(" | "); }).join("\n"))+'</textarea>'+
-    '<div class="hint">Leave empty for a plenary session. Delegates pick one track in the app.</div></div>';
-  h += '<div class="bar"><button class="btn" id="e_save">Save session</button>'+
+    '<div class="hint">Leave empty for a plenary session. Delegates pick one track in '+
+    'the app, and the choice is also asked on the RSVP form.</div></div>';
+  h += '<div class="bar2"><button class="btn" id="e_save">Save session</button>'+
     '<button class="btn ghost" id="e_cancel">Cancel</button></div>';
   openDrawer(h);
   el("e_cancel").onclick = closeDrawer;
   el("e_save").onclick = function(){
-    var d = S.days.filter(function(x){return x.day===day;})[0];
+    var d = S.days.filter(function(x){ return x.day===day; })[0];
     var rec = {
       id: s.id || ("d"+day+"s"+(Date.now()%100000)),
       start: el("e_start").value.trim(), end: el("e_end").value.trim() || null,
       title: el("e_title").value.trim(), kind: el("e_kind").value,
-      detail: el("e_detail").value.split("\n").map(function(x){return x.trim();}).filter(Boolean),
-      tracks: el("e_tracks").value.split("\n").map(function(l){return l.trim();}).filter(Boolean)
-        .map(function(l){ var p=l.split("|").map(function(x){return x.trim();});
+      detail: el("e_detail").value.split("\n").map(function(x){ return x.trim(); })
+                .filter(Boolean),
+      tracks: el("e_tracks").value.split("\n").map(function(l){ return l.trim(); })
+        .filter(Boolean).map(function(l){
+          var p = l.split("|").map(function(x){ return x.trim(); });
           return {track:p[0]||"", title:p[1]||"", summary:p[2]||""}; })
     };
     if(!rec.title){ toast("A title is required"); return; }
     if(f) d.sessions[f.j] = rec; else d.sessions.push(rec);
     d.sessions.sort(function(a,b){ return (a.start||"99")<(b.start||"99") ? -1 : 1; });
-    persist(); closeDrawer(); aday = day; render(); toast(id?"Session updated":"Session added");
+    persist(); closeDrawer(); aday = day; render();
+    toast(id?"Session updated":"Session added");
   };
 }
-
 function delSession(id){
   var f = findSes(id); if(!f) return;
   f.d.sessions.splice(f.j,1); persist(); render(); toast("Session removed");
 }
-
 function editDay(no){
-  var d = S.days.filter(function(x){return x.day===no;})[0]; if(!d) return;
+  var d = S.days.filter(function(x){ return x.day===no; })[0]; if(!d) return;
   var h = '<h3>Day '+no+'</h3><div class="sub">Programme day header</div>';
-  h += '<div class="fld"><label>Theme</label><input id="d_title" value="'+esc(d.title)+'"></div>';
-  h += '<div class="fld"><label>Date</label><input id="d_date" value="'+esc(d.date||"")+'"></div>';
+  h += '<div class="fld"><label>Theme</label><input id="d_title" value="'+esc(d.title)+
+    '"></div>';
+  h += '<div class="fld"><label>Date</label><input id="d_date" value="'+esc(d.date||"")+
+    '"></div>';
   h += '<div class="fld"><label>Venue</label><input id="d_venue" value="'+
-    esc(/updated/i.test(d.meta.venue||"")?"":(d.meta.venue||""))+'" placeholder="Not announced"></div>';
-  h += '<div class="fld"><label>Format</label><input id="d_format" value="'+esc(d.meta.format||"")+'"></div>';
+    esc(/updated/i.test(d.meta.venue||"")?"":(d.meta.venue||""))+
+    '" placeholder="Not announced"></div>';
+  h += '<div class="fld"><label>Format</label><input id="d_format" value="'+
+    esc(d.meta.format||"")+'"></div>';
   h += '<div class="fld"><label>Expected participation</label><input id="d_part" value="'+
     esc(d.meta.expected_participation||"")+'"></div>';
-  h += '<div class="fld"><label>Intro</label><textarea id="d_intro">'+esc(d.intro||"")+'</textarea></div>';
-  h += '<div class="bar"><button class="btn" id="d_save">Save</button>'+
+  h += '<div class="fld"><label>Intro</label><textarea id="d_intro">'+esc(d.intro||"")+
+    '</textarea></div>';
+  h += '<div class="bar2"><button class="btn" id="d_save">Save</button>'+
     '<button class="btn ghost" id="d_cancel">Cancel</button></div>';
   openDrawer(h);
   el("d_cancel").onclick = closeDrawer;
@@ -786,59 +1279,194 @@ function editDay(no){
     persist(); closeDrawer(); render(); toast("Day updated");
   };
 }
-
-function editSpeaker(id){
-  var s = id ? S.speakers.filter(function(x){return x.id===id;})[0]
-             : {id:"", name:"", role:"", org:"", photo:"", bio:"", keynote:false, url:""};
-  var isNew = !id;
-  var h = '<h3>'+(isNew?"New speaker":"Edit speaker")+'</h3>'+
+function editPerson(id, isSpeaker){
+  var p = id ? S.people.filter(function(x){ return x.id===id; })[0] : null;
+  var isNew = !p;
+  if(isNew) p = {id:0, n:"", i:"", c:"#04723D", oid:"", ind:"fin", mkts:[], dir:true,
+                 tier:"guest", speaker:!!isSpeaker, picks:[], day3:false,
+                 t:{en:""}, bio:{en:""}, h:{}};
+  var h = '<h3>'+(isNew ? (isSpeaker?"New speaker":"New delegate") : "Edit "+p.n)+'</h3>'+
     '<div class="sub">Linked to '+esc(E.code)+'</div>';
-  if(s.photo) h += '<img src="'+esc(s.photo)+'" alt="" style="width:78px;height:78px;object-fit:cover;margin-bottom:14px">';
-  h += '<div class="fld"><label>Full name</label><input id="k_name" value="'+esc(s.name)+'"></div>';
-  h += '<div class="fld"><label>Role</label><input id="k_role" value="'+esc(s.role)+'"></div>';
-  h += '<div class="fld"><label>Organisation</label><input id="k_org" value="'+esc(s.org)+'"></div>';
-  h += '<div class="fld"><label>Photo URL</label><input id="k_photo" value="'+esc(s.photo||"")+'"></div>';
-  h += '<div class="fld"><label>Biography</label><textarea id="k_bio" style="min-height:150px">'+
-    esc(s.bio||"")+'</textarea></div>';
-  h += '<div class="fld"><label style="display:inline-flex;gap:8px;align-items:center;cursor:pointer">'+
-    '<input type="checkbox" id="k_key"'+(s.keynote?" checked":"")+' style="accent-color:var(--hanoi)">'+
-    'Billed as a keynote speaker</label></div>';
-  h += '<div class="bar"><button class="btn" id="k_save">Save</button>'+
+  if(p.photo) h += '<img src="'+esc(p.photo)+'" alt="" style="width:78px;height:78px;'+
+    'object-fit:cover;margin-bottom:14px">';
+  h += '<div class="fld"><label>Full name</label><input id="k_n" value="'+esc(p.n)+'"></div>';
+  h += '<div class="fld"><label>Role</label><input id="k_t" value="'+esc(tx(p.t))+'"></div>';
+  h += '<div class="row"><div class="fld"><label>Organisation</label><select id="k_oid">'+
+    '<option value="">—</option>'+S.orgs.map(function(o){
+      return '<option value="'+esc(o.id)+'"'+(o.id===p.oid?" selected":"")+'>'+esc(o.n)+
+        '</option>'; }).join("")+'</select></div>';
+  h += '<div class="fld"><label>Focus</label><select id="k_ind">'+
+    Object.keys(D.taxonomy.industries).map(function(k){
+      return '<option value="'+k+'"'+(k===p.ind?" selected":"")+'>'+
+        esc(tx(D.taxonomy.industries[k]))+'</option>'; }).join("")+'</select></div></div>';
+  h += '<div class="row"><div class="fld"><label>Tier</label><select id="k_tier">'+
+    Object.keys(D.taxonomy.tiers).map(function(k){
+      return '<option value="'+k+'"'+(k===p.tier?" selected":"")+'>'+
+        esc(tx(D.taxonomy.tiers[k]))+'</option>'; }).join("")+'</select></div>';
+  h += '<div class="fld"><label>Session picks (letters, comma separated)</label>'+
+    '<input id="k_picks" value="'+esc((p.picks||[]).join(", "))+'" placeholder="A, E"></div>'+
+    '</div>';
+  h += '<div class="fld"><label>Biography</label><textarea id="k_bio" '+
+    'style="min-height:140px">'+esc(tx(p.bio))+'</textarea></div>';
+  h += '<label class="sw"><span class="lb"><b>Listed in the delegate directory</b>'+
+    '<small>Comes from the delegate\'s own answer on the registration form.</small></span>'+
+    '<input type="checkbox" id="k_dir"'+(p.dir?" checked":"")+'></label>';
+  h += '<label class="sw"><span class="lb"><b>Joining the Day 3 field visit</b></span>'+
+    '<input type="checkbox" id="k_day3"'+(p.day3?" checked":"")+'></label>';
+  h += '<div class="bar2"><button class="btn" id="k_save">Save</button>'+
     '<button class="btn ghost" id="k_cancel">Cancel</button>'+
-    (isNew?"":'<button class="btn ghost" id="k_del" style="margin-left:auto">Unlink</button>')+'</div>';
+    (isNew?"":'<button class="btn ghost" id="k_del" style="margin-left:auto">Unlink</button>')+
+    '</div>';
   openDrawer(h);
   el("k_cancel").onclick = closeDrawer;
   if(el("k_del")) el("k_del").onclick = function(){
-    S.speakers = S.speakers.filter(function(x){return x.id!==id;});
-    persist(); closeDrawer(); render(); toast("Speaker unlinked");
+    S.people = S.people.filter(function(x){ return x.id!==id; });
+    persist(); closeDrawer(); render(); toast("Removed from this event");
   };
   el("k_save").onclick = function(){
+    var name = el("k_n").value.trim();
+    if(!name){ toast("A name is required"); return; }
+    var parts = name.split(/\s+/);
     var rec = {
-      id: s.id || ("spk"+(Date.now()%100000)),
-      name: el("k_name").value.trim(), role: el("k_role").value.trim(),
-      org: el("k_org").value.trim(), photo: el("k_photo").value.trim(),
-      bio: el("k_bio").value.trim(), keynote: el("k_key").checked,
-      titleFull: [el("k_role").value.trim(), el("k_org").value.trim()].filter(Boolean).join(" · "),
-      url: s.url || E.siteUrl, slug: s.slug || ""
+      id: p.id || (Date.now()%100000),
+      n: name,
+      i: ((parts[0]||"")[0]+(parts.length>1?(parts[parts.length-1]||"")[0]:"")).toUpperCase(),
+      c: p.c || "#04723D", photo: p.photo,
+      oid: el("k_oid").value, ind: el("k_ind").value, tier: el("k_tier").value,
+      mkts: p.mkts || [], dir: el("k_dir").checked, day3: el("k_day3").checked,
+      speaker: p.speaker, demo: p.demo === undefined ? true : p.demo,
+      picks: el("k_picks").value.split(",").map(function(x){ return x.trim().toUpperCase(); })
+               .filter(Boolean),
+      t: {en: el("k_t").value.trim(), vi: el("k_t").value.trim()},
+      bio: {en: el("k_bio").value.trim(), vi: el("k_bio").value.trim()},
+      h: p.h || {}
     };
-    if(!rec.name){ toast("A name is required"); return; }
-    if(isNew) S.speakers.push(rec);
-    else S.speakers = S.speakers.map(function(x){ return x.id===id ? rec : x; });
-    persist(); closeDrawer(); render(); toast(isNew?"Speaker added":"Speaker updated");
+    if(isNew) S.people.push(rec);
+    else S.people = S.people.map(function(x){ return x.id===id ? rec : x; });
+    persist(); closeDrawer(); render(); toast(isNew?"Added":"Updated");
   };
 }
-
-function exportCsv(){
-  var head = ["Name","Email","Role","Organisation","Country","Status","Received"];
-  var rows = S.rsvps.map(function(r){
-    return [r.name,r.email,r.role,r.org,r.country,r.status,r.at]; });
+function editOrg(id){
+  var o = id ? orgById(id) : null;
+  var isNew = !o;
+  if(isNew) o = {id:"", n:"", i:"", c:"#04723D", type:"corp", tier:"guest", ind:"fin",
+                 size:"", hq:{en:""}, about:{en:""}, looking:{en:""}, web:"", email:"", tel:""};
+  var h = '<h3>'+(isNew?"New organisation":"Edit "+o.n)+'</h3>'+
+    '<div class="sub">Business profile</div>';
+  h += '<div class="fld"><label>Name</label><input id="o_n" value="'+esc(o.n)+'"></div>';
+  h += '<div class="row"><div class="fld"><label>Focus</label><select id="o_ind">'+
+    Object.keys(D.taxonomy.industries).map(function(k){
+      return '<option value="'+k+'"'+(k===o.ind?" selected":"")+'>'+
+        esc(tx(D.taxonomy.industries[k]))+'</option>'; }).join("")+'</select></div>';
+  h += '<div class="fld"><label>Tier</label><select id="o_tier">'+
+    Object.keys(D.taxonomy.tiers).map(function(k){
+      return '<option value="'+k+'"'+(k===o.tier?" selected":"")+'>'+
+        esc(tx(D.taxonomy.tiers[k]))+'</option>'; }).join("")+'</select></div></div>';
+  h += '<div class="row"><div class="fld"><label>Headquarters</label><input id="o_hq" value="'+
+    esc(tx(o.hq))+'"></div><div class="fld"><label>Team size</label><input id="o_size" '+
+    'value="'+esc(o.size||"")+'"></div></div>';
+  h += '<div class="fld"><label>About</label><textarea id="o_about">'+esc(tx(o.about))+
+    '</textarea></div>';
+  h += '<div class="fld"><label>Looking for</label><input id="o_look" value="'+
+    esc(tx(o.looking))+'"></div>';
+  h += '<div class="row"><div class="fld"><label>Website</label><input id="o_web" value="'+
+    esc(o.web||"")+'"></div><div class="fld"><label>Email</label><input id="o_email" '+
+    'value="'+esc(o.email||"")+'"></div></div>';
+  h += '<div class="fld"><label>Phone</label><input id="o_tel" value="'+esc(o.tel||"")+
+    '"></div>';
+  h += '<div class="bar2"><button class="btn" id="o_save">Save</button>'+
+    '<button class="btn ghost" id="o_cancel">Cancel</button></div>';
+  openDrawer(h);
+  el("o_cancel").onclick = closeDrawer;
+  el("o_save").onclick = function(){
+    var name = el("o_n").value.trim();
+    if(!name){ toast("A name is required"); return; }
+    var rec = {
+      id: o.id || ("org"+(Date.now()%100000)), n: name,
+      i: name.split(/\s+/).map(function(w){ return w[0]; }).join("").slice(0,2).toUpperCase(),
+      c: o.c || "#04723D", logo: o.logo, type: o.type,
+      tier: el("o_tier").value, ind: el("o_ind").value, size: el("o_size").value.trim(),
+      hq: {en: el("o_hq").value.trim(), vi: el("o_hq").value.trim()},
+      about: {en: el("o_about").value.trim(), vi: el("o_about").value.trim()},
+      looking: {en: el("o_look").value.trim(), vi: el("o_look").value.trim()},
+      web: el("o_web").value.trim(), email: el("o_email").value.trim(),
+      tel: el("o_tel").value.trim(),
+      demo: o.demo === undefined ? true : o.demo
+    };
+    if(isNew) S.orgs.push(rec);
+    else S.orgs = S.orgs.map(function(x){ return x.id===id ? rec : x; });
+    persist(); closeDrawer(); render(); toast(isNew?"Organisation added":"Updated");
+  };
+}
+function editDoc(id){
+  var d = id ? S.docs.filter(function(x){ return x.id===id; })[0] : null;
+  var isNew = !d;
+  if(isNew) d = {id:"", t:{en:""}, by:"SVEF Secretariat", kind:"PDF", size:"", day:0,
+                 tag:"logistics"};
+  var h = '<h3>'+(isNew?"New document":"Edit document")+'</h3>'+
+    '<div class="sub">Delegate library</div>';
+  h += '<div class="fld"><label>Title</label><input id="c_t" value="'+esc(tx(d.t))+'"></div>';
+  h += '<div class="row"><div class="fld"><label>Provided by</label><input id="c_by" value="'+
+    esc(d.by)+'"></div><div class="fld"><label>Type</label><select id="c_kind">'+
+    ["PDF","PPTX","DOCX","XLSX"].map(function(k){
+      return '<option'+(k===d.kind?" selected":"")+'>'+k+'</option>'; }).join("")+
+    '</select></div></div>';
+  h += '<div class="row"><div class="fld"><label>Size</label><input id="c_size" value="'+
+    esc(d.size)+'" placeholder="3.4 MB"></div><div class="fld"><label>Day</label>'+
+    '<select id="c_day">'+[0,1,2,3].map(function(n){
+      return '<option value="'+n+'"'+(n===d.day?" selected":"")+'>'+
+        (n?("Day "+n):"Any day")+'</option>'; }).join("")+'</select></div></div>';
+  h += '<div class="bar2"><button class="btn" id="c_save">Save</button>'+
+    '<button class="btn ghost" id="c_cancel">Cancel</button></div>';
+  openDrawer(h);
+  el("c_cancel").onclick = closeDrawer;
+  el("c_save").onclick = function(){
+    var title = el("c_t").value.trim();
+    if(!title){ toast("A title is required"); return; }
+    var rec = {id: d.id || ("doc"+(Date.now()%100000)),
+      t:{en:title, vi:title}, by: el("c_by").value.trim(), kind: el("c_kind").value,
+      size: el("c_size").value.trim() || "—", day: +el("c_day").value, tag: d.tag,
+      demo:true};
+    if(isNew) S.docs.push(rec);
+    else S.docs = S.docs.map(function(x){ return x.id===id ? rec : x; });
+    persist(); closeDrawer(); render(); toast(isNew?"Document added":"Updated");
+  };
+}
+function sendNotif(){
+  var title = el("n_title").value.trim(), body = el("n_body").value.trim();
+  if(!title){ toast("A title is required"); return; }
+  S.notifs.unshift({id:"n"+(Date.now()%100000), kind:el("n_kind").value,
+    go:el("n_go").value, when:"now", unread:true, sent:true,
+    t:{en:title, vi:title}, b:{en:body, vi:body}});
+  persist(); render(); toast("Notification sent to all delegates");
+}
+function exportCsv(which){
+  var head, rows, name;
+  if(which==="delegates"){
+    head = ["Name","Role","Organisation","Focus","Tier","Picks","Day 3","In directory"];
+    rows = S.people.filter(function(p){ return !p.speaker; }).map(function(p){
+      var o = orgById(p.oid);
+      return [p.n, tx(p.t), o?o.n:"", tx(D.taxonomy.industries[p.ind]),
+              tx(D.taxonomy.tiers[p.tier]), (p.picks||[]).join(" "), p.day3?"yes":"no",
+              p.dir?"yes":"no"];
+    });
+    name = "delegates";
+  } else {
+    head = ["Name","Email","Role","Organisation","Country","Round 1","Round 2","Day 3",
+            "Status","Received"];
+    rows = S.rsvps.map(function(r){
+      return [r.name,r.email,r.role,r.org,r.country,r.r1,r.r2,r.day3?"yes":"no",
+              r.status,r.at]; });
+    name = "registrations";
+  }
   var csv = [head].concat(rows).map(function(r){
-    return r.map(function(c){ return '"'+String(c).replace(/"/g,'""')+'"'; }).join(","); }).join("\n");
+    return r.map(function(c){ return '"'+String(c==null?"":c).replace(/"/g,'""')+'"'; })
+      .join(","); }).join("\n");
   var a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
-  a.download = E.code.toLowerCase()+"-registrations.csv";
+  a.download = E.code.toLowerCase()+"-"+name+".csv";
   a.click();
-  toast("Exported "+S.rsvps.length+" rows");
+  toast("Exported "+rows.length+" rows");
 }
 
 el("lgev").textContent = E.title;

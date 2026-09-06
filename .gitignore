@@ -13,3 +13,7 @@ Desktop.ini
 # Agent worktrees. Created inside the repo by tooling; the contents are just another
 # checkout of this same repo and must never be committed into it.
 .claude/worktrees/
+
+# Python bytecode from the scraper tools
+__pycache__/
+*.pyc
