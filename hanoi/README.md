@@ -26,13 +26,18 @@ Live: `https://timothy-tt.github.io/SVEF/hanoi/` and `/hanoi/admin.html`.
 
 ## Features
 
-**Delegate app.** Home with countdown and programme summary; three-day agenda with the
-six real parallel tracks and a per-delegate pick; Connect (delegate directory with
-search and filters, speakers, organisations, my network, person and company profiles,
-connection requests, meeting booking against the real breaks in the Day 2 programme,
-chat, vCard export); Media (gallery, press, documents); notifications with an unread
-badge; and Me (prefilled profile, business profile with a claim request, my agenda,
-visibility controls, badge and QR). EN/VI throughout the chrome.
+**Delegate app.** The app is gated at login and everyone using it registered on the
+website first, so there is no registration flow inside it: it opens on the signed-in
+delegate's own record. Home carries the delegate's badge, the countdown, the programme
+summary and the event site's own home-page content (strategic vision with its programme
+diagram, what to expect, the eight thematic pillars, the three objectives) plus the
+gallery strip and the latest press. Then a three-day agenda with the six real parallel
+tracks and a per-delegate pick; Connect (delegate directory with search and filters,
+speakers, organisations, my network, person and company profiles, connection requests,
+meeting booking against the real breaks in the Day 2 programme, chat, vCard export);
+Media (gallery, press, documents); notifications with an unread badge; and Me
+(prefilled profile, business profile with a claim request, my agenda, visibility
+controls, badge and QR). EN/VI throughout the chrome.
 
 **Back office.** Dashboard; programme editor with parallel tracks; speakers; delegates
 with the directory opt-in; organisations with a claim approval queue; registrations
@@ -43,9 +48,10 @@ composer; networking rules; data health; and event settings. English only, per t
 
 ### Prefilled profile
 
-The one feature worth calling out. A delegate answers 19 questions to register. Asking
-those again inside the app would be the most irritating thing this build could do, so
-the profile is derived from the RSVP answers instead, and three of them do real work:
+The one feature worth calling out. A delegate answers 19 questions to register on the
+website. Asking those again inside the app would be the most irritating thing this
+build could do, so the profile is derived from the RSVP answers instead, and three of
+them do real work:
 
 * **"Would you like to be featured in the SVEF 2026 Delegates Directory?"** is the
   actual gate on the delegate directory. A delegate who answered no is listed in the
@@ -60,6 +66,14 @@ Field ids are matched by **label**, not hardcoded: Wix regenerates the `custom-*
 whenever a question is edited, and a stale id would silently produce an empty profile
 rather than an error. `mkdata.py` prints any label it cannot match.
 
+The demo opens signed in as **Anh Trần, Investment Director at Zegoe Capital**, kept
+deliberately close to the multi-event demo's `me` so the two builds tell the same story
+about the same person. Their answers live in `tools/demo.py` as `SELF_REG`, keyed by
+profile-map name, and `mkdata.py` re-keys them onto the live form's own field ids, so
+the seeded profile travels down exactly the same path a real delegate's answers would.
+Zegoe Capital is in the organisation list with a colleague, so the business profile
+shows a verified company with more than one person on it.
+
 ## What is real and what is not
 
 | Screen | Source |
@@ -71,7 +85,7 @@ rather than an error. `mkdata.py` prints any label it cannot match.
 | Press, 20 outlets with headlines and thumbnails | `/press` page markup |
 | Gallery, 15 photos | `/gallery` page markup |
 | Overview: vision, 4 expect blocks, 8 pillars, 3 objectives, venue copy, organiser logos, offices, social | home page markup |
-| **Delegates, organisations, connections, meetings, chat, documents, registrations** | **demo data**, labelled on screen |
+| **Delegates, organisations, connections, meetings, chat, documents, registrations, the signed-in delegate** | **demo data**, labelled on screen |
 
 The delegate directory, connections, meetings, chat and the document library are
 pre-event features with no public source: SVEF has not published a guest list, and Wix

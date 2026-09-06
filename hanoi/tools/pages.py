@@ -231,7 +231,7 @@ def _pairs_after(rows, heading, stop, tags=("p", "h2", "h4", "h6")):
 
 def parse_home(rows):
     """Overview blocks, organiser logos, venue copy and contacts from the home page."""
-    out = {"vision": "", "expect": [], "objectives": [], "pillars": [],
+    out = {"vision": "", "diagram": None, "expect": [], "objectives": [], "pillars": [],
            "venue": "", "organisers": [], "contact": {}, "social": []}
 
     # strategic vision: the long paragraph under FORUM OVERVIEW
@@ -239,6 +239,15 @@ def parse_home(rows):
         if r["t"] == "text" and len(r["text"]) > 180:
             out["vision"] = _clean(r["text"])
             break
+
+    # the programme-flow diagram sits between the vision copy and WHAT TO EXPECT
+    for r in _window(rows, r"^FORUM OVERVIEW$", r"^WHAT TO EXPECT$"):
+        if r["t"] == "img":
+            m = re.search(r"/w_(\d+),h_(\d+)", r["src"])
+            if m and int(m.group(1)) >= 400:
+                out["diagram"] = {"image": thumb(r["src"], 900, 340),
+                                  "full": full_media(r["src"])}
+                break
 
     # what to expect: title paragraph then a description, repeating
     win = [r for r in _window(rows, r"^WHAT TO EXPECT$", r"^OBJECTIVES$")
