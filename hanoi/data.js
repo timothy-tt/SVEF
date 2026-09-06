@@ -1932,7 +1932,7 @@ window.HANOI2026 = {
     "vi": "Tổng giám đốc"
    },
    "bio": {
-    "en": "Leads the engineering partner behind this forum's website and delegate app.",
+    "en": "Leads the engineering partner behind this forum's website and attendee app.",
     "vi": "Lãnh đạo đối tác kỹ thuật xây dựng website và ứng dụng đại biểu của diễn đàn."
    },
    "h": {
@@ -2640,7 +2640,7 @@ window.HANOI2026 = {
     "vi": "Tổng giám đốc"
    },
    "bio": {
-    "en": "Leads the engineering partner behind this forum's website and delegate app.",
+    "en": "Leads the engineering partner behind this forum's website and attendee app.",
     "vi": "Lãnh đạo đối tác kỹ thuật xây dựng website và ứng dụng đại biểu của diễn đàn."
    },
    "h": {
@@ -3124,7 +3124,7 @@ window.HANOI2026 = {
     "me": false,
     "t": "08:40",
     "m": {
-     "en": "The delegate app is ours, by the way. Tell us if anything reads wrong.",
+     "en": "The attendee app is ours, by the way. Tell us if anything reads wrong.",
      "vi": "Ứng dụng đại biểu là do bên mình làm. Anh thấy chỗ nào chưa ổn thì báo giúp nhé."
     }
    }
@@ -3133,8 +3133,8 @@ window.HANOI2026 = {
  "docs": [
   {
    "t": {
-    "en": "Ha Noi 2026 delegate pack",
-    "vi": "Tài liệu đại biểu Hà Nội 2026"
+    "en": "Ha Noi 2026 attendee pack",
+    "vi": "Tài liệu người tham dự Hà Nội 2026"
    },
    "by": "SVEF Secretariat",
    "kind": "PDF",
