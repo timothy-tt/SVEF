@@ -308,6 +308,8 @@ body{font-family:var(--sans);background:#0B1F16;color:var(--ink);font-size:15px;
 .nrow p{margin:3px 0 0;font-size:12.5px;color:var(--muted);line-height:1.4}
 .nrow .w{font-size:11px;color:var(--muted);flex:0 0 auto}
 /* ---------- chat ---------- */
+.unreadb{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;
+  background:var(--hanoi);color:#fff;font-size:10.5px;font-weight:800;margin-top:4px}
 .thread{padding:14px 16px 0;display:flex;flex-direction:column;gap:8px}
 .msg{max-width:78%;padding:9px 12px;font-size:13.5px;line-height:1.45}
 .msg.them{background:var(--card);border:1px solid var(--line);align-self:flex-start}
@@ -392,6 +394,9 @@ body{font-family:var(--sans);background:#0B1F16;color:var(--ink);font-size:15px;
     <button class="iconbtn" id="back" hidden aria-label="Back">
       <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
     <h1 id="ttl">SVEF Ha Noi 2026</h1>
+    <button class="iconbtn" id="msgs" aria-label="Messages">
+      <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.8A8 8 0 1 1 21 12z"/></svg>
+      <span class="dot" id="mdot" hidden>0</span></button>
     <button class="iconbtn" id="bell" aria-label="Notifications">
       <svg viewBox="0 0 24 24"><path d="M18 16V11a6 6 0 1 0-12 0v5l-2 3h16z"/><path d="M10 21h4"/></svg>
       <span class="dot" id="bdot" hidden>0</span></button>
@@ -423,15 +428,21 @@ var T = {
   days:"days",hrs:"hrs",min:"min",sec:"sec",
   glance:"Programme at a glance",quick:"Quick links",day:"Day",
   venue:"Venue",tbd:"To be announced",
-  speakers:"Speakers",keynote:"Keynote",delegates:"Delegates",orgs:"Organisations",
+  attendees:"Attendees",speakers:"Speakers",keynote:"Keynote",orgs:"Organisations",
   mine:"My network",press:"Press",gallery:"Gallery",documents:"Documents",
   notifications:"Notifications",messages:"Messages",meetings:"Meetings",
   profile:"Profile",business:"Business profile",privacy:"Visibility",
   myagenda:"My agenda",badge:"Badge & QR",
   search:"Search name, company or role",all:"All",
-  connectBtn:"Connect",connected:"Connected",pendingC:"Requested",
+  connectBtn:"Message to connect",connected:"Connected",pendingC:"Requested",
+  requests:"Connection requests",wantsToConnect:"Wants to connect",
+  awaitingReply:"Awaiting their reply",requestDeclined:"Request declined",
+  whyConnect:"Why would you like to connect?",
+  whyConnectHint:"We are both in Session A. I would like to talk about port logistics.",
+  whyConnectNote:"They see this message with your request and decide whether to accept. Nothing else can be sent until they do.",
+  whyConnectRequired:"Write a short message first",
   message:"Message",bookMeeting:"Request a meeting",vcard:"Save contact",
-  cannotConnect:"This delegate did not opt into the delegate directory at registration, so they cannot be contacted through the app.",
+  cannotConnect:"This attendee did not opt into the attendee directory at registration, so they cannot be contacted through the app.",
   optedOut:"Not in directory",
   prefilled:"Prefilled from your registration",
   prefilledHelp:"You answered 19 questions when you registered. Everything below came from those answers, so you do not have to type them again. Edit anything that has changed.",
@@ -448,7 +459,7 @@ var T = {
   markAll:"Mark all read",noNotif:"No notifications yet.",
   noMsg:"No conversations yet. Connect with a delegate to start one.",
   noMeetings:"No meetings yet.",
-  noConns:"You have not connected with anyone yet. Open the Delegates tab and send a request.",
+  noConns:"You have not connected with anyone yet. Open the Attendees tab and send a request.",
   accept:"Accept",decline:"Decline",cancelMtg:"Cancel",
   mtgConfirmed:"Confirmed",mtgPending:"Awaiting reply",mtgDeclined:"Declined",
   mtgCanceled:"Cancelled",
@@ -465,7 +476,7 @@ var T = {
   optionCleared:"Choice cleared",
   yourPicks:"Your session picks",fromReg:"from your registration",
   nostar:"Nothing saved yet. Tap the star on a session to keep it here.",
-  typing:"Write a message",send:"Send",
+  typing:"Write a message",send:"Send",startNew:"Start a conversation",
   qrTitle:"Your delegate badge",
   qrHelp:"Show this at the registration desk, or to another delegate to exchange details.",
   signOut:"Reset the demo",
@@ -484,9 +495,9 @@ var T = {
   speakersNote:"SVEF has published {n} keynote speakers for the Ha Noi edition so far; this list fills in automatically as more are added.",
   dateNote:"Day dates are still being confirmed by SVEF: the event record reads 19–20 Oct while the published programme runs three days from 18 Oct.",
   venueNote:"The exact venue is not announced yet. All three days read “Venue: to be updated” on the event site.",
-  demoPerson:"This delegate is demo data.",demoOrg:"This organisation is demo data.",
+  demoPerson:"This attendee is demo data.",demoOrg:"This organisation is demo data.",
   demoMtg:"Meetings are demo data.",openArticle:"Open article",
-  bio:"Short bio",fullName:"Full name",delegatesAndSpeakers:"delegates and speakers",
+  bio:"Short bio",fullName:"Full name",delegatesAndSpeakers:"attendees and speakers",
   pressOnFile:"press items on file",photosPast:"photos from past editions",
   docsTile:"briefings and delegate packs",meetingsTile:"requested and confirmed"
  },
@@ -495,15 +506,21 @@ var T = {
   days:"ngày",hrs:"giờ",min:"phút",sec:"giây",
   glance:"Tổng quan chương trình",quick:"Truy cập nhanh",day:"Ngày",
   venue:"Địa điểm",tbd:"Sẽ thông báo sau",
-  speakers:"Diễn giả",keynote:"Chính",delegates:"Đại biểu",orgs:"Tổ chức",
+  attendees:"Người tham dự",speakers:"Diễn giả",keynote:"Chính",orgs:"Tổ chức",
   mine:"Mạng lưới",press:"Báo chí",gallery:"Thư viện ảnh",documents:"Tài liệu",
   notifications:"Thông báo",messages:"Tin nhắn",meetings:"Lịch gặp",
   profile:"Hồ sơ",business:"Doanh nghiệp",privacy:"Hiển thị",
   myagenda:"Lịch của tôi",badge:"Thẻ & QR",
   search:"Tìm tên, công ty hoặc chức danh",all:"Tất cả",
-  connectBtn:"Kết nối",connected:"Đã kết nối",pendingC:"Đã gửi",
+  connectBtn:"Nhắn để kết nối",connected:"Đã kết nối",pendingC:"Đã gửi",
+  requests:"Lời mời kết nối",wantsToConnect:"Muốn kết nối với bạn",
+  awaitingReply:"Đang chờ phản hồi",requestDeclined:"Đã từ chối lời mời",
+  whyConnect:"Vì sao bạn muốn kết nối?",
+  whyConnectHint:"Hai bên cùng tham dự Session A. Em muốn trao đổi về logistics cảng biển.",
+  whyConnectNote:"Người nhận sẽ thấy tin nhắn này kèm lời mời và quyết định có chấp nhận hay không. Chưa thể gửi thêm tin nào trước khi họ đồng ý.",
+  whyConnectRequired:"Hãy viết một tin nhắn ngắn trước",
   message:"Nhắn tin",bookMeeting:"Đặt lịch gặp",vcard:"Lưu danh bạ",
-  cannotConnect:"Đại biểu này không chọn hiển thị trong danh bạ khi đăng ký, nên không thể liên hệ qua ứng dụng.",
+  cannotConnect:"Người này không chọn hiển thị trong danh bạ khi đăng ký, nên không thể liên hệ qua ứng dụng.",
   optedOut:"Ngoài danh bạ",
   prefilled:"Điền sẵn từ đăng ký của bạn",
   prefilledHelp:"Bạn đã trả lời 19 câu hỏi khi đăng ký. Toàn bộ thông tin dưới đây lấy từ đó nên bạn không cần nhập lại. Hãy sửa những mục đã thay đổi.",
@@ -520,7 +537,7 @@ var T = {
   markAll:"Đánh dấu đã đọc",noNotif:"Chưa có thông báo nào.",
   noMsg:"Chưa có cuộc trò chuyện nào. Hãy kết nối với một đại biểu để bắt đầu.",
   noMeetings:"Chưa có lịch gặp nào.",
-  noConns:"Bạn chưa kết nối với ai. Mở tab Đại biểu và gửi lời mời kết nối.",
+  noConns:"Bạn chưa kết nối với ai. Mở tab Người tham dự và gửi lời mời kết nối.",
   accept:"Đồng ý",decline:"Từ chối",cancelMtg:"Huỷ",
   mtgConfirmed:"Đã xác nhận",mtgPending:"Chờ phản hồi",mtgDeclined:"Đã từ chối",
   mtgCanceled:"Đã huỷ",
@@ -537,7 +554,7 @@ var T = {
   optionCleared:"Đã bỏ chọn",
   yourPicks:"Phiên bạn đã chọn",fromReg:"theo đăng ký của bạn",
   nostar:"Chưa lưu phiên nào. Chạm vào dấu sao ở một phiên để lưu vào đây.",
-  typing:"Nhập tin nhắn",send:"Gửi",
+  typing:"Nhập tin nhắn",send:"Gửi",startNew:"Bắt đầu trò chuyện",
   qrTitle:"Thẻ đại biểu của bạn",
   qrHelp:"Xuất trình tại quầy đăng ký, hoặc cho đại biểu khác để trao đổi thông tin.",
   signOut:"Đặt lại bản demo",
@@ -556,9 +573,9 @@ var T = {
   speakersNote:"SVEF mới công bố {n} diễn giả chính cho kỳ Hà Nội; danh sách sẽ tự cập nhật khi có thêm.",
   dateNote:"Ngày cụ thể của từng ngày chương trình đang được SVEF xác nhận: hồ sơ sự kiện ghi 19–20/10, còn chương trình có ba ngày bắt đầu từ 18/10.",
   venueNote:"Địa điểm cụ thể chưa được công bố. Cả ba ngày trên website sự kiện đều ghi “Venue: to be updated”.",
-  demoPerson:"Đại biểu này là dữ liệu mẫu.",demoOrg:"Tổ chức này là dữ liệu mẫu.",
+  demoPerson:"Người tham dự này là dữ liệu mẫu.",demoOrg:"Tổ chức này là dữ liệu mẫu.",
   demoMtg:"Lịch gặp là dữ liệu mẫu.",openArticle:"Mở bài viết",
-  bio:"Giới thiệu",fullName:"Họ và tên",delegatesAndSpeakers:"đại biểu và diễn giả",
+  bio:"Giới thiệu",fullName:"Họ và tên",delegatesAndSpeakers:"người tham dự và diễn giả",
   pressOnFile:"bài đưa tin đã lưu",photosPast:"ảnh từ các kỳ trước",
   docsTile:"tài liệu và cẩm nang đại biểu",meetingsTile:"đã gửi và đã xác nhận"
  }
@@ -617,8 +634,8 @@ function load(){
     profile:null,    /* derived from reg on first read, then editable */
     vis:{dir:true,org:true,email:false,phone:false,bio:true,li:true,web:true},
     orgClaim:{state:"none",oid:null},
-    saved:[], picks:{}, conns:{},
-    meetings:null, chats:null, readNotifs:[]
+    saved:[], picks:{}, conns:null,
+    meetings:null, chats:null, readNotifs:[], chatRead:{}
   };
   if(raw) for(var k in raw) base[k] = raw[k];
   /* Seeded, not collected. There is no registration flow in the app: the delegate
@@ -627,7 +644,31 @@ function load(){
   if(!base.reg) base.reg = JSON.parse(JSON.stringify((D.self||{}).reg || {}));
   if(!base.orgClaim || base.orgClaim.state==="none")
     base.orgClaim = {state:"linked", oid:(D.self||{}).orgId || null};
-  if(!base.meetings) base.meetings = JSON.parse(JSON.stringify(D.meetings || []));
+  if(!base.conns){
+    /* Requests already waiting on the delegate when they open the app, taken from
+       the event's connection graph so the app and the back office agree. */
+    var meId0 = (D.self||{}).personId;
+    base.conns = {};
+    (D.connections||[]).forEach(function(c){
+      if(c.a===meId0) base.conns[String(c.b)] =
+        {state: c.state==="linked" ? "linked" : "sent", msg:c.msg||"", at:c.at};
+      else if(c.b===meId0) base.conns[String(c.a)] =
+        {state: c.state==="linked" ? "linked" : "incoming",
+         msg: c.msg || "", at:c.at};
+    });
+  }
+  if(!base.meetings){
+    /* Meetings are stored as a relation between two attendees. The app only ever
+       shows this delegate's own, with direction derived rather than stored twice. */
+    var meId = (D.self||{}).personId;
+    base.meetings = (D.meetings||[]).filter(function(m){
+      return m.a===meId || m.b===meId; }).map(function(m){
+      return {pid: m.a===meId ? m.b : m.a, dir: m.a===meId ? "sent" : "received",
+              status: m.status==="cancelled" ? "canceled" : m.status,
+              day:m.day, time:m.time, place:m.place, msg:m.msg,
+              created:m.created, demo:true};
+    });
+  }
   if(!base.chats) base.chats = JSON.parse(JSON.stringify(D.chats || {}));
   return base;
 }
@@ -684,7 +725,7 @@ function regTrack(which){
 }
 
 /* ---------- people & orgs ---------- */
-var PEOPLE = D.people || [], ORGS = D.orgs || [];
+var PEOPLE = D.attendees || [], ORGS = D.orgs || [];
 function personById(id){ id = +id;
   return PEOPLE.filter(function(p){ return p.id===id; })[0] || null; }
 function orgById(id){ return ORGS.filter(function(o){ return o.id===id; })[0] || null; }
@@ -704,7 +745,19 @@ function canConnect(p){
   if(!p) return {ok:false,why:""};
   return p.dir ? {ok:true,why:""} : {ok:false,why:t("cannotConnect")};
 }
-function connState(id){ return S.conns[String(id)] || "none"; }
+function conn(id){
+  var c = S.conns[String(id)];
+  if(!c) return {state:"none"};
+  if(typeof c === "string") return {state:c};   /* state saved by an older build */
+  return c;
+}
+function connState(id){ return conn(id).state; }
+function incomingRequests(){
+  return Object.keys(S.conns).filter(function(k){
+    return conn(k).state==="incoming"; }).map(function(k){
+    var p = personById(k);
+    return p ? {p:p, c:conn(k)} : null; }).filter(Boolean);
+}
 function avHTML(o,cls){
   cls = cls || "sm";
   if(o && o.photo)
@@ -743,6 +796,19 @@ function notifs(){
   });
 }
 function unreadCount(){ return notifs().filter(function(n){ return n.unread; }).length; }
+/* A thread is unread from the point the delegate last opened it, so a reply that
+   arrives while they are elsewhere in the app still surfaces on the header. */
+function threadUnread(pid){
+  var msgs = S.chats[String(pid)] || [], seen = S.chatRead[String(pid)] || 0;
+  return msgs.slice(seen).filter(function(m){ return !m.me; }).length;
+}
+function msgUnread(){
+  return Object.keys(S.chats).reduce(function(a,k){ return a + threadUnread(k); }, 0)
+    + incomingRequests().length;
+}
+function markThreadRead(pid){
+  S.chatRead[String(pid)] = (S.chats[String(pid)] || []).length; persist();
+}
 function pendingMeetings(){
   return S.meetings.filter(function(m){
     return m.status==="pending" && m.dir==="received"; }).length;
@@ -754,7 +820,7 @@ function pendingMeetings(){
    ========================================================================= */
 var TABS = ["home","agenda","connect","media","me"];
 var view = "home", stack = [], day = 2;
-var connectTab = "delegates", mediaTab = "gallery", meTab = "profile";
+var connectTab = "attendees", mediaTab = "gallery", meTab = "profile";
 var q = "", filt = {ind:"",mkt:""}, chatWith = null, curPerson = null, curOrg = null;
 var dayOpt = {};   /* day number -> chosen option letter, for the current view */
 var lbIdx = 0;
@@ -777,10 +843,6 @@ function tab(v){ stack = []; go(v); }
 /* =========================================================================
    Screens
    ========================================================================= */
-function demoNote(text){
-  return '<div class="sec"><div class="empty"><span class="demo">'+t("demoData")+'</span>'+
-    esc(text)+'</div></div>';
-}
 
 
 /* The event site's own home-page content: the strategic vision and its programme
@@ -851,7 +913,7 @@ function homeHTML(){
   /* The wordmark already reads "SWISS-VIET ECONOMIC FORUM", so the name is not set
      again as live text beside it. See ../BRAND.md. */
   h += '<img class="mark" src="../assets/brand/svef-wordmark-dark.svg" alt="'+esc(E.name)+'">';
-  h += '<div class="ed">'+esc(E.edition)+' · 2026</div>';
+  h += '<div class="ed">'+esc(E.city)+' · 2026</div>';
   h += '<div class="when"><span class="pill">'+ico(I.cal)+
        esc(lang==="vi"?E.displayDatesVi:E.displayDates)+'</span>'+
        '<span class="pill">'+ico(I.pin)+esc(E.city)+', '+esc(E.country)+'</span></div>';
@@ -1039,7 +1101,7 @@ function matchQ(p){
 }
 function connectHTML(){
   var h = '<div class="seg">';
-  [["delegates",t("delegates")],["speakers",t("speakers")],["orgs",t("orgs")],
+  [["attendees",t("attendees")],["speakers",t("speakers")],["orgs",t("orgs")],
    ["mine",t("mine")]].forEach(function(p){
     h += '<button data-ctab="'+p[0]+'" aria-selected="'+(connectTab===p[0])+'">'+
          esc(p[1])+'</button>';
@@ -1051,7 +1113,7 @@ function connectHTML(){
     ORGS.slice().sort(function(a,b){ return tierRank(b.tier)-tierRank(a.tier); })
         .forEach(function(o){ h += orgRow(o); });
     h += '</div>';
-    return h + demoNote(tx(D.demoNotice));
+    return h;
   }
 
   if(connectTab==="mine"){
@@ -1073,14 +1135,14 @@ function connectHTML(){
   var list = PEOPLE.filter(function(p){
     if(p.self) return false;      /* you are not a row in your own directory */
     if(connectTab==="speakers" && !p.speaker) return false;
-    if(connectTab==="delegates" && p.speaker) return false;
+    if(connectTab==="attendees" && p.speaker) return false;
     if(filt.ind && p.ind!==filt.ind) return false;
     if(filt.mkt && (p.mkts||[]).indexOf(filt.mkt)<0) return false;
     return matchQ(p);
   });
   h += '<div class="search">'+ico(I.srch)+'<input id="q" type="text" value="'+esc(q)+
        '" placeholder="'+t("search")+'"></div>';
-  if(connectTab==="delegates"){
+  if(connectTab==="attendees"){
     h += '<div class="filters"><button data-ind="" aria-pressed="'+(!filt.ind)+'">'+
          t("all")+'</button>';
     Object.keys(D.taxonomy.industries).forEach(function(k){
@@ -1104,7 +1166,7 @@ function connectHTML(){
       esc(t("speakersNote").replace("{n}", D.speakers.length))+'</div></div>';
     return h;
   }
-  return h + demoNote(tx(D.demoNotice));
+  return h;
 }
 
 /* ---- Person detail ---- */
@@ -1116,20 +1178,38 @@ function personHTML(){
     '<div class="r">'+esc(tx(p.t))+'</div>'+
     (o?'<div class="o">'+esc(o.n)+'</div>':'')+'</div>';
 
-  h += '<div class="sec"><div class="row2">';
+  h += '<div class="sec">';
   if(st==="linked"){
-    h += '<button class="btn green sm" data-chat="'+p.id+'">'+ico(I.chat)+t("message")+'</button>';
-    h += '<button class="btn ghost sm" data-book="'+p.id+'">'+ico(I.hand)+
-         t("bookMeeting")+'</button>';
+    h += '<div class="row2">'+
+      '<button class="btn green sm" data-chat="'+p.id+'">'+ico(I.chat)+t("message")+'</button>'+
+      '<button class="btn ghost sm" data-book="'+p.id+'">'+ico(I.hand)+
+      t("bookMeeting")+'</button></div>';
+  } else if(st==="incoming"){
+    var c = conn(p.id);
+    h += '<div class="card" style="margin-bottom:10px"><div style="font-size:11px;'+
+      'font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--hanoi)">'+
+      t("wantsToConnect")+'</div>'+
+      (c.msg?'<p class="bio" style="margin:8px 0 0">'+esc(c.msg)+'</p>':'')+'</div>';
+    h += '<div class="row2">'+
+      '<button class="btn green sm" data-answer="accept|'+p.id+'">'+ico(I.check)+
+      t("accept")+'</button><button class="btn ghost sm" data-answer="decline|'+p.id+'">'+
+      ico(I.x)+t("decline")+'</button></div>';
   } else if(st==="sent"){
-    h += '<button class="btn ghost sm" disabled>'+ico(I.check)+t("pendingC")+'</button>';
-    h += '<button class="btn ghost sm" data-vcard="'+p.id+'">'+ico(I.down)+t("vcard")+'</button>';
+    var c2 = conn(p.id);
+    h += '<div class="card" style="margin-bottom:10px"><div style="font-size:11px;'+
+      'font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ink)">'+
+      t("awaitingReply")+'</div>'+
+      (c2.msg?'<p class="bio" style="margin:8px 0 0">'+esc(c2.msg)+'</p>':'')+'</div>';
+    h += '<button class="btn ghost sm" style="width:100%" data-vcard="'+p.id+'">'+
+      ico(I.down)+t("vcard")+'</button>';
   } else if(gate.ok){
-    h += '<button class="btn green sm" data-conn="'+p.id+'">'+ico(I.net)+
-         t("connectBtn")+'</button>';
-    h += '<button class="btn ghost sm" data-vcard="'+p.id+'">'+ico(I.down)+t("vcard")+'</button>';
+    h += '<div class="row2">'+
+      '<button class="btn green sm" data-conn="'+p.id+'">'+ico(I.chat)+
+      t("connectBtn")+'</button><button class="btn ghost sm" data-vcard="'+p.id+'">'+
+      ico(I.down)+t("vcard")+'</button></div>';
   } else {
-    h += '<button class="btn ghost sm" disabled>'+ico(I.net)+t("connectBtn")+'</button>';
+    h += '<button class="btn ghost sm" style="width:100%" disabled>'+ico(I.net)+
+      t("connectBtn")+'</button>';
   }
   h += '</div>';
   if(!gate.ok && gate.why) h += '<div class="note" style="padding:8px 0 0">'+esc(gate.why)+'</div>';
@@ -1164,7 +1244,6 @@ function personHTML(){
       esc(hs.wa)+'</button>';
     h += '</div></div>';
   }
-  if(p.demo) h += demoNote(t("demoPerson"));
   return h;
 }
 
@@ -1219,7 +1298,6 @@ function orgHTML(){
   if(reps.length)
     h += '<div class="sec"><h3>'+t("reps")+' ('+reps.length+')</h3></div><div class="pad">'+
       reps.map(personRow).join("")+'</div>';
-  if(o.demo) h += demoNote(t("demoOrg"));
   return h;
 }
 
@@ -1260,7 +1338,7 @@ function mediaHTML(){
       ico(I.down)+'</button>';
   });
   h += '</div>';
-  return h + demoNote(t("docsNote"));
+  return h;
 }
 
 /* ---- Event overview ---- */
@@ -1335,20 +1413,56 @@ function notifsHTML(){
 /* ---- Messages & chat ---- */
 function threadList(limit){
   var ids = Object.keys(S.chats).filter(function(k){ return (S.chats[k]||[]).length; });
+  ids.sort(function(a,b){ return threadUnread(b) - threadUnread(a); });
   if(limit) ids = ids.slice(0,limit);
   if(!ids.length) return '<div class="empty">'+t("noMsg")+'</div>';
   return ids.map(function(k){
     var p = personById(k); if(!p) return "";
-    var last = S.chats[k][S.chats[k].length-1];
+    var msgs = S.chats[k], last = msgs[msgs.length-1], un = threadUnread(k);
     return '<button class="prow" data-chat="'+p.id+'">'+avHTML(p,"sm")+
-      '<div class="m"><b>'+esc(p.n)+'</b><span class="r">'+esc(tx(last.m))+'</span></div>'+
-      '<span style="font-size:11px;color:var(--muted);flex:0 0 auto">'+esc(last.t)+
-      '</span></button>';
+      '<div class="m"><b>'+esc(p.n)+'</b><span class="r"'+
+      (un?' style="color:var(--ink);font-weight:600"':'')+'>'+esc(tx(last.m))+
+      '</span></div><div style="text-align:right;flex:0 0 auto">'+
+      '<div style="font-size:11px;color:var(--muted)">'+esc(last.t)+'</div>'+
+      (un?'<span class="unreadb">'+un+'</span>':'')+'</div></button>';
   }).join("");
 }
 function messagesHTML(){
-  return '<div class="sec"><h3>'+t("messages")+'</h3></div><div class="pad">'+
+  /* Anyone the delegate is connected to can be messaged, whether or not a thread
+     exists yet, so a new conversation does not require going back to the directory. */
+  var open = Object.keys(S.chats).filter(function(k){ return (S.chats[k]||[]).length; });
+  var canStart = PEOPLE.filter(function(p){
+    return !p.self && connState(p.id)==="linked" && open.indexOf(String(p.id))<0; });
+  var reqs = incomingRequests();
+  var h = "";
+  if(reqs.length){
+    h += '<div class="sec"><h3>'+t("requests")+' ('+reqs.length+')</h3></div><div class="pad">';
+    reqs.forEach(function(r){
+      var o = orgOf(r.p);
+      h += '<div class="card"><div style="display:flex;gap:11px;align-items:center">'+
+        avHTML(r.p,"sm")+'<div style="flex:1;min-width:0"><b style="font-size:14px;'+
+        'display:block">'+esc(r.p.n)+'</b><span style="font-size:12px;color:var(--muted)">'+
+        (o?esc(o.n):esc(tx(r.p.t)))+'</span></div></div>'+
+        (r.c.msg?'<p class="bio" style="margin:10px 0 0">'+esc(r.c.msg)+'</p>':'')+
+        '<div class="row2" style="margin-top:10px">'+
+        '<button class="btn green sm" data-answer="accept|'+r.p.id+'">'+ico(I.check)+
+        t("accept")+'</button><button class="btn ghost sm" data-answer="decline|'+r.p.id+
+        '">'+ico(I.x)+t("decline")+'</button></div></div>';
+    });
+    h += '</div>';
+  }
+  h += '<div class="sec"><h3>'+t("messages")+'</h3></div><div class="pad">'+
     threadList()+'</div>';
+  if(canStart.length){
+    h += '<div class="sec"><h3>'+t("startNew")+'</h3></div><div class="pad">'+
+      canStart.map(function(p){
+        var o = orgOf(p);
+        return '<button class="prow" data-chat="'+p.id+'">'+avHTML(p,"sm")+
+          '<div class="m"><b>'+esc(p.n)+'</b><span class="r">'+
+          (o?esc(o.n):esc(tx(p.t)))+'</span></div>'+ico(I.send)+'</button>';
+      }).join("")+'</div>';
+  }
+  return h;
 }
 function chatHTML(){
   var p = personById(chatWith);
@@ -1394,8 +1508,7 @@ function meetingCards(list){
 }
 function meetingsHTML(){
   return '<div class="sec"><h3>'+t("meetings")+' ('+S.meetings.length+')</h3></div>'+
-    '<div class="pad">'+meetingCards(S.meetings)+'</div>'+
-    demoNote(t("demoMtg"));
+    '<div class="pad">'+meetingCards(S.meetings)+'</div>';
 }
 
 /* ---- Me ---- */
@@ -1558,7 +1671,9 @@ var SCREENS = {
   editprofile:editProfileHTML
 };
 var TITLES = {
-  home:function(){ return E.title; }, agenda:function(){ return t("agenda"); },
+  /* Home needs no title: the hero directly below carries the wordmark,
+     the edition and the dates. Other screens keep their name. */
+  home:function(){ return ""; }, agenda:function(){ return t("agenda"); },
   connect:function(){ return t("connect"); }, media:function(){ return t("media"); },
   me:function(){ return t("me"); },
   info:function(){ return t("overview"); }, notifs:function(){ return t("notifications"); },
@@ -1577,6 +1692,8 @@ function render(){
   el("lang").textContent = lang==="en" ? "VI" : "EN";
   var un = unreadCount();
   el("bdot").hidden = !un; el("bdot").textContent = un;
+  var mu = msgUnread();
+  el("mdot").hidden = !mu; el("mdot").textContent = mu;
   var pm = pendingMeetings();
   el("tabs").innerHTML = [["home",I.home],["agenda",I.cal],["connect",I.net],
                           ["media",I.img],["me",I.user]].map(function(p){
@@ -1650,24 +1767,27 @@ document.addEventListener("click", function(ev){
     else { S.picks[a[0]] = a[1]; if(S.saved.indexOf(a[0])<0) S.saved.push(a[0]); }
     persist(); render(); return;
   }
-  if((n = ev.target.closest("[data-conn]"))){
-    var pid = n.getAttribute("data-conn");
-    S.conns[pid] = "sent"; persist(); render(); toast(t("connSent"));
-    /* The other side accepts a moment later so the rest of the flow is reachable
-       in a demo without a second device and a second person. */
-    setTimeout(function(){
-      S.conns[pid] = "linked";
-      if(!S.chats[pid]) S.chats[pid] = [];
-      persist();
-      if(view==="person" || view==="connect") render();
-      toast(t("connected"));
-    }, 1500);
+  if((n = ev.target.closest("[data-conn]"))){ connectSheet(+n.getAttribute("data-conn")); return; }
+  if((n = ev.target.closest("[data-answer]"))){
+    var a2 = n.getAttribute("data-answer").split("|"), pid2 = a2[1];
+    if(a2[0]==="accept"){
+      var c3 = conn(pid2);
+      S.conns[pid2] = {state:"linked", msg:c3.msg, at:c3.at};
+      /* their request message opens the thread: it is the first thing they said */
+      if(!S.chats[pid2]) S.chats[pid2] = [];
+      if(c3.msg && !S.chats[pid2].length)
+        S.chats[pid2].push({me:false, t:"", m:{en:c3.msg, vi:c3.msg}});
+      persist(); render(); toast(t("connected"));
+    } else {
+      S.conns[pid2] = {state:"declined"};
+      persist(); render(); toast(t("requestDeclined"));
+    }
     return;
   }
   if((n = ev.target.closest("[data-chat]"))){
     chatWith = +n.getAttribute("data-chat");
     if(!S.chats[String(chatWith)]) S.chats[String(chatWith)] = [];
-    persist(); go("chat",true); return;
+    markThreadRead(chatWith); persist(); go("chat",true); return;
   }
   if((n = ev.target.closest("[data-book]"))){ bookSheet(+n.getAttribute("data-book")); return; }
   if((n = ev.target.closest("[data-mtg]"))){
@@ -1722,6 +1842,7 @@ document.addEventListener("click", function(ev){
 
 el("back").addEventListener("click", back);
 el("bell").addEventListener("click", function(){ if(view!=="notifs") go("notifs",true); });
+el("msgs").addEventListener("click", function(){ if(view!=="messages") go("messages",true); });
 el("lang").addEventListener("click", function(){
   lang = lang==="en" ? "vi" : "en";
   localStorage.setItem("svef.hanoi.lang", lang);
@@ -1764,11 +1885,58 @@ function sendMsg(){
   var now = new Date();
   S.chats[k].push({me:true, t:("0"+now.getHours()).slice(-2)+":"+
     ("0"+now.getMinutes()).slice(-2), m:{en:i.value.trim(), vi:i.value.trim()}});
-  persist(); render();
+  markThreadRead(chatWith); persist(); render();
+  /* The other side answers a moment later. Without it a demo thread is a monologue,
+     and the unread badge never gets a chance to do anything. */
+  var who = chatWith;
+  setTimeout(function(){
+    var thread = S.chats[String(who)];
+    if(!thread) return;
+    var d2 = new Date();
+    thread.push({me:false, t:("0"+d2.getHours()).slice(-2)+":"+
+      ("0"+d2.getMinutes()).slice(-2), m:{
+        en:"Thanks, noted. See you at the forum.",
+        vi:"Cảm ơn anh, em đã ghi nhận. Hẹn gặp tại diễn đàn."}});
+    persist();
+    if(view==="chat" && chatWith===who){ markThreadRead(who); render(); }
+    else render();
+  }, 2600);
 }
 
 /* ---- sheets ---- */
 function closeSheet(){ el("sheet").classList.remove("on"); }
+function connectSheet(pid){
+  var p = personById(pid); if(!p) return;
+  var o = orgOf(p);
+  el("sheetin").innerHTML = '<div class="grab"></div><h3>'+t("connectBtn")+'</h3>'+
+    '<div style="font-size:12.5px;color:var(--muted);margin-bottom:14px">'+esc(p.n)+
+    (o?' · '+esc(o.n):'')+'</div>'+
+    '<div class="fld"><label for="cmsgx">'+t("whyConnect")+'</label>'+
+    '<textarea id="cmsgx" placeholder="'+t("whyConnectHint")+'"></textarea>'+
+    '<div class="hint" style="font-size:11.5px;color:var(--muted);margin-top:6px;'+
+    'line-height:1.45">'+t("whyConnectNote")+'</div></div>'+
+    '<button class="btn green" id="cgo">'+ico(I.send)+t("sendRequest")+'</button>';
+  el("sheet").classList.add("on");
+  el("cgo").onclick = function(){
+    var msg = (el("cmsgx").value || "").trim();
+    if(!msg){ toast(t("whyConnectRequired")); el("cmsgx").focus(); return; }
+    S.conns[String(pid)] = {state:"sent", msg:msg,
+      at:new Date().toISOString().slice(0,10)};
+    persist(); closeSheet(); render(); toast(t("connSent"));
+    /* They answer a moment later, so the rest of the flow is reachable in a demo
+       without a second device and a second person. */
+    setTimeout(function(){
+      if(conn(pid).state!=="sent") return;
+      S.conns[String(pid)] = {state:"linked", msg:msg};
+      if(!S.chats[String(pid)]) S.chats[String(pid)] = [];
+      S.chats[String(pid)].push({me:true, t:"", m:{en:msg, vi:msg}});
+      S.chats[String(pid)].push({me:false, t:"", m:{
+        en:"Happy to connect. Let us find a slot at the forum.",
+        vi:"Rất vui được kết nối. Mình tìm một khung giờ tại diễn đàn nhé."}});
+      persist(); render(); toast(t("connected"));
+    }, 2200);
+  };
+}
 function bookSheet(pid){
   var p = personById(pid); if(!p) return;
   var chosen = null, o = orgOf(p);

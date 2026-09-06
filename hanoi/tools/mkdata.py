@@ -236,7 +236,29 @@ missing_self = [k for k in demo.SELF_REG if k not in pmap]
 if missing_self:
     print("  ! seeded answers with no matching form field: " + ", ".join(missing_self))
 
+def _email(name, oid):
+    """Derive a plausible address from the organisation's own domain."""
+    org = next((o for o in orgs if o["id"] == oid), None)
+    dom = re.sub(r"^https?://(www\.)?", "", (org or {}).get("web") or "example.com").strip("/")
+    slug = re.sub(r"[^a-z]+", ".", name.lower().translate(VN)).strip(".")
+    return "%s@%s" % (slug, dom)
+
+
+VN = str.maketrans(
+    "àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ",
+    "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd")
+
+for a in people:
+    st = demo.REGISTRATION.get(a["id"])
+    if st:
+        a["status"], a["country"], a["received"] = st
+    else:
+        a["status"], a["country"], a["received"] = "confirmed", "Viet Nam", "2026-08-17"
+    a["email"] = _email(a["n"], a.get("oid"))
+data["attendees"] = people
+
 data["meetings"] = [dict(m, demo=True) for m in demo.MEETINGS]
+data["connections"] = [dict(c, demo=True) for c in demo.CONNECTIONS]
 data["chats"] = {str(k): v for k, v in demo.CHATS.items()}
 data["docs"] = [dict(d, id="doc%d" % (i + 1), demo=True) for i, d in enumerate(demo.DOCS)]
 data["slots"] = ["09:00 – 09:15", "11:00 – 11:15", "12:45 – 13:00", "16:00 – 16:15",
@@ -303,8 +325,8 @@ print(f"wrote {out}: {len(data['days'])} days, "
       f"{len(data['speakers'])} speakers, {len(data['registration']['fields'])} form fields")
 print(f"  real : {len(data['press'])} press, {len(data['photos'])} photos, "
       f"{len(data['overview'].get('pillars') or [])} pillars, {len(data['social'])} social")
-print(f"  demo : {len(data['people'])} people, {len(data['orgs'])} orgs, "
-      f"{len(data['meetings'])} meetings, {len(data['docs'])} docs, "
-      f"{len(data['notifications'])} notifications")
+print(f"  demo : {len(data['attendees'])} attendees, {len(data['orgs'])} orgs, "
+      f"{len(data['meetings'])} meetings, {len(data['connections'])} connections, "
+      f"{len(data['docs'])} docs, {len(data['notifications'])} notifications")
 print(f"  map  : {len(data['profileMap'])}/19 profile fields, {len(data['tracks'])} tracks")
 print(f"  self : {demo.SELF['n']} @ {demo.SELF['oid']}, {len(data['self']['reg'])} seeded answers")

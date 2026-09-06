@@ -261,7 +261,7 @@ function seed(){
   return {
     days: JSON.parse(JSON.stringify(D.days)),
     speakers: JSON.parse(JSON.stringify(D.speakers)),
-    people: JSON.parse(JSON.stringify(D.people)),
+    attendees: JSON.parse(JSON.stringify(D.attendees)),
     orgs: JSON.parse(JSON.stringify(D.orgs)),
     fields: JSON.parse(JSON.stringify(D.registration.fields)),
     docs: JSON.parse(JSON.stringify(D.docs)),
@@ -281,42 +281,12 @@ function seed(){
          the registration form already asks. */
       connectPolicy: "opt-in"
     },
-    content: {
-      accommodation: D.info.accommodation || "",
-      visa: D.info.visa || "",
-      transportation: D.info.transportation || ""
-    },
-    rsvps: sampleRsvps()
+
+    conns: JSON.parse(JSON.stringify(D.connections || [])),
+    meetings: JSON.parse(JSON.stringify(D.meetings || []))
   };
 }
 function persist(){ localStorage.setItem(KEY, JSON.stringify(S)); }
-function sampleRsvps(){
-  /* Wix does not expose the guest list to an anonymous token, so the roster below
-     is demo data. Everything scraped is marked as real throughout the console. */
-  var rows = [
-    ["Nguyễn Thu Hà","ha.nguyen@northwind.example.vn","Director of Project Finance",
-     "Northwind Energy VN","Viet Nam","confirmed","B","E",true],
-    ["Lara Weber","l.weber@alpinecapital.example.ch","Head of Emerging Markets",
-     "Alpine Capital Partners","Switzerland","confirmed","A","F",true],
-    ["Trần Minh Quân","quan.tran@lachhuyen.example.vn","Commercial Director",
-     "Lach Huyen Port Services","Viet Nam","pending","A","F",true],
-    ["Dr. Claudia Berger","c.berger@helvetiamedtech.example.ch","Head of Regulatory Affairs",
-     "Helvetia MedTech","Switzerland","confirmed","B","D",false],
-    ["Andreas Küng","a.kueng@bnam.example.vn","Chief Operating Officer",
-     "Bac Ninh Advanced Manufacturing","Viet Nam","confirmed","A","E",true],
-    ["Sofia Meier","s.meier@lemanai.example.ch","Co-founder & CTO",
-     "Léman AI","Switzerland","pending","C","E",false],
-    ["Lê Hoàng Yến","yen.le@mekonglegal.example.vn","Managing Partner",
-     "Mekong Legal Partners","Viet Nam","confirmed","C","F",false],
-    ["Phạm Xuân Bình","binh.pham@redriverlog.example.vn","Managing Director",
-     "Red River Logistics","Viet Nam","waitlist","A","F",true]
-  ];
-  return rows.map(function(r,i){
-    return {id:"r"+(i+1), name:r[0], email:r[1], role:r[2], org:r[3], country:r[4],
-            status:r[5], r1:r[6], r2:r[7], day3:r[8],
-            at:new Date(Date.now()-(i+1)*7.2e6).toISOString()};
-  });
-}
 function seedClaims(){
   /* Nothing self-approves. An attendee who could link themselves could attach their
      name to any sponsor on the list, which is exactly what the secretariat is for. */
@@ -332,18 +302,20 @@ function seedClaims(){
 
 /* ---------- helpers ---------- */
 function orgById(id){ return S.orgs.filter(function(o){ return o.id===id; })[0] || null; }
-function repsOf(id){ return S.people.filter(function(p){ return p.oid===id; }); }
+function repsOf(id){ return S.attendees.filter(function(p){ return p.oid===id; }); }
 function counts(){
   return {
     sessions: S.days.reduce(function(a,d){ return a+d.sessions.length; },0),
     tracks: S.days.reduce(function(a,d){
       return a+d.sessions.reduce(function(b,s){ return b+(s.tracks?s.tracks.length:0); },0); },0),
-    speakers: S.people.filter(function(p){ return p.speaker; }).length,
-    delegates: S.people.filter(function(p){ return !p.speaker; }).length,
-    inDir: S.people.filter(function(p){ return p.dir; }).length,
+    speakers: S.attendees.filter(function(p){ return p.speaker; }).length,
+    delegates: S.attendees.filter(function(p){ return !p.speaker; }).length,
+    inDir: S.attendees.filter(function(p){ return p.dir; }).length,
     orgs: S.orgs.length,
-    rsvps: S.rsvps.length,
-    confirmed: S.rsvps.filter(function(r){ return r.status==="confirmed"; }).length,
+    rsvps: S.attendees.filter(function(p){ return !p.speaker; }).length,
+    confirmed: S.attendees.filter(function(p){ return p.status==="confirmed"; }).length,
+    conns: (S.conns||[]).length,
+    connPending: (S.conns||[]).filter(function(c){ return c.state==="pending"; }).length,
     claims: S.claims.filter(function(c){ return c.state==="pending"; }).length,
     press: S.press.length, pressPub: S.press.filter(function(p){ return p.pub; }).length,
     photos: S.photos.length, photosPub: S.photos.filter(function(p){ return p.pub; }).length,
@@ -420,16 +392,16 @@ function issues(){
         ". Fix it in the Wix form, not here."});
 
   ["accommodation","visa","transportation"].forEach(function(k){
-    if(!S.content[k] || !S.content[k].trim())
+    if(!(D.info[k==="accommodation" ? "accommodation" : k] || "").trim())
       out.push({t:"No "+k+" content published",
         b:"The /events-"+(k==="accommodation"?"accomodation":k)+"/hanoi2026 page "+
           "resolves but the field is empty in the CMS, so the app shows a placeholder."});
   });
-  var spk = S.people.filter(function(p){ return p.speaker; }).length;
+  var spk = S.attendees.filter(function(p){ return p.speaker; }).length;
   if(spk < 10) out.push({t:"Only "+spk+" speakers linked to this event",
     b:"The Speakers collection holds "+D.meta.speakerPool+" records site wide, but only "+
       spk+" are linked to HANOI2026. The Zurich 2026 edition links 42."});
-  var noDir = S.people.filter(function(p){ return !p.speaker && !p.dir; }).length;
+  var noDir = S.attendees.filter(function(p){ return !p.speaker && !p.dir; }).length;
   if(noDir) out.push({t:noDir+" delegates opted out of the directory",
     b:"They answered “No, please keep my details private” on the registration form, "+
       "so they appear in this console but are not contactable in the app. That is "+
@@ -447,23 +419,19 @@ var VIEWS = [
   {id:"speakers", label:"Speakers", icon:I.mic, title:"Speakers",
    sub:"Linked to HANOI2026 only"},
   {g:"People"},
-  {id:"delegates", label:"Delegates", icon:I.users, title:"Delegates",
-   sub:"The directory the app reads, and who opted into it"},
+  {id:"attendees", label:"Attendees", icon:I.users, title:"Attendees",
+   sub:"Everyone registered for this event, and how they are getting on"},
   {id:"orgs", label:"Organisations", icon:I.bldg, title:"Organisations",
    sub:"Business profiles and the claims waiting on you"},
-  {id:"rsvps", label:"Registrations", icon:I.form, title:"Registrations",
-   sub:"RSVP responses for this event"},
-  {id:"form", label:"RSVP form", icon:I.form, title:"RSVP form",
-   sub:"The live registration form, field by field"},
+  {id:"connections", label:"Connections", icon:I.net, title:"Connections",
+   sub:"Who is trying to reach whom, and who is meeting"},
   {g:"Content"},
   {id:"media", label:"Gallery & press", icon:I.img, title:"Gallery and press",
    sub:"What the app's Media tab shows"},
   {id:"docs", label:"Documents", icon:I.doc, title:"Documents",
-   sub:"The delegate document library"},
-  {id:"content", label:"Delegate info", icon:I.doc, title:"Delegate information",
-   sub:"Accommodation, visa and transport pages"},
+   sub:"The attendee document library"},
   {id:"notify", label:"Notifications", icon:I.bell, title:"Notifications",
-   sub:"What lands on a delegate's phone"},
+   sub:"What lands on an attendee's phone"},
   {g:"Setup"},
   {id:"network", label:"Networking", icon:I.net, title:"Networking rules",
    sub:"Who may connect with whom, and how"},
@@ -480,12 +448,12 @@ function dashHTML(){
   h += '<div class="grid g4">';
   h += kpi(c.sessions,"Programme sessions","good");
   h += kpi(c.speakers,"Speakers linked", c.speakers<10?"warn":"good");
-  h += kpi(c.rsvps,"Registrations","good");
+  h += kpi(c.rsvps,"Attendees","good");
   h += kpi(c.issues,"Data issues", c.issues?"warn":"good");
   h += '</div>';
   h += '<div class="grid g4" style="margin-top:14px">';
-  h += kpi(c.delegates,"Delegates in the app","");
-  h += kpi(c.inDir,"Opted into the directory", c.inDir<c.delegates?"warn":"good");
+  h += kpi(c.conns,"Connection requests", c.connPending?"warn":"good");
+  h += kpi(c.inDir,"In the attendee directory","");
   h += kpi(c.orgs,"Organisations","");
   h += kpi(c.claims,"Claims awaiting review", c.claims?"warn":"good");
   h += '</div>';
@@ -506,9 +474,10 @@ function dashHTML(){
   h += kv("State", '<span class="chip green">'+esc(S.settings.regStatus)+'</span>');
   h += kv("Opened", fdt(D.registration.opens));
   h += kv("Closes", fdt(S.settings.closes));
-  h += kv("Form fields", S.fields.length+" ("+
+  h += kv("Form fields", S.fields.length+" on the live form ("+
        S.fields.filter(function(f){ return f.required; }).length+" required)");
   h += kv("Confirmed", c.confirmed+" of "+c.rsvps);
+  h += kv("Connections", c.conns+" requests, "+c.connPending+" awaiting a reply");
   h += kv("Networking", '<span class="chip">'+esc(S.settings.connectPolicy)+'</span>');
   h += '</div></div>';
 
@@ -586,7 +555,7 @@ function agendaHTML(){
 
 /* ---- speakers ---- */
 function speakersHTML(){
-  var spk = S.people.filter(function(p){ return p.speaker; });
+  var spk = S.attendees.filter(function(p){ return p.speaker; });
   var h = '<div class="card"><h3>Speakers linked to '+esc(E.code)+' ('+spk.length+')'+
     '<span class="sp"><button class="btn sm" data-newspk="1">'+ico(I.plus)+
     'Add speaker</button></span></h3>';
@@ -610,47 +579,81 @@ function speakersHTML(){
   return h + '</div>' + srcHTML();
 }
 
-/* ---- delegates ---- */
-function delegatesHTML(){
-  var c = counts();
-  var del = S.people.filter(function(p){ return !p.speaker; });
+/* ---- attendees: the roster and the registration are one record ---- */
+function attendeesHTML(){
+  var att = S.attendees.filter(function(p){ return !p.speaker; });
+  var live = att.filter(function(p){ return p.status!=="declined"; });
   var h = '<div class="grid g4">';
-  h += kpi(del.length,"Delegates","");
-  h += kpi(del.filter(function(p){ return p.dir; }).length,"In the directory","good");
-  h += kpi(del.filter(function(p){ return !p.dir; }).length,"Opted out",
-       del.some(function(p){ return !p.dir; })?"warn":"");
-  h += kpi(new Set(del.map(function(p){ return p.oid; })).size,"Organisations represented","");
+  h += kpi(att.length,"Attendees","");
+  h += kpi(att.filter(function(p){ return p.status==="confirmed"; }).length,"Confirmed","good");
+  h += kpi(att.filter(function(p){ return p.status==="pending"; }).length,"Pending review",
+       att.some(function(p){ return p.status==="pending"; })?"warn":"");
+  h += kpi(live.filter(function(p){ return p.dir; }).length,"In the directory","");
   h += '</div>';
 
-  h += '<div class="card" style="margin-top:14px"><h3>Delegate directory ('+del.length+')'+
-    '<span class="sp"><button class="btn ghost sm" id="csvdel">'+ico(I.down)+
+  /* Headcount per parallel session is the number the venue actually needs, and it
+     comes from the two "Parallel Session Round" answers on the live RSVP form. */
+  var tally = {}, day3 = 0;
+  live.forEach(function(p){
+    (p.picks||[]).forEach(function(L){ tally[L] = (tally[L]||0)+1; });
+    if(p.day3) day3++;
+  });
+  h += '<div class="card" style="margin-top:14px"><h3>Parallel session headcount</h3>';
+  h += '<table><thead><tr><th style="width:1%">Track</th><th>Session</th><th>Round</th>'+
+       '<th style="width:1%">Attendees</th></tr></thead><tbody>';
+  Object.keys(D.tracks).sort().forEach(function(L){
+    var tr = D.tracks[L];
+    h += '<tr><td><span class="chip navy">'+esc(L)+'</span></td><td>'+esc(tr.title)+'</td>'+
+      '<td class="mono">'+esc(tr.start||"")+(tr.end?" – "+esc(tr.end):"")+'</td>'+
+      '<td class="mono"><b>'+(tally[L]||0)+'</b></td></tr>';
+  });
+  h += '<tr><td><span class="chip">D3</span></td><td>Day 3 field visit</td>'+
+    '<td class="mono">optional</td><td class="mono"><b>'+day3+'</b></td></tr>';
+  h += '</tbody></table><div class="readonly">Declined registrations are excluded. See '+
+    'Data health: the RSVP form and the agenda do not name every session identically, '+
+    'which will skew this table until they match.</div></div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Attendees ('+att.length+')'+
+    '<span class="sp"><button class="btn ghost sm" id="csvatt">'+ico(I.down)+
     'Export CSV</button><button class="btn sm" data-newperson="1">'+ico(I.plus)+
-    'Add delegate</button></span></h3>';
-  h += '<table><thead><tr><th style="width:30%">Delegate</th><th>Organisation</th>'+
-       '<th>Focus</th><th>Session picks</th><th>Tier</th><th>Directory</th>'+
-       '<th style="width:1%"></th></tr></thead><tbody>';
-  del.forEach(function(p){
+    'Add attendee</button></span></h3>';
+  h += '<table><thead><tr><th style="width:26%">Attendee</th><th>Organisation</th>'+
+       '<th>Focus</th><th>Picks</th><th>Tier</th><th>Directory</th><th>Received</th>'+
+       '<th>Status</th><th style="width:1%"></th></tr></thead><tbody>';
+  att.forEach(function(p){
     var o = orgById(p.oid);
     h += '<tr><td><div class="pv">'+avatar(p)+'<div><b>'+esc(p.n)+'</b>'+
-      (p.demo?' <span class="demo">demo</span>':'')+
-      '<div style="font-size:12px;color:var(--muted)">'+esc(tx(p.t))+'</div></div></div></td>';
-    h += '<td>'+(o?esc(o.n):"—")+'</td>';
+      (p.self?' <span class="chip green">demo user</span>':'')+
+      '<div style="font-size:12px;color:var(--muted)">'+esc(tx(p.t))+'</div>'+
+      '<div style="font-size:11.5px;color:var(--muted)">'+esc(p.email||"")+'</div>'+
+      '</div></div></td>';
+    h += '<td>'+(o?esc(o.n):"—")+'<div style="font-size:11.5px;color:var(--muted)">'+
+      esc(p.country||"")+'</div></td>';
     h += '<td>'+esc(tx(D.taxonomy.industries[p.ind]))+'</td>';
     h += '<td class="mono">'+((p.picks||[]).join(", ")||"—")+
-      (p.day3?' <span class="chip">Day 3</span>':'')+'</td>';
+      (p.day3?' <span class="chip">D3</span>':'')+'</td>';
     h += '<td><span class="chip'+(((D.taxonomy.tiers[p.tier]||{}).rank||1)>=3?" gold":"")+'">'+
       esc(tx(D.taxonomy.tiers[p.tier]))+'</span></td>';
     h += '<td><label style="display:inline-flex;gap:6px;align-items:center;cursor:pointer;'+
       'font-size:12.5px"><input type="checkbox" data-dir="'+p.id+'"'+(p.dir?" checked":"")+
       ' style="accent-color:var(--hanoi)">'+(p.dir?"Listed":"Hidden")+'</label></td>';
+    h += '<td class="mono">'+fdt(p.received)+'</td>';
+    h += '<td><select data-rst="'+p.id+'" style="border:1px solid var(--line);font:inherit;'+
+      'font-size:12px;padding:4px 6px;background:var(--card)">'+
+      ["confirmed","pending","waitlist","declined"].map(function(o2){
+        return '<option'+(o2===p.status?" selected":"")+'>'+o2+'</option>'; }).join("")+
+      '</select></td>';
     h += '<td><button class="btn ghost sm" data-editperson="'+p.id+'">'+ico(I.edit)+
       'Edit</button></td></tr>';
   });
   h += '</tbody></table>';
-  h += '<div class="readonly"><b>Directory opt-in is the delegate\'s answer, not a '+
+  h += '<div class="readonly"><b>Directory listing is the attendee\'s own answer, not a '+
     'setting you own.</b> It comes from “Would you like to be featured in the SVEF 2026 '+
-    'Delegates Directory?” on the registration form. Overriding it here changes what the '+
-    'app shows, so only do it when a delegate has asked you to.</div>';
+    'Delegates Directory?” on the registration form. Overriding it changes what the app '+
+    'shows other attendees, so only do it when they have asked you to.</div>';
+  h += '<div class="readonly"><b>Demo data.</b> Wix does not expose an event guest list '+
+    'to an anonymous site token, so this roster is invented. The form these answers come '+
+    'from, and the sessions they pick, are the real ones.</div>';
   return h + '</div>' + srcHTML();
 }
 
@@ -662,9 +665,9 @@ function orgsHTML(){
     h += '<div class="card" style="margin-bottom:14px"><h3>Organisation claims awaiting '+
       'review ('+pend.length+')</h3>';
     h += '<div class="readonly" style="margin:0 0 12px"><b>Nothing self-approves.</b> '+
-      'A delegate who could link themselves could attach their name to any sponsor on '+
+      'A attendee who could link themselves could attach their name to any sponsor on '+
       'the list, which is exactly what the secretariat is there to prevent.</div>';
-    h += '<table><thead><tr><th>Delegate</th><th>Typed at registration</th>'+
+    h += '<table><thead><tr><th>Attendee</th><th>Typed at registration</th>'+
          '<th>Matched to</th><th>Received</th><th style="width:1%"></th></tr></thead><tbody>';
     pend.forEach(function(c){
       var o = orgById(c.oid);
@@ -712,101 +715,64 @@ function orgsHTML(){
   return h + '</div>' + srcHTML();
 }
 
-/* ---- registrations ---- */
-function rsvpsHTML(){
-  var c = counts();
+/* ---- connections: who is trying to reach whom ---- */
+function attById(id){
+  return S.attendees.filter(function(p){ return p.id===+id; })[0] || null;
+}
+function whoCell(p){
+  if(!p) return '<span class="chip">unknown</span>';
+  var o = orgById(p.oid);
+  return '<div class="pv">'+avatar(p)+'<div><b>'+esc(p.n)+'</b>'+
+    '<div style="font-size:12px;color:var(--muted)">'+(o?esc(o.n):esc(tx(p.t)))+
+    '</div></div></div>';
+}
+function connectionsHTML(){
+  var cs = S.conns, ms = S.meetings;
+  var cState = {linked:"green", pending:"gold", declined:"", blocked:"red"};
+  var mState = {confirmed:"green", pending:"gold", declined:"", cancelled:"red"};
   var h = '<div class="grid g4">';
-  h += kpi(c.rsvps,"Total responses","");
-  h += kpi(c.confirmed,"Confirmed","good");
-  h += kpi(S.rsvps.filter(function(r){ return r.status==="pending"; }).length,
-       "Pending review","warn");
-  h += kpi(S.rsvps.filter(function(r){ return r.day3; }).length,"Joining Day 3","");
+  h += kpi(cs.filter(function(c){ return c.state==="linked"; }).length,"Connected","good");
+  h += kpi(cs.filter(function(c){ return c.state==="pending"; }).length,"Awaiting a reply","warn");
+  h += kpi(ms.filter(function(m){ return m.status==="confirmed"; }).length,"Meetings confirmed","good");
+  h += kpi(cs.filter(function(c){ return c.state==="blocked"; }).length,"Blocked",
+       cs.some(function(c){ return c.state==="blocked"; })?"warn":"");
   h += '</div>';
 
-  /* Headcount per parallel session is the number the venue actually needs. */
-  var tally = {};
-  S.rsvps.forEach(function(r){
-    [r.r1,r.r2].forEach(function(L){ if(L) tally[L] = (tally[L]||0)+1; });
-  });
-  h += '<div class="card" style="margin-top:14px"><h3>Parallel session headcount</h3>';
-  h += '<table><thead><tr><th style="width:1%">Track</th><th>Session</th><th>Round</th>'+
-       '<th style="width:1%">Delegates</th></tr></thead><tbody>';
-  Object.keys(D.tracks).sort().forEach(function(L){
-    var tr = D.tracks[L];
-    h += '<tr><td><span class="chip navy">'+esc(L)+'</span></td><td>'+esc(tr.title)+'</td>'+
-      '<td class="mono">'+esc(tr.start||"")+(tr.end?" – "+esc(tr.end):"")+'</td>'+
-      '<td class="mono"><b>'+(tally[L]||0)+'</b></td></tr>';
-  });
-  h += '</tbody></table>'+
-    '<div class="readonly">Picks come from the two “Parallel Session Round” questions on '+
-    'the live RSVP form. See Data health: the form and the agenda do not name every '+
-    'session identically, which will skew this table until they match.</div></div>';
-
-  h += '<div class="card" style="margin-top:14px"><h3>RSVP responses'+
-    '<span class="sp"><button class="btn ghost sm" id="csv">'+ico(I.down)+
+  h += '<div class="card" style="margin-top:14px"><h3>Connection requests ('+cs.length+')'+
+    '<span class="sp"><button class="btn ghost sm" id="csvconn">'+ico(I.down)+
     'Export CSV</button></span></h3>';
-  h += '<table><thead><tr><th>Name</th><th>Organisation</th><th>Country</th>'+
-       '<th>Picks</th><th>Day 3</th><th>Received</th><th>Status</th></tr></thead><tbody>';
-  S.rsvps.forEach(function(r){
-    h += '<tr><td><b>'+esc(r.name)+'</b><div style="font-size:12px;color:var(--muted)">'+
-      esc(r.email)+'</div></td><td>'+esc(r.org)+'</td><td>'+esc(r.country)+'</td>'+
-      '<td class="mono">'+esc([r.r1,r.r2].filter(Boolean).join(", "))+'</td>'+
-      '<td>'+(r.day3?'<span class="chip green">Yes</span>':'<span class="chip">No</span>')+'</td>'+
-      '<td class="mono">'+fdt(r.at)+'</td>'+
-      '<td><select data-rst="'+esc(r.id)+'" style="border:1px solid var(--line);font:inherit;'+
-      'font-size:12px;padding:4px 6px;background:var(--card)">'+
-      ["confirmed","pending","waitlist","declined"].map(function(o){
-        return '<option'+(o===r.status?" selected":"")+'>'+o+'</option>'; }).join("")+
-      '</select></td></tr>';
-  });
-  h += '</tbody></table>';
-  h += '<div class="readonly"><b>Note.</b> Wix does not expose an event guest list to an '+
-    'anonymous site token, so these rows are demo data. The form they answer, and the '+
-    'sessions they pick, are the real ones.</div></div>';
-  return h + srcHTML();
-}
-
-/* ---- RSVP form ---- */
-function formHTML(){
-  var h = '<div class="card"><h3>Live RSVP form ('+S.fields.length+' fields)'+
-    '<span class="sp"><a class="btn ghost sm" href="'+esc(E.registerUrl)+
-    '" target="_blank" rel="noopener">'+ico(I.ext)+'Open on the live site</a></span></h3>';
-  h += '<table><thead><tr><th style="width:1%">#</th><th style="width:38%">Label</th>'+
-       '<th>Control</th><th>Options</th><th>Required</th><th>Feeds</th>'+
+  h += '<div class="readonly" style="margin:0 0 12px">A request carries the message the '+
+    'sender wrote, which is what the recipient reads before accepting. Read it before '+
+    'acting on a report: it is usually the whole story.</div>';
+  h += '<table><thead><tr><th style="width:22%">From</th><th style="width:22%">To</th>'+
+       '<th>Message</th><th>Sent</th><th>State</th><th style="width:1%"></th>'+
        '</tr></thead><tbody>';
-  var feeds = {};
-  Object.keys(D.profileMap||{}).forEach(function(k){ feeds[D.profileMap[k]] = k; });
-  var LABELS = {firstName:"Profile name", lastName:"Profile name", email:"Profile email",
-    phone:"Profile phone", country:"Profile country", jobTitle:"Profile role",
-    org:"Business profile", sectors:"Profile focus", round1:"My agenda",
-    round2:"My agenda", day3:"My agenda", membership:"Tier", directory:"Directory opt-in",
-    support:"Ops", sponsor:"Sales", dietary:"Ops", questions:"Ops",
-    delegation:"Ops", sectorOther:"Profile focus"};
-  S.fields.forEach(function(f,i){
-    h += '<tr><td class="mono">'+(i+1)+'</td><td><b>'+esc(f.label)+'</b>'+
-      '<div style="font-size:11.5px;color:var(--muted)" class="mono">'+esc(f.id)+'</div></td>'+
-      '<td>'+esc(f.control)+'</td>'+
-      '<td>'+((f.options||[]).length?(f.options.length+" options"):"–")+'</td>'+
-      '<td><label style="display:inline-flex;gap:6px;align-items:center;font-size:12.5px;'+
-      'cursor:pointer"><input type="checkbox" data-req="'+esc(f.id)+'"'+
-      (f.required?" checked":"")+' style="accent-color:var(--hanoi)">'+
-      (f.required?"Required":"Optional")+'</label></td>'+
-      '<td>'+(feeds[f.id]
-        ? '<span class="chip green">'+esc(LABELS[feeds[f.id]]||feeds[f.id])+'</span>'
-        : '<span class="chip">unused</span>')+'</td></tr>';
+  cs.slice().sort(function(a,b){ return (b.at||"").localeCompare(a.at||""); })
+    .forEach(function(c,i){
+    h += '<tr><td>'+whoCell(attById(c.a))+'</td><td>'+whoCell(attById(c.b))+'</td>'+
+      '<td>'+(c.msg?esc(c.msg):'<span style="color:var(--muted)">no message</span>')+'</td>'+
+      '<td class="mono">'+fdt(c.at)+'</td>'+
+      '<td><span class="chip '+(cState[c.state]||"")+'">'+esc(c.state)+'</span></td>'+
+      '<td>'+(c.state==="blocked" ? "" :
+        '<button class="btn ghost sm" data-block="'+c.a+'|'+c.b+'">Block</button>')+
+      '</td></tr>';
+  });
+  h += '</tbody></table></div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Meeting requests ('+ms.length+')</h3>';
+  h += '<table><thead><tr><th style="width:22%">Requested by</th><th style="width:22%">With</th>'+
+       '<th>When</th><th>Where</th><th>Sent</th><th>State</th></tr></thead><tbody>';
+  ms.slice().sort(function(a,b){ return (b.created||"").localeCompare(a.created||""); })
+    .forEach(function(m){
+    h += '<tr><td>'+whoCell(attById(m.a))+'</td><td>'+whoCell(attById(m.b))+'</td>'+
+      '<td class="mono">Day '+m.day+' · '+esc(m.time)+'</td>'+
+      '<td>'+(m.place?esc(tx(m.place)):'<span style="color:var(--muted)">not set</span>')+'</td>'+
+      '<td class="mono">'+fdt(m.created)+'</td>'+
+      '<td><span class="chip '+(mState[m.status]||"")+'">'+esc(m.status)+'</span></td></tr>';
   });
   h += '</tbody></table>';
-  h += '<div class="readonly"><b>Feeds</b> shows where each answer lands in the delegate '+
-    'app. The mapping is resolved by field LABEL when the site is scraped, not by the '+
-    'custom-* id, because Wix regenerates those ids whenever a question is edited and a '+
-    'stale id would silently produce an empty profile.</div>';
-  var conf = D.registration.confirmation || {};
-  if(conf.title){
-    h += '<h3 style="margin-top:22px">Confirmation message</h3>';
-    h += '<div class="fld"><label>Title</label><input value="'+esc(conf.title)+'"></div>';
-    h += '<div class="fld"><label>Body</label><textarea>'+esc(conf.message||"")+'</textarea>'+
-      '<div class="hint">This is the exact wording the live event sends today.</div></div>';
-  }
+  h += '<div class="readonly">Slots are the gaps in the real Day 2 programme, so a '+
+    'confirmed meeting never lands inside a session.</div>';
   return h + '</div>' + srcHTML();
 }
 
@@ -881,41 +847,6 @@ function docsHTML(){
     'documents on the website, so there is nothing to scrape. The list shows what the '+
     'library screen looks like once real files are uploaded.</div>';
   return h + '</div>' + srcHTML();
-}
-
-/* ---- delegate info ---- */
-function contentHTML(){
-  var pages = [
-    ["accommodation","Accommodation","/events-accomodation/hanoi2026"],
-    ["visa","Visa and entry","/events-visa/hanoi2026"],
-    ["transportation","Transport","/events-transportation/hanoi2026"]
-  ];
-  var h = "";
-  pages.forEach(function(p){
-    var v = S.content[p[0]] || "";
-    h += '<div class="card" style="margin-bottom:14px"><h3>'+esc(p[1])+'<span class="sp">'+
-      (v.trim()?'<span class="chip green">Published</span>'
-        :'<span class="chip gold">Empty on the live site</span>')+'</span></h3>';
-    h += '<div class="fld"><textarea data-content="'+p[0]+'" placeholder="Nothing '+
-      'published yet. Type here to draft the delegate-facing copy.">'+esc(v)+'</textarea>'+
-      '<div class="hint">Live page: <a href="'+esc(E.siteUrl+p[2])+'" target="_blank" '+
-      'rel="noopener">'+esc(p[2])+'</a>. The route resolves but the CMS field is empty, '+
-      'so the app shows a placeholder.</div></div></div>';
-  });
-  var ov = D.overview || {};
-  h += '<div class="card"><h3>Scraped from the event home page</h3>';
-  h += kv("Strategic vision", ov.vision ? (esc(ov.vision.slice(0,120))+"…") : "—");
-  h += kv("What to expect", (ov.expect||[]).length+" blocks");
-  h += kv("Thematic pillars", (ov.pillars||[]).length+" pillars");
-  h += kv("Objectives", (ov.objectives||[]).length+" objectives");
-  h += kv("Venue copy", ov.venue ? (esc(ov.venue.slice(0,100))+"…") : "—");
-  h += kv("Contacts", ((ov.contact||{}).offices||[]).length+" offices, "+
-       ((ov.contact||{}).email||"no email"));
-  h += kv("Social", (D.social||[]).map(function(s){ return esc(s.net); }).join(", ")||"—");
-  h += '<div class="readonly">These blocks are read straight off the home page markup, '+
-    'because they are laid out in the Wix editor rather than held in the CMS. They '+
-    'refresh on the next scrape; editing them here would be overwritten.</div></div>';
-  return h + srcHTML();
 }
 
 /* ---- notifications ---- */
@@ -1048,7 +979,7 @@ function settingsHTML(){
     D.registration.fields.length+" form fields");
   h += kv("Demo records", D.people.filter(function(p){ return p.demo; }).length+
     " delegates, "+D.orgs.filter(function(o){ return o.demo; }).length+" organisations, "+
-    D.docs.length+" documents, "+S.rsvps.length+" registrations");
+    D.docs.length+" documents, "+(D.connections||[]).length+" connection requests");
   h += '<div class="bar2"><button class="btn ghost" id="revert">Revert to scraped source'+
     '</button></div></div>';
   return h + srcHTML();
@@ -1066,13 +997,14 @@ function srcHTML(){
    ========================================================================= */
 function render(){
   var c = counts();
-  var nums = {agenda:c.sessions, speakers:c.speakers, delegates:c.delegates,
-    orgs:c.claims ? c.claims : c.orgs, rsvps:c.rsvps, form:S.fields.length,
+  var nums = {agenda:c.sessions, speakers:c.speakers, attendees:c.rsvps,
+    orgs:c.claims ? c.claims : c.orgs, connections:c.conns,
     media:c.photos+c.press, docs:c.docs, notify:c.notifs, health:c.issues};
   el("nav").innerHTML = VIEWS.map(function(v){
     if(v.g) return '<div class="grp">'+esc(v.g)+'</div>';
     var n = nums[v.id];
-    var alert = (v.id==="orgs" && c.claims) || (v.id==="health" && c.issues);
+    var alert = (v.id==="orgs" && c.claims) || (v.id==="health" && c.issues) ||
+                (v.id==="connections" && c.connPending);
     return '<button data-go="'+v.id+'" aria-current="'+(view===v.id)+'">'+ico(v.icon)+
       '<span>'+esc(v.label)+'</span>'+
       (n!==undefined ? '<span class="n'+(alert?" alert":"")+'">'+n+'</span>' : '')+'</button>';
@@ -1087,8 +1019,8 @@ function render(){
   el("branddates").textContent = S.settings.displayDates+" · "+S.settings.city;
   el("railfoot").innerHTML = "Scoped to "+esc(E.code)+" only.<br>No event switcher by design.";
   var body = {dash:dashHTML, agenda:agendaHTML, speakers:speakersHTML,
-    delegates:delegatesHTML, orgs:orgsHTML, rsvps:rsvpsHTML, form:formHTML,
-    media:mediaHTML, docs:docsHTML, content:contentHTML, notify:notifyHTML,
+    attendees:attendeesHTML, orgs:orgsHTML, connections:connectionsHTML,
+    media:mediaHTML, docs:docsHTML, notify:notifyHTML,
     network:networkHTML, health:healthHTML, settings:settingsHTML}[view];
   el("wrap").innerHTML = body ? body() : "";
   window.scrollTo(0,0);
@@ -1152,8 +1084,14 @@ document.addEventListener("click", function(ev){
     persist(); render(); toast("All photos published"); return;
   }
   if(ev.target.id==="n_send"){ sendNotif(); return; }
-  if(ev.target.id==="csv"){ exportCsv("rsvps"); return; }
-  if(ev.target.id==="csvdel"){ exportCsv("delegates"); return; }
+  if(ev.target.id==="csvatt"){ exportCsv("attendees"); return; }
+  if(ev.target.id==="csvconn"){ exportCsv("connections"); return; }
+  if((n = ev.target.closest("[data-block]"))){
+    var ab = n.getAttribute("data-block").split("|");
+    S.conns.forEach(function(c){
+      if(c.a===+ab[0] && c.b===+ab[1]) c.state = "blocked"; });
+    persist(); render(); toast("Connection blocked"); return;
+  }
   if(ev.target.id==="revert"){
     localStorage.removeItem(KEY); S = seed(); render();
     toast("Reverted to the scraped source"); return;
@@ -1165,16 +1103,14 @@ document.addEventListener("change", function(ev){
   var tg = ev.target, k;
   if((k = tg.getAttribute && tg.getAttribute("data-set"))){
     S.settings[k] = tg.value; persist(); render(); toast("Saved"); return; }
-  if((k = tg.getAttribute && tg.getAttribute("data-content"))){
-    S.content[k] = tg.value; persist(); toast("Saved"); return; }
   if((k = tg.getAttribute && tg.getAttribute("data-req"))){
     S.fields.forEach(function(f){ if(f.id===k) f.required = tg.checked; });
     persist(); render(); toast("Field updated"); return; }
   if((k = tg.getAttribute && tg.getAttribute("data-rst"))){
-    S.rsvps.forEach(function(r){ if(r.id===k) r.status = tg.value; });
+    S.attendees.forEach(function(p){ if(p.id===+k) p.status = tg.value; });
     persist(); render(); toast("Status updated"); return; }
   if((k = tg.getAttribute && tg.getAttribute("data-dir"))){
-    S.people.forEach(function(p){ if(p.id===+k) p.dir = tg.checked; });
+    S.attendees.forEach(function(p){ if(p.id===+k) p.dir = tg.checked; });
     persist(); render(); toast("Directory listing updated"); return; }
   if((k = tg.getAttribute && tg.getAttribute("data-pub"))){
     S.photos.forEach(function(p){ if(p.id===k) p.pub = tg.checked; });
@@ -1280,7 +1216,7 @@ function editDay(no){
   };
 }
 function editPerson(id, isSpeaker){
-  var p = id ? S.people.filter(function(x){ return x.id===id; })[0] : null;
+  var p = id ? S.attendees.filter(function(x){ return x.id===id; })[0] : null;
   var isNew = !p;
   if(isNew) p = {id:0, n:"", i:"", c:"#04723D", oid:"", ind:"fin", mkts:[], dir:true,
                  tier:"guest", speaker:!!isSpeaker, picks:[], day3:false,
@@ -1320,7 +1256,7 @@ function editPerson(id, isSpeaker){
   openDrawer(h);
   el("k_cancel").onclick = closeDrawer;
   if(el("k_del")) el("k_del").onclick = function(){
-    S.people = S.people.filter(function(x){ return x.id!==id; });
+    S.attendees = S.attendees.filter(function(x){ return x.id!==id; });
     persist(); closeDrawer(); render(); toast("Removed from this event");
   };
   el("k_save").onclick = function(){
@@ -1341,8 +1277,8 @@ function editPerson(id, isSpeaker){
       bio: {en: el("k_bio").value.trim(), vi: el("k_bio").value.trim()},
       h: p.h || {}
     };
-    if(isNew) S.people.push(rec);
-    else S.people = S.people.map(function(x){ return x.id===id ? rec : x; });
+    if(isNew) S.attendees.push(rec);
+    else S.attendees = S.attendees.map(function(x){ return x.id===id ? rec : x; });
     persist(); closeDrawer(); render(); toast(isNew?"Added":"Updated");
   };
 }
@@ -1442,22 +1378,26 @@ function sendNotif(){
 }
 function exportCsv(which){
   var head, rows, name;
-  if(which==="delegates"){
-    head = ["Name","Role","Organisation","Focus","Tier","Picks","Day 3","In directory"];
-    rows = S.people.filter(function(p){ return !p.speaker; }).map(function(p){
-      var o = orgById(p.oid);
-      return [p.n, tx(p.t), o?o.n:"", tx(D.taxonomy.industries[p.ind]),
-              tx(D.taxonomy.tiers[p.tier]), (p.picks||[]).join(" "), p.day3?"yes":"no",
-              p.dir?"yes":"no"];
+  if(which==="connections"){
+    head = ["From","From organisation","To","To organisation","Message","Sent","State"];
+    rows = S.conns.map(function(c){
+      var a = attById(c.a), b = attById(c.b);
+      return [a?a.n:c.a, a?((orgById(a.oid)||{}).n||"") : "",
+              b?b.n:c.b, b?((orgById(b.oid)||{}).n||"") : "",
+              c.msg||"", c.at||"", c.state];
     });
-    name = "delegates";
+    name = "connections";
   } else {
-    head = ["Name","Email","Role","Organisation","Country","Round 1","Round 2","Day 3",
-            "Status","Received"];
-    rows = S.rsvps.map(function(r){
-      return [r.name,r.email,r.role,r.org,r.country,r.r1,r.r2,r.day3?"yes":"no",
-              r.status,r.at]; });
-    name = "registrations";
+    head = ["Name","Email","Role","Organisation","Country","Focus","Tier","Picks",
+            "Day 3","In directory","Status","Received"];
+    rows = S.attendees.filter(function(p){ return !p.speaker; }).map(function(p){
+      var o = orgById(p.oid);
+      return [p.n, p.email||"", tx(p.t), o?o.n:"", p.country||"",
+              tx(D.taxonomy.industries[p.ind]), tx(D.taxonomy.tiers[p.tier]),
+              (p.picks||[]).join(" "), p.day3?"yes":"no", p.dir?"yes":"no",
+              p.status||"", p.received||""];
+    });
+    name = "attendees";
   }
   var csv = [head].concat(rows).map(function(r){
     return r.map(function(c){ return '"'+String(c==null?"":c).replace(/"/g,'""')+'"'; })
