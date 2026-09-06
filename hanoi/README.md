@@ -24,6 +24,9 @@ own leaves the logo missing.
 
 Live: `https://timothy-tt.github.io/SVEF/hanoi/` and `/hanoi/admin.html`.
 
+See `SCOPE.md` for what is in this build, what is deliberately out, and the two
+design decisions worth recording.
+
 ## Features
 
 Everyone in this build is an **attendee**, which is SVEF's own word: their form asks

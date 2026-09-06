@@ -315,6 +315,7 @@ function counts(){
     rsvps: S.attendees.filter(function(p){ return !p.speaker; }).length,
     confirmed: S.attendees.filter(function(p){ return p.status==="confirmed"; }).length,
     conns: (S.conns||[]).length,
+    arrived: S.attendees.filter(function(p){ return (p.arrived||[]).length; }).length,
     connPending: (S.conns||[]).filter(function(c){ return c.state==="pending"; }).length,
     claims: S.claims.filter(function(c){ return c.state==="pending"; }).length,
     press: S.press.length, pressPub: S.press.filter(function(p){ return p.pub; }).length,
@@ -401,6 +402,18 @@ function issues(){
   if(spk < 10) out.push({t:"Only "+spk+" speakers linked to this event",
     b:"The Speakers collection holds "+D.meta.speakerPool+" records site wide, but only "+
       spk+" are linked to HANOI2026. The Zurich 2026 edition links 42."});
+  var placed = 0, spkTotal = S.attendees.filter(function(p){ return p.speaker; }).length;
+  S.attendees.forEach(function(x){
+    if(!x.speaker) return;
+    if(S.days.some(function(d){ return d.sessions.some(function(y){
+      return (y.speakers||[]).indexOf(x.id)>-1; }); })) placed++;
+  });
+  out.push({t:"Speaker to session links are not in the CMS",
+    b:"The site holds the agenda as rich text and the speakers as a separate "+
+      "collection, with nothing joining them, so the "+placed+" of "+spkTotal+
+      " links this build shows were set in Programme by hand. A re-scrape will not "+
+      "restore them if they are cleared; ask SVEF to record the pairing at source."});
+
   var noDir = S.attendees.filter(function(p){ return !p.speaker && !p.dir; }).length;
   if(noDir) out.push({t:noDir+" delegates opted out of the directory",
     b:"They answered “No, please keep my details private” on the registration form, "+
@@ -424,7 +437,9 @@ var VIEWS = [
   {id:"orgs", label:"Organisations", icon:I.bldg, title:"Organisations",
    sub:"Business profiles and the claims waiting on you"},
   {id:"connections", label:"Connections", icon:I.net, title:"Connections",
-   sub:"Who is trying to reach whom, and who is meeting"},
+   sub:"Who is trying to reach whom, who is meeting, and the rules that govern it"},
+  {id:"checkin", label:"Check-in", icon:I.check, title:"Check-in desk",
+   sub:"Who has arrived, day by day"},
   {g:"Content"},
   {id:"media", label:"Gallery & press", icon:I.img, title:"Gallery and press",
    sub:"What the app's Media tab shows"},
@@ -433,14 +448,12 @@ var VIEWS = [
   {id:"notify", label:"Notifications", icon:I.bell, title:"Notifications",
    sub:"What lands on an attendee's phone"},
   {g:"Setup"},
-  {id:"network", label:"Networking", icon:I.net, title:"Networking rules",
-   sub:"Who may connect with whom, and how"},
   {id:"health", label:"Data health", icon:I.alert, title:"Data health",
    sub:"Where this event's record contradicts itself"},
   {id:"settings", label:"Event settings", icon:I.gear, title:"Event settings",
    sub:"Dates, venue and registration window"}
 ];
-var view = "dash", aday = 2, mediaTab = "gallery";
+var view = "dash", aday = 2, mediaTab = "gallery", ciQuery = "";
 
 /* ---- dashboard ---- */
 function dashHTML(){
@@ -559,18 +572,32 @@ function speakersHTML(){
   var h = '<div class="card"><h3>Speakers linked to '+esc(E.code)+' ('+spk.length+')'+
     '<span class="sp"><button class="btn sm" data-newspk="1">'+ico(I.plus)+
     'Add speaker</button></span></h3>';
-  h += '<table><thead><tr><th style="width:44%">Speaker</th><th>Role</th><th>Billing</th>'+
-       '<th style="width:1%"></th></tr></thead><tbody>';
+  h += '<table><thead><tr><th style="width:32%">Speaker</th><th>Role</th>'+
+       '<th>Speaking at</th><th style="width:1%"></th></tr></thead><tbody>';
   spk.forEach(function(s){
     h += '<tr><td><div class="pv">'+avatar(s)+'<div><b>'+esc(s.n)+'</b>'+
       '<div style="font-size:12px;color:var(--muted)">'+esc(tx(s.bio).slice(0,70))+
       (tx(s.bio).length>70?"…":"")+'</div></div></div></td>';
     h += '<td>'+esc(tx(s.t))+'</td>';
-    h += '<td><span class="chip gold">Keynote</span></td>';
+    var on = [];
+    S.days.forEach(function(d){ d.sessions.forEach(function(x){
+      if((x.speakers||[]).indexOf(s.id)>-1)
+        on.push("Day "+d.day+" · "+(x.start||"")+" "+x.title); }); });
+    h += '<td>'+(on.length
+      ? on.map(function(x){ return '<div style="font-size:12px">'+esc(x)+'</div>'; }).join("")
+      : '<span class="chip gold">not on the programme</span>')+'</td>';
     h += '<td><button class="btn ghost sm" data-editperson="'+s.id+'">'+ico(I.edit)+
       'Edit</button></td></tr>';
   });
   h += '</tbody></table>';
+  var unplaced = spk.filter(function(x){
+    return !S.days.some(function(d){ return d.sessions.some(function(y){
+      return (y.speakers||[]).indexOf(x.id)>-1; }); }); }).length;
+  if(unplaced)
+    h += '<div class="warn" style="margin-top:14px"><b>'+unplaced+' speaker'+
+      (unplaced>1?"s are":" is")+' not on the programme</b>The live site records no '+
+      'link between a speaker and a session, so this is set here by hand. Until it is, '+
+      'the agenda shows a session with nobody billed on it.</div>';
   if(spk.length < 10)
     h += '<div class="warn" style="margin-top:14px"><b>Roster is still thin</b>'+
       'Only '+spk.length+' speakers are linked to this event on the live site. The '+
@@ -772,7 +799,82 @@ function connectionsHTML(){
   });
   h += '</tbody></table>';
   h += '<div class="readonly">Slots are the gaps in the real Day 2 programme, so a '+
-    'confirmed meeting never lands inside a session.</div>';
+    'confirmed meeting never lands inside a session.</div></div>';
+  h += networkRulesHTML();
+  return h + srcHTML();
+}
+
+/* The rules that govern all of the above, kept on the same screen as the graph
+   they act on rather than a separate one nobody thinks to open. */
+function networkRulesHTML(){
+  var h = '<div class="card" style="margin-top:14px"><h3>Who may connect</h3>';
+  h += '<div class="readonly" style="margin:0 0 14px"><b>BRD 2.4 is unresolved.</b> '+
+    'Whether only members may book a meeting was never decided, so rather than guess '+
+    'it is a switch you set here. The default follows what the registration form '+
+    'already asks each attendee.</div>';
+  [["all","Everyone","Any registered attendee can connect with any other."],
+   ["members","Members and sponsors only",
+    "Guests can browse the directory but cannot send a request."],
+   ["opt-in","Whoever opted into the directory",
+    "Uses the attendee\'s own answer to “Would you like to be featured in the SVEF 2026 "+
+    "Delegates Directory?”. This is the default."]].forEach(function(o){
+    h += '<label class="sw"><span class="lb"><b>'+esc(o[1])+'</b><small>'+esc(o[2])+
+      '</small></span><input type="radio" name="cp" data-cp="'+o[0]+'"'+
+      (S.settings.connectPolicy===o[0]?" checked":"")+'></label>';
+  });
+  return h + '</div>';
+}
+
+/* ---- check-in desk ---- */
+function checkinHTML(){
+  var att = S.attendees.filter(function(p){ return p.status!=="declined"; });
+  var days = S.days.map(function(d){ return d.day; });
+  function inOn(p,d){ return (p.arrived||[]).indexOf(d)>-1; }
+  var h = '<div class="grid g4">';
+  days.forEach(function(d){
+    var n = att.filter(function(p){ return inOn(p,d); }).length;
+    h += kpi(n+" / "+att.length, "Arrived on day "+d, n?"good":"");
+  });
+  h += kpi(att.filter(function(p){ return !(p.arrived||[]).length; }).length,
+       "Never checked in", "warn");
+  h += '</div>';
+
+  h += '<div class="card" style="margin-top:14px"><h3>Check-in ('+att.length+' expected)'+
+    '<span class="sp"><button class="btn ghost sm" id="csvcheck">'+ico(I.down)+
+    'Export CSV</button><button class="btn sm" data-newperson="1">'+ico(I.plus)+
+    'Walk-in</button></span></h3>';
+  h += '<div class="fld" style="max-width:420px"><input id="ciq" type="text" '+
+    'placeholder="Search a name, organisation or email" value="'+esc(ciQuery)+'"></div>';
+  var q2 = ciQuery.toLowerCase();
+  var shown = att.filter(function(p){
+    if(!q2) return true;
+    var o = orgById(p.oid);
+    return (p.n+" "+(p.email||"")+" "+(o?o.n:"")).toLowerCase().indexOf(q2)>-1;
+  });
+  h += '<table><thead><tr><th style="width:34%">Attendee</th><th>Organisation</th>'+
+       '<th>Status</th>'+days.map(function(d){ return '<th style="width:1%">Day '+d+
+       '</th>'; }).join("")+'</tr></thead><tbody>';
+  shown.forEach(function(p){
+    var o = orgById(p.oid);
+    h += '<tr><td><div class="pv">'+avatar(p)+'<div><b>'+esc(p.n)+'</b>'+
+      '<div style="font-size:11.5px;color:var(--muted)">'+esc(p.email||"")+'</div>'+
+      '</div></div></td><td>'+(o?esc(o.n):"—")+'</td>'+
+      '<td><span class="chip'+(p.status==="confirmed"?" green":
+        (p.status==="waitlist"?" gold":""))+'">'+esc(p.status)+'</span></td>';
+    days.forEach(function(d){
+      h += '<td><label style="display:inline-flex;gap:6px;align-items:center;'+
+        'cursor:pointer;font-size:12.5px"><input type="checkbox" data-ci="'+p.id+'|'+d+'"'+
+        (inOn(p,d)?" checked":"")+' style="accent-color:var(--hanoi)"></label></td>';
+    });
+    h += '</tr>';
+  });
+  h += '</tbody></table>';
+  if(!shown.length) h += '<p style="margin:12px 0 0;color:var(--muted)">Nobody matches '+
+    'that search. Use Walk-in to add someone who registered on the door.</p>';
+  h += '<div class="readonly">The attendee app shows a badge with a QR block. It is '+
+    'not a scannable code and does not claim to be, so this desk works by search: a '+
+    'real build encodes the attendee id with a proper encoder and this table is what '+
+    'the scan would drive.</div>';
   return h + '</div>' + srcHTML();
 }
 
@@ -884,51 +986,6 @@ function notifyHTML(){
   return h + '</div>' + srcHTML();
 }
 
-/* ---- networking ---- */
-function networkHTML(){
-  var c = counts();
-  var h = '<div class="card"><h3>Who may connect</h3>';
-  h += '<div class="readonly" style="margin:0 0 14px"><b>BRD 2.4 is unresolved.</b> '+
-    'Whether only members may book a meeting was never decided, so rather than guess '+
-    'it is a switch you set here. The default follows what the registration form '+
-    'already asks each delegate.</div>';
-  [["all","Everyone","Any registered delegate can connect with any other."],
-   ["members","Members and sponsors only",
-    "Guests can browse the directory but cannot send a request."],
-   ["opt-in","Whoever opted into the directory",
-    "Uses the delegate's own answer to “Would you like to be featured in the SVEF 2026 "+
-    "Delegates Directory?”. This is the default."]].forEach(function(o){
-    h += '<label class="sw"><span class="lb"><b>'+esc(o[1])+'</b><small>'+esc(o[2])+
-      '</small></span><input type="radio" name="cp" data-cp="'+o[0]+'"'+
-      (S.settings.connectPolicy===o[0]?" checked":"")+'></label>';
-  });
-  h += '</div>';
-
-  h += '<div class="grid g4" style="margin-top:14px">';
-  h += kpi(c.inDir,"Contactable in the app","good");
-  h += kpi(c.delegates+c.speakers-c.inDir,"Listed but not contactable","warn");
-  h += kpi(D.slots.length,"Meeting slots per day","");
-  h += kpi(D.meetings.length,"Meetings in the demo","");
-  h += '</div>';
-
-  h += '<div class="card" style="margin-top:14px"><h3>Meeting slots</h3>';
-  h += '<div class="readonly" style="margin:0 0 12px">Slots are the gaps in the real '+
-    'Day 2 programme: the breaks between sessions, not invented times.</div>';
-  h += '<table><thead><tr><th style="width:1%">#</th><th>Slot</th><th>Sits between</th>'+
-       '</tr></thead><tbody>';
-  var d2 = S.days.filter(function(d){ return d.day===2; })[0] || {sessions:[]};
-  D.slots.forEach(function(s,i){
-    var start = s.split(/[–-]/)[0].trim();
-    var before = d2.sessions.filter(function(x){ return x.start && x.start <= start; }).pop();
-    var after = d2.sessions.filter(function(x){ return x.start && x.start > start; })[0];
-    h += '<tr><td class="mono">'+(i+1)+'</td><td class="mono"><b>'+esc(s)+'</b></td>'+
-      '<td>'+(before?esc(before.title):"—")+' &rarr; '+(after?esc(after.title):"—")+
-      '</td></tr>';
-  });
-  h += '</tbody></table></div>';
-  return h + srcHTML();
-}
-
 /* ---- data health ---- */
 function healthHTML(){
   var iss = issues();
@@ -998,7 +1055,7 @@ function srcHTML(){
 function render(){
   var c = counts();
   var nums = {agenda:c.sessions, speakers:c.speakers, attendees:c.rsvps,
-    orgs:c.claims ? c.claims : c.orgs, connections:c.conns,
+    orgs:c.claims ? c.claims : c.orgs, connections:c.conns, checkin:c.arrived,
     media:c.photos+c.press, docs:c.docs, notify:c.notifs, health:c.issues};
   el("nav").innerHTML = VIEWS.map(function(v){
     if(v.g) return '<div class="grp">'+esc(v.g)+'</div>';
@@ -1020,8 +1077,8 @@ function render(){
   el("railfoot").innerHTML = "Scoped to "+esc(E.code)+" only.<br>No event switcher by design.";
   var body = {dash:dashHTML, agenda:agendaHTML, speakers:speakersHTML,
     attendees:attendeesHTML, orgs:orgsHTML, connections:connectionsHTML,
-    media:mediaHTML, docs:docsHTML, notify:notifyHTML,
-    network:networkHTML, health:healthHTML, settings:settingsHTML}[view];
+    checkin:checkinHTML, media:mediaHTML, docs:docsHTML, notify:notifyHTML,
+    health:healthHTML, settings:settingsHTML}[view];
   el("wrap").innerHTML = body ? body() : "";
   window.scrollTo(0,0);
 }
@@ -1079,6 +1136,7 @@ document.addEventListener("click", function(ev){
     persist(); render();
     toast(a[0]==="approve" ? "Claim approved" : "Claim rejected"); return;
   }
+  if(ev.target.id==="csvcheck"){ exportCsv("checkin"); return; }
   if(ev.target.id==="pubAll"){
     S.photos.forEach(function(p){ p.pub = true; });
     persist(); render(); toast("All photos published"); return;
@@ -1099,8 +1157,29 @@ document.addEventListener("click", function(ev){
   if(ev.target.closest(".drawer") && !ev.target.closest(".drawer .in")) closeDrawer();
 });
 
+document.addEventListener("input", function(ev){
+  if(ev.target.id==="ciq"){
+    ciQuery = ev.target.value;
+    render();
+    var q = el("ciq");
+    if(q){ q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
+  }
+});
 document.addEventListener("change", function(ev){
   var tg = ev.target, k;
+  if((k = tg.getAttribute && tg.getAttribute("data-ci"))){
+    var ab = k.split("|"), pid = +ab[0], day = +ab[1];
+    S.attendees.forEach(function(p){
+      if(p.id!==pid) return;
+      p.arrived = p.arrived || [];
+      var i = p.arrived.indexOf(day);
+      if(tg.checked && i<0) p.arrived.push(day);
+      if(!tg.checked && i>-1) p.arrived.splice(i,1);
+    });
+    persist(); render();
+    toast(tg.checked ? "Checked in" : "Check-in undone");
+    return;
+  }
   if((k = tg.getAttribute && tg.getAttribute("data-set"))){
     S.settings[k] = tg.value; persist(); render(); toast("Saved"); return; }
   if((k = tg.getAttribute && tg.getAttribute("data-req"))){
@@ -1151,6 +1230,16 @@ function editSession(id, dayNo){
     '"></div>';
   h += '<div class="fld"><label>Detail (one line each)</label><textarea id="e_detail">'+
     esc((s.detail||[]).join("\n"))+'</textarea></div>';
+  var spkAll = S.attendees.filter(function(x){ return x.speaker; });
+  h += '<div class="fld"><label>Speakers on this item</label><div class="opts2">'+
+    spkAll.map(function(x){
+      return '<label class="sw" style="padding:8px 10px"><span class="lb">'+esc(x.n)+
+        '<small>'+esc(tx(x.t))+'</small></span>'+
+        '<input type="checkbox" class="e_spk" value="'+x.id+'"'+
+        ((s.speakers||[]).indexOf(x.id)>-1?" checked":"")+'></label>'; }).join("")+
+    '</div><div class="hint">The live site records no link between a speaker and a '+
+    'programme item: the agenda is rich text and the speakers are a separate '+
+    'collection. Whatever you set here is ours, not scraped.</div></div>';
   h += '<div class="fld"><label>Parallel tracks (one per line: '+
     '<span class="mono">A | Title | Summary</span>)</label><textarea id="e_tracks">'+
     esc((s.tracks||[]).map(function(t){
@@ -1169,6 +1258,8 @@ function editSession(id, dayNo){
       title: el("e_title").value.trim(), kind: el("e_kind").value,
       detail: el("e_detail").value.split("\n").map(function(x){ return x.trim(); })
                 .filter(Boolean),
+      speakers: [].slice.call(document.querySelectorAll(".e_spk:checked"))
+                  .map(function(x){ return +x.value; }),
       tracks: el("e_tracks").value.split("\n").map(function(l){ return l.trim(); })
         .filter(Boolean).map(function(l){
           var p = l.split("|").map(function(x){ return x.trim(); });
@@ -1378,7 +1469,18 @@ function sendNotif(){
 }
 function exportCsv(which){
   var head, rows, name;
-  if(which==="connections"){
+  if(which==="checkin"){
+    var days = S.days.map(function(d){ return d.day; });
+    head = ["Name","Email","Organisation","Status"].concat(
+      days.map(function(d){ return "Day "+d; }));
+    rows = S.attendees.filter(function(p){ return p.status!=="declined"; })
+      .map(function(p){
+        var o = orgById(p.oid);
+        return [p.n, p.email||"", o?o.n:"", p.status||""].concat(
+          days.map(function(d){ return (p.arrived||[]).indexOf(d)>-1 ? "yes" : ""; }));
+      });
+    name = "check-in";
+  } else if(which==="connections"){
     head = ["From","From organisation","To","To organisation","Message","Sent","State"];
     rows = S.conns.map(function(c){
       var a = attById(c.a), b = attById(c.b);

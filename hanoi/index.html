@@ -176,6 +176,11 @@ body{font-family:var(--sans);background:#0B1F16;color:var(--ink);font-size:15px;
 .kind.transfer{background:var(--gold-t);color:var(--gold-ink)}
 .kind.business{background:var(--green-t);color:var(--green-d)}
 .kind.culture{background:var(--red-t);color:var(--red-ink)}
+.av.xs{width:22px;height:22px;font-size:9px}
+.sesspk{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.sesspk-i{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);
+  background:var(--card);padding:3px 8px 3px 3px;font:inherit;font-size:11.5px;
+  font-weight:600;color:var(--ink-2);cursor:pointer}
 .rowtop{display:flex;align-items:flex-start;gap:8px}
 .rowtop > div{flex:1;min-width:0}
 .star{border:0;background:none;padding:6px;margin:-6px -6px -6px auto;cursor:pointer;
@@ -445,7 +450,7 @@ var T = {
   days:"days",hrs:"hrs",min:"min",sec:"sec",
   glance:"Programme at a glance",quick:"Quick links",day:"Day",
   venue:"Venue",tbd:"To be announced",
-  attendees:"Attendees",speakers:"Speakers",keynote:"Keynote",orgs:"Organisations",
+  attendees:"Attendees",speakingAt:"Speaking at",speakers:"Speakers",keynote:"Keynote",orgs:"Organisations",
   mine:"My network",press:"Press",gallery:"Gallery",documents:"Documents",
   notifications:"Notifications",messages:"Messages",meetings:"Meetings",
   profile:"Profile",business:"Business profile",privacy:"Visibility",
@@ -487,7 +492,6 @@ var T = {
   accommodation:"Accommodation",visa:"Visa & entry",transport:"Transport",
   notpub:"Not published on the event site yet. This section fills in automatically once SVEF adds the content.",
   openweb:"Open the event website",
-  demoData:"Demo data",
   pick:"Choose one",picked:"In my agenda",
   optionPick:"Choose this destination",optionPicked:"Chosen",
   optionCleared:"Choice cleared",
@@ -503,7 +507,6 @@ var T = {
   dirHidden:"Hidden from other delegates",dirStatus:"Directory status",
   seeProfile:"See my profile",unread:"unread",sessions:"sessions",
   photosNote:"Photos come from the gallery on the SVEF website. The Ha Noi 2026 edition has not happened yet, so these are from past editions.",
-  docsNote:"SVEF has not published any delegate documents on the website, so this list is demo data.",
   noFile:"No real file to download in the demo",
   copied:"Copied",connSent:"Connection request sent",mtgSent:"Meeting request sent",
   orgMatch:"The organisation you gave at registration matches a business profile on file.",
@@ -513,19 +516,17 @@ var T = {
   visEmail:"Show my email",visPhone:"Show my phone",visBio:"Show my bio",
   speakersNote:"SVEF has published {n} keynote speakers for the Ha Noi edition so far; this list fills in automatically as more are added.",
   dateNote:"Day dates are still being confirmed by SVEF: the event record reads 19–20 Oct while the published programme runs three days from 18 Oct.",
-  venueNote:"The exact venue is not announced yet. All three days read “Venue: to be updated” on the event site.",
-  demoPerson:"This attendee is demo data.",demoOrg:"This organisation is demo data.",
-  demoMtg:"Meetings are demo data.",openArticle:"Open article",
+  venueNote:"The exact venue is not announced yet. All three days read “Venue: to be updated” on the event site.",openArticle:"Open article",
   bio:"Short bio",fullName:"Full name",delegatesAndSpeakers:"attendees and speakers",
-  pressOnFile:"press items on file",photosPast:"photos from past editions",
-  docsTile:"briefings and delegate packs",meetingsTile:"requested and confirmed"
+  docsTile:"briefings and attendee packs",meetingsTile:"requested and confirmed",
+  messagesTile:"requests and conversations"
  },
  vi:{
   home:"Trang chủ",agenda:"Chương trình",connect:"Kết nối",media:"Truyền thông",me:"Cá nhân",
   days:"ngày",hrs:"giờ",min:"phút",sec:"giây",
   glance:"Tổng quan chương trình",quick:"Truy cập nhanh",day:"Ngày",
   venue:"Địa điểm",tbd:"Sẽ thông báo sau",
-  attendees:"Người tham dự",speakers:"Diễn giả",keynote:"Chính",orgs:"Tổ chức",
+  attendees:"Người tham dự",speakingAt:"Phát biểu tại",speakers:"Diễn giả",keynote:"Chính",orgs:"Tổ chức",
   mine:"Mạng lưới",press:"Báo chí",gallery:"Thư viện ảnh",documents:"Tài liệu",
   notifications:"Thông báo",messages:"Tin nhắn",meetings:"Lịch gặp",
   profile:"Hồ sơ",business:"Doanh nghiệp",privacy:"Hiển thị",
@@ -567,7 +568,6 @@ var T = {
   accommodation:"Lưu trú",visa:"Thị thực & nhập cảnh",transport:"Di chuyển",
   notpub:"Nội dung chưa được đăng trên website sự kiện. Mục này sẽ tự cập nhật khi SVEF bổ sung.",
   openweb:"Mở website sự kiện",
-  demoData:"Dữ liệu mẫu",
   pick:"Chọn một phiên",picked:"Đã lưu",
   optionPick:"Chọn điểm đến này",optionPicked:"Đã chọn",
   optionCleared:"Đã bỏ chọn",
@@ -583,7 +583,6 @@ var T = {
   dirHidden:"Đang ẩn với đại biểu khác",dirStatus:"Trạng thái danh bạ",
   seeProfile:"Xem hồ sơ của tôi",unread:"chưa đọc",sessions:"phiên",
   photosNote:"Ảnh lấy từ thư viện ảnh trên website SVEF. Kỳ Hà Nội 2026 chưa diễn ra nên đây là ảnh các kỳ trước.",
-  docsNote:"SVEF chưa đăng tài liệu đại biểu nào lên website, nên danh sách này là dữ liệu mẫu.",
   noFile:"Bản demo không có tệp thật để tải",
   copied:"Đã sao chép",connSent:"Đã gửi lời mời kết nối",mtgSent:"Đã gửi lời mời gặp",
   orgMatch:"Tổ chức bạn khai khi đăng ký khớp với một hồ sơ doanh nghiệp trên hệ thống.",
@@ -593,12 +592,10 @@ var T = {
   visEmail:"Hiện email",visPhone:"Hiện số điện thoại",visBio:"Hiện giới thiệu",
   speakersNote:"SVEF mới công bố {n} diễn giả chính cho kỳ Hà Nội; danh sách sẽ tự cập nhật khi có thêm.",
   dateNote:"Ngày cụ thể của từng ngày chương trình đang được SVEF xác nhận: hồ sơ sự kiện ghi 19–20/10, còn chương trình có ba ngày bắt đầu từ 18/10.",
-  venueNote:"Địa điểm cụ thể chưa được công bố. Cả ba ngày trên website sự kiện đều ghi “Venue: to be updated”.",
-  demoPerson:"Người tham dự này là dữ liệu mẫu.",demoOrg:"Tổ chức này là dữ liệu mẫu.",
-  demoMtg:"Lịch gặp là dữ liệu mẫu.",openArticle:"Mở bài viết",
+  venueNote:"Địa điểm cụ thể chưa được công bố. Cả ba ngày trên website sự kiện đều ghi “Venue: to be updated”.",openArticle:"Mở bài viết",
   bio:"Giới thiệu",fullName:"Họ và tên",delegatesAndSpeakers:"người tham dự và diễn giả",
-  pressOnFile:"bài đưa tin đã lưu",photosPast:"ảnh từ các kỳ trước",
-  docsTile:"tài liệu và cẩm nang đại biểu",meetingsTile:"đã gửi và đã xác nhận"
+  docsTile:"tài liệu và cẩm nang người tham dự",meetingsTile:"đã gửi và đã xác nhận",
+  messagesTile:"lời mời và cuộc trò chuyện"
  }
 };
 var lang = localStorage.getItem("svef.hanoi.lang") || "en";
@@ -1008,6 +1005,9 @@ function homeHTML(){
        PEOPLE.length+' '+t("delegatesAndSpeakers")+'</span></button>';
   h += '<button class="tile" data-media="docs">'+ico(I.doc)+'<b>'+t("documents")+'</b>'+
        '<span class="n">'+D.docs.length+'</span><span>'+t("docsTile")+'</span></button>';
+  h += '<button class="tile" data-go="messages">'+ico(I.chat)+'<b>'+t("messages")+'</b>'+
+       (msgUnread()?'<span class="n">'+msgUnread()+'</span>':'')+'<span>'+
+       t("messagesTile")+'</span></button>';
   h += '<button class="tile" data-go="meetings">'+ico(I.hand)+'<b>'+t("meetings")+'</b>'+
        '<span class="n">'+S.meetings.length+'</span><span>'+t("meetingsTile")+'</span></button>';
   h += '<button class="tile" data-go="info">'+ico(I.info)+'<b>'+t("practical")+'</b><span>'+
@@ -1029,6 +1029,12 @@ function sesHTML(s){
   h += '<h4>'+esc(s.title)+'</h4></div>';
   h += '<button class="star'+(S.saved.indexOf(s.id)>-1?" on":"")+'" data-star="'+esc(s.id)+
        '" aria-label="Save">'+ico(I.star)+'</button></div>';
+  var spk = (s.speakers||[]).map(personById).filter(Boolean);
+  if(spk.length){
+    h += '<div class="sesspk">'+spk.map(function(x){
+      return '<button class="sesspk-i" data-person="'+x.id+'">'+avHTML(x,"xs")+
+        '<span>'+esc(x.n)+'</span></button>'; }).join("")+'</div>';
+  }
   if(s.detail && s.detail.length){
     h += s.detail.length>1
       ? '<ul class="det">'+s.detail.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>'
@@ -1251,6 +1257,27 @@ function personHTML(){
     var tr = D.tracks[L];
     return esc(tr ? ("Session "+L+": "+tr.title) : L); }).join("<br>"));
   h += '</div></div>';
+
+  /* Where this person appears on the programme, resolved from the session links. */
+  var slots = [];
+  D.days.forEach(function(d){
+    d.sessions.forEach(function(x){
+      if((x.speakers||[]).indexOf(p.id)>-1) slots.push({d:d, s:x});
+    });
+  });
+  if(slots.length){
+    h += '<div class="sec"><h3>'+t("speakingAt")+' ('+slots.length+')</h3></div><div class="pad">';
+    slots.forEach(function(x){
+      h += '<button class="card" data-day="'+x.d.day+'" style="width:100%;text-align:left;'+
+        'font:inherit;cursor:pointer;display:block">'+
+        '<div style="font-size:11px;font-weight:700;color:var(--hanoi);letter-spacing:.08em">'+
+        t("day").toUpperCase()+' '+x.d.day+' · '+esc(x.s.start||"")+
+        (x.s.end?" – "+esc(x.s.end):"")+'</div>'+
+        '<div style="font-size:14px;font-weight:700;margin-top:3px">'+esc(x.s.title)+
+        '</div></button>';
+    });
+    h += '</div>';
+  }
 
   var hs = p.h || {};
   if(Object.keys(hs).length){
