@@ -343,7 +343,7 @@ function issues(){
   out.push({t:"Three sources disagree on the event dates",
     b:"The Wix Events record says "+E.start.slice(0,10)+" to "+E.end.slice(0,10)+
       ", its own tagline says “"+E.tagline+"”, and the CMS Events row still says "+
-      "2026-10-01 to 2026-10-03. This console and the delegate app use "+
+      "2026-10-01 to 2026-10-03. This console and the attendee app use "+
       S.settings.displayDates+". The programme has three days, which only fits an "+
       "18 to 20 October window. Confirm with SVEF and fix it at source."});
   var tbd = S.days.filter(function(d){
@@ -798,7 +798,7 @@ function mediaHTML(){
     });
     h += '</div><div class="readonly">Scraped from the gallery page on the SVEF website. '+
       'The Ha Noi 2026 edition has not happened yet, so these are photos of past editions; '+
-      'unpublishing them hides them from the delegate app.</div></div>';
+      'unpublishing them hides them from the attendee app.</div></div>';
     return h + srcHTML();
   }
 
@@ -948,7 +948,7 @@ function settingsHTML(){
   h += '<div class="warn"><b>Sources disagree</b>Wix Events record: '+
     esc(E.start.slice(0,10))+' to '+esc(E.end.slice(0,10))+'. Event tagline: “'+
     esc(E.tagline)+'”. CMS Events row: 2026-10-01 to 2026-10-03. The value below is '+
-    'what this console and the delegate app show.</div>';
+    'what this console and the attendee app show.</div>';
   h += '<div class="row" style="margin-top:14px">'+
     '<div class="fld"><label>Display dates</label><input data-set="displayDates" value="'+
     esc(s.displayDates)+'"></div><div class="fld"><label>Starts</label>'+
@@ -1014,7 +1014,7 @@ function render(){
   el("vs").textContent = v.sub;
   el("vactions").innerHTML =
     '<a class="btn ghost sm" href="index.html" target="_blank" rel="noopener">'+ico(I.eye)+
-    'Delegate app</a><a class="btn ghost sm" href="'+esc(E.eventUrl)+
+    'Attendee app</a><a class="btn ghost sm" href="'+esc(E.eventUrl)+
     '" target="_blank" rel="noopener">'+ico(I.ext)+'Live site</a>';
   el("branddates").textContent = S.settings.displayDates+" · "+S.settings.city;
   el("railfoot").innerHTML = "Scoped to "+esc(E.code)+" only.<br>No event switcher by design.";
