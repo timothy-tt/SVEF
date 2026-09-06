@@ -1,11 +1,11 @@
 /* SVEF Ha Noi 2026 — single-event dataset.
-   Scraped from https://hanoi2026.svef.ch on 2026-09-06T16:31:41Z by scrape.py.
+   Scraped from https://hanoi2026.svef.ch on 2026-09-06T19:02:39Z by scrape.py.
    Regenerate: python3 scrape.py && python3 mkdata.py <path>/data.js
    Do not hand-edit: every value below comes from the live site. */
 window.HANOI2026 = {
  "meta": {
   "source": "https://hanoi2026.svef.ch",
-  "scrapedAt": "2026-09-06T16:31:41Z",
+  "scrapedAt": "2026-09-06T19:02:39Z",
   "generator": "imt/svef/hanoi2026/scrape.py + mkdata.py",
   "speakerPool": 104,
   "linkedSpeakers": 3
@@ -326,7 +326,12 @@ window.HANOI2026 = {
       "Strategic alignment: cooperation priorities, ASEAN opportunities, and investment directions",
       "Preview of key Forum announcements and bilateral agenda for the days ahead"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": [
+      1,
+      2,
+      3
+     ]
     }
    ]
   },
@@ -348,7 +353,8 @@ window.HANOI2026 = {
      "title": "Registration & Exhibition",
      "kind": "session",
      "detail": [],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d2s2",
@@ -359,7 +365,10 @@ window.HANOI2026 = {
      "detail": [
       "Opening Keynote: From Signature to Implementation - What the FTA Means for Businesses Today"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": [
+      2
+     ]
     },
     {
      "id": "d2s3",
@@ -368,7 +377,10 @@ window.HANOI2026 = {
      "title": "High Level Policy Dialogue \"Opening the Door: From FTA Developments to Market Opportunity\"",
      "kind": "session",
      "detail": [],
-     "tracks": []
+     "tracks": [],
+     "speakers": [
+      1
+     ]
     },
     {
      "id": "d2s4",
@@ -379,7 +391,8 @@ window.HANOI2026 = {
      "detail": [
       "Capital Markets, Investment Flows & Financial Connectivity between Europe and ASEAN"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d2s5",
@@ -388,7 +401,8 @@ window.HANOI2026 = {
      "title": "Business Lunch & Executive Networking",
      "kind": "session",
      "detail": [],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d2s6",
@@ -399,7 +413,8 @@ window.HANOI2026 = {
      "detail": [
       "Building Smart Manufacturing, Resilient Supply Chains and Sustainable Industrial Partnerships in the Post-FTA Era"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d2s7",
@@ -426,7 +441,8 @@ window.HANOI2026 = {
        "title": "Innovation, AI & Digital Economy",
        "summary": "From Research to Market: Commercialising AI, Deep-Tech and Emerging Technologies"
       }
-     ]
+     ],
+     "speakers": []
     },
     {
      "id": "d2s8",
@@ -435,7 +451,8 @@ window.HANOI2026 = {
      "title": "Coffee Break",
      "kind": "session",
      "detail": [],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d2s9",
@@ -462,7 +479,8 @@ window.HANOI2026 = {
        "title": "Legal Framework & Market Entry",
        "summary": "Navigating Market Entry, Investment Structures and Legal Frameworks in the Post-FTA Era"
       }
-     ]
+     ],
+     "speakers": []
     },
     {
      "id": "d2s10",
@@ -471,7 +489,10 @@ window.HANOI2026 = {
      "title": "Closing Plenary: From Dialogue to Action",
      "kind": "session",
      "detail": [],
-     "tracks": []
+     "tracks": [],
+     "speakers": [
+      3
+     ]
     },
     {
      "id": "d2s11",
@@ -480,7 +501,8 @@ window.HANOI2026 = {
      "title": "Gala Dinner (optional)",
      "kind": "session",
      "detail": [],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     }
    ]
   },
@@ -502,7 +524,8 @@ window.HANOI2026 = {
       "90 min via Hanoi–Haiphong Expressway",
       "Briefing on board"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d3s2",
@@ -515,7 +538,8 @@ window.HANOI2026 = {
       "Briefing by Hải Phòng Economic Zone Authority",
       "Post-FTA investment and logistics discussion"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d3s3",
@@ -529,7 +553,8 @@ window.HANOI2026 = {
       "Post-FTA investment pipeline",
       "KBC industrial park briefing"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d3s4",
@@ -538,7 +563,8 @@ window.HANOI2026 = {
      "title": "Lunch at KBC",
      "kind": "culture",
      "detail": [],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d3s5",
@@ -549,7 +575,8 @@ window.HANOI2026 = {
      "detail": [
       "Cultural programme for delegates extending their stay"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d3s6",
@@ -560,7 +587,8 @@ window.HANOI2026 = {
      "detail": [
       "Arrival approx. 17:00"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     },
     {
      "id": "d3s7",
@@ -572,7 +600,8 @@ window.HANOI2026 = {
       "SVEF closing dinner",
       "Bilateral conversations and farewell"
      ],
-     "tracks": []
+     "tracks": [],
+     "speakers": []
     }
    ]
   }
@@ -1044,6 +1073,7 @@ window.HANOI2026 = {
    "end": "17:15"
   }
  },
+ "speakerLinks": 4,
  "taxonomy": {
   "industries": {
    "fin": {
@@ -1511,7 +1541,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "h.e.amb.thomas.gass@svef.ch"
+   "email": "h.e.amb.thomas.gass@svef.ch",
+   "arrived": []
   },
   {
    "id": 2,
@@ -1545,7 +1576,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "dr.philipp.r.sler@svef.ch"
+   "email": "dr.philipp.rosler@svef.ch",
+   "arrived": []
   },
   {
    "id": 3,
@@ -1579,7 +1611,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "ivo.sieber@svef.ch"
+   "email": "ivo.sieber@svef.ch",
+   "arrived": []
   },
   {
    "id": 101,
@@ -1617,7 +1650,11 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Switzerland",
    "received": "2026-08-18",
-   "email": "lara.weber@alpinecapital.example.ch"
+   "email": "lara.weber@alpinecapital.example.ch",
+   "arrived": [
+    1,
+    2
+   ]
   },
   {
    "id": 102,
@@ -1654,7 +1691,8 @@ window.HANOI2026 = {
    "status": "pending",
    "country": "Viet Nam",
    "received": "2026-08-29",
-   "email": "tran.minh.quan@lachhuyen.example.vn"
+   "email": "tran.minh.quan@lachhuyen.example.vn",
+   "arrived": []
   },
   {
    "id": 103,
@@ -1691,7 +1729,10 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Switzerland",
    "received": "2026-08-19",
-   "email": "dr.claudia.berger@helvetiamedtech.example.ch"
+   "email": "dr.claudia.berger@helvetiamedtech.example.ch",
+   "arrived": [
+    2
+   ]
   },
   {
    "id": 104,
@@ -1728,7 +1769,11 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-20",
-   "email": "nguyen.thu.ha@northwind.example.vn"
+   "email": "nguyen.thu.ha@northwind.example.vn",
+   "arrived": [
+    1,
+    2
+   ]
   },
   {
    "id": 105,
@@ -1765,7 +1810,10 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-22",
-   "email": "andreas.k.ng@bnam.example.vn"
+   "email": "andreas.kung@bnam.example.vn",
+   "arrived": [
+    2
+   ]
   },
   {
    "id": 106,
@@ -1802,7 +1850,8 @@ window.HANOI2026 = {
    "status": "pending",
    "country": "Switzerland",
    "received": "2026-09-01",
-   "email": "sofia.meier@lemanai.example.ch"
+   "email": "sofia.meier@lemanai.example.ch",
+   "arrived": []
   },
   {
    "id": 107,
@@ -1838,7 +1887,10 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-25",
-   "email": "le.hoang.yen@mekonglegal.example.vn"
+   "email": "le.hoang.yen@mekonglegal.example.vn",
+   "arrived": [
+    2
+   ]
   },
   {
    "id": 108,
@@ -1874,7 +1926,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Switzerland",
    "received": "2026-08-26",
-   "email": "marc.steiner@bernedual.example.ch"
+   "email": "marc.steiner@bernedual.example.ch",
+   "arrived": []
   },
   {
    "id": 109,
@@ -1907,7 +1960,8 @@ window.HANOI2026 = {
    "status": "waitlist",
    "country": "Viet Nam",
    "received": "2026-09-03",
-   "email": "pham.xuan.binh@redriverlog.example.vn"
+   "email": "pham.xuan.binh@redriverlog.example.vn",
+   "arrived": []
   },
   {
    "id": 110,
@@ -1944,7 +1998,11 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-21",
-   "email": "mai.an@imt-soft.com"
+   "email": "mai.an@imt-soft.com",
+   "arrived": [
+    1,
+    2
+   ]
   },
   {
    "id": 111,
@@ -1978,7 +2036,8 @@ window.HANOI2026 = {
    "status": "declined",
    "country": "Switzerland",
    "received": "2026-08-28",
-   "email": "beatrice.fontana@alpinecapital.example.ch"
+   "email": "beatrice.fontana@alpinecapital.example.ch",
+   "arrived": []
   },
   {
    "id": 112,
@@ -2014,7 +2073,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-27",
-   "email": "do.quang.huy@northwind.example.vn"
+   "email": "do.quang.huy@northwind.example.vn",
+   "arrived": []
   },
   {
    "id": 113,
@@ -2046,7 +2106,8 @@ window.HANOI2026 = {
    "status": "waitlist",
    "country": "Switzerland",
    "received": "2026-09-02",
-   "email": "stefan.brun@helvetiamedtech.example.ch"
+   "email": "stefan.brun@helvetiamedtech.example.ch",
+   "arrived": []
   },
   {
    "id": 114,
@@ -2082,7 +2143,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-30",
-   "email": "vu.thi.lan@mekonglegal.example.vn"
+   "email": "vu.thi.lan@mekonglegal.example.vn",
+   "arrived": []
   },
   {
    "id": 201,
@@ -2117,7 +2179,10 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "ngo.bao.chau@zegoe.example.vn"
+   "email": "ngo.bao.chau@zegoe.example.vn",
+   "arrived": [
+    2
+   ]
   },
   {
    "id": 200,
@@ -2158,7 +2223,11 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "anh.tran@zegoe.example.vn"
+   "email": "anh.tran@zegoe.example.vn",
+   "arrived": [
+    1,
+    2
+   ]
   }
  ],
  "self": {
@@ -2219,7 +2288,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "h.e.amb.thomas.gass@svef.ch"
+   "email": "h.e.amb.thomas.gass@svef.ch",
+   "arrived": []
   },
   {
    "id": 2,
@@ -2253,7 +2323,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "dr.philipp.r.sler@svef.ch"
+   "email": "dr.philipp.rosler@svef.ch",
+   "arrived": []
   },
   {
    "id": 3,
@@ -2287,7 +2358,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "ivo.sieber@svef.ch"
+   "email": "ivo.sieber@svef.ch",
+   "arrived": []
   },
   {
    "id": 101,
@@ -2325,7 +2397,11 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Switzerland",
    "received": "2026-08-18",
-   "email": "lara.weber@alpinecapital.example.ch"
+   "email": "lara.weber@alpinecapital.example.ch",
+   "arrived": [
+    1,
+    2
+   ]
   },
   {
    "id": 102,
@@ -2362,7 +2438,8 @@ window.HANOI2026 = {
    "status": "pending",
    "country": "Viet Nam",
    "received": "2026-08-29",
-   "email": "tran.minh.quan@lachhuyen.example.vn"
+   "email": "tran.minh.quan@lachhuyen.example.vn",
+   "arrived": []
   },
   {
    "id": 103,
@@ -2399,7 +2476,10 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Switzerland",
    "received": "2026-08-19",
-   "email": "dr.claudia.berger@helvetiamedtech.example.ch"
+   "email": "dr.claudia.berger@helvetiamedtech.example.ch",
+   "arrived": [
+    2
+   ]
   },
   {
    "id": 104,
@@ -2436,7 +2516,11 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-20",
-   "email": "nguyen.thu.ha@northwind.example.vn"
+   "email": "nguyen.thu.ha@northwind.example.vn",
+   "arrived": [
+    1,
+    2
+   ]
   },
   {
    "id": 105,
@@ -2473,7 +2557,10 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-22",
-   "email": "andreas.k.ng@bnam.example.vn"
+   "email": "andreas.kung@bnam.example.vn",
+   "arrived": [
+    2
+   ]
   },
   {
    "id": 106,
@@ -2510,7 +2597,8 @@ window.HANOI2026 = {
    "status": "pending",
    "country": "Switzerland",
    "received": "2026-09-01",
-   "email": "sofia.meier@lemanai.example.ch"
+   "email": "sofia.meier@lemanai.example.ch",
+   "arrived": []
   },
   {
    "id": 107,
@@ -2546,7 +2634,10 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-25",
-   "email": "le.hoang.yen@mekonglegal.example.vn"
+   "email": "le.hoang.yen@mekonglegal.example.vn",
+   "arrived": [
+    2
+   ]
   },
   {
    "id": 108,
@@ -2582,7 +2673,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Switzerland",
    "received": "2026-08-26",
-   "email": "marc.steiner@bernedual.example.ch"
+   "email": "marc.steiner@bernedual.example.ch",
+   "arrived": []
   },
   {
    "id": 109,
@@ -2615,7 +2707,8 @@ window.HANOI2026 = {
    "status": "waitlist",
    "country": "Viet Nam",
    "received": "2026-09-03",
-   "email": "pham.xuan.binh@redriverlog.example.vn"
+   "email": "pham.xuan.binh@redriverlog.example.vn",
+   "arrived": []
   },
   {
    "id": 110,
@@ -2652,7 +2745,11 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-21",
-   "email": "mai.an@imt-soft.com"
+   "email": "mai.an@imt-soft.com",
+   "arrived": [
+    1,
+    2
+   ]
   },
   {
    "id": 111,
@@ -2686,7 +2783,8 @@ window.HANOI2026 = {
    "status": "declined",
    "country": "Switzerland",
    "received": "2026-08-28",
-   "email": "beatrice.fontana@alpinecapital.example.ch"
+   "email": "beatrice.fontana@alpinecapital.example.ch",
+   "arrived": []
   },
   {
    "id": 112,
@@ -2722,7 +2820,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-27",
-   "email": "do.quang.huy@northwind.example.vn"
+   "email": "do.quang.huy@northwind.example.vn",
+   "arrived": []
   },
   {
    "id": 113,
@@ -2754,7 +2853,8 @@ window.HANOI2026 = {
    "status": "waitlist",
    "country": "Switzerland",
    "received": "2026-09-02",
-   "email": "stefan.brun@helvetiamedtech.example.ch"
+   "email": "stefan.brun@helvetiamedtech.example.ch",
+   "arrived": []
   },
   {
    "id": 114,
@@ -2790,7 +2890,8 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-30",
-   "email": "vu.thi.lan@mekonglegal.example.vn"
+   "email": "vu.thi.lan@mekonglegal.example.vn",
+   "arrived": []
   },
   {
    "id": 201,
@@ -2825,7 +2926,10 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "ngo.bao.chau@zegoe.example.vn"
+   "email": "ngo.bao.chau@zegoe.example.vn",
+   "arrived": [
+    2
+   ]
   },
   {
    "id": 200,
@@ -2866,7 +2970,11 @@ window.HANOI2026 = {
    "status": "confirmed",
    "country": "Viet Nam",
    "received": "2026-08-17",
-   "email": "anh.tran@zegoe.example.vn"
+   "email": "anh.tran@zegoe.example.vn",
+   "arrived": [
+    1,
+    2
+   ]
   }
  ],
  "meetings": [

@@ -3,7 +3,7 @@
 
 Usage: mkdata.py [out.js] [--src path/to/event.json]
 """
-import argparse, json, os, re, sys, time
+import argparse, json, os, re, sys, time, unicodedata
 
 import demo
 
@@ -181,6 +181,30 @@ for d in data["days"]:
                                    "day": d["day"], "start": s["start"], "end": s["end"]}
 data["tracks"] = tracks
 
+# Attach speakers to programme items. See demo.SESSION_SPEAKERS: the live site has
+# no such link, so this is ours and the back office labels it that way.
+_by_name = {}
+for i, sp in enumerate(data["speakers"]):
+    _by_name[sp["name"]] = 1 + i
+linked = 0
+for d in data["days"]:
+    for sess in d["sessions"]:
+        want = demo.SESSION_SPEAKERS.get((d["day"], sess["start"] or ""))
+        if not want:
+            sess["speakers"] = []
+            continue
+        ids = []
+        for frag in want:
+            hit = next((pid for nm, pid in _by_name.items() if frag in nm), None)
+            if hit:
+                ids.append(hit)
+            else:
+                print("  ! no speaker matching %r for day %d %s"
+                      % (frag, d["day"], sess["start"]))
+        sess["speakers"] = ids
+        linked += 1 if ids else 0
+data["speakerLinks"] = linked
+
 # ---------------------------------------------------------------------------
 # The networking layer. Everything below is demo data and says so; see demo.py.
 # ---------------------------------------------------------------------------
@@ -236,17 +260,19 @@ missing_self = [k for k in demo.SELF_REG if k not in pmap]
 if missing_self:
     print("  ! seeded answers with no matching form field: " + ", ".join(missing_self))
 
+def _slug(name):
+    """Fold any accent to ASCII, not just the Vietnamese ones: Rösler has an o with
+    an umlaut and a naive strip turns the address into r.sler@."""
+    folded = unicodedata.normalize("NFKD", name.replace("đ", "d").replace("Đ", "D"))
+    ascii_only = "".join(c for c in folded if not unicodedata.combining(c))
+    return re.sub(r"[^a-z]+", ".", ascii_only.lower()).strip(".")
+
+
 def _email(name, oid):
     """Derive a plausible address from the organisation's own domain."""
     org = next((o for o in orgs if o["id"] == oid), None)
     dom = re.sub(r"^https?://(www\.)?", "", (org or {}).get("web") or "example.com").strip("/")
-    slug = re.sub(r"[^a-z]+", ".", name.lower().translate(VN)).strip(".")
-    return "%s@%s" % (slug, dom)
-
-
-VN = str.maketrans(
-    "àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ",
-    "aaaaaaaaaaaaaaaaaeeeeeeeeeeeiiiiiooooooooooooooooouuuuuuuuuuuyyyyyd")
+    return "%s@%s" % (_slug(name), dom)
 
 for a in people:
     st = demo.REGISTRATION.get(a["id"])
@@ -255,6 +281,7 @@ for a in people:
     else:
         a["status"], a["country"], a["received"] = "confirmed", "Viet Nam", "2026-08-17"
     a["email"] = _email(a["n"], a.get("oid"))
+    a["arrived"] = list(demo.CHECKED_IN.get(a["id"], []))
 data["attendees"] = people
 
 data["meetings"] = [dict(m, demo=True) for m in demo.MEETINGS]
@@ -328,5 +355,6 @@ print(f"  real : {len(data['press'])} press, {len(data['photos'])} photos, "
 print(f"  demo : {len(data['attendees'])} attendees, {len(data['orgs'])} orgs, "
       f"{len(data['meetings'])} meetings, {len(data['connections'])} connections, "
       f"{len(data['docs'])} docs, {len(data['notifications'])} notifications")
-print(f"  map  : {len(data['profileMap'])}/19 profile fields, {len(data['tracks'])} tracks")
+print(f"  map  : {len(data['profileMap'])}/19 profile fields, {len(data['tracks'])} tracks, "
+      f"{data['speakerLinks']} sessions with a speaker")
 print(f"  self : {demo.SELF['n']} @ {demo.SELF['oid']}, {len(data['self']['reg'])} seeded answers")

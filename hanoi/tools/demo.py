@@ -402,3 +402,33 @@ REGISTRATION = {
     200: ("confirmed", "Viet Nam",    "2026-08-17"),
     201: ("confirmed", "Viet Nam",    "2026-08-17"),
 }
+
+
+# ---------------------------------------------------------------------------
+# Which speaker is on which programme item.
+#
+# The live site does not record this: the CMS holds an agenda as rich text and a
+# speaker list as a separate collection, with nothing joining them. So this is our
+# linkage, not SVEF's, and the back office says so. Keyed by day and start time
+# rather than by session id, because ids are generated from the scrape order and
+# would silently re-point if a session were inserted.
+# ---------------------------------------------------------------------------
+SESSION_SPEAKERS = {
+    (1, "18:30"): ["Thomas Gass", "Philipp Rösler", "Ivo Sieber"],
+    (2, "09:00"): ["Philipp Rösler"],
+    (2, "10:00"): ["Thomas Gass"],
+    (2, "17:15"): ["Ivo Sieber"],
+}
+
+# Arrivals, for the back office check-in desk. Day keys match the programme days.
+# Everyone else is simply not here yet, which is the state the desk starts in.
+CHECKED_IN = {
+    101: [1, 2],
+    103: [2],
+    104: [1, 2],
+    105: [2],
+    107: [2],
+    110: [1, 2],
+    200: [1, 2],
+    201: [2],
+}
