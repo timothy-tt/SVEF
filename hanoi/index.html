@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SVEF Ha Noi 2026 — Delegate App</title>
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* SVEF Ha Noi 2026 delegate app. Single event, single file.
+   Palette and type follow ../BRAND.md: brand spot colours untouched, Hanoi
+   event ground (--wash) as the page fill, square corners (--r:0), Inter Tight
+   as the only face. The display face TT Days Sans Black is deliberately absent:
+   it has no Vietnamese diacritics and no web licence. */
+:root{
+  --red:#E42026; --red-d:#B31018; --red-t:#FDECEC; --red-ink:#B31018;
+  --green:#3E7742; --green-d:#2C5730; --green-t:#EDF3EE;
+  --maroon:#800000; --gold:#C3933A; --gold-ink:#754715; --gold-t:#FBF3E4;
+  --cream:#FFF9B8; --sky:#E2F4FD; --steel:#A8CED7;
+  --ink:#0E273D; --ink-2:#224861; --muted:#3C6980; --line:#DAEDF0;
+  --hanoi:#04723D; --hanoi-2:#3E7742; --wash:#F6FBF2; --wash-2:#EDF6EA;
+  --deep:#123A2A;
+  --bg:var(--wash); --card:#fff; --soft:var(--wash-2);
+  --shadow:0 18px 44px rgba(14,39,61,.16);
+  --r:0;
+  --sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  --nav:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:#0B1F16;color:var(--ink);
+  font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px 16px}
+/* ---- phone frame: the demo is shown on desktop, so it gets a device shell.
+   On a real handset the frame collapses and the app fills the viewport. ---- */
+.frame{width:414px;max-width:100%;height:880px;max-height:calc(100vh - 48px);
+  background:var(--bg);position:relative;overflow:hidden;box-shadow:var(--shadow);
+  display:flex;flex-direction:column}
+@media (max-width:480px){
+  body{padding:0;display:block;background:var(--bg)}
+  .frame{width:100%;height:100dvh;max-height:none;box-shadow:none}
+}
+/* ---- chrome ---- */
+.status{height:26px;flex:0 0 26px;background:var(--deep);color:#fff;display:flex;
+  align-items:center;justify-content:space-between;padding:0 14px;font-size:11px;
+  font-weight:600;letter-spacing:.02em}
+.status b{font-weight:700}
+.top{flex:0 0 auto;background:linear-gradient(160deg,var(--deep),var(--ink));color:#fff;
+  padding:12px 16px 14px;display:flex;align-items:center;gap:10px;min-height:56px}
+.top.plain{background:var(--card);color:var(--ink);border-bottom:1px solid var(--line)}
+.top h1{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em;flex:1;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .sub{font-size:11px;font-weight:500;opacity:.72;margin-top:1px}
+.iconbtn{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border:0;
+  background:rgba(255,255,255,.12);color:inherit;cursor:pointer;padding:0}
+.top.plain .iconbtn{background:var(--soft)}
+.iconbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+.lang{border:0;background:rgba(255,255,255,.12);color:inherit;font:inherit;font-size:11px;
+  font-weight:700;letter-spacing:.06em;padding:7px 9px;cursor:pointer}
+.top.plain .lang{background:var(--soft)}
+/* ---- scroll body ---- */
+.screens{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth}
+.screen{display:none;padding-bottom:20px}
+.screen.on{display:block}
+/* ---- bottom nav ---- */
+.tabs{flex:0 0 var(--nav);height:var(--nav);background:var(--card);
+  border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);
+  padding-bottom:env(safe-area-inset-bottom)}
+.tab{border:0;background:none;font:inherit;cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10px;
+  font-weight:600;letter-spacing:.01em;padding:0}
+.tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-selected=true]{color:var(--hanoi)}
+.tab[aria-selected=true] svg{stroke-width:2.2}
+/* ---- hero ---- */
+.hero{position:relative;background:linear-gradient(160deg,var(--deep),var(--ink));color:#fff;
+  padding:22px 18px 24px;overflow:hidden}
+.hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16;
+  filter:saturate(.7) blur(1.5px)}
+.hero .scrim{position:absolute;inset:0;background:linear-gradient(165deg,rgba(18,58,42,.82),rgba(14,39,61,.92))}
+.hero .in{position:relative}
+.kicker{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  opacity:.8}
+.hero .mark{display:block;width:100%;max-width:300px;height:auto;margin:10px 0 8px}
+.hero h2{margin:8px 0 2px;font-size:26px;line-height:1.1;font-weight:800;letter-spacing:-.02em}
+.hero .ed{font-size:15px;font-weight:600;color:var(--cream);margin-bottom:12px}
+.hero .when{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{background:rgba(255,255,255,.14);padding:6px 10px;font-size:12px;font-weight:600;
+  display:inline-flex;align-items:center;gap:6px}
+.pill svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+/* countdown */
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.18);
+  margin-top:16px}
+.cd div{background:rgba(11,31,22,.55);padding:9px 4px;text-align:center}
+.cd b{display:block;font-size:20px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.cd span{font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  opacity:.75}
+/* ---- generic blocks ---- */
+.sec{padding:18px 16px 4px}
+.sec h3{margin:0 0 10px;font-size:12px;font-weight:700;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.sec h3 a{margin-left:auto;font-size:11px;letter-spacing:0;text-transform:none;
+  color:var(--hanoi);font-weight:600;text-decoration:none;cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);padding:14px}
+.card + .card{margin-top:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;
+  background:var(--red);color:#fff;font:inherit;font-weight:700;font-size:14px;
+  padding:13px 16px;cursor:pointer;width:100%;letter-spacing:.01em}
+.btn:active{background:var(--red-d)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);font-weight:600}
+.btn.green{background:var(--hanoi)}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+.tile{background:var(--card);border:1px solid var(--line);padding:14px 12px;text-align:left;
+  font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:8px;color:var(--ink)}
+.tile svg{width:20px;height:20px;stroke:var(--hanoi);fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.tile b{font-size:14px;font-weight:700}
+.tile span{font-size:11.5px;color:var(--muted);line-height:1.35}
+/* ---- day tabs ---- */
+.daybar{display:flex;gap:0;background:var(--card);border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:5}
+.daybar button{flex:1;border:0;background:none;font:inherit;cursor:pointer;padding:11px 4px 9px;
+  color:var(--muted);border-bottom:3px solid transparent;display:flex;flex-direction:column;
+  align-items:center;gap:1px}
+.daybar button b{font-size:13px;font-weight:700}
+.daybar button span{font-size:10.5px;font-weight:600;letter-spacing:.02em}
+.daybar button[aria-selected=true]{color:var(--hanoi);border-bottom-color:var(--hanoi)}
+.dayhead{padding:16px 16px 4px}
+.dayhead h2{margin:0 0 4px;font-size:19px;font-weight:800;letter-spacing:-.015em}
+.dayhead p{margin:6px 0 0;font-size:13px;color:var(--muted);line-height:1.5}
+.metarow{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{font-size:11px;font-weight:600;padding:4px 8px;background:var(--soft);color:var(--ink-2);
+  border:1px solid var(--line)}
+.chip.tbd{background:var(--gold-t);border-color:#EBD9B4;color:var(--gold-ink)}
+.chip.on{background:var(--green-t);border-color:#CFE0D2;color:var(--green-d)}
+/* ---- timeline ---- */
+.tl{padding:12px 16px 0}
+.ses{display:grid;grid-template-columns:56px 1fr;gap:0;position:relative}
+.ses .time{padding:14px 10px 14px 0;text-align:right;font-size:12.5px;font-weight:700;
+  color:var(--hanoi);line-height:1.25}
+.ses .time small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+.ses .body{border-left:2px solid var(--line);padding:14px 0 14px 14px;position:relative}
+.ses:last-child .body{border-left-color:transparent}
+.ses .body::before{content:"";position:absolute;left:-5px;top:20px;width:8px;height:8px;
+  background:var(--hanoi);box-shadow:0 0 0 3px var(--bg)}
+.ses.break .body::before{background:var(--steel)}
+.ses.transfer .body::before{background:var(--gold)}
+.ses.culture .body::before{background:var(--red)}
+.ses h4{margin:0;font-size:14.5px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.ses .det{margin:5px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+.ses .det li{margin:2px 0}
+.ses ul{margin:5px 0 0;padding-left:16px}
+.kind{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:2px 6px;margin-bottom:5px}
+.kind.transfer{background:var(--gold-t);color:var(--gold-ink)}
+.kind.business{background:var(--green-t);color:var(--green-d)}
+.kind.culture{background:var(--red-t);color:var(--red-ink)}
+.trk{margin-top:9px;border:1px solid var(--line);background:var(--soft)}
+.trk button{width:100%;border:0;background:none;font:inherit;text-align:left;cursor:pointer;
+  padding:9px 10px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;
+  color:var(--ink-2)}
+.trk button svg{width:14px;height:14px;margin-left:auto;stroke:currentColor;fill:none;
+  stroke-width:2.2;transition:transform .18s}
+.trk[open] button svg{transform:rotate(180deg)}
+.trk .list{display:none;padding:0 10px 10px}
+.trk[open] .list{display:block}
+.trkitem{display:flex;gap:9px;padding:8px 0;border-top:1px solid var(--line);cursor:pointer}
+.trkitem .lt{width:22px;height:22px;flex:0 0 22px;background:var(--hanoi);color:#fff;
+  display:grid;place-items:center;font-size:11px;font-weight:800}
+.trkitem.pick .lt{background:var(--red)}
+.trkitem b{display:block;font-size:12.5px;font-weight:700;line-height:1.3}
+.trkitem span{display:block;font-size:11.5px;color:var(--muted);line-height:1.4;margin-top:2px}
+.star{border:0;background:none;padding:6px;margin:-6px -6px -6px auto;cursor:pointer;
+  color:var(--line);flex:0 0 auto}
+.star svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:1.8}
+.star.on svg{fill:var(--gold);stroke:var(--gold)}
+.rowtop{display:flex;align-items:flex-start;gap:8px}
+.rowtop h4{flex:1}
+/* ---- speakers ---- */
+.spk{display:flex;gap:12px;align-items:center;width:100%;text-align:left;font:inherit;
+  border:1px solid var(--line);background:var(--card);padding:12px;cursor:pointer;color:var(--ink)}
+.spk + .spk{margin-top:10px}
+.spk img{width:60px;height:60px;flex:0 0 60px;object-fit:cover;background:var(--soft)}
+.spk b{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.01em}
+.spk span{display:block;font-size:12px;color:var(--muted);line-height:1.4;margin-top:3px}
+.badge,.spk .badge{display:inline-block;width:auto;font-size:9.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;background:var(--gold-t);color:var(--gold-ink);padding:2px 6px;
+  margin-bottom:5px}
+/* ---- sheet ---- */
+.sheet{position:absolute;inset:0;background:rgba(11,31,22,.5);display:none;z-index:40;
+  align-items:flex-end}
+.sheet.on{display:flex}
+.sheet .in{background:var(--card);width:100%;max-height:86%;overflow-y:auto;
+  padding:18px 18px calc(20px + env(safe-area-inset-bottom));animation:up .22s ease}
+@keyframes up{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+.sheet .grab{width:38px;height:4px;background:var(--line);margin:0 auto 14px}
+.sheet h3{margin:0 0 4px;font-size:19px;font-weight:800;letter-spacing:-.015em;line-height:1.2}
+.sheet .role{font-size:13px;color:var(--hanoi);font-weight:600;line-height:1.4}
+.sheet p{font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+.sheet img.ph{width:84px;height:84px;object-fit:cover;float:right;margin:0 0 10px 12px;
+  background:var(--soft)}
+/* ---- info / accordion ---- */
+.acc{border:1px solid var(--line);background:var(--card)}
+.acc + .acc{margin-top:10px}
+.acc summary{list-style:none;cursor:pointer;padding:13px 14px;font-size:14px;font-weight:700;
+  display:flex;align-items:center;gap:10px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary svg{width:16px;height:16px;stroke:var(--hanoi);fill:none;stroke-width:1.9;
+  stroke-linecap:round}
+.acc summary .ch{margin-left:auto;width:14px;height:14px;stroke:var(--muted);
+  transition:transform .18s}
+.acc[open] summary .ch{transform:rotate(180deg)}
+.acc .in{padding:0 14px 14px;font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+.empty{padding:14px;background:var(--gold-t);border:1px solid #EBD9B4;color:var(--gold-ink);
+  font-size:12.5px;line-height:1.5}
+/* ---- form ---- */
+.f{padding:16px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:var(--ink-2)}
+.fld label i{color:var(--red);font-style:normal}
+.fld input[type=text],.fld input[type=email],.fld textarea,.fld select{width:100%;
+  border:1px solid var(--line);background:var(--card);font:inherit;font-size:14px;
+  padding:11px 12px;color:var(--ink)}
+.fld textarea{min-height:76px;resize:vertical}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:2px solid var(--hanoi);
+  outline-offset:-2px;border-color:var(--hanoi)}
+.fld.err input,.fld.err textarea,.fld.err select{border-color:var(--red)}
+.fld .msg{display:none;font-size:11.5px;color:var(--red-ink);font-weight:600;margin-top:4px}
+.fld.err .msg{display:block}
+.cbx{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.5;
+  color:var(--ink-2);cursor:pointer}
+.opts{border:1px solid var(--line);background:var(--card)}
+.opts .cbx{padding:9px 11px;border-bottom:1px solid var(--line);margin:0}
+.opts .cbx:last-child{border-bottom:0}
+.opts .cbx:hover{background:var(--soft)}
+.fld.err .opts{border-color:var(--red)}
+.cbx input{margin-top:3px;flex:0 0 auto;width:16px;height:16px;accent-color:var(--hanoi)}
+.done{padding:30px 22px;text-align:center}
+.done .ok{width:56px;height:56px;margin:0 auto 14px;background:var(--green-t);display:grid;
+  place-items:center}
+.done .ok svg{width:28px;height:28px;stroke:var(--hanoi);fill:none;stroke-width:2.4;
+  stroke-linecap:round;stroke-linejoin:round}
+.done h3{margin:0 0 8px;font-size:19px;font-weight:800;letter-spacing:-.015em}
+.done p{font-size:13.5px;color:var(--muted);line-height:1.6;white-space:pre-line}
+/* ---- me ---- */
+.me{background:linear-gradient(160deg,var(--deep),var(--ink));color:#fff;padding:22px 16px}
+.me .av{width:56px;height:56px;background:rgba(255,255,255,.16);display:grid;place-items:center;
+  font-size:20px;font-weight:800;margin-bottom:10px}
+.me b{font-size:18px;font-weight:800;letter-spacing:-.015em;display:block}
+.me span{font-size:12.5px;opacity:.75}
+.note{padding:12px 16px;font-size:11.5px;color:var(--muted);line-height:1.5}
+.src{padding:14px 16px 22px;font-size:11px;color:var(--muted);line-height:1.55;
+  border-top:1px solid var(--line);margin-top:18px}
+.src a{color:var(--hanoi)}
+</style>
+</head>
+<body>
+<div class="frame" id="frame">
+  <div class="status"><b>9:41</b><span>SVEF · Ha Noi</span></div>
+  <header class="top" id="top">
+    <button class="iconbtn" id="back" hidden aria-label="Back">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div style="flex:1;min-width:0">
+      <h1 id="ttl">SVEF Ha Noi 2026</h1>
+      <div class="sub" id="sub">19–20 Oct 2026</div>
+    </div>
+    <button class="lang" id="lang">VI</button>
+  </header>
+
+  <div class="screens" id="screens">
+    <section class="screen on" id="s-home"></section>
+    <section class="screen" id="s-agenda"></section>
+    <section class="screen" id="s-speakers"></section>
+    <section class="screen" id="s-info"></section>
+    <section class="screen" id="s-me"></section>
+  </div>
+
+  <nav class="tabs" id="tabs" role="tablist"></nav>
+  <div class="sheet" id="sheet"><div class="in" id="sheetin"></div></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+"use strict";
+var D = window.HANOI2026, E = D.event;
+
+/* ---------- i18n: chrome only.
+   Programme copy stays in the language SVEF published it in; translating
+   scraped session titles in the client would put words in the organiser's
+   mouth. Only the app's own furniture is bilingual. ---------- */
+var T = {
+  en:{home:"Home",agenda:"Agenda",speakers:"Speakers",info:"Info",me:"Me",
+      register:"Register to attend",registered:"You are registered",
+      countdown:"Until doors open",days:"days",hrs:"hrs",min:"min",sec:"sec",
+      upnext:"Programme at a glance",quick:"Quick links",
+      venue:"Venue",format:"Format",delegates:"Expected participation",tbd:"To be announced",
+      day:"Day",keynote:"Keynote speakers",bio:"Biography",fullprofile:"View full profile",
+      practical:"Practical information",accommodation:"Accommodation",visa:"Visa & entry",
+      transport:"Transport",contact:"Contact",organiser:"Organiser",
+      notpub:"Not published on the event site yet. This section fills in automatically once SVEF adds the content.",
+      myagenda:"My agenda",nostar:"Nothing saved yet. Tap the star on a session to keep it here.",
+      pick:"Choose one",picked:"In my agenda",closes:"Registration closes",
+      required:"Required",invalid:"Enter a valid email address",submit:"Submit registration",
+      openweb:"Open the event website",source:"Source",lastsync:"Last synced",
+      allday:"All day",optional:"Optional",langname:"Tiếng Việt",
+      badge:"Delegate badge",badgehint:"Shown at the registration desk on arrival."},
+  vi:{home:"Trang chủ",agenda:"Chương trình",speakers:"Diễn giả",info:"Thông tin",me:"Cá nhân",
+      register:"Đăng ký tham dự",registered:"Bạn đã đăng ký",
+      countdown:"Đếm ngược khai mạc",days:"ngày",hrs:"giờ",min:"phút",sec:"giây",
+      upnext:"Tổng quan chương trình",quick:"Truy cập nhanh",
+      venue:"Địa điểm",format:"Hình thức",delegates:"Số đại biểu dự kiến",tbd:"Sẽ thông báo sau",
+      day:"Ngày",keynote:"Diễn giả chính",bio:"Tiểu sử",fullprofile:"Xem hồ sơ đầy đủ",
+      practical:"Thông tin thiết thực",accommodation:"Lưu trú",visa:"Thị thực & nhập cảnh",
+      transport:"Di chuyển",contact:"Liên hệ",organiser:"Đơn vị tổ chức",
+      notpub:"Nội dung chưa được đăng trên website sự kiện. Mục này sẽ tự cập nhật khi SVEF bổ sung.",
+      myagenda:"Lịch của tôi",nostar:"Chưa lưu phiên nào. Chạm vào dấu sao ở một phiên để lưu vào đây.",
+      pick:"Chọn một phiên",picked:"Đã lưu",closes:"Hạn đăng ký",
+      required:"Bắt buộc",invalid:"Email không hợp lệ",submit:"Gửi đăng ký",
+      openweb:"Mở website sự kiện",source:"Nguồn",lastsync:"Đồng bộ lần cuối",
+      allday:"Cả ngày",optional:"Tuỳ chọn",langname:"English",
+      badge:"Thẻ đại biểu",badgehint:"Xuất trình tại quầy đăng ký khi đến."}
+};
+var lang = localStorage.getItem("svef.hanoi.lang") || "en";
+function t(k){ return (T[lang]&&T[lang][k]) || T.en[k] || k; }
+
+/* ---------- tiny helpers ---------- */
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function el(id){ return document.getElementById(id); }
+function ico(p){ return '<svg viewBox="0 0 24 24">'+p+'</svg>'; }
+var I = {
+  home:'<path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/>',
+  cal :'<rect x="3" y="5" width="18" height="16"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  mic :'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
+  pin :'<path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5.5l3.5 2"/>',
+  edit:'<path d="M4 20h4l10-10-4-4L4 16v4z"/>',
+  chev:'<path d="M6 9l6 6 6-6"/>',
+  star:'<path d="M12 3.5l2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 10l6.1-.9z"/>',
+  check:'<path d="M4 12.5l5 5L20 6.5"/>',
+  ext :'<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5H5V5h5"/>',
+  mail:'<rect x="3" y="5" width="18" height="14"/><path d="M3 6l9 7 9-7"/>',
+  bed :'<path d="M3 18V7"/><path d="M3 12h18v6"/><path d="M7 12V9h5v3"/>',
+  pass:'<rect x="5" y="3" width="14" height="18"/><circle cx="12" cy="10" r="2.5"/><path d="M8.5 17h7"/>',
+  car :'<path d="M5 16h14"/><path d="M6.5 16V11l1.8-4h7.4l1.8 4v5"/><circle cx="8" cy="17.5" r="1.6"/><circle cx="16" cy="17.5" r="1.6"/>'
+};
+function dt(s){ return s? new Date(s) : null; }
+function fdate(iso){
+  if(!iso) return "";
+  var d = new Date(iso+"T00:00:00");
+  return d.toLocaleDateString(lang==="vi"?"vi-VN":"en-GB",
+    {day:"numeric",month:"short",weekday:"short"});
+}
+
+/* ---------- saved sessions (local only; a real build reads the delegate record) ---------- */
+var SAVED = JSON.parse(localStorage.getItem("svef.hanoi.saved")||"[]");
+var PICKS = JSON.parse(localStorage.getItem("svef.hanoi.picks")||"{}");
+function save(){ localStorage.setItem("svef.hanoi.saved",JSON.stringify(SAVED));
+  localStorage.setItem("svef.hanoi.picks",JSON.stringify(PICKS)); }
+function isSaved(id){ return SAVED.indexOf(id)>-1; }
+function toggle(id){ var i=SAVED.indexOf(id); if(i>-1)SAVED.splice(i,1); else SAVED.push(id);
+  save(); render(); }
+
+var REG = JSON.parse(localStorage.getItem("svef.hanoi.reg")||"null");
+
+/* ---------- countdown ---------- */
+function counts(){
+  var ms = new Date(E.start) - new Date();
+  if(ms<0) ms=0;
+  var s=Math.floor(ms/1000);
+  return {d:Math.floor(s/86400),h:Math.floor(s%86400/3600),
+          m:Math.floor(s%3600/60),s:s%60};
+}
+
+/* ---------- screens ---------- */
+var view = "home", day = 2;
+
+function homeHTML(){
+  var c = counts();
+  var h = '';
+  h += '<div class="hero">';
+  if(E.heroImage){
+    h += '<img class="bg" src="'+esc(E.heroImage)+'" alt="">';
+    h += '<div class="scrim"></div>';
+  }
+  /* No kicker line: the event's own tagline repeats a date range that contradicts
+     the record dates, and printing both side by side reads as a bug. The conflict
+     is surfaced once, below the programme list, where it belongs. */
+  h += '<div class="in">';
+  /* The wordmark already reads "SWISS-VIET ECONOMIC FORUM", so the name is not
+     set again as live text beside it. See ../BRAND.md. */
+  h += '<img class="mark" src="../assets/brand/svef-wordmark-dark.svg" alt="'+esc(E.name)+'">';
+  h += '<div class="ed">'+esc(E.edition)+' · 2026</div>';
+  h += '<div class="when">';
+  h += '<span class="pill">'+ico(I.cal)+esc(lang==="vi"?E.displayDatesVi:E.displayDates)+'</span>';
+  h += '<span class="pill">'+ico(I.pin)+esc(E.city)+', '+esc(E.country)+'</span>';
+  h += '</div>';
+  h += '<div class="cd"><div><b>'+c.d+'</b><span>'+t("days")+'</span></div>'+
+       '<div><b>'+c.h+'</b><span>'+t("hrs")+'</span></div>'+
+       '<div><b>'+c.m+'</b><span>'+t("min")+'</span></div>'+
+       '<div><b>'+c.s+'</b><span>'+t("sec")+'</span></div></div>';
+  h += '</div></div>';
+
+  h += '<div class="sec">';
+  if(REG){
+    h += '<div class="card" style="border-color:#CFE0D2;background:var(--green-t)">'+
+         '<div style="display:flex;gap:10px;align-items:center">'+
+         '<span style="width:30px;height:30px;background:var(--hanoi);display:grid;place-items:center;color:#fff">'+
+         ico(I.check)+'</span><div><b style="font-size:14px">'+t("registered")+'</b>'+
+         '<div style="font-size:12px;color:var(--muted)">'+esc(REG.name||"")+'</div></div></div></div>';
+  } else {
+    h += '<button class="btn" data-go="me">'+ico(I.edit)+t("register")+'</button>';
+    if(D.registration.closes)
+      h += '<div class="note" style="padding:8px 0 0">'+t("closes")+': '+
+           esc(new Date(D.registration.closes).toLocaleDateString(lang==="vi"?"vi-VN":"en-GB",
+             {day:"numeric",month:"long",year:"numeric"}))+'</div>';
+  }
+  h += '</div>';
+
+  h += '<div class="sec"><h3>'+t("upnext")+'<a data-go="agenda">'+t("agenda")+' &rsaquo;</a></h3></div>';
+  h += '<div style="padding:0 16px">';
+  D.days.forEach(function(d){
+    var n = d.sessions.length;
+    h += '<button class="card" style="width:100%;text-align:left;font:inherit;cursor:pointer;display:block" data-day="'+d.day+'">'+
+      '<div style="display:flex;gap:10px;align-items:baseline">'+
+      '<b style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--hanoi)">'+
+      t("day").toUpperCase()+' '+d.day+'</b>'+
+      '<span style="font-size:11.5px;color:var(--muted)">'+esc(fdate(d.date))+'</span>'+
+      '<span style="margin-left:auto;font-size:11.5px;color:var(--muted)">'+n+' '+
+      (lang==="vi"?"phiên":"sessions")+'</span></div>'+
+      '<div style="font-size:14.5px;font-weight:700;margin-top:4px;letter-spacing:-.01em">'+esc(d.title)+'</div>'+
+      (d.meta.format?'<div style="font-size:12px;color:var(--muted);margin-top:3px">'+esc(d.meta.format)+'</div>':'')+
+      '</button>';
+  });
+  h += '<div class="note">'+(lang==="vi"
+    ? "Ngày cụ thể của từng ngày chương trình đang được SVEF xác nhận: hồ sơ sự kiện ghi 19–20/10, còn chương trình có ba ngày bắt đầu từ 18/10."
+    : "Day dates are still being confirmed by SVEF: the event record reads 19–20 Oct while the published programme runs three days from 18 Oct.")+'</div>';
+  h += '</div>';
+
+  h += '<div class="sec"><h3>'+t("quick")+'</h3></div><div class="tiles">';
+  h += '<button class="tile" data-go="speakers">'+ico(I.mic)+'<b>'+t("speakers")+'</b><span>'+
+       D.speakers.length+' '+(lang==="vi"?"diễn giả chính":"keynote speakers")+'</span></button>';
+  h += '<button class="tile" data-go="info">'+ico(I.info)+'<b>'+t("practical")+'</b><span>'+
+       t("venue")+', '+t("accommodation").toLowerCase()+', '+t("visa").toLowerCase()+'</span></button>';
+  h += '<button class="tile" data-star="1">'+ico(I.star)+'<b>'+t("myagenda")+'</b><span>'+
+       SAVED.length+' '+(lang==="vi"?"đã lưu":"saved")+'</span></button>';
+  h += '<a class="tile" href="'+esc(E.eventUrl)+'" target="_blank" rel="noopener" style="text-decoration:none">'+
+       ico(I.ext)+'<b>'+t("openweb")+'</b><span>'+esc(E.siteUrl.replace("https://",""))+'</span></a>';
+  h += '</div>';
+  h += srcHTML();
+  return h;
+}
+
+function sesHTML(s,d){
+  var cls = s.kind && s.kind!=="session" ? " "+esc(s.kind) : "";
+  if(/break|coffee/i.test(s.title)) cls += " break";
+  var h = '<div class="ses'+cls+'">';
+  h += '<div class="time">'+esc(s.start||"")+(s.end?'<small>'+esc(s.end)+'</small>':'')+'</div>';
+  h += '<div class="body"><div class="rowtop">';
+  var inner = '';
+  if(s.kind && s.kind!=="session") inner += '<span class="kind '+esc(s.kind)+'">'+esc(s.kind)+'</span>';
+  inner += '<h4>'+esc(s.title)+'</h4>';
+  h += '<div style="flex:1">'+inner+'</div>';
+  h += '<button class="star'+(isSaved(s.id)?" on":"")+'" data-star-id="'+esc(s.id)+
+       '" aria-label="Save">'+ico(I.star)+'</button>';
+  h += '</div>';
+  if(s.detail && s.detail.length){
+    h += s.detail.length>1
+      ? '<ul class="det">'+s.detail.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul>'
+      : '<p class="det">'+esc(s.detail[0])+'</p>';
+  }
+  if(s.tracks && s.tracks.length){
+    var picked = PICKS[s.id];
+    h += '<details class="trk"'+(picked?" open":"")+'><summary style="list-style:none"><button type="button">'+
+         t("pick")+' ('+s.tracks.length+')'+ico(I.chev)+'</button></summary><div class="list" style="display:block">';
+    s.tracks.forEach(function(tr){
+      h += '<div class="trkitem'+(picked===tr.track?" pick":"")+'" data-pick="'+esc(s.id)+'|'+esc(tr.track)+'">'+
+           '<span class="lt">'+esc(tr.track)+'</span><div><b>'+esc(tr.title)+'</b>'+
+           (tr.summary?'<span>'+esc(tr.summary)+'</span>':'')+
+           (picked===tr.track?'<span style="color:var(--red-ink);font-weight:700">'+t("picked")+'</span>':'')+
+           '</div></div>';
+    });
+    h += '</div></details>';
+  }
+  h += '</div></div>';
+  return h;
+}
+
+function agendaHTML(){
+  var h = '<div class="daybar">';
+  D.days.forEach(function(d){
+    h += '<button data-day="'+d.day+'" aria-selected="'+(d.day===day)+'"><b>'+
+      t("day")+' '+d.day+'</b><span>'+esc(fdate(d.date))+'</span></button>';
+  });
+  h += '</div>';
+  var d = D.days.filter(function(x){return x.day===day;})[0];
+  if(!d) return h;
+  h += '<div class="dayhead"><h2>'+esc(d.title)+'</h2>';
+  h += '<div class="metarow">';
+  h += '<span class="chip'+(/updated|tbd/i.test(d.meta.venue||"")||!d.meta.venue?" tbd":"")+'">'+
+       t("venue")+': '+esc(d.meta.venue && !/updated/i.test(d.meta.venue) ? d.meta.venue : t("tbd"))+'</span>';
+  if(d.meta.format) h += '<span class="chip on">'+esc(d.meta.format)+'</span>';
+  if(d.meta.expected_participation)
+    h += '<span class="chip">'+esc(d.meta.expected_participation)+'</span>';
+  h += '</div>';
+  if(d.intro) h += '<p>'+esc(d.intro)+'</p>';
+  h += '</div>';
+  h += '<div class="tl">'+d.sessions.map(function(s){return sesHTML(s,d);}).join("")+'</div>';
+  h += srcHTML();
+  return h;
+}
+
+function speakersHTML(){
+  var h = '<div class="sec"><h3>'+t("keynote")+'</h3></div><div style="padding:0 16px">';
+  D.speakers.forEach(function(s){
+    h += '<button class="spk" data-spk="'+esc(s.id)+'">';
+    h += s.photo? '<img src="'+esc(s.photo)+'" alt="">' : '<span class="spk-ph"></span>';
+    h += '<div style="flex:1;min-width:0"><span class="badge">'+t("keynote").split(" ")[0]+'</span>'+
+         '<b>'+esc(s.name)+'</b><span>'+esc(s.role)+(s.org?" · "+esc(s.org):"")+'</span></div>';
+    h += '</button>';
+  });
+  h += '</div>';
+  h += '<div class="sec"><div class="empty">'+
+       (lang==="vi"
+        ? "Danh sách diễn giả đầy đủ đang được SVEF hoàn thiện. Hiện website sự kiện mới công bố "+D.speakers.length+" diễn giả chính; ứng dụng sẽ tự cập nhật khi có thêm."
+        : "SVEF is still building the full roster. The event site currently publishes "+D.speakers.length+" keynote speakers; this list fills in automatically as more are added.")+
+       '</div></div>';
+  h += srcHTML();
+  return h;
+}
+
+function mdBlock(txt){
+  return txt.split("\n").filter(function(l){return l.trim();})
+    .map(function(l){ return '<p style="margin:0 0 8px">'+esc(l.replace(/^[-*]\s*/,""))+'</p>'; }).join("");
+}
+
+function infoHTML(){
+  var h = '<div class="sec"><h3>'+t("practical")+'</h3></div><div style="padding:0 16px">';
+  function acc(icon,title,body,open){
+    return '<details class="acc"'+(open?" open":"")+'><summary>'+ico(icon)+esc(title)+
+      '<svg class="ch" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></summary>'+
+      '<div class="in">'+body+'</div></details>';
+  }
+  var venueBody = '<p style="margin:0 0 8px">'+esc(E.city)+', '+esc(E.country)+'</p>'+
+    '<div class="empty">'+(lang==="vi"
+      ? "Địa điểm cụ thể chưa được công bố. Cả ba ngày trên website sự kiện đều ghi “Venue: to be updated”."
+      : "The exact venue is not announced yet. All three days read “Venue: to be updated” on the event site.")+'</div>';
+  h += acc(I.pin, t("venue"), venueBody, true);
+  h += acc(I.bed, t("accommodation"),
+       D.info.accommodation ? mdBlock(D.info.accommodation) : '<div class="empty">'+t("notpub")+'</div>');
+  h += acc(I.pass, t("visa"),
+       D.info.visa ? mdBlock(D.info.visa) : '<div class="empty">'+t("notpub")+'</div>');
+  h += acc(I.car, t("transport"),
+       D.info.transportation ? mdBlock(D.info.transportation) : '<div class="empty">'+t("notpub")+'</div>');
+  h += acc(I.mail, t("contact"),
+       '<p style="margin:0 0 8px"><a href="mailto:'+esc(E.contactEmail)+'" style="color:var(--hanoi)">'+
+       esc(E.contactEmail)+'</a></p><p style="margin:0"><a href="'+esc(E.siteUrl)+
+       '" target="_blank" rel="noopener" style="color:var(--hanoi)">'+esc(E.siteUrl)+'</a></p>');
+  h += '</div>' + srcHTML();
+  return h;
+}
+
+/* ---- registration: the real 19-field RSVP form from the live event ----
+   Wix gives every control a type and, for RADIO/CHECKBOX, the full option list, so
+   the form is rendered from that rather than guessed at from field widths. ---- */
+function fieldHTML(f){
+  var req = f.required ? ' <i>*</i>' : '';
+  var id = "f_"+f.id;
+  var opts = f.options || [];
+  var h = '<div class="fld" data-fid="'+esc(f.id)+'" data-ctl="'+esc(f.control)+'"'+
+          (f.required?' data-req="1"':'')+'>';
+  h += '<label'+(f.control==="RADIO"||f.control==="CHECKBOX"?"":' for="'+id+'"')+'>'+
+       esc(f.label)+req+'</label>';
+  if(f.control==="CHECKBOX" && opts.length){
+    h += '<div class="opts">'+opts.map(function(o,i){
+      return '<label class="cbx"><input type="checkbox" name="'+id+'" value="'+esc(o)+'">'+
+        '<span>'+esc(o)+'</span></label>'; }).join("")+'</div>';
+  } else if(f.control==="CHECKBOX"){
+    h += '<label class="cbx"><input type="checkbox" id="'+id+'"><span>'+
+         (lang==="vi"?"Tôi đồng ý":"I agree")+'</span></label>';
+  } else if(opts.length){
+    h += '<div class="opts">'+opts.map(function(o){
+      return '<label class="cbx"><input type="radio" name="'+id+'" value="'+esc(o)+'">'+
+        '<span>'+esc(o)+'</span></label>'; }).join("")+'</div>';
+  } else if(f.control==="TEXTAREA"){
+    h += '<textarea id="'+id+'" maxlength="'+(f.maxLength||2000)+'"></textarea>';
+  } else {
+    var type = /email/i.test(f.id) ? "email" : (/phone/i.test(f.label) ? "tel" : "text");
+    h += '<input type="'+type+'" id="'+id+'" maxlength="'+(f.maxLength||255)+'">';
+  }
+  h += '<div class="msg">'+t("required")+'</div></div>';
+  return h;
+}
+
+function meHTML(){
+  if(REG){
+    var conf = D.registration.confirmation||{};
+    var h = '<div class="me"><div class="av">'+esc((REG.name||"S").slice(0,1).toUpperCase())+'</div>'+
+      '<b>'+esc(REG.name||"")+'</b><span>'+esc(REG.org||"")+'</span></div>';
+    h += '<div class="sec"><h3>'+t("badge")+'</h3><div class="card">'+
+      '<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--hanoi)">'+
+      esc(E.code)+'</div>'+
+      '<div style="font-size:20px;font-weight:800;letter-spacing:-.02em;margin:4px 0 2px">'+
+      esc(REG.name||"")+'</div>'+
+      '<div style="font-size:12.5px;color:var(--muted)">'+esc(REG.role||"")+
+      (REG.org?" · "+esc(REG.org):"")+'</div>'+
+      '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)">'+
+      t("badgehint")+'</div></div></div>';
+    if(conf.message)
+      h += '<div class="sec"><div class="card" style="white-space:pre-line;font-size:13px;color:var(--ink-2)">'+
+           esc(conf.message)+'</div></div>';
+    h += '<div class="sec"><h3>'+t("myagenda")+'</h3></div><div style="padding:0 16px">';
+    var any = false;
+    D.days.forEach(function(d){
+      d.sessions.forEach(function(s){
+        if(!isSaved(s.id)) return;
+        any = true;
+        h += '<div class="card"><div style="font-size:11px;font-weight:700;color:var(--hanoi);letter-spacing:.08em">'+
+          t("day").toUpperCase()+' '+d.day+' · '+esc(s.start||"")+'</div>'+
+          '<div style="font-size:14px;font-weight:700;margin-top:3px">'+esc(s.title)+'</div>'+
+          (PICKS[s.id]?'<div style="font-size:12px;color:var(--muted);margin-top:3px">'+
+            t("picked")+': '+esc(PICKS[s.id])+'</div>':'')+'</div>';
+      });
+    });
+    if(!any) h += '<div class="empty">'+t("nostar")+'</div>';
+    h += '</div>';
+    h += '<div class="sec"><button class="btn ghost" id="resetreg">'+
+         (lang==="vi"?"Xoá đăng ký demo":"Clear demo registration")+'</button></div>';
+    return h + srcHTML();
+  }
+  var g = '<div class="me"><div class="av">'+ico(I.user)+'</div><b>'+esc(E.title)+'</b>'+
+    '<span>'+esc(D.registration.type)+' · '+t("closes").toLowerCase()+' '+
+    esc(new Date(D.registration.closes).toLocaleDateString(lang==="vi"?"vi-VN":"en-GB",
+      {day:"numeric",month:"long",year:"numeric"}))+'</span></div>';
+  g += '<div class="note">'+(lang==="vi"
+    ? "Biểu mẫu dưới đây là biểu mẫu RSVP thật của sự kiện, lấy trực tiếp từ hanoi2026.svef.ch. Bản demo lưu dữ liệu trong máy, không gửi đi đâu."
+    : "The form below is the event's real RSVP form, pulled straight from hanoi2026.svef.ch. This demo stores your answers locally and sends nothing.")+'</div>';
+  g += '<form class="f" id="regform" novalidate>';
+  D.registration.fields.forEach(function(f){ g += fieldHTML(f); });
+  g += '<button class="btn" type="submit">'+ico(I.check)+t("submit")+'</button>';
+  g += '</form>';
+  return g + srcHTML();
+}
+
+function srcHTML(){
+  return '<div class="src">'+t("source")+': <a href="'+esc(E.siteUrl)+'" target="_blank" rel="noopener">'+
+    esc(E.siteUrl.replace("https://",""))+'</a><br>'+t("lastsync")+': '+esc(D.meta.scrapedAt)+'</div>';
+}
+
+/* ---------- render ---------- */
+function render(){
+  el("s-home").innerHTML     = homeHTML();
+  el("s-agenda").innerHTML   = agendaHTML();
+  el("s-speakers").innerHTML = speakersHTML();
+  el("s-info").innerHTML     = infoHTML();
+  el("s-me").innerHTML       = meHTML();
+  ["home","agenda","speakers","info","me"].forEach(function(v){
+    el("s-"+v).classList.toggle("on", v===view);
+  });
+  var titles = {home:E.title, agenda:t("agenda"), speakers:t("speakers"),
+                info:t("info"), me:REG? t("me") : t("register")};
+  el("ttl").textContent = titles[view];
+  el("sub").textContent = view==="home"
+    ? (lang==="vi"?E.displayDatesVi:E.displayDates)+" · "+E.city
+    : E.title;
+  el("lang").textContent = lang==="en" ? "VI" : "EN";
+  el("tabs").innerHTML = [["home",I.home],["agenda",I.cal],["speakers",I.mic],
+                          ["info",I.info],["me",I.user]].map(function(p){
+    return '<button class="tab" role="tab" data-go="'+p[0]+'" aria-selected="'+(view===p[0])+'">'+
+      ico(p[1])+'<span>'+t(p[0])+'</span></button>';
+  }).join("");
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", function(ev){
+  var g = ev.target.closest("[data-go]");
+  if(g){ view = g.getAttribute("data-go"); el("screens").scrollTop = 0; render(); return; }
+  var dy = ev.target.closest("[data-day]");
+  if(dy){ day = +dy.getAttribute("data-day"); view = "agenda"; el("screens").scrollTop = 0;
+          render(); return; }
+  var st = ev.target.closest("[data-star-id]");
+  if(st){ ev.preventDefault(); toggle(st.getAttribute("data-star-id")); return; }
+  if(ev.target.closest("[data-star]")){ view="me"; render(); return; }
+  var pk = ev.target.closest("[data-pick]");
+  if(pk){
+    var parts = pk.getAttribute("data-pick").split("|");
+    PICKS[parts[0]] = PICKS[parts[0]]===parts[1] ? null : parts[1];
+    if(!PICKS[parts[0]]) delete PICKS[parts[0]];
+    else if(!isSaved(parts[0])) SAVED.push(parts[0]);
+    save(); render(); return;
+  }
+  var sp = ev.target.closest("[data-spk]");
+  if(sp){ openSpeaker(sp.getAttribute("data-spk")); return; }
+  if(ev.target.id==="resetreg"){ REG=null; localStorage.removeItem("svef.hanoi.reg"); render(); return; }
+  if(ev.target.closest(".sheet") && !ev.target.closest(".sheet .in")) closeSheet();
+});
+
+el("lang").addEventListener("click", function(){
+  lang = lang==="en" ? "vi" : "en";
+  localStorage.setItem("svef.hanoi.lang", lang);
+  render();
+});
+
+function openSpeaker(id){
+  var s = D.speakers.filter(function(x){return x.id===id;})[0];
+  if(!s) return;
+  var h = '<div class="grab"></div>';
+  if(s.photo) h += '<img class="ph" src="'+esc(s.photo)+'" alt="">';
+  h += '<h3>'+esc(s.name)+'</h3><div class="role">'+esc(s.titleFull)+'</div>';
+  if(s.bio) h += '<p>'+esc(s.bio)+'</p>';
+  h += '<div style="clear:both"></div>';
+  h += '<a class="btn ghost" href="'+esc(s.url)+'" target="_blank" rel="noopener" '+
+       'style="text-decoration:none;margin-top:6px">'+ico(I.ext)+t("fullprofile")+'</a>';
+  el("sheetin").innerHTML = h;
+  el("sheet").classList.add("on");
+}
+function closeSheet(){ el("sheet").classList.remove("on"); }
+
+document.addEventListener("submit", function(ev){
+  if(ev.target.id!=="regform") return;
+  ev.preventDefault();
+  var form = ev.target, ok = true, vals = {};
+  form.querySelectorAll(".fld").forEach(function(fl){
+    var group = fl.querySelectorAll(".opts input");
+    var v;
+    if(group.length){
+      var on = [].filter.call(group, function(i){ return i.checked; })
+                 .map(function(i){ return i.value; });
+      v = on.join(", ");
+    } else {
+      var input = fl.querySelector("input,textarea,select");
+      if(!input) return;
+      v = input.type==="checkbox" ? input.checked : input.value.trim();
+    }
+    var input = fl.querySelector("input,textarea,select");
+    vals[fl.getAttribute("data-fid")] = v;
+    var bad = fl.hasAttribute("data-req") && !v;
+    if(!bad && input.type==="email" && v && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){
+      bad = true; fl.querySelector(".msg").textContent = t("invalid");
+    } else if(bad){ fl.querySelector(".msg").textContent = t("required"); }
+    fl.classList.toggle("err", bad);
+    if(bad && ok){ ok = false; fl.scrollIntoView({block:"center"}); }
+  });
+  if(!ok) return;
+  REG = {
+    name: [vals.firstName, vals.lastName].filter(Boolean).join(" "),
+    email: vals.email || "",
+    role: vals["custom-8a20b377644250d5"] || "",
+    org: vals["custom-7d770b5ff1fd6858"] || "",
+    at: new Date().toISOString()
+  };
+  localStorage.setItem("svef.hanoi.reg", JSON.stringify(REG));
+  var conf = D.registration.confirmation||{};
+  el("sheetin").innerHTML = '<div class="grab"></div><div class="done">'+
+    '<div class="ok">'+ico(I.check)+'</div>'+
+    '<h3>'+esc(conf.title||"Thank you")+'</h3>'+
+    '<p>'+esc(conf.message||"")+'</p></div>';
+  el("sheet").classList.add("on");
+  view = "me"; render();
+});
+
+render();
+setInterval(function(){ if(view==="home") el("s-home").innerHTML = homeHTML(); }, 1000);
+})();
+</script>
+</body>
+</html>
