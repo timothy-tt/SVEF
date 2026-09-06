@@ -139,6 +139,14 @@ ORGS = [
          looking={"en": "Swiss product teams looking for engineering capacity",
                   "vi": "Đội ngũ sản phẩm Thụy Sĩ cần năng lực kỹ thuật"},
          web="https://imt-soft.com", email="contact@imt-soft.com", tel="+84 236 3888 555"),
+    dict(id="zegoe", n="Zegoe Capital", i="ZC", c="#E42026", type="fund", tier="indiv",
+         hq={"en": "Ha Noi, Viet Nam", "vi": "Hà Nội, Việt Nam"}, ind="fin", size="12",
+         about={"en": "An investment firm focused on manufacturing, logistics and infrastructure in Viet Nam, carried over from the multi-event demo so the two builds tell the same story.",
+                "vi": "Công ty đầu tư tập trung vào sản xuất, logistics và hạ tầng tại Việt Nam, giữ nguyên từ bản demo đa sự kiện để hai bản kể cùng một câu chuyện."},
+         looking={"en": "Swiss technology partners for the current portfolio",
+                  "vi": "Đối tác công nghệ Thụy Sĩ cho danh mục hiện tại"},
+         web="https://zegoe.example.vn", email="contact@zegoe.example.vn",
+         tel="+84 24 3200 1188"),
 ]
 
 # Session picks reference the six real parallel tracks by letter (A-F).
@@ -228,6 +236,53 @@ PEOPLE = [
               "vi": "Chuyên về bảo hộ sở hữu trí tuệ và tuân thủ thương mại cho khách hàng châu Âu tại Việt Nam."},
          h={"li": "https://www.linkedin.com/in/svef-demo-vu-thi-lan"}),
 ]
+
+
+# ---------------------------------------------------------------------------
+# The signed-in delegate. The app is gated at login and every user has already
+# registered on the website, so there is no registration flow inside it: the
+# profile is seeded from the answers this person gave on the live RSVP form.
+# Kept deliberately close to the multi-event demo's `me` so the two builds tell
+# the same story about the same person.
+# ---------------------------------------------------------------------------
+SELF = dict(id=200, self=True, n="Anh Trần", i="AT", c="#E42026", oid="zegoe", ind="fin",
+            mkts=["vn", "ch", "asean"], dir=True, tier="indiv", picks=["A", "F"], day3=True,
+            t={"en": "Investment Director", "vi": "Giám đốc Đầu tư"},
+            bio={"en": "Invests in mid-sized Vietnamese manufacturing and logistics businesses, and is at the forum looking for Swiss technology partners for the current portfolio.",
+                 "vi": "Đầu tư vào doanh nghiệp sản xuất và logistics quy mô vừa tại Việt Nam, tham dự diễn đàn để tìm đối tác công nghệ Thụy Sĩ cho danh mục hiện tại."},
+            h={"li": "https://www.linkedin.com/in/svef-demo-tran-quoc-anh",
+               "x": "@tqanh_vc", "web": "https://zegoe.example.vn", "wa": "+84 90 118 6420"})
+
+COLLEAGUE = dict(id=201, n="Ngô Bảo Châu", i="BC", c="#B31018", oid="zegoe", ind="fin",
+                 mkts=["vn"], dir=True, tier="indiv", picks=["B", "D"], day3=False,
+                 t={"en": "Principal", "vi": "Giám đốc đầu tư"},
+                 bio={"en": "Covers industrials and logistics for Zegoe Capital.",
+                      "vi": "Phụ trách mảng công nghiệp và logistics tại Zegoe Capital."},
+                 h={"li": "https://www.linkedin.com/in/svef-demo-ngo-bao-chau"})
+
+# The answers this delegate gave on the live RSVP form, keyed by the profile-map
+# names so mkdata.py can resolve them to the form's real field ids.
+SELF_REG = {
+    "firstName": "Anh",
+    "lastName": "Trần",
+    "email": "anh.tran@zegoe.example.vn",
+    "phone": "+84 90 118 6420",
+    "country": "Viet Nam",
+    "jobTitle": "Investment Director",
+    "org": "Zegoe Capital",
+    "sectors": "Finance & Banking, Logistics & Supply Chain Management",
+    "sectorOther": "",
+    "delegation": "Ngô Bảo Châu, Principal",
+    "round1": "Session A: Mobility & Trade Connectivity",
+    "round2": "Session F: Legal Frameworks & Market Entry",
+    "day3": "Yes - Please send me more details",
+    "membership": "SVEF Individual Member",
+    "support": "No - I am not interested",
+    "directory": "Yes - Include my organisation/company name",
+    "sponsor": "No - Not at this time",
+    "dietary": "",
+    "questions": "",
+}
 
 MEETINGS = [
     dict(pid=101, status="confirmed", dir="received", day=2, time="12:45 – 13:00",

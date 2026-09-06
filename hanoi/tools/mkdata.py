@@ -205,12 +205,29 @@ for i, s in enumerate(data["speakers"]):
         "bio": {"en": s["bio"], "vi": s["bio"]},
         "h": {"web": s["url"]}, "demo": False,
     })
-for p in demo.PEOPLE:
+for p in demo.PEOPLE + [demo.COLLEAGUE]:
     rec = dict(p)
     rec["demo"] = True
     rec["speaker"] = False
     people.append(rec)
+# The signed-in delegate. The app is gated at login, so it never asks anyone to
+# register: it opens on this person's own record.
+self_rec = dict(demo.SELF)
+self_rec["demo"] = True
+self_rec["speaker"] = False
+people.append(self_rec)
 data["people"] = people
+
+# Their RSVP answers, re-keyed onto the live form's own field ids so the app's
+# prefill path is exactly the one a real delegate's answers travel down.
+data["self"] = {
+    "personId": demo.SELF["id"],
+    "orgId": demo.SELF["oid"],
+    "reg": {pmap[k]: v for k, v in demo.SELF_REG.items() if k in pmap},
+}
+missing_self = [k for k in demo.SELF_REG if k not in pmap]
+if missing_self:
+    print("  ! seeded answers with no matching form field: " + ", ".join(missing_self))
 
 data["meetings"] = [dict(m, demo=True) for m in demo.MEETINGS]
 data["chats"] = {str(k): v for k, v in demo.CHATS.items()}
@@ -283,3 +300,4 @@ print(f"  demo : {len(data['people'])} people, {len(data['orgs'])} orgs, "
       f"{len(data['meetings'])} meetings, {len(data['docs'])} docs, "
       f"{len(data['notifications'])} notifications")
 print(f"  map  : {len(data['profileMap'])}/19 profile fields, {len(data['tracks'])} tracks")
+print(f"  self : {demo.SELF['n']} @ {demo.SELF['oid']}, {len(data['self']['reg'])} seeded answers")

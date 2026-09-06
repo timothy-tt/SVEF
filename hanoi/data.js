@@ -1,11 +1,11 @@
 /* SVEF Ha Noi 2026 — single-event dataset.
-   Scraped from https://hanoi2026.svef.ch on 2026-09-06T15:35:57Z by scrape.py.
+   Scraped from https://hanoi2026.svef.ch on 2026-09-06T16:22:19Z by scrape.py.
    Regenerate: python3 scrape.py && python3 mkdata.py <path>/data.js
    Do not hand-edit: every value below comes from the live site. */
 window.HANOI2026 = {
  "meta": {
   "source": "https://hanoi2026.svef.ch",
-  "scrapedAt": "2026-09-06T15:35:57Z",
+  "scrapedAt": "2026-09-06T16:22:19Z",
   "generator": "imt/svef/hanoi2026/scrape.py + mkdata.py",
   "speakerPool": 104,
   "linkedSpeakers": 3
@@ -615,6 +615,10 @@ window.HANOI2026 = {
  "info": {},
  "overview": {
   "vision": "The Swiss–Viet Economic Forum 2026 Ha Noi Edition marks the opening of a new era in bilateral relations. Taking place against the backdrop of the EFTA–Viet Nam Free Trade Agreement, this edition transforms five years of Forum dialogue into a concrete programme for action, connecting Swiss and Vietnamese governments, businesses, financial institutions, and academic partners to build the shared work for the next decade.",
+  "diagram": {
+   "image": "https://static.wixstatic.com/media/167565_020c9b34d4384acc817662f7870c7918~mv2.png/v1/fill/w_900,h_340,al_c,q_85,enc_auto/167565_020c9b34d4384acc817662f7870c7918~mv2.png",
+   "full": "https://static.wixstatic.com/media/167565_020c9b34d4384acc817662f7870c7918~mv2.png"
+  },
   "expect": [
    {
     "title": "High-Level Policies Dialogue",
@@ -1443,6 +1447,32 @@ window.HANOI2026 = {
    "email": "contact@imt-soft.com",
    "tel": "+84 236 3888 555",
    "demo": true
+  },
+  {
+   "id": "zegoe",
+   "n": "Zegoe Capital",
+   "i": "ZC",
+   "c": "#E42026",
+   "type": "fund",
+   "tier": "indiv",
+   "hq": {
+    "en": "Ha Noi, Viet Nam",
+    "vi": "Hà Nội, Việt Nam"
+   },
+   "ind": "fin",
+   "size": "12",
+   "about": {
+    "en": "An investment firm focused on manufacturing, logistics and infrastructure in Viet Nam, carried over from the multi-event demo so the two builds tell the same story.",
+    "vi": "Công ty đầu tư tập trung vào sản xuất, logistics và hạ tầng tại Việt Nam, giữ nguyên từ bản demo đa sự kiện để hai bản kể cùng một câu chuyện."
+   },
+   "looking": {
+    "en": "Swiss technology partners for the current portfolio",
+    "vi": "Đối tác công nghệ Thụy Sĩ cho danh mục hiện tại"
+   },
+   "web": "https://zegoe.example.vn",
+   "email": "contact@zegoe.example.vn",
+   "tel": "+84 24 3200 1188",
+   "demo": true
   }
  ],
  "people": [
@@ -1982,8 +2012,101 @@ window.HANOI2026 = {
    },
    "demo": true,
    "speaker": false
+  },
+  {
+   "id": 201,
+   "n": "Ngô Bảo Châu",
+   "i": "BC",
+   "c": "#B31018",
+   "oid": "zegoe",
+   "ind": "fin",
+   "mkts": [
+    "vn"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "B",
+    "D"
+   ],
+   "day3": false,
+   "t": {
+    "en": "Principal",
+    "vi": "Giám đốc đầu tư"
+   },
+   "bio": {
+    "en": "Covers industrials and logistics for Zegoe Capital.",
+    "vi": "Phụ trách mảng công nghiệp và logistics tại Zegoe Capital."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-ngo-bao-chau"
+   },
+   "demo": true,
+   "speaker": false
+  },
+  {
+   "id": 200,
+   "self": true,
+   "n": "Anh Trần",
+   "i": "AT",
+   "c": "#E42026",
+   "oid": "zegoe",
+   "ind": "fin",
+   "mkts": [
+    "vn",
+    "ch",
+    "asean"
+   ],
+   "dir": true,
+   "tier": "indiv",
+   "picks": [
+    "A",
+    "F"
+   ],
+   "day3": true,
+   "t": {
+    "en": "Investment Director",
+    "vi": "Giám đốc Đầu tư"
+   },
+   "bio": {
+    "en": "Invests in mid-sized Vietnamese manufacturing and logistics businesses, and is at the forum looking for Swiss technology partners for the current portfolio.",
+    "vi": "Đầu tư vào doanh nghiệp sản xuất và logistics quy mô vừa tại Việt Nam, tham dự diễn đàn để tìm đối tác công nghệ Thụy Sĩ cho danh mục hiện tại."
+   },
+   "h": {
+    "li": "https://www.linkedin.com/in/svef-demo-tran-quoc-anh",
+    "x": "@tqanh_vc",
+    "web": "https://zegoe.example.vn",
+    "wa": "+84 90 118 6420"
+   },
+   "demo": true,
+   "speaker": false
   }
  ],
+ "self": {
+  "personId": 200,
+  "orgId": "zegoe",
+  "reg": {
+   "firstName": "Anh",
+   "lastName": "Trần",
+   "email": "anh.tran@zegoe.example.vn",
+   "phone": "+84 90 118 6420",
+   "custom-0c7c78bc44fa7c24": "Viet Nam",
+   "custom-8a20b377644250d5": "Investment Director",
+   "custom-7d770b5ff1fd6858": "Zegoe Capital",
+   "custom-9c7061d2b34c3815": "Finance & Banking, Logistics & Supply Chain Management",
+   "custom-83497ae05ef0e4a3": "",
+   "custom-68d175931ae1ca96": "Ngô Bảo Châu, Principal",
+   "custom-836a3e0a7bc655cc": "Session A: Mobility & Trade Connectivity",
+   "custom-144348401465aa62": "Session F: Legal Frameworks & Market Entry",
+   "custom-9c84cca83223f4ce": "Yes - Please send me more details",
+   "custom": "SVEF Individual Member",
+   "custom-6ac18358bdf7c33a": "No - I am not interested",
+   "custom-ab58d1a716518d6d": "Yes - Include my organisation/company name",
+   "custom-fe37e7076e640452": "No - Not at this time",
+   "custom-9d70f2c27766bc8d": "",
+   "custom-a964ca70f0106070": ""
+  }
+ },
  "meetings": [
   {
    "pid": 101,
