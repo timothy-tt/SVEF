@@ -1,7 +1,7 @@
 """The networking layer the live site cannot supply.
 
 Everything in this file is fabricated and every record it emits carries `demo: true`,
-because the app labels it as such on screen. It exists because the delegate directory,
+because the back office labels it as such on screen. It exists because the attendee
 connections, meetings, chat and document library are pre-event features with no public
 source: SVEF has not published a guest list, and Wix will not hand an anonymous token
 the RSVP roster. Inventing it is the honest option; pretending the site has it is not.
@@ -208,7 +208,7 @@ PEOPLE = [
     dict(id=110, n="Mai An", i="MA", c="#0E273D", oid="imt", ind="tec",
          mkts=["vn", "eu"], dir=True, tier="indiv", picks=["C", "E"], day3=False,
          t={"en": "Chief Executive Officer", "vi": "Tổng giám đốc"},
-         bio={"en": "Leads the engineering partner behind this forum's website and delegate app.",
+         bio={"en": "Leads the engineering partner behind this forum's website and attendee app.",
               "vi": "Lãnh đạo đối tác kỹ thuật xây dựng website và ứng dụng đại biểu của diễn đàn."},
          h={"li": "https://www.linkedin.com/in/svef-demo-mai-an", "web": "https://imt-soft.com"}),
     dict(id=111, n="Beatrice Fontana", i="BF", c="#7A5C00", oid="alpinecap", ind="fin",
@@ -352,13 +352,13 @@ CHATS = {
                                      "vi": "Vâng ạ. Session B nói phần lớn nội dung đó, mình trao đổi thêm sau phiên nhé."}),
     ],
     110: [
-        dict(me=False, t="08:40", m={"en": "The delegate app is ours, by the way. Tell us if anything reads wrong.",
+        dict(me=False, t="08:40", m={"en": "The attendee app is ours, by the way. Tell us if anything reads wrong.",
                                      "vi": "Ứng dụng đại biểu là do bên mình làm. Anh thấy chỗ nào chưa ổn thì báo giúp nhé."}),
     ],
 }
 
 DOCS = [
-    dict(t={"en": "Ha Noi 2026 delegate pack", "vi": "Tài liệu đại biểu Hà Nội 2026"},
+    dict(t={"en": "Ha Noi 2026 attendee pack", "vi": "Tài liệu người tham dự Hà Nội 2026"},
          by="SVEF Secretariat", kind="PDF", size="3.4 MB", day=0, tag="logistics"),
     dict(t={"en": "EFTA-Viet Nam FTA: what changes for business",
             "vi": "Hiệp định EFTA - Việt Nam: doanh nghiệp thay đổi những gì"},
