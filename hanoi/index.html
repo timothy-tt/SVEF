@@ -182,6 +182,17 @@ body{font-family:var(--sans);background:#0B1F16;color:var(--ink);font-size:15px;
   flex:0 0 auto}
 .star svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:1.8}
 .star.on svg{fill:var(--gold);stroke:var(--gold)}
+.opts2{display:flex;flex-direction:column;gap:8px;padding:12px 16px 0}
+.opts2 button{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);
+  background:var(--card);font:inherit;text-align:left;cursor:pointer;padding:11px;
+  color:var(--ink)}
+.opts2 button[aria-selected=true]{border-color:var(--hanoi);background:var(--soft)}
+.opts2 .lt{width:24px;height:24px;flex:0 0 24px;background:var(--line);color:var(--ink-2);
+  display:grid;place-items:center;font-size:12px;font-weight:800}
+.opts2 button[aria-selected=true] .lt{background:var(--hanoi);color:#fff}
+.opts2 .ot{flex:1;min-width:0}
+.opts2 .ot b{display:block;font-size:13.5px;font-weight:700;line-height:1.3}
+.opts2 .ot small{display:block;font-size:11.5px;color:var(--muted);margin-top:3px}
 .trk{margin-top:9px;border:1px solid var(--line);background:var(--soft)}
 .trk > summary{list-style:none;cursor:pointer;padding:9px 10px;display:flex;align-items:center;
   gap:8px;font-size:12px;font-weight:700;color:var(--ink-2)}
@@ -450,6 +461,8 @@ var T = {
   openweb:"Open the event website",
   demoData:"Demo data",
   pick:"Choose one",picked:"In my agenda",
+  optionPick:"Choose this destination",optionPicked:"Chosen",
+  optionCleared:"Choice cleared",
   yourPicks:"Your session picks",fromReg:"from your registration",
   nostar:"Nothing saved yet. Tap the star on a session to keep it here.",
   typing:"Write a message",send:"Send",
@@ -520,6 +533,8 @@ var T = {
   openweb:"Mở website sự kiện",
   demoData:"Dữ liệu mẫu",
   pick:"Chọn một phiên",picked:"Đã lưu",
+  optionPick:"Chọn điểm đến này",optionPicked:"Đã chọn",
+  optionCleared:"Đã bỏ chọn",
   yourPicks:"Phiên bạn đã chọn",fromReg:"theo đăng ký của bạn",
   nostar:"Chưa lưu phiên nào. Chạm vào dấu sao ở một phiên để lưu vào đây.",
   typing:"Nhập tin nhắn",send:"Gửi",
@@ -741,6 +756,7 @@ var TABS = ["home","agenda","connect","media","me"];
 var view = "home", stack = [], day = 2;
 var connectTab = "delegates", mediaTab = "gallery", meTab = "profile";
 var q = "", filt = {ind:"",mkt:""}, chatWith = null, curPerson = null, curOrg = null;
+var dayOpt = {};   /* day number -> chosen option letter, for the current view */
 var lbIdx = 0;
 
 function snapshot(){ return {view:view,day:day,connectTab:connectTab,mediaTab:mediaTab,
@@ -967,7 +983,27 @@ function agendaHTML(){
     h += '<span class="chip">'+esc(d.meta.expected_participation)+'</span>';
   h += '</div>';
   if(d.intro) h += '<p>'+esc(d.intro)+'</p>';
-  h += '</div><div class="tl">'+d.sessions.map(sesHTML).join("")+'</div>';
+  var opts = d.options || [];
+  if(opts.length){
+    var chosen = S.picks["day"+d.day] || dayOpt[d.day] || opts[0].letter;
+    h += '<div class="opts2">';
+    opts.forEach(function(o){
+      h += '<button data-opt="'+d.day+'|'+esc(o.letter)+'" aria-selected="'+
+        (o.letter===chosen)+'"><span class="lt">'+esc(o.letter)+'</span>'+
+        '<span class="ot"><b>'+esc(o.title)+'</b>'+
+        (o.meta?'<small>'+esc(o.meta)+'</small>':'')+'</span></button>';
+    });
+    h += '</div>';
+    var picked = S.picks["day"+d.day];
+    h += '<div class="pad" style="padding-top:10px"><button class="btn '+
+      (picked===chosen?"ghost":"green")+' sm" style="width:100%" data-optpick="'+
+      d.day+'|'+esc(chosen)+'">'+ico(picked===chosen?I.check:I.star)+
+      (picked===chosen?t("optionPicked"):t("optionPick"))+'</button></div>';
+    var cur = opts.filter(function(o){ return o.letter===chosen; })[0] || opts[0];
+    h += '<div class="tl">'+cur.sessions.map(sesHTML).join("")+'</div>';
+    return h;
+  }
+  h += '<div class="tl">'+d.sessions.map(sesHTML).join("")+'</div>';
   return h;
 }
 
@@ -1595,6 +1631,18 @@ document.addEventListener("click", function(ev){
     var sid = n.getAttribute("data-star"), i = S.saved.indexOf(sid);
     if(i>-1) S.saved.splice(i,1); else S.saved.push(sid);
     persist(); render(); return;
+  }
+  if((n = ev.target.closest("[data-opt]"))){
+    var o = n.getAttribute("data-opt").split("|");
+    dayOpt[+o[0]] = o[1]; render(); return;
+  }
+  if((n = ev.target.closest("[data-optpick]"))){
+    var q2 = n.getAttribute("data-optpick").split("|");
+    var key = "day"+q2[0];
+    if(S.picks[key]===q2[1]) delete S.picks[key]; else S.picks[key] = q2[1];
+    persist(); render();
+    toast(S.picks[key] ? t("optionPicked") : t("optionCleared"));
+    return;
   }
   if((n = ev.target.closest("[data-pick]"))){
     var a = n.getAttribute("data-pick").split("|");

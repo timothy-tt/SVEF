@@ -224,6 +224,7 @@ TIME_RE = re.compile(r"^(\d{1,2}[:.]\d{2})\s*(?:[\u2013\u2014-]\s*(\d{1,2}[:.]\d
 META_RE = re.compile(r"^(venue|format|expected participation|location|dress code|language)\s*:\s*(.*)$", re.I)
 TRACK_RE = re.compile(r"^session\s+([A-Z])\s*:\s*(.*)$", re.I)
 ROW_RE = re.compile(r"^\|(.*)\|$")
+OPTION_RE = re.compile(r"^option\s*([A-Z])\s*[:\-\u2013\u2014]\s*(.+)$", re.I)
 ZW = "\u200b"
 
 
@@ -246,7 +247,9 @@ def parse_agenda(md):
     """
     title, meta, intro, sessions = None, {}, [], []
     cur = None
-    rows = []
+    tables = []          # one entry per markdown table
+    rows = None          # rows of the table currently being read
+    options = []         # {letter, title, meta, table_index}
 
     def flush():
         nonlocal cur
@@ -272,12 +275,32 @@ def parse_agenda(md):
         line = _plain(raw)
         if not line or set(line) <= {"-", "|", " "}:
             continue
+        om = OPTION_RE.match(line)
+        if om:
+            # a destination choice: Day 3 offers two, each with its own timetable
+            options.append({"letter": om.group(1).upper(),
+                            "title": om.group(2).strip().strip(":-\u2013\u2014 "),
+                            "meta": "", "table": len(tables)})
+            rows = None
+            continue
         rm = ROW_RE.match(line)
         if rm:
             cells = [c.strip() for c in rm.group(1).split("|")]
-            if cells and not all(set(c) <= {"-", ":"} for c in cells if c):
-                rows.append(cells)
+            if not cells or all(set(c) <= {"-", ":"} for c in cells if c):
+                continue
+            if rows is None:
+                rows = []
+                tables.append(rows)
+            rows.append(cells)
             continue
+        # a line right after an option heading and before its table is that
+        # option's own meta ("Full day · Approx. 90 min from Ha Noi · Private coach")
+        if options and not options[-1]["meta"] and rows is None and cur is None \
+                and not re.match(r"^tentative agenda", line, re.I):
+            options[-1]["meta"] = line
+            continue
+        if rows is not None and not ROW_RE.match(line):
+            rows = None          # the table ended
         m = TIME_RE.match(line)
         if m:
             flush()
@@ -300,18 +323,21 @@ def parse_agenda(md):
             intro.append(line)
     flush()
 
-    # markdown table (field-visit day): Time | Type | Programme
-    if rows:
-        head = [h.lower() for h in rows[0]]
-        body_rows = rows[1:] if "time" in head else rows
+    def table_sessions(tbl):
+        """A Time / Type / Programme table becomes a list of timed sessions."""
+        if not tbl:
+            return []
+        head = [h.lower() for h in tbl[0]]
+        body_rows = tbl[1:] if "time" in head else tbl
         ti = head.index("time") if "time" in head else 0
         pi = head.index("programme") if "programme" in head else (len(head) - 1)
         ki = head.index("type") if "type" in head else None
+        out = []
         for r in body_rows:
             if len(r) <= max(ti, pi):
                 continue
             prog = [x.strip() for x in r[pi].split("\u00b7") if x.strip()]
-            sessions.append({
+            out.append({
                 "start": r[ti].strip().replace(".", ":") or None,
                 "end": None,
                 "title": prog[0] if prog else r[pi].strip(),
@@ -319,10 +345,26 @@ def parse_agenda(md):
                 "kind": (r[ki].strip().lower() if ki is not None and len(r) > ki else "session"),
                 "tracks": [],
             })
+        out.sort(key=lambda x: (x["start"] is None, x["start"] or ""))
+        return out
+
+    # Two destination options both start at 07:00, so their timetables must stay
+    # separate: merged into one list they interleave into a day nobody is having.
+    opts = []
+    for i, o in enumerate(options):
+        if o["table"] < len(tables):
+            opts.append({"letter": o["letter"], "title": o["title"], "meta": o["meta"],
+                         "sessions": table_sessions(tables[o["table"]])})
+    if opts:
+        # a day of choices has no single timeline of its own
+        pass
+    elif tables:
+        for tbl in tables:
+            sessions += table_sessions(tbl)
 
     sessions.sort(key=lambda x: (x["start"] is None, x["start"] or ""))
     return {"title": title or "", "meta": meta, "intro": "\n".join(intro).strip(),
-            "sessions": sessions}
+            "sessions": sessions, "options": opts}
 
 
 def norm_form(form):
@@ -456,7 +498,8 @@ def main():
         if md:
             p = parse_agenda(md)
             days.append({"day": i, "title": p["title"], "meta": p["meta"],
-                         "intro": p["intro"], "sessions": p["sessions"], "markdown": md})
+                         "intro": p["intro"], "sessions": p["sessions"],
+                         "options": p.get("options") or [], "markdown": md})
 
     log("fetching editor-built pages ...")
     pg = scrape_pages({"home": "/", "press": "/press", "gallery": "/gallery"})
@@ -543,7 +586,9 @@ def main():
     log(f"event      : {bundle['event']['name']}")
     log(f"cms dates  : {bundle['event']['cmsDateStart']} -> {bundle['event']['cmsDateEnd']}")
     log(f"app dates  : {bundle['event']['appStart']} -> {bundle['event']['appEnd']}")
-    log(f"agenda days: {[d['day'] for d in days]}  sessions: {[len(d['sessions']) for d in days]}")
+    log(f"agenda days: {[d['day'] for d in days]}  sessions: {[len(d['sessions']) for d in days]}"
+        + (f"  options: {[(d['day'], [o['letter'] for o in d['options']]) for d in days if d['options']]}"
+           if any(d["options"] for d in days) else ""))
     log(f"speakers   : {len(speakers)} linked / {len(speakers_all)} in CMS")
     log(f"groups     : {[(g['code'], len(g['speakers'])) for g in groups]}")
     log(f"gallery    : {len(bundle['gallery'])} media (cms) / {len(pg['photos'])} photos (page)")

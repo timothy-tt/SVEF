@@ -85,22 +85,29 @@ data = {
 }
 
 for d in src["agenda"]:
+    def norm_sessions(lst, prefix):
+        return [{
+            "id": "%s%d" % (prefix, i + 1),
+            "start": s["start"], "end": s.get("end"),
+            "title": clean(s["title"]),
+            "kind": s.get("kind") or "session",
+            "detail": md_lines(s.get("detail")),
+            "tracks": [{"track": t["track"], "title": clean(t["title"]),
+                        "summary": clean(t["summary"])} for t in s.get("tracks") or []],
+        } for i, s in enumerate(lst)]
+
     data["days"].append({
         "day": d["day"],
         "date": DAY_DATES.get(d["day"]),
         "title": clean(d["title"]),
         "meta": d["meta"],
         "intro": clean(d["intro"]),
-        "sessions": [{
-            "id": f"d{d['day']}s{i + 1}",
-            "start": s["start"],
-            "end": s.get("end"),
-            "title": clean(s["title"]),
-            "kind": s.get("kind") or "session",
-            "detail": md_lines(s.get("detail")),
-            "tracks": [{"track": t["track"], "title": clean(t["title"]),
-                        "summary": clean(t["summary"])} for t in s.get("tracks") or []],
-        } for i, s in enumerate(d["sessions"])],
+        # A day of destination choices has options instead of one timeline.
+        "options": [{
+            "letter": o["letter"], "title": clean(o["title"]), "meta": clean(o["meta"]),
+            "sessions": norm_sessions(o["sessions"], "d%do%s" % (d["day"], o["letter"])),
+        } for o in (d.get("options") or [])],
+        "sessions": norm_sessions(d["sessions"], "d%ds" % d["day"]),
     })
 
 for s in src["speakers"]:

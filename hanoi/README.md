@@ -136,6 +136,19 @@ python3 mkdata.py ../data.js --src /tmp/svef/event.json   # regenerates data.js
 `scrape.py --code ZURICH2026` and `--code DANANG2025` also work; this build is wired to
 Ha Noi.
 
+## Day 3 has two destinations
+
+The published Day 3 is a choice: **Option A Hai Phong** and **Option B Bac Ninh**, each
+with its own timetable, both starting at 07:00. Merged into one list they interleave
+into a day nobody is having, so `scrape.py` keeps a table per option and the app shows
+a destination switcher with the delegate's choice remembered like a session pick.
+
+The CMS field the site renders (`Import1.agendaDay3`) currently holds **only Option A**,
+and a shorter version of it than the agenda document circulating separately: no Hai
+Phong Old Quarter or Hang Kenh Communal House stop, and no Bac Ninh option at all. The
+code path is in and tested; it fills in the moment either SVEF publishes the fuller
+Day 3 to the CMS or the agenda document is loaded into `data.js`.
+
 ## Where the live site contradicts itself
 
 The back office has a **Data health** screen because the source record does not agree
