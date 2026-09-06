@@ -1,4 +1,4 @@
-# SVEF Ha Noi 2026: single-event delegate app and back office
+# SVEF Ha Noi 2026: single-event attendee app and back office
 
 A second, deliberately narrower build. The demos in the repo root (`app.html`,
 `admin/index.html`) are the multi-event product: they carry an event list, an event
@@ -8,7 +8,7 @@ multi-event app, scoped to one event.
 
 ```
 hanoi/
-  index.html    delegate app (mobile)
+  index.html    attendee app (mobile)
   admin.html    event back office (desktop)
   data.js       the event, scraped from the live site
   tools/
@@ -217,7 +217,7 @@ Palette, type and the square-cornered surfaces follow `../BRAND.md` without devi
 the Hanoi green ground, the SVEF red as accent, Inter Tight as the only face, and the
 wordmark delivered as outlined SVG rather than as live text next to the brand name.
 
-The delegate app is EN/VI; only the app's own chrome is translated. Programme copy,
+The attendee app is EN/VI; only the app's own chrome is translated. Programme copy,
 speaker bios and press headlines stay in the language SVEF published them in, because
 machine-translating scraped copy in the client would put words in the organiser's
 mouth. Demo records carry both languages because we wrote them. The back office is
